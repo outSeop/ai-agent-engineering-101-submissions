@@ -1,0 +1,9 @@
+{
+  "harness": "Codex CLI gpt-5.6-luna, isolated schema-checked decision per seller/restock turn",
+  "seller": {
+    "cmd": ".venv/bin/python seller_r3.py --port {port}"
+  },
+  "restock": {
+    "cmd": ".venv/bin/python restock.py --state {state}"
+  }
+}
