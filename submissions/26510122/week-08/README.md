@@ -21,8 +21,11 @@ The buyer side is a separate piece of the midterm work.
    action. The quote candidates and memory are evidence for that choice. The
    seller records the model decision separately from the emitted ask/counter.
    Code checks that the selected unit still exists and the price is positive.
-5. The `restock` hook asks the model which food SKU and demand scenario to use.
-   The newsvendor calculation then chooses a lot size for that forecast.
+5. The `restock` hook offers the model a bounded set of food SKUs from its own
+   observations, recent public Round 3 settlements and exploratory samples.
+   The model chooses a SKU and demand scenario. The newsvendor calculation then
+   chooses a lot size for that forecast. Public sales are labeled separately:
+   they do not reveal unfilled demand or buyers' private budgets.
    Before five observed shop requests for that SKU, the lot is capped at two
    units; total live stock is capped at 20 units. If the model is unavailable,
    the hook holds rather than speculatively buying.

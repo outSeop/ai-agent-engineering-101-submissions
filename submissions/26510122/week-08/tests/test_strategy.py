@@ -10,6 +10,7 @@ import time
 import unittest
 from unittest.mock import patch
 import uuid
+from collections import Counter
 
 import httpx
 from cryptography.hazmat.primitives import serialization
@@ -131,7 +132,8 @@ class IntegrationTests(unittest.TestCase):
                                "shelf_hours": 72, "name": "Example Food"}}))
                 choice = {"action": "buy", "sku": "food-1", "expected_sale_price": 800,
                           "demand_mean": 1.2, "reason": "small exploratory lot"}
-                with patch.object(restock, "decide_json", return_value=choice):
+                with patch.object(restock, "decide_json", return_value=choice), \
+                     patch.object(restock, "fetch_market_sales", return_value=Counter({"food-1": 3})):
                     result = restock.run(market)
                 self.assertEqual(result, {"buy": [{"sku": "food-1", "qty": 1}]})
                 self.assertEqual(restock.run(market), {"buy": []})  # cooldown
@@ -147,6 +149,28 @@ class IntegrationTests(unittest.TestCase):
         ]}
         result = seller_r3.find_units("I want A1", {"u1"}, inventory)
         self.assertEqual([u["unit"] for u in result], ["u3"])
+
+    def test_public_settlements_enter_candidates_as_labeled_sales(self) -> None:
+        catalog = {"a": {"kind": "food", "list_price": 100, "shelf_hours": 72},
+                   "b": {"kind": "food", "list_price": 100, "shelf_hours": 72}}
+        candidates = restock.choose_candidates(catalog, {"units": []}, [], Counter({"b": 4}))
+        self.assertEqual(candidates[0]["sku"], "b")
+        self.assertEqual(candidates[0]["recent_public_settlements"], 4)
+
+    def test_public_ledger_reader_ignores_orders_and_old_rounds(self) -> None:
+        class Response:
+            def raise_for_status(self):
+                return None
+
+            def json(self):
+                return [
+                    {"round": 3, "kind": "settle", "data": {"item": "a"}},
+                    {"round": 3, "kind": "order", "data": {"item": "b"}},
+                    {"round": 2, "kind": "result", "data": {"item": "c"}},
+                ]
+
+        with patch.object(restock.httpx, "get", return_value=Response()):
+            self.assertEqual(restock.fetch_market_sales(), Counter({"a": 1}))
 
 
 if __name__ == "__main__":

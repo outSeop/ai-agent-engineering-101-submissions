@@ -15,6 +15,8 @@ from pathlib import Path
 import random
 import time
 
+import httpx
+
 from harness import decide_json, trace
 from market_memory import events, record, sync_settlements
 from newsvendor_tool import poisson_pmf, recommend_quantity
@@ -32,8 +34,24 @@ def load_json(path: Path, default):
         return default
 
 
-def choose_candidates(catalog: dict, inventory: dict, history: list[dict]) -> list[dict]:
+def fetch_market_sales() -> Counter:
+    """Recent public Round 3 settlements, not a complete demand observation."""
+    response = httpx.get("https://market.ourolabs.ai/api/ledger?after=-500", timeout=5.0)
+    response.raise_for_status()
+    page = response.json()
+    if not isinstance(page, list):
+        raise ValueError("unexpected public ledger response")
+    return Counter(entry.get("data", {}).get("item") for entry in page
+                   if isinstance(entry, dict) and entry.get("round") == 3
+                   and entry.get("kind") == "settle"
+                   and isinstance(entry.get("data"), dict)
+                   and isinstance(entry["data"].get("item"), str))
+
+
+def choose_candidates(catalog: dict, inventory: dict, history: list[dict],
+                      market_sales: Counter | None = None) -> list[dict]:
     """Expose a bounded exploratory set plus SKUs with first-hand evidence."""
+    market_sales = market_sales or Counter()
     counts = Counter(e.get("sku") for e in history if e.get("event") == "opening" and e.get("sku"))
     settled = Counter(e.get("sku") for e in history if e.get("event") == "settled" and e.get("sku"))
     stocked = Counter(u.get("sku") for u in inventory.get("units", []) if u.get("grade") != "expired")
@@ -43,16 +61,18 @@ def choose_candidates(catalog: dict, inventory: dict, history: list[dict]) -> li
             and (data.get("shelf_hours") or 0) >= 24}
     if not food:
         return []
+    public = [sku for sku, _ in market_sales.most_common(8) if sku in food]
     explored = [sku for sku, _ in counts.most_common(8) if sku in food]
     seed = int(time.time() // 3600)
     sampled = random.Random(seed).sample(sorted(food), min(16, len(food)))
-    selected = list(dict.fromkeys(explored + sampled))[:20]
+    selected = list(dict.fromkeys(public + explored + sampled))[:20]
     return [{"sku": sku, "name": food[sku].get("name", sku),
              "category": food[sku].get("category"),
              "list_price": food[sku]["list_price"],
              "shelf_hours": food[sku]["shelf_hours"],
              "currently_stocked": stocked[sku], "observed_shop_requests": counts[sku],
-             "confirmed_settlements": settled[sku]} for sku in selected]
+             "confirmed_settlements": settled[sku],
+             "recent_public_settlements": market_sales[sku]} for sku in selected]
 
 
 def decision_schema() -> dict:
@@ -81,7 +101,12 @@ def run(state: Path) -> dict:
         trace("settlement_sync_error", error=str(error))
     history = events()
     catalog = load_json(state / "catalog.json", {})
-    candidates = choose_candidates(catalog, inventory, history)
+    try:
+        public_sales = fetch_market_sales()
+    except (httpx.HTTPError, ValueError) as error:
+        trace("market_signal_unavailable", error=type(error).__name__)
+        public_sales = Counter()
+    candidates = choose_candidates(catalog, inventory, history, public_sales)
     if not candidates:
         return {"buy": []}
     cooldown = load_json(COOLDOWN, {})
@@ -97,8 +122,9 @@ def run(state: Path) -> dict:
         "objective": "Choose a food SKU to replenish, or hold. Estimate a sale price and "
                      "demand mean over the conservative horizon of one quarter of its "
                      "listed shelf life, capped at 24 hours. The market has not published "
-                     "demand weights. A shop request is only an observed visit, not all "
-                     "market demand. With sparse evidence choose a low estimate and a "
+                     "demand weights. Public settlements are sales, not all demand; "
+                     "a shop request is only an observed visit. With sparse evidence "
+                     "choose a low estimate and a "
                      "small exploratory lot. The newsvendor tool will choose quantity.",
     }
     try:
