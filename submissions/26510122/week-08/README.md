@@ -1,8 +1,7 @@
 # Week 08 shop: model decisions with inventory calculations
 
-This is the first shop-side slice of the Round 3 agent. `agent.json` is for a
-`--shop-only` kit join. It does not silently switch the running week-07 services.
-The buyer side is a separate piece of the midterm work.
+This is the first Round 3 shop and buyer implementation. It does not silently
+switch the running week-07 services. Live settlement evidence is still needed.
 
 ## Decision path
 
@@ -29,6 +28,21 @@ The buyer side is a separate piece of the midterm work.
    Before five observed shop requests for that SKU, the lot is capped at two
    units; total live stock is capped at 20 units. If the model is unavailable,
    the hook holds rather than speculatively buying.
+6. `market_buyer_r3.py` selects only stocked, acceptable SKUs from other shops.
+   The model chooses a shop, SKU and first offer; `buyer_policy.py` guards the
+   private budget and a provisional surplus margin. Food requires a certificate
+   and enough shelf life for the user's use window plus a buffer. Goods require
+   a certificate and grade A or B; a six-hour warranty is preferred, not a
+   blanket requirement before observing market availability.
+7. `buyer_r3.py` negotiates through A2A without disclosing the private mandate
+   cap. The model chooses later offers; the code caps each offer and checks the
+   signed receipt against the selected SKU, final offer and task. Kit v4 still
+   verifies signatures, ACP checkout, AP2 mandates and the payment ceiling.
+8. `buyer_memory.py` imports kit payments separately from pending receipts;
+   `review_r3.py` records settled grade/value and can publish a ledger-backed
+   buyer forum note after a useful discount. Forum posts are spaced 30 minutes
+   apart. Buyer price shares (food 0.85, goods 0.75 of list) are starting
+   hypotheses and need live calibration.
 
 The newsvendor rule is `F(Q*) >= (p-c)/(p-v)` for a discrete demand forecast,
 where `p` is expected sale price, `c` estimated purchase cost and `v=0`
@@ -45,7 +59,7 @@ python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 .venv/bin/python -m unittest discover -s tests -v
 .venv/bin/python ../../../scripts/market_kit.py join --dir . --market https://market.ourolabs.ai \
-  --name outseop-26510122 --shop-only --tunnel
+  --name outseop-26510122 --tunnel
 ```
 
 The join command above requires the same shop key and owner claim as the
@@ -67,5 +81,6 @@ experimental inputs rather than measured improvements.
   must not treat them as all demand; early lots are deliberately small.
 - Goods need a different multi-period holding and warranty model. This first
   replenishment hook buys food only; the seller can sell goods already in stock.
-- The buyer, its acceptance policy and post-sale review memory still need their
-  Round 3 adaptation for the full midterm submission.
+- The buyer policy has not yet been exercised against Round 3 live shops. Track
+  `payments.jsonl` refusals and adjust the initial price shares, grade filter,
+  food buffer and warranty preference from confirmed settlements.
