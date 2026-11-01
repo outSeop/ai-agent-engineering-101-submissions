@@ -20,6 +20,11 @@ import market_memory
 import newsvendor_tool
 import restock
 import seller_r3
+import buyer_memory
+import buyer_policy
+import buyer_r3
+import market_buyer_r3
+import review_r3
 
 
 class NewsvendorTests(unittest.TestCase):
@@ -62,6 +67,142 @@ class MemoryTests(unittest.TestCase):
             settled = market_memory.compact_context("food-1", "B", path=event_log)
             self.assertEqual(settled["outcomes"], {"SETTLED": 1})
             self.assertEqual(settled["recent_same_grade"][0]["settled_price"], 95)
+
+    def test_buyer_memory_waits_for_kit_payment(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            event_log, payments = root / "buyer-events.jsonl", root / "payments.jsonl"
+            buyer_memory.record("negotiation", path=event_log, order="o1", shop="https://shop",
+                                sku="F1", result="receipt_pending")
+            self.assertEqual(buyer_memory.context("https://shop", "F1", path=event_log)
+                             ["same_sku_payment_outcomes"], {})
+            payments.write_text(json.dumps({"order": "o1", "shop": "https://shop", "item": "F1",
+                                            "price": 700, "paid": True, "ledger": 10}) + "\n")
+            self.assertEqual(buyer_memory.import_payments(payments, event_path=event_log), 1)
+            self.assertEqual(buyer_memory.import_payments(payments, event_path=event_log), 0)
+            self.assertEqual(buyer_memory.context("https://shop", "F1", path=event_log)
+                             ["same_sku_payment_outcomes"], {"paid": 1})
+
+
+class BuyerPolicyTests(unittest.TestCase):
+    def test_food_requires_use_window_and_caps_private_budget(self) -> None:
+        order = {"kind": "food", "budget": 1200, "use_within_hours": 4,
+                 "acceptable": ["F1"]}
+        product = {"kind": "food", "list_price": 1000, "shelf_hours": 24}
+        self.assertEqual(buyer_policy.price_cap(order, product), 850)
+        self.assertEqual(buyer_policy.acceptance(order), {"cert": True, "min_hours_left": 4.5})
+        self.assertEqual(buyer_policy.price_cap(order, dict(product, shelf_hours=4)), 0)
+        self.assertEqual(buyer_policy.price_cap(dict(order, budget=700), product), 700)
+
+    def test_goods_grade_policy_and_receipt_guard(self) -> None:
+        order = {"kind": "goods", "budget": 1000, "acceptable": ["G1"]}
+        product = {"kind": "goods", "list_price": 1000}
+        self.assertEqual(buyer_policy.price_cap(order, product), 750)
+        self.assertEqual(buyer_policy.acceptance(order), {"cert": True, "grades": ["A", "B"]})
+        receipt = {"item": "G1", "price": 700, "task": "t1", "sig_seller": "signature"}
+        self.assertIsNone(buyer_policy.receipt_problem(receipt, selected_sku="G1",
+                                                        order=order, final_offer=700,
+                                                        task_id="t1", cap=750))
+        self.assertIsNotNone(buyer_policy.receipt_problem(dict(receipt, price=800), selected_sku="G1",
+                                                           order=order, final_offer=700,
+                                                           task_id="t1", cap=750))
+
+    def test_buyer_selects_stocked_external_shop_and_guards_receipt(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            previous = Path.cwd()
+            os.chdir(directory)
+            try:
+                order = {"order": "o1", "item": "food", "kind": "food", "budget": 1200,
+                         "acceptable": ["F1"], "use_within_hours": 4,
+                         "expires": time.time() + 500}
+                catalog = {"F1": {"kind": "food", "name": "Food", "list_price": 1000,
+                                  "shelf_hours": 24}}
+                shops = [{"name": "outseop-26510122", "url": "https://own", "offers": [{"sku": "F1", "qty": 1}]},
+                         {"name": "external", "url": "https://external", "offers": [{"sku": "F1", "qty": 1}]}]
+                receipt = {"item": "F1", "price": 700, "task": "t1", "sig_seller": "sig"}
+                outcome = {"receipt": receipt, "reason": "receipt received", "offers": [700], "task_id": "t1"}
+                choice = {"candidate_id": "0", "opening_offer": 700, "reason": "in stock"}
+                with patch.object(market_buyer_r3, "decide_json", return_value=choice), \
+                     patch.object(market_buyer_r3, "negotiate", return_value=outcome) as mock_negotiate:
+                    result = market_buyer_r3.run(order, shops, catalog, "outseop-26510122")
+                self.assertEqual(result["shop"], "https://external")
+                self.assertEqual(result["receipt"], receipt)
+                self.assertEqual(result["accept"], {"cert": True, "min_hours_left": 4.5})
+                self.assertEqual(mock_negotiate.call_args.kwargs["cap"], 850)
+            finally:
+                os.chdir(previous)
+
+    def test_model_cannot_open_at_the_full_payment_cap(self) -> None:
+        candidate = {"id": "0", "shop": "other", "url": "https://other", "sku": "F1",
+                     "name": "Food", "list_price": 1000, "cap": 850, "stock": 1,
+                     "reviews": {"count": 0, "average": None, "low_rating_count": 0},
+                     "first_hand": {}}
+        with patch.object(market_buyer_r3, "decide_json", return_value={
+                "candidate_id": "0", "opening_offer": 850, "reason": "test"}):
+            _, opening = market_buyer_r3.choose([candidate], {"item": "food", "kind": "food"})
+        self.assertEqual(opening, 722)
+
+    def test_a2a_request_names_sku_without_revealing_budget(self) -> None:
+        first = {"id": "t1", "status": {"state": "TASK_STATE_INPUT_REQUIRED",
+                                         "message": {"parts": [{"text": "asking 700"}]}}}
+        receipt = {"item": "F1", "price": 600, "task": "t1", "sig_seller": "sig"}
+        completed = {"id": "t1", "status": {"state": "TASK_STATE_COMPLETED"},
+                     "artifacts": [{"parts": [{"data": receipt}]}]}
+        order = {"kind": "food", "budget": 1200, "acceptable": ["F1"]}
+        with patch.object(buyer_r3, "card_endpoint", return_value="https://shop/a2a"), \
+             patch.object(buyer_r3, "send", side_effect=[first, completed]) as mock_send:
+            outcome = buyer_r3.negotiate("https://shop", "F1", "Food", order,
+                                         opening_offer=600, cap=850, list_price=1000,
+                                         memory={}, deadline=time.monotonic() + 240)
+        self.assertEqual(outcome["receipt"], receipt)
+        self.assertEqual(outcome["offers"], [600])
+        self.assertIn("F1", mock_send.call_args_list[0].args[2])
+        self.assertNotIn("1200", mock_send.call_args_list[0].args[2])
+
+    def test_buyer_retries_other_shop_after_mismatched_receipt(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            previous = Path.cwd()
+            os.chdir(directory)
+            try:
+                order = {"order": "o1", "item": "food", "kind": "food", "budget": 1200,
+                         "acceptable": ["F1"], "use_within_hours": 1,
+                         "expires": time.time() + 500}
+                catalog = {"F1": {"kind": "food", "list_price": 1000, "shelf_hours": 24}}
+                shops = [{"name": "first", "url": "https://first", "offers": [{"sku": "F1", "qty": 1}]},
+                         {"name": "second", "url": "https://second", "offers": [{"sku": "F1", "qty": 1}]}]
+                wrong = {"receipt": {"item": "F1", "price": 900, "task": "t1", "sig_seller": "sig"},
+                         "offers": [700], "task_id": "t1", "reason": "receipt received"}
+                good = {"receipt": {"item": "F1", "price": 700, "task": "t2", "sig_seller": "sig"},
+                        "offers": [700], "task_id": "t2", "reason": "receipt received"}
+                with patch.object(market_buyer_r3, "decide_json", return_value={
+                        "candidate_id": "0", "opening_offer": 700, "reason": "test"}), \
+                     patch.object(market_buyer_r3, "negotiate", side_effect=[wrong, good]):
+                    result = market_buyer_r3.run(order, shops, catalog, "own")
+                self.assertEqual(result["shop"], "https://second")
+                self.assertEqual(result["receipt"]["price"], 700)
+                first_memory = buyer_memory.context("https://first", "F1")
+                self.assertEqual(first_memory["observed_receipt_problems"], 1)
+            finally:
+                os.chdir(previous)
+
+    def test_review_records_settlement_and_bounded_forum_post(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            previous = Path.cwd()
+            os.chdir(directory)
+            try:
+                deal = {"order": {"order": "o1", "kind": "food"},
+                        "receipt": {"item": "F1", "price": 700},
+                        "settled": {"shop": "https://shop", "sku": "F1", "name": "Food",
+                                    "grade": "A", "value": 1000, "ledger": 12}}
+                catalog = {"F1": {"list_price": 1000}}
+                result = review_r3.run(deal, catalog)
+                self.assertEqual(result["stars"], 5)
+                self.assertEqual(len(Path(".market/outbox.jsonl").read_text().splitlines()), 1)
+                deal["settled"]["ledger"] = 13
+                review_r3.run(deal, catalog)
+                self.assertEqual(len(Path(".market/outbox.jsonl").read_text().splitlines()), 1)
+            finally:
+                os.chdir(previous)
 
 
 class IntegrationTests(unittest.TestCase):
