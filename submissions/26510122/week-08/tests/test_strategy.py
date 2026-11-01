@@ -141,6 +141,58 @@ class IntegrationTests(unittest.TestCase):
             finally:
                 os.chdir(previous)
 
+    def test_seller_rejects_grade_change_while_model_decides(self) -> None:
+        async def exchange() -> None:
+            app = seller_r3.build(9999)
+            async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app),
+                                         base_url="http://testserver") as client:
+                async def send(message: str, task_id: str | None = None) -> dict:
+                    body = {"role": "ROLE_USER", "messageId": str(uuid.uuid4()),
+                            "parts": [{"text": message}]}
+                    if task_id:
+                        body["taskId"] = task_id
+                    response = await client.post("/", json={"jsonrpc": "2.0", "id": "1",
+                                                     "method": "SendMessage", "params": {"message": body}},
+                                                 headers={"A2A-Version": "1.0"})
+                    response.raise_for_status()
+                    result = response.json()
+                    self.assertNotIn("error", result)
+                    return result["result"].get("task", result["result"])
+
+                first = await send("I want A1")
+                second = await send("90", first["id"])
+                self.assertEqual(second["status"]["state"], "TASK_STATE_REJECTED")
+
+        with tempfile.TemporaryDirectory() as directory:
+            previous = Path.cwd()
+            os.chdir(directory)
+            try:
+                market = Path(".market")
+                market.mkdir()
+                inventory = market / "inventory.json"
+                unit = {"unit": "u1", "sku": "A1", "name": "Food", "category": "food",
+                        "kind": "food", "grade": "A", "cost": 70, "list_price": 100,
+                        "supplied_at": 1, "expires_at": time.time() + 36000}
+                inventory.write_text(json.dumps({"round": 3, "units": [unit]}))
+
+                calls = 0
+
+                def decide(*_args):
+                    nonlocal calls
+                    calls += 1
+                    if calls == 1:
+                        return {"action": "ask", "price": 100, "unit_id": "u1", "reason": "opening"}
+                    unit["grade"] = "B"
+                    inventory.write_text(json.dumps({"round": 3, "units": [unit]}))
+                    return {"action": "accept", "price": None, "unit_id": "u1", "reason": "accept"}
+
+                with patch.object(seller_r3, "decide_json", side_effect=decide):
+                    import asyncio
+                    asyncio.run(exchange())
+                self.assertFalse(any(e["event"] == "receipt_signed" for e in market_memory.events()))
+            finally:
+                os.chdir(previous)
+
     def test_seller_does_not_offer_taken_or_expired_units(self) -> None:
         inventory = {"round": 3, "units": [
             {"unit": "u1", "sku": "A1", "name": "Kimchi", "category": "food>kimchi", "grade": "A"},

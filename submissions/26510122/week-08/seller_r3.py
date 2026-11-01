@@ -163,7 +163,9 @@ class Seller(AgentExecutor):
                                      if u.get("unit") == unit["unit"] and u.get("grade") != "expired"), None)
                 already_taken = ({d["unit"]["unit"] for d in self.open.values()}
                                  | set(self.holds))
-                if current_unit is None or unit["unit"] in already_taken:
+                if (current_unit is None or unit["unit"] in already_taken
+                        or any(current_unit.get(k) != unit.get(k)
+                               for k in ("grade", "cost", "expires_at"))):
                     record("stale_inventory", task_id=task.id, unit=unit["unit"])
                     await up.reject(say("That unit is no longer available. Please try again."))
                     return
@@ -219,6 +221,16 @@ class Seller(AgentExecutor):
         answer = await self.choose(prompt, ["accept", "counter", "reject"],
                                    {"action": fallback_action, "price": deal["ask"],
                                     "unit_id": unit["unit"]})
+        current = read_inventory()
+        if current.get("round", 0) >= 3:
+            fresh = next((u for u in current.get("units", [])
+                          if u.get("unit") == unit["unit"] and u.get("grade") != "expired"), None)
+            if (fresh is None or any(fresh.get(k) != unit.get(k)
+                                     for k in ("grade", "cost", "expires_at"))):
+                record("stale_inventory", task_id=task.id, unit=unit["unit"])
+                await up.reject(say("That unit changed during negotiation. Please try again."))
+                del self.open[task.id]
+                return
         action = answer["action"]
         if action == "accept" and offer > 0:
             receipt = sign({"shop": NAME, "item": unit["sku"], "price": offer,
