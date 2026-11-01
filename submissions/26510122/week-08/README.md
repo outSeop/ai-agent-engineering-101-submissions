@@ -44,7 +44,7 @@ cost and grade from inventory replace that estimate when a unit arrives.
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 .venv/bin/python -m unittest discover -s tests -v
-python3 ../../../scripts/market_kit.py join --dir . --market https://market.ourolabs.ai \
+.venv/bin/python ../../../scripts/market_kit.py join --dir . --market https://market.ourolabs.ai \
   --name outseop-26510122 --shop-only --tunnel
 ```
 
