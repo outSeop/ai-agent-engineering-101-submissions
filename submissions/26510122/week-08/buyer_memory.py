@@ -12,6 +12,7 @@ from typing import Any
 
 EVENTS = Path("logs/buyer-events.jsonl")
 PAYMENTS = Path(".market/payments.jsonl")
+BROKEN = Path(".market/broken.jsonl")
 
 
 def read_events(path: Path = EVENTS) -> list[dict[str, Any]]:
@@ -65,8 +66,34 @@ def import_payments(payment_path: Path = PAYMENTS, *, event_path: Path = EVENTS)
     return count
 
 
-def context(shop_url: str, sku: str, *, path: Path = EVENTS) -> dict[str, Any]:
-    first_hand = [e for e in read_events(path) if e.get("shop") == shop_url]
+def import_broken(broken_path: Path = BROKEN, *, event_path: Path = EVENTS) -> int:
+    """Keep post-sale breakage evidence without guessing which seller caused it."""
+    if not broken_path.exists():
+        return 0
+    seen = {(e.get("name"), e.get("broke_at")) for e in read_events(event_path)
+            if e["event"] == "broken"}
+    count = 0
+    with broken_path.open(encoding="utf-8", errors="replace") as source:
+        for line in source:
+            try:
+                news = json.loads(line)
+            except ValueError:
+                continue
+            if not isinstance(news, dict) or not news.get("name") or not news.get("broke_at"):
+                continue
+            key = (news["name"], news["broke_at"])
+            if key in seen:
+                continue
+            record("broken", path=event_path, name=news["name"], broke_at=news["broke_at"])
+            seen.add(key)
+            count += 1
+    return count
+
+
+def context(shop_url: str, sku: str, *, product_name: str | None = None,
+            path: Path = EVENTS) -> dict[str, Any]:
+    all_events = read_events(path)
+    first_hand = [e for e in all_events if e.get("shop") == shop_url]
     payments = [e for e in first_hand if e["event"] == "payment"]
     same_sku = [e for e in payments if e.get("sku") == sku]
     settled = [e for e in first_hand if e["event"] == "settled" and e.get("sku") == sku]
@@ -87,5 +114,8 @@ def context(shop_url: str, sku: str, *, path: Path = EVENTS) -> dict[str, Any]:
                                  "reason": e.get("reason")}
                                 for e in negotiations[-4:]],
         "observed_receipt_problems": sum(e.get("result") == "invalid_receipt" for e in negotiations),
-        "note": "Only payment.paid=true is settled evidence. Reviews are public claims, not first-hand checks.",
+        "same_product_broken_reports": sum(e["event"] == "broken" and e.get("name") == product_name
+                                           for e in all_events) if product_name else 0,
+        "note": "Only payment.paid=true is settled evidence. Reviews are public claims. "
+                "Broken-item news names a product but cannot identify its seller or exact purchase.",
     }

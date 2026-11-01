@@ -83,6 +83,19 @@ class MemoryTests(unittest.TestCase):
             self.assertEqual(buyer_memory.context("https://shop", "F1", path=event_log)
                              ["same_sku_payment_outcomes"], {"paid": 1})
 
+    def test_broken_goods_news_is_product_evidence_not_shop_blame(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            event_log, broken = root / "buyer-events.jsonl", root / "broken.jsonl"
+            broken.write_text(json.dumps({"name": "Lamp", "broke_at": 12345}) + "\n")
+            self.assertEqual(buyer_memory.import_broken(broken, event_path=event_log), 1)
+            self.assertEqual(buyer_memory.import_broken(broken, event_path=event_log), 0)
+            first = buyer_memory.context("https://first", "G1", product_name="Lamp", path=event_log)
+            second = buyer_memory.context("https://second", "G1", product_name="Lamp", path=event_log)
+            self.assertEqual(first["same_product_broken_reports"], 1)
+            self.assertEqual(second["same_product_broken_reports"], 1)
+            self.assertEqual(first["shop_payment_count"], 0)
+
 
 class BuyerPolicyTests(unittest.TestCase):
     def test_food_requires_use_window_and_caps_private_budget(self) -> None:

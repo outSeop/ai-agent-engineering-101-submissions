@@ -38,7 +38,8 @@ switch the running week-07 services. Live settlement evidence is still needed.
    cap. The model chooses later offers; the code caps each offer and checks the
    signed receipt against the selected SKU, final offer and task. Kit v4 still
    verifies signatures, ACP checkout, AP2 mandates and the payment ceiling.
-8. `buyer_memory.py` imports kit payments separately from pending receipts;
+8. `buyer_memory.py` imports kit payments separately from pending receipts and
+   remembers goods breakage by product name without blaming a particular shop;
    `review_r3.py` records settled grade/value and can publish a ledger-backed
    buyer forum note after a useful discount. Forum posts are spaced 30 minutes
    apart. Buyer price shares (food 0.85, goods 0.75 of list) are starting

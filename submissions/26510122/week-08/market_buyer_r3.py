@@ -8,7 +8,7 @@ import math
 from pathlib import Path
 import time
 
-from buyer_memory import context, import_payments, record
+from buyer_memory import context, import_broken, import_payments, record
 from buyer_policy import acceptance, price_cap, receipt_problem
 from buyer_r3 import negotiate
 from harness import decide_json, trace
@@ -36,7 +36,7 @@ def candidates(order: dict, shops: list[dict], catalog: dict,
             cap = price_cap(order, product)
             if cap < 1:
                 continue
-            first_hand = context(shop["url"], sku)
+            first_hand = context(shop["url"], sku, product_name=product.get("name"))
             refusals = (first_hand["same_sku_payment_outcomes"].get("refused", 0)
                         + 2 * first_hand["observed_receipt_problems"])
             paid = first_hand["same_sku_payment_outcomes"].get("paid", 0)
@@ -105,6 +105,9 @@ def run(order: dict, shops: list[dict], catalog: dict, own_shop_name: str) -> di
     imported = import_payments()
     if imported:
         trace("buyer_payments_imported", count=imported)
+    broken = import_broken()
+    if broken:
+        trace("buyer_breakage_imported", count=broken)
     available = candidates(order, shops, catalog, own_shop_name)
     if not available:
         record("no_candidate", order=order.get("order"), item=order.get("item"))
