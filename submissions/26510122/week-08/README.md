@@ -53,6 +53,14 @@ are unknown: `restock.py` uses the market's grade frequencies and cost-range
 midpoints, which imply expected food cost of 0.5 times list price. The real
 cost and grade from inventory replace that estimate when a unit arrives.
 
+## Flow review
+
+Open [the editable flow](flow/agent-flow-standalone.html) to compare the current
+implementation with the intended design. Select a node to inspect or edit its
+inputs, outputs, conditions and destinations. Inventory, seller, buyer and the
+whole market relationship have separate views. These edits change the diagram;
+the trading code is separate. [Flow sources and checks](flow/README.md).
+
 ## Run locally
 
 ```bash

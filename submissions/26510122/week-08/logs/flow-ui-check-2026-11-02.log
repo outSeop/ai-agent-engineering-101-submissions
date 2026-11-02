@@ -1,0 +1,15 @@
+{
+  "checks": [
+    "planned inventory includes model choice after tool calculation",
+    "node edits and edge conditions export as JSON",
+    "edited design survives reload",
+    "current implementation stays separate from proposed model loop",
+    "all eight scope and basis combinations render",
+    "invalid edge destination is rejected without changing the graph",
+    "imported labels render as text, not executable markup",
+    "controls and nodes fit desktop, tablet and narrow mobile widths",
+    "no uncaught browser errors"
+  ],
+  "screenshots": "/var/folders/6r/jqkj90011lx703gz5qs802d40000gn/T/ax-r3-flow-qa",
+  "browser_errors": []
+}
