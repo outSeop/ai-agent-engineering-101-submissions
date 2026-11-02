@@ -5,3 +5,7 @@ __pycache__/
 *.pem
 .market/
 state/
+
+# Personal flow review assets
+/flow/
+/logs/flow-ui-check-*.log
