@@ -34,6 +34,7 @@ from newsvendor_tool import GRADE_ANCHORS
 from seller_state import SellerState, SQLiteTaskStore, ResumingContextBuilder
 import seller_requirements
 from seller_promotion import discount_quote
+from capital_policy import operating_policy
 
 
 NAME = "outseop-26510122"
@@ -273,9 +274,12 @@ class Seller(AgentExecutor):
                              "Respect failed or unresolved price probes; never reprice an already agreed receipt.",
                 "unit_options": tools, "memory_by_sku_grade": memories,
                 'buyer_identity':identity,'buyer_price_evidence':profiles,
+                'market_objective':operating_policy(time.time()),
             }
             prompt['objective'] += (' Calculate the ordinary opening quote without anticipating promotions; '
-                                    'a separate tool applies any campaign afterward. Never inflate a base price to offset a discount.')
+                                    'a separate tool applies any campaign afterward. Never inflate a base price to offset a discount. '
+                                    'Prefer repeatable positive-margin turnover, settled revenue and honest quality over '
+                                    'maximizing one markup. Terminal unsold stock has no credited cash value; ranking weights are percentiles.')
             middle = tools[0]["candidates"][len(tools[0]["candidates"]) // 2]["price"]
             answer = await self.choose(prompt, ["ask", "reject"],
                                        {"action": "ask", "price": middle, "unit_id": choices[0]["unit"]})
@@ -384,12 +388,16 @@ class Seller(AgentExecutor):
             "buyer_offer": offer, "history": deal["history"][-MAX_TURNS:], "memory": memory,
             'buyer_price_evidence':deal.get('buyer_price_evidence'),
             'purchase_requirements':deal['requirements'], 'buyer_message':message[:500],
+            'market_objective':operating_policy(time.time()),
             "objective": "Accept, counter or reject. Consider purchase cost, grade, "
                          "food expiry and goods storage, but do not treat purchase cost "
                          "as an absolute floor for food already near expiry. "
                          "A receipt counts only if checkout later settles. The buyer profile is a hypothesis; "
                          "a new low offer is evidence against the tested price. Do not escalate mechanically.",
         }
+        prompt['objective'] += (' Value settled revenue and buyer satisfaction alongside cash profit. '
+                                'As the market deadline approaches, favor realizing cash over holding unsold inventory. '
+                                'Never relax the buyer\'s quality, expiry or signature requirements to create volume.')
         if deal.get('promotion'):
             prompt['opening_promotion'] = deal['promotion']
             prompt['objective'] += (' The opening discount is already included. Never raise the ask above '

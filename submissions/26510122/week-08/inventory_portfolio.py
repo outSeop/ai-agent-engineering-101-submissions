@@ -19,17 +19,16 @@ from market_memory import record
 from replenishment_plan import MAX_CATEGORY_STOCK, MAX_TOTAL_STOCK, inventory_risk, product_signature, save
 from supply_reconciliation import reconcile, pending_quantity
 from stock_policy import replenishment_candidates, PROVEN_STOCK
+from capital_policy import MAX_UNIT_COST, operating_policy, target_inventory_cost
 
 STATE = Path('state/inventory-portfolio.json')
 EPSILON = .30
-MIN_VARIETY = 24
+MIN_VARIETY = 40
 MAX_NEW_SKUS = 8
 PREFERRED_MIN_BATCH = 5
-WINDOW_BUDGET = 600_000
-ROLLING_BUDGET = 2_500_000
-MAX_UNIT_COST = 250_000
-TARGET_INVENTORY_COST = 1_500_000
-MAX_MAINTAINED_SKUS = 4
+WINDOW_BUDGET = 1_200_000
+ROLLING_BUDGET = 6_000_000
+MAX_MAINTAINED_SKUS = 6
 DAY = 86400
 
 
@@ -130,6 +129,7 @@ def run(inventory, catalog, history, now, *, model, refresh, rng=None, state_pat
     """None delegates this window to the model's exploitation planner."""
     if inventory.get('round') != 3:
         return {'buy': []}
+    if not operating_policy(now)['allow_replenishment']: return {'buy':[]}
     path = state_path or STATE
     if not window_open(inventory, now) and not path.exists():
         return {'buy': []}
@@ -141,6 +141,7 @@ def run(inventory, catalog, history, now, *, model, refresh, rng=None, state_pat
 
 
 def _run(inventory, catalog, history, now, model, refresh, rng, path):
+    operating = operating_policy(now)
     if path.exists():
         try:
             state = json.loads(path.read_text())
@@ -175,11 +176,12 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
     if choice is None:
         draw = rng.random()
         variety = len({u.get('sku') for u in units})
-        coverage = variety < MIN_VARIETY
-        allocation = inventory_risk(inventory, now)['stock_acquisition_cost'] < TARGET_INVENTORY_COST
-        choice = {'mode': 'explore' if coverage or allocation or draw < EPSILON else 'exploit',
+        coverage = operating['allow_new_skus'] and variety < MIN_VARIETY
+        allocation = operating['allow_new_skus'] and inventory_risk(inventory, now)['stock_acquisition_cost'] < target_inventory_cost(inventory,now)
+        choice = {'mode': 'explore' if operating['allow_new_skus'] and (coverage or allocation or draw < EPSILON) else 'exploit',
                   'epsilon': EPSILON, 'draw': draw, 'coverage_recovery': coverage,
                   'allocation_recovery': allocation,
+                  'operating_phase':operating['phase'],'policy_version':7,
                   'variety': variety, 'at': now, 'attempted': False}
         state['windows'][key] = choice
         # Window records are summaries; the append-only event log retains all draws.
@@ -203,8 +205,9 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
     risk = inventory_risk(inventory, now, pending_cost)
     slots = min(MAX_NEW_SKUS, max(0, int((window['closes_at'] - now - 15) // 10)))
     unit_room = max(0, MAX_TOTAL_STOCK - len(units) - pending)
-    budget = min(WINDOW_BUDGET, risk['available_to_invest'])
-    exploration_budget = max(0, min(budget, ROLLING_BUDGET-reserved))
+    budget = min(WINDOW_BUDGET,operating['window_budget'], risk['available_to_invest'])
+    rolling_budget = min(ROLLING_BUDGET,operating['rolling_exploration_budget'])
+    exploration_budget = max(0, min(budget, rolling_budget-reserved))
     blocked = {i['sku'] for i in state['intents'] if pending_quantity(i)}
     winners = replenishment_candidates(catalog, inventory, history, now, blocked)
     for winner in winners:
@@ -218,7 +221,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
         winner['target_options'] = bounded
     winners = [r for r in winners if r['target_options']]
     rows = (candidates(catalog, inventory, history, now, {i['sku'] for i in recent}, rng)
-            if choice['mode'] == 'explore' else [])
+            if choice['mode'] == 'explore' and operating['allow_new_skus'] else [])
     maintained_skus = {r['sku'] for r in winners}
     rows = [r for r in rows if r['cost_ceiling'] <= exploration_budget and r['sku'] not in maintained_skus]
     new_slots = min(6 if winners else MAX_NEW_SKUS, max(0, slots-(min(MAX_MAINTAINED_SKUS, len(winners)) if rows else 0)), unit_room)
@@ -262,11 +265,15 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
               'anchor_policy': 'One random category and SKU among candidates without recent evidence '
                                '(all candidates if none are unknown). If exploring, include it. '
                                'Maintenance-only is allowed when shared resources favor existing sellers.',
-              'rolling_24h_cost_ceiling_budget': ROLLING_BUDGET, 'reserved_24h': reserved,
+              'rolling_24h_cost_ceiling_budget': rolling_budget, 'reserved_24h': reserved,
+              'operating_policy':operating,'target_inventory_acquisition_cost':target_inventory_cost(inventory,now),
               'existing_stock': dict(Counter(u.get('sku') for u in units)),
               'existing_categories': dict(Counter(u.get('category') for u in units)),
-              'objective': 'The operator wants ample inventory: aim toward 1500000-2000000 acquisition-cost exposure, '
-              'without spending merely to hit a quota. In the SAME window replenish up to four eligible sellers '
+              'objective': 'The operator wants active capital recycling: aim toward target_inventory_acquisition_cost '
+              'during growth, without spending merely to hit a quota. Cash is not idle savings for its own sake, '
+              'but terminal cash still determines profit. ALL weights percentile profit/revenue/stars 0.5/0.3/0.2; '
+              'do not combine raw currency and stars into a fabricated score. Prefer repeatable positive-margin '
+              'sales and successful, honest checkout over maximizing one markup. In the SAME window replenish up to six eligible sellers '
               'to the forecast-derived target_options, and explore new SKUs with remaining resources. '
               'Maintenance eligibility is based on confirmed positive-spread sales, not just the hottest SKU. '
               'Slow sellers may need only 1-2 units, and fast sellers can require more than six. '
@@ -277,7 +284,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
               'Choose replenishment target_options exactly; quantity is calculated from current stock. '
               'Replenishment plus exploration must fit the shared spend, unit and supply-line caps; '
               'exploration alone must also fit exploration_cost_ceiling_budget. '
-              'Build toward 24 stocked SKUs, '
+              'Build toward target_stocked_variety stocked SKUs during growth, '
               'one unit per new SKU, instead of waiting for sales proof while cash is idle. '
               'Approve preferably the maximum affordable batch, at least minimum_new_skus_if_buy, '
               'covering minimum_categories_if_buy or more categories. A hold needs a concrete risk, '
@@ -360,7 +367,8 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
     owned = live_units(current, at)
     room = min(slots,
                max(0, int((current['restock']['closes_at'] - at - 15) // 10)))
-    cash = inventory_risk(current, at, pending_cost)['available_to_invest']
+    current_operating = operating_policy(at)
+    cash = min(inventory_risk(current, at, pending_cost)['available_to_invest'],current_operating['window_budget'])
     categories = Counter(u.get('category') for u in owned)
     buy = []
     current_stocks = Counter(u.get('sku') for u in owned)
@@ -369,6 +377,8 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
     desired += [{**allowed[sku], 'qty':1, 'kind':'exploration'} for sku in skus]
     for row in desired:
         sku = row['sku']
+        if not current_operating['allow_replenishment']: break
+        if row['kind']=='exploration' and not current_operating['allow_new_skus']: continue
         if len(buy) >= room:
             break
         if row['kind']=='exploration' and (current_stocks[sku] or product_signature(catalog[sku]) != row['signature']):

@@ -78,32 +78,32 @@ class AdaptiveForecastTests(unittest.TestCase):
         self.assertIsNone(result)
         self.assertEqual(reason,'sales_evidence_changed')
 
-    def test_up_to_four_moderate_sellers_can_share_a_window(self):
+    def test_up_to_six_moderate_sellers_can_share_a_window(self):
         with tempfile.TemporaryDirectory() as directory:
             old = Path.cwd();os.chdir(directory)
             try:
                 rows = []
-                for i in range(5):
+                for i in range(7):
                     for event in history(2):
                         clone = dict(event,sku=f's{i}',unit=f"s{i}-{event['unit']}")
                         if 'ledger' in clone: clone['ledger'] += 100*i
                         rows.append(clone)
                 inv = inventory(0)
                 def model(role,prompt,schema):
-                    self.assertEqual(len(prompt['replenishment_candidates']),5)
-                    self.assertEqual(schema['properties']['replenishment']['maxItems'],4)
-                    self.assertEqual(prompt['maximum_new_skus'],4)
+                    self.assertEqual(len(prompt['replenishment_candidates']),7)
+                    self.assertEqual(schema['properties']['replenishment']['maxItems'],6)
+                    self.assertEqual(prompt['maximum_new_skus'],2)
                     picks = [{'sku':r['sku'],'target_stock':max(o['target_stock'] for o in r['target_options'])}
-                             for r in prompt['replenishment_candidates'][:4]]
+                             for r in prompt['replenishment_candidates'][:6]]
                     anchor = prompt['exploration_anchor_sku']
-                    new = [anchor]+[r['sku'] for r in prompt['candidates'] if r['sku']!=anchor][:3]
+                    new = [anchor]+[r['sku'] for r in prompt['candidates'] if r['sku']!=anchor][:1]
                     return {'action':'buy','skus':new,'replenishment':picks,'reason':'Maintain moderate sellers too'}
                 result = portfolio.run(inv,catalog(),rows,1000,model=model,
                                        refresh=lambda:(inv,1000,True),rng=random.Random(1))
                 self.assertEqual(len(result['buy']),8)
                 intents = json.loads(portfolio.STATE.read_text())['intents']
-                self.assertEqual(sum(i['kind']=='replenishment' for i in intents),4)
-                self.assertEqual(sum(i['kind']=='exploration' for i in intents),4)
+                self.assertEqual(sum(i['kind']=='replenishment' for i in intents),6)
+                self.assertEqual(sum(i['kind']=='exploration' for i in intents),2)
             finally:
                 os.chdir(old)
 

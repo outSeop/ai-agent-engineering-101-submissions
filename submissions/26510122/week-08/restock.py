@@ -26,11 +26,12 @@ import inventory_exploration
 import inventory_portfolio
 import replenishment_plan
 from stock_policy import policy_view, NEW_STOCK
+from capital_policy import MIN_CASH, operating_policy
 
 
 COOLDOWN = Path("state/restock-cooldown.json")
 PLAN = Path('state/restock-plan.json')
-MIN_BALANCE = 1_000_000
+MIN_BALANCE = MIN_CASH
 STARTUP_MAX_BUY = 2
 
 
@@ -78,6 +79,8 @@ def choose_candidates(catalog: dict, inventory: dict, history: list[dict],
                 and (data['kind'] == 'goods' or (data.get('shelf_hours') or 0) >= 24)
                 and stocked[sku] < signals.get(sku, {}).get('stock_limit', NEW_STOCK)
                 and (not data.get('category') or categories[data['category']] < replenishment_plan.MAX_CATEGORY_STOCK)}
+    if not operating_policy(time.time())['allow_new_skus']:
+        products = {sku:p for sku,p in products.items() if signals.get(sku,{}).get('proven')}
     if not products:
         return []
     public = [sku for sku, _ in market_sales.most_common() if sku in products][:8]
@@ -197,6 +200,10 @@ def run(state: Path) -> dict:
     if inventory.get("round", 0) != 3:
         return {"buy": []}
     now = time.time()
+    operating = operating_policy(now)
+    if not operating['allow_replenishment']:
+        record('restock_hold',reason='market_closing',operating_policy=operating)
+        return {'buy':[]}
     if not inventory_fresh(inventory_path,now):
         record('restock_hold',reason='stale_inventory')
         return {'buy':[]}
@@ -269,6 +276,7 @@ def run(state: Path) -> dict:
     recent = recent_trade_context(history,{c['sku'] for c in candidates},max_bytes=RESTOCK_HISTORY_BYTES)
     prompt = {
         "phase": "restock", "task_id": f"restock-{int(time.time())}",
+        'operating_policy':operating,
         "balance": inventory.get("balance"), "candidate_skus": candidates,
         'portfolio_limits': {'maximum_stock_per_sku': replenishment_plan.MAX_SKU_STOCK,
                              'maximum_stock_per_category': replenishment_plan.MAX_CATEGORY_STOCK,
@@ -307,6 +315,11 @@ def run(state: Path) -> dict:
                      "discarded merely because this short planning horizon ends. Missing observations are UNKNOWN, "
                      "not zero demand. demand.json lists categories without demand weights.",
     }
+    prompt['objective'] += (' The market end is a hard cash-realization deadline. Limit the forecast horizon to '
+                            'hours_to_end minus two hours if shorter, and do not assign terminal value to unsold stock. '
+                            'The operator prefers active capital turnover with positive acquisition spread, '
+                            'revenue and honest buyer satisfaction over idle cash or extreme per-sale markups. '
+                            'Ranking weights apply to percentiles, not raw units.')
     reusable_scenario = (not invalidated_plan and isinstance(cooldown.get('scenario'),dict)
                          and 0 <= now-cooldown.get('scenario_at',0) < 1800
                          and cooldown.get('policy_version') == replenishment_plan.POLICY_VERSION
@@ -355,6 +368,8 @@ def run(state: Path) -> dict:
     continuation = (max(0., min(expected_cost, float(residual)))
                     if type(residual) in (int, float) and math.isfinite(residual) else 0.)
     horizon_hours = 24.0 if selected['kind'] == 'goods' else min(24.0, selected['shelf_hours'] * .25)
+    horizon_hours = min(horizon_hours,max(0.,operating['hours_to_end']-2))
+    if operating['phase'] != 'growth': continuation = 0.
     holding = expected_cost * .01 * horizon_hours / 24 if selected['kind'] == 'goods' else 0.
     calculation = recommend_quantity(poisson_pmf(mean), price, expected_cost,
                                      salvage=continuation, holding_per_leftover=holding,

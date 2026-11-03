@@ -4,6 +4,7 @@ import math
 
 from inventory_observation import timestamp, evidence
 from newsvendor_tool import poisson_pmf, recommend_quantity
+from capital_policy import MAX_UNIT_COST, operating_policy
 
 PROVEN_STOCK = 20  # safety ceiling, never a desired inventory target
 NEW_STOCK = 2
@@ -43,7 +44,9 @@ def protection_hours(inventory, now):
     else:
         seconds = max(0., opens-now)
         source = 'published next opening'
-    return {'hours':max(60.,seconds+SUPPLY_JITTER_BUFFER_SECONDS+PURCHASE_LEAD_SECONDS)/3600,
+    hours = min(max(60.,seconds+SUPPLY_JITTER_BUFFER_SECONDS+PURCHASE_LEAD_SECONDS)/3600,
+                operating_policy(now)['hours_to_end'])
+    return {'hours':hours,
             'source':source, 'timing_buffer_seconds':SUPPLY_JITTER_BUFFER_SECONDS+PURCHASE_LEAD_SECONDS,
             'caution':'Future open-window timing and procurement delay are planning assumptions, not guarantees.'}
 
@@ -83,9 +86,13 @@ def demand_forecast(sku, product, inventory, history, now):
         source = 'recent 12h fallback; short-window absence is not proof of zero demand'
     protection = protection_hours(inventory,now)
     mean = rate*protection['hours']
+    operating = operating_policy(now)
+    terminal_capacity = (max(0,math.floor(rate*max(0.,operating['hours_to_end']-2)))
+                         if operating['phase'] != 'growth' else None)
     scenarios = []
     for name,factor,level in (('low',.8,.90),('base',1.,.95),('high',1.25,.975)):
         target = _quantile(mean*factor,level)
+        if terminal_capacity is not None: target = min(target,terminal_capacity)
         scenarios.append({'scenario':name,'forecast_mean':round(mean*factor,4),'service_level':level,
                           'target_stock':target,'safety_ceiling_binding':target==PROVEN_STOCK})
     price = product.get('list_price') or 1
@@ -94,6 +101,7 @@ def demand_forecast(sku, product, inventory, history, now):
     holding = cost*.01*protection['hours']/24 if product.get('kind')=='goods' else 0.
     diagnostic = recommend_quantity(poisson_pmf(mean),sale,cost,holding_per_leftover=holding,max_qty=PROVEN_STOCK)
     return {'sales_rate_per_hour':round(rate,4),'rate_source':source,'windows':windows,
+            'operating_phase':operating['phase'],'terminal_sale_capacity_estimate':terminal_capacity,
             'protection_period':protection,'demand_mean_until_next_replenishment':round(mean,4),
             'scenarios':scenarios,'maximum_target':max(s['target_stock'] for s in scenarios),
             'newsvendor_zero_continuation_diagnostic':diagnostic,
@@ -105,6 +113,7 @@ def demand_forecast(sku, product, inventory, history, now):
 
 
 def replenishment_candidates(catalog, inventory, history, now, blocked=()):
+    if not operating_policy(now)['allow_replenishment']: return []
     units = [u for u in inventory.get('units', []) if u.get('grade') in ('A', 'B', 'C')
              and (u.get('expires_at') is None or u['expires_at'] > now)]
     stocks = Counter(u['sku'] for u in units)
@@ -118,7 +127,7 @@ def replenishment_candidates(catalog, inventory, history, now, blocked=()):
         signal = sales_evidence(sku, history, now)
         price = p.get('list_price')
         if (not signal['proven'] or stocks[sku] >= PROVEN_STOCK or type(price) is not int
-                or price <= 0 or math.ceil(price*.75) > 250_000):
+                or price <= 0 or math.ceil(price*.75) > MAX_UNIT_COST):
             continue
         if p['kind'] == 'food' and (p.get('shelf_hours') or 0) < 48:
             continue

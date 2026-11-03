@@ -16,12 +16,13 @@ import random
 from harness import decide_json
 from market_memory import record
 from replenishment_plan import MAX_TOTAL_STOCK, product_signature, save
+from capital_policy import MIN_CASH, operating_policy
 
 STATE = Path('state/inventory-exploration.json')
 BUDGET = 250_000
 MIN_SKUS = 5
 MAX_SKUS = 8
-MIN_BALANCE = 1_000_000
+MIN_BALANCE = MIN_CASH
 MAX_UNIT_CEILING = 50_000
 
 
@@ -84,6 +85,7 @@ def run(inventory: dict, catalog: dict, history: list[dict], public: Counter, no
     """A dict owns this cycle; None releases control to ordinary replenishment."""
     if inventory.get('round') != 3:
         return None
+    if not operating_policy(now)['allow_new_skus']: return None
     path = state_path or STATE
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.with_suffix('.lock').open('a') as lock:

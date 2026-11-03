@@ -72,12 +72,12 @@ class AmpleStockTests(unittest.TestCase):
             self.assertEqual(json.loads(portfolio.STATE.read_text())['intents'], [])
 
     def test_combined_budget_is_checked_not_just_each_half(self):
-        inv = inventory(); inv['units'][0]['cost'] = 1924000  # total exposure=1.95m, room=50k
+        inv = inventory(); inv['units'][0]['cost'] = plans.MAX_INVENTORY_COST-76000  # room=50k
         self.assertEqual(self.run_batch(self.mixed, inv), {'buy':[]})
         self.assertEqual(json.loads(portfolio.STATE.read_text())['intents'], [])
 
     def test_invalid_approval_gets_one_numeric_correction_before_any_intent(self):
-        inv = inventory(); inv['units'][0]['cost'] = 1924000
+        inv = inventory(); inv['units'][0]['cost'] = plans.MAX_INVENTORY_COST-76000
         calls = []
         def model(role,prompt,schema):
             calls.append(prompt)
@@ -140,8 +140,8 @@ class AmpleStockTests(unittest.TestCase):
         self.assertEqual(reason,'sales_evidence_changed')
 
     def test_exploitation_window_can_replenish_without_requiring_a_new_sku(self):
-        inv = inventory(24)
-        for unit in inv['units']: unit['cost'] = 65000
+        inv = inventory(portfolio.MIN_VARIETY); inv['balance'] = 2_000_000
+        for unit in inv['units']: unit['cost'] = 100000
         def model(role,prompt,schema):
             self.assertEqual(prompt['maximum_new_skus'],0)
             self.assertEqual(prompt['policy']['mode'],'exploit')

@@ -78,7 +78,7 @@ class PlanTests(unittest.TestCase):
                 self.assertIsNone(value);self.assertEqual(reason,expected)
 
     def test_cash_reserve_and_sparse_approval_are_hard_limits(self):
-        p=plan();inv={'round':3,'balance':1_000_500,'units':[]}
+        p=plan();inv={'round':3,'balance':plans.MIN_BALANCE+500,'units':[]}
         result,_=plans.execute(p,inventory=inv,product=PRODUCT,observation=OBS,now=1000)
         self.assertEqual(result,{'buy':[]})
         sparse=plans.create(sku='F1',product=PRODUCT,candidate={'qty':1,'target_stock':1},

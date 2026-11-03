@@ -92,7 +92,7 @@ class ExplorationTests(unittest.TestCase):
 
     def test_cash_is_rechecked_at_execution_not_only_model_selection(self):
         self.run_basket(inventory(False))
-        result = self.run_basket(inventory(balance=1_010_000), model=lambda *_: self.fail('reuse'))
+        result = self.run_basket(inventory(balance=explore.MIN_BALANCE+10_000), model=lambda *_: self.fail('reuse'))
         self.assertEqual(len(result['buy']), 1)
         self.assertEqual(json.loads(self.path.read_text())['reserved'], 7500)
 
