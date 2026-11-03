@@ -18,7 +18,7 @@ The full messages differ in length and emphasis, so this does not isolate the
 causal effect of the word “tokens.” The claims are not proven capability
 differences between shops.
 
-For each of the two CLI model identifiers, six circular arrangements were
+For each requested CLI model, six circular arrangements were
 tested in both food and goods contexts: 12 choices per model. Every introduction
 appeared in each position twice. Anonymous IDs were fixed to display positions.
 Jobs were shuffled with a saved seed. Each call used a fresh temporary context.
@@ -33,20 +33,26 @@ Other agents' use of descriptions was not verified.
 
 ## Observed choices
 
-| Introduction | gpt-5.6-luna, n=12 | gpt-6-luna, n=12 |
-| --- | ---: | ---: |
-| Ordinary inventory | 1 | 0 |
-| Token saving | 6 | 4 |
-| Explicit purchase steps | 0 | 2 |
-| Quick trading | 2 | 1 |
-| Clear terms/certificates | 2 | 4 |
-| Minimal wording | 1 | 1 |
+| Introduction | gpt-5.6-luna, n=12 | gpt-6-luna, n=12 | Claude sonnet, n=12 |
+| --- | ---: | ---: | ---: |
+| Ordinary inventory | 1 | 0 | 1 |
+| Token saving | 6 | 4 | 0 |
+| Explicit purchase steps | 0 | 2 | 3 |
+| Quick trading | 2 | 1 | 2 |
+| Clear terms/certificates | 2 | 4 | 4 |
+| Minimal wording | 1 | 1 | 2 |
 
-Ten of twelve choices in **each** model came from the first two displayed
+Ten of twelve choices in **each of the three** model groups came from the first two displayed
 positions. Rotation balances exposure, but this still shows strong position/ID
 sensitivity and weak discrimination when economics are tied. These are small
 descriptive samples, not independent real customers or statistical proof of an
-advertising effect. The two model groups should remain visible separately.
+advertising effect. The model groups should remain visible separately. Claude
+frequently called the structured terms equivalent and its choice arbitrary.
+Its zero token-saving selections are not evidence that it dislikes that wording.
+Clear terms/certificates were its most frequently selected full description,
+and explicit purchase steps came next. A practical next copy candidate can
+combine concise negotiation with clear conditions and a concrete receipt path;
+that new combination remains untested.
 
 Two additional independent buyer-role sub-agents received different description
 orders. Under ordinary buying priorities, one weakly preferred explicit steps;
@@ -96,11 +102,16 @@ cost effect or monetary saving. The invariant call count is the clearer result.
 
 ## Evidence and reproduction
 
-There were **49 CLI call attempts: 48 completed and one timed out**. The first
+The initial GPT comparison used **49 CLI call attempts: 48 completed and one timed out**. The first
 `gpt-6-luna` goods/rotation-0 call exceeded 60 seconds. Its original failure is
 preserved, and only that failed case was retried in a separate run with a
 90-second timeout. No successful case was rerun or selected away. The aggregate
 rejects duplicate successful cases rather than choosing a favorable result.
+The later Claude availability attempt failed authentication, and all 12 choices
+after login completed. Including both phases gives **62 CLI attempts, 60
+completed model decisions, and two preserved failures**. That covers 36 shop
+choices across three requested models and 12 mock negotiations with 24 follow-up
+model calls. The separate sub-agent judgments are not included in those totals.
 
 Run from the week-08 directory with existing CLI model access; output directories
 must be new. The commands make real model calls but no marketplace requests.
@@ -117,7 +128,7 @@ WEEK08_MODEL=gpt-6-luna WEEK08_MODEL_TIMEOUT=90 \
   --case selection:goods:0 --output logs/seller-copy-new-retry --workers 1
 ```
 
-The preserved runs are `../logs/seller-copy-probe-2026-11-03/`,
+The initial preserved runs are `../logs/seller-copy-probe-2026-11-03/`,
 `../logs/seller-copy-probe-gpt6-luna-2026-11-03/` and
 `../logs/seller-copy-probe-gpt6-luna-retry-2026-11-03/`. Each includes a manifest,
 full model prompts/answers/usage and per-case outcomes. The aggregate JSON is
@@ -130,6 +141,12 @@ full model prompts/answers/usage and per-case outcomes. The aggregate JSON is
   logs/seller-copy-probe-gpt6-luna-retry-2026-11-03 \
   --output logs/seller-copy-new-aggregate.json
 ```
+
+The expanded aggregate preserving the Claude failure and completed comparison
+is `../logs/seller-copy-aggregate-with-claude-2026-11-03.json`. Reproduce it by
+adding `logs/seller-copy-claude-smoke-2026-11-03` and
+`logs/seller-copy-claude-authenticated-2026-11-03` to the report command and using
+a new output filename. Earlier aggregates and raw runs are not overwritten.
 
 Keep token-saving wording as a test candidate alongside clear terms. A next
 candidate could combine a brief-chat promise with concrete price/receipt steps;
@@ -151,10 +168,20 @@ The local CLI is Claude Code 2.1.233. On November 3, `claude auth status` report
 `loggedIn=false`, and no Anthropic/third-party authentication was configured in
 the environment. The single real smoke attempt returned **“Failed to
 authenticate: OAuth session expired and could not be refreshed.”** It is
-preserved in `../logs/seller-copy-claude-smoke-2026-11-03/`; there is no completed
-Claude buyer choice to report. An auth failure or missing `structured_output`
+preserved in `../logs/seller-copy-claude-smoke-2026-11-03/`; at that point no
+Claude buyer choice had completed. An auth failure or missing `structured_output`
 cannot be counted as a preference. The full 61-test suite passes, including
 those adapter checks.
+
+After the user authenticated, the follow-up in
+`../logs/seller-copy-claude-authenticated-2026-11-03/` completed all 12 choices
+with no failures. All twelve actual user prompts matched the corresponding GPT
+selection prompts exactly, and every description appeared in each position
+twice. The requested alias was `sonnet`; each response's model usage included
+`claude-sonnet-5`, and the CLI also accounted usage for
+`claude-haiku-4-5-20251001`. Those additional usage entries are not treated as
+separate Haiku buyer judgments. The CLI's internal wrapper/model routing is a
+limit of cross-provider comparisons.
 
 After authenticating the local CLI, run the contact-choice comparison only:
 
