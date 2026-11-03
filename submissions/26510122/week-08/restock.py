@@ -23,6 +23,7 @@ from context_compaction import RESTOCK_HISTORY_BYTES, text
 from newsvendor_tool import poisson_pmf, recommend_quantity
 import inventory_observation
 import inventory_exploration
+import inventory_portfolio
 import replenishment_plan
 
 
@@ -68,21 +69,29 @@ def choose_candidates(catalog: dict, inventory: dict, history: list[dict],
     counts = Counter({sku:len(tasks) for sku,tasks in observed_tasks.items()})
     settled = Counter(e.get("sku") for e in history if e.get("event") == "settled" and e.get("sku"))
     stocked = Counter(u.get("sku") for u in inventory.get("units", []) if u.get("grade") != "expired")
-    food = {sku: data for sku, data in catalog.items()
-            if isinstance(data, dict) and data.get("kind") == "food"
-            and isinstance(data.get("list_price"), int) and data["list_price"] > 0
-            and (data.get("shelf_hours") or 0) >= 24}
-    if not food:
+    categories = Counter(u.get('category') for u in inventory.get('units', []) if u.get('grade') != 'expired')
+    products = {sku: data for sku, data in catalog.items()
+                if isinstance(data, dict) and data.get('kind') in ('food', 'goods')
+                and type(data.get('list_price')) is int and data['list_price'] > 0
+                and (data['kind'] == 'goods' or (data.get('shelf_hours') or 0) >= 24)
+                and stocked[sku] < replenishment_plan.MAX_SKU_STOCK
+                and (not data.get('category') or categories[data['category']] < replenishment_plan.MAX_CATEGORY_STOCK)}
+    if not products:
         return []
-    public = [sku for sku, _ in market_sales.most_common(8) if sku in food]
-    explored = [sku for sku, _ in counts.most_common(8) if sku in food]
+    public = [sku for sku, _ in market_sales.most_common() if sku in products][:8]
+    explored = [sku for sku, _ in counts.most_common() if sku in products][:8]
+    successful = [sku for sku, _ in settled.most_common() if sku in products][:8]
     seed = int(time.time() // 3600)
-    sampled = random.Random(seed).sample(sorted(food), min(16, len(food)))
-    selected = list(dict.fromkeys(public + explored + sampled))[:20]
-    return [{"sku": sku, "name": food[sku].get("name", sku),
-             "category": food[sku].get("category"),
-             "list_price": food[sku]["list_price"],
-             "shelf_hours": food[sku]["shelf_hours"],
+    rng = random.Random(seed)
+    sampled = []
+    for kind in ('food', 'goods'):
+        pool = sorted(s for s, p in products.items() if p['kind'] == kind)
+        sampled.extend(rng.sample(pool, min(8, len(pool))))
+    selected = list(dict.fromkeys(public + explored + successful + sampled))
+    return [{"sku": sku, "name": products[sku].get("name", sku),
+             "category": products[sku].get("category"), "kind": products[sku]['kind'],
+             "list_price": products[sku]["list_price"],
+             "shelf_hours": products[sku].get("shelf_hours"),
              "currently_stocked": stocked[sku], "observed_shop_requests": counts[sku],
              "confirmed_settlements": settled[sku],
              "recent_public_settlements": market_sales[sku]} for sku in selected]
@@ -124,19 +133,20 @@ def observation_view(observed: dict) -> dict:
 
 
 def quantity_candidates(mean: float, price: int, cost: int, stocked: int, cap: int,
-                        continuation_value: float = 0.) -> list[dict]:
+                        continuation_value: float = 0., holding_per_leftover: float = 0.) -> list[dict]:
     table = [{'id':'hold','qty':0,'target_stock':stocked,'expected_incremental_profit':0,
               'assumption':'wait until next review; not a promise of zero future sales'}]
     seen = {0}
     for label, factor in [('low',.65),('base',1.),('high',1.5)]:
         pmf = poisson_pmf(mean*factor)
-        calc = recommend_quantity(pmf,price,cost,salvage=continuation_value,max_qty=20)
+        calc = recommend_quantity(pmf,price,cost,salvage=continuation_value,
+                                  holding_per_leftover=holding_per_leftover,max_qty=replenishment_plan.MAX_SKU_STOCK)
         qty = min(cap,max(0,calc['quantity']-stocked))
         if qty in seen:
             continue
         seen.add(qty)
         incremental = sum(prob*(price*(min(d,stocked+qty)-min(d,stocked))
-                               + continuation_value*(max(stocked+qty-d,0)-max(stocked-d,0))-cost*qty)
+                               + (continuation_value-holding_per_leftover)*(max(stocked+qty-d,0)-max(stocked-d,0))-cost*qty)
                           for d,prob in enumerate(pmf))
         table.append({'id':label,'qty':qty,'target_stock':stocked+qty,
                       'forecast_mean':round(mean*factor,3),'calculation':calc,
@@ -219,6 +229,15 @@ def run(state: Path) -> dict:
             return exploration
         if not inventory_exploration.window_open(inventory, time.time()):
             return {'buy': []}
+        def refresh_portfolio():
+            current = load_json(inventory_path, {})
+            at = time.time()
+            return current, at, (inventory_fresh(inventory_path, at)
+                                 and load_json(state/'catalog.json', {}) == catalog)
+        portfolio = inventory_portfolio.run(inventory, catalog, history, time.time(),
+                                             model=decide_json, refresh=refresh_portfolio)
+        if portfolio is not None:
+            return portfolio
     cached = replenishment_plan.load(PLAN)
     invalidated_plan = False
     if cached and cached.get('sku') in catalog:
@@ -249,20 +268,29 @@ def run(state: Path) -> dict:
     recent = recent_trade_context(history,{c['sku'] for c in candidates},max_bytes=RESTOCK_HISTORY_BYTES)
     prompt = {
         "phase": "restock", "task_id": f"restock-{int(time.time())}",
-        "balance": inventory.get("balance"), "candidate_food_skus": candidates,
+        "balance": inventory.get("balance"), "candidate_skus": candidates,
+        'portfolio_limits': {'maximum_stock_per_sku': replenishment_plan.MAX_SKU_STOCK,
+                             'maximum_stock_per_category': replenishment_plan.MAX_CATEGORY_STOCK,
+                             'maximum_total_stock': 20},
         'new_lot_economics': {'food_grade_probabilities': {'A': .25, 'B': .5, 'C': .25},
+                              'goods_grade_probabilities': {'A': .7, 'B': .2, 'C': .1},
                               'cost_midpoints_of_list': {'A': .65, 'B': .5, 'C': .35},
                               'unvalidated_sale_anchors_of_list': {'A': 1., 'B': .8, 'C': .6},
-                              'expected_cost_of_list': .5, 'anchor_weighted_sale_of_list': .8},
+                              'expected_cost_of_list': {'food': .5, 'goods': .59},
+                              'goods_storage_per_day_of_cost': .01,
+                              'anchor_weighted_sale_of_list': {'food': .8, 'goods': .92}},
         "recent_first_hand_evidence": recent,
         'observation_contract':'Selected shop visits, not total demand. Missing exposure is unknown, not zero. '
                                'Snapshot coverage does not prove listing visibility. Rates are conditioned on observed stock.',
         'observation_by_sku': {c['sku']:{'recent_3h':observation_view(inventory_observation.evidence(c['sku'],history,now,3.)),
                                         'recent_12h':observation_view(inventory_observation.evidence(c['sku'],history,now,12.))}
                                for c in candidates},
-        "objective": "Choose a food SKU to replenish, or hold. Estimate a sale price and "
+        "objective": "Choose a food or goods SKU to replenish, or hold. Estimate a sale price and "
                      "demand mean over the conservative horizon of one quarter of its "
-                     "listed shelf life, capped at 24 hours. The market has not published "
+                     "listed shelf life, capped at 24 hours; goods use a 24-hour review horizon. "
+                     "For goods, consider 1% daily acquisition-cost storage and unknown post-sale breakage. "
+                     "The tool charges a full horizon of storage on leftover goods; sold-unit holding and "
+                     "unknown warranty losses are not modeled by that approximation. The market has not published "
                      "demand weights. Public settlements are sales, not all demand; "
                      "a shop request is only an observed visit. With sparse evidence "
                      "choose a low estimate and a "
@@ -279,7 +307,7 @@ def run(state: Path) -> dict:
     }
     reusable_scenario = (not invalidated_plan and isinstance(cooldown.get('scenario'),dict)
                          and 0 <= now-cooldown.get('scenario_at',0) < 1800
-                         and cooldown.get('policy_version') == 2
+                         and cooldown.get('policy_version') == 3
                          and cooldown.get('sku') in catalog
                          and cooldown.get('product_signature') == replenishment_plan.product_signature(catalog[cooldown['sku']])
                          and any(c['sku']==cooldown['sku'] for c in candidates))
@@ -297,7 +325,7 @@ def run(state: Path) -> dict:
         fallback = True
     COOLDOWN.parent.mkdir(parents=True, exist_ok=True)
     scenario_sku = decision.get('sku')
-    cooldown_data = {'at':time.time(),'sku':scenario_sku,'policy_version':2}
+    cooldown_data = {'at':time.time(),'sku':scenario_sku,'policy_version':3}
     if decision.get('action')=='buy' and scenario_sku in catalog:
         cooldown_data.update({'scenario':decision,
                               'scenario_at':cooldown['scenario_at'] if reusable_scenario else time.time(),
@@ -318,17 +346,23 @@ def run(state: Path) -> dict:
     mean = max(0.0, min(mean, 1.5 if observation['observed_visits'] < 5 else 10.0))
     # Food grade probabilities: A .25, B .50, C .25. Midpoint cost shares:
     # A .65, B .50, C .35, giving an expected purchase cost of .50 list price.
-    expected_cost = round(list_price * 0.50)
+    expected_cost = round(list_price * (.59 if selected['kind'] == 'goods' else .50))
     residual = decision.get('continuation_value')
     continuation = (max(0., min(expected_cost, float(residual)))
                     if type(residual) in (int, float) and math.isfinite(residual) else 0.)
-    horizon_hours = min(24.0, selected["shelf_hours"] * 0.25)
+    horizon_hours = 24.0 if selected['kind'] == 'goods' else min(24.0, selected['shelf_hours'] * .25)
+    holding = expected_cost * .01 * horizon_hours / 24 if selected['kind'] == 'goods' else 0.
     calculation = recommend_quantity(poisson_pmf(mean), price, expected_cost,
-                                     salvage=continuation, max_qty=20)
+                                     salvage=continuation, holding_per_leftover=holding,
+                                     max_qty=replenishment_plan.MAX_SKU_STOCK)
     balance = max(0, int(inventory.get("balance") or 0) - MIN_BALANCE)
     affordable = int(balance // math.ceil(list_price * 0.75))
-    cap = min(affordable,20-len(live_units),STARTUP_MAX_BUY if observation['observed_visits']<5 else 20)
-    quantities = quantity_candidates(mean,price,expected_cost,selected['currently_stocked'],cap,continuation)
+    category_stock = sum(u.get('category') == selected.get('category') for u in live_units) if selected.get('category') else 0
+    cap = max(0, min(affordable,20-len(live_units),
+                     replenishment_plan.MAX_SKU_STOCK-selected['currently_stocked'],
+                     replenishment_plan.MAX_CATEGORY_STOCK-category_stock,
+                     STARTUP_MAX_BUY if observation['observed_visits']<5 else 20))
+    quantities = quantity_candidates(mean,price,expected_cost,selected['currently_stocked'],cap,continuation,holding)
     table = plan_candidates(quantities,observation,horizon_hours,mean)
     proposal={**decision,'reason':text(decision.get('reason'),160)}
     approval_prompt = {'phase':'approve_replenishment_plan','scenario_proposal':proposal,
@@ -338,6 +372,8 @@ def run(state: Path) -> dict:
                                           'currently_stocked':selected['currently_stocked']},
                        'effective_forecast_mean':mean,
                        'continuation_value':continuation,
+                       'holding_per_leftover':holding,
+                       'portfolio_limits':prompt['portfolio_limits'],
                        'continuation_value_contract':'Uncertain future net revenue after horizon, not buyback or confirmed cash.',
                        'forecast_policy_cap':1.5 if observation['observed_visits']<5 else 10.,
                        'observation':observation,'quantity_candidates':table,

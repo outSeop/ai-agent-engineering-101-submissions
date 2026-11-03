@@ -40,8 +40,25 @@ switch the running week-07 services. Live settlement evidence is still needed.
    Actual arrivals are recorded separately from intents. The startup allowance
    bounds exploration, not all subsequent evidence-based replenishment.
 
-   The ordinary `restock` hook offers the model a bounded set of food SKUs from its own
-   observations, recent public Round 3 settlements and exploratory samples.
+   After startup, `inventory_portfolio.py` persists one epsilon draw per supply
+   window: 30% exploration, otherwise exploitation. Fewer than five stocked SKUs
+   overrides the draw to recover variety. This is an operator-controlled mixture
+   around a model policy, not a learned Q-value table; percentages describe window
+   decisions, not units or spend. Exploration samples food/goods categories and
+   proposes at most three unowned SKUs, one unit each. A randomly sampled anchor
+   (preferably without recent evidence) must be included in a buy, so the model
+   cannot silently turn exploration into its familiar best sellers; it can hold
+   for a concrete risk and chooses the rest of the basket. Multiple purchases
+   must cover at least two available categories. The model still approves every
+   basket. Its ceiling budget is 100,000 per window and 250,000 over a rolling
+   24 hours; these are worst-case intent reservations, not actual spend. Unknown
+   outcomes retain spend and slot reservations. The same window is never redrawn
+   or retried after a model failure, hold or ambiguous supply. Arrival evidence
+   is logged separately. If exploration has no budget or candidates, that window
+   delegates to the bounded exploitation planner instead of stopping all restock.
+
+   The ordinary `restock` hook offers the model a bounded set of food AND goods SKUs from its own
+   observations, recent public Round 3 settlements and category-balanced samples.
    The model proposes a SKU and demand scenario. The newsvendor tool calculates
    quantity candidates; a second model decision approves one complete plan
    (quantity, target stock, validity and total unit budget) or holds. The tool
@@ -50,7 +67,14 @@ switch the running week-07 services. Live settlement evidence is still needed.
    Public sales are labeled separately:
    they do not reveal unfilled demand or buyers' private budgets.
    Before five observed visits for that SKU in the last 12 hours, the entire
-   plan is capped at two units; total live stock is capped at 20 units.
+   plan is capped at two units; total live stock is capped at 20 units. Both
+   paths enforce at most four units per SKU and six per catalog category when
+   adding stock; existing excess stock is retained for sale, without adding to
+   it. Old plans and scenario caches cannot bypass the new policy. Goods use
+   the documented grade mixture A=.70/B=.20/C=.10 (expected cost=.59 of list),
+   a 24-hour review horizon, and a full day of 1% storage on leftover inventory.
+   This holding approximation omits sold-unit holding and unknown warranty
+   losses, which remain model-side risks rather than measured profit forecasts.
    `replenishment_plan.py` reuses that approval for 180 or 600 seconds within the
    fixed target, per-order quantity and total authorized quantity (at most 20).
    It reserves emitted intents before returning them, waits for a newer
@@ -565,8 +589,9 @@ cooldown. This checks call reuse and guards, not live service or profit.
 - A signed receipt may fail checkout. Only `[acp] settled` is a confirmed sale.
 - Shop visits are a selected sample of market demand. Replenishment forecasts
   must not treat them as all demand; early lots are deliberately small.
-- Goods need a different multi-period holding and warranty model. This first
-  replenishment hook buys food only; the seller can sell goods already in stock.
+- Goods are eligible for both ongoing exploration and evidence-based replenishment.
+  A full multi-period holding and warranty-loss model is still missing; the
+  24-hour leftover-storage approximation is explicitly labeled in the prompt.
 - The buyer policy has not yet been exercised against Round 3 live shops. Track
   `payments.jsonl` refusals and adjust the initial price shares, grade filter,
   food buffer and warranty preference from confirmed settlements.

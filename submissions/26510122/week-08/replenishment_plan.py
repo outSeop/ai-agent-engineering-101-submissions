@@ -14,6 +14,8 @@ import uuid
 
 MAX_VALID_SECONDS = 600
 MIN_BALANCE = 1_000_000
+MAX_SKU_STOCK = 4
+MAX_CATEGORY_STOCK = 6
 
 
 def product_signature(product: dict) -> str:
@@ -43,9 +45,11 @@ def create(*, sku: str, product: dict, candidate: dict, approval: dict,
         raise ValueError('approval must give a validity between 60 and 600 seconds')
     if type(budget) is not int or not candidate['qty'] <= budget <= 20:
         raise ValueError('approval must cover initial quantity with total budget <=20')
+    if not candidate['qty'] <= candidate['target_stock'] <= MAX_SKU_STOCK:
+        raise ValueError('target must fit the per-SKU portfolio limit')
     if observation['observed_visits'] < 5:
         budget = min(budget, 2)
-    return {'version': 1, 'id': uuid.uuid4().hex, 'sku': sku, 'approved_at': now,
+    return {'version': 1, 'policy_version': 3, 'id': uuid.uuid4().hex, 'sku': sku, 'approved_at': now,
             'expires_at': now + ttl, 'target_stock': candidate['target_stock'],
             'max_initial_qty': candidate['qty'], 'max_total_qty': budget, 'emitted_qty': 0,
             'product_signature': product_signature(product),
@@ -65,9 +69,11 @@ def execute(plan: dict, *, inventory: dict, product: dict, observation: dict,
         return None, 'invalid_plan_identity'
     if any(type(plan.get(k)) is not int or plan[k] < 0 for k in integer_fields):
         return None, 'invalid_plan_fields'
-    if not (plan['target_stock'] <= 20 and plan['max_initial_qty'] <= plan['max_total_qty'] <= 20
+    if not (plan['target_stock'] <= MAX_SKU_STOCK and plan['max_initial_qty'] <= plan['max_total_qty'] <= 20
             and plan['emitted_qty'] <= plan['max_total_qty'] and plan['cost_ceiling_per_unit'] > 0):
         return None, 'invalid_plan_budget'
+    if plan.get('policy_version') != 3:
+        return None, 'portfolio_policy_changed'
     if plan.get('version') != 1 or not plan.get('approved_at', now+1) <= now < plan.get('expires_at', 0):
         return None, 'expired_or_invalid_plan'
     if not 60 <= plan['expires_at']-plan['approved_at'] <= MAX_VALID_SECONDS:
@@ -97,12 +103,14 @@ def execute(plan: dict, *, inventory: dict, product: dict, observation: dict,
         return None, 'expiry_requires_reassessment'
     plan['unit_grades_at_approval'] = {u['unit']:u.get('grade') for u in own if u.get('unit')}
     missing = max(0, plan['target_stock']-len(own))
+    category = product.get('category')
+    category_room = max(0, MAX_CATEGORY_STOCK - sum(u.get('category') == category for u in live)) if category else 20
     budget = max(0, plan['max_total_qty']-plan['emitted_qty'])
     if missing and not budget:
         return None, 'authorized_budget_exhausted'
     balance = inventory.get('balance')
     available = max(0, int(balance)-MIN_BALANCE) if type(balance) in (int,float) and math.isfinite(balance) else 0
-    qty = min(missing, budget, plan['max_initial_qty'], 20-len(live), available//plan['cost_ceiling_per_unit'])
+    qty = min(missing, budget, plan['max_initial_qty'], category_room, 20-len(live), available//plan['cost_ceiling_per_unit'])
     qty = max(0, qty)
     plan['emitted_qty'] += qty
     if qty and snapshot_time is not None:
