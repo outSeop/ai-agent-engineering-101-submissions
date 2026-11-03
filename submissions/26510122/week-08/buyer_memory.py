@@ -8,6 +8,8 @@ import json
 import os
 from pathlib import Path
 from typing import Any
+from context_compaction import (BUYER_MEMORY_BYTES, BUYER_BRIEF_BYTES, MAX_TURNS,
+                                bounded, price_ranges, select_cases, text)
 
 
 EVENTS = Path("logs/buyer-events.jsonl")
@@ -43,11 +45,37 @@ def record(event: str, *, path: Path = EVENTS, **fields: Any) -> None:
         os.close(fd)
 
 
+def register_shops(shops: list[dict], *, path: Path = EVENTS) -> None:
+    """Use registry names as identity; URLs are transport aliases, not identity."""
+    seen = {(r.get('shop_name'), r.get('shop')) for r in read_events(path) if r['event']=='shop_identity'}
+    for shop in shops:
+        if not isinstance(shop,dict):
+            continue
+        name, url = shop.get('name'), shop.get('url')
+        if isinstance(name,str) and name and isinstance(url,str) and url and (name,url) not in seen:
+            record('shop_identity',path=path,shop_name=name,shop=url)
+            seen.add((name,url))
+
+
+def resolve_shop_name(shop_url: str, *, order: str | None = None,
+                      history: list[dict] | None = None) -> str | None:
+    rows = read_events() if history is None else history
+    if order:
+        names = {e['shop_name'] for e in rows if e.get('order')==order and e.get('shop')==shop_url and e.get('shop_name')}
+        if len(names)==1:
+            return next(iter(names))
+    names = {e['shop_name'] for e in rows if e.get('shop')==shop_url and e.get('shop_name')}
+    return next(iter(names)) if len(names)==1 else None
+
+
 def import_payments(payment_path: Path = PAYMENTS, *, event_path: Path = EVENTS) -> int:
     """Import kit payment evidence once; a negotiated receipt is not a purchase."""
     if not payment_path.exists():
         return 0
-    seen = {e.get("order") for e in read_events(event_path) if e["event"] == "payment"}
+    history = read_events(event_path)
+    def key(e):
+        return tuple(e.get(k) for k in ('order','shop','sku','price','paid','ledger','reason'))
+    seen = {key(e) for e in history if e['event']=='payment'}
     count = 0
     with payment_path.open(encoding="utf-8", errors="replace") as source:
         for line in source:
@@ -55,13 +83,17 @@ def import_payments(payment_path: Path = PAYMENTS, *, event_path: Path = EVENTS)
                 payment = json.loads(line)
             except ValueError:
                 continue
-            if not isinstance(payment, dict) or not payment.get("order") or payment["order"] in seen:
+            if not isinstance(payment, dict) or not payment.get("order"):
+                continue
+            normalized = {**payment,'sku':payment.get('item'),'paid':payment.get('paid') is True}
+            if key(normalized) in seen:
                 continue
             record("payment", path=event_path, order=payment["order"],
+                   shop_name=resolve_shop_name(payment.get('shop'),order=payment['order'],history=history),
                    shop=payment.get("shop"), sku=payment.get("item"),
                    price=payment.get("price"), paid=payment.get("paid") is True,
                    ledger=payment.get("ledger"), reason=payment.get("reason"))
-            seen.add(payment["order"])
+            seen.add(key(normalized))
             count += 1
     return count
 
@@ -90,32 +122,64 @@ def import_broken(broken_path: Path = BROKEN, *, event_path: Path = EVENTS) -> i
     return count
 
 
-def context(shop_url: str, sku: str, *, product_name: str | None = None,
-            path: Path = EVENTS) -> dict[str, Any]:
-    all_events = read_events(path)
-    first_hand = [e for e in all_events if e.get("shop") == shop_url]
-    payments = [e for e in first_hand if e["event"] == "payment"]
-    same_sku = [e for e in payments if e.get("sku") == sku]
-    settled = [e for e in first_hand if e["event"] == "settled" and e.get("sku") == sku]
-    negotiations = [e for e in first_hand if e["event"] == "negotiation" and e.get("sku") == sku]
-    outcomes = Counter("paid" if e.get("paid") else "refused" for e in same_sku)
-    return {
-        "shop_payment_count": len(payments),
-        "same_sku_payment_outcomes": dict(outcomes),
-        "recent_same_sku": [{"paid": e.get("paid"), "price": e.get("price"),
-                             "reason": e.get("reason"), "ledger": e.get("ledger")}
-                            for e in same_sku[-5:]],
-        "recent_shop_refusals": [{"sku": e.get("sku"), "reason": e.get("reason")}
-                                 for e in payments if not e.get("paid")][-4:],
-        "recent_settled_quality": [{"grade": e.get("grade"), "value": e.get("value"),
-                                    "price": e.get("price"), "warranty_hours": e.get("warranty_hours")}
-                                   for e in settled[-5:]],
-        "recent_negotiations": [{"result": e.get("result"), "offers": e.get("offers"),
-                                 "reason": e.get("reason")}
-                                for e in negotiations[-4:]],
-        "observed_receipt_problems": sum(e.get("result") == "invalid_receipt" for e in negotiations),
-        "same_product_broken_reports": sum(e["event"] == "broken" and e.get("name") == product_name
-                                           for e in all_events) if product_name else 0,
-        "note": "Only payment.paid=true is settled evidence. Reviews are public claims. "
-                "Broken-item news names a product but cannot identify its seller or exact purchase.",
-    }
+def context(shop_url: str, sku: str, *, shop_name: str | None = None,
+            product_name: str | None = None, path: Path = EVENTS,
+            history: list[dict] | None = None) -> dict[str, Any]:
+    rows = read_events(path) if history is None else history
+    alias_names, order_names = {}, {}
+    for e in rows:
+        if e.get('shop_name') and e.get('shop'):
+            alias_names.setdefault(e['shop'],set()).add(e['shop_name'])
+            if e.get('order'):
+                order_names.setdefault((e['order'],e['shop']),set()).add(e['shop_name'])
+    def resolved(url, order=None):
+        names = order_names.get((order,url)) or alias_names.get(url,set())
+        return next(iter(names)) if len(names)==1 else None
+    name = shop_name or resolved(shop_url)
+    def belongs(e):
+        if e.get('shop_name'):
+            return e['shop_name']==name if name else e.get('shop')==shop_url
+        identity = resolved(e.get('shop'),e.get('order'))
+        return identity==name if name else e.get('shop')==shop_url
+    first_hand = [e for e in rows if e['event'] in ('payment','settled','negotiation') and belongs(e)]
+    ledger_orders={e['ledger']:e['order'] for e in first_hand if e.get('ledger') is not None and e.get('order')}
+    episodes = {}
+    for i,e in enumerate(first_hand):
+        key = (e.get('order') or ledger_orders.get(e.get('ledger')) or e.get('ledger') or f'legacy-{i}',e.get('sku'))
+        episode = episodes.setdefault(key,{'order':e.get('order'),'sku':e.get('sku'),'outcome':'unknown'})
+        episode['at'] = e.get('at');episode['_sequence'] = i
+        if e['event']=='negotiation':
+            offers=e.get('offers') if isinstance(e.get('offers'),list) else []
+            episode.update({'offers':offers[-MAX_TURNS:],
+                            'offer_count':len(offers), 'reason':text(e.get('reason'))})
+            if episode['outcome'] not in ('paid','refused'):
+                episode['outcome'] = e.get('result','unknown')
+        elif e['event']=='payment':
+            episode['payment_seen'] = True
+            if e.get('paid') or episode['outcome']!='paid':
+                episode.update({'outcome':'paid' if e.get('paid') else 'refused','price':e.get('price'),
+                                'ledger':e.get('ledger'),'reason':text(e.get('reason'))})
+        elif e['event']=='settled' and e.get('ledger') is not None:
+            episode.update({k:e.get(k) for k in ('price','ledger','grade','value','warranty_hours',
+                                                'expires_at','hours_left_at_recording')})
+            episode['outcome'] = 'paid'
+    same = [{k:v for k,v in e.items() if k!='_sequence'} for e in sorted(episodes.values(),key=lambda e:e['_sequence']) if e['sku']==sku]
+    outcomes = Counter(e['outcome'] for e in same if e['outcome'] in ('paid','refused'))
+    view = {'shop_name':text(name,80),'shop_payment_count':sum(e['outcome'] in ('paid','refused') for e in episodes.values()),
+            'same_sku_payment_outcomes':dict(outcomes),
+            'settled_prices_by_grade':price_ranges([e for e in same if e['outcome']=='paid']),
+            'cases':select_cases(same),
+            'observed_receipt_problems':sum(e.get('result')=='invalid_receipt' for e in first_hand if e['event']=='negotiation' and e.get('sku')==sku),
+            'same_product_broken_reports':sum(e['event']=='broken' and e.get('name')==product_name for e in rows) if product_name else 0,
+            'note':'Only confirmed payment/settlement is paid. Cases are observations, not rules. '
+                   'Breakage reports identify a product, not its seller. Unknown grade stays unknown.'}
+    return bounded(view,('cases',),BUYER_MEMORY_BYTES)
+
+
+def brief(memory: dict) -> dict:
+    """Give the selector evidence behind a tool score, not just a score."""
+    result = {k:memory.get(k) for k in ('shop_name','shop_payment_count','same_sku_payment_outcomes',
+                                      'settled_prices_by_grade','observed_receipt_problems','same_product_broken_reports')}
+    result['cases'] = memory.get('cases',[])[:2]
+    result['note'] = 'First-hand observations; public reviews are separate claims. More history may be omitted.'
+    return bounded(result,('cases',),BUYER_BRIEF_BYTES)

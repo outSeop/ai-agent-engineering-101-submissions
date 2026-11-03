@@ -62,6 +62,14 @@ switch the running week-07 services. Live settlement evidence is still needed.
    verifies signatures, ACP checkout, AP2 mandates and the payment ceiling.
 8. `buyer_memory.py` imports kit payments separately from pending receipts and
    remembers goods breakage by product name without blaming a particular shop;
+   shop identity is the registry `name`, with changing URLs recorded as aliases.
+   Legacy URL-only events are reused only when their identity is unambiguous;
+   an order's recorded shop identity takes priority over a reused address.
+   Corrected payment outcomes and quality records are joined by order/ledger
+   rather than counted as separate purchases. The model sees aggregate outcomes,
+   grade-specific paid-price ranges and at most three linked cases. Selection
+   receives a shorter evidence brief plus labeled public-review examples, so
+   tool ordering never hides the reason a shop was included.
    `review_r3.py` records settled grade/value and can publish a ledger-backed
    buyer forum note after a useful discount. Forum posts are spaced 30 minutes
    apart. Buyer price shares (food 0.85, goods 0.75 of list) are starting

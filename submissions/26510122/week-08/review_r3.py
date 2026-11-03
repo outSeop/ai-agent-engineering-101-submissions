@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 import argparse
+from datetime import datetime, timezone
 import json
 import os
 from pathlib import Path
 import time
 
-from buyer_memory import read_events, record
+from buyer_memory import read_events, record, resolve_shop_name
+from context_compaction import hours_left
 
 
 OUTBOX = Path(".market/outbox.jsonl")
@@ -37,10 +39,13 @@ def run(deal: dict, catalog: dict) -> dict:
     ledger = settled.get("ledger")
     shop = settled.get("shop")
     record("settled", order=order.get("order"), shop=shop, sku=sku,
+           shop_name=resolve_shop_name(shop,order=order.get('order')),
            name=settled.get("name"), price=price, list_price=list_price,
            grade=grade, value=value, ledger=ledger,
            claim_honest=settled.get("claim_honest"),
-           warranty_hours=settled.get("warranty_hours"))
+           warranty_hours=settled.get("warranty_hours"),expires_at=settled.get('expires_at'),
+           hours_left_at_recording=hours_left(settled.get('expires_at'),
+                                              datetime.now(timezone.utc).isoformat()))
     if value <= 0:
         stars = 2
         review = f"Paid {price} for {sku}; the item had no usable value at settlement."

@@ -9,6 +9,7 @@ import uuid
 import httpx
 
 from harness import decide_json, trace
+from context_compaction import MAX_TURNS, text
 
 
 def status(task: dict) -> str:
@@ -64,7 +65,8 @@ def get_receipt(task: dict) -> dict | None:
 
 
 def followup_offer(*, message: str, last_offer: int, cap: int, sku: str,
-                   list_price: int, memory: dict, deadline: float) -> int | None:
+                   list_price: int, memory: dict, deadline: float,
+                   history: list[dict] | None = None) -> int | None:
     ask = asking_price(message)
     fallback = (ask if ask is not None and ask <= cap else
                 min(cap, last_offer + max(1, (cap - last_offer) // 2)))
@@ -75,6 +77,8 @@ def followup_offer(*, message: str, last_offer: int, cap: int, sku: str,
     prompt = {"phase": "buyer_counter", "sku": sku, "list_price": list_price,
               "seller_message": message[:350], "last_offer": last_offer,
               "maximum_authorized_price": cap, "recent_memory": memory,
+              'recent_turns':[{'speaker':r['speaker'],'text':text(r['text'],180)}
+                              for r in (history or [])[-MAX_TURNS:]],
               "objective": "Choose the next offer or walk away. Keep positive buyer surplus. "
                            "A high asking price is negotiable; do not reveal the private mandate limit."}
     schema = {"type": "object", "properties": {
@@ -97,33 +101,46 @@ def followup_offer(*, message: str, last_offer: int, cap: int, sku: str,
 
 
 def negotiate(shop_url: str, sku: str, name: str, order: dict, *, opening_offer: int,
-              cap: int, list_price: int, memory: dict, deadline: float) -> dict:
+              cap: int, list_price: int, memory: dict, deadline: float,on_message=None) -> dict:
     """Return a received receipt and final offer, or a concrete failure reason."""
     offered: list[int] = []
+    transcript: list[dict] = []
+    def remember(speaker,message,task_id=None):
+        row={'speaker':speaker,'text':message,'task_id':task_id}
+        transcript.append(row)
+        if on_message is not None:
+            on_message(dict(row))
     with httpx.Client() as client:
         endpoint = card_endpoint(client, shop_url, deadline)
         note = "A certificate is required."
         if order.get("kind") == "goods":
             note += " A six-hour warranty is preferred."
-        task = send(client, endpoint, f"I want to buy {name} ({sku}). {note}", deadline)
+        opening = f"I want to buy {name} ({sku}). {note}"
+        remember('buyer',opening)
+        task = send(client, endpoint, opening, deadline)
         for turn in range(3):
             if status(task) != "TASK_STATE_INPUT_REQUIRED":
                 break
             message = status_text(task)
+            remember('seller',message,task.get('id'))
             ask = asking_price(message)
             if turn == 0:
                 offer = min(opening_offer, ask) if ask is not None and ask <= opening_offer else opening_offer
             else:
                 offer = followup_offer(message=message, last_offer=offered[-1], cap=cap,
-                                       sku=sku, list_price=list_price, memory=memory, deadline=deadline)
+                                       sku=sku, list_price=list_price, memory=memory, deadline=deadline,
+                                       history=transcript)
             if offer is None or deadline - time.monotonic() < 5:
                 return {"receipt": None, "reason": "walked away or order deadline reached",
-                        "offers": offered, "task_id": task.get("id")}
+                        "offers": offered, "task_id": task.get("id"),'transcript':transcript}
             offer = min(cap, max(1, int(offer)))
             offered.append(offer)
+            remember('buyer',str(offer),task.get('id'))
             trace("buyer_offer", sku=sku, shop=shop_url, offer=offer, turn=turn)
             task = send(client, endpoint, str(offer), deadline, task.get("id"))
         receipt = get_receipt(task) if status(task) == "TASK_STATE_COMPLETED" else None
+        remember('seller',status_text(task),task.get('id'))
         return {"receipt": receipt, "reason": "receipt received" if receipt else
                 f"no receipt; seller state {status(task)}", "offers": offered,
-                "task_id": task.get("id"), "last_seller_message": status_text(task)[:250]}
+                "task_id": task.get("id"), "last_seller_message": status_text(task)[:250],
+                'transcript':transcript}
