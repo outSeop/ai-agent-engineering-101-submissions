@@ -17,7 +17,7 @@ import urllib.request
 
 ROOT=Path(__file__).resolve().parents[1]
 FILES=('seller_r3.py','harness.py','market_memory.py','newsvendor_tool.py','context_compaction.py',
-       'inventory_observation.py','replenishment_plan.py','restock.py','buyer_identity.py','counterparty_memory.py')
+       'inventory_observation.py','inventory_exploration.py','replenishment_plan.py','restock.py','buyer_identity.py','counterparty_memory.py')
 STOP=False
 
 

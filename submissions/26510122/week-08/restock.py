@@ -22,6 +22,7 @@ from market_memory import events, record, sync_settlements, recent_trade_context
 from context_compaction import RESTOCK_HISTORY_BYTES, text
 from newsvendor_tool import poisson_pmf, recommend_quantity
 import inventory_observation
+import inventory_exploration
 import replenishment_plan
 
 
@@ -93,8 +94,9 @@ def decision_schema() -> dict:
         "sku": {"type": ["string", "null"]},
         "expected_sale_price": {"type": ["integer", "null"]},
         "demand_mean": {"type": ["number", "null"]},
+        "continuation_value": {"type": ["number", "null"]},
         "reason": {"type": "string"},
-    }, "required": ["action", "sku", "expected_sale_price", "demand_mean", "reason"],
+    }, "required": ["action", "sku", "expected_sale_price", "demand_mean", "continuation_value", "reason"],
         "additionalProperties": False}
 
 
@@ -121,23 +123,26 @@ def observation_view(observed: dict) -> dict:
                                    'in_stock_exposure_hours','observed_visit_rate_while_stocked')}
 
 
-def quantity_candidates(mean: float, price: int, cost: int, stocked: int, cap: int) -> list[dict]:
+def quantity_candidates(mean: float, price: int, cost: int, stocked: int, cap: int,
+                        continuation_value: float = 0.) -> list[dict]:
     table = [{'id':'hold','qty':0,'target_stock':stocked,'expected_incremental_profit':0,
               'assumption':'wait until next review; not a promise of zero future sales'}]
     seen = {0}
     for label, factor in [('low',.65),('base',1.),('high',1.5)]:
         pmf = poisson_pmf(mean*factor)
-        calc = recommend_quantity(pmf,price,cost,salvage=0.,max_qty=20)
+        calc = recommend_quantity(pmf,price,cost,salvage=continuation_value,max_qty=20)
         qty = min(cap,max(0,calc['quantity']-stocked))
         if qty in seen:
             continue
         seen.add(qty)
-        incremental = sum(prob*(price*(min(d,stocked+qty)-min(d,stocked))-cost*qty)
+        incremental = sum(prob*(price*(min(d,stocked+qty)-min(d,stocked))
+                               + continuation_value*(max(stocked+qty-d,0)-max(stocked-d,0))-cost*qty)
                           for d,prob in enumerate(pmf))
         table.append({'id':label,'qty':qty,'target_stock':stocked+qty,
                       'forecast_mean':round(mean*factor,3),'calculation':calc,
                       'expected_incremental_profit':round(incremental,2),
                       'assumption':'scenario estimate; fixed sale price, existing stock assumed saleable; '
+                                   'continuation value is uncertain future net revenue, not a market buyback; '
                                    'actual grade, expiry and cost can change realized outcome'})
     return table
 
@@ -196,6 +201,24 @@ def run(state: Path) -> dict:
         trace("settlement_sync_error", error=str(error))
     history = events()
     catalog = load_json(state / "catalog.json", {})
+    # The finite startup experiment is separate from profit-based replenishment.
+    # Old/offline fixtures without window metadata retain the legacy single-SKU path.
+    if isinstance(inventory.get('restock'), dict):
+        exploration_state = load_json(inventory_exploration.STATE, {})
+        public = Counter()
+        if not exploration_state.get('completed') and exploration_state.get('basket') is None:
+            try:
+                public = fetch_market_sales()
+            except (httpx.HTTPError, ValueError):
+                pass
+        exploration = inventory_exploration.run(inventory, catalog, history, public, now,
+                                                model=decide_json,
+                                                refresh=lambda: (load_json(inventory_path, {}), time.time(),
+                                                                 inventory_fresh(inventory_path, time.time())))
+        if exploration is not None:
+            return exploration
+        if not inventory_exploration.window_open(inventory, time.time()):
+            return {'buy': []}
     cached = replenishment_plan.load(PLAN)
     invalidated_plan = False
     if cached and cached.get('sku') in catalog:
@@ -227,6 +250,10 @@ def run(state: Path) -> dict:
     prompt = {
         "phase": "restock", "task_id": f"restock-{int(time.time())}",
         "balance": inventory.get("balance"), "candidate_food_skus": candidates,
+        'new_lot_economics': {'food_grade_probabilities': {'A': .25, 'B': .5, 'C': .25},
+                              'cost_midpoints_of_list': {'A': .65, 'B': .5, 'C': .35},
+                              'unvalidated_sale_anchors_of_list': {'A': 1., 'B': .8, 'C': .6},
+                              'expected_cost_of_list': .5, 'anchor_weighted_sale_of_list': .8},
         "recent_first_hand_evidence": recent,
         'observation_contract':'Selected shop visits, not total demand. Missing exposure is unknown, not zero. '
                                'Snapshot coverage does not prove listing visibility. Rates are conditioned on observed stock.',
@@ -240,11 +267,19 @@ def run(state: Path) -> dict:
                      "a shop request is only an observed visit. With sparse evidence "
                      "choose a low estimate and a "
                      "small exploratory lot. You will review quantity calculations in a second step, "
-                     "then approve a bounded replenishment plan. Missing observations are UNKNOWN, "
+                     "then approve a bounded replenishment plan. expected_sale_price must estimate "
+                     "the NEW lot across possible grades, not copy a current C-grade unit quote. "
+                     "Use grade-specific evidence and the explicit mixture priors; anchors are unvalidated. "
+                     "Estimate continuation_value per unsold new unit after this horizon: uncertain net "
+                     "future sale revenue before expiry, after grade decay and future costs. It is NOT "
+                     "a market buyback and is not guaranteed. Set zero if unsupported; it is capped "
+                     "at expected purchase cost. Do not assume a still-saleable unit is physically "
+                     "discarded merely because this short planning horizon ends. Missing observations are UNKNOWN, "
                      "not zero demand. demand.json lists categories without demand weights.",
     }
     reusable_scenario = (not invalidated_plan and isinstance(cooldown.get('scenario'),dict)
                          and 0 <= now-cooldown.get('scenario_at',0) < 1800
+                         and cooldown.get('policy_version') == 2
                          and cooldown.get('sku') in catalog
                          and cooldown.get('product_signature') == replenishment_plan.product_signature(catalog[cooldown['sku']])
                          and any(c['sku']==cooldown['sku'] for c in candidates))
@@ -262,7 +297,7 @@ def run(state: Path) -> dict:
         fallback = True
     COOLDOWN.parent.mkdir(parents=True, exist_ok=True)
     scenario_sku = decision.get('sku')
-    cooldown_data = {'at':time.time(),'sku':scenario_sku}
+    cooldown_data = {'at':time.time(),'sku':scenario_sku,'policy_version':2}
     if decision.get('action')=='buy' and scenario_sku in catalog:
         cooldown_data.update({'scenario':decision,
                               'scenario_at':cooldown['scenario_at'] if reusable_scenario else time.time(),
@@ -284,13 +319,16 @@ def run(state: Path) -> dict:
     # Food grade probabilities: A .25, B .50, C .25. Midpoint cost shares:
     # A .65, B .50, C .35, giving an expected purchase cost of .50 list price.
     expected_cost = round(list_price * 0.50)
+    residual = decision.get('continuation_value')
+    continuation = (max(0., min(expected_cost, float(residual)))
+                    if type(residual) in (int, float) and math.isfinite(residual) else 0.)
     horizon_hours = min(24.0, selected["shelf_hours"] * 0.25)
     calculation = recommend_quantity(poisson_pmf(mean), price, expected_cost,
-                                     salvage=0.0, max_qty=20)
+                                     salvage=continuation, max_qty=20)
     balance = max(0, int(inventory.get("balance") or 0) - MIN_BALANCE)
     affordable = int(balance // math.ceil(list_price * 0.75))
     cap = min(affordable,20-len(live_units),STARTUP_MAX_BUY if observation['observed_visits']<5 else 20)
-    quantities = quantity_candidates(mean,price,expected_cost,selected['currently_stocked'],cap)
+    quantities = quantity_candidates(mean,price,expected_cost,selected['currently_stocked'],cap,continuation)
     table = plan_candidates(quantities,observation,horizon_hours,mean)
     proposal={**decision,'reason':text(decision.get('reason'),160)}
     approval_prompt = {'phase':'approve_replenishment_plan','scenario_proposal':proposal,
@@ -299,6 +337,8 @@ def run(state: Path) -> dict:
                                           'source':'latest 500 public Round 3 ledger entries; sales, not all demand',
                                           'currently_stocked':selected['currently_stocked']},
                        'effective_forecast_mean':mean,
+                       'continuation_value':continuation,
+                       'continuation_value_contract':'Uncertain future net revenue after horizon, not buyback or confirmed cash.',
                        'forecast_policy_cap':1.5 if observation['observed_visits']<5 else 10.,
                        'observation':observation,'quantity_candidates':table,
                        'scenario_age_seconds':round(now-cooldown.get('scenario_at',now)) if reusable_scenario else 0,
@@ -351,6 +391,9 @@ def run(state: Path) -> dict:
     if not inventory_fresh(inventory_path,time.time()):
         record('restock_decision',action='hold',reason='inventory stale after approval')
         return {'buy':[]}
+    if isinstance(current.get('restock'), dict) and not inventory_exploration.window_open(current, time.time()):
+        record('restock_hold',reason='supply_window_closed_after_approval')
+        return {'buy': []}
     current_catalog = load_json(state/'catalog.json',{})
     current_product = current_catalog.get(selected['sku'])
     if not isinstance(current_product,dict):

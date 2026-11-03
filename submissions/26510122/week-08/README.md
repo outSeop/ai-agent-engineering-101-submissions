@@ -25,7 +25,22 @@ switch the running week-07 services. Live settlement evidence is still needed.
    action. The quote candidates and memory are evidence for that choice. The
    seller records the model decision separately from the emitted ask/counter.
    Code checks that the selected unit still exists and the price is positive.
-5. The `restock` hook offers the model a bounded set of food SKUs from its own
+5. Before ordinary replenishment, `inventory_exploration.py` asks the model for
+   a startup basket of 5–8 distinct SKUs, one unit each, including existing stock.
+   The finite 250,000-credit allowance includes existing stock cost and reserves
+   75% of list price per new intent (the documented maximum cost). It is an
+   operator-authorized experiment, so a zero newsvendor recommendation does not
+   veto every new SKU. Food needs at least 48 listed shelf hours; affordable
+   goods are also candidates, with daily storage cost shown. The tool validates
+   the basket cardinality, categories, SKU membership, cash and spend limits.
+   It prepares the basket while supply is closed, then emits only during a
+   confirmed open window with time for the kit's sequential requests. Unknown
+   or failed intents retain their reservation and are never automatically
+   retried. Saved state survives restarts and prevents restarting the allowance.
+   Actual arrivals are recorded separately from intents. The startup allowance
+   bounds exploration, not all subsequent evidence-based replenishment.
+
+   The ordinary `restock` hook offers the model a bounded set of food SKUs from its own
    observations, recent public Round 3 settlements and exploratory samples.
    The model proposes a SKU and demand scenario. The newsvendor tool calculates
    quantity candidates; a second model decision approves one complete plan
@@ -77,12 +92,19 @@ switch the running week-07 services. Live settlement evidence is still needed.
    hypotheses and need live calibration.
 
 The newsvendor rule is `F(Q*) >= (p-c)/(p-v)` for a discrete demand forecast,
-where `p` is expected sale price, `c` estimated purchase cost and `v=0`
-for food that expires. The forecast horizon is the smaller of 24 hours and
+where `p` is expected sale price, `c` estimated purchase cost and `v` is a
+model-estimated continuation value per leftover unit after the planning horizon,
+bounded between zero and expected cost. It represents uncertain later net sales,
+not a market buyback; unsupported or missing estimates use zero. Actual expiry
+still means zero value. Incremental-profit calculations use the same estimate. The forecast horizon is the smaller of 24 hours and
 one quarter of the catalog shelf life. Before supply, actual grade and cost
 are unknown: `restock.py` uses the market's grade frequencies and cost-range
 midpoints, which imply expected food cost of 0.5 times list price. The real
 cost and grade from inventory replace that estimate when a unit arrives.
+The model sees grade frequencies, cost midpoints and unvalidated price anchors
+separately; it must estimate the new lot's mixed-grade sale price instead of
+copying a current C-grade unit quote. Old cached scenarios are invalidated by
+the policy version. Ordinary replenishment also waits for an open supply window.
 The forecast mean cap (1.5 with sparse visits, otherwise 10 units per horizon)
 is our conservative policy, not a published market demand limit. Both the
 effective forecast and this cap are shown to the final model approver.
