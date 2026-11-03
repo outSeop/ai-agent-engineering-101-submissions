@@ -292,6 +292,9 @@ class IntegrationTests(unittest.TestCase):
                      patch.object(restock, "fetch_market_sales", return_value=Counter({"food-1": 3})):
                     result = restock.run(market)
                     self.assertEqual(model.call_count,2)
+                    approval_prompt=model.call_args_list[1].args[1]
+                    self.assertEqual(approval_prompt['market_evidence']['recent_public_settlements'],3)
+                    self.assertEqual(approval_prompt['market_evidence']['currently_stocked'],0)
                     self.assertEqual(restock.run(market),{'buy':[]})
                     self.assertEqual(model.call_count,2)  # no call or duplicate intent before refresh
                 self.assertEqual(result, {"buy": [{"sku": "food-1", "qty": 1}]})

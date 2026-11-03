@@ -295,6 +295,9 @@ def run(state: Path) -> dict:
     proposal={**decision,'reason':text(decision.get('reason'),160)}
     approval_prompt = {'phase':'approve_replenishment_plan','scenario_proposal':proposal,
                        'sku':selected['sku'],'horizon_hours':horizon_hours,'inventory_balance':inventory.get('balance'),
+                       'market_evidence':{'recent_public_settlements':selected['recent_public_settlements'],
+                                          'source':'latest 500 public Round 3 ledger entries; sales, not all demand',
+                                          'currently_stocked':selected['currently_stocked']},
                        'effective_forecast_mean':mean,
                        'forecast_policy_cap':1.5 if observation['observed_visits']<5 else 10.,
                        'observation':observation,'quantity_candidates':table,
@@ -308,6 +311,10 @@ def run(state: Path) -> dict:
                                           'hours_left':round(max(0,u['expires_at']-now)/3600,2) if u.get('expires_at') else None}
                                          for u in live_units if u.get('sku')==selected['sku']],
                        'objective':'Approve one calculated candidate or hold. You own the final quantity decision. '
+                                   'Zero own visits with zero stocked exposure means UNKNOWN demand, not observed zero demand. '
+                                   'At cold start, a small authorized exploratory lot may be justified by the explicitly '
+                                   'provided public-sale evidence; a shop does not need its own first sale before buying its first unit. '
+                                   'Public sales are still a selected sample and do not guarantee this shop will sell. '
                                    'Select a calculated plan including its validity and total unit budget. '
                                    'During validity, code may replenish ONLY to this target, within this total budget '
                                    'and initial per-order quantity; uncertain supply intents consume the budget. '
