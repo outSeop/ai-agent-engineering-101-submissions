@@ -18,7 +18,7 @@ import urllib.request
 ROOT=Path(__file__).resolve().parents[1]
 FILES=('seller_r3.py','harness.py','market_memory.py','newsvendor_tool.py','context_compaction.py',
        'inventory_observation.py','inventory_exploration.py','inventory_portfolio.py','supply_reconciliation.py','stock_policy.py',
-       'seller_state.py','seller_requirements.py','replenishment_plan.py','restock.py','buyer_identity.py','counterparty_memory.py')
+       'seller_state.py','seller_requirements.py','replenishment_plan.py','restock.py','buyer_identity.py','counterparty_memory.py','seller_forum.py')
 STOP=False
 
 
@@ -81,10 +81,11 @@ def run(args):
     env['MARKET_OWNER']=args.owner_file.read_text().strip()
     env['PYTHONUNBUFFERED']='1'
     while not STOP:
-        ssh=market=None
+        ssh=market=forum=None
         try:
             with (ROOT/'logs/seller-r3-tunnel.log').open('a') as ssh_log, \
-                 (ROOT/'logs/seller-r3-kit-console.log').open('a') as kit_log:
+                 (ROOT/'logs/seller-r3-kit-console.log').open('a') as kit_log, \
+                 (ROOT/'logs/seller-forum-console.log').open('a') as forum_log:
                 ssh=subprocess.Popen(['/usr/bin/ssh','-p','443','-tt','-o','BatchMode=yes','-o','ConnectTimeout=8',
                     '-o','ExitOnForwardFailure=yes','-o','ServerAliveInterval=20','-o','ServerAliveCountMax=3',
                     '-o','StrictHostKeyChecking=accept-new','-o',f'UserKnownHostsFile={runtime/"known_hosts"}',
@@ -107,14 +108,26 @@ def run(args):
                     '--market','https://market.ourolabs.ai','--name','outseop-26510122','--port',str(args.port),
                     '--public-url',url,'--shop-only'],cwd=runtime,env=env,
                     stdout=kit_log,stderr=subprocess.STDOUT,start_new_session=True)
-                status={'supervisor_pid':os.getpid(),'kit_pid':market.pid,'tunnel_pid':ssh.pid,'url':url,
+                # Separate process: copy generation never occupies the restock window.
+                forum=subprocess.Popen([str(ROOT/'.venv/bin/python'),str(runtime/'release/seller_forum.py'),
+                    '--runtime',str(runtime),'--loop'],cwd=runtime,env={k:v for k,v in env.items() if k!='MARKET_OWNER'},
+                    stdout=forum_log,stderr=subprocess.STDOUT,start_new_session=True)
+                status={'supervisor_pid':os.getpid(),'kit_pid':market.pid,'tunnel_pid':ssh.pid,'forum_pid':forum.pid,'url':url,
                         'source_commit':manifest['source_commit'],'started_at':time.time(),'buyer_enabled':False}
                 (runtime/'running.json').write_text(json.dumps(status,indent=2))
                 until=time.monotonic()+55*60
-                while not STOP and ssh.poll() is None and market.poll() is None and time.monotonic()<until:time.sleep(2)
+                while not STOP and ssh.poll() is None and market.poll() is None and time.monotonic()<until:
+                    if forum.poll() is not None:
+                        log('Forum worker exited; restarting independently')
+                        forum=subprocess.Popen([str(ROOT/'.venv/bin/python'),str(runtime/'release/seller_forum.py'),
+                            '--runtime',str(runtime),'--loop'],cwd=runtime,env={k:v for k,v in env.items() if k!='MARKET_OWNER'},
+                            stdout=forum_log,stderr=subprocess.STDOUT,start_new_session=True)
+                        status['forum_pid']=forum.pid
+                        (runtime/'running.json').write_text(json.dumps(status,indent=2))
+                    time.sleep(2)
                 log(f'Renew/exit: tunnel={ssh.poll()}, kit={market.poll()}')
         except Exception as error:log(f'Service cycle failed: {type(error).__name__}: {error}')
-        finally:stop(market);stop(ssh)
+        finally:stop(forum);stop(market);stop(ssh)
         for _ in range(15):
             if STOP:break
             time.sleep(1)
