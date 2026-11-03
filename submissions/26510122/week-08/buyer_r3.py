@@ -11,6 +11,17 @@ import httpx
 from harness import decide_json, trace
 from context_compaction import MAX_TURNS, text
 import buyer_identity
+from buyer_policy import acceptance
+
+
+def opening_request(name: str, sku: str, order: dict) -> str:
+    policy = acceptance(order)
+    note = 'A market-signed unit certificate is required.'
+    if order.get('kind') == 'food':
+        note += f" The unit must have at least {policy['min_hours_left']:g} hours of shelf life left at checkout."
+    else:
+        note += ' Only grade A or B is acceptable. A six-hour warranty is preferred, not required.'
+    return f'I want to buy {name} ({sku}). {note}'
 
 
 def status(task: dict) -> str:
@@ -123,10 +134,7 @@ def negotiate(shop_url: str, sku: str, name: str, order: dict, *, opening_offer:
             on_message(dict(row))
     with httpx.Client() as client:
         endpoint = card_endpoint(client, shop_url, deadline)
-        note = "A certificate is required."
-        if order.get("kind") == "goods":
-            note += " A six-hour warranty is preferred."
-        opening = f"I want to buy {name} ({sku}). {note}"
+        opening = opening_request(name, sku, order)
         remember('buyer',opening)
         task = send(client, endpoint, opening, deadline,identity=identity)
         for turn in range(3):
