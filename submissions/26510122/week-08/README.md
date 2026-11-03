@@ -16,6 +16,11 @@ switch the running week-07 services. Live settlement evidence is still needed.
    `RECEIPT_PENDING` until the kit reports a ledger settlement. Each model
    prompt gets a bounded summary of first-hand outcomes, including failed and
    unresolved negotiations.
+   `inventory_observation.py` separately attributes exact SKU visits and stockouts,
+   deduplicates tasks, and measures stock exposure only between snapshots at most
+   120 seconds apart. Missing snapshots and ambiguous product requests remain
+   unknown. A stocked-shop visit rate is a selected observation, not total demand;
+   the public `demand.json` lists categories without demand weights.
 4. The Codex harness chooses the physical unit, opening price and follow-up
    action. The quote candidates and memory are evidence for that choice. The
    seller records the model decision separately from the emitted ask/counter.

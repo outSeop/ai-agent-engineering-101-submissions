@@ -25,6 +25,7 @@ from a2a.types import AgentCapabilities, AgentCard, AgentInterface, AgentSkill
 from harness import MODEL, decide_json, trace
 from market_memory import compact_context, record, sync_settlements
 from newsvendor_tool import quote_candidates
+from inventory_observation import requested_skus
 
 
 NAME = "outseop-26510122"
@@ -129,6 +130,14 @@ class Seller(AgentExecutor):
 
         if deal is None:
             try:
+                catalog = json.loads((MARKET_DIR / 'catalog.json').read_text(encoding='utf-8'))
+                if not isinstance(catalog, dict):
+                    catalog = {}
+            except (OSError, ValueError):
+                catalog = {}
+            requested = requested_skus(message, catalog)
+            record('request_seen', task_id=task.id, requested_skus=requested)
+            try:
                 imported = sync_settlements()
                 if imported:
                     trace("settlements_imported", count=imported)
@@ -136,7 +145,7 @@ class Seller(AgentExecutor):
                 trace("settlement_sync_error", error=str(error))
             choices = self.available(message)
             if not choices:
-                record("no_stock", task_id=task.id, request=message[:160])
+                record("no_stock", task_id=task.id, request=message[:160], requested_skus=requested)
                 await up.reject(say("Sorry, no matching unit is in stock."))
                 return
             tools = [quote_candidates(u) for u in choices]
