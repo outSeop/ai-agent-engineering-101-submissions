@@ -1,5 +1,10 @@
 # Seller introduction experiment — November 3, 2026
 
+Follow-up: [seller-copy combinations and fresh confirmation](SELLER_COPY_COMBINATIONS.md)
+tests 10 descriptions over 96 calls in a pre-quote first-contact scenario.
+That follow-up selects and applies a new local Agent Card description; the
+older experiment below is retained as a separate historical comparison.
+
 The primary goal is **getting a buyer to contact the shop**. The token-saving
 introduction is a promising presentation candidate on that metric. Request
 counts and token usage are secondary diagnostics; a reduction in negotiation

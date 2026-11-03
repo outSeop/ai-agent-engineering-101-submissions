@@ -34,6 +34,11 @@ from newsvendor_tool import GRADE_ANCHORS
 
 
 NAME = "outseop-26510122"
+SELLER_DESCRIPTION = (
+    "Brief quotes help save tokens. Negotiable prices; counteroffers welcome. "
+    "Clear prices and checkout certificates. Stocked products. "
+    "Numeric offers; signed receipts on agreement."
+)
 MARKET_DIR = Path(os.environ.get("MARKET_DIR", ".market"))
 RESERVE = {"lamp": 100, "chair": 180, "bookshelf": 260}  # pre-Round-3 compatibility
 HOLD_SECONDS = 600
@@ -345,8 +350,7 @@ def build(port: int) -> Starlette:
     url = f"http://127.0.0.1:{port}/"
     card = AgentCard(
         name=NAME,
-        description="Short chats, fewer tokens: brief quotes, numeric offers, and signed receipts "
-                    "on agreement. Shop from available stock.",
+        description=SELLER_DESCRIPTION,
         version="1.0.0",
         default_input_modes=["text/plain"],
         default_output_modes=["application/json", "text/plain"],
