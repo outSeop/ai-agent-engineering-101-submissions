@@ -28,7 +28,8 @@ def decide_json(role: str, prompt: dict, schema: dict) -> dict:
         "Do not invent sales, demand observations or settlement results. "
         "Return only JSON matching the schema. Do not call external tools."
     )
-    trace("harness_input", role=role, model=MODEL, prompt=prompt)
+    serialized_prompt=json.dumps(prompt,ensure_ascii=False,separators=(',',':'))
+    trace("harness_input", role=role, model=MODEL, prompt_bytes_utf8=len(serialized_prompt.encode()),prompt=prompt)
     started = time.monotonic()
     with tempfile.TemporaryDirectory(prefix="week08-harness-") as directory:
         root = Path(directory)
@@ -42,7 +43,7 @@ def decide_json(role: str, prompt: dict, schema: dict) -> dict:
             "--config", f"developer_instructions={json.dumps(instructions)}",
             "--output-schema", str(schema_path),
             "--output-last-message", str(output_path),
-            json.dumps(prompt, ensure_ascii=False),
+            serialized_prompt,
         ]
         completed = subprocess.run(command, stdin=subprocess.DEVNULL, capture_output=True,
                                    text=True, timeout=TIMEOUT, check=False)

@@ -26,6 +26,7 @@ from harness import MODEL, decide_json, trace
 from market_memory import compact_context, record, sync_settlements
 from newsvendor_tool import quote_candidates
 from inventory_observation import requested_skus
+from context_compaction import MAX_TURNS
 
 
 NAME = "outseop-26510122"
@@ -124,8 +125,11 @@ class Seller(AgentExecutor):
             task = new_task_from_user_message(context.message)
             await event_queue.enqueue_event(task)
         up = TaskUpdater(event_queue=event_queue, task_id=task.id, context_id=task.context_id)
-        say = lambda message: up.new_agent_message(parts=[new_text_part(message)])
+        def say(message):
+            record('seller_message',task_id=task.id,text=message)
+            return up.new_agent_message(parts=[new_text_part(message)])
         message = get_message_text(context.message) or ""
+        record('buyer_message',task_id=task.id,text=message)
         deal = self.open.get(task.id)
 
         if deal is None:
@@ -149,14 +153,18 @@ class Seller(AgentExecutor):
                 await up.reject(say("Sorry, no matching unit is in stock."))
                 return
             tools = [quote_candidates(u) for u in choices]
-            memories = {u["unit"]: compact_context(u["sku"], u["grade"]) for u in choices}
+            keys=list(dict.fromkeys((u['sku'],u['grade']) for u in choices))
+            per_key=min(3600,12000//len(keys)-64)
+            memories={f'{sku}:{grade}':compact_context(sku,grade,max_bytes=per_key) for sku,grade in keys}
+            for tool in tools:
+                tool['memory_key']=f"{tool['sku']}:{tool['grade']}"
             prompt = {
                 "phase": "opening", "task_id": task.id, "buyer_message": message[:500],
                 "objective": "Choose one available physical unit and an opening price. "
                              "Use the calculation-tool candidates and market memory as evidence; "
                              "you may choose another positive price when you explain why. "
                              "A signed receipt is not a settled sale.",
-                "unit_options": tools, "memory_by_unit": memories,
+                "unit_options": tools, "memory_by_sku_grade": memories,
             }
             middle = tools[0]["candidates"][len(tools[0]["candidates"]) // 2]["price"]
             answer = await self.choose(prompt, ["ask", "reject"],
@@ -214,13 +222,14 @@ class Seller(AgentExecutor):
                 del self.open[task.id]
                 return
             unit = deal["unit"] = fresh
-        record("offer", task_id=task.id, sku=unit["sku"], unit=unit["unit"], price=offer)
+        record("offer", task_id=task.id, sku=unit["sku"], unit=unit["unit"], price=offer,
+               grade=unit['grade'],cost=unit['cost'],expires_at=unit.get('expires_at'))
         deal["history"].append({"buyer_offer": offer, "seller_ask": deal["ask"]})
         memory = compact_context(unit["sku"], unit["grade"])
         prompt = {
             "phase": "follow_up", "task_id": task.id,
             "unit": quote_candidates(unit), "current_ask": deal["ask"],
-            "buyer_offer": offer, "history": deal["history"][-8:], "memory": memory,
+            "buyer_offer": offer, "history": deal["history"][-MAX_TURNS:], "memory": memory,
             "objective": "Accept, counter or reject. Consider purchase cost, grade, "
                          "food expiry and goods storage, but do not treat purchase cost "
                          "as an absolute floor for food already near expiry. "
@@ -246,7 +255,7 @@ class Seller(AgentExecutor):
                             "task": task.id, "unit": unit["unit"]})
             await up.add_artifact(parts=[new_data_part(receipt)], name="receipt")
             record("receipt_signed", task_id=task.id, sku=unit["sku"], unit=unit["unit"],
-                   grade=unit["grade"], price=offer)
+                   grade=unit["grade"], price=offer,cost=unit['cost'],expires_at=unit.get('expires_at'))
             self.holds[unit["unit"]] = time.monotonic() + HOLD_SECONDS
             await up.complete(say(f"Deal: {unit['name']} at {offer}."))
             trace("seller_receipt", task_id=task.id, unit=unit["unit"], price=offer,

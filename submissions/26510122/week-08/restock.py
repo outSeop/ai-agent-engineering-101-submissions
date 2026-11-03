@@ -18,7 +18,8 @@ import time
 import httpx
 
 from harness import decide_json, trace
-from market_memory import events, record, sync_settlements
+from market_memory import events, record, sync_settlements, recent_trade_context
+from context_compaction import RESTOCK_HISTORY_BYTES, text
 from newsvendor_tool import poisson_pmf, recommend_quantity
 import inventory_observation
 import replenishment_plan
@@ -111,6 +112,13 @@ def inventory_fresh(path: Path, now: float) -> bool:
         return 0 <= now-path.stat().st_mtime <= inventory_observation.MAX_SNAPSHOT_AGE
     except OSError:
         return False
+
+
+def observation_view(observed: dict) -> dict:
+    """Numeric evidence only; the shared observation caveat is stated once."""
+    return {k:observed[k] for k in ('window_hours','observed_visits','observed_no_stock_visits',
+                                   'confirmed_settlements','snapshot_coverage_hours',
+                                   'in_stock_exposure_hours','observed_visit_rate_while_stocked')}
 
 
 def quantity_candidates(mean: float, price: int, cost: int, stocked: int, cap: int) -> list[dict]:
@@ -215,15 +223,15 @@ def run(state: Path) -> dict:
     candidates = choose_candidates(catalog, inventory, history, public_sales)
     if not candidates:
         return {"buy": []}
-    recent = [{"event": e["event"], "sku": e.get("sku"), "price": e.get("price"),
-               "ask": e.get("ask"), "grade": e.get("grade")}
-              for e in history[-30:] if e["event"] in {"opening", "receipt_signed", "settled", "rejected"}]
+    recent = recent_trade_context(history,{c['sku'] for c in candidates},max_bytes=RESTOCK_HISTORY_BYTES)
     prompt = {
         "phase": "restock", "task_id": f"restock-{int(time.time())}",
         "balance": inventory.get("balance"), "candidate_food_skus": candidates,
         "recent_first_hand_evidence": recent,
-        'observation_by_sku': {c['sku']:{'recent_3h':inventory_observation.evidence(c['sku'],history,now,3.),
-                                        'recent_12h':inventory_observation.evidence(c['sku'],history,now,12.)}
+        'observation_contract':'Selected shop visits, not total demand. Missing exposure is unknown, not zero. '
+                               'Snapshot coverage does not prove listing visibility. Rates are conditioned on observed stock.',
+        'observation_by_sku': {c['sku']:{'recent_3h':observation_view(inventory_observation.evidence(c['sku'],history,now,3.)),
+                                        'recent_12h':observation_view(inventory_observation.evidence(c['sku'],history,now,12.))}
                                for c in candidates},
         "objective": "Choose a food SKU to replenish, or hold. Estimate a sale price and "
                      "demand mean over the conservative horizon of one quarter of its "
@@ -284,12 +292,14 @@ def run(state: Path) -> dict:
     cap = min(affordable,20-len(live_units),STARTUP_MAX_BUY if observation['observed_visits']<5 else 20)
     quantities = quantity_candidates(mean,price,expected_cost,selected['currently_stocked'],cap)
     table = plan_candidates(quantities,observation,horizon_hours,mean)
-    approval_prompt = {'phase':'approve_replenishment_plan','scenario_proposal':decision,
+    proposal={**decision,'reason':text(decision.get('reason'),160)}
+    approval_prompt = {'phase':'approve_replenishment_plan','scenario_proposal':proposal,
                        'sku':selected['sku'],'horizon_hours':horizon_hours,'inventory_balance':inventory.get('balance'),
                        'effective_forecast_mean':mean,
                        'forecast_policy_cap':1.5 if observation['observed_visits']<5 else 10.,
                        'observation':observation,'quantity_candidates':table,
                        'scenario_age_seconds':round(now-cooldown.get('scenario_at',now)) if reusable_scenario else 0,
+                       'scenario_status':'temporary model hypothesis, not an observed fact',
                        'sparse_observation_cap_applies':observation['observed_visits']<5,
                        'maximum_authorized_total_qty':2 if observation['observed_visits']<5 else 20,
                        'model_call_tradeoff':{'new_plan':2,'stable_scenario_renewal':1,'valid_plan_reuse':0,

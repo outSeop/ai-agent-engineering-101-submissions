@@ -86,6 +86,40 @@ The forecast mean cap (1.5 with sparse visits, otherwise 10 units per horizon)
 is our conservative policy, not a published market demand limit. Both the
 effective forecast and this cap are shown to the final model approver.
 
+## Context construction
+
+Each model call starts a fresh session. The application supplies current facts,
+calculation results and a small historical view; it does not maintain an LLM
+summary or a vector database. `context_compaction.py` makes deterministic views:
+
+- Current inventory, cash, authorization caps and tool candidates remain separate
+  from historical observations and temporary forecast assumptions.
+- Older trades contribute exact outcome counts and paid-price ranges by grade.
+  At most three relevant same-grade cases plus two other-grade cases retain
+  opening/settled grade, cost, historical hours left, price and final outcome.
+  Offer/counter arrays retain their last four values and original counts.
+- Seller opening prompts share one memory per SKU/grade instead of repeating it
+  per physical unit. Restock links and filters candidate-SKU trades before
+  choosing cases, so inventory snapshots cannot push settlements out of view.
+- A buyer sees a short first-hand seller evidence brief AND separately labeled
+  public-review examples. Current negotiation context keeps four short messages;
+  original messages are appended to the event log, including messages observed
+  before a network failure. Model explanations are not promoted into rules.
+
+Budgets are serialized UTF-8 bytes, not token estimates: 3,200 per buyer memory,
+1,600 per buyer-selection brief, 3,600 per seller SKU/grade (a shared 12,000-byte
+opening-memory allowance), and 3,000 for restock trade history. Buyer selection
+keeps its full prompt within 32,000 bytes by removing the lowest-priority
+optional candidates; every displayed candidate retains its payment cap.
+The harness logs the actual serialized prompt byte count. Event files are not
+rewritten or truncated by constructing these views.
+
+On synthetic long-history fixtures, seller memory went from 12,032 to 1,951
+bytes and buyer memory from 36,708 to 955 bytes. Two real model probes separated
+40 paid trades from one pending receipt, retained the C-grade/two-hour discount
+condition, and selected confirmed payment evidence over higher public stars.
+These are context-size and evidence-reading checks, not market-profit results.
+
 ## Run locally
 
 ```bash

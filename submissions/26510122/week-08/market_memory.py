@@ -14,6 +14,8 @@ import os
 from pathlib import Path
 import re
 from typing import Any
+from context_compaction import (MAX_TURNS, SELLER_MEMORY_BYTES, bounded, hours_left,
+                                price_ranges, select_cases, text)
 
 
 EVENTS = Path("logs/shop-events.jsonl")
@@ -99,12 +101,11 @@ def sync_settlements(kit_log: Path = KIT_LOG, *, event_log: Path = EVENTS,
     return added
 
 
-def compact_context(sku: str, grade: str, *, path: Path = EVENTS,
-                    recent_limit: int = 12) -> dict[str, Any]:
-    """Bound model context while retaining both failures and confirmed sales."""
+def _attempts(rows: list[dict]) -> list[dict]:
+    """Rebuild linked observations; numeric history remains in the event file."""
     attempts: dict[str, dict[str, Any]] = {}
     settled_by_task: dict[str, dict[str, Any]] = {}
-    for row in events(path):
+    for row in rows:
         task = row.get("task_id")
         kind = row["event"]
         if kind == "settled" and task:
@@ -114,33 +115,64 @@ def compact_context(sku: str, grade: str, *, path: Path = EVENTS,
                               "grade": row.get("grade"), "category": row.get("category"),
                               "unit": row.get("unit"), "opening_ask": row.get("ask"),
                               "list_price": row.get("list_price"), "at": row.get("at"),
-                              "offers": [], "counters": [], "outcome": "OPEN"}
+                              'cost':row.get('cost'),'expires_at':row.get('expires_at'),
+                              'hours_left_at_opening':hours_left(row.get('expires_at'),row.get('at')),
+                              "offers": [], "counters": [], 'offer_count':0,'counter_count':0,"outcome": "OPEN"}
         elif task in attempts and kind == "offer":
-            attempts[task]["offers"].append(row.get("price"))
+            a=attempts[task];a['offers']=(a['offers']+[row.get('price')])[-MAX_TURNS:];a['offer_count']+=1
         elif task in attempts and kind == "counter":
-            attempts[task]["counters"].append(row.get("ask"))
+            a=attempts[task];a['counters']=(a['counters']+[row.get('ask')])[-MAX_TURNS:];a['counter_count']+=1
         elif task in attempts and kind == "receipt_signed":
             attempts[task]["outcome"] = "RECEIPT_PENDING"
             attempts[task]["agreed_price"] = row.get("price")
+            attempts[task]['grade_at_receipt'] = row.get('grade')
+            expires=row.get('expires_at',attempts[task].get('expires_at'))
+            attempts[task]['hours_left_at_receipt'] = hours_left(expires,row.get('at'))
         elif task in attempts and kind in {"rejected", "cancelled"}:
             attempts[task]["outcome"] = kind.upper()
+            attempts[task]['reason'] = text(row.get('reason'))
     for task, settlement in settled_by_task.items():
         if task in attempts:
             attempts[task]["outcome"] = "SETTLED"
             attempts[task]["settled_price"] = settlement["price"]
             attempts[task]["ledger"] = settlement["ledger"]
+            attempts[task]['settled_grade'] = settlement.get('grade')
+    return list(attempts.values())
 
-    relevant = [a for a in attempts.values() if a["sku"] == sku and a["grade"] == grade]
-    broader = [a for a in attempts.values() if a["sku"] == sku and a["grade"] != grade]
+
+def compact_context(sku: str, grade: str, *, path: Path = EVENTS,
+                    recent_limit: int = 3, max_bytes: int = SELLER_MEMORY_BYTES) -> dict[str, Any]:
+    """Exact aggregates plus a few condition-preserving transaction examples."""
+    attempts=_attempts(events(path))
+    def observed_grade(a):
+        return a.get('settled_grade') or a.get('grade_at_receipt') or a.get('grade')
+
+    relevant = [a for a in attempts if a['sku']==sku and observed_grade(a)==grade]
+    broader = [a for a in attempts if a['sku']==sku and observed_grade(a)!=grade]
     counts = defaultdict(int)
     for a in relevant:
         counts[a["outcome"]] += 1
-    return {
+    view = {
         "sku": sku, "grade": grade, "same_grade_attempts": len(relevant),
         "same_sku_other_grade_attempts": len(broader),
         "outcomes": dict(counts),
-        "recent_same_grade": relevant[-recent_limit:],
-        "recent_other_grade": broader[-min(4, recent_limit):],
+        'settled_prices_by_grade':price_ranges([a for a in relevant if a['outcome']=='SETTLED']),
+        "recent_same_grade": select_cases(relevant,recent_limit),
+        "recent_other_grade": select_cases(broader,min(2,recent_limit)),
         "caution": "A receipt is pending until [acp] settled; OPEN is unknown, not a failed sale. "
-                   "Only shops visited by buyers appear here, so this is not total market demand.",
+                   "Hours left are historical quote/receipt conditions, not current expiry. "
+                   "Examples are observations, not permanent rules; visits are not total demand.",
     }
+    return bounded(view,('recent_same_grade','recent_other_grade'),max_bytes)
+
+
+def recent_trade_context(history: list[dict], skus: set[str], *, max_bytes=3000) -> dict:
+    """Filter and link trades BEFORE limiting cases; snapshots cannot crowd them out."""
+    rows=[a for a in _attempts(history) if a['sku'] in skus]
+    confirmed=defaultdict(int)
+    for a in rows:
+        if a['outcome']=='SETTLED':confirmed[a['sku']]+=1
+    cases=select_cases(rows)
+    return bounded({'confirmed_by_sku':dict(confirmed),'cases':cases,
+                    'note':'Selected candidate SKUs only; receipts pending and incomplete trades are not sales. '
+                           'Historical grade/expiry conditions must accompany price comparisons.'},('cases',),max_bytes)
