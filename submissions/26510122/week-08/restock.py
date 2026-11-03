@@ -25,7 +25,7 @@ import inventory_observation
 import inventory_exploration
 import inventory_portfolio
 import replenishment_plan
-from stock_policy import sales_evidence, NEW_STOCK
+from stock_policy import policy_view, NEW_STOCK
 
 
 COOLDOWN = Path("state/restock-cooldown.json")
@@ -71,7 +71,7 @@ def choose_candidates(catalog: dict, inventory: dict, history: list[dict],
     settled = Counter(e.get("sku") for e in history if e.get("event") == "settled" and e.get("sku"))
     stocked = Counter(u.get("sku") for u in inventory.get("units", []) if u.get("grade") != "expired")
     categories = Counter(u.get('category') for u in inventory.get('units', []) if u.get('grade') != 'expired')
-    signals = {sku:sales_evidence(sku, history, time.time()) for sku in catalog if settled[sku]}
+    signals = {sku:policy_view(sku,catalog[sku],inventory,history,time.time()) for sku in catalog if settled[sku]}
     products = {sku: data for sku, data in catalog.items()
                 if isinstance(data, dict) and data.get('kind') in ('food', 'goods')
                 and type(data.get('list_price')) is int and data['list_price'] > 0
@@ -243,7 +243,7 @@ def run(state: Path) -> dict:
     invalidated_plan = False
     if cached and cached.get('sku') in catalog:
         sku = cached['sku']
-        observation = {**inventory_observation.evidence(sku,history,now), **sales_evidence(sku,history,now)}
+        observation = {**inventory_observation.evidence(sku,history,now), **policy_view(sku,catalog[sku],inventory,history,now)}
         result, reason = replenishment_plan.execute(cached,inventory=inventory,product=catalog[sku],
                                                     observation=observation,now=now,snapshot_time=inventory_path.stat().st_mtime)
         if result is not None:
@@ -344,7 +344,7 @@ def run(state: Path) -> dict:
              if type(proposed_price) is int else round(list_price * 0.8))
     proposed_mean = decision.get("demand_mean")
     mean = float(proposed_mean) if type(proposed_mean) in (int, float) and math.isfinite(proposed_mean) else 0.0
-    observation = {**inventory_observation.evidence(selected['sku'],history,now), **sales_evidence(selected['sku'],history,now)}
+    observation = {**inventory_observation.evidence(selected['sku'],history,now), **policy_view(selected['sku'],catalog[selected['sku']],inventory,history,now)}
     sparse = observation['observed_visits'] < 5 and not observation['proven']
     forecast_cap = 20. if observation['proven'] else 1.5 if sparse else 10.
     mean = max(0.0, min(mean, forecast_cap))

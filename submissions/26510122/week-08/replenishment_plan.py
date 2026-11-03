@@ -14,16 +14,16 @@ import uuid
 import time
 from market_memory import events
 from supply_reconciliation import reconcile, pending_quantity
-from stock_policy import PROVEN_STOCK, NEW_STOCK
+from stock_policy import PROVEN_STOCK, NEW_STOCK, MAINTENANCE_CATEGORY_LIMIT
 
 MAX_VALID_SECONDS = 600
 MIN_BALANCE = 1_000_000
 MAX_SKU_STOCK = PROVEN_STOCK
-MAX_CATEGORY_STOCK = 6
+MAX_CATEGORY_STOCK = MAINTENANCE_CATEGORY_LIMIT
 MAX_TOTAL_STOCK = 60
 MAX_INVENTORY_COST = 2_000_000
 INVENTORY_CAPITAL_SHARE = .40
-POLICY_VERSION = 5
+POLICY_VERSION = 6
 
 
 def pending_exploration_cost(inventory: dict) -> int:
@@ -99,7 +99,7 @@ def create(*, sku: str, product: dict, candidate: dict, approval: dict,
         raise ValueError('approval must give a validity between 60 and 600 seconds')
     if type(budget) is not int or not candidate['qty'] <= budget <= 20:
         raise ValueError('approval must cover initial quantity with total budget <=20')
-    stock_limit = PROVEN_STOCK if observation.get('proven') else NEW_STOCK
+    stock_limit = min(PROVEN_STOCK,observation.get('stock_limit',PROVEN_STOCK)) if observation.get('proven') else NEW_STOCK
     if not candidate['qty'] <= candidate['target_stock'] <= stock_limit:
         raise ValueError('target must fit the per-SKU portfolio limit')
     if observation['observed_visits'] < 5 and not observation.get('proven'):
@@ -130,7 +130,8 @@ def execute(plan: dict, *, inventory: dict, product: dict, observation: dict,
         return None, 'invalid_plan_budget'
     if plan.get('policy_version') != POLICY_VERSION:
         return None, 'portfolio_policy_changed'
-    if plan['target_stock'] > (PROVEN_STOCK if observation.get('proven') else NEW_STOCK):
+    current_limit = min(PROVEN_STOCK,observation.get('stock_limit',PROVEN_STOCK)) if observation.get('proven') else NEW_STOCK
+    if plan['target_stock'] > current_limit:
         return None, 'sales_evidence_changed'
     if plan.get('version') != 1 or not plan.get('approved_at', now+1) <= now < plan.get('expires_at', 0):
         return None, 'expired_or_invalid_plan'

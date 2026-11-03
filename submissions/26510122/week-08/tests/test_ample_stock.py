@@ -34,8 +34,9 @@ class AmpleStockTests(unittest.TestCase):
         return portfolio.run(inv, catalog(), rows if rows is not None else history(), 1000,
                              model=model, refresh=refresh or (lambda:(inv,1000,True)), rng=random.Random(1))
 
-    def mixed(self, role, prompt, schema, target=6, new_count=6):
+    def mixed(self, role, prompt, schema, target=None, new_count=6):
         self.assertEqual(prompt['replenishment_candidates'][0]['sku'], 's1')
+        target = target if target is not None else max(o['target_stock'] for o in prompt['replenishment_candidates'][0]['target_options'])
         anchor = prompt['exploration_anchor_sku']
         skus = ([anchor] + [r['sku'] for r in prompt['candidates'] if r['sku'] != anchor])[:new_count]
         return {'action':'buy','skus':skus,'replenishment':[{'sku':'s1','target_stock':target}],
@@ -43,22 +44,22 @@ class AmpleStockTests(unittest.TestCase):
 
     def test_exploration_and_proven_replenishment_share_one_approval(self):
         result = self.run_batch(self.mixed)
-        self.assertEqual(result['buy'][0], {'sku':'s1','qty':5})
+        self.assertEqual(result['buy'][0], {'sku':'s1','qty':2})
         self.assertEqual(len(result['buy']), 7)
         self.assertTrue(all(r['qty']==1 for r in result['buy'][1:]))
         state = json.loads(portfolio.STATE.read_text())
         self.assertEqual(state['intents'][0]['kind'], 'replenishment')
         used = sum(i['cost_ceiling']*i['qty'] for i in state['intents'] if i['kind']=='exploration')
         self.assertEqual(used,45000)
-        self.assertEqual(sum(i['cost_ceiling']*pending_quantity(i) for i in state['intents']),82500)
+        self.assertEqual(sum(i['cost_ceiling']*pending_quantity(i) for i in state['intents']),60000)
 
     def test_fresh_stock_growth_cannot_raise_the_approved_target(self):
         inv = inventory()
         current = inventory()
-        current['units'] += [dict(current['units'][1], unit=f'arrived{i}') for i in range(2)]
-        result = self.run_batch(lambda *args:self.mixed(*args,target=4,new_count=1), inv,
+        current['units'] += [dict(current['units'][1], unit='arrived')]
+        result = self.run_batch(lambda *args:self.mixed(*args,new_count=1), inv,
                                 refresh=lambda:(current,1000,True))
-        self.assertEqual(result['buy'][0], {'sku':'s1','qty':1})  # fresh 3 -> approved 4, never 6
+        self.assertEqual(result['buy'][0], {'sku':'s1','qty':1})  # fresh 2 -> forecast-approved 3
 
     def test_unknown_sku_or_nonexistent_depth_choice_cannot_be_bought(self):
         for choice in ({'sku':'not-a-candidate','target_stock':6}, {'sku':'s1','target_stock':99}):
@@ -75,12 +76,30 @@ class AmpleStockTests(unittest.TestCase):
         self.assertEqual(self.run_batch(self.mixed, inv), {'buy':[]})
         self.assertEqual(json.loads(portfolio.STATE.read_text())['intents'], [])
 
-    def test_only_linked_positive_settlements_qualify_for_six_unit_depth(self):
-        self.assertFalse(sales_evidence('s1',history(2),1000)['proven'])
+    def test_invalid_approval_gets_one_numeric_correction_before_any_intent(self):
+        inv = inventory(); inv['units'][0]['cost'] = 1924000
+        calls = []
+        def model(role,prompt,schema):
+            calls.append(prompt)
+            if len(calls)==1:
+                return self.mixed(role,prompt,schema,new_count=6)
+            self.assertIn('combined spend',prompt['correction']['tool_validation_error'])
+            self.assertFalse(json.loads(portfolio.STATE.read_text())['intents'])
+            return self.mixed(role,prompt,schema,new_count=4)
+        result = self.run_batch(model,inv)
+        self.assertEqual(len(calls),2)
+        self.assertEqual(len(result['buy']),5)
+        self.assertEqual(sum(r['qty'] for r in result['buy']),6)
+        self.assertEqual(self.run_batch(model,inv),{'buy':[]})
+        self.assertEqual(len(calls),2)
+
+    def test_two_linked_positive_settlements_qualify_for_maintenance(self):
+        self.assertFalse(sales_evidence('s1',history(1),1000)['proven'])
+        self.assertTrue(sales_evidence('s1',history(2),1000)['proven'])
         self.assertTrue(sales_evidence('s1',history(3),1000)['proven'])
         unknown_cost = [r for r in history(3) if r['event']=='settled']
         self.assertFalse(sales_evidence('s1',unknown_cost,1000)['proven'])
-        self.assertEqual(replenishment_candidates(catalog(),inventory(),history(2),1000), [])
+        self.assertEqual(replenishment_candidates(catalog(),inventory(),history(1),1000), [])
 
     def test_partial_bulk_arrival_keeps_remaining_units_and_cash_reserved(self):
         self.run_batch(self.mixed)
@@ -90,11 +109,11 @@ class AmpleStockTests(unittest.TestCase):
                  'at':datetime.fromtimestamp(1010,timezone.utc).isoformat()}
         reconcile(state['intents'], {'units':[]}, [event], 1020)
         self.assertEqual(bulk['status'],'issued_unknown')
-        self.assertEqual(pending_quantity(bulk),4)
-        self.assertEqual(bulk['cost_ceiling']*pending_quantity(bulk),30000)
+        self.assertEqual(pending_quantity(bulk),bulk['qty']-1)
+        self.assertEqual(bulk['cost_ceiling']*pending_quantity(bulk),7500)
         portfolio.STATE.write_text(json.dumps(state))
-        self.assertEqual(plans.pending_exploration_cost({'units':[]}),75000)
-        rest = [dict(event,unit=f'new{i}',ledger=99+i) for i in range(1,5)]
+        self.assertEqual(plans.pending_exploration_cost({'units':[]}),52500)
+        rest = [dict(event,unit=f'new{i}',ledger=99+i) for i in range(1,bulk['qty'])]
         reconcile(state['intents'], {'units':[]}, rest, 1020)
         self.assertEqual(bulk['status'],'settled')
         self.assertEqual(pending_quantity(bulk),0)
@@ -126,11 +145,12 @@ class AmpleStockTests(unittest.TestCase):
         def model(role,prompt,schema):
             self.assertEqual(prompt['maximum_new_skus'],0)
             self.assertEqual(prompt['policy']['mode'],'exploit')
-            return {'action':'buy','skus':[],'replenishment':[{'sku':'s1','target_stock':6}],
+            target = max(o['target_stock'] for o in prompt['replenishment_candidates'][0]['target_options'])
+            return {'action':'buy','skus':[],'replenishment':[{'sku':'s1','target_stock':target}],
                     'reason':'Replace the proven seller only'}
         result = portfolio.run(inv,catalog(),history(),1000,model=model,
                                refresh=lambda:(inv,1000,True),rng=random.Random(2))
-        self.assertEqual(result,{'buy':[{'sku':'s1','qty':5}]})
+        self.assertEqual(result,{'buy':[{'sku':'s1','qty':2}]})
 
 
 if __name__ == '__main__':

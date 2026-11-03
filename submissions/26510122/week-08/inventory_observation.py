@@ -66,7 +66,7 @@ def snapshot(inventory: dict, source: Path, history: list[dict], now: float) -> 
 
 def evidence(sku: str, history: list[dict], now: float, hours: float = 12.) -> dict:
     start = now - hours * 3600
-    visits, settled, no_stock = {}, set(), {}
+    visits, settled, no_stock = {}, {}, {}
     snapshots = {}
     unattributed = set()
     for row in history:
@@ -88,7 +88,7 @@ def evidence(sku: str, history: list[dict], now: float, hours: float = 12.) -> d
             elif not row.get('requested_skus'):
                 unattributed.add(task)
         elif row['event'] == 'settled' and row.get('sku') == sku and row.get('ledger') is not None:
-            settled.add(row['ledger'])
+            settled.setdefault(row['ledger'], at)
     coverage, exposure, stocked_intervals = 0., 0., []
     times = sorted(snapshots)
     for a, b in zip(times, times[1:]):
@@ -103,12 +103,14 @@ def evidence(sku: str, history: list[dict], now: float, hours: float = 12.) -> d
     for at in visits.values():
         if any(a <= at < b for a, b in stocked_intervals):
             in_stock_visits += 1
+    in_stock_settlements = sum(any(a <= at < b for a,b in stocked_intervals) for at in settled.values())
     return {'window_hours': hours, 'observed_visits': len(visits),
             'observed_no_stock_visits': len(no_stock), 'confirmed_settlements': len(settled),
             'recent_stockout_times': sorted(no_stock.values())[-10:],
             'snapshot_coverage_hours': round(coverage / 3600, 4),
             'in_stock_exposure_hours': round(exposure / 3600, 4),
             'visits_during_observed_stock': in_stock_visits,
+            'settlements_during_observed_stock': in_stock_settlements,
             'observed_visit_rate_while_stocked': round(in_stock_visits / (exposure / 3600), 3) if exposure >= 300 else None,
             'unattributed_no_stock_visits': len(unattributed),
             'total_demand': None, 'demand_is_censored': True,

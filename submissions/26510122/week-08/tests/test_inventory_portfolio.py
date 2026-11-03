@@ -169,7 +169,7 @@ class PortfolioTests(unittest.TestCase):
         self.assertIsNone(result)
         p['target_stock'] = 2
         inv = inventory(0)
-        inv['units'] = [{'sku': 'other', 'grade': 'A', 'category': 'category1'} for _ in range(6)]
+        inv['units'] = [{'sku': 'other', 'grade': 'A', 'category': 'category1'} for _ in range(plans.MAX_CATEGORY_STOCK)]
         result, _ = plans.execute(p, inventory=inv, product=catalog()['s1'], observation=obs, now=1000)
         self.assertEqual(result, {'buy': []})
 
