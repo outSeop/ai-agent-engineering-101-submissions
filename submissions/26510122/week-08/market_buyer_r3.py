@@ -7,12 +7,14 @@ import json
 import math
 from pathlib import Path
 import time
+import uuid
 
 from buyer_memory import brief, context, import_broken, import_payments, read_events, record, register_shops
 from context_compaction import BUYER_PROMPT_BYTES, size, text
 from buyer_policy import acceptance, price_cap, receipt_problem
 from buyer_r3 import negotiate
 from harness import decide_json, trace
+import buyer_exploration
 
 
 def review_summary(reviews: list[dict]) -> dict:
@@ -29,21 +31,27 @@ def review_summary(reviews: list[dict]) -> dict:
 
 
 def candidates(order: dict, shops: list[dict], catalog: dict,
-               own_shop_name: str) -> list[dict]:
+               own_shop_name: str, *, full_pool: bool = False) -> list[dict]:
     acceptable = set(order.get("acceptable") or [])
     history=read_events()
     found = []
+    seen=set()
     for shop in shops:
-        if not isinstance(shop, dict) or shop.get("name") == own_shop_name or not shop.get("url"):
+        if (not isinstance(shop, dict) or not isinstance(shop.get('name'),str) or not shop['name']
+                or shop.get("name") == own_shop_name or not shop.get("url")):
             continue
         for offer in shop.get("offers") or []:
             if not isinstance(offer, dict) or offer.get("sku") not in acceptable or offer.get("qty", 0) < 1:
                 continue
             sku = offer["sku"]
+            identity=(shop['name'],sku)
+            if identity in seen:
+                continue
             product = catalog.get(sku)
             cap = price_cap(order, product)
             if cap < 1:
                 continue
+            seen.add(identity)
             first_hand = context(shop["url"], sku, shop_name=shop.get('name'),
                                  product_name=product.get("name"),history=history)
             refusals = (first_hand["same_sku_payment_outcomes"].get("refused", 0)
@@ -58,6 +66,13 @@ def candidates(order: dict, shops: list[dict], catalog: dict,
     found.sort(key=lambda c: (c["paid"] - c["refusals"],
                               c["reviews"]["average"] or 3,
                               c["list_price"] - c["cap"]), reverse=True)
+    for index,choice in enumerate(found):
+        choice['id']=str(index)
+    return found if full_pool else shortlist(found)
+
+
+def shortlist(found: list[dict]) -> list[dict]:
+    """The existing model-policy shortlist; exploration bypasses this ranking cut."""
     selected = []
     per_shop = {}
     for choice in found:
@@ -67,12 +82,14 @@ def candidates(order: dict, shops: list[dict], catalog: dict,
         per_shop[choice["url"]] = per_shop.get(choice["url"], 0) + 1
         if len(selected) == 16:
             break
-    for index, choice in enumerate(selected):
-        choice["id"] = str(index)
     return selected
 
 
-def choose(candidates_: list[dict], order: dict) -> tuple[dict, int]:
+def choose(candidates_: list[dict], order: dict, *, forced_candidate_id: str | None = None) -> tuple[dict, int]:
+    if forced_candidate_id is not None:
+        candidates_=[c for c in candidates_ if c['id']==forced_candidate_id]
+    if not candidates_:
+        raise ValueError('no candidate is available for this selection')
     displayed = [{**{key: row[key] for key in ("id", "list_price",
                                               "cap", "stock", "reviews")},
                   'shop':text(row['shop'],80),'sku':text(row['sku'],80),
@@ -83,6 +100,10 @@ def choose(candidates_: list[dict], order: dict) -> tuple[dict, int]:
     prompt = {"phase": "buyer_selection", "order_item": text(order.get("item"),120),
               "kind": order.get("kind"), "use_within_hours": order.get("use_within_hours"),
               "candidate_shop_skus": displayed,
+              'selection_policy':{'mode':'forced_exploration' if forced_candidate_id is not None else 'model_choice',
+                                  'forced_candidate_id':forced_candidate_id,
+                                  'note':'In exploration the harness fixes the candidate; choose its opening price. '
+                                         'The buyer may still negotiate or walk away later. All checkout guards apply.'},
               "objective": "Choose one available SKU and shop, plus a first offer. Maximize likely "
                            "positive surplus and settlement chance. The cap is a private hard ceiling, "
                            "not a suggested first offer; reserve room for counteroffers by using the "
@@ -100,7 +121,13 @@ def choose(candidates_: list[dict], order: dict) -> tuple[dict, int]:
     }, "required": ["candidate_id", "opening_offer", "reason"], "additionalProperties": False}
     try:
         answer = decide_json("buyer shop selector", prompt, schema)
-        chosen = next(c for c in candidates_ if c["id"] == answer["candidate_id"])
+        chosen_id=forced_candidate_id if forced_candidate_id is not None else answer['candidate_id']
+        if forced_candidate_id is not None and answer.get('candidate_id')!=forced_candidate_id:
+            trace('buyer_exploration_guard',proposed=answer.get('candidate_id'),effective=forced_candidate_id)
+        allowed={c['id'] for c in displayed}
+        if chosen_id not in allowed:
+            raise ValueError('model chose a candidate outside the displayed shortlist')
+        chosen = next(c for c in candidates_ if c['id']==chosen_id)
         proposed = answer["opening_offer"]
         if type(proposed) is not int:
             raise ValueError("non-integer opening offer")
@@ -117,7 +144,8 @@ def choose(candidates_: list[dict], order: dict) -> tuple[dict, int]:
         return chosen, opening
 
 
-def run(order: dict, shops: list[dict], catalog: dict, own_shop_name: str) -> dict:
+def run(order: dict, shops: list[dict], catalog: dict, own_shop_name: str, *,
+        epsilon: float = buyer_exploration.DEFAULT_EPSILON,rng=None) -> dict:
     started = time.monotonic()
     register_shops(shops)
     imported = import_payments()
@@ -126,12 +154,25 @@ def run(order: dict, shops: list[dict], catalog: dict, own_shop_name: str) -> di
     broken = import_broken()
     if broken:
         trace("buyer_breakage_imported", count=broken)
-    available = candidates(order, shops, catalog, own_shop_name)
+    available = candidates(order, shops, catalog, own_shop_name,full_pool=True)
     if not available:
         record("no_candidate", order=order.get("order"), item=order.get("item"))
         return {"shop": "", "receipt": None, "stars": 3,
                 "review": "No suitable stocked SKU was available."}
-    chosen, first_offer = choose(available, order)
+    policy=buyer_exploration.plan(available,epsilon,rng)
+    selection_id=uuid.uuid4().hex
+    displayed=([c for c in available if c['id']==policy['forced_candidate_id']]
+               if policy['mode']=='explore' else shortlist(available))
+    record('selection_opportunities',selection_id=selection_id,order=order.get('order'),**policy,
+           candidate_unit='distinct eligible shop-name/SKU pairs',
+           eligible_candidates=[{k:c[k] for k in ('id','shop','sku','list_price','cap','stock','paid','refusals')}
+                                for c in available],
+           displayed_candidate_ids=[c['id'] for c in displayed])
+    chosen, first_offer = choose(displayed, order,forced_candidate_id=policy['forced_candidate_id'])
+    record('buyer_policy_selection',selection_id=selection_id,order=order.get('order'),**policy,
+           candidate_id=chosen['id'],shop_name=chosen['shop'],shop=chosen['url'],sku=chosen['sku'],
+           opening_offer=first_offer,
+           note='A selected or signed receipt is not a paid purchase. Uniform exploration may pick a familiar candidate.')
     fallback = next((c for c in available if c["url"] != chosen["url"]), None)
     attempts = [(chosen, first_offer)]
     if fallback:
@@ -142,13 +183,18 @@ def run(order: dict, shops: list[dict], catalog: dict, own_shop_name: str) -> di
                    if isinstance(expires, (int, float)) else float("inf"))
     last_shop = chosen["url"]
     for index, (choice, opening) in enumerate(attempts):
+        policy_mode=policy['mode'] if index==0 else 'fallback'
         if deadline - time.monotonic() < 75:
+            record('negotiation_skipped',selection_id=selection_id,order=order.get('order'),
+                   shop_name=choice['shop'],sku=choice['sku'],attempt_index=index,
+                   policy_mode=policy_mode,reason='insufficient time before order deadline')
             break
         last_shop = choice["url"]
         try:
             def log_message(row):
                 record('dialogue_message',order=order.get('order'),shop=choice['url'],
-                       shop_name=choice['shop'],sku=choice['sku'],**row)
+                       shop_name=choice['shop'],sku=choice['sku'],selection_id=selection_id,
+                       attempt_index=index,policy_mode=policy_mode,**row)
             outcome = negotiate(choice["url"], choice["sku"], choice["name"], order,
                                 opening_offer=opening, cap=choice["cap"],
                                 list_price=choice["list_price"], memory=choice["first_hand"],
@@ -159,6 +205,8 @@ def run(order: dict, shops: list[dict], catalog: dict, own_shop_name: str) -> di
                                       order=order, final_offer=final_offer,
                                       task_id=outcome.get("task_id"), cap=choice["cap"])
             record("negotiation", order=order.get("order"), shop=choice["url"],shop_name=choice['shop'],
+                   selection_id=selection_id,attempt_index=index,policy_mode=policy_mode,
+                   primary_policy_mode=policy['mode'],
                    sku=choice["sku"], cap=choice["cap"], offers=outcome["offers"],
                    result=("receipt_pending" if problem is None else
                            "invalid_receipt" if outcome.get("receipt") else "no_receipt"),
@@ -172,6 +220,8 @@ def run(order: dict, shops: list[dict], catalog: dict, own_shop_name: str) -> di
             trace("buyer_shop_error", shop=choice["url"], error=type(error).__name__,
                   detail=str(error)[-200:])
             record("negotiation", order=order.get("order"), shop=choice["url"],shop_name=choice['shop'],
+                   selection_id=selection_id,attempt_index=index,policy_mode=policy_mode,
+                   primary_policy_mode=policy['mode'],
                    sku=choice["sku"], result="shop_error", reason=type(error).__name__)
     return {"shop": last_shop, "receipt": None, "stars": 3,
             "review": "No verified receipt within the order time limit."}
@@ -182,11 +232,13 @@ def main() -> None:
     parser.add_argument("--shops", type=Path, required=True)
     parser.add_argument("--order", type=Path, required=True)
     parser.add_argument("--own-shop-name", required=True)
+    parser.add_argument('--epsilon',type=buyer_exploration.probability,default=buyer_exploration.DEFAULT_EPSILON,
+                        help='Probability of forcing a uniformly sampled eligible shop/SKU; default 0.1.')
     args = parser.parse_args()
     order = json.loads(args.order.read_text(encoding="utf-8"))
     shops = json.loads(args.shops.read_text(encoding="utf-8"))
     catalog = json.loads((args.order.parent / "catalog.json").read_text(encoding="utf-8"))
-    result = run(order, shops, catalog, args.own_shop_name)
+    result = run(order, shops, catalog, args.own_shop_name,epsilon=args.epsilon)
     print(json.dumps(result, ensure_ascii=False), flush=True)
 
 

@@ -137,7 +137,7 @@ class BuyerPolicyTests(unittest.TestCase):
                 choice = {"candidate_id": "0", "opening_offer": 700, "reason": "in stock"}
                 with patch.object(market_buyer_r3, "decide_json", return_value=choice), \
                      patch.object(market_buyer_r3, "negotiate", return_value=outcome) as mock_negotiate:
-                    result = market_buyer_r3.run(order, shops, catalog, "outseop-26510122")
+                    result = market_buyer_r3.run(order, shops, catalog, "outseop-26510122",epsilon=0)
                 self.assertEqual(result["shop"], "https://external")
                 self.assertEqual(result["receipt"], receipt)
                 self.assertEqual(result["accept"], {"cert": True, "min_hours_left": 4.5})
@@ -190,7 +190,7 @@ class BuyerPolicyTests(unittest.TestCase):
                 with patch.object(market_buyer_r3, "decide_json", return_value={
                         "candidate_id": "0", "opening_offer": 700, "reason": "test"}), \
                      patch.object(market_buyer_r3, "negotiate", side_effect=[wrong, good]):
-                    result = market_buyer_r3.run(order, shops, catalog, "own")
+                    result = market_buyer_r3.run(order, shops, catalog, "own",epsilon=0)
                 self.assertEqual(result["shop"], "https://second")
                 self.assertEqual(result["receipt"]["price"], 700)
                 first_memory = buyer_memory.context("https://first", "F1")
