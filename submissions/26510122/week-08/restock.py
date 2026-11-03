@@ -201,7 +201,7 @@ def run(state: Path) -> dict:
     if inventory_observation.snapshot(inventory,inventory_path,history,now):
         history = events()
     live_units = [u for u in inventory.get("units", []) if u.get("grade") != "expired"]
-    if len(live_units) >= 20:
+    if len(live_units) >= replenishment_plan.MAX_TOTAL_STOCK:
         return {"buy": []}
     try:
         imported = sync_settlements()
@@ -271,7 +271,8 @@ def run(state: Path) -> dict:
         "balance": inventory.get("balance"), "candidate_skus": candidates,
         'portfolio_limits': {'maximum_stock_per_sku': replenishment_plan.MAX_SKU_STOCK,
                              'maximum_stock_per_category': replenishment_plan.MAX_CATEGORY_STOCK,
-                             'maximum_total_stock': 20},
+                             'maximum_total_stock': replenishment_plan.MAX_TOTAL_STOCK},
+        'risk_capacity': replenishment_plan.inventory_risk(inventory, now),
         'new_lot_economics': {'food_grade_probabilities': {'A': .25, 'B': .5, 'C': .25},
                               'goods_grade_probabilities': {'A': .7, 'B': .2, 'C': .1},
                               'cost_midpoints_of_list': {'A': .65, 'B': .5, 'C': .35},
@@ -307,7 +308,7 @@ def run(state: Path) -> dict:
     }
     reusable_scenario = (not invalidated_plan and isinstance(cooldown.get('scenario'),dict)
                          and 0 <= now-cooldown.get('scenario_at',0) < 1800
-                         and cooldown.get('policy_version') == 3
+                         and cooldown.get('policy_version') == replenishment_plan.POLICY_VERSION
                          and cooldown.get('sku') in catalog
                          and cooldown.get('product_signature') == replenishment_plan.product_signature(catalog[cooldown['sku']])
                          and any(c['sku']==cooldown['sku'] for c in candidates))
@@ -325,7 +326,7 @@ def run(state: Path) -> dict:
         fallback = True
     COOLDOWN.parent.mkdir(parents=True, exist_ok=True)
     scenario_sku = decision.get('sku')
-    cooldown_data = {'at':time.time(),'sku':scenario_sku,'policy_version':3}
+    cooldown_data = {'at':time.time(),'sku':scenario_sku,'policy_version':replenishment_plan.POLICY_VERSION}
     if decision.get('action')=='buy' and scenario_sku in catalog:
         cooldown_data.update({'scenario':decision,
                               'scenario_at':cooldown['scenario_at'] if reusable_scenario else time.time(),
@@ -355,10 +356,10 @@ def run(state: Path) -> dict:
     calculation = recommend_quantity(poisson_pmf(mean), price, expected_cost,
                                      salvage=continuation, holding_per_leftover=holding,
                                      max_qty=replenishment_plan.MAX_SKU_STOCK)
-    balance = max(0, int(inventory.get("balance") or 0) - MIN_BALANCE)
+    balance = replenishment_plan.inventory_risk(inventory, now)['available_to_invest']
     affordable = int(balance // math.ceil(list_price * 0.75))
     category_stock = sum(u.get('category') == selected.get('category') for u in live_units) if selected.get('category') else 0
-    cap = max(0, min(affordable,20-len(live_units),
+    cap = max(0, min(affordable,replenishment_plan.MAX_TOTAL_STOCK-len(live_units),
                      replenishment_plan.MAX_SKU_STOCK-selected['currently_stocked'],
                      replenishment_plan.MAX_CATEGORY_STOCK-category_stock,
                      STARTUP_MAX_BUY if observation['observed_visits']<5 else 20))

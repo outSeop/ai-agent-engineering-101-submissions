@@ -15,7 +15,7 @@ import random
 
 from harness import decide_json
 from market_memory import record
-from replenishment_plan import product_signature, save
+from replenishment_plan import MAX_TOTAL_STOCK, product_signature, save
 
 STATE = Path('state/inventory-exploration.json')
 BUDGET = 250_000
@@ -208,7 +208,7 @@ def _run(inventory, catalog, history, public, now, path, model, refresh):
             save(path, state)
             record('exploration_hold', reason='catalog_changed', sku=sku)
             return {'buy': []}
-        if len(buy) >= window_slots or len(live) + len(buy) >= 20:
+        if len(buy) >= window_slots or len(live) + len(buy) >= MAX_TOTAL_STOCK:
             break
         if state['initial_cost'] + state['reserved'] + ceiling > BUDGET or ceiling > cash:
             break

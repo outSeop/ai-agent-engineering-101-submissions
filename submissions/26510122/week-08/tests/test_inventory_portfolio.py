@@ -29,7 +29,7 @@ def inventory(variety=5):
 
 def approve(role, prompt, schema):
     anchor = prompt['exploration_anchor_sku']
-    skus = [anchor] + [r['sku'] for r in prompt['candidates'] if r['sku'] != anchor][:2]
+    skus = [anchor] + [r['sku'] for r in prompt['candidates'] if r['sku'] != anchor][:prompt['maximum_new_skus']-1]
     return {'action': 'buy', 'skus': skus, 'reason': 'Small diverse experiment'}
 
 
@@ -53,25 +53,25 @@ class PortfolioTests(unittest.TestCase):
     def test_epsilon_draw_is_persistent_not_redrawn_per_poll_or_restart(self):
         model = Mock(side_effect=approve)
         first = self.run_portfolio(model=model)  # seed1 => .134 < .30
-        self.assertEqual(len(first['buy']), 3)
+        self.assertEqual(len(first['buy']), 8)
         self.assertTrue(all(b['qty'] == 1 for b in first['buy']))
         self.assertEqual(self.run_portfolio(model=model, rng=random.Random(2)), {'buy': []})
         self.assertEqual(model.call_count, 1)
         state = json.loads(self.path.read_text())
         self.assertEqual(len(state['windows']), 1)
-        self.assertEqual(sum(i['cost_ceiling'] for i in state['intents']), 22500)
+        self.assertEqual(sum(i['cost_ceiling'] for i in state['intents']), 60000)
 
     def test_exploitation_draw_delegates_without_exploration_model(self):
         model = Mock(side_effect=AssertionError('must delegate'))
-        self.assertIsNone(self.run_portfolio(model=model, rng=random.Random(2)))
-        self.assertIsNone(self.run_portfolio(model=model, rng=random.Random(1)))
+        self.assertIsNone(self.run_portfolio(inventory(24), model=model, rng=random.Random(2)))
+        self.assertIsNone(self.run_portfolio(inventory(24), model=model, rng=random.Random(1)))
         model.assert_not_called()
 
     def test_low_variety_forces_coverage_even_with_high_draw(self):
         inv = inventory(3)
         inv['units'] += [dict(inv['units'][0], unit=f'extra{i}') for i in range(9)]
         result = self.run_portfolio(inv, rng=random.Random(2))
-        self.assertEqual(len(result['buy']), 3)
+        self.assertEqual(len(result['buy']), 8)
         self.assertFalse(any(b['sku'] in {'s0', 's1', 's2'} for b in result['buy']))
         self.assertTrue(next(iter(json.loads(self.path.read_text())['windows'].values()))['coverage_recovery'])
 
@@ -87,7 +87,7 @@ class PortfolioTests(unittest.TestCase):
         inv = inventory()
         inv['restock'].update(opens_at=2000, closes_at=2300)
         second = self.run_portfolio(inv, now=2100)
-        self.assertEqual(len(second['buy']), 3)
+        self.assertEqual(len(second['buy']), 8)
         self.assertTrue({b['sku'] for b in first['buy']}.isdisjoint(b['sku'] for b in second['buy']))
 
     def test_freshness_window_cash_and_capacity_rechecked_after_model(self):
@@ -95,7 +95,7 @@ class PortfolioTests(unittest.TestCase):
         changed['balance'] = 1_010_000
         self.assertEqual(len(self.run_portfolio(refresh=lambda: (changed, 1000, True))['buy']), 1)
         for refresh in (lambda: (inventory(), 1000, False), lambda: (inventory(), 1201, True),
-                        lambda: (inventory(20), 1000, True)):
+                        lambda: (inventory(60), 1000, True)):
             self.path.unlink(missing_ok=True)
             self.assertEqual(self.run_portfolio(refresh=refresh), {'buy': []})
             self.assertEqual(json.loads(self.path.read_text())['intents'], [])
@@ -116,13 +116,13 @@ class PortfolioTests(unittest.TestCase):
     def test_rolling_reservation_budget_survives_restart_and_does_not_block_greedy(self):
         # Unknown intents retain their spend reservations even after a restart.
         self.path.parent.mkdir()
-        intents = [{'sku': f'x{i}', 'cost_ceiling': 50000, 'at': 999,
-                    'prior_units': [], 'status': 'issued_unknown'} for i in range(5)]
+        intents = [{'sku': f'x{i}', 'cost_ceiling': 250000, 'at': 999,
+                    'prior_units': [], 'status': 'issued_unknown'} for i in range(6)]
         self.path.write_text(json.dumps({'version': 1, 'windows': {}, 'intents': intents}))
         model = Mock(side_effect=AssertionError('budget exhausted'))
         self.assertIsNone(self.run_portfolio(model=model))
         model.assert_not_called()
-        self.assertEqual(len(json.loads(self.path.read_text())['intents']), 5)
+        self.assertEqual(len(json.loads(self.path.read_text())['intents']), 6)
 
     def test_request_evidence_is_deduplicated_and_goods_survive_candidate_sampling(self):
         at = datetime.fromtimestamp(999, timezone.utc).isoformat()
@@ -184,7 +184,7 @@ class PortfolioTests(unittest.TestCase):
             'initial_cost': 0, 'reserved': 0, 'basket': []}))
         with patch.object(restock, 'decide_json', side_effect=approve) as model:
             result = restock.run(state)
-        self.assertEqual(len(result['buy']), 3)
+        self.assertEqual(len(result['buy']), 8)
         self.assertEqual(model.call_args.args[0], 'recurring inventory explorer')
 
     def test_goods_use_goods_cost_prior_and_storage_in_actual_quantity_approval(self):
@@ -201,6 +201,60 @@ class PortfolioTests(unittest.TestCase):
         calc = next(c['calculation'] for c in model.call_args.args[1]['quantity_candidates'] if c['qty'])
         self.assertEqual(calc['cost'], 5900)
         self.assertEqual(calc['holding_per_leftover'], 59)
+
+    def test_larger_basket_can_pass_twenty_units_without_deepening_existing_sku(self):
+        inv = inventory(6)
+        inv['units'] += [dict(inv['units'][0], unit=f'concentrated{i}') for i in range(11)]
+        result = self.run_portfolio(inv)
+        self.assertEqual(len(result['buy']), 8)
+        self.assertGreater(len(inv['units']) + len(result['buy']), 20)
+        self.assertTrue(all(b['qty'] == 1 for b in result['buy']))
+        self.assertFalse({u['sku'] for u in inv['units']} & {b['sku'] for b in result['buy']})
+
+    def test_basket_size_and_category_floors_have_an_affordable_witness(self):
+        rows = [{'sku': f'x{i}', 'cost_ceiling': cost, 'category': f'c{i}'}
+                for i, cost in enumerate((200000, 5000, 5000, 5000, 5000, 250000))]
+        self.assertEqual(portfolio.basket_limits(rows, rows[0], 8, 225000), (5, 5, 4))
+        self.assertEqual(portfolio.basket_limits(rows, rows[0], 8, 200000), (1, 1, 1))
+        # Cardinality is affordable even when multiple expensive categories are not.
+        rows = [{'sku': f'x{i}', 'cost_ceiling': cost, 'category': cat}
+                for i, (cost, cat) in enumerate(((10, 'a'), (10, 'a'), (10, 'a'), (100, 'b')))]
+        self.assertEqual(portfolio.basket_limits(rows, rows[0], 8, 30), (3, 3, 1))
+
+    def test_new_cost_tier_includes_furniture_excluded_by_old_fifty_thousand_limit(self):
+        products = catalog()
+        products['furniture'] = {'kind': 'goods', 'name': 'Desk', 'category': 'furniture',
+                                 'list_price': 240000, 'shelf_hours': None}
+        rows = portfolio.candidates(products, inventory(0), [], 1000, set(), random.Random(1))
+        desk = next(r for r in rows if r['sku'] == 'furniture')
+        self.assertEqual(desk['cost_ceiling'], 180000)
+        self.assertEqual(desk['price_band'], 'upper')
+
+    def test_cost_exposure_rechecked_after_approval_in_both_planners(self):
+        inv = inventory(0)
+        inv['units'] = [{'unit': 'expensive', 'sku': 'old', 'grade': 'A', 'cost': 1_995_000}]
+        risk = plans.inventory_risk(inv, 1000)
+        self.assertEqual(risk['available_to_invest'], 5000)
+        self.assertEqual(self.run_portfolio(refresh=lambda: (inv, 1000, True)), {'buy': []})
+        obs = {'observed_visits': 10, 'observed_no_stock_visits': 0, 'observed_visit_rate_while_stocked': None}
+        p = plans.create(sku='s1', product=catalog()['s1'], candidate={'qty': 2, 'target_stock': 2},
+                         approval={'valid_for_seconds': 600, 'max_total_qty': 4}, observation=obs, now=1000)
+        result, _ = plans.execute(p, inventory=inv, product=catalog()['s1'], observation=obs, now=1000)
+        self.assertEqual(result, {'buy': []})
+        self.assertEqual(plans.inventory_risk(inventory(), 1000, pending_cost=2_000_000)['available_to_invest'], 0)
+
+    def test_cached_planner_counts_unresolved_exploration_without_double_counting_arrivals(self):
+        path = Path('state/inventory-portfolio.json'); path.parent.mkdir()
+        path.write_text(json.dumps({'intents': [{'sku': 'new', 'cost_ceiling': 250000,
+                                               'prior_units': [], 'status': 'issued_unknown'}]}))
+        inv = inventory(0)
+        self.assertEqual(plans.inventory_risk(inv, 1000)['pending_cost_ceiling'], 250000)
+        inv['units'].append({'sku': 'new', 'unit': 'arrived', 'grade': 'A', 'cost': 180000})
+        risk = plans.inventory_risk(inv, 1000)
+        self.assertEqual(risk['pending_cost_ceiling'], 0)
+        self.assertEqual(risk['stock_acquisition_cost'], 180000)
+        path.write_text('{invalid')
+        self.assertEqual(plans.inventory_risk(inv, 1000)['available_to_invest'], 0)
 
 
 if __name__ == '__main__':

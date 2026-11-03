@@ -16,6 +16,51 @@ MAX_VALID_SECONDS = 600
 MIN_BALANCE = 1_000_000
 MAX_SKU_STOCK = 4
 MAX_CATEGORY_STOCK = 6
+MAX_TOTAL_STOCK = 60
+MAX_INVENTORY_COST = 2_000_000
+INVENTORY_CAPITAL_SHARE = .40
+POLICY_VERSION = 4
+
+
+def pending_exploration_cost(inventory: dict) -> int:
+    """Share unresolved exploration reservations with ordinary/cached plans."""
+    path = Path('state/inventory-portfolio.json')
+    if not path.exists():
+        return 0
+    state = load(path)
+    if not state or not isinstance(state.get('intents'), list):
+        return MAX_INVENTORY_COST
+    total = 0
+    for intent in state['intents']:
+        if not isinstance(intent, dict) or intent.get('status') not in ('issued_unknown', 'observed_inventory'):
+            return MAX_INVENTORY_COST
+        if intent['status'] != 'issued_unknown':
+            continue
+        if type(intent.get('cost_ceiling')) is not int or intent['cost_ceiling'] <= 0 or not isinstance(intent.get('prior_units'), list):
+            return MAX_INVENTORY_COST
+        arrived = any(u.get('sku') == intent.get('sku') and u.get('unit')
+                      and u['unit'] not in intent['prior_units'] for u in inventory.get('units', []))
+        if not arrived:
+            total += intent['cost_ceiling']
+    return total
+
+
+def inventory_risk(inventory: dict, now: float, pending_cost: int | None = None) -> dict:
+    """Acquisition-cost exposure, not an assertion of resale or liquidation value."""
+    pending_cost = pending_exploration_cost(inventory) if pending_cost is None else pending_cost
+    balance = inventory.get('balance')
+    balance = max(0, int(balance)) if type(balance) in (int, float) and math.isfinite(balance) else 0
+    stock_cost = sum(max(0, int(u.get('cost') or 0)) for u in inventory.get('units', [])
+                     if u.get('grade') in ('A', 'B', 'C')
+                     and (u.get('expires_at') is None or u['expires_at'] > now))
+    limit = min(MAX_INVENTORY_COST, int((balance + stock_cost) * INVENTORY_CAPITAL_SHARE))
+    cash_room = max(0, balance - MIN_BALANCE)
+    exposure_room = max(0, limit - stock_cost - max(0, pending_cost))
+    return {'cash_balance': balance, 'cash_reserve': MIN_BALANCE, 'stock_acquisition_cost': stock_cost,
+            'pending_cost_ceiling': pending_cost, 'inventory_cost_limit': limit,
+            'capital_share_limit': INVENTORY_CAPITAL_SHARE,
+            'available_to_invest': min(cash_room, exposure_room),
+            'caution': 'Acquisition cost is risk exposure, not guaranteed resale value.'}
 
 
 def product_signature(product: dict) -> str:
@@ -49,7 +94,7 @@ def create(*, sku: str, product: dict, candidate: dict, approval: dict,
         raise ValueError('target must fit the per-SKU portfolio limit')
     if observation['observed_visits'] < 5:
         budget = min(budget, 2)
-    return {'version': 1, 'policy_version': 3, 'id': uuid.uuid4().hex, 'sku': sku, 'approved_at': now,
+    return {'version': 1, 'policy_version': POLICY_VERSION, 'id': uuid.uuid4().hex, 'sku': sku, 'approved_at': now,
             'expires_at': now + ttl, 'target_stock': candidate['target_stock'],
             'max_initial_qty': candidate['qty'], 'max_total_qty': budget, 'emitted_qty': 0,
             'product_signature': product_signature(product),
@@ -72,7 +117,7 @@ def execute(plan: dict, *, inventory: dict, product: dict, observation: dict,
     if not (plan['target_stock'] <= MAX_SKU_STOCK and plan['max_initial_qty'] <= plan['max_total_qty'] <= 20
             and plan['emitted_qty'] <= plan['max_total_qty'] and plan['cost_ceiling_per_unit'] > 0):
         return None, 'invalid_plan_budget'
-    if plan.get('policy_version') != 3:
+    if plan.get('policy_version') != POLICY_VERSION:
         return None, 'portfolio_policy_changed'
     if plan.get('version') != 1 or not plan.get('approved_at', now+1) <= now < plan.get('expires_at', 0):
         return None, 'expired_or_invalid_plan'
@@ -108,9 +153,8 @@ def execute(plan: dict, *, inventory: dict, product: dict, observation: dict,
     budget = max(0, plan['max_total_qty']-plan['emitted_qty'])
     if missing and not budget:
         return None, 'authorized_budget_exhausted'
-    balance = inventory.get('balance')
-    available = max(0, int(balance)-MIN_BALANCE) if type(balance) in (int,float) and math.isfinite(balance) else 0
-    qty = min(missing, budget, plan['max_initial_qty'], category_room, 20-len(live), available//plan['cost_ceiling_per_unit'])
+    available = inventory_risk(inventory, now)['available_to_invest']
+    qty = min(missing, budget, plan['max_initial_qty'], category_room, MAX_TOTAL_STOCK-len(live), available//plan['cost_ceiling_per_unit'])
     qty = max(0, qty)
     plan['emitted_qty'] += qty
     if qty and snapshot_time is not None:

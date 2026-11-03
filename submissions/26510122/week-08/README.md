@@ -41,21 +41,37 @@ switch the running week-07 services. Live settlement evidence is still needed.
    bounds exploration, not all subsequent evidence-based replenishment.
 
    After startup, `inventory_portfolio.py` persists one epsilon draw per supply
-   window: 30% exploration, otherwise exploitation. Fewer than five stocked SKUs
-   overrides the draw to recover variety. This is an operator-controlled mixture
+   window: 30% exploration, otherwise exploitation. Fewer than 24 stocked SKUs
+   overrides the draw to build broad inventory. This is an operator-controlled mixture
    around a model policy, not a learned Q-value table; percentages describe window
    decisions, not units or spend. Exploration samples food/goods categories and
-   proposes at most three unowned SKUs, one unit each. A randomly sampled anchor
+   proposes at most eight unowned SKUs, one unit each. The tool calculates an
+   affordable minimum of up to five SKUs across up to four categories, including
+   the random anchor, before asking the model; a concrete feasible basket
+   witnesses these floors. Limited cash, category availability or window time
+   can reduce them. The model is asked to prefer the maximum affordable batch,
+   and can still hold for a concrete risk. The bounded candidate pool alternates
+   food/goods, samples price bands and admits unit cost ceilings up to 250,000,
+   so medium-priced furniture is no longer excluded by the old 50,000 cutoff.
+   A randomly sampled anchor
    (preferably without recent evidence) must be included in a buy, so the model
    cannot silently turn exploration into its familiar best sellers; it can hold
-   for a concrete risk and chooses the rest of the basket. Multiple purchases
-   must cover at least two available categories. The model still approves every
-   basket. Its ceiling budget is 100,000 per window and 250,000 over a rolling
+   for a concrete risk and chooses the rest of the basket. The model still approves every
+   basket. Its ceiling budget is 600,000 per window and 1,500,000 over a rolling
    24 hours; these are worst-case intent reservations, not actual spend. Unknown
    outcomes retain spend and slot reservations. The same window is never redrawn
    or retried after a model failure, hold or ambiguous supply. Arrival evidence
    is logged separately. If exploration has no budget or candidates, that window
    delegates to the bounded exploitation planner instead of stopping all restock.
+   Existing intent reservations survive the budget increase; the update does not
+   restart the 24-hour allowance or repeat a previously attempted window.
+
+   `replenishment_plan.inventory_risk` computes spendable capacity from cash and
+   acquisition-cost exposure for both ordinary replenishment and exploration.
+   It preserves 1,000,000 cash and caps live inventory cost plus unresolved intent
+   ceilings at the smaller of 2,000,000 or 40% of cash plus live acquisition cost.
+   This is an exposure limit, not a resale-value estimate. Both paths recalculate
+   capacity after model approval, and cached plans also check it on every issue.
 
    The ordinary `restock` hook offers the model a bounded set of food AND goods SKUs from its own
    observations, recent public Round 3 settlements and category-balanced samples.
@@ -67,7 +83,7 @@ switch the running week-07 services. Live settlement evidence is still needed.
    Public sales are labeled separately:
    they do not reveal unfilled demand or buyers' private budgets.
    Before five observed visits for that SKU in the last 12 hours, the entire
-   plan is capped at two units; total live stock is capped at 20 units. Both
+   plan is capped at two units; total live stock is capped at 60 units. Both
    paths enforce at most four units per SKU and six per catalog category when
    adding stock; existing excess stock is retained for sale, without adding to
    it. Old plans and scenario caches cannot bypass the new policy. Goods use
