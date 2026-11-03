@@ -20,7 +20,7 @@ from a2a.helpers import get_message_text, new_data_part, new_task_from_user_mess
 from a2a.server.agent_execution import AgentExecutor
 from a2a.server.request_handlers import DefaultRequestHandler
 from a2a.server.routes import create_agent_card_routes, create_jsonrpc_routes
-from a2a.server.tasks import InMemoryTaskStore, TaskUpdater
+from a2a.server.tasks import TaskUpdater
 from a2a.types import AgentCapabilities, AgentCard, AgentInterface, AgentSkill
 
 from harness import decide_json, trace
@@ -31,6 +31,8 @@ from context_compaction import MAX_TURNS
 import buyer_identity
 import counterparty_memory
 from newsvendor_tool import GRADE_ANCHORS
+from seller_state import SellerState, SQLiteTaskStore, ResumingContextBuilder
+import seller_requirements
 
 
 NAME = "outseop-26510122"
@@ -104,10 +106,14 @@ def decision_schema(actions: list[str]) -> dict:
 
 
 class Seller(AgentExecutor):
-    def __init__(self) -> None:
-        self.open: dict[str, dict] = {}
+    def __init__(self, state=None) -> None:
+        self.state = state or SellerState()
+        history = events()
+        self.state.import_receipt_holds(history, HOLD_SECONDS)
+        self.open: dict[str, dict] = self.state.restore_deals()
         self.holds: dict[str, float] = {}  # signed receipts awaiting checkout/settlement
         self.identity_messages: dict[str,float] = {}
+        self.task_locks = {}
 
     def expire_negotiations(self, now=None):
         now=time.monotonic() if now is None else now
@@ -116,6 +122,7 @@ class Seller(AgentExecutor):
             opened=deal.get('opened_monotonic',last)
             if now-last>=NEGOTIATION_IDLE_SECONDS or now-opened>=NEGOTIATION_MAX_SECONDS:
                 del self.open[task_id]
+                self.state.close_deal(task_id)
                 record('negotiation_expired',task_id=task_id,sku=deal['unit']['sku'],unit=deal['unit']['unit'],
                        reason='negotiation reservation timed out; payment outcome unknown')
 
@@ -124,9 +131,13 @@ class Seller(AgentExecutor):
         inventory = read_inventory()
         stock = {u.get("unit") for u in inventory.get("units", [])}
         now = time.monotonic()
+        leases = self.state.active_leases(events())
+        for unit, _, kind, until in leases:
+            if kind == 'receipt':
+                self.holds[unit] = now + max(0, until-time.time())
         self.holds = {unit: until for unit, until in self.holds.items()
                       if until > now and (not stock or unit in stock)}
-        taken = {d["unit"]["unit"] for d in self.open.values()} | set(self.holds)
+        taken = {d["unit"]["unit"] for d in self.open.values()} | set(self.holds) | {r[0] for r in leases}
         return find_units(text, taken, inventory)
 
     async def choose(self, prompt: dict, actions: list[str], fallback: dict) -> dict:
@@ -143,6 +154,12 @@ class Seller(AgentExecutor):
         return answer
 
     async def execute(self, context, event_queue) -> None:
+        key = context.current_task.id if context.current_task else context.message.message_id
+        lock = self.task_locks.setdefault(key, asyncio.Lock())
+        async with lock:
+            await self._execute(context, event_queue)
+
+    async def _execute(self, context, event_queue) -> None:
         task = context.current_task
         new_task = task is None
         if task is None:
@@ -157,9 +174,27 @@ class Seller(AgentExecutor):
         self.expire_negotiations()
         deal = self.open.get(task.id)
         if not new_task and deal is None:
+            receipt = self.state.pending_receipt(task.id)
+            if receipt is not None:
+                current = read_inventory()
+                unit = next((u for u in current.get('units', []) if u.get('unit') == receipt['unit']), None)
+                saved = self.state.requirements_for(task.id) or seller_requirements.initial('')
+                if current.get('round') == 3 and (unit is None or seller_requirements.violations(unit, saved, time.time())):
+                    await up.reject(say('The saved receipt unit no longer meets the purchase conditions.'))
+                    return
+                await up.add_artifact(parts=[new_data_part(receipt)], name='receipt')
+                await up.complete(say('Previously agreed receipt; price and unit unchanged.'))
+                return
             await up.reject(say('This negotiation is no longer active. Please start a new purchase request.'))
             return
-        if deal is not None:deal['last_activity']=time.monotonic()
+        if deal is not None:
+            deal['last_activity'] = time.monotonic()
+            deal['last_activity_at'] = time.time()
+            deal['requirements'] = seller_requirements.update(deal.get('requirements', seller_requirements.initial('')), message)
+            if not self.state.save_deal(task.id, deal, create=False):
+                self.open.pop(task.id, None)
+                await up.reject(say('That reservation is no longer active. Please start a new request.'))
+                return
 
         if deal is None:
             try:
@@ -180,6 +215,12 @@ class Seller(AgentExecutor):
             if not choices:
                 record("no_stock", task_id=task.id, request=message[:160], requested_skus=requested)
                 await up.reject(say("Sorry, no matching unit is in stock."))
+                return
+            requirements = seller_requirements.initial(message)
+            choices = [u for u in choices if not seller_requirements.violations(u, requirements, time.time())]
+            if not choices:
+                record('requirements_unmet', task_id=task.id, requirements=requirements)
+                await up.reject(say('No available unit meets the requested expiry, grade or warranty.'))
                 return
             metadata=context.metadata or MessageToDict(context.message.metadata)
             history=events()
@@ -220,6 +261,7 @@ class Seller(AgentExecutor):
                     tool['buyer_price_candidates']=profiles[key]['price_candidates']
             prompt = {
                 "phase": "opening", "task_id": task.id, "buyer_message": message[:500],
+                'purchase_requirements': requirements,
                 "objective": "Choose one available physical unit and an opening price. "
                              "Use the calculation-tool candidates and market memory as evidence; "
                              "you may choose another positive price when you explain why. "
@@ -252,6 +294,11 @@ class Seller(AgentExecutor):
                     await up.reject(say("That unit is no longer available. Please try again."))
                     return
                 unit = current_unit
+            errors = seller_requirements.violations(unit, requirements, time.time())
+            if errors:
+                record('requirements_unmet', task_id=task.id, errors=errors)
+                await up.reject(say('That unit no longer meets the requested conditions. Please start a new request.'))
+                return
             proposed = answer.get("price")
             maximum = max(1, 2 * int(unit["list_price"]))
             ask = min(maximum, max(1, int(proposed))) if type(proposed) is int else middle
@@ -263,7 +310,12 @@ class Seller(AgentExecutor):
                 "unit": unit, "ask": ask, "history": [], "opened_at": time.time(),
                 'opened_monotonic':time.monotonic(),'last_activity':time.monotonic(),
                 'buyer_identity':identity,'buyer_price_evidence':profiles_by_unit[unit['unit']],
+                'last_activity_at':time.time(), 'requirements':requirements,
             }
+            if not self.state.save_deal(task.id, deal):
+                del self.open[task.id]
+                await up.reject(say('That unit was reserved by another purchase. Please try again.'))
+                return
             record("opening", task_id=task.id, sku=unit["sku"], unit=unit["unit"],
                    category=unit.get("category"), grade=unit["grade"], kind=unit.get("kind"),
                    cost=unit["cost"], list_price=unit["list_price"], ask=ask,
@@ -281,11 +333,7 @@ class Seller(AgentExecutor):
             await up.requires_input(say(f"{unit['name']}: asking {ask}. Short replies save tokens; send a number."))
             return
 
-        offered = re.fullmatch(r"\s*(\d+)\s*", message)
-        if not offered:
-            await up.requires_input(say(f"Please send one whole-number offer. Current ask: {deal['ask']}"))
-            return
-        offer = int(offered.group(1))
+        offer = seller_requirements.offer(message)
         unit = deal["unit"]
         current = read_inventory()
         if current.get("round", 0) >= 3:
@@ -295,17 +343,31 @@ class Seller(AgentExecutor):
                 record("stale_inventory", task_id=task.id, unit=unit["unit"])
                 await up.reject(say("That unit is no longer available."))
                 del self.open[task.id]
+                self.state.close_deal(task.id)
                 return
             unit = deal["unit"] = fresh
+        errors = seller_requirements.violations(unit, deal['requirements'], time.time())
+        if errors:
+            record('requirements_unmet', task_id=task.id, errors=errors)
+            self.state.close_deal(task.id)
+            del self.open[task.id]
+            await up.reject(say('This unit cannot meet your current requirements: '+ '; '.join(errors)+'. Please start a new request.'))
+            return
+        if offer is None:
+            self.state.save_deal(task.id, deal, create=False)
+            await up.requires_input(say(f"Conditions saved. Please send one clear price offer. Current ask: {deal['ask']}"))
+            return
         record("offer", task_id=task.id, sku=unit["sku"], unit=unit["unit"], price=offer,
                grade=unit['grade'],cost=unit['cost'],expires_at=unit.get('expires_at'))
         deal["history"].append({"buyer_offer": offer, "seller_ask": deal["ask"]})
+        self.state.save_deal(task.id, deal, create=False)
         memory = compact_context(unit["sku"], unit["grade"])
         prompt = {
             "phase": "follow_up", "task_id": task.id,
             "unit": quote_candidates(unit), "current_ask": deal["ask"],
             "buyer_offer": offer, "history": deal["history"][-MAX_TURNS:], "memory": memory,
             'buyer_price_evidence':deal.get('buyer_price_evidence'),
+            'purchase_requirements':deal['requirements'], 'buyer_message':message[:500],
             "objective": "Accept, counter or reject. Consider purchase cost, grade, "
                          "food expiry and goods storage, but do not treat purchase cost "
                          "as an absolute floor for food already near expiry. "
@@ -325,11 +387,25 @@ class Seller(AgentExecutor):
                 record("stale_inventory", task_id=task.id, unit=unit["unit"])
                 await up.reject(say("That unit changed during negotiation. Please try again."))
                 del self.open[task.id]
+                self.state.close_deal(task.id)
                 return
+            unit = fresh
+        errors = seller_requirements.violations(unit, deal['requirements'], time.time())
+        if errors:
+            record('requirements_unmet', task_id=task.id, errors=errors)
+            self.state.close_deal(task.id)
+            del self.open[task.id]
+            await up.reject(say('The unit no longer meets your saved purchase conditions. Please start a new request.'))
+            return
         action = answer["action"]
         if action == "accept" and offer > 0:
             receipt = sign({"shop": NAME, "item": unit["sku"], "price": offer,
                             "task": task.id, "unit": unit["unit"]})
+            if not self.state.commit_receipt(task.id, receipt, HOLD_SECONDS):
+                self.open.pop(task.id, None)
+                await up.reject(say('That unit reservation expired. Please start a new request.'))
+                return
+            self.holds[unit['unit']] = time.monotonic() + HOLD_SECONDS
             await up.add_artifact(parts=[new_data_part(receipt)], name="receipt")
             record("receipt_signed", task_id=task.id, sku=unit["sku"], unit=unit["unit"],
                    grade=unit["grade"], price=offer,cost=unit['cost'],expires_at=unit.get('expires_at'))
@@ -338,12 +414,14 @@ class Seller(AgentExecutor):
             trace("seller_receipt", task_id=task.id, unit=unit["unit"], price=offer,
                   status="pending settlement")
             del self.open[task.id]
+            self.state.close_deal(task.id)
             return
         if action == "reject":
             record("rejected", task_id=task.id, sku=unit["sku"], unit=unit["unit"],
                    price=offer, reason=answer["reason"])
             await up.reject(say("No deal."))
             del self.open[task.id]
+            self.state.close_deal(task.id)
             return
         proposed = answer.get("price")
         maximum = max(1, 2 * int(unit["list_price"]))
@@ -351,6 +429,9 @@ class Seller(AgentExecutor):
         if ask != proposed:
             trace("decision_guard", phase="follow_up", proposed_price=proposed, effective_price=ask)
         deal["ask"] = ask
+        if not self.state.save_deal(task.id, deal, create=False):
+            self.open.pop(task.id, None)
+            return
         record("counter", task_id=task.id, sku=unit["sku"], unit=unit["unit"],
                buyer_offer=offer, ask=ask)
         trace("seller_counter", task_id=task.id, sku=unit["sku"], offer=offer, ask=ask)
@@ -361,6 +442,7 @@ class Seller(AgentExecutor):
         if task is None:
             return
         deal = self.open.pop(task.id, None)
+        self.state.close_deal(task.id)
         record("cancelled", task_id=task.id, sku=deal["unit"]["sku"] if deal else None)
         await TaskUpdater(event_queue=event_queue, task_id=task.id, context_id=task.context_id).cancel()
 
@@ -381,7 +463,10 @@ def build(port: int) -> Starlette:
                            tags=["shopping", "negotiation", "signed-receipt"],
                            examples=["I want to buy G00001", "52000"])],
     )
-    handler = DefaultRequestHandler(agent_executor=Seller(), task_store=InMemoryTaskStore(), agent_card=card)
+    state = SellerState()
+    task_store = SQLiteTaskStore(state)
+    handler = DefaultRequestHandler(agent_executor=Seller(state), task_store=task_store, agent_card=card,
+                                    request_context_builder=ResumingContextBuilder(task_store=task_store))
     return Starlette(routes=create_agent_card_routes(card) + create_jsonrpc_routes(handler, "/"))
 
 

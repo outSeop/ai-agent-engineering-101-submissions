@@ -8,6 +8,15 @@ switch the running week-07 services. Live settlement evidence is still needed.
 1. The kit v4 writes `.market/inventory.json` and `catalog.json`. The seller
    offers only an in-stock unit, and temporarily holds a unit after signing a
    receipt so that another negotiation cannot promise it immediately.
+   `seller_state.py` persists active negotiations, per-unit leases, purchase
+   contexts and owner-scoped A2A tasks in `state/seller.sqlite3` (ignored by Git).
+   Receipt leases commit atomically BEFORE the signed artifact is exposed and
+   last ten minutes unless a confirmed settlement releases them. Epoch deadlines
+   survive process restarts. Recent unsettled receipt logs migrate on first
+   upgrade; no keys are copied into the DB. An interrupted artifact emission can
+   replay the exact persisted receipt, after rechecking current conditions,
+   without changing its unit, price or signature. Protocol task IDs and their
+   original context IDs survive restarts, including clients that send only taskId.
 2. `newsvendor_tool.py quote` calculates transparent A/B/C price anchors from
    the actual unit cost, list price, grade, expiry and storage charge. The
    initial A=1.0, B=0.8, C=0.6 multipliers are hypotheses, not lecture values.
@@ -25,6 +34,19 @@ switch the running week-07 services. Live settlement evidence is still needed.
    action. The quote candidates and memory are evidence for that choice. The
    seller records the model decision separately from the emitted ask/counter.
    Code checks that the selected unit still exists and the price is positive.
+   `seller_requirements.py` retains the original request and three bounded
+   nonnumeric messages, alongside explicit minimum expiry, acceptable grades,
+   required warranty and certificate fields. This purchase context is saved per
+   task, passed to every model turn, and retained after completion for inspection.
+   Numeric price-only replies do not erase terms. Common explicit English/Korean
+   numeric terms are parsed conservatively; unrecognized wording remains visible
+   to the model rather than becoming an invented hard constraint. Mixed offers
+   such as `800, but only if it lasts 84 hours` preserve both the price and term;
+   ambiguous prices require clarification. Conditions are checked before quoting
+   and immediately before exposing a receipt, including after slow model calls.
+   The seller still does not offer warranties: a requested unsupported warranty
+   fails explicitly rather than being silently promised. Pricing remains a model
+   decision, with separate condition-validation guards.
 5. Before ordinary replenishment, `inventory_exploration.py` asks the model for
    a startup basket of 5–8 distinct SKUs, one unit each, including existing stock.
    The finite 250,000-credit allowance includes existing stock cost and reserves
@@ -63,6 +85,13 @@ switch the running week-07 services. Live settlement evidence is still needed.
    or retried after a model failure, hold or ambiguous supply. Arrival evidence
    is logged separately. If exploration has no budget or candidates, that window
    delegates to the bounded exploitation planner instead of stopping all restock.
+   `supply_reconciliation.py` also recognizes a just-sold physical unit through
+   first-hand receipt/settlement records, even when it has already disappeared
+   from current stock. A receipt proves arrival, not payment; settlement needs
+   a ledger ID. Old units, earlier events and ambiguous repeated-SKU evidence
+   cannot free an unknown reservation. Confirmed arrival/settlement releases
+   pending slot/cost exposure while keeping the 24-hour exploration spend used.
+   Reconciliation runs even with supply closed and is shared by cached plans.
    Existing intent reservations survive the budget increase; the update does not
    restart the 24-hour allowance or repeat a previously attempted window.
 
