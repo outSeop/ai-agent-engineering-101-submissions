@@ -80,7 +80,7 @@ class ShopForumTests(unittest.TestCase):
         self.assertEqual(payload['as'], 'shop')
         state = json.loads((self.root/'state/seller-forum.json').read_text())
         self.assertEqual(state['posts'][0]['status'], 'queued')
-        (self.root/'.market/outbox.sent.jsonl').write_text(json.dumps({'sent': payload, 'status': 200, 'answer': '{"id":123}'})+'\n')
+        (self.root/'.market/outbox.sent.jsonl').write_text(json.dumps({'sent': payload, 'status': 200, 'answer': '{"post":123}'})+'\n')
         result = forum.run_once(self.root, decide=lambda *a: self.fail('model should not run'), now=self.now+10)
         self.assertEqual(result['reason'], 'cooldown')
         state = json.loads((self.root/'state/seller-forum.json').read_text())

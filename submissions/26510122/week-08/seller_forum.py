@@ -150,14 +150,14 @@ def reconcile(runtime, state, now):
             except ValueError: pass
     forum = read_json(runtime / '.market/forum.json', [])
     for entry in state['posts']:
-        if entry['status'] != 'queued': continue
+        if entry['status'] != 'queued' and not (entry['status'] == 'published' and not entry.get('post_id')): continue
         ack = next((s for s in sent if s.get('sent', {}).get('client_id') == entry['id']), None)
         public = next((p for p in forum if p.get('author') == SHOP and p.get('role') == 'shop'
                        and p.get('text') == entry['text']), None)
         if public or ack:
             status = 200 if public else ack.get('status', 0)
             entry['status'] = 'published' if 200 <= status < 300 else 'failed'
-            match = re.search(r'"id"\s*:\s*(\d+)', ack.get('answer', '')) if ack else None
+            match = re.search(r'"(?:post|id)"\s*:\s*(\d+)', ack.get('answer', '')) if ack else None
             entry['post_id'] = public['id'] if public else int(match[1]) if match else None
             entry['http_status'] = status
             record('forum_ack', path=runtime/'logs/seller-forum-events.jsonl', **entry)
