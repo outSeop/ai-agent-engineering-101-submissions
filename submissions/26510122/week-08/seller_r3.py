@@ -23,7 +23,7 @@ from a2a.server.routes import create_agent_card_routes, create_jsonrpc_routes
 from a2a.server.tasks import InMemoryTaskStore, TaskUpdater
 from a2a.types import AgentCapabilities, AgentCard, AgentInterface, AgentSkill
 
-from harness import MODEL, decide_json, trace
+from harness import decide_json, trace
 from market_memory import compact_context, events, record, sync_settlements
 from newsvendor_tool import quote_candidates
 from inventory_observation import requested_skus
@@ -254,7 +254,7 @@ class Seller(AgentExecutor):
                        evidence_count=evidence['calm_high_paid'])
             trace("seller_open", task_id=task.id, sku=unit["sku"], unit=unit["unit"],
                   grade=unit["grade"], cost=unit["cost"], ask=ask)
-            await up.requires_input(say(f"{unit['name']}: asking {ask}. Send your offer as a number."))
+            await up.requires_input(say(f"{unit['name']}: asking {ask}. Short replies save tokens; send a number."))
             return
 
         offered = re.fullmatch(r"\s*(\d+)\s*", message)
@@ -345,14 +345,16 @@ def build(port: int) -> Starlette:
     url = f"http://127.0.0.1:{port}/"
     card = AgentCard(
         name=NAME,
-        description=f"An inventory-backed shop using {MODEL} for price negotiation.",
+        description="Short chats, fewer tokens: brief quotes, numeric offers, and signed receipts "
+                    "on agreement. Shop from available stock.",
         version="1.0.0",
         default_input_modes=["text/plain"],
         default_output_modes=["application/json", "text/plain"],
         capabilities=AgentCapabilities(streaming=False),
         supported_interfaces=[AgentInterface(protocol_binding="JSONRPC", url=url, protocol_version="1.0")],
         skills=[AgentSkill(id="negotiate", name="Negotiate a stocked purchase",
-                           description="Ask for a stocked product by SKU or name, then offer a whole-number price.",
+                           description="Ask for a stocked product by SKU or name, then send a numeric offer. "
+                                       "We keep replies brief.",
                            tags=["shopping", "negotiation", "signed-receipt"],
                            examples=["I want to buy G00001", "52000"])],
     )
