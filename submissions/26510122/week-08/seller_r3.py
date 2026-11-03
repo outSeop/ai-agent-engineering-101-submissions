@@ -42,6 +42,8 @@ SELLER_DESCRIPTION = (
 MARKET_DIR = Path(os.environ.get("MARKET_DIR", ".market"))
 RESERVE = {"lamp": 100, "chair": 180, "bookshelf": 260}  # pre-Round-3 compatibility
 HOLD_SECONDS = 600
+NEGOTIATION_IDLE_SECONDS = 300
+NEGOTIATION_MAX_SECONDS = 900
 
 
 def canon(body: dict) -> bytes:
@@ -107,7 +109,18 @@ class Seller(AgentExecutor):
         self.holds: dict[str, float] = {}  # signed receipts awaiting checkout/settlement
         self.identity_messages: dict[str,float] = {}
 
+    def expire_negotiations(self, now=None):
+        now=time.monotonic() if now is None else now
+        for task_id,deal in list(self.open.items()):
+            last=deal.get('last_activity',now)
+            opened=deal.get('opened_monotonic',last)
+            if now-last>=NEGOTIATION_IDLE_SECONDS or now-opened>=NEGOTIATION_MAX_SECONDS:
+                del self.open[task_id]
+                record('negotiation_expired',task_id=task_id,sku=deal['unit']['sku'],unit=deal['unit']['unit'],
+                       reason='negotiation reservation timed out; payment outcome unknown')
+
     def available(self, text: str) -> list[dict]:
+        self.expire_negotiations()
         inventory = read_inventory()
         stock = {u.get("unit") for u in inventory.get("units", [])}
         now = time.monotonic()
@@ -141,7 +154,12 @@ class Seller(AgentExecutor):
             return up.new_agent_message(parts=[new_text_part(message)])
         message = get_message_text(context.message) or ""
         record('buyer_message',task_id=task.id,text=message)
+        self.expire_negotiations()
         deal = self.open.get(task.id)
+        if not new_task and deal is None:
+            await up.reject(say('This negotiation is no longer active. Please start a new purchase request.'))
+            return
+        if deal is not None:deal['last_activity']=time.monotonic()
 
         if deal is None:
             try:
@@ -243,6 +261,7 @@ class Seller(AgentExecutor):
                       effective_unit=unit["unit"])
             self.open[task.id] = deal = {
                 "unit": unit, "ask": ask, "history": [], "opened_at": time.time(),
+                'opened_monotonic':time.monotonic(),'last_activity':time.monotonic(),
                 'buyer_identity':identity,'buyer_price_evidence':profiles_by_unit[unit['unit']],
             }
             record("opening", task_id=task.id, sku=unit["sku"], unit=unit["unit"],

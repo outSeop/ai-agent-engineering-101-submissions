@@ -133,7 +133,7 @@ def profile(identity: dict,unit: dict, *, path=EVENTS,now=None,history=None) -> 
         if attempt and attempt['outcome'] in ('REJECTED','CANCELLED'):
             if not later:
                 result['status']='last_price_probe_failed';return result
-        if attempt and attempt['outcome'] in ('OPEN','RECEIPT_PENDING') and now-(epoch(last.get('at')) or now)<1800:
+        if attempt and attempt['outcome'] in ('OPEN','RECEIPT_PENDING','EXPIRED_UNKNOWN') and now-(epoch(last.get('at')) or now)<1800:
             result['status']='price_probe_unresolved';return result
         if attempt and not later and attempt['outcome']=='SETTLED' and attempt['settled_price']<last['price']*.98:
             result['status']='last_price_probe_required_discount';return result

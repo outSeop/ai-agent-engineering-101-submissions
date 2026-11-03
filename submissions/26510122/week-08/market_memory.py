@@ -131,6 +131,9 @@ def _attempts(rows: list[dict]) -> list[dict]:
         elif task in attempts and kind in {"rejected", "cancelled"}:
             attempts[task]["outcome"] = kind.upper()
             attempts[task]['reason'] = text(row.get('reason'))
+        elif task in attempts and kind=='negotiation_expired':
+            attempts[task]['outcome']='EXPIRED_UNKNOWN'
+            attempts[task]['reason']=text(row.get('reason'))
     for task, settlement in settled_by_task.items():
         if task in attempts:
             attempts[task]["outcome"] = "SETTLED"
