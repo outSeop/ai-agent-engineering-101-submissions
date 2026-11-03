@@ -17,6 +17,7 @@ from inventory_exploration import window_open
 from inventory_observation import timestamp
 from market_memory import record
 from replenishment_plan import MAX_CATEGORY_STOCK, MAX_TOTAL_STOCK, inventory_risk, product_signature, save
+from supply_reconciliation import reconcile
 
 STATE = Path('state/inventory-portfolio.json')
 EPSILON = .30
@@ -124,9 +125,11 @@ def basket_limits(rows, anchor, slots, budget):
 
 def run(inventory, catalog, history, now, *, model, refresh, rng=None, state_path=None):
     """None delegates this window to the model's exploitation planner."""
-    if inventory.get('round') != 3 or not window_open(inventory, now):
+    if inventory.get('round') != 3:
         return {'buy': []}
     path = state_path or STATE
+    if not window_open(inventory, now) and not path.exists():
+        return {'buy': []}
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.with_suffix('.lock').open('a') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
@@ -145,7 +148,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
                         or not 0 < intent['cost_ceiling'] <= MAX_UNIT_COST
                         or type(intent.get('at')) not in (int, float) or not math.isfinite(intent['at'])
                         or not isinstance(intent.get('prior_units'), list)
-                        or intent.get('status') not in ('issued_unknown', 'observed_inventory')):
+                        or intent.get('status') not in ('issued_unknown', 'observed_inventory', 'settled')):
                     raise ValueError('invalid reserved intent')
             if any(c.get('mode') not in ('explore', 'exploit') or type(c.get('attempted')) is not bool
                    for c in state['windows'].values()):
@@ -157,12 +160,11 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
         state = {'version': 1, 'windows': {}, 'intents': []}
     # Arrival observation releases outstanding slot reservations, never spend.
     units = live_units(inventory, now)
-    for intent in state['intents']:
-        arrived = [u['unit'] for u in units if u.get('sku') == intent['sku']
-                   and u.get('unit') not in intent['prior_units'] and u.get('unit')]
-        if arrived and intent.get('status') == 'issued_unknown':
-            intent.update(status='observed_inventory', observed_units=arrived)
-            record('portfolio_arrival_observed', sku=intent['sku'], units=arrived)
+    for change in reconcile(state['intents'], inventory, history, now):
+        record('portfolio_intent_reconciled', **change)
+    if not window_open(inventory, now):
+        save(path, state)
+        return {'buy': []}
     window = inventory['restock']
     key = f"{window['opens_at']}:{window['closes_at']}"
     choice = state['windows'].get(key)

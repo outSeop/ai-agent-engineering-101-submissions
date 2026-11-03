@@ -245,7 +245,7 @@ class PortfolioTests(unittest.TestCase):
 
     def test_cached_planner_counts_unresolved_exploration_without_double_counting_arrivals(self):
         path = Path('state/inventory-portfolio.json'); path.parent.mkdir()
-        path.write_text(json.dumps({'intents': [{'sku': 'new', 'cost_ceiling': 250000,
+        path.write_text(json.dumps({'intents': [{'sku': 'new', 'at': 999, 'cost_ceiling': 250000,
                                                'prior_units': [], 'status': 'issued_unknown'}]}))
         inv = inventory(0)
         self.assertEqual(plans.inventory_risk(inv, 1000)['pending_cost_ceiling'], 250000)

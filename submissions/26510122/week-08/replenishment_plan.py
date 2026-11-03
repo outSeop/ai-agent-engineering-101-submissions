@@ -11,6 +11,9 @@ import json
 import math
 from pathlib import Path
 import uuid
+import time
+from market_memory import events
+from supply_reconciliation import reconcile
 
 MAX_VALID_SECONDS = 600
 MIN_BALANCE = 1_000_000
@@ -30,9 +33,14 @@ def pending_exploration_cost(inventory: dict) -> int:
     state = load(path)
     if not state or not isinstance(state.get('intents'), list):
         return MAX_INVENTORY_COST
+    if any(not isinstance(i, dict) or not isinstance(i.get('sku'), str)
+           or type(i.get('at')) not in (int, float) or not math.isfinite(i['at'])
+           for i in state['intents']):
+        return MAX_INVENTORY_COST
+    reconcile(state['intents'], inventory, events(), time.time())
     total = 0
     for intent in state['intents']:
-        if not isinstance(intent, dict) or intent.get('status') not in ('issued_unknown', 'observed_inventory'):
+        if not isinstance(intent, dict) or intent.get('status') not in ('issued_unknown', 'observed_inventory', 'settled'):
             return MAX_INVENTORY_COST
         if intent['status'] != 'issued_unknown':
             continue

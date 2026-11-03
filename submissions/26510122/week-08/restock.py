@@ -227,8 +227,6 @@ def run(state: Path) -> dict:
                                                                  inventory_fresh(inventory_path, time.time())))
         if exploration is not None:
             return exploration
-        if not inventory_exploration.window_open(inventory, time.time()):
-            return {'buy': []}
         def refresh_portfolio():
             current = load_json(inventory_path, {})
             at = time.time()
