@@ -74,7 +74,10 @@ def prompt_for(trial,stage):
         product_info={'sku':'G-HOLDOUT' if holdout else 'G-SCREEN','kind':kind,
                       'list_price':2400 if holdout else 1000,'hours_left':None,'warranty_hours':6}
         order={'sku':product_info['sku'],'kind':kind,'budget':1900 if holdout else 850}
-    rng=stable_rng(trial['case']);ids=[]
+    # Each confirmation pair/context uses the same anonymous IDs in its two
+    # orders, so each variant receives each position AND each ID once.
+    identity_case=trial['case'].rsplit(':',1)[0] if stage=='confirm' else trial['case']
+    rng=stable_rng(identity_case);ids=[]
     while len(ids)<len(trial['ordered']):
         candidate=f'{rng.choice("ABCDEFGHJKLMNPQRSTUVWXYZ")}{rng.randrange(100,1000)}'
         if candidate not in ids:ids.append(candidate)
