@@ -33,6 +33,7 @@ import counterparty_memory
 from newsvendor_tool import GRADE_ANCHORS
 from seller_state import SellerState, SQLiteTaskStore, ResumingContextBuilder
 import seller_requirements
+from seller_promotion import discount_quote
 
 
 NAME = "outseop-26510122"
@@ -273,6 +274,8 @@ class Seller(AgentExecutor):
                 "unit_options": tools, "memory_by_sku_grade": memories,
                 'buyer_identity':identity,'buyer_price_evidence':profiles,
             }
+            prompt['objective'] += (' Calculate the ordinary opening quote without anticipating promotions; '
+                                    'a separate tool applies any campaign afterward. Never inflate a base price to offset a discount.')
             middle = tools[0]["candidates"][len(tools[0]["candidates"]) // 2]["price"]
             answer = await self.choose(prompt, ["ask", "reject"],
                                        {"action": "ask", "price": middle, "unit_id": choices[0]["unit"]})
@@ -306,12 +309,20 @@ class Seller(AgentExecutor):
                 trace("decision_guard", phase="opening", proposed_price=proposed,
                       effective_price=ask, proposed_unit=answer.get("unit_id"),
                       effective_unit=unit["unit"])
+            promotion = discount_quote(unit, ask)
+            if promotion:
+                if promotion['price'] > maximum:
+                    await up.reject(say('No suitable price for this unit.'))
+                    return
+                ask = promotion['price']
+                record('promotion_applied', task_id=task.id, sku=unit['sku'], unit=unit['unit'], **promotion)
             self.open[task.id] = deal = {
                 "unit": unit, "ask": ask, "history": [], "opened_at": time.time(),
                 'opened_monotonic':time.monotonic(),'last_activity':time.monotonic(),
                 'buyer_identity':identity,'buyer_price_evidence':profiles_by_unit[unit['unit']],
                 'last_activity_at':time.time(), 'requirements':requirements,
             }
+            if promotion: deal['promotion'] = promotion
             if not self.state.save_deal(task.id, deal):
                 del self.open[task.id]
                 await up.reject(say('That unit was reserved by another purchase. Please try again.'))
@@ -330,7 +341,12 @@ class Seller(AgentExecutor):
                        evidence_count=evidence['calm_high_paid'])
             trace("seller_open", task_id=task.id, sku=unit["sku"], unit=unit["unit"],
                   grade=unit["grade"], cost=unit["cost"], ask=ask)
-            await up.requires_input(say(f"{unit['name']}: asking {ask}. Short replies save tokens; send a number."))
+            note = ''
+            if promotion:
+                label = 'Opening quote discount included' if promotion['saving'] else 'Minimum selling price; no discount available'
+                note = (f" {label}: {promotion['ordinary_quote']} -> {ask}; saving {promotion['saving']}. "
+                        'Negotiable; no extra automatic discount.')
+            await up.requires_input(say(f"{unit['name']}: asking {ask}.{note} Short replies save tokens; send a number."))
             return
 
         offer = seller_requirements.offer(message)
@@ -374,6 +390,11 @@ class Seller(AgentExecutor):
                          "A receipt counts only if checkout later settles. The buyer profile is a hypothesis; "
                          "a new low offer is evidence against the tested price. Do not escalate mechanically.",
         }
+        if deal.get('promotion'):
+            prompt['opening_promotion'] = deal['promotion']
+            prompt['objective'] += (' The opening discount is already included. Never raise the ask above '
+                                    'that discounted quote or accept below its price_floor. Do not stack discounts. '
+                                    'Receipt price must exactly equal the buyer\'s acknowledged offer.')
         fallback_action = "accept" if offer >= int(unit["cost"]) else "counter"
         answer = await self.choose(prompt, ["accept", "counter", "reject"],
                                    {"action": fallback_action, "price": deal["ask"],
@@ -398,6 +419,13 @@ class Seller(AgentExecutor):
             await up.reject(say('The unit no longer meets your saved purchase conditions. Please start a new request.'))
             return
         action = answer["action"]
+        promotion = deal.get('promotion')
+        if promotion and action == 'accept' and (offer < promotion['price_floor'] or offer > deal['ask']):
+            # A lower price must be offered and acknowledged, never silently signed
+            # at a price different from the buyer's final numeric message.
+            action = 'counter'
+            answer = {**answer, 'price': min(deal['ask'],max(promotion['price_floor'],offer))}
+            record('promotion_accept_guard',task_id=task.id,buyer_offer=offer,counter=answer['price'])
         if action == "accept" and offer > 0:
             receipt = sign({"shop": NAME, "item": unit["sku"], "price": offer,
                             "task": task.id, "unit": unit["unit"]})
@@ -426,6 +454,8 @@ class Seller(AgentExecutor):
         proposed = answer.get("price")
         maximum = max(1, 2 * int(unit["list_price"]))
         ask = min(maximum, max(1, int(proposed))) if type(proposed) is int else deal["ask"]
+        if promotion:
+            ask = min(deal['ask'], max(promotion['price_floor'],ask))
         if ask != proposed:
             trace("decision_guard", phase="follow_up", proposed_price=proposed, effective_price=ask)
         deal["ask"] = ask

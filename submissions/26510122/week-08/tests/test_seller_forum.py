@@ -202,5 +202,16 @@ class ShopForumTests(unittest.TestCase):
         self.opening()
         with self.assertRaises(ValueError):forum.validate(self.copy | {'body':'오픈 할인'},self.evidence(),[],self.now)
 
+    def test_discount_terms_only_appear_when_backend_rate_is_active(self):
+        event=self.opening();decision=self.copy | {'campaign':'opening_discount','skus':[]}
+        with self.assertRaises(ValueError):forum.validate(decision,self.evidence(),[],self.now)
+        event.update(discount_bps=300,discount_starts_at=self.now)
+        forum.save(self.root/'state/seller-opening-event.json',event)
+        evidence=self.evidence();forum.validate(decision,evidence,[],self.now)
+        text=forum.render(decision,evidence)
+        self.assertIn('신규 첫 제시가 최대 3% 할인',text)
+        self.assertIn('최저판매가 한도',text)
+        self.assertIn('중복 자동 할인은 없습니다',text)
+
 
 if __name__ == '__main__': unittest.main()

@@ -107,6 +107,45 @@ class PersistenceTests(unittest.TestCase):
         self.assertEqual(prompt['purchase_requirements']['grades'], ['A', 'B'])
         self.assertIn('must last 84 hours', prompt['purchase_requirements']['original_request'])
 
+    def enable_promotion(self):
+        Path('state').mkdir(exist_ok=True)
+        Path('state/seller-opening-event.json').write_text(json.dumps({
+            'id':'open-test','starts_at':self.now-100,'ends_at':self.now+3600,
+            'discount_starts_at':self.now-1,'discount_bps':300}))
+
+    def test_promotion_survives_restart_and_receipt_matches_acknowledged_price(self):
+        self.enable_promotion()
+        async def flow():
+            async with self.client() as c:
+                first=await self.send(c,'I want F1')
+            self.assertEqual(SellerState().restore_deals()[first['id']]['ask'],873)
+            async with self.client() as c:
+                last=await self.send(c,'873',first['id'])
+                self.assertEqual(last['status']['state'],'TASK_STATE_COMPLETED')
+            receipt=SellerState().pending_receipt(first['id'])
+            self.assertEqual(receipt['price'],873)  # Not discounted a second time.
+        answers=[{'action':'ask','price':900,'unit_id':'u1','reason':'ordinary quote'},
+                 {'action':'accept','price':None,'unit_id':'u1','reason':'agreed'}]
+        with patch.object(seller_r3,'decide_json',side_effect=answers):asyncio.run(flow())
+
+    def test_promotion_requires_buyer_ack_for_lower_counter_and_enforces_floor(self):
+        self.enable_promotion()
+        async def flow():
+            async with self.client() as c:
+                first=await self.send(c,'I want F1')
+                high=await self.send(c,'900',first['id'])
+                self.assertEqual(high['status']['state'],'TASK_STATE_INPUT_REQUIRED')
+                self.assertEqual(SellerState().restore_deals()[first['id']]['ask'],873)
+                low=await self.send(c,'400',first['id'])
+                self.assertEqual(low['status']['state'],'TASK_STATE_INPUT_REQUIRED')
+                self.assertEqual(SellerState().restore_deals()[first['id']]['ask'],501)
+                last=await self.send(c,'501',first['id'])
+                self.assertEqual(last['status']['state'],'TASK_STATE_COMPLETED')
+                self.assertEqual(SellerState().pending_receipt(first['id'])['price'],501)
+        answers=[{'action':'ask','price':900,'unit_id':'u1','reason':'ordinary quote'}]+[
+            {'action':'accept','price':None,'unit_id':'u1','reason':'model accepts'}]*3
+        with patch.object(seller_r3,'decide_json',side_effect=answers):asyncio.run(flow())
+
     def test_signed_unit_remains_locked_across_restart_and_is_persisted_before_artifact(self):
         async def flow():
             async with self.client() as c:
