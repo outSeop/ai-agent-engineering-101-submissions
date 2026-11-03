@@ -1,9 +1,12 @@
 # Seller introduction experiment — November 3, 2026
 
-The token-saving introduction is a promising presentation candidate. This small
-probe did **not** establish lower model-call counts, higher settlement rates, or
-live-market profit. Existing seller copy and buyer policies were left in place;
-no live service was restarted and no market messages were sent.
+The primary goal is **getting a buyer to contact the shop**. The token-saving
+introduction is a promising presentation candidate on that metric. Request
+counts and token usage are secondary diagnostics; a reduction in negotiation
+rounds is not required for the introduction to be useful. This small probe did
+not establish live-market conversion or profit. Existing seller copy and buyer
+policies were left in place; no live service was restarted and no market messages
+were sent.
 
 ## What was compared
 
@@ -133,3 +136,37 @@ candidate could combine a brief-chat promise with concrete price/receipt steps;
 that combination has not been evaluated here. Establishing real efficiency
 requires observing replies, calls and successful checkouts in buyers that
 actually see and act on these introductions.
+
+## Claude selection backend
+
+`seller_copy_probe.py --provider claude --model sonnet --phase selection` now
+uses Claude Code for the same buyer instructions, description variants,
+structured choice schema, food/goods conditions and position rotations. It runs
+in a fresh temporary directory with safe mode, no built-in/MCP tools and no
+session persistence. The `sonnet` alias is recorded as requested; resolved model
+identifiers are saved from `modelUsage` when available. Vendor CLI system
+wrappers differ, so this is not a perfectly controlled model-only comparison.
+
+The local CLI is Claude Code 2.1.233. On November 3, `claude auth status` reported
+`loggedIn=false`, and no Anthropic/third-party authentication was configured in
+the environment. The single real smoke attempt returned **“Failed to
+authenticate: OAuth session expired and could not be refreshed.”** It is
+preserved in `../logs/seller-copy-claude-smoke-2026-11-03/`; there is no completed
+Claude buyer choice to report. An auth failure or missing `structured_output`
+cannot be counted as a preference. The full 61-test suite passes, including
+those adapter checks.
+
+After authenticating the local CLI, run the contact-choice comparison only:
+
+```sh
+claude auth login
+.venv/bin/python experiments/seller_copy_probe.py --provider claude --model sonnet \
+  --phase selection --output logs/seller-copy-claude-authenticated-new-run --workers 2
+```
+
+The response adapter follows the official
+[programmatic CLI documentation](https://code.claude.com/docs/en/headless#get-structured-output)
+(`structured_output`, usage and failure handling) and the
+[CLI reference](https://code.claude.com/docs/en/cli-reference)
+for safe mode and authentication. The implementation preserves normal OAuth
+authentication rather than using `--bare`, which does not read OAuth credentials.
