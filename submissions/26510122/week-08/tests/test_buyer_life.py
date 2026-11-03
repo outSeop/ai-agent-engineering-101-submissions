@@ -346,3 +346,94 @@ class BuyerLifeTests(unittest.TestCase):
         with patch.object(economy_r3,'BuyerLife') as life,patch.object(economy_r3.restock,'run') as restock:
             self.assertEqual(economy_r3.run(Path('.market')),{'buy':[]})
         life.assert_not_called();restock.assert_not_called()
+
+
+GRADUATE_ROLE={'kind':'graduate_student','program':'masters','research_area':'human-computer interaction',
+ 'stage':'second year','living_arrangement':'small studio near campus',
+ 'routine':['morning lab work','cook an easy dinner after the seminar'],
+ 'current_pressure':'a fictional seminar presentation next week',
+ 'small_goal':'make a usable dinner corner',
+ 'goal_success_condition':'place an owned chair and cook one simple meal',
+ 'personal_tradeoff':'likes a tidy room but enjoys collecting tableware'}
+
+
+class RoleDesignerTests(unittest.TestCase):
+    def setUp(self):
+        self.temp=tempfile.TemporaryDirectory();self.root=Path(self.temp.name)
+        self.addCleanup(self.temp.cleanup)
+
+    def world(self,model):
+        return BuyerLife(self.root/'life.json',self.root/'events.jsonl',self.root/'market',model)
+
+    def test_designer_creates_and_persists_the_graduate_role_in_one_call(self):
+        p={**copy.deepcopy(PERSONA),'student_role':copy.deepcopy(GRADUATE_ROLE)}
+        model=Mock(return_value=p);world=self.world(model)
+        self.assertTrue(world.ensure(CATALOG,NOW))
+        role,prompt,schema=model.call_args.args
+        self.assertEqual(role,'graduate student role designer')
+        self.assertEqual(prompt['shared_background'],'graduate_student')
+        self.assertIn('student_role',schema['required'])
+        self.assertIn('budget',prompt['role_authority']['may_not_change'])
+        self.assertEqual(load(world.state_path,{})['persona']['student_role'],GRADUATE_ROLE)
+        restarted=self.world(Mock(side_effect=AssertionError('role must survive restart')))
+        self.assertTrue(restarted.ensure(CATALOG,NOW+60))
+        self.assertEqual(restarted.context(NOW+60)['persona']['student_role']['small_goal'],GRADUATE_ROLE['small_goal'])
+        self.assertEqual(model.call_count,1)
+
+    def test_invalid_role_is_not_silently_saved(self):
+        from buyer_role import validate_role
+        for change in ({'kind':'instructor'},{'program':'undergraduate'},{'small_goal':''},{'routine':[]},
+                       {'personal_tradeoff':'x'*161}):
+            with self.subTest(change=change),self.assertRaises(ValueError):
+                validate_role({**GRADUATE_ROLE,**change})
+
+    def test_old_persona_is_preserved_without_inventing_a_new_student_identity(self):
+        world=self.world(Mock(side_effect=AssertionError('do not overwrite existing character')))
+        world.initialize(copy.deepcopy(PERSONA),NOW)
+        self.assertTrue(world.ensure(CATALOG,NOW+10))
+        self.assertEqual(world.context(NOW)['persona']['backstory'],PERSONA['backstory'])
+        self.assertIsNone(world.context(NOW)['persona']['student_role'])
+
+    def test_role_is_visible_to_life_planner_but_not_commercial_advice(self):
+        p={**copy.deepcopy(PERSONA),'student_role':copy.deepcopy(GRADUATE_ROLE)}
+        model=Mock(return_value={'actions':[{'kind':'wait'}],'preferences':None,'reason':'rest after seminar'})
+        world=self.world(model);world.initialize(p,NOW);world.tick(CATALOG,NOW+301)
+        self.assertEqual(model.call_args.args[1]['life']['persona']['student_role']['research_area'],GRADUATE_ROLE['research_area'])
+        advice=selection_advice(world.context(NOW+301))
+        self.assertNotIn('student_role',advice)
+        self.assertNotIn('research_area',advice)
+        self.assertNotIn('current_pressure',advice)
+        self.assertFalse((world.market_dir/'outbox.jsonl').exists())
+
+    def test_large_role_projection_keeps_the_life_context_bounded(self):
+        p=copy.deepcopy(PERSONA);r=copy.deepcopy(GRADUATE_ROLE)
+        for key in ('research_area','stage','living_arrangement','current_pressure','small_goal',
+                    'goal_success_condition','personal_tradeoff'):r[key]='가'*160
+        r['routine']=['나'*160]*4;p['student_role']=r
+        world=self.world(Mock());world.initialize(p,NOW)
+        from context_compaction import size
+        self.assertLessEqual(size(world.context(NOW)),7500)
+        self.assertEqual(load(world.state_path,{})['persona']['student_role']['small_goal'],'가'*160)
+
+    def test_no_extra_model_call_is_added_to_an_existing_role_tick(self):
+        p={**copy.deepcopy(PERSONA),'student_role':copy.deepcopy(GRADUATE_ROLE)}
+        model=Mock(return_value=p);world=self.world(model)
+        world.tick(CATALOG,NOW)
+        self.assertEqual(model.call_count,1)
+        self.assertFalse(world.context(NOW)['owned'])
+        model.return_value={'actions':[{'kind':'wait'}],'preferences':None,'reason':'wait'}
+        world.tick(CATALOG,NOW+60);world.tick(CATALOG,NOW+120)
+        self.assertEqual(model.call_count,2)
+
+    def test_designer_sees_only_bounded_fictional_contrasts(self):
+        from buyer_role import design_persona
+        from buyer_life import PROFILE
+        p={**copy.deepcopy(PERSONA),'student_role':copy.deepcopy(GRADUATE_ROLE)}
+        p['irrelevant_secret']='never include arbitrary extra fields'
+        model=Mock(return_value=p)
+        design_persona(CATALOG,model,PROFILE,[p]*10)
+        prompt=model.call_args.args[1]
+        self.assertEqual(len(prompt['previous_fictional_designs_for_contrast']),3)
+        self.assertNotIn('irrelevant_secret',str(prompt))
+        self.assertEqual(prompt['previous_fictional_designs_for_contrast'][0]['program'],'masters')
+        self.assertIn('unrecorded cleanup',prompt['objective'])

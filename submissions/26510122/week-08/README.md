@@ -249,6 +249,49 @@ the running seller uses its existing frozen release and has no buyer hooks.
 No roleplay deployment, buyer activation, forum publication or Git push is part
 of this internal check.
 
+New personas share a **fictional graduate-student** background. `buyer_role.py`
+is a separate role-design component: in the existing one-time persona model
+call it selects master's/doctoral/integrated study, research area and stage,
+housing, routines, one current academic pressure, a small domestic goal, its
+observable success condition, and a personal tradeoff. An internal gallery can
+pass up to three compact prior fictional designs so the model can contrast
+program, housing, names and goals instead of repeating the same character. Food/decor preferences,
+recipes and virtual rooms are generated coherently in the same response. It
+does not add a second model call to initialization or to a market order.
+
+The role designer is not a live market participant and cannot grant purchase
+permission, create possessions or publish. Graduate students are not forced
+into a poverty/all-nighters/instant-noodles stereotype. Pressures such as a
+seminar or paper deadline are narrative context, not simulated research output.
+Domestic goals must be achievable through the meal/home game; a goal and its
+success condition are saved and shown to the life planner, but automatic goal
+completion scoring is not implemented. Existing personas are retained exactly;
+the new default does not silently rewrite their identity as a student.
+
+The later life planner sees a compact role brief along with actual possessions
+and recorded experience. It chooses cooking, placement, waits or local drafts.
+The full role stays on disk and survives restarts. Role/study/pressure fields
+never enter commercial selection advice; the default observer mode still leaves
+market purchasing unchanged. Tastes may evolve only through the existing
+experience-linked revision mechanism.
+
+Graduate-role check (November 4): 123 unit tests passed. The initial three
+independent designs all converged on doctoral studio residents with dinner-area
+goals; their raw samples are preserved. After adding compact prior-fiction
+contrasts and removing the goal examples that anchored every design to dinner,
+a second internal sample produced doctoral / master's / integrated programs,
+different names and living arrangements, and distinct placement/cooking goals.
+One role-aware life tick was also exercised with no possessions and no invented
+ownership. All three roles persisted across restart; no market API request,
+buyer activation, forum publication or live/root persona change occurred.
+These three examples are not a diversity benchmark. See
+`logs/buyer-graduate-role-diversity-probe-2026-11-04.json` and reproduce with:
+
+```bash
+.venv/bin/python experiments/buyer_role_probe.py \
+  --output logs/buyer-graduate-role-diversity-probe-2026-11-04.json
+```
+
 The authority order is: issued order / acceptable SKU / deadline / budget,
 then certificate / food use window / grade and receipt guards, then likely
 surplus and settlement chance. The default life mode observes purchases without adding any taste input to the

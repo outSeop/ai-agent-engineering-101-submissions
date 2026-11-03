@@ -20,6 +20,7 @@ import fcntl
 from context_compaction import bounded,text,size
 from harness import decide_json
 from market_memory import record
+from buyer_role import ROLE_SCHEMA,validate_role,role_brief,design_persona
 
 STATE=Path('state/buyer-life.json')
 EVENTS=Path('logs/buyer-life-events.jsonl')
@@ -53,7 +54,7 @@ ROOM=obj({'id':STR,'name':STR,'width':{'type':'integer','minimum':4,'maximum':10
           'height':{'type':'integer','minimum':4,'maximum':10}})
 RECIPE=obj({'id':STR,'name':STR,'ingredients':STRINGS})
 GOAL=obj({'id':STR,'query':STR,'room':STR})
-PROFILE=obj({'name':STR,'backstory':STR,'traits':STRINGS,'food_preferences':STRINGS,
+PROFILE=obj({'student_role':ROLE_SCHEMA,'name':STR,'backstory':STR,'traits':STRINGS,'food_preferences':STRINGS,
              'decor_preferences':STRINGS,'hunger_per_hour':{'type':'number','minimum':1,'maximum':12},
              'meal_relief':{'type':'number','minimum':10,'maximum':60},
              'rooms':{'type':'array','items':ROOM,'minItems':1,'maxItems':3},
@@ -97,8 +98,10 @@ def recipe(value):
 
 def profile(value):
     if not isinstance(value,dict):raise ValueError('invalid persona')
+    student_role=validate_role(value['student_role']) if value.get('student_role') is not None else None
     result={k:text(value.get(k),240 if k=='backstory' else 100) for k in ('name','backstory','reason')}
-    if any(not result[k] for k in result):raise ValueError('missing persona text')
+    result['student_role']=student_role
+    if any(not result[k] for k in ('name','backstory','reason')):raise ValueError('missing persona text')
     for key in ('traits','food_preferences','decor_preferences'):result[key]=strings(value.get(key))
     for key,low,high in (('hunger_per_hour',1,12),('meal_relief',10,60)):
         number=value.get(key)
@@ -127,9 +130,10 @@ def profile(value):
 
 
 class BuyerLife:
-    def __init__(self,state_path=STATE,event_path=EVENTS,market_dir=Path('.market'),model=decide_json,draft_path=None):
+    def __init__(self,state_path=STATE,event_path=EVENTS,market_dir=Path('.market'),model=decide_json,draft_path=None,role_examples=None):
         self.state_path=Path(state_path);self.event_path=Path(event_path)
         self.market_dir=Path(market_dir);self.model=model
+        self.role_examples=role_examples or []
         self.draft_path=Path(draft_path) if draft_path is not None else self.state_path.with_name(self.state_path.stem+'-forum-drafts.jsonl')
 
     @contextmanager
@@ -166,23 +170,8 @@ class BuyerLife:
             if state.get('persona'):return True
             if state.get('thinking_until',0)>now or state.get('persona_retry_after',0)>now:return False
             state['thinking_until']=now+90
-        groups={}
-        for sku,p in catalog.items():
-            if isinstance(p,dict) and p.get('kind') in ('food','goods'):
-                key=(p['kind'],str(p.get('category','unknown')))
-                groups.setdefault(key,{'kind':key[0],'category':key[1],'example':{'sku':sku,'name':p.get('name')}})
-        examples=[]
-        for kind in ('food','goods'):examples += [g for g in groups.values() if g['kind']==kind][:12]
-        prompt={'phase':'buyer_life_persona','catalog_groups':examples,
-                'objective':'Create a fictional resident with your own evolving food and home preferences. '
-                    'Choose a coherent backstory, one to three small grid rooms, simple meals, and furniture goals. '
-                    'Use simple catalog-name/category substring queries for ingredients and furniture. '
-                    'The resident starts with NO possessions, no free ingredients and no furniture. '
-                    'Hunger rates/relief are fictional game units, not nutrition advice. Room cells and future footprints '
-                    'are virtual estimates, not physical product measurements. Reserve column x=0 as a walkway. '
-                    'Preferences are revisable hypotheses; actual orders, budget, certificates and expiry always prevail.'}
         try:
-            value=self.model('fictional buyer persona designer',prompt,PROFILE)
+            value=design_persona(catalog,self.model,PROFILE,self.role_examples)
             self.initialize(value,now)
             return True
         except Exception as error:
@@ -277,6 +266,7 @@ class BuyerLife:
                         for x in range(p['x'],p['x']+p['width']):cells[y][x]='X'
             grids[room['id']]=[''.join(row) for row in cells]
         persona_view={k:persona[k] for k in ('name','backstory','traits','food_preferences','decor_preferences')}
+        persona_view['student_role']=role_brief(persona.get('student_role'))
         result={'status':'ready','persona':persona_view,'rooms':persona['rooms'],'room_grids':grids,
                 'game_rules':{k:persona[k] for k in ('hunger_per_hour','meal_relief')},
                 'hunger':state['hunger'],'owned':active[-16:],
@@ -419,7 +409,10 @@ class BuyerLife:
             state['thinking_until']=now+90;state['last_thought_at']=now
             snapshot_revision=state.get('revision',0);view=self.view(state,now,forum)
         prompt={'phase':'buyer_life_tick','life':view,
-                'objective':'Live this fictional resident: plan meals, cook/eat when hungry using owned usable lots, '
+                'objective':'Live this fictional resident. When student_role is present, use the graduate-student '
+                    'routine, domestic goal and personal tradeoff to make coherent choices and show gradual '
+                    'adaptation. Academic pressures are narrative context only, never completed research '
+                    'claims or a reason to override market orders. Plan meals, cook/eat when hungry using owned usable lots, '
                     'arrange owned furniture in the virtual rooms, or wait. Use tools/cooking_options and exact IDs. '
                     'You may revise a recipe to use genuinely owned ingredients, but cannot invent missing ingredients. '
                     'A food purchase is one ingredient lot; no grams/calories are known. Never consume expired/unknown-expiry food. '
