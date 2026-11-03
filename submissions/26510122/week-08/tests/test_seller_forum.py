@@ -158,5 +158,49 @@ class ShopForumTests(unittest.TestCase):
         result = forum.run_once(self.root, decide=lambda *a: self.fail('cap'), now=self.now)
         self.assertEqual(result['reason'], 'daily cap')
 
+    def opening(self):
+        event = {'id':'open-test','starts_at':self.now,'ends_at':self.now+72*3600}
+        forum.save(self.root/'state/seller-opening-event.json',event)
+        return event
+
+    def test_opening_banner_has_real_end_time_without_discount_claim(self):
+        self.opening()
+        decision = self.copy | {'campaign':'opening_event','skus':[], 'headline':'오픈 안내'}
+        evidence=self.evidence();forum.validate(decision,evidence,[],self.now)
+        text=forum.render(decision,evidence)
+        self.assertIn('오픈 안내 기간:',text)
+        self.assertIn('가격은 개별 협상',text)
+        self.assertNotIn('할인',text)
+
+    def test_opening_automatically_expires_and_cannot_be_extended_by_copy(self):
+        event=self.opening()
+        self.assertIsNone(forum.opening_event(self.root,self.now-1))
+        self.assertIsNone(forum.opening_event(self.root,event['ends_at']))
+        self.assertIsNone(forum.opening_event(self.root,event['ends_at']+1))
+        decision=self.copy | {'campaign':'opening_event','skus':[]}
+        with self.assertRaises(ValueError):forum.validate(decision,self.evidence() | {'opening_event':None},[],event['ends_at'])
+
+    def test_opening_announcement_is_at_most_daily(self):
+        self.opening();decision=self.copy | {'campaign':'opening_event','skus':[]}
+        prior=[{'campaign':'opening_event','opening_event_id':'open-test','at':self.now-100,'skus':[]}]
+        with self.assertRaises(ValueError):forum.validate(decision,self.evidence(),prior,self.now)
+
+    def test_explicit_launch_announcement_respects_market_limit_and_reserves_once(self):
+        self.opening()
+        forum.save(self.root/'state/seller-forum.json',{'posts':[], 'attempts':[self.now-600]})
+        decision=self.copy | {'campaign':'opening_event','skus':[], 'headline':'오픈 안내'}
+        calls=iter([decision,{'approve':True,'unsupported_claims':[]}])
+        forum.run_once(self.root,now=self.now,decide=lambda *a:next(calls),announce_opening=True)
+        state=json.loads((self.root/'state/seller-forum.json').read_text())
+        self.assertEqual(state['posts'][-1]['opening_event_id'],'open-test')
+        self.assertEqual(forum.run_once(self.root,now=self.now+1,announce_opening=True)['reason'],'pending publication')
+
+    def test_campaign_cannot_claim_a_discount_or_run_beyond_72_hours(self):
+        event=self.opening();event['ends_at']+=1
+        forum.save(self.root/'state/seller-opening-event.json',event)
+        self.assertIsNone(forum.opening_event(self.root,self.now))
+        self.opening()
+        with self.assertRaises(ValueError):forum.validate(self.copy | {'body':'오픈 할인'},self.evidence(),[],self.now)
+
 
 if __name__ == '__main__': unittest.main()
