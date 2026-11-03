@@ -208,11 +208,11 @@ class BuyerPolicyTests(unittest.TestCase):
                         "settled": {"shop": "https://shop", "sku": "F1", "name": "Food",
                                     "grade": "A", "value": 1000, "ledger": 12}}
                 catalog = {"F1": {"list_price": 1000}}
-                result = review_r3.run(deal, catalog)
+                result = review_r3.run(deal, catalog,allow_forum_publish=True)
                 self.assertEqual(result["stars"], 5)
                 self.assertEqual(len(Path(".market/outbox.jsonl").read_text().splitlines()), 1)
                 deal["settled"]["ledger"] = 13
-                review_r3.run(deal, catalog)
+                review_r3.run(deal, catalog,allow_forum_publish=True)
                 self.assertEqual(len(Path(".market/outbox.jsonl").read_text().splitlines()), 1)
             finally:
                 os.chdir(previous)

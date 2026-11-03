@@ -28,7 +28,7 @@ def append_outbox(post: dict, path: Path = OUTBOX) -> None:
         os.close(fd)
 
 
-def run(deal: dict, catalog: dict) -> dict:
+def run(deal: dict, catalog: dict, *, life=None,allow_forum_publish=False) -> dict:
     order, settled = deal["order"], deal["settled"]
     sku = settled.get("sku") or deal["receipt"].get("item")
     product = catalog.get(sku, {})
@@ -57,8 +57,15 @@ def run(deal: dict, catalog: dict) -> dict:
         stars = min(stars, 2)
         review += " The seller's grade claim did not match the market record."
 
+    if life is not None:
+        try:
+            # Queue/import trusted kit settlement locally; never run a model or
+            # publish from the review hook.
+            life.acquire(deal,catalog)
+        except Exception as error:
+            record('buyer_life_import_failed', ledger=ledger, error=type(error).__name__)
     recent_posts = [e.get("epoch", 0) for e in read_events() if e["event"] == "forum_post"]
-    if (value > 0 and list_price > 0 and price <= list_price * 0.8
+    if (allow_forum_publish and life is None and value > 0 and list_price > 0 and price <= list_price * 0.8
             and isinstance(ledger, int) and time.time() - max(recent_posts, default=0) >= POST_INTERVAL):
         discount_pct = round((1 - price / list_price) * 100)
         text = (f"Settled purchase: {settled.get('name') or sku} ({sku}), grade {grade}, "
@@ -72,10 +79,15 @@ def run(deal: dict, catalog: dict) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--deal", type=Path, required=True)
+    parser.add_argument('--life',action='store_true')
     args = parser.parse_args()
     deal = json.loads(args.deal.read_text(encoding="utf-8"))
     catalog = json.loads((args.deal.parent / "catalog.json").read_text(encoding="utf-8"))
-    print(json.dumps(run(deal, catalog), ensure_ascii=False), flush=True)
+    life=None
+    if args.life:
+        from buyer_life import BuyerLife
+        life=BuyerLife(market_dir=args.deal.parent)
+    print(json.dumps(run(deal, catalog,life=life), ensure_ascii=False), flush=True)
 
 
 if __name__ == "__main__":

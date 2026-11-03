@@ -240,6 +240,102 @@ real model calls on synthetic seller prompts are recorded in
 live buyer elasticity or profit. This implementation has not been deployed to
 the running shop or validated with live Round 3 personalized trades.
 
+## Buyer life prototype — internal only
+
+The fictional resident is a model-generated persona whose tastes may evolve
+with recorded experience. This is an optional layer around issued market orders,
+not a replacement ordering system. The default `agent.json` does not enable it;
+the running seller uses its existing frozen release and has no buyer hooks.
+No roleplay deployment, buyer activation, forum publication or Git push is part
+of this internal check.
+
+The authority order is: issued order / acceptable SKU / deadline / budget,
+then certificate / food use window / grade and receipt guards, then likely
+surplus and settlement chance. The default life mode observes purchases without adding any taste input to the
+commercial selector. The existing model input and pricing path stay identical.
+An explicitly internal `run(..., life_advice=True)` experiment can add fictional
+tastes as advisory tie-breakers; the market CLI does not expose that switch.
+Hunger, duplicate personal possessions and lack of a room or recipe cannot veto
+an otherwise valid order. The experimental selector uses its original answer schema and one
+model call; malformed replies fall back to the same commercial policy. Tastes
+never enter later price negotiations and do not add fallback-shop selection
+calls. Their presence can still influence a model's choice or opening offer;
+internal paired probes measure that sensitivity rather than claiming the
+wording guarantees unchanged surplus.
+
+`buyer_life.py` keeps the persona and full ownership history on disk. Only a
+trusted kit settlement with a matching receipt SKU, usable value and a positive
+price becomes an owned lot. Signed but unsettled receipts do not. Settlements
+that arrive before persona creation are queued locally and imported once after
+initialization. A review only records the result; it never creates a persona,
+runs the life model or waits for a game action. A life import failure does not
+change the commercial review. The optional life planner also runs separately
+from shop restocking, so it cannot delay a supply window.
+
+The model proposes up to three actions: wait, plan a recipe, cook, place an
+owned good, draft a request or draft an experience note. Tools require distinct,
+owned and unexpired ingredient lots, including overlapping ingredient-name
+queries; cooking consumes each lot once. Furniture placement checks ownership,
+room boundaries, overlap and a reserved walkway. Food lots, hunger and furniture
+footprints are fictional game units, not nutrition or product-dimension claims.
+Ambiguous breakage reports remain uncertain; no seller or unit is invented.
+Preferences can change no more than once an hour and must cite actual recent
+acquisition/cooking/placement event IDs. Invalid preference updates do not undo
+valid game actions from the same model response.
+
+| Context / frequency | Bound |
+|---|---|
+| Extra selector taste advice | 1,200 UTF-8 bytes; dropped before any commercial candidate is removed |
+| Life planning context | 7,500 UTF-8 bytes; full state remains on disk |
+| Recent view | 16 owned units, 6 events, 6 relevant posts and 12 placement details; counts and full room occupancy remain visible |
+| Life planning calls | At least 300 seconds apart, or 900 seconds for unchanged state |
+| Drafting | At least 600 seconds apart; same topic at most once per day |
+
+Drafts go only to `state/buyer-life-forum-drafts.jsonl`, each marked
+`internal_draft`. The life module never writes `.market/outbox.jsonl` and has no
+publisher. Fictional events are labeled and purchase notes reference their
+settlement. The old review-note publisher is also disabled by default. Making
+or reviewing a draft cannot send it later through the kit automatically.
+
+Internal verification uses temporary worlds and synthetic order/receipt/ledger
+fixtures. Existing catalog metadata is read from the local runtime snapshot;
+there is no market join, shop request, checkout, payment or forum API call.
+Model generation is the only intended external service call:
+
+```bash
+.venv/bin/python -m unittest discover -s tests -v
+.venv/bin/python experiments/buyer_life_probe.py \
+  --output logs/buyer-life-internal-probe-2026-11-04.json
+```
+
+The paired selector cases cover unmatched food/goods tastes, forced epsilon exploration and an adversarial public review. They check
+SKU/budget membership, one selector call, unchanged commercial guards and no
+outbox writes. Unit checks also cover a full virtual room and duplicate
+personal possessions without blocking an issued goods order. A separate model-driven life simulation checks cooking,
+placement, persistence and draft-only routing with explicitly synthetic
+settlements. Prompt bytes and elapsed time are measurable; exact token charges
+and live surplus improvements are not established by these fixtures.
+
+Internal results (November 4): 4 paired cases / 8 real selector calls all kept
+SKU/budget guards and one call per selection; the selected candidate matched in
+all four pairs. Advisory-versus-baseline opening offers differed by -500, -300,
++500 and 0 credits. These single pairs do not isolate model randomness from the
+advice effect, and do not establish better surplus. Therefore advisory influence remains an
+internal experimental option; the default observer mode adds zero purchase
+prompt bytes and keeps the same commercial input. Additional serialized input
+was 830 bytes per advisory variant in this probe (385 bytes of taste data plus
+its instructions). The temporary model-driven world cooked, placed furniture
+and made one internal draft; its life context was 5,012 bytes. Existing live
+configuration, root persona and market outbox files were unchanged. Exact token
+billing and real-market success remain unmeasured. The feature stays disabled.
+
+The original probe failed because its assertion confused the last registry
+entry with the last eligible candidate after commercial sorting. The assertion
+now checks the actual epsilon-selected candidate ID; that failed run is kept in
+`logs/buyer-life-internal-probe-2026-11-04.log`. The completed retry and structured
+results are `logs/buyer-life-internal-probe-retry-2026-11-04.log` and
+`logs/buyer-life-internal-probe-2026-11-04.json`.
+
 ## Run locally
 
 ```bash

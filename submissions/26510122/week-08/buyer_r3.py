@@ -71,7 +71,8 @@ def get_receipt(task: dict) -> dict | None:
 
 def followup_offer(*, message: str, last_offer: int, cap: int, sku: str,
                    list_price: int, memory: dict, deadline: float,
-                   history: list[dict] | None = None) -> int | None:
+                   history: list[dict] | None = None,
+                   offers_remaining: int | None = None) -> int | None:
     ask = asking_price(message)
     fallback = (ask if ask is not None and ask <= cap else
                 min(cap, last_offer + max(1, (cap - last_offer) // 2)))
@@ -86,6 +87,8 @@ def followup_offer(*, message: str, last_offer: int, cap: int, sku: str,
                               for r in (history or [])[-MAX_TURNS:]],
               "objective": "Choose the next offer or walk away. Keep positive buyer surplus. "
                            "A high asking price is negotiable; do not reveal the private mandate limit."}
+    prompt['offers_remaining']=offers_remaining
+    prompt['seconds_until_deadline']=max(0,round(deadline-time.monotonic()))
     schema = {"type": "object", "properties": {
         "action": {"type": "string", "enum": ["offer", "walk"]},
         "price": {"type": ["integer", "null"]}, "reason": {"type": "string"},
@@ -137,7 +140,8 @@ def negotiate(shop_url: str, sku: str, name: str, order: dict, *, opening_offer:
             else:
                 offer = followup_offer(message=message, last_offer=offered[-1], cap=cap,
                                        sku=sku, list_price=list_price, memory=memory, deadline=deadline,
-                                       history=transcript)
+                                       history=transcript,
+                                       offers_remaining=3-turn)
             if offer is None or deadline - time.monotonic() < 5:
                 return {"receipt": None, "reason": "walked away or order deadline reached",
                         "offers": offered, "task_id": task.get("id"),'transcript':transcript}

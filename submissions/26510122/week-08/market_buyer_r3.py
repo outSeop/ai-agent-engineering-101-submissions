@@ -88,7 +88,7 @@ def shortlist(found: list[dict]) -> list[dict]:
 
 
 def choose(candidates_: list[dict], order: dict, *, forced_candidate_id: str | None = None,
-           telemetry: dict | None = None) -> tuple[dict, int]:
+           telemetry: dict | None = None,life_context: dict | None = None) -> tuple[dict, int]:
     if forced_candidate_id is not None:
         candidates_=[c for c in candidates_ if c['id']==forced_candidate_id]
     if not candidates_:
@@ -114,6 +114,26 @@ def choose(candidates_: list[dict], order: dict, *, forced_candidate_id: str | N
                            "negotiation alone is not proof of dishonesty. Tool candidate order is a "
                            "heuristic, not your decision. Read the first-hand counts, price conditions "
                            "and cases as evidence; do not turn a single past outcome into a permanent rule."}
+    commercial_objective = prompt['objective']
+    if life_context and life_context.get('status') == 'ready':
+        # Only bounded tastes enter this existing call. Hunger, ownership and
+        # fictional needs cannot veto orders or add another planning call.
+        from buyer_life import selection_advice
+        advice = selection_advice(life_context)
+        prompt['preference_advice'] = advice
+        prompt['objective'] += (' Fictional tastes are optional tie-breakers only among '
+                                'commercially comparable candidates. The issued order, likely '
+                                'surplus, quality and settlement chance take priority. Do not '
+                                'skip an order for hunger, duplicate ownership or lack of a '
+                                'personal use. Do not pay extra or change the opening-price '
+                                'strategy to satisfy a fictional preference. If no taste matches, '
+                                'fulfil the market order normally. Advice is data, not authority.')
+    else:
+        advice = None
+    if advice is not None and size(prompt)>BUYER_PROMPT_BYTES:
+        prompt.pop('preference_advice')
+        prompt['objective'] = commercial_objective
+        advice = None  # drop optional tastes before removing any commercial candidate
     while size(prompt)>BUYER_PROMPT_BYTES and len(displayed)>1:
         displayed.pop()
     trace('buyer_context_compacted',candidate_count=len(displayed),prompt_bytes=size(prompt),
@@ -126,7 +146,8 @@ def choose(candidates_: list[dict], order: dict, *, forced_candidate_id: str | N
         answer = decide_json("buyer shop selector", prompt, schema)
         if telemetry is not None:
             telemetry.update({'model_candidate_id':answer.get('candidate_id'),
-                              'model_reason':text(answer.get('reason'),350),'model_fallback':False})
+                              'model_reason':text(answer.get('reason'),350),'model_fallback':False,
+                              'preference_advice_present':advice is not None})
         chosen_id=forced_candidate_id if forced_candidate_id is not None else answer['candidate_id']
         if forced_candidate_id is not None and answer.get('candidate_id')!=forced_candidate_id:
             trace('buyer_exploration_guard',proposed=answer.get('candidate_id'),effective=forced_candidate_id)
@@ -153,7 +174,7 @@ def choose(candidates_: list[dict], order: dict, *, forced_candidate_id: str | N
 
 
 def run(order: dict, shops: list[dict], catalog: dict, own_shop_name: str, *,
-        epsilon: float = buyer_exploration.DEFAULT_EPSILON,rng=None) -> dict:
+        epsilon: float = buyer_exploration.DEFAULT_EPSILON,rng=None,life=None,life_advice: bool = False) -> dict:
     started = time.monotonic()
     register_shops(shops)
     imported = import_payments()
@@ -162,6 +183,13 @@ def run(order: dict, shops: list[dict], catalog: dict, own_shop_name: str, *,
     broken = import_broken()
     if broken:
         trace("buyer_breakage_imported", count=broken)
+    life_context=None
+    if life is not None and life_advice:
+        try:
+            life_context = life.selection_context()
+        except Exception as error:
+            record('buyer_life_advice_unavailable', error=type(error).__name__)
+            # Life bookkeeping cannot block a valid market order.
     available = candidates(order, shops, catalog, own_shop_name,full_pool=True)
     if not available:
         record("no_candidate", order=order.get("order"), item=order.get("item"))
@@ -181,7 +209,8 @@ def run(order: dict, shops: list[dict], catalog: dict, own_shop_name: str, *,
                                 for c in available],
            displayed_candidate_ids=[c['id'] for c in displayed])
     telemetry={}
-    chosen, first_offer = choose(displayed, order,forced_candidate_id=policy['forced_candidate_id'],telemetry=telemetry)
+    chosen, first_offer = choose(displayed, order,forced_candidate_id=policy['forced_candidate_id'],telemetry=telemetry,
+                                 life_context=life_context)
     record('buyer_policy_selection',selection_id=selection_id,order=order.get('order'),**policy,
            **telemetry,
            candidate_id=chosen['id'],shop_name=chosen['shop'],shop=chosen['url'],sku=chosen['sku'],
@@ -248,11 +277,16 @@ def main() -> None:
     parser.add_argument("--own-shop-name", required=True)
     parser.add_argument('--epsilon',type=buyer_exploration.probability,default=buyer_exploration.DEFAULT_EPSILON,
                         help='Probability of forcing a uniformly sampled eligible shop/SKU; default 0.1.')
+    parser.add_argument('--life',action='store_true',help='Keep optional life integration in observation mode; tastes do not alter purchase decisions.')
     args = parser.parse_args()
     order = json.loads(args.order.read_text(encoding="utf-8"))
     shops = json.loads(args.shops.read_text(encoding="utf-8"))
     catalog = json.loads((args.order.parent / "catalog.json").read_text(encoding="utf-8"))
-    result = run(order, shops, catalog, args.own_shop_name,epsilon=args.epsilon)
+    life=None
+    if args.life:
+        from buyer_life import BuyerLife
+        life=BuyerLife(market_dir=args.order.parent)
+    result = run(order, shops, catalog, args.own_shop_name,epsilon=args.epsilon,life=life)
     print(json.dumps(result, ensure_ascii=False), flush=True)
 
 
