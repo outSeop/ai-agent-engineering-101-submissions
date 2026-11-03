@@ -291,6 +291,28 @@ class BuyerLifeTests(unittest.TestCase):
         self.assertFalse(view['owned'])
         self.assertEqual(len(load(self.life.state_path,{})['owned']),1)
 
+    def test_context_compaction_preserves_ready_cooking_before_optional_forum_data(self):
+        self.life.acquire(deal('F1',1),CATALOG,NOW)
+        self.life.acquire(deal('F2',2),CATALOG,NOW)
+        self.life.acquire(deal('G1',3,name='의자'*10000),CATALOG,NOW)
+        posts=[{'id':i,'text':'쌀 '+('공개 글 '*1000)} for i in range(6)]
+        with self.life.locked() as state:
+            # Keep a relevant unmet need so optional public text fills the context.
+            state['persona']['recipes'].append({'id':'extra','name':'rice meal','ingredients':['쌀','김치']})
+        view=self.life.context(NOW,posts)
+        ready=next(r for r in view['cooking_options'] if r['recipe_id']=='rice_egg')
+        self.assertTrue(ready['ready'])
+        self.assertEqual(set(ready['unit_ids']),{'u1','u2'})
+        self.assertLessEqual(len(json.dumps(view,ensure_ascii=False,separators=(',',':')).encode()),7500)
+
+    def test_draft_constraints_are_visible_to_the_next_life_decision(self):
+        need=self.life.context(NOW)['needs'][0]
+        self.apply({'kind':'request','need_id':need['id'],'thread':None})
+        view=self.life.context(NOW+1)
+        self.assertIn(need['id'],view['draft_state']['recent_topic_ids'])
+        self.assertEqual(view['draft_state']['seconds_until_available'],599)
+        self.assertEqual(view['draft_state']['max_drafts_per_decision'],1)
+
     def test_drafting_never_touches_an_existing_market_outbox(self):
         market=self.life.market_dir;market.mkdir()
         outbox=market/'outbox.jsonl';outbox.write_text('existing unrelated line\n')

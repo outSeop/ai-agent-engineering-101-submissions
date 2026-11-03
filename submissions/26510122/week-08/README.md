@@ -280,6 +280,32 @@ choice-tension prototype and failed attempts are preserved separately. Results:
 .venv/bin/python experiments/buyer_world_probe.py
 ```
 
+Three-situation simulation (November 4): one saved resident received the
+curated facts "first lab-meeting presenter", "lab meeting cancelled", and
+"two classmates visiting Friday" in sequence. Starting food/furniture and
+settlement IDs were explicitly synthetic fixtures using local catalog names.
+The first run exposed a context bug: optional public/needs text was retained
+while ready-to-cook tool output was removed. The life context now drops optional
+forum/needs/history before current cooking/ownership information; draft cooldown
+and recent topic IDs are visible so the planner can avoid repeated rejected
+drafts. Regression checks bring the suite to 131 passing tests.
+
+In the corrected trajectory, the resident cooked the existing oat/milk bowl and
+placed its owned desk/sofa after the presentation-order fact (hunger 60 to 28).
+After cancellation it drafted an oats request; after the visitor fact it drafted
+a milk request. No actions were rejected in that corrected run. The last two
+responses showed no clear situation-specific plan change; food depletion and
+the original domestic goal still dominated. This is a useful limitation, not a
+claim of rich situational understanding. One trajectory cannot isolate causal
+scene effects or trading performance. No real purchase, publication, buyer
+activation or live state change occurred. Raw initial and corrected runs are
+both preserved. Reproduce with:
+
+```bash
+.venv/bin/python experiments/buyer_situation_sim.py \
+  --output logs/buyer-situation-simulation-corrected-2026-11-04.json
+```
+
 The fictional resident is a model-generated persona whose tastes may evolve
 with recorded experience. This is an optional layer around issued market orders,
 not a replacement ordering system. The default `agent.json` does not enable it;
