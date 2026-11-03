@@ -286,12 +286,17 @@ class IntegrationTests(unittest.TestCase):
                                "shelf_hours": 72, "name": "Example Food"}}))
                 choice = {"action": "buy", "sku": "food-1", "expected_sale_price": 800,
                           "demand_mean": 1.2, "reason": "small exploratory lot"}
-                with patch.object(restock, "decide_json", return_value=choice), \
+                approval = {'action':'approve','candidate_id':'base-600-repeat','valid_for_seconds':600,
+                            'max_total_qty':2,'reason':'approve calculated bounded lot'}
+                with patch.object(restock, "decide_json", side_effect=[choice,approval]) as model, \
                      patch.object(restock, "fetch_market_sales", return_value=Counter({"food-1": 3})):
                     result = restock.run(market)
+                    self.assertEqual(model.call_count,2)
+                    self.assertEqual(restock.run(market),{'buy':[]})
+                    self.assertEqual(model.call_count,2)  # no call or duplicate intent before refresh
                 self.assertEqual(result, {"buy": [{"sku": "food-1", "qty": 1}]})
-                self.assertEqual(restock.run(market), {"buy": []})  # cooldown
-                self.assertEqual(market_memory.events()[-1]["calculation"]["quantity"], 1)
+                decision = next(e for e in reversed(market_memory.events()) if e['event']=='restock_decision')
+                self.assertEqual(decision["calculation"]["quantity"], 1)
             finally:
                 os.chdir(previous)
 

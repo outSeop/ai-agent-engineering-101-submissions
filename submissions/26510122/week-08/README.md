@@ -27,12 +27,29 @@ switch the running week-07 services. Live settlement evidence is still needed.
    Code checks that the selected unit still exists and the price is positive.
 5. The `restock` hook offers the model a bounded set of food SKUs from its own
    observations, recent public Round 3 settlements and exploratory samples.
-   The model chooses a SKU and demand scenario. The newsvendor calculation then
-   chooses a lot size for that forecast. Public sales are labeled separately:
+   The model proposes a SKU and demand scenario. The newsvendor tool calculates
+   quantity candidates; a second model decision approves one complete plan
+   (quantity, target stock, validity and total unit budget) or holds. The tool
+   calculates both a tight budget and a repeat-sales budget, so the model sees
+   that replacement authorization is distinct from buying stock up front.
+   Public sales are labeled separately:
    they do not reveal unfilled demand or buyers' private budgets.
-   Before five observed shop requests for that SKU, the lot is capped at two
-   units; total live stock is capped at 20 units. If the model is unavailable,
-   the hook holds rather than speculatively buying.
+   Before five observed visits for that SKU in the last 12 hours, the entire
+   plan is capped at two units; total live stock is capped at 20 units.
+   `replenishment_plan.py` reuses that approval for 180 or 600 seconds within the
+   fixed target, per-order quantity and total authorized quantity (at most 20).
+   It reserves emitted intents before returning them, waits for a newer
+   inventory snapshot before another intent, and checks the cash reserve again.
+   Expiry, catalog/grade changes, three newly observed stockouts or a substantial
+   observed visit-rate change require reassessment. Budget exhaustion respects
+   the three-minute model cooldown; new risk evidence can bypass it.
+   For ordinary budget/lease renewal, an unchanged scenario may be reused for at
+   most 30 minutes, while the model still approves newly calculated quantities
+   against current evidence. The approver can request `replan`, which emits no
+   purchase and asks the next hook for a fresh scenario. Risk changes bypass
+   this shortcut. New planning takes two model calls, stable renewal one, and
+   valid plan execution zero.
+   Inventory older than 30 seconds and failed model approvals emit no purchases.
 6. `market_buyer_r3.py` selects only stocked, acceptable SKUs from other shops.
    The model chooses a shop, SKU and first offer; `buyer_policy.py` guards the
    private budget and a provisional surplus margin. Food requires a certificate
@@ -57,6 +74,9 @@ one quarter of the catalog shelf life. Before supply, actual grade and cost
 are unknown: `restock.py` uses the market's grade frequencies and cost-range
 midpoints, which imply expected food cost of 0.5 times list price. The real
 cost and grade from inventory replace that estimate when a unit arrives.
+The forecast mean cap (1.5 with sparse visits, otherwise 10 units per horizon)
+is our conservative policy, not a published market demand limit. Both the
+effective forecast and this cap are shown to the final model approver.
 
 ## Run locally
 
@@ -71,11 +91,29 @@ python3 -m venv .venv
 The join command above requires the same shop key and owner claim as the
 existing market identity, and a reachable tunnel. Do not create a second live
 shop alongside the week-07 supervisor. Neither keys nor claim codes belong in
-Git. Round 3 opens November 3; actual settlement behavior can only be verified
-then. Until live outcomes exist, the grade multipliers and demand estimates are
+Git. Check the public `/api/shops` round before running the economy hooks;
+the restock command holds outside Round 3. Until live outcomes exist,
+the grade multipliers and demand estimates are
 experimental inputs rather than measured improvements.
 
 ## Known gaps to check at launch
+
+The public [Round 3 contract](https://market.ourolabs.ai/agent.md) supplies the
+inventory fields, supply grade/cost ranges, food grade cutoffs and goods storage
+rule. An idealized local forecast/review ablation is not a live-market replay:
+at the November 3 check the public API was still in Round 2 with no Round 3
+entries in the latest 500 ledger rows. In the 18 synthetic demand cases, shorter
+periodic review improved mean cash profit, while the faster forecast increased
+fill rate but slightly reduced mean profit. Both short- and long-window evidence
+are therefore shown to the model rather than automatically preferring the short
+forecast. Python plots and simulation data remain in the ignored `flow/` folder.
+
+The model probes use explicitly synthetic visits, settlements and stock with
+public catalog metadata. The initial probes exposed excessive budget renewals;
+approval now selects complete tool-calculated lease/budget alternatives, and
+stable scenario renewals need only the final approval. A 20-hook probe made four
+real model calls, versus seven scheduled calls under the old three-minute
+cooldown. This checks call reuse and guards, not live service or profit.
 
 - `inventory.json` can be ten seconds old. The seller rereads it before a quote
   and a receipt; the kit makes the final stock check during checkout.
