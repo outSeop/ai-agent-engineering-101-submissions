@@ -13,16 +13,17 @@ from pathlib import Path
 import uuid
 import time
 from market_memory import events
-from supply_reconciliation import reconcile
+from supply_reconciliation import reconcile, pending_quantity
+from stock_policy import PROVEN_STOCK, NEW_STOCK
 
 MAX_VALID_SECONDS = 600
 MIN_BALANCE = 1_000_000
-MAX_SKU_STOCK = 4
+MAX_SKU_STOCK = PROVEN_STOCK
 MAX_CATEGORY_STOCK = 6
 MAX_TOTAL_STOCK = 60
 MAX_INVENTORY_COST = 2_000_000
 INVENTORY_CAPITAL_SHARE = .40
-POLICY_VERSION = 4
+POLICY_VERSION = 5
 
 
 def pending_exploration_cost(inventory: dict) -> int:
@@ -35,6 +36,9 @@ def pending_exploration_cost(inventory: dict) -> int:
         return MAX_INVENTORY_COST
     if any(not isinstance(i, dict) or not isinstance(i.get('sku'), str)
            or type(i.get('at')) not in (int, float) or not math.isfinite(i['at'])
+           or type(i.get('qty', 1)) is not int or not 1 <= i.get('qty', 1) <= PROVEN_STOCK
+           or not isinstance(i.get('prior_units'), list)
+           or i.get('status') not in ('issued_unknown', 'observed_inventory', 'settled')
            for i in state['intents']):
         return MAX_INVENTORY_COST
     reconcile(state['intents'], inventory, events(), time.time())
@@ -46,10 +50,7 @@ def pending_exploration_cost(inventory: dict) -> int:
             continue
         if type(intent.get('cost_ceiling')) is not int or intent['cost_ceiling'] <= 0 or not isinstance(intent.get('prior_units'), list):
             return MAX_INVENTORY_COST
-        arrived = any(u.get('sku') == intent.get('sku') and u.get('unit')
-                      and u['unit'] not in intent['prior_units'] for u in inventory.get('units', []))
-        if not arrived:
-            total += intent['cost_ceiling']
+        total += intent['cost_ceiling'] * pending_quantity(intent)
     return total
 
 
@@ -98,12 +99,14 @@ def create(*, sku: str, product: dict, candidate: dict, approval: dict,
         raise ValueError('approval must give a validity between 60 and 600 seconds')
     if type(budget) is not int or not candidate['qty'] <= budget <= 20:
         raise ValueError('approval must cover initial quantity with total budget <=20')
-    if not candidate['qty'] <= candidate['target_stock'] <= MAX_SKU_STOCK:
+    stock_limit = PROVEN_STOCK if observation.get('proven') else NEW_STOCK
+    if not candidate['qty'] <= candidate['target_stock'] <= stock_limit:
         raise ValueError('target must fit the per-SKU portfolio limit')
-    if observation['observed_visits'] < 5:
+    if observation['observed_visits'] < 5 and not observation.get('proven'):
         budget = min(budget, 2)
     return {'version': 1, 'policy_version': POLICY_VERSION, 'id': uuid.uuid4().hex, 'sku': sku, 'approved_at': now,
             'expires_at': now + ttl, 'target_stock': candidate['target_stock'],
+            'stock_limit_at_approval': stock_limit,
             'max_initial_qty': candidate['qty'], 'max_total_qty': budget, 'emitted_qty': 0,
             'product_signature': product_signature(product),
             'cost_ceiling_per_unit': math.ceil(product['list_price'] * .75),
@@ -127,6 +130,8 @@ def execute(plan: dict, *, inventory: dict, product: dict, observation: dict,
         return None, 'invalid_plan_budget'
     if plan.get('policy_version') != POLICY_VERSION:
         return None, 'portfolio_policy_changed'
+    if plan['target_stock'] > (PROVEN_STOCK if observation.get('proven') else NEW_STOCK):
+        return None, 'sales_evidence_changed'
     if plan.get('version') != 1 or not plan.get('approved_at', now+1) <= now < plan.get('expires_at', 0):
         return None, 'expired_or_invalid_plan'
     if not 60 <= plan['expires_at']-plan['approved_at'] <= MAX_VALID_SECONDS:

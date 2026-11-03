@@ -25,6 +25,7 @@ import inventory_observation
 import inventory_exploration
 import inventory_portfolio
 import replenishment_plan
+from stock_policy import sales_evidence, NEW_STOCK
 
 
 COOLDOWN = Path("state/restock-cooldown.json")
@@ -70,11 +71,12 @@ def choose_candidates(catalog: dict, inventory: dict, history: list[dict],
     settled = Counter(e.get("sku") for e in history if e.get("event") == "settled" and e.get("sku"))
     stocked = Counter(u.get("sku") for u in inventory.get("units", []) if u.get("grade") != "expired")
     categories = Counter(u.get('category') for u in inventory.get('units', []) if u.get('grade') != 'expired')
+    signals = {sku:sales_evidence(sku, history, time.time()) for sku in catalog if settled[sku]}
     products = {sku: data for sku, data in catalog.items()
                 if isinstance(data, dict) and data.get('kind') in ('food', 'goods')
                 and type(data.get('list_price')) is int and data['list_price'] > 0
                 and (data['kind'] == 'goods' or (data.get('shelf_hours') or 0) >= 24)
-                and stocked[sku] < replenishment_plan.MAX_SKU_STOCK
+                and stocked[sku] < signals.get(sku, {}).get('stock_limit', NEW_STOCK)
                 and (not data.get('category') or categories[data['category']] < replenishment_plan.MAX_CATEGORY_STOCK)}
     if not products:
         return []
@@ -92,6 +94,7 @@ def choose_candidates(catalog: dict, inventory: dict, history: list[dict],
              "category": products[sku].get("category"), "kind": products[sku]['kind'],
              "list_price": products[sku]["list_price"],
              "shelf_hours": products[sku].get("shelf_hours"),
+             'sales_evidence':signals.get(sku, {}), 'stock_limit':signals.get(sku, {}).get('stock_limit', NEW_STOCK),
              "currently_stocked": stocked[sku], "observed_shop_requests": counts[sku],
              "confirmed_settlements": settled[sku],
              "recent_public_settlements": market_sales[sku]} for sku in selected]
@@ -133,14 +136,14 @@ def observation_view(observed: dict) -> dict:
 
 
 def quantity_candidates(mean: float, price: int, cost: int, stocked: int, cap: int,
-                        continuation_value: float = 0., holding_per_leftover: float = 0.) -> list[dict]:
+                        continuation_value: float = 0., holding_per_leftover: float = 0., stock_limit: int = NEW_STOCK) -> list[dict]:
     table = [{'id':'hold','qty':0,'target_stock':stocked,'expected_incremental_profit':0,
               'assumption':'wait until next review; not a promise of zero future sales'}]
     seen = {0}
     for label, factor in [('low',.65),('base',1.),('high',1.5)]:
         pmf = poisson_pmf(mean*factor)
         calc = recommend_quantity(pmf,price,cost,salvage=continuation_value,
-                                  holding_per_leftover=holding_per_leftover,max_qty=replenishment_plan.MAX_SKU_STOCK)
+                                  holding_per_leftover=holding_per_leftover,max_qty=stock_limit)
         qty = min(cap,max(0,calc['quantity']-stocked))
         if qty in seen:
             continue
@@ -168,7 +171,7 @@ def plan_candidates(table: list[dict], observation: dict, horizon_hours: float, 
         rate *= min(1.,observation['confirmed_settlements']/observation['observed_visits'])
     else:
         rate = mean/horizon_hours
-    total_cap = 2 if observation['observed_visits']<5 else 20
+    total_cap = 2 if observation['observed_visits']<5 and not observation.get('proven') else 20
     options=[]
     for row in table:
         if not row['qty']:
@@ -240,7 +243,7 @@ def run(state: Path) -> dict:
     invalidated_plan = False
     if cached and cached.get('sku') in catalog:
         sku = cached['sku']
-        observation = inventory_observation.evidence(sku,history,now)
+        observation = {**inventory_observation.evidence(sku,history,now), **sales_evidence(sku,history,now)}
         result, reason = replenishment_plan.execute(cached,inventory=inventory,product=catalog[sku],
                                                     observation=observation,now=now,snapshot_time=inventory_path.stat().st_mtime)
         if result is not None:
@@ -341,8 +344,10 @@ def run(state: Path) -> dict:
              if type(proposed_price) is int else round(list_price * 0.8))
     proposed_mean = decision.get("demand_mean")
     mean = float(proposed_mean) if type(proposed_mean) in (int, float) and math.isfinite(proposed_mean) else 0.0
-    observation = inventory_observation.evidence(selected['sku'],history,now)
-    mean = max(0.0, min(mean, 1.5 if observation['observed_visits'] < 5 else 10.0))
+    observation = {**inventory_observation.evidence(selected['sku'],history,now), **sales_evidence(selected['sku'],history,now)}
+    sparse = observation['observed_visits'] < 5 and not observation['proven']
+    forecast_cap = 20. if observation['proven'] else 1.5 if sparse else 10.
+    mean = max(0.0, min(mean, forecast_cap))
     # Food grade probabilities: A .25, B .50, C .25. Midpoint cost shares:
     # A .65, B .50, C .35, giving an expected purchase cost of .50 list price.
     expected_cost = round(list_price * (.59 if selected['kind'] == 'goods' else .50))
@@ -353,15 +358,15 @@ def run(state: Path) -> dict:
     holding = expected_cost * .01 * horizon_hours / 24 if selected['kind'] == 'goods' else 0.
     calculation = recommend_quantity(poisson_pmf(mean), price, expected_cost,
                                      salvage=continuation, holding_per_leftover=holding,
-                                     max_qty=replenishment_plan.MAX_SKU_STOCK)
+                                     max_qty=observation['stock_limit'])
     balance = replenishment_plan.inventory_risk(inventory, now)['available_to_invest']
     affordable = int(balance // math.ceil(list_price * 0.75))
     category_stock = sum(u.get('category') == selected.get('category') for u in live_units) if selected.get('category') else 0
     cap = max(0, min(affordable,replenishment_plan.MAX_TOTAL_STOCK-len(live_units),
-                     replenishment_plan.MAX_SKU_STOCK-selected['currently_stocked'],
+                     observation['stock_limit']-selected['currently_stocked'],
                      replenishment_plan.MAX_CATEGORY_STOCK-category_stock,
-                     STARTUP_MAX_BUY if observation['observed_visits']<5 else 20))
-    quantities = quantity_candidates(mean,price,expected_cost,selected['currently_stocked'],cap,continuation,holding)
+                     STARTUP_MAX_BUY if sparse else 20))
+    quantities = quantity_candidates(mean,price,expected_cost,selected['currently_stocked'],cap,continuation,holding,observation['stock_limit'])
     table = plan_candidates(quantities,observation,horizon_hours,mean)
     proposal={**decision,'reason':text(decision.get('reason'),160)}
     approval_prompt = {'phase':'approve_replenishment_plan','scenario_proposal':proposal,
@@ -374,12 +379,12 @@ def run(state: Path) -> dict:
                        'holding_per_leftover':holding,
                        'portfolio_limits':prompt['portfolio_limits'],
                        'continuation_value_contract':'Uncertain future net revenue after horizon, not buyback or confirmed cash.',
-                       'forecast_policy_cap':1.5 if observation['observed_visits']<5 else 10.,
+                       'forecast_policy_cap':forecast_cap,
                        'observation':observation,'quantity_candidates':table,
                        'scenario_age_seconds':round(now-cooldown.get('scenario_at',now)) if reusable_scenario else 0,
                        'scenario_status':'temporary model hypothesis, not an observed fact',
-                       'sparse_observation_cap_applies':observation['observed_visits']<5,
-                       'maximum_authorized_total_qty':2 if observation['observed_visits']<5 else 20,
+                       'sparse_observation_cap_applies':sparse,
+                       'maximum_authorized_total_qty':2 if sparse else 20,
                        'model_call_tradeoff':{'new_plan':2,'stable_scenario_renewal':1,'valid_plan_reuse':0,
                                               'goal':'minimize repeated calls subject to the same bounded inventory risk'},
                        'existing_units':[{'grade':u.get('grade'),'cost':u.get('cost'),

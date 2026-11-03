@@ -64,7 +64,9 @@ switch the running week-07 services. Live settlement evidence is still needed.
 
    After startup, `inventory_portfolio.py` persists one epsilon draw per supply
    window: 30% exploration, otherwise exploitation. Fewer than 24 stocked SKUs
-   overrides the draw to build broad inventory. This is an operator-controlled mixture
+   or inventory acquisition cost below the 1,500,000 soft allocation target
+   overrides the draw to build inventory. The target is a model planning goal,
+   not a requirement to spend irrespective of demand or risk. This is an operator-controlled mixture
    around a model policy, not a learned Q-value table; percentages describe window
    decisions, not units or spend. Exploration samples food/goods categories and
    proposes at most eight unowned SKUs, one unit each. The tool calculates an
@@ -79,7 +81,7 @@ switch the running week-07 services. Live settlement evidence is still needed.
    (preferably without recent evidence) must be included in a buy, so the model
    cannot silently turn exploration into its familiar best sellers; it can hold
    for a concrete risk and chooses the rest of the basket. The model still approves every
-   basket. Its ceiling budget is 600,000 per window and 1,500,000 over a rolling
+   basket. Its ceiling budget is 600,000 per window and 2,500,000 over a rolling
    24 hours; these are worst-case intent reservations, not actual spend. Unknown
    outcomes retain spend and slot reservations. The same window is never redrawn
    or retried after a model failure, hold or ambiguous supply. Arrival evidence
@@ -94,6 +96,27 @@ switch the running week-07 services. Live settlement evidence is still needed.
    Reconciliation runs even with supply closed and is shared by cached plans.
    Existing intent reservations survive the budget increase; the update does not
    restart the 24-hour allowance or repeat a previously attempted window.
+
+   A window can now approve BOTH replenishment and exploration in one model
+   call. `stock_policy.py` identifies up to eight established SKU candidates,
+   requiring at least three positive acquisition-spread settlements in 12 hours,
+   at least one in the last hour, and positive total known acquisition spread.
+   Costs must link to first-hand signed receipts; unknown costs, pending receipts
+   and public sales alone do not establish this status. The model can select up
+   to two such SKUs and tool-calculated targets of four or six units, alongside
+   up to six new SKUs, one unit each. It sees a one-hour newsvendor calculation
+   from recent shop sales and explicitly uncertain grade/price assumptions.
+   The shared limit is eight supply requests, 600,000 worst-case spend, 60 total
+   units and the existing cash/exposure limits. New-SKU exploration alone counts
+   against the rolling 2,500,000 allowance; established replacements still obey
+   shared cash/exposure limits. The model is asked to prefer four to six new
+   SKUs where affordable; the cardinality floor can drop to the random anchor to
+   leave budget for the established seller. When no established seller qualifies,
+   the prior up-to-eight-new-SKU basket and its affordable minimum remain.
+   Fresh stock growth can only REDUCE the emitted replacement quantity, never
+   increase it past the approved target. Multi-unit intents track observed and
+   settled physical units separately: one observed unit does not clear a whole
+   six-unit reservation. Old receipts cannot be attached to a later acquisition.
 
    `replenishment_plan.inventory_risk` computes spendable capacity from cash and
    acquisition-cost exposure for both ordinary replenishment and exploration.
@@ -111,9 +134,10 @@ switch the running week-07 services. Live settlement evidence is still needed.
    that replacement authorization is distinct from buying stock up front.
    Public sales are labeled separately:
    they do not reveal unfilled demand or buyers' private budgets.
-   Before five observed visits for that SKU in the last 12 hours, the entire
-   plan is capped at two units; total live stock is capped at 60 units. Both
-   paths enforce at most four units per SKU and six per catalog category when
+   An unproven SKU is capped at two units; an established seller can hold six.
+   Sparse plans remain capped at two total units unless positive-spread sales
+   establish the SKU. Total live stock is capped at 60 units. Both
+   paths enforce at most six units per SKU and six per catalog category when
    adding stock; existing excess stock is retained for sale, without adding to
    it. Old plans and scenario caches cannot bypass the new policy. Goods use
    the documented grade mixture A=.70/B=.20/C=.10 (expected cost=.59 of list),

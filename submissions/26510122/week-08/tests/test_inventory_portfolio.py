@@ -63,8 +63,10 @@ class PortfolioTests(unittest.TestCase):
 
     def test_exploitation_draw_delegates_without_exploration_model(self):
         model = Mock(side_effect=AssertionError('must delegate'))
-        self.assertIsNone(self.run_portfolio(inventory(24), model=model, rng=random.Random(2)))
-        self.assertIsNone(self.run_portfolio(inventory(24), model=model, rng=random.Random(1)))
+        inv = inventory(24)
+        for unit in inv['units']: unit['cost'] = 65000  # allocation already meets the new 1.5m soft target
+        self.assertIsNone(self.run_portfolio(inv, model=model, rng=random.Random(2)))
+        self.assertIsNone(self.run_portfolio(inv, model=model, rng=random.Random(1)))
         model.assert_not_called()
 
     def test_low_variety_forces_coverage_even_with_high_draw(self):
@@ -117,12 +119,12 @@ class PortfolioTests(unittest.TestCase):
         # Unknown intents retain their spend reservations even after a restart.
         self.path.parent.mkdir()
         intents = [{'sku': f'x{i}', 'cost_ceiling': 250000, 'at': 999,
-                    'prior_units': [], 'status': 'issued_unknown'} for i in range(6)]
+                    'prior_units': [], 'status': 'issued_unknown'} for i in range(10)]
         self.path.write_text(json.dumps({'version': 1, 'windows': {}, 'intents': intents}))
         model = Mock(side_effect=AssertionError('budget exhausted'))
         self.assertIsNone(self.run_portfolio(model=model))
         model.assert_not_called()
-        self.assertEqual(len(json.loads(self.path.read_text())['intents']), 6)
+        self.assertEqual(len(json.loads(self.path.read_text())['intents']), 10)
 
     def test_request_evidence_is_deduplicated_and_goods_survive_candidate_sampling(self):
         at = datetime.fromtimestamp(999, timezone.utc).isoformat()
