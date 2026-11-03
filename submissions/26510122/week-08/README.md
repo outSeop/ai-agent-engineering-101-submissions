@@ -51,7 +51,8 @@ switch the running week-07 services. Live settlement evidence is still needed.
    valid plan execution zero.
    Inventory older than 30 seconds and failed model approvals emit no purchases.
 6. `market_buyer_r3.py` selects only stocked, acceptable SKUs from other shops.
-   The model chooses a shop, SKU and first offer; `buyer_policy.py` guards the
+   Normally the model chooses a shop, SKU and first offer. A 10% epsilon branch
+   fixes a random eligible shop/SKU for the model to price. `buyer_policy.py` guards the
    private budget and a provisional surplus margin. Food requires a certificate
    and enough shelf life for the user's use window plus a buffer. Goods require
    a certificate and grade A or B; a six-hour warranty is preferred, not a
@@ -85,6 +86,58 @@ cost and grade from inventory replace that estimate when a unit arrives.
 The forecast mean cap (1.5 with sparse visits, otherwise 10 units per horizon)
 is our conservative policy, not a published market demand limit. Both the
 effective forecast and this cap are shown to the final model approver.
+
+## Forced buyer exploration
+
+`buyer_exploration.py` provides an operator-controlled epsilon mixture around
+the existing model selection policy. `agent.json` sets `--epsilon 0.1`: with
+10% probability the harness samples one distinct eligible shop-name/SKU pair
+uniformly and fixes that candidate. The remaining probability uses the normal
+model policy and its ranked shortlist. This is not a learned Q-table or proof
+that the model implements a numerical greedy optimum.
+
+Exploration draws from the **whole eligible pool**, before the normal 16-pair
+and two-pairs-per-shop limits. Duplicate offers do not create extra entries.
+The prompt and schema expose only the forced candidate; the code also prevents
+a model override and preserves the target during a model failure. The model
+chooses its opening price and can later negotiate or walk away. Exploration
+does not force a purchase or override private budgets, the existing provisional
+price shares, certificate/quality requirements, or final kit checkout checks.
+Eligibility uses known catalog/stock facts; actual unit quality is still checked
+at checkout. Exploring cannot discover preferences outside the order's allowed
+SKUs or the current eligibility policy.
+
+An exploration draw can pick a familiar candidate by chance. It is not a promise
+to choose a different shop from the model, nor exactly one exploration in every
+ten orders. A shop with more eligible SKUs has more pairs in the uniform pool;
+this is pair-level, not equal-shop sampling. `--epsilon 0` disables exploration,
+and `--epsilon 1` is useful for controlled tests. Invalid probabilities fail
+validation. A single candidate is labeled `single_candidate` without a draw.
+
+Append-only `selection_opportunities` events preserve the full eligible pool,
+displayed IDs, order conditions, epsilon and random draw. `buyer_policy_selection`
+records the effective choice plus the model's original candidate/reason/fallback.
+They share a `selection_id` with dialogue and negotiation events. Attempts at
+an alternative shop are labeled `fallback`, separately from the exploration
+target; deadline-skipped attempts are explicit. Receipt-pending remains distinct
+from kit payment/settlement. Future audits must join outcomes by order, stable
+shop identity and SKU, not label any later payment on the order as exploration
+success. The logged `epsilon / pool_size` is only the uniform-exploration
+component, not the full propensity of the stochastic model policy.
+
+This records evidence for a later meta-harness review without storing a permanent
+inferred taste rule. Epsilon does not adapt automatically yet. Comparisons need
+actual paid results and usable value; missing alternative-shop outcomes are
+unknown. Current order budgets and candidate conditions remain private logs.
+
+All 70 tests pass, including forced selection outside the shortlist, resistance
+to model overrides, model failure, unchanged price guards, payment attribution
+and deadline skips. Two actual selector-model calls on synthetic candidates chose
+the forced 18th pair versus a normal shortlist candidate; negotiation and
+receipts were mocked, with no market payments. A seeded 10,000-draw RNG check
+produced 999 exploration branches and covered all 18 pairs. This checks policy
+mechanics, not profitability. See `logs/buyer-epsilon-model-probe-2026-11-03.log`
+and `experiments/buyer_epsilon_probe.py`. Deployment remains paused as requested.
 
 ## Context construction
 

@@ -59,6 +59,8 @@ def candidates(order: dict, shops: list[dict], catalog: dict,
             paid = first_hand["same_sku_payment_outcomes"].get("paid", 0)
             found.append({"shop": shop["name"], "url": shop["url"], "sku": sku,
                           "name": product.get("name") or offer.get("name") or sku,
+                          'category':product.get('category'),'kind':product.get('kind'),
+                          'listed_shelf_hours':product.get('shelf_hours'),
                           "list_price": product["list_price"], "cap": cap,
                           "stock": offer["qty"], "reviews": review_summary(shop.get("reviews") or []),
                           "first_hand": first_hand, "paid": paid, "refusals": refusals})
@@ -85,7 +87,8 @@ def shortlist(found: list[dict]) -> list[dict]:
     return selected
 
 
-def choose(candidates_: list[dict], order: dict, *, forced_candidate_id: str | None = None) -> tuple[dict, int]:
+def choose(candidates_: list[dict], order: dict, *, forced_candidate_id: str | None = None,
+           telemetry: dict | None = None) -> tuple[dict, int]:
     if forced_candidate_id is not None:
         candidates_=[c for c in candidates_ if c['id']==forced_candidate_id]
     if not candidates_:
@@ -121,6 +124,9 @@ def choose(candidates_: list[dict], order: dict, *, forced_candidate_id: str | N
     }, "required": ["candidate_id", "opening_offer", "reason"], "additionalProperties": False}
     try:
         answer = decide_json("buyer shop selector", prompt, schema)
+        if telemetry is not None:
+            telemetry.update({'model_candidate_id':answer.get('candidate_id'),
+                              'model_reason':text(answer.get('reason'),350),'model_fallback':False})
         chosen_id=forced_candidate_id if forced_candidate_id is not None else answer['candidate_id']
         if forced_candidate_id is not None and answer.get('candidate_id')!=forced_candidate_id:
             trace('buyer_exploration_guard',proposed=answer.get('candidate_id'),effective=forced_candidate_id)
@@ -137,6 +143,8 @@ def choose(candidates_: list[dict], order: dict, *, forced_candidate_id: str | N
               shop=chosen["shop"], proposed=proposed, opening=opening, reason=answer["reason"])
         return chosen, opening
     except Exception as error:
+        if telemetry is not None:
+            telemetry.update({'model_fallback':True,'model_error':type(error).__name__})
         chosen = candidates_[0]
         opening = max(1, math.floor(chosen["cap"] * 0.8))
         trace("buyer_selection_fallback", error=type(error).__name__,
@@ -164,12 +172,18 @@ def run(order: dict, shops: list[dict], catalog: dict, own_shop_name: str, *,
     displayed=([c for c in available if c['id']==policy['forced_candidate_id']]
                if policy['mode']=='explore' else shortlist(available))
     record('selection_opportunities',selection_id=selection_id,order=order.get('order'),**policy,
+           order_kind=order.get('kind'),order_item=order.get('item'),
+           order_budget=order.get('budget'),use_within_hours=order.get('use_within_hours'),
+           order_expires_at=order.get('expires'),
            candidate_unit='distinct eligible shop-name/SKU pairs',
-           eligible_candidates=[{k:c[k] for k in ('id','shop','sku','list_price','cap','stock','paid','refusals')}
+           eligible_candidates=[{k:c[k] for k in ('id','shop','sku','category','kind','listed_shelf_hours',
+                                                 'list_price','cap','stock','paid','refusals')}
                                 for c in available],
            displayed_candidate_ids=[c['id'] for c in displayed])
-    chosen, first_offer = choose(displayed, order,forced_candidate_id=policy['forced_candidate_id'])
+    telemetry={}
+    chosen, first_offer = choose(displayed, order,forced_candidate_id=policy['forced_candidate_id'],telemetry=telemetry)
     record('buyer_policy_selection',selection_id=selection_id,order=order.get('order'),**policy,
+           **telemetry,
            candidate_id=chosen['id'],shop_name=chosen['shop'],shop=chosen['url'],sku=chosen['sku'],
            opening_offer=first_offer,
            note='A selected or signed receipt is not a paid purchase. Uniform exploration may pick a familiar candidate.')
