@@ -10,6 +10,7 @@ import httpx
 
 from harness import decide_json, trace
 from context_compaction import MAX_TURNS, text
+import buyer_identity
 
 
 def status(task: dict) -> str:
@@ -38,12 +39,16 @@ def card_endpoint(client: httpx.Client, shop_url: str, deadline: float) -> str:
 
 
 def send(client: httpx.Client, endpoint: str, message: str, deadline: float,
-         task_id: str | None = None) -> dict:
+         task_id: str | None = None,identity: dict | None = None) -> dict:
     body = {"role": "ROLE_USER", "messageId": str(uuid.uuid4()), "parts": [{"text": message}]}
     if task_id:
         body["taskId"] = task_id
+    params={'message':body}
+    if identity:
+        params['metadata']={'buyer_identity':buyer_identity.sign(identity['key'],identity['name'],identity['recipient'],
+                                                                 body['messageId'],task_id,message)}
     response = client.post(endpoint, json={"jsonrpc": "2.0", "id": str(uuid.uuid4()),
-                                           "method": "SendMessage", "params": {"message": body}},
+                                           "method": "SendMessage", "params": params},
                            headers={"A2A-Version": "1.0"},
                            timeout=min(85, max(1, deadline - time.monotonic())))
     response.raise_for_status()
@@ -101,10 +106,13 @@ def followup_offer(*, message: str, last_offer: int, cap: int, sku: str,
 
 
 def negotiate(shop_url: str, sku: str, name: str, order: dict, *, opening_offer: int,
-              cap: int, list_price: int, memory: dict, deadline: float,on_message=None) -> dict:
+              cap: int, list_price: int, memory: dict, deadline: float,on_message=None,
+              buyer_name: str | None = None,seller_name: str | None = None) -> dict:
     """Return a received receipt and final offer, or a concrete failure reason."""
     offered: list[int] = []
     transcript: list[dict] = []
+    key=buyer_identity.load_key() if buyer_name and seller_name else None
+    identity={'key':key,'name':buyer_name,'recipient':seller_name} if key is not None else None
     def remember(speaker,message,task_id=None):
         row={'speaker':speaker,'text':message,'task_id':task_id}
         transcript.append(row)
@@ -117,7 +125,7 @@ def negotiate(shop_url: str, sku: str, name: str, order: dict, *, opening_offer:
             note += " A six-hour warranty is preferred."
         opening = f"I want to buy {name} ({sku}). {note}"
         remember('buyer',opening)
-        task = send(client, endpoint, opening, deadline)
+        task = send(client, endpoint, opening, deadline,identity=identity)
         for turn in range(3):
             if status(task) != "TASK_STATE_INPUT_REQUIRED":
                 break
@@ -137,7 +145,7 @@ def negotiate(shop_url: str, sku: str, name: str, order: dict, *, opening_offer:
             offered.append(offer)
             remember('buyer',str(offer),task.get('id'))
             trace("buyer_offer", sku=sku, shop=shop_url, offer=offer, turn=turn)
-            task = send(client, endpoint, str(offer), deadline, task.get("id"))
+            task = send(client, endpoint, str(offer), deadline, task.get("id"),identity=identity)
         receipt = get_receipt(task) if status(task) == "TASK_STATE_COMPLETED" else None
         remember('seller',status_text(task),task.get('id'))
         return {"receipt": receipt, "reason": "receipt received" if receipt else

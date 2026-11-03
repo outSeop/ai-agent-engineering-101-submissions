@@ -152,7 +152,8 @@ def run(order: dict, shops: list[dict], catalog: dict, own_shop_name: str) -> di
             outcome = negotiate(choice["url"], choice["sku"], choice["name"], order,
                                 opening_offer=opening, cap=choice["cap"],
                                 list_price=choice["list_price"], memory=choice["first_hand"],
-                                deadline=deadline,on_message=log_message)
+                                deadline=deadline,on_message=log_message,
+                                buyer_name=own_shop_name,seller_name=choice['shop'])
             final_offer = outcome["offers"][-1] if outcome["offers"] else 0
             problem = receipt_problem(outcome.get("receipt"), selected_sku=choice["sku"],
                                       order=order, final_offer=final_offer,
