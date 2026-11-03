@@ -120,6 +120,51 @@ bytes and buyer memory from 36,708 to 955 bytes. Two real model probes separated
 condition, and selected confirmed payment evidence over higher public stars.
 These are context-size and evidence-reading checks, not market-profit results.
 
+## Tentative buyer-specific opening prices
+
+`counterparty_memory.py` calculates evidence, and the seller model chooses the
+quote. A buyer is never permanently labeled by a model-generated rule. Eligible
+evidence currently means a locally confirmed settlement within 14 days, the
+same SKU and grade, and (for food) the same expiry bucket: at most three hours
+remaining versus longer. Unknown expiry is excluded for food. One offer must
+have paid at least 98% of the opening ask, with no seller counteroffer. A
+"high" payment exceeds the median normalized price of at least three comparable
+other-buyer settlements by 5%; without these, the tool explicitly uses the
+unvalidated grade prior. These thresholds are experimental policy choices.
+
+One such settlement suggests the historical normalized price and a 5% higher
+new quote; repeated evidence also adds a 10% candidate. For example, a previous
+120 payment on an unchanged list-price-100 A-grade item gives 120/126, then
+120/126/132 after repetition. The model also sees bargained/lower payments and
+the most recent probe outcome. A rejected/cancelled probe or a discounted probe
+settlement blocks another uplift pending new comparable confirmed evidence;
+a recent open/pending probe waits 30 minutes. Observations age out after 14
+days. These are optional candidates under the existing twice-list-price guard,
+and never change an already agreed receipt.
+
+Anonymous A2A messages do not identify a buyer. `buyer_identity.py` offers
+optional `params.metadata.buyer_identity`: the existing market buyer key signs
+the recipient, message ID, task ID, full text and timestamp. The supplied public
+key must also verify a past official `verified=true` result's buyer signature
+under that name. A self-claimed name or self-signed message alone is insufficient.
+The sender reuses `buyer_key.pem`; no private key is sent or logged. Other buyers
+must send compatible metadata for personalized pricing to apply; our sender
+support cannot identify anonymous clients automatically.
+
+Only a public result matching our local signed receipt links its buyer name to
+that task; a result alone does not establish Round 3 payment. The public-ledger
+reader starts with the latest 500 rows, polls at most once a minute with a
+three-second timeout, and caches 256 proofs/results in ignored `state/`. Cached
+results can reconcile late receipts during an outage. Unknown ledger schemas
+are ignored; missing historical coverage leaves identity/evidence unknown.
+
+The 58-test suite covers signature/context tampering, replay, late linkage,
+pending receipts, comparable conditions, bargaining and failed probes. Four
+real model calls on synthetic seller prompts are recorded in
+`logs/buyer-price-model-probe-2026-11-03.log`. They check evidence reading, not
+live buyer elasticity or profit. This implementation has not been deployed to
+the running shop or validated with live Round 3 personalized trades.
+
 ## Run locally
 
 ```bash

@@ -14,6 +14,7 @@ import time
 import uvicorn
 from cryptography.hazmat.primitives import serialization
 from starlette.applications import Starlette
+from google.protobuf.json_format import MessageToDict
 
 from a2a.helpers import get_message_text, new_data_part, new_task_from_user_message, new_text_part
 from a2a.server.agent_execution import AgentExecutor
@@ -23,10 +24,13 @@ from a2a.server.tasks import InMemoryTaskStore, TaskUpdater
 from a2a.types import AgentCapabilities, AgentCard, AgentInterface, AgentSkill
 
 from harness import MODEL, decide_json, trace
-from market_memory import compact_context, record, sync_settlements
+from market_memory import compact_context, events, record, sync_settlements
 from newsvendor_tool import quote_candidates
 from inventory_observation import requested_skus
 from context_compaction import MAX_TURNS
+import buyer_identity
+import counterparty_memory
+from newsvendor_tool import GRADE_ANCHORS
 
 
 NAME = "outseop-26510122"
@@ -96,6 +100,7 @@ class Seller(AgentExecutor):
     def __init__(self) -> None:
         self.open: dict[str, dict] = {}
         self.holds: dict[str, float] = {}  # signed receipts awaiting checkout/settlement
+        self.identity_messages: dict[str,float] = {}
 
     def available(self, text: str) -> list[dict]:
         inventory = read_inventory()
@@ -121,6 +126,7 @@ class Seller(AgentExecutor):
 
     async def execute(self, context, event_queue) -> None:
         task = context.current_task
+        new_task = task is None
         if task is None:
             task = new_task_from_user_message(context.message)
             await event_queue.enqueue_event(task)
@@ -152,19 +158,55 @@ class Seller(AgentExecutor):
                 record("no_stock", task_id=task.id, request=message[:160], requested_skus=requested)
                 await up.reject(say("Sorry, no matching unit is in stock."))
                 return
+            metadata=context.metadata or MessageToDict(context.message.metadata)
+            history=events()
+            proofs=counterparty_memory.load_cache().get('proofs',[])
+            linked={e.get('task_id') for e in history if e['event']=='buyer_link'}
+            unlinked=any(e['event']=='receipt_signed' and e.get('task_id') not in linked for e in history)
+            if metadata.get('buyer_identity') or metadata.get('buyer_name') or unlinked:
+                proofs=await asyncio.to_thread(counterparty_memory.refresh,NAME)
+                history=events()
+            identity=buyer_identity.identify(metadata,recipient=NAME,message_id=context.message.message_id,
+                                             task_id=None if new_task else task.id,message=message,proofs=proofs)
+            now=time.time()
+            self.identity_messages={mid:at for mid,at in self.identity_messages.items() if now-at<300}
+            if identity['verified']:
+                if context.message.message_id in self.identity_messages:
+                    identity={**identity,'status':'replayed_identity_message','verified':False}
+                else:
+                    if len(self.identity_messages)>=512:self.identity_messages.pop(next(iter(self.identity_messages)))
+                    self.identity_messages[context.message.message_id]=now
+            record('buyer_identity_observed',task_id=task.id,**identity)
             tools = [quote_candidates(u) for u in choices]
             keys=list(dict.fromkeys((u['sku'],u['grade']) for u in choices))
             per_key=min(3600,12000//len(keys)-64)
             memories={f'{sku}:{grade}':compact_context(sku,grade,max_bytes=per_key) for sku,grade in keys}
             for tool in tools:
                 tool['memory_key']=f"{tool['sku']}:{tool['grade']}"
+            profiles={}
+            profiles_by_unit={}
+            for unit,tool in zip(choices,tools):
+                remaining=(unit['expires_at']-now)/3600 if unit.get('expires_at') is not None else None
+                bucket='unknown' if remaining is None else 'near_expiry' if remaining<=3 else 'not_near_expiry'
+                key=f"{unit['sku']}:{unit['grade']}:{bucket}"
+                if key not in profiles:
+                    profiles[key]=counterparty_memory.profile(identity,unit,history=history,now=now)
+                profiles_by_unit[unit['unit']]=profiles[key]
+                tool['buyer_evidence_key']=key
+                if profiles[key]['eligible_for_price_probe']:
+                    tool['buyer_price_candidates']=profiles[key]['price_candidates']
             prompt = {
                 "phase": "opening", "task_id": task.id, "buyer_message": message[:500],
                 "objective": "Choose one available physical unit and an opening price. "
                              "Use the calculation-tool candidates and market memory as evidence; "
                              "you may choose another positive price when you explain why. "
-                             "A signed receipt is not a settled sale.",
+                             "A signed receipt is not a settled sale. Buyer-specific higher quotes are optional "
+                             "experiments ONLY for eligible, market-linked signed identities. Use actual calm "
+                             "high-price settlements under comparable conditions, not a permanent buyer label "
+                             "or an assumed private budget. Unverified/unknown buyers use ordinary evidence. "
+                             "Respect failed or unresolved price probes; never reprice an already agreed receipt.",
                 "unit_options": tools, "memory_by_sku_grade": memories,
+                'buyer_identity':identity,'buyer_price_evidence':profiles,
             }
             middle = tools[0]["candidates"][len(tools[0]["candidates"]) // 2]["price"]
             answer = await self.choose(prompt, ["ask", "reject"],
@@ -196,11 +238,20 @@ class Seller(AgentExecutor):
                       effective_unit=unit["unit"])
             self.open[task.id] = deal = {
                 "unit": unit, "ask": ask, "history": [], "opened_at": time.time(),
+                'buyer_identity':identity,'buyer_price_evidence':profiles_by_unit[unit['unit']],
             }
             record("opening", task_id=task.id, sku=unit["sku"], unit=unit["unit"],
                    category=unit.get("category"), grade=unit["grade"], kind=unit.get("kind"),
                    cost=unit["cost"], list_price=unit["list_price"], ask=ask,
                    expires_at=unit.get("expires_at"))
+            evidence=profiles_by_unit[unit['unit']]
+            ordinary=unit['list_price']*GRADE_ANCHORS[unit['grade']]
+            if evidence['eligible_for_price_probe'] and ask>ordinary*1.025:
+                remaining=(unit['expires_at']-now)/3600 if unit.get('expires_at') is not None else None
+                record('buyer_price_probe',task_id=task.id,buyer_name=identity['buyer_name'],sku=unit['sku'],
+                       grade=unit['grade'],price=ask,baseline_anchor=ordinary,
+                       expiry_bucket='unknown' if remaining is None else 'near_expiry' if remaining<=3 else 'not_near_expiry',
+                       evidence_count=evidence['calm_high_paid'])
             trace("seller_open", task_id=task.id, sku=unit["sku"], unit=unit["unit"],
                   grade=unit["grade"], cost=unit["cost"], ask=ask)
             await up.requires_input(say(f"{unit['name']}: asking {ask}. Send your offer as a number."))
@@ -230,10 +281,12 @@ class Seller(AgentExecutor):
             "phase": "follow_up", "task_id": task.id,
             "unit": quote_candidates(unit), "current_ask": deal["ask"],
             "buyer_offer": offer, "history": deal["history"][-MAX_TURNS:], "memory": memory,
+            'buyer_price_evidence':deal.get('buyer_price_evidence'),
             "objective": "Accept, counter or reject. Consider purchase cost, grade, "
                          "food expiry and goods storage, but do not treat purchase cost "
                          "as an absolute floor for food already near expiry. "
-                         "A receipt counts only if checkout later settles.",
+                         "A receipt counts only if checkout later settles. The buyer profile is a hypothesis; "
+                         "a new low offer is evidence against the tested price. Do not escalate mechanically.",
         }
         fallback_action = "accept" if offer >= int(unit["cost"]) else "counter"
         answer = await self.choose(prompt, ["accept", "counter", "reject"],
