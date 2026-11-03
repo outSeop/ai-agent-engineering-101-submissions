@@ -313,6 +313,18 @@ class BuyerLifeTests(unittest.TestCase):
         self.assertEqual(view['draft_state']['seconds_until_available'],599)
         self.assertEqual(view['draft_state']['max_drafts_per_decision'],1)
 
+    def test_draft_success_is_not_reported_as_external_request_acceptance(self):
+        need=self.life.context(NOW)['needs'][0]
+        self.life.model=Mock(return_value={'plan':None,'actions':[{'kind':'request','need_id':need['id'],'thread':None}],
+                                          'preferences':None,'reason':'draft'})
+        view=self.life.tick(CATALOG,NOW)
+        feedback=view['planning']['last_action_results'][0]
+        self.assertEqual(feedback['effect'],'internal_draft_only')
+        self.assertIn('not sent',feedback['reason'])
+        self.assertFalse(view['draft_state']['publication_enabled'])
+        self.assertFalse(view['draft_state']['drafts_create_market_orders'])
+        self.assertFalse(Path('.market/outbox.jsonl').exists())
+
     def test_drafting_never_touches_an_existing_market_outbox(self):
         market=self.life.market_dir;market.mkdir()
         outbox=market/'outbox.jsonl';outbox.write_text('existing unrelated line\n')

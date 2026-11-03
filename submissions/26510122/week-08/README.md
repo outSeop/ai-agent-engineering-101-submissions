@@ -332,6 +332,57 @@ The separate planning view stayed inside the existing 7,500-byte life context.
 No real purchase, public post, buyer activation or live configuration change
 occurred. Results: `logs/buyer-situation-planning-2026-11-04.json`.
 
+Extended internal rollout (November 4): one resident starts with no possessions
+and receives nine scripted market orders over a fictional 33.5-hour Thursday /
+Friday. Real buyer selection and counteroffer models negotiate against two local
+rule-based shops. `experiments/offline_market.py` uses fresh in-memory Ed25519
+keys plus the read-only official kit's receipt signature and checkout-quality
+functions. It never uses live credentials or A2A/AP2/market network settlement.
+Only successful simulated payments call the ordinary review/possession import.
+Prices, available items, the order schedule and failure injections are fixtures,
+not measured market demand. The character remains in commercial observer mode:
+the story did not cause the scripted product orders.
+
+Two full replays were collected. In the corrected replay all nine negotiations
+produced receipts, seven paid and two were blocked (insufficient food shelf life
+and a checkout price different from the signed receipt). Gross simulated spend
+was 223,382 credits; a goods failure two hours after purchase refunded 145,800
+under its six-hour warranty, leaving net spend 77,582. The owned sofa was marked
+broken and its layout removed; the resident placed the subsequently acquired
+stool. Milk, oats and caramel were actually consumed by the virtual recipe.
+Tomato juice remained unused after the last step: recipe adaptation and social
+interaction are still narrow, despite the meaningful purchase/use/failure loop.
+
+The first replay exposed ambiguous tool feedback: `request: accepted` looked
+like a real external request. Feedback now reports `internal_draft_only`, and
+the prompt/draft state explicitly say that no person receives it and no order
+or delivery is created. A regression test verifies this; 145 tests pass.
+Two original/neutral replays of the same saved table-purchase state both placed
+the table. This supports classifying furnishing as standing-goal/new-ownership
+behavior; it does not establish that the academic event caused it. A single
+stochastic pair is not a causal benchmark. There were 52 real model calls in
+total across two full runs and that control pair; exact token billing was not
+measured. Every protected live config/persona/outbox digest stayed unchanged.
+No deployment, buyer activation, real purchase, public post or push occurred.
+
+Collected evidence:
+
+- `logs/buyer-life-rollout-2026-11-04.json`: first complete replay.
+- `logs/buyer-life-rollout-corrected-2026-11-04.json`: corrected replay with state snapshots and full transaction/use/refund trace.
+- `logs/buyer-life-rollout-corrected-2026-11-04.csv`: one row per order; refused checkouts charge zero.
+- `logs/buyer-life-rollout-control-2026-11-04.json`: identical-state, current-fact-only control pair.
+- `logs/buyer-life-rollout-review-2026-11-04.json`: measured outcomes and limits.
+- Ignored personal `flow/simulation/buyer-life-rollout.html`: self-contained timeline and per-item use table. Browser QA checks filters, two blocked payments, one refund event and mobile layout; no external page resources.
+
+```bash
+.venv/bin/python experiments/buyer_life_rollout.py --output logs/my-new-rollout.json
+.venv/bin/python experiments/buyer_rollout_control.py \
+  --input logs/my-new-rollout.json --output logs/my-new-control.json
+.venv/bin/python experiments/render_life_rollout.py \
+  --input logs/my-new-rollout.json --output flow/simulation/my-rollout.html \
+  --csv logs/my-new-rollout.csv
+```
+
 The fictional resident is a model-generated persona whose tastes may evolve
 with recorded experience. This is an optional layer around issued market orders,
 not a replacement ordering system. The default `agent.json` does not enable it;

@@ -28,7 +28,7 @@ def planning_view(state):
     history=[{'id':s['id'],'title':text(s['title'],35),
               'facts':[text(f,75) for f in s.get('facts',[])[:1]]}
              for s in state.get('scene_history',[])[-2:]]
-    feedback=[{k:text(r.get(k),55) for k in ('kind','status','reason')}
+    feedback=[{k:text(r.get(k),55) for k in ('kind','status','effect','reason')}
               for r in state.get('last_action_results',[])][-3:]
     return bounded({'previous_plan':brief,'recent_situations':history,'last_action_results':feedback},
                    ('recent_situations','last_action_results'),1400)
