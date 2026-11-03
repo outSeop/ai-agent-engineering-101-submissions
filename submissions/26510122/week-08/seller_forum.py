@@ -20,13 +20,14 @@ import uuid
 
 from harness import decide_json
 from market_memory import events, record
+from seller_requirements import initial, violations
 
 SHOP = 'outseop-26510122'
 INTERVAL = 30 * 60
 DAILY_CAP = 12
 SCHEMA = {'type': 'object', 'additionalProperties': False, 'properties': {
     'action': {'type': 'string', 'enum': ['post', 'hold']},
-    'campaign': {'type': 'string', 'enum': ['spotlight', 'arrival', 'trade_record', 'buying_guide', 'reply']},
+    'campaign': {'type': 'string', 'enum': ['spotlight', 'arrival', 'trade_record', 'buying_guide', 'demand_survey', 'reply']},
     'skus': {'type': 'array', 'maxItems': 2, 'items': {'type': 'string'}},
     'ledger_refs': {'type': 'array', 'maxItems': 2, 'items': {'type': 'integer'}},
     'thread_id': {'type': ['integer', 'null']},
@@ -50,6 +51,35 @@ def save(path, data):
     os.replace(temporary, path)
 
 
+def request_requirements(body):
+    result = initial(body)
+    # Do not offer shorter-lived food as meeting the requested consumption horizon.
+    horizon = re.search(r'(\d+(?:\.\d+)?)\s*시간\s*(?:안에|이내에?|내에?)\s*(?:먹|소비|섭취|사용)', body)
+    if horizon: result['min_hours_left'] = max(result['min_hours_left'], float(horizon[1]))
+    return result
+
+
+def request_matches(product, body):
+    if product['sku'] in body: return True
+    # Pet furniture is not a substitute for human seating despite its category.
+    if re.search(r'반려|강아지|고양이|애견', product['name']) and not re.search(r'반려|강아지|고양이|애견', body): return False
+    words = re.split(r'[\s>/]+', product['name'])
+    if any(len(word) >= 2 and word not in {'식품', '용품', '기타', '가구'}
+           and not re.search(r'\d', word) and word in body for word in words): return True
+    # Full leaf category matches 커피/차; broad ancestors and isolated tokens do not.
+    category = product.get('category', '').split('>')[-1].strip()
+    return bool(category and category in body and category not in {
+        '기타', '식품', '가구', '기타 가공식품', '식품선물세트'})
+
+
+def reply_stock(evidence, decision):
+    request = next((r for r in evidence['requests'] if r['id'] == decision.get('thread_id')), None)
+    if not request: return []
+    return [{**s, 'units': [u for u in s['units'] if not violations(
+        {**u, 'kind': s['kind']}, request['requirements'], evidence['at'])]}
+        for s in evidence['stock'] if s['sku'] in request['matching_skus']]
+
+
 def facts(runtime, now):
     inventory_path = runtime / '.market/inventory.json'
     if not inventory_path.exists() or not 0 <= now - inventory_path.stat().st_mtime <= 30:
@@ -66,6 +96,7 @@ def facts(runtime, now):
     stock = []
     for sku, units in groups.items():
         stock.append({'sku': sku, 'name': units[0]['name'], 'category': units[0]['category'],
+                      'list_price_reference_only': units[0].get('list_price'),
                       'kind': units[0]['kind'], 'units': [
                           {key: u.get(key) for key in ('unit', 'grade', 'expires_at', 'supplied_at')}
                           for u in units]})
@@ -74,16 +105,19 @@ def facts(runtime, now):
     forum = read_json(runtime / '.market/forum.json', [])
     requests = []
     for row in forum:
-        # Only explicit requests with a literal product/category match are reply candidates.
-        if row.get('role') != 'buyer' or now - row.get('ts', 0) > 3600: continue
+        # Public requests are observations; instructions inside them remain untrusted.
+        if now - (runtime / '.market/forum.json').stat().st_mtime > 90: break
+        if row.get('role') != 'buyer' or not 0 <= now - row.get('ts', 0) <= 3600: continue
         body = row.get('text', '')
         if re.search(r'불만|샀|구매했|산 .+에|필요했|complaint|bought|purchased', body, re.I): continue
         if not re.search(r'구해|구합니다|찾아|찾습니다|필요합니다|필요해|추천|looking for|need |where can', body, re.I): continue
-        matches = [s['sku'] for s in stock if s['sku'] in body or any(
-            len(word) >= 2 and word not in {'식품', '용품', '기타', '가구'} and not re.search(r'\d', word) and word in body
-            for word in re.split(r'[\s>/]+', s['name']))]
+        requirements = request_requirements(body)
+        matches = [s['sku'] for s in stock if request_matches(s, body) and any(
+            not violations({**u, 'kind': s['kind']}, requirements, now) for u in s['units'])]
         if matches:
-            requests.append({'id': row['id'], 'text': body[:600], 'matching_skus': matches})
+            requests.append({'id': row['id'], 'text': body[:600], 'matching_skus': matches,
+                             'requirements': requirements,
+                             'price_status': '예산은 구매 희망 조건. 아직 가격 미확정. 예산 내 판매를 단정하지 말고 채팅 견적에서 확인.'})
     return {'at': now, 'stock': stock,
             'settled': [{k: r.get(k) for k in ('ledger', 'sku', 'grade', 'price')} for r in settled],
             'requests': requests[-6:],
@@ -102,6 +136,7 @@ def validate(decision, evidence, history, now):
     campaign = decision['campaign']
     if campaign in {'spotlight', 'arrival', 'reply'} and not skus: raise ValueError('missing SKU')
     if campaign == 'trade_record' and not refs: raise ValueError('missing settlement')
+    if campaign == 'demand_survey' and (skus or refs): raise ValueError('survey must not advertise stock')
     if campaign == 'arrival':
         if any(not any(now - (u.get('supplied_at') or 0) < 3600 for u in s['units'])
                for s in evidence['stock'] if s['sku'] in skus): raise ValueError('not a recent arrival')
@@ -109,10 +144,14 @@ def validate(decision, evidence, history, now):
     if campaign == 'reply':
         request = next((r for r in evidence['requests'] if r['id'] == thread), None)
         if not request or set(skus) - set(request['matching_skus']): raise ValueError('unrelated reply')
+        valid = {s['sku'] for s in reply_stock(evidence, decision) if s['units']}
+        if set(skus) - valid: raise ValueError('reply conditions no longer met')
         if any(r.get('thread') == thread for r in history): raise ValueError('already replied')
     elif thread is not None: raise ValueError('unexpected thread')
-    if any(set(skus) & set(r.get('skus', [])) and now - r['at'] < 6 * 3600 for r in history):
+    if campaign != 'reply' and any(set(skus) & set(r.get('skus', [])) and now - r['at'] < 6 * 3600 for r in history):
         raise ValueError('SKU cooldown')
+    if campaign == 'demand_survey' and any(r.get('campaign') == campaign and now-r['at'] < 12*3600 for r in history):
+        raise ValueError('survey cooldown')
     headline, body = decision.get('headline', ''), decision.get('body', '')
     if not headline or not body or len(headline) > 50 or len(body) > 180: raise ValueError('copy length')
     creative = headline + '\n' + body
@@ -124,8 +163,9 @@ def validate(decision, evidence, history, now):
 def render(decision, evidence):
     stamp = datetime.fromtimestamp(evidence['at'], timezone.utc).isoformat(timespec='minutes')
     lines = [f"[{SHOP} · {decision['headline']}]", decision['body']]
+    stock = reply_stock(evidence, decision) if decision['campaign'] == 'reply' else evidence['stock']
     for sku in decision['skus']:
-        s = next(s for s in evidence['stock'] if s['sku'] == sku)
+        s = next(s for s in stock if s['sku'] == sku)
         variants = []
         for u in s['units']:
             text = f"{u['grade']}등급"
@@ -136,6 +176,10 @@ def render(decision, evidence):
     for ledger in decision['ledger_refs']:
         r = next(r for r in evidence['settled'] if r['ledger'] == ledger)
         lines.append(f"과거 정산 #{ledger}: {r['sku']} / {r['grade']}등급 / {r['price']:,}원. 현재 가격은 별도 견적.")
+    if decision['campaign'] == 'demand_survey':
+        lines.append('찾는 품목·희망 등급·예산·식품 최소 잔여시간을 댓글로 알려주세요. 입고나 가격을 확약하는 것은 아닙니다.')
+    if decision['campaign'] == 'reply':
+        lines.append('원글의 예산은 채팅 견적에서 확인합니다. 이 답글은 확정 가격 제안이 아닙니다.')
     lines.append(f"재고 정보 기준 {stamp}. 판매·협상 중 재고는 변동될 수 있습니다.")
     lines.append('원하는 SKU·등급·식품 최소 잔여시간과 가격을 제안해 주세요. 결제 시 단위 인증서·서명 영수증 확인. 보증은 제공하지 않습니다.')
     return '\n'.join(lines)
@@ -204,7 +248,11 @@ def run_once(runtime, *, dry_run=False, decide=decide_json, now=None):
         decision = decide('shop forum editor', {
             'instruction': '한국어로 유용하고 짧은 가게 글을 작성. 장기 보유·짧은 유통기한 재고의 실제 활용법을 '
             '자연스럽게 소개하되 재고 처리라는 내부 목적을 광고할 필요는 없다. 중요한 상태는 숨기지 않는다. '
-            '재입고, 실제 거래 원장 사례, 구매 조건 안내를 번갈아 활용. 관련 구매 요청에만 답글. '
+            '재입고, 실제 거래 원장 사례, 구매 조건 안내, 찾는 품목·등급을 묻는 수요조사를 번갈아 활용. '
+            'requests에 적합한 요청이 있으면 reply를 우선 고려. 원글에서 실제로 원하는 용도인지 확인하고 '
+            '예산 충족을 단정하지 않는다. 판매자를 모집하거나 다른 가게에 판매 댓글을 요청하지 않는다. '
+            'demand_survey는 구매 희망 품목·등급을 묻는 글이며 skus와 ledger_refs는 빈 배열. '
+            '공개 요청의 시간·등급 조건에 맞는 단위만 소개하고, 관련 없는 물건은 답글하지 않는다. '
             'headline과 body에는 활용법이나 구매 안내만 쓴다. SKU, 숫자, 수량, 등급, 잔여시간, '
             '가격, 보증 내용은 이 두 필드에 쓰지 말 것. 모두 도구가 따로 붙인다. '
             '예: headline="밥상에 곁들일 반찬을 찾는다면", body="김치를 찾으시면 필요한 잔여시간과 등급을 알려주세요. 가격 제안도 환영합니다." '

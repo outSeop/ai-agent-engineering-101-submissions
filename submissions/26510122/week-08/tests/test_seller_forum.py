@@ -73,6 +73,54 @@ class ShopForumTests(unittest.TestCase):
         with self.assertRaises(ValueError): forum.handoff(self.root, payload | {'post': 'second'})
         self.assertEqual(json.loads((self.root/'.market/outbox.jsonl').read_text()), payload)
 
+    def coffee_request(self, hours):
+        self.units[0].update(name='바리스타룰스 디카페인 라떼', category='식품>음료>커피/차',
+                             expires_at=self.now+hours*3600)
+        (self.root/'.market/inventory.json').write_text(json.dumps({'round': 3, 'units': self.units}))
+        os.utime(self.root/'.market/inventory.json', (self.now, self.now))
+        body = '커피/차 구합니다. 예산은 9만 원대이며 360시간 안에 먹을 예정입니다. 파는 가게가 없어 글 올립니다.'
+        (self.root/'.market/forum.json').write_text(json.dumps([dict(id=50, role='buyer', ts=self.now, text=body)]))
+        return self.evidence()
+
+    def test_category_request_matches_without_literal_product_name(self):
+        evidence = self.coffee_request(400)
+        self.assertEqual(evidence['requests'][0]['matching_skus'], ['s1'])
+        decision = self.copy | {'campaign': 'reply', 'thread_id': 50}
+        forum.validate(decision, evidence, [], self.now)
+
+    def test_short_lived_coffee_is_not_offered_for_360_hour_request(self):
+        self.assertEqual(self.coffee_request(164)['requests'], [])
+
+    def test_pet_step_is_not_human_seating(self):
+        product = {'sku': 'pet', 'name': '패브릭 반려견 스텝퍼', 'category': '가구>소파/의자/스툴'}
+        self.assertFalse(forum.request_matches(product, '소파/의자/스툴 구합니다'))
+        self.assertTrue(forum.request_matches(product | {'name': '접이식 스툴'}, '소파/의자/스툴 구합니다'))
+
+    def test_reply_renders_only_units_meeting_request_grade(self):
+        evidence = self.coffee_request(400)
+        evidence['requests'][0]['requirements']['grades'] = ['B']
+        evidence['stock'][0]['units'].append(dict(unit='other', grade='C', expires_at=self.now+500*3600))
+        decision = self.copy | {'campaign': 'reply', 'thread_id': 50}
+        text = forum.render(decision, evidence)
+        self.assertIn('B등급', text)
+        self.assertNotIn('C등급', text)
+        evidence['stock'][0]['units'][0]['expires_at'] = self.now+100
+        with self.assertRaises(ValueError): forum.validate(decision, evidence, [], self.now)
+
+    def test_reply_ignores_advertising_sku_cooldown_but_not_thread_duplicate(self):
+        evidence = self.coffee_request(400)
+        decision = self.copy | {'campaign': 'reply', 'thread_id': 50}
+        prior = [{'at': self.now-100, 'skus': ['s1'], 'thread': None}]
+        forum.validate(decision, evidence, prior, self.now)
+        with self.assertRaises(ValueError): forum.validate(decision, evidence, prior+[{'thread': 50}], self.now)
+
+    def test_survey_asks_buyers_without_inviting_sellers_to_advertise(self):
+        decision = self.copy | {'campaign': 'demand_survey', 'skus': []}
+        forum.validate(decision, self.evidence(), [], self.now)
+        text = forum.render(decision, self.evidence())
+        self.assertIn('찾는 품목·희망 등급', text)
+        self.assertNotIn('판매 중인 가게', text)
+
     def test_queue_then_ack_and_cadence(self):
         decisions = iter([self.copy, {'approve': True, 'unsupported_claims': []}])
         forum.run_once(self.root, decide=lambda *a: next(decisions), now=self.now)
