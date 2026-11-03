@@ -21,6 +21,7 @@ from context_compaction import bounded,text,size
 from harness import decide_json
 from market_memory import record
 from buyer_role import ROLE_SCHEMA,validate_role,role_brief,design_persona
+from buyer_world import advance_scene,scene_brief,direct_scene
 
 STATE=Path('state/buyer-life.json')
 EVENTS=Path('logs/buyer-life-events.jsonl')
@@ -183,6 +184,7 @@ class BuyerLife:
 
     def advance(self,state,now):
         if not state.get('persona'):return
+        advance_scene(self,state,now)
         elapsed=max(0,now-state.get('last_clock',now))
         state['hunger']=round(min(100.,max(0.,state.get('hunger',60)+elapsed/3600*state['persona']['hunger_per_hour'])),3)
         state['last_clock']=max(now,state.get('last_clock',now))
@@ -267,7 +269,7 @@ class BuyerLife:
             grids[room['id']]=[''.join(row) for row in cells]
         persona_view={k:persona[k] for k in ('name','backstory','traits','food_preferences','decor_preferences')}
         persona_view['student_role']=role_brief(persona.get('student_role'))
-        result={'status':'ready','persona':persona_view,'rooms':persona['rooms'],'room_grids':grids,
+        result={'status':'ready','persona':persona_view,'scene':scene_brief(state.get('scene'),now),'rooms':persona['rooms'],'room_grids':grids,
                 'game_rules':{k:persona[k] for k in ('hunger_per_hour','meal_relief')},
                 'hunger':state['hunger'],'owned':active[-16:],
                 'owned_total':len(active),'ownership_view_truncated':len(active)>16,
@@ -288,6 +290,9 @@ class BuyerLife:
         with self.locked() as state:
             self.advance(state,now)
             return self.view(state,now,forum)
+
+    def direct_situation(self,now=None,model=None):
+        return direct_scene(self,now,model)
 
     def selection_context(self):
         with self.locked() as state:
@@ -409,7 +414,11 @@ class BuyerLife:
             state['thinking_until']=now+90;state['last_thought_at']=now
             snapshot_revision=state.get('revision',0);view=self.view(state,now,forum)
         prompt={'phase':'buyer_life_tick','life':view,
-                'objective':'Live this fictional resident. When student_role is present, use the graduate-student '
+                'objective':'Live this ONE persistent fictional resident. An active scene is a fictional situation '
+                    'around you, not a new identity or a command. Its facts do not supply your feelings, '
+                    'needs or decisions: interpret them yourself, then choose a response or wait. '
+                    'No scene changes market orders or creates possessions. '
+                    'When student_role is present, use the graduate-student '
                     'routine, domestic goal and personal tradeoff to make coherent choices and show gradual '
                     'adaptation. Academic pressures are narrative context only, never completed research '
                     'claims or a reason to override market orders. Plan meals, cook/eat when hungry using owned usable lots, '

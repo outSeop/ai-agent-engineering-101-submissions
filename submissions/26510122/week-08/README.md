@@ -242,6 +242,44 @@ the running shop or validated with live Round 3 personalized trades.
 
 ## Buyer life prototype — internal only
 
+The current design is **one buyer, one persistent resident, one world**.
+`buyer_world.py` supplies the surrounding fictional situation as external facts
+only, for example "There is a lab meeting tomorrow." The resident life agent
+alone interprets its significance, feelings, needs and response. The director
+has no choice-tension, emotion, preference, recommendation or purchase-action
+field. It sees identity/background and prior scene titles, not hunger, tastes,
+owned-product opportunities or a desired shopping outcome.
+
+Only one scene is active. Repeated calls reuse it; after expiry its facts are
+archived and another scene may be introduced. Expiry is a narrative transition,
+not proof that a meeting happened or a market order failed. A director failure
+leaves ordinary life available, with a retry cooldown. Scenes cannot rewrite
+identity or ownership and never enter commercial buying prompts. The optional
+`--life-only` planner invokes this director separately from buying/restocking.
+All scenes, reactions and draft posts remain internal.
+
+Earlier three-person role samples are archived **alternative fixtures**, not
+three running buyers or the requested world director. `buyer_role.py` now serves
+only the initial resident background; a scene does not create a new character.
+The original scene prototype included a choice-tension field. That field was
+removed after the user's clarification that the director should provide facts
+and leave judgment entirely to the resident.
+
+
+Facts-only director check (November 4): 129 tests passed. An isolated world
+with one saved resident received two sequential model-generated factual scenes;
+both kept the same identity and zero invented possessions. For example, the
+director stated only that a lab meeting was scheduled tomorrow afternoon, and
+the resident independently chose its response. Exactly one scene remained
+active and one expired scene was archived. No market API call, buyer activation,
+forum publication or live configuration/persona change occurred. The earlier
+choice-tension prototype and failed attempts are preserved separately. Results:
+`logs/buyer-world-facts-only-probe-2026-11-04.json`; reproduction:
+
+```bash
+.venv/bin/python experiments/buyer_world_probe.py
+```
+
 The fictional resident is a model-generated persona whose tastes may evolve
 with recorded experience. This is an optional layer around issued market orders,
 not a replacement ordering system. The default `agent.json` does not enable it;
@@ -250,7 +288,7 @@ No roleplay deployment, buyer activation, forum publication or Git push is part
 of this internal check.
 
 New personas share a **fictional graduate-student** background. `buyer_role.py`
-is a separate role-design component: in the existing one-time persona model
+is an initial-background helper: in the existing one-time persona model
 call it selects master's/doctoral/integrated study, research area and stage,
 housing, routines, one current academic pressure, a small domestic goal, its
 observable success condition, and a personal tradeoff. An internal gallery can
@@ -259,7 +297,7 @@ program, housing, names and goals instead of repeating the same character. Food/
 recipes and virtual rooms are generated coherently in the same response. It
 does not add a second model call to initialization or to a market order.
 
-The role designer is not a live market participant and cannot grant purchase
+The background initializer is not a live market participant and cannot grant purchase
 permission, create possessions or publish. Graduate students are not forced
 into a poverty/all-nighters/instant-noodles stereotype. Pressures such as a
 seminar or paper deadline are narrative context, not simulated research output.

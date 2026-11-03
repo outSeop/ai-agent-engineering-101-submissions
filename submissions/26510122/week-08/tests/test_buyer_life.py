@@ -437,3 +437,78 @@ class RoleDesignerTests(unittest.TestCase):
         self.assertNotIn('irrelevant_secret',str(prompt))
         self.assertEqual(prompt['previous_fictional_designs_for_contrast'][0]['program'],'masters')
         self.assertIn('unrecorded cleanup',prompt['objective'])
+
+
+SCENE={'title':'Lab meeting tomorrow','facts':['There is a fictional lab meeting tomorrow.'],
+       'duration_seconds':1800}
+
+
+class SituationDirectorTests(unittest.TestCase):
+    # Share fixture helpers without inheriting/re-running unrelated test cases.
+    setUp=BuyerLifeTests.setUp
+    restore=BuyerLifeTests.restore
+    buyer_order=BuyerLifeTests.buyer_order
+    shops=BuyerLifeTests.shops
+    receipt=BuyerLifeTests.receipt
+    def test_one_active_situation_reuses_the_same_resident(self):
+        self.life.acquire(deal('F1',1),CATALOG,NOW)
+        before=load(self.life.state_path,{})
+        director=Mock(return_value=SCENE)
+        first=self.life.direct_situation(NOW,model=director)
+        second=self.life.direct_situation(NOW+60,model=director)
+        after=load(self.life.state_path,{})
+        self.assertEqual(first['id'],second['id']);self.assertEqual(director.call_count,1)
+        self.assertEqual(after['persona'],before['persona'])
+        self.assertEqual(after['owned'],before['owned'])
+        self.assertEqual(self.life.context(NOW+60)['scene']['title'],SCENE['title'])
+        self.assertFalse((self.life.market_dir/'outbox.jsonl').exists())
+
+    def test_expired_scene_is_archived_then_a_new_situation_is_directed(self):
+        director=Mock(side_effect=[SCENE,{**SCENE,'title':'Quiet evening'}])
+        first=self.life.direct_situation(NOW,model=director)
+        second=self.life.direct_situation(NOW+1801,model=director)
+        state=load(self.life.state_path,{})
+        self.assertNotEqual(first['id'],second['id'])
+        self.assertEqual(len(state['scene_history']),1)
+        self.assertEqual(state['scene_history'][0]['status'],'expired')
+        self.assertEqual(state['persona']['name'],PERSONA['name'])
+        self.assertEqual(director.call_args.args[1]['previous_situations'],[SCENE['title']])
+
+    def test_director_cannot_supply_identity_or_ownership_fields(self):
+        for extra in ({'new_persona':'another buyer'},{'buy':[{'sku':'F1'}]},{'owned':{'fake':{}}},
+                      {'choice_tension':'quick meal or rest'},{'emotion':'rushed'},{'recommended_action':'buy noodles'}):
+            with tempfile.TemporaryDirectory() as directory:
+                root=Path(directory);world=BuyerLife(root/'life.json',root/'events.jsonl',root/'market')
+                world.initialize(copy.deepcopy(PERSONA),NOW)
+                self.assertIsNone(world.direct_situation(NOW,model=Mock(return_value={**SCENE,**extra})))
+                state=load(world.state_path,{})
+                self.assertFalse(state.get('scene'));self.assertFalse(state['owned'])
+                self.assertEqual(state['persona']['name'],PERSONA['name'])
+
+    def test_director_failure_does_not_block_existing_life_planner(self):
+        self.assertIsNone(self.life.direct_situation(NOW,model=Mock(side_effect=RuntimeError('offline'))))
+        blocked=Mock(side_effect=AssertionError('director retry cooldown'))
+        self.assertIsNone(self.life.direct_situation(NOW+60,model=blocked))
+        self.life.tick(CATALOG,NOW+60)
+        self.assertEqual(self.life.model.call_count,1)
+        self.assertEqual(self.life.context(NOW+60)['persona']['name'],PERSONA['name'])
+
+    def test_life_planner_sees_situation_while_commercial_observer_does_not(self):
+        self.life.direct_situation(NOW,model=Mock(return_value=SCENE))
+        self.life.tick(CATALOG,NOW+301)
+        self.assertEqual(self.life.model.call_args.args[1]['life']['scene']['title'],SCENE['title'])
+        with patch.object(buyer,'decide_json',return_value={'candidate_id':'0','opening_offer':650,'reason':'order'}) as model, \
+             patch.object(buyer,'negotiate',return_value=self.receipt()):
+            self.assertIsNotNone(buyer.run(self.buyer_order(),self.shops(),CATALOG,'own',epsilon=0,life=self.life)['receipt'])
+        self.assertNotIn('scene',str(model.call_args.args[1]))
+        self.assertNotIn('scene',selection_advice(self.life.context(NOW+301)))
+
+    def test_situation_director_has_no_tastes_or_hunger_to_prejudge_response(self):
+        director=Mock(return_value=SCENE)
+        self.life.direct_situation(NOW,model=director)
+        prompt=director.call_args.args[1];schema=director.call_args.args[2]
+        self.assertNotIn('hunger',prompt)
+        self.assertNotIn('food_preferences',prompt['same_resident'])
+        self.assertNotIn('current_pressure',prompt['same_resident'])
+        self.assertEqual(set(schema['properties']),{'title','facts','duration_seconds'})
+        self.assertEqual(self.life.context(NOW)['scene']['facts'],SCENE['facts'])

@@ -18,7 +18,10 @@ def run(state):
 
 
 def run_life(state):
-    return BuyerLife(market_dir=state).tick(load(state/'catalog.json',{}))
+    world=BuyerLife(market_dir=state)
+    catalog=load(state/'catalog.json',{})
+    if world.ensure(catalog):world.direct_situation()
+    return world.tick(catalog)
 
 
 if __name__=='__main__':
