@@ -90,14 +90,14 @@ def main(output):
             assert size(after)<=7500
             assert not (world.market_dir/'outbox.jsonl').exists()
             record={'step':index+1,'simulated_minutes':round((now-initial['last_clock'])/60,2),
-                    'situation':situation,'resident':state['persona']['name'],'decision':decision,
+                    'situation':situation,'resident':state['persona']['name'],'decision':decision,'plan_after':state.get('life_plan'),
                     'hunger_before':before['hunger'],'hunger_after':after['hunger'],
                     'cooking_options_before':before['cooking_options'],
                     'proposed_actions':decision['actions'],
                     'applied_events':[e for e in events if e.get('event') in
-                        ('cooked','placed','meal_planned','forum_drafted','preferences_revised')],
+                        ('cooked','placed','meal_planned','forum_drafted','preferences_revised','life_plan_updated')],
                     'rejected_actions':[e for e in events if e.get('event') in
-                        ('life_action_rejected','preference_revision_rejected')],
+                        ('life_action_rejected','preference_revision_rejected','life_plan_rejected')],
                     'placements_after':state['placements'],'context_bytes':size(after),
                     'same_identity':True,'no_market_outbox':True}
             records.append(record);print(json.dumps({'simulation_step':record},ensure_ascii=False),flush=True)

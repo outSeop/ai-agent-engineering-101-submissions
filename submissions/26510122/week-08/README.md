@@ -306,6 +306,32 @@ both preserved. Reproduce with:
   --output logs/buyer-situation-simulation-corrected-2026-11-04.json
 ```
 
+Resident plan memory (November 4): the life agent now authors a short
+interpretation, intention and up to three next steps in the SAME decision call.
+It explicitly starts/keeps/revises/finishes/cancels its provisional plan and
+references the current scene, previous plan ID and action indexes. A new scene
+requires an explicit assessment, but keeping an unchanged plan is allowed.
+The director still supplies facts only. No scene-specific action rule was added.
+
+The current plan stays on disk; a maximum 1,400-byte planning view supplies it,
+recent scene facts and accepted/rejected action feedback to the next life call.
+Raw interpretations and revisions remain in the append-only event log, labeled
+resident-authored hypotheses rather than external facts or permanent rules.
+Tools check references, preserve intention/steps on `keep`, link selected actions
+to actual tool outcomes and reject stale plans without undoing valid cooking or
+placement. Finishing a plan is the resident's self-report, not proof of an
+academic achievement. The default commercial observer never receives the plan.
+
+139 unit tests passed. The same three-situation simulation used one resident,
+the same synthetic starting inventory and three real model calls. It cooked and
+placed a desk/sofa after the first-presentation fact; after cancellation it
+revised its plan and waited; after the visitor fact it revised again and placed
+the owned stool. All proposed physical actions passed tool validation. This is
+one coherent trajectory, not a causal benchmark or evidence of better trading.
+The separate planning view stayed inside the existing 7,500-byte life context.
+No real purchase, public post, buyer activation or live configuration change
+occurred. Results: `logs/buyer-situation-planning-2026-11-04.json`.
+
 The fictional resident is a model-generated persona whose tastes may evolve
 with recorded experience. This is an optional layer around issued market orders,
 not a replacement ordering system. The default `agent.json` does not enable it;

@@ -534,3 +534,96 @@ class SituationDirectorTests(unittest.TestCase):
         self.assertNotIn('current_pressure',prompt['same_resident'])
         self.assertEqual(set(schema['properties']),{'title','facts','duration_seconds'})
         self.assertEqual(self.life.context(NOW)['scene']['facts'],SCENE['facts'])
+
+
+class ResidentPlanTests(unittest.TestCase):
+    setUp=BuyerLifeTests.setUp
+    restore=BuyerLifeTests.restore
+    apply=BuyerLifeTests.apply
+
+    def plan(self,state,mode='start',**changes):
+        return {'scene_id':(state.get('scene') or {}).get('id'),
+                'previous_plan_id':(state.get('life_plan') or {}).get('id'),'update':mode,
+                'interpretation':'I decide what the new fact means for me.',
+                'intention':'Make my own simple meal.','next_steps':['Use owned ingredients.'],
+                'action_indexes':[0],'reason':'My current priorities remain my own.',**changes}
+
+    def commit(self,mode='start',**changes):
+        from buyer_plan import save_plan
+        with self.life.locked() as state:
+            state['last_action_results']=[{'kind':'wait','status':'accepted','reason':'tool validation passed'}]
+            return save_plan(self.life,state,self.plan(state,mode,**changes),[{'kind':'wait'}],NOW)
+
+    def test_plan_persists_with_references_and_tool_outcomes(self):
+        p=self.commit()
+        restarted=BuyerLife(self.life.state_path,self.life.event_path,self.life.market_dir)
+        view=restarted.context(NOW)
+        self.assertEqual(view['planning']['previous_plan']['id'],p['id'])
+        self.assertEqual(p['outcomes'][0]['status'],'accepted')
+        self.assertEqual(load(self.life.state_path,{})['life_plan']['intention'],'Make my own simple meal.')
+
+    def test_keep_is_valid_after_new_facts_and_preserves_the_existing_intention(self):
+        first=self.commit()
+        self.life.direct_situation(NOW,model=Mock(return_value=SCENE))
+        kept=self.commit('keep',intention='this replacement must not overwrite kept intent',next_steps=['new wording'])
+        self.assertEqual(kept['intention'],first['intention'])
+        self.assertEqual(kept['next_steps'],first['next_steps'])
+        self.assertNotEqual(kept['scene_id'],first['scene_id'])
+        self.assertEqual(kept['previous_plan_id'],first['id'])
+
+    def test_resident_can_revise_or_close_without_rewriting_world_facts(self):
+        self.life.direct_situation(NOW,model=Mock(return_value=SCENE))
+        self.commit();revised=self.commit('revise',intention='Rest in the room instead.')
+        closed=self.commit('cancel',action_indexes=[])
+        self.assertEqual(revised['status'],'active');self.assertEqual(closed['status'],'cancelled')
+        self.assertEqual(self.life.context(NOW)['scene']['facts'],SCENE['facts'])
+        self.assertEqual(self.life.context(NOW)['persona']['name'],PERSONA['name'])
+
+    def test_stale_or_unknown_action_references_leave_old_plan_unchanged(self):
+        from buyer_plan import save_plan
+        original=self.commit()
+        for change in ({'scene_id':'old-scene'},{'previous_plan_id':'invented'}, {'action_indexes':[2]}):
+            with self.subTest(change=change),self.assertRaises(ValueError):
+                with self.life.locked() as state:
+                    save_plan(self.life,state,self.plan(state,'revise',**change),[{'kind':'wait'}],NOW)
+            self.assertEqual(load(self.life.state_path,{})['life_plan']['id'],original['id'])
+
+    def test_invalid_plan_cannot_roll_back_a_valid_cooking_action(self):
+        self.life.acquire(deal('F1',1),CATALOG,NOW);self.life.acquire(deal('F2',2),CATALOG,NOW)
+        invalid=self.plan(load(self.life.state_path,{}),scene_id='invented')
+        self.life.model=Mock(return_value={'plan':invalid,'actions':[{'kind':'cook','recipe_id':'rice_egg'}],
+                                          'preferences':None,'reason':'cook'})
+        self.life.tick(CATALOG,NOW)
+        state=load(self.life.state_path,{})
+        self.assertEqual(state['owned']['u1']['status'],'consumed')
+        self.assertFalse(state.get('life_plan'))
+        self.assertEqual(state['last_action_results'][0]['status'],'accepted')
+
+    def test_failed_actions_are_visible_in_the_next_context(self):
+        self.life.model=Mock(return_value={'plan':None,'actions':[{'kind':'cook','recipe_id':'rice_egg'}],
+                                          'preferences':None,'reason':'attempt'})
+        self.life.tick(CATALOG,NOW)
+        feedback=self.life.context(NOW)['planning']['last_action_results']
+        self.assertEqual(feedback[0]['status'],'rejected')
+        self.assertIn('missing',feedback[0]['reason'])
+
+    def test_new_situation_requires_assessment_but_does_not_require_plan_change(self):
+        self.life.direct_situation(NOW,model=Mock(return_value=SCENE))
+        self.life.tick(CATALOG,NOW)
+        schema=self.life.model.call_args.args[2]
+        self.assertEqual(schema['properties']['plan']['type'],'object')
+        self.assertIn('keep',schema['properties']['plan']['properties']['update']['enum'])
+        self.assertEqual(schema['properties']['plan']['properties']['scene_id']['enum'],[self.life.context(NOW)['scene']['id']])
+
+    def test_planning_summary_is_bounded_and_does_not_become_buying_advice(self):
+        from buyer_plan import planning_view
+        self.commit(intention='가'*160,next_steps=['나'*160]*3,interpretation='다'*160)
+        with self.life.locked() as state:
+            state['scene_history']=[{'id':str(i),'title':'라'*80,'facts':['마'*160]} for i in range(4)]
+            state['last_action_results']=[{'kind':'cook','status':'rejected','reason':'바'*160}]*3
+        state=load(self.life.state_path,{})
+        from context_compaction import size
+        self.assertLessEqual(size(planning_view(state)),1400)
+        view=self.life.context(NOW)
+        self.assertLessEqual(size(view),7500)
+        self.assertNotIn('planning',selection_advice(view))
