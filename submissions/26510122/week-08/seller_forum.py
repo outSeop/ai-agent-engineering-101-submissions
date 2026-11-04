@@ -221,7 +221,7 @@ def reconcile(runtime, state, now):
             except ValueError: pass
     forum = read_json(runtime / '.market/forum.json', [])
     for entry in state['posts']:
-        if entry['status'] != 'queued' and not (entry['status'] == 'published' and not entry.get('post_id')): continue
+        if entry['status'] not in ('queued','handoff_failed') and not (entry['status'] == 'published' and not entry.get('post_id')): continue
         ack = next((s for s in sent if s.get('sent', {}).get('client_id') == entry['id']), None)
         public = next((p for p in forum if p.get('author') == SHOP and p.get('role') == 'shop'
                        and p.get('text') == entry['text']), None)

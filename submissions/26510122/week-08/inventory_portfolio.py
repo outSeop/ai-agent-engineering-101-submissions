@@ -201,6 +201,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
         choice = {'mode': 'explore' if operating['allow_new_skus'] and (coverage or allocation or draw < epsilon) else 'exploit',
                   'epsilon': epsilon, 'draw': draw, 'coverage_recovery': coverage,
                   'allocation_recovery': allocation,
+                  'meta_version':operating.get('meta_version'),
                   'operating_phase':operating['phase'],'policy_version':POLICY_VERSION,
                   'variety': variety, 'at': now, 'attempted': False}
         state['windows'][key] = choice
@@ -228,7 +229,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
     budget = min(WINDOW_BUDGET,operating['window_budget'], risk['available_to_invest'])
     rolling_budget = min(ROLLING_BUDGET,operating['rolling_exploration_budget'])
     exploration_budget = max(0, min(budget, rolling_budget-reserved))
-    record('portfolio_capacity', policy_version=POLICY_VERSION, window=key,
+    record('portfolio_capacity', policy_version=POLICY_VERSION, meta_version=operating.get('meta_version'), window=key,
            operating_phase=operating['phase'], risk_capacity=risk,
            target_inventory_cost=target_inventory_cost(inventory,now),
            supply_lines=slots, unit_room=unit_room, shared_budget=budget,
@@ -462,7 +463,8 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
         buy.append({'sku': sku, 'qty': qty})
     save(path, state)  # all reservations precede externally executed supply calls
     record('portfolio_exploration_intent', buy=buy, model_choice=answer,
-           policy_version=POLICY_VERSION, operating_phase=current_operating['phase'],
+           policy_version=POLICY_VERSION, approved_meta_version=operating.get('meta_version'),
+           emitted_meta_version=current_operating.get('meta_version'), operating_phase=current_operating['phase'],
            reserved_24h=reserved + sum(i['cost_ceiling']*i.get('qty',1) for i in state['intents'] if i['at']==at and i.get('kind')=='exploration'),
            warning='Intent is not a confirmed purchase; unknown outcomes retain reservations.')
     return {'buy': buy}

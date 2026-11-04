@@ -152,6 +152,14 @@ class ShopForumTests(unittest.TestCase):
         forum.run_once(self.root, decide=lambda *a: next(decisions), now=self.now)
         self.assertTrue((self.root/'.market/outbox.jsonl').exists())
 
+    def test_uncertain_handoff_can_be_confirmed_without_reposting(self):
+        entry={'id':'uncertain','at':self.now-100,'status':'handoff_failed','campaign':'spotlight','skus':['s1'],'text':'original'}
+        state={'posts':[entry]}
+        (self.root/'.market/outbox.sent.jsonl').write_text(json.dumps({'sent':{'client_id':'uncertain'},'status':200,'answer':'{"id":123}'})+'\n')
+        forum.reconcile(self.root,state,self.now)
+        self.assertEqual(entry['status'],'published')
+        self.assertEqual(entry['post_id'],123)
+
     def test_daily_cap(self):
         forum.save(self.root/'state/seller-forum.json', {'attempts': [], 'posts': [
             {'id': str(i), 'at': self.now-i*1800, 'status': 'published', 'text': 'x'} for i in range(forum.DAILY_CAP)]})

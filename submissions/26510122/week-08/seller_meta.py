@@ -56,7 +56,9 @@ def snapshot(runtime,now,public):
         if r.get('kind')=='settle':
             d=r['data'];sku=d.get('sku',d.get('item'));pc[sku]+=1;pr[sku]+=d.get('amount',0)
     reasons=Counter();examples=[];owned={u['sku'] for u in inv.get('units',[])}
-    for sku,count in pc.most_common(40):
+    selected=dict.fromkeys([sku for sku,_ in pc.most_common(20)]+[sku for sku,_ in pr.most_common(20)])
+    for sku in selected:
+        count=pc[sku]
         p=catalog.get(sku)
         if not p:continue
         cost=ceiling(p);why=[]
