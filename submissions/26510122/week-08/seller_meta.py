@@ -62,14 +62,14 @@ def snapshot(runtime,now,public):
         p=catalog.get(sku)
         if not p:continue
         cost=ceiling(p);why=[]
-        if sku in owned:why.append('already_stocked')
+        route='inventory_or_replenishment' if sku in owned else 'new_trial'
         if cost>risk['available_to_invest']:why.append('live_cash_or_total_exposure')
         if cost>budget:why.append('current_window_budget')
         if p.get('kind')=='food' and (p.get('shelf_hours') or 0)<48:why.append('food_trial_shelf_policy')
         reasons.update(why)
         examples.append({'sku':sku,'name':p.get('name'),'kind':p.get('kind'),'public_settles':count,
                          'sample_mean_paid':round(pr[sku]/count),'cost_ceiling_with_max_surge':cost,
-                         'eligible':not why,'blocked_by':why,'would_fail_removed_500k_cap':math.ceil(p['list_price']*.75)>500000})
+                         'eligible':not why,'review_route':route,'blocked_by':why,'would_fail_removed_500k_cap':math.ceil(p['list_price']*.75)>500000})
     matched=[e for e in settled.values() if e.get('unit') in costs]
     return {'at':now,'active_policy':current,'risk':risk,'effective_window_budget':budget,
             'operator_bounds':BOUNDS,'focus_options':FOCUS,
@@ -113,7 +113,8 @@ def review(runtime,*,model=decide_json,now=None,public=None,shadow=False):
             'instruction':'Review whether the operating policy blocks valuable market opportunities. '
             'Prefer expansion when confirmed paid demand, margins and capital support it; identify rejection reasons '
             'even for products the transaction model never sees. Change only ONE tunable parameter, or hold. '
-            'Eligible candidates are NOT blocked: they await transaction-model review. Only call a constraint binding '
+            'Eligible candidates are NOT blocked: they await transaction-model review. Already-stocked SKUs route '
+            'to inventory/replenishment review and are not rejected new opportunities. Only call a constraint binding '
             'when an actual rejection reason demonstrates it; unmeasured code limits are not observed bottlenecks. '
             'Do not change code, hard risk bounds, contracts or pending reservations. Do not tighten merely because '
             'cash falls after procurement. Higher revenue or cheap trade count alone does not prove profit. '
