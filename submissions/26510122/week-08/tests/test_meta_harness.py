@@ -44,6 +44,11 @@ class MetaHarnessTests(unittest.TestCase):
   later=self.now+1801;self.fresh(later)
   r=meta.review(self.root,now=later,public=[],model=lambda *a:self.decision(3_000_000))
   self.assertEqual(r['status'],'evaluation_pending');self.assertEqual(active(later)['window_budget'],6_000_000)
+ def test_eligible_market_opportunity_is_not_a_rejection(self):
+  data=meta.snapshot(self.root,self.now,[{'kind':'settle','ts':self.now-1,'data':{'sku':'bed','amount':3_000_000}}])
+  self.assertEqual(data['candidate_eligibility_counts']['eligible'],1)
+  self.assertEqual(data['candidate_rejection_counts'],{})
+  self.assertEqual(data['market_opportunities'][0]['blocked_by'],[])
  def test_shadow_does_not_write_active_policy(self):
   r=meta.review(self.root,now=self.now,public=[],model=lambda *a:self.decision(),shadow=True)
   self.assertEqual(r['status'],'shadow');self.assertFalse((self.root/'state/seller-meta-policy.json').exists())

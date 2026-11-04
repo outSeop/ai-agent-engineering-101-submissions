@@ -84,10 +84,13 @@ def candidates(catalog, inventory, history, now, excluded, rng, max_cost=MAX_UNI
     try:
         watch=json.loads(Path('state/seller-meta-market.json').read_text())
         if 0<=now-watch['at']<=3600:
-            market={r['sku']:r.get('public_settles',0) for r in watch['rows']}
+            market={r['sku']:r for r in watch['rows']}
     except (OSError,ValueError,KeyError,TypeError):pass
     for group in groups.values():
-        for row in group:row['public_settlements_sample']=market.get(row['sku'],0)
+        for row in group:
+            signal=market.get(row['sku'],{})
+            row['public_settlements_sample']=signal.get('public_settles',0)
+            row['public_revenue_sample']=signal.get('public_settles',0)*signal.get('sample_mean_paid',row['list_price'])
     all_rows = [r for group in groups.values() for r in group]
     backed = sorted((r for r in all_rows if r['observed_requests_12h'] or r['confirmed_settlements_12h']),
                     key=lambda r: (-r['observed_requests_12h'], -r['confirmed_settlements_12h']))[:8]
@@ -96,7 +99,10 @@ def candidates(catalog, inventory, history, now, excluded, rng, max_cost=MAX_UNI
     keys = {kind: [k for k in groups if k[0] == kind] for kind in ('food', 'goods')}
     for group in keys.values():
         rng.shuffle(group)
-    market_backed=sorted((r for r in all_rows if r['public_settlements_sample']),key=lambda r:-r['public_settlements_sample'])[:8]
+    market_rows=[r for r in all_rows if r['public_settlements_sample']]
+    by_count=sorted(market_rows,key=lambda r:-r['public_settlements_sample'])[:4]
+    by_revenue=sorted((r for r in market_rows if r not in by_count),key=lambda r:-r['public_revenue_sample'])[:4]
+    market_backed=by_count+by_revenue
     rows = {r['sku']: r for r in backed+market_backed}
     for i in range(max((len(v) for v in keys.values()), default=0)):
         for kind in ('food', 'goods'):
