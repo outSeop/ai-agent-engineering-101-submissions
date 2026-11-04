@@ -25,6 +25,15 @@ class BuyerForumTests(unittest.TestCase):
   self.decision['ledger_refs']=[999]
   with self.assertRaises(ValueError):buyer_forum.run_once(self.root,now=self.now,model=self.model)
   self.assertFalse((self.root/'.market/outbox.jsonl').exists())
+ def test_rejected_creative_is_removed_before_verified_facts_publish(self):
+  self.decision['body']='근거가 부족한 분류 문구입니다.'
+  def model(role,prompt,schema):
+   return {'approve':False,'unsupported_claims':['unsupported category']} if 'checker' in role else self.decision
+  result=buyer_forum.run_once(self.root,now=self.now,model=model)
+  self.assertEqual(result['status'],'queued')
+  text=json.loads((self.root/'.market/outbox.jsonl').read_text())['post']
+  self.assertNotIn('근거가 부족한 분류',text)
+  self.assertIn('정산된 가격',text);self.assertIn('원장 #101',text)
  def test_checker_receives_explicit_settlement_provenance(self):
   seen=[]
   def model(role,prompt,schema):
