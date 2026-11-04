@@ -228,11 +228,8 @@ class Seller(AgentExecutor):
             metadata=context.metadata or MessageToDict(context.message.metadata)
             history=events()
             proofs=counterparty_memory.load_cache().get('proofs',[])
-            linked={e.get('task_id') for e in history if e['event']=='buyer_link'}
-            unlinked=any(e['event']=='receipt_signed' and e.get('task_id') not in linked for e in history)
-            if metadata.get('buyer_identity') or metadata.get('buyer_name') or unlinked:
-                proofs=await asyncio.to_thread(counterparty_memory.refresh,NAME)
-                history=events()
+            # The independent worker refreshes this cache. Public-network
+            # latency and backlog must not block a customer's opening quote.
             identity=buyer_identity.identify(metadata,recipient=NAME,message_id=context.message.message_id,
                                              task_id=None if new_task else task.id,message=message,proofs=proofs)
             now=time.time()

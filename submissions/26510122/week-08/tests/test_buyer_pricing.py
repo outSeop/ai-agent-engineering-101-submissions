@@ -235,7 +235,8 @@ class SellerIdentityIntegrationTests(unittest.TestCase):
                     UNIT,{**UNIT,'unit':'u2'},{**UNIT,'unit':'u3'}]}))
                 for row in trade('past',time.time()-3600):
                     market_memory.record(row.pop('event'),**row)
-                with patch.object(memory,'refresh',return_value=[proof(key)]), \
+                with patch.object(memory,'load_cache',return_value={'proofs':[proof(key)]}), \
+                     patch.object(memory,'refresh',side_effect=AssertionError('quotes must not poll public ledger')), \
                      patch.object(seller_r3,'decide_json',side_effect=choose):
                     asyncio.run(exchange())
                 self.assertTrue(prompts[0]['buyer_identity']['verified'])

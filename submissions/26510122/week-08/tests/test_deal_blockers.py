@@ -170,3 +170,36 @@ class UnpaidEvidenceTests(unittest.TestCase):
                    'receipt':{'task':'t','shop':'ours','item':'s','price':100}}}
             counterparty_memory.ingest([entry],own_name='ours',history=[{'event':'receipt_signed','task_id':'t','sku':'s','price':100}],path=p)
             self.assertEqual(events(p),[])
+
+
+class LedgerFreshnessTests(unittest.TestCase):
+    def test_current_tail_and_old_cursor_progress_independently(self):
+        import counterparty_memory as memory
+        import httpx
+        with tempfile.TemporaryDirectory() as d:
+            cache_path=Path(d)/'cache.json';event_path=Path(d)/'events.jsonl'
+            cache_path.write_text(json.dumps({'polled_at':0,'cursor':10,'proofs':[]}))
+            calls=[]
+            def get(url,params,timeout):
+                calls.append(params['after'])
+                rows=[{'seq':1000,'kind':'order','data':{}}] if params['after']==-500 else [{'seq':11,'kind':'order','data':{}}]
+                return httpx.Response(200,json=rows,request=httpx.Request('GET',url))
+            with patch.object(memory.httpx,'get',side_effect=get):
+                memory.refresh('ours',cache_path=cache_path,event_path=event_path,now=1000)
+            saved=json.loads(cache_path.read_text())
+            self.assertEqual(calls,[-500,10]);self.assertEqual(saved['cursor'],11)
+            self.assertEqual(saved['latest_seq'],1000)
+            self.assertFalse(list(Path(d).glob('*.tmp')))
+
+    def test_backfill_failure_does_not_discard_fresh_tail(self):
+        import counterparty_memory as memory
+        import httpx
+        with tempfile.TemporaryDirectory() as d:
+            cache_path=Path(d)/'cache.json';cache_path.write_text(json.dumps({'cursor':1}))
+            def get(url,params,timeout):
+                if params['after']!=-500:raise httpx.ReadTimeout('backfill slow')
+                return httpx.Response(200,json=[{'seq':999,'kind':'order','data':{}}],request=httpx.Request('GET',url))
+            with patch.object(memory.httpx,'get',side_effect=get):
+                memory.refresh('ours',cache_path=cache_path,event_path=Path(d)/'events.jsonl',now=1000)
+            saved=json.loads(cache_path.read_text());self.assertEqual(saved['latest_seq'],999)
+            self.assertEqual(saved['cursor'],1)

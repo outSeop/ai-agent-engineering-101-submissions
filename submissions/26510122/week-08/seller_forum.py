@@ -18,6 +18,7 @@ import sqlite3
 import time
 import uuid
 
+import counterparty_memory
 from harness import decide_json
 from market_memory import events, record
 from seller_requirements import initial, violations
@@ -355,9 +356,15 @@ if __name__ == '__main__':
     parser.add_argument('--announce-opening', action='store_true')
     args = parser.parse_args()
     while True:
+        if args.loop:
+            try:
+                counterparty_memory.refresh(SHOP,cache_path=args.runtime/'state/counterparty-ledger.json',
+                                             event_path=args.runtime/'logs/shop-events.jsonl')
+            except Exception as error:
+                record('ledger_worker_error',path=args.runtime/'logs/shop-events.jsonl',error=type(error).__name__)
         try: print(json.dumps(run_once(args.runtime, dry_run=args.dry_run, announce_opening=args.announce_opening), ensure_ascii=False), flush=True)
         except Exception as error:
             record('forum_error', path=args.runtime/'logs/seller-forum-events.jsonl', error=f'{type(error).__name__}: {error}')
             print(f'forum held: {type(error).__name__}: {error}', flush=True)
         if not args.loop: break
-        time.sleep(60)
+        time.sleep(20)

@@ -7,6 +7,7 @@ stock. Unknown/new ledger shapes are ignored rather than guessed.
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 import statistics
 import threading
@@ -19,7 +20,7 @@ from market_memory import EVENTS,_attempts,events,record
 from newsvendor_tool import GRADE_ANCHORS
 
 CACHE=Path('state/counterparty-ledger.json')
-POLL_SECONDS=60
+POLL_SECONDS=20
 WINDOW_DAYS=14
 _LOCK=threading.Lock()
 
@@ -86,19 +87,34 @@ def refresh(own_name: str, *, cache_path=CACHE,event_path=EVENTS,now=None) -> li
             return cache.get('proofs',[])
         cache['polled_at']=now
         try:
-            response=httpx.get('https://market.ourolabs.ai/api/ledger',params={'after':cache.get('cursor',-500)},timeout=3.)
-            response.raise_for_status();rows=response.json()
-            if not isinstance(rows,list):raise ValueError('ledger is not a list')
-            rows=[e for e in rows if isinstance(e,dict)]
+            def fetch(after):
+                response=httpx.get('https://market.ourolabs.ai/api/ledger',params={'after':after},timeout=5.)
+                response.raise_for_status();batch=response.json()
+                if not isinstance(batch,list):raise ValueError('ledger is not a list')
+                return [e for e in batch if isinstance(e,dict) and type(e.get('seq')) is int]
+            # Current results must not wait behind a legacy cursor backlog.
+            # Keep advancing that cursor separately, preserving raw evidence.
+            latest=fetch(-500);rows=list(latest);cursor=cache.get('cursor')
+            if latest:
+                cache['latest_seq']=max(e['seq'] for e in latest)
+                if type(cursor) is int and cursor>=0 and cursor<min(e['seq'] for e in latest)-1:
+                    try:
+                        older=fetch(cursor);rows+=older
+                        if older:cache['cursor']=max(e['seq'] for e in older)
+                    except (httpx.HTTPError,ValueError):pass
+                else:cache['cursor']=cache['latest_seq']
+            rows=list({e['seq']:e for e in rows}.values())
             proofs=ingest(rows,own_name=own_name,history=history,path=event_path)
             combined={p['seq']:p for p in cache.get('proofs',[])+proofs}
-            cache['proofs']=list(combined.values())[-256:]
-            cache['rows']=(cache.get('rows',[])+[e for e in rows if e.get('kind')=='result' and isinstance(e.get('data'),dict)])[-256:]
-            if rows:cache['cursor']=max(e['seq'] for e in rows if type(e.get('seq')) is int)
+            cache['proofs']=[combined[k] for k in sorted(combined)[-256:]]
+            result_rows={e['seq']:e for e in cache.get('rows',[])+rows
+                         if e.get('kind')=='result' and isinstance(e.get('data'),dict)}
+            cache['rows']=[result_rows[k] for k in sorted(result_rows)[-512:]]
         except (httpx.HTTPError,ValueError,KeyError,TypeError):
             pass
         cache_path.parent.mkdir(parents=True,exist_ok=True)
-        tmp=cache_path.with_suffix('.tmp');tmp.write_text(json.dumps(cache,ensure_ascii=False));tmp.replace(cache_path)
+        temporary=cache_path.with_name(f'.{cache_path.name}.{os.getpid()}.tmp')
+        temporary.write_text(json.dumps(cache,ensure_ascii=False));os.replace(temporary,cache_path)
         return cache.get('proofs',[])
 
 
