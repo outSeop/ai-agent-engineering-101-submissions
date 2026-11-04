@@ -1,4 +1,5 @@
 """Live evidence, synthetic supply window, model approval only: no market writes."""
+import argparse
 import json
 import math
 import os
@@ -20,7 +21,9 @@ from replenishment_plan import inventory_risk
 
 def main():
     runtime=ROOT/'state/seller-runtime'
-    output=ROOT/'logs/aggressive-capital-model-probe-2026-11-04';output.mkdir(exist_ok=False)
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--output',type=Path,default=ROOT/'logs/aggressive-capital-model-probe-2026-11-04')
+    output=parser.parse_args().output.resolve();output.mkdir(exist_ok=False)
     inventory=json.loads((runtime/'.market/inventory.json').read_text())
     catalog=json.loads((runtime/'.market/catalog.json').read_text())
     history=events(runtime/'logs/shop-events.jsonl')

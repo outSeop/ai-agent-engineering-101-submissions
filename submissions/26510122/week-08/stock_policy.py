@@ -27,7 +27,7 @@ def sales_evidence(sku, history, now):
     proven = len(positive) >= MIN_POSITIVE_SALES and spread > 0
     return {'confirmed_positive_spread_sales_12h': len(positive), 'confirmed_positive_spread_sales_1h': len(recent),
             'spread_before_holding_refunds_12h': spread, 'proven': proven,
-            'maintenance_eligible':proven, 'positive_sales_threshold_12h':MIN_POSITIVE_SALES,
+            'settled_sales_12h':len(settled), 'maintenance_eligible':proven, 'positive_sales_threshold_12h':MIN_POSITIVE_SALES,
             'stock_limit': PROVEN_STOCK if proven else NEW_STOCK,
             'caution': 'Shop settlements are selected observations; positive acquisition spread excludes holding and refunds.'}
 
@@ -112,7 +112,7 @@ def demand_forecast(sku, product, inventory, history, now):
             'Exposure correction describes this shop only, not total market demand.'}
 
 
-def replenishment_candidates(catalog, inventory, history, now, blocked=()):
+def replenishment_candidates(catalog, inventory, history, now, blocked=(), trialed=()):
     if not operating_policy(now)['allow_replenishment']: return []
     units = [u for u in inventory.get('units', []) if u.get('grade') in ('A', 'B', 'C')
              and (u.get('expires_at') is None or u['expires_at'] > now)]
@@ -126,7 +126,12 @@ def replenishment_candidates(catalog, inventory, history, now, blocked=()):
             continue
         signal = sales_evidence(sku, history, now)
         price = p.get('list_price')
-        if (not signal['proven'] or stocks[sku] >= PROVEN_STOCK or type(price) is not int
+        second_trial = (operating_policy(now)['allow_new_skus'] and not stocks[sku] and sku not in trialed
+                        and signal['settled_sales_12h'] == 1
+                        and signal['confirmed_positive_spread_sales_12h'] == 1
+                        and len({e.get('ledger') for e in history if e.get('event') == 'settled'
+                                 and e.get('sku') == sku and e.get('ledger') is not None}) == 1)
+        if ((not signal['proven'] and not second_trial) or stocks[sku] >= PROVEN_STOCK or type(price) is not int
                 or price <= 0 or math.ceil(price*.75) > MAX_UNIT_COST):
             continue
         if p['kind'] == 'food' and (p.get('shelf_hours') or 0) < 48:
@@ -134,7 +139,12 @@ def replenishment_candidates(catalog, inventory, history, now, blocked=()):
         room = max(0, MAINTENANCE_CATEGORY_LIMIT-categories[p.get('category')])
         forecast = demand_forecast(sku,p,inventory,history,now)
         options = []
+        if second_trial and room:
+            options = [{'target_stock':1, 'qty':1, 'forecast_target':None,
+                        'scenario':'second_trial', 'service_level':None,
+                        'cost_ceiling':math.ceil(price*.75)}]
         for scenario in forecast['scenarios']:
+            if second_trial: break
             target = scenario['target_stock']
             qty = min(max(0, target-stocks[sku]),room)
             if qty > 0 and not any(o['qty']==qty for o in options):
@@ -145,13 +155,18 @@ def replenishment_candidates(catalog, inventory, history, now, blocked=()):
         if not options:
             continue
         rows.append({'sku': sku, 'name': p.get('name', sku), 'kind': p['kind'], 'category': p.get('category'),
-                     'currently_stocked': stocks[sku], 'evidence': signal, 'target_options': options,
+                     'currently_stocked': stocks[sku], 'second_trial':second_trial, 'evidence': signal, 'target_options': options,
                      'cost_ceiling_per_unit': math.ceil(price*.75), 'forecast':forecast,
-                     'assumption':'Each target/quantity is forecast-derived; the model approves a candidate or holds.'})
+                     'budget_scope':'replenishment: shared window and cash/risk limits; NOT rolling novel-exploration budget',
+                     'assumption':('One additional unit after exactly one positive-spread settlement; not proven maintenance.'
+                                   if second_trial else 'Each target/quantity is forecast-derived; the model approves a candidate or holds.')})
     rows.sort(key=lambda r: (-(r['target_options'][-1]['qty']/max(1,r['currently_stocked'])),
                              -r['evidence']['confirmed_positive_spread_sales_1h'],
                              -r['evidence']['spread_before_holding_refunds_12h'], r['sku']))
-    return rows[:12]
+    proven = [r for r in rows if not r['second_trial']]
+    trials = [r for r in rows if r['second_trial']]
+    trial_rows = trials[:2]
+    return proven[:12-len(trial_rows)] + trial_rows
 
 
 def policy_view(sku, product, inventory, history, now):

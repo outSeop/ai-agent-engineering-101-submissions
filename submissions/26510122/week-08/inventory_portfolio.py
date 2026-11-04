@@ -181,7 +181,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
         choice = {'mode': 'explore' if operating['allow_new_skus'] and (coverage or allocation or draw < EPSILON) else 'exploit',
                   'epsilon': EPSILON, 'draw': draw, 'coverage_recovery': coverage,
                   'allocation_recovery': allocation,
-                  'operating_phase':operating['phase'],'policy_version':7,
+                  'operating_phase':operating['phase'],'policy_version':8,
                   'variety': variety, 'at': now, 'attempted': False}
         state['windows'][key] = choice
         # Window records are summaries; the append-only event log retains all draws.
@@ -209,7 +209,8 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
     rolling_budget = min(ROLLING_BUDGET,operating['rolling_exploration_budget'])
     exploration_budget = max(0, min(budget, rolling_budget-reserved))
     blocked = {i['sku'] for i in state['intents'] if pending_quantity(i)}
-    winners = replenishment_candidates(catalog, inventory, history, now, blocked)
+    trialed = {i['sku'] for i in state['intents'] if i.get('second_trial')}
+    winners = replenishment_candidates(catalog, inventory, history, now, blocked, trialed)
     for winner in winners:
         bounded = []
         for option in winner['target_options']:
@@ -259,6 +260,8 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
               'candidates': rows, 'maximum_new_skus': new_slots, 'cost_ceiling_budget': budget,
               'replenishment_candidates':winners, 'maximum_supply_lines':slots,
               'maximum_new_units':unit_room, 'exploration_cost_ceiling_budget':exploration_budget,
+              'budget_scopes':{'skus':'novel exploration: shared budget AND exploration_cost_ceiling_budget',
+                               'replenishment':'ALL listed candidates INCLUDING second_trial: shared cost_ceiling_budget ONLY; NOT exploration_cost_ceiling_budget'},
               'minimum_new_skus_if_buy': minimum, 'minimum_categories_if_buy': minimum_categories,
               'target_stocked_variety': MIN_VARIETY, 'risk_capacity': risk,
               'exploration_anchor_sku': anchor['sku'] if anchor else None,
@@ -275,6 +278,13 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
               'do not combine raw currency and stars into a fabricated score. Prefer repeatable positive-margin '
               'sales and successful, honest checkout over maximizing one markup. In the SAME window replenish up to six eligible sellers '
               'to the forecast-derived target_options, and explore new SKUs with remaining resources. '
+              'Candidates marked second_trial are a separate, single-unit second test after one positive sale, '
+              'not proven winners. At most two are offered per window; prioritize proven deficits but use '
+              'remaining capacity to test these sold-out SKUs. During growth, include affordable second-trial units '
+              'after covering proven deficits; the two-sale maintenance threshold does NOT apply to second trials. '
+              'If omitting an offered second trial, name its SKU and a concrete risk in reason; '
+              'being unproven by itself is not a reason, because this is how the second observation is obtained. '
+              'A second trial is never automatically repeated. '
               'Maintenance eligibility is based on confirmed positive-spread sales, not just the hottest SKU. '
               'Slow sellers may need only 1-2 units, and fast sellers can require more than six. '
               'Cover affordable maintenance deficits across eligible SKUs, not only the single fastest seller, '
@@ -283,7 +293,9 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
               'Prioritize evidenced fast sellers instead of letting variety coverage block their replacement. '
               'Choose replenishment target_options exactly; quantity is calculated from current stock. '
               'Replenishment plus exploration must fit the shared spend, unit and supply-line caps; '
-              'exploration alone must also fit exploration_cost_ceiling_budget. '
+              'ONLY novel exploration in the skus array must also fit exploration_cost_ceiling_budget. '
+              'Second-trial units are in the replenishment array and are NOT charged to exploration_cost_ceiling_budget '
+              'or its rolling 24h reservation. Do not reject a second trial because novel-exploration budget is low. '
               'Build toward target_stocked_variety stocked SKUs during growth, '
               'one unit per new SKU, instead of waiting for sales proof while cash is idle. '
               'Approve preferably the maximum affordable batch, at least minimum_new_skus_if_buy, '
@@ -326,7 +338,8 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
                 raise ValueError('invalid or duplicated replenishment target')
             restock_orders.append({'sku':item['sku'], 'qty':option['qty'],
                                   'target_stock':option['target_stock'],
-                                  'cost_ceiling':winner['cost_ceiling_per_unit'], 'category':winner['category']})
+                                  'cost_ceiling':winner['cost_ceiling_per_unit'], 'category':winner['category'],
+                                  'second_trial':winner['second_trial']})
         replacement_cost = sum(o['qty']*o['cost_ceiling'] for o in restock_orders)
         if new_cost + replacement_cost > budget:
             raise ValueError(f'combined spend {new_cost+replacement_cost} exceeds {budget}; '
@@ -378,7 +391,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
     for row in desired:
         sku = row['sku']
         if not current_operating['allow_replenishment']: break
-        if row['kind']=='exploration' and not current_operating['allow_new_skus']: continue
+        if (row['kind']=='exploration' or row.get('second_trial')) and not current_operating['allow_new_skus']: continue
         if len(buy) >= room:
             break
         if row['kind']=='exploration' and (current_stocks[sku] or product_signature(catalog[sku]) != row['signature']):
@@ -395,7 +408,8 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
         current_stocks[sku] += qty
         state['intents'].append({'sku': sku, 'qty': qty, 'kind':row['kind'], 'cost_ceiling': row['cost_ceiling'],
                                 'prior_units': [u['unit'] for u in owned if u.get('unit')],
-                                'status': 'issued_unknown', 'at': at, 'window': key})
+                                'status': 'issued_unknown', 'at': at, 'window': key,
+                                'second_trial':bool(row.get('second_trial'))})
         buy.append({'sku': sku, 'qty': qty})
     save(path, state)  # all reservations precede externally executed supply calls
     record('portfolio_exploration_intent', buy=buy, model_choice=answer,
