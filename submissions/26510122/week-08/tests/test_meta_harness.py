@@ -27,6 +27,13 @@ class MetaHarnessTests(unittest.TestCase):
   result=portfolio.run(self.inv,self.cat,[],self.now,model=choose,rng=random.Random(1),refresh=lambda:(self.inv,self.now,True))
   self.assertEqual(result,{'buy':[{'sku':'bed','qty':1}]})
   i=json.loads(portfolio.STATE.read_text())['intents'][0];self.assertEqual(i['cost_ceiling'],4_500_000)
+ def test_public_watchlist_reaches_transaction_candidates_and_expires(self):
+  path=self.root/'state/seller-meta-market.json'
+  path.write_text(json.dumps({'at':self.now,'rows':[{'sku':'bed','public_settles':11}]}))
+  rows=portfolio.candidates(self.cat,self.inv,[],self.now,set(),random.Random(1))
+  self.assertEqual(rows[0]['public_settlements_sample'],11)
+  expired=portfolio.candidates(self.cat,self.inv,[],self.now+3601,set(),random.Random(1))
+  self.assertEqual(expired[0]['public_settlements_sample'],0)
  def test_single_change_is_active_and_hard_market_cutoff_remains(self):
   r=meta.review(self.root,now=self.now,public=[],model=lambda *a:self.decision())
   self.assertEqual(r['status'],'changed');self.assertEqual(operating_policy(self.now)['window_budget'],6_000_000)

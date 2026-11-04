@@ -80,6 +80,14 @@ def candidates(catalog, inventory, history, now, excluded, rng, max_cost=MAX_UNI
             'confirmed_settlements_12h': sold[sku],
             'storage_per_day_at_cost_ceiling': round(ceiling * .01, 2) if kind == 'goods' else 0,
             'signature': product_signature(p)})
+    market={}
+    try:
+        watch=json.loads(Path('state/seller-meta-market.json').read_text())
+        if 0<=now-watch['at']<=3600:
+            market={r['sku']:r.get('public_settles',0) for r in watch['rows']}
+    except (OSError,ValueError,KeyError,TypeError):pass
+    for group in groups.values():
+        for row in group:row['public_settlements_sample']=market.get(row['sku'],0)
     all_rows = [r for group in groups.values() for r in group]
     backed = sorted((r for r in all_rows if r['observed_requests_12h'] or r['confirmed_settlements_12h']),
                     key=lambda r: (-r['observed_requests_12h'], -r['confirmed_settlements_12h']))[:8]
@@ -88,7 +96,8 @@ def candidates(catalog, inventory, history, now, excluded, rng, max_cost=MAX_UNI
     keys = {kind: [k for k in groups if k[0] == kind] for kind in ('food', 'goods')}
     for group in keys.values():
         rng.shuffle(group)
-    rows = {r['sku']: r for r in backed}
+    market_backed=sorted((r for r in all_rows if r['public_settlements_sample']),key=lambda r:-r['public_settlements_sample'])[:8]
+    rows = {r['sku']: r for r in backed+market_backed}
     for i in range(max((len(v) for v in keys.values()), default=0)):
         for kind in ('food', 'goods'):
             if i < len(keys[kind]):
@@ -335,6 +344,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
               'Include food and goods when feasible, and consider low, medium and upper price bands; '
               'do not exclude every furniture/appliance merely because cheap goods cost less. '
               'Consider affordability, use and compatibility across the category, not price alone. '
+              'Public settlements are a short selected ledger sample, not total demand or evidence of our own conversion. '
               'First-hand requests are selected visits, not total demand. '
               'No observed sales means unknown demand, not proof of no demand. Exploration has an explicit '
               'risk budget; positive one-period newsvendor profit is not a prerequisite for every new SKU. '

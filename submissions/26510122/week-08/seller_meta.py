@@ -105,6 +105,7 @@ def review(runtime,*,model=decide_json,now=None,public=None,shadow=False):
         if not shadow:state['last_attempt']=now;save(statepath,state)
         data=snapshot(runtime,now,public_sample() if public is None else public)
         record('meta_snapshot',path=runtime/'logs/seller-meta-events.jsonl',snapshot=data)
+        if not shadow:save(runtime/'state/seller-meta-market.json',{'at':now,'source':'public ledger sample','window':data['market_sample'],'rows':data['market_opportunities']})
         decision=model('seller meta policy reviewer',{
             'instruction':'Review whether the operating policy blocks valuable market opportunities. '
             'Prefer expansion when confirmed paid demand, margins and capital support it; identify rejection reasons '
