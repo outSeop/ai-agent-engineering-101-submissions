@@ -160,10 +160,10 @@ def review(runtime,*,model=decide_json,now=None,public=None,shadow=False):
         if not shadow:
             version=uuid.uuid4().hex if status in ('changed','rollback') else old.get('version',uuid.uuid4().hex)
             applied_at=now if injected_clock else time.time()
-            baseline={'at':applied_at,'risk':data['risk'],'own_3h':data['own_3h']} if status in ('changed','rollback') else old.get('baseline')
+            baseline={'at':applied_at,'risk':data['risk'],'own_3h':data['own_3h']} if not old or status in ('changed','rollback') else old.get('baseline')
             payload={'schema_version':1,'version':version,'at':applied_at,'expires_at':applied_at+14400,
                      'baseline':baseline,
-                     'changed_at':applied_at if status in ('changed','rollback') else changed_at,
+                     'changed_at':applied_at if not old or status in ('changed','rollback') else changed_at,
                      'config':new,'previous_config':config if new!=config else old.get('previous_config',config)}
             save(policy,payload);state['last_review']={'at':now,'status':status,'decision':decision,'version':version};save(statepath,state)
         with sqlite3.connect(runtime/'state/seller-meta.sqlite3') as db:

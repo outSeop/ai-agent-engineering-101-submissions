@@ -39,6 +39,11 @@ class MetaHarnessTests(unittest.TestCase):
   self.assertEqual(r['status'],'changed');self.assertEqual(operating_policy(self.now)['window_budget'],6_000_000)
   self.assertEqual(operating_policy(ROUND_END-3600)['window_budget'],0)
   self.assertEqual(active(self.now+14401)['meta_status'],'operator_default')
+ def test_initial_hold_still_establishes_an_evaluation_baseline(self):
+  decision=self.decision();decision['action']='hold'
+  meta.review(self.root,now=self.now,public=[],model=lambda *a:decision)
+  state=json.loads((self.root/'state/seller-meta-policy.json').read_text())
+  self.assertEqual(state['changed_at'],self.now);self.assertEqual(state['baseline']['at'],self.now)
  def test_no_rapid_or_unobserved_retuning(self):
   meta.review(self.root,now=self.now,public=[],model=lambda *a:self.decision())
   later=self.now+1801;self.fresh(later)
