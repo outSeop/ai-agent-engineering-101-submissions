@@ -11,11 +11,19 @@ import math
 
 FOOD_MAX_SHARE = 0.85
 GOODS_MAX_SHARE = 0.75
+CHECKOUT_BUFFER_SECONDS = 120
 
 
 def shelf_minimum(order: dict) -> float:
+    """Exact mandate horizon at checkout; no proportional private requirement."""
     required = float(order.get("use_within_hours") or 0)
-    return round(required + max(0.5, required * 0.1), 2)
+    if not math.isfinite(required) or required<0: raise ValueError('invalid use_within_hours')
+    return required
+
+
+def quote_shelf_minimum(order: dict) -> float:
+    """Request two minutes of transaction headroom, independently of shelf length."""
+    return round(shelf_minimum(order)+CHECKOUT_BUFFER_SECONDS/3600,6)
 
 
 def price_cap(order: dict, product: dict) -> int:

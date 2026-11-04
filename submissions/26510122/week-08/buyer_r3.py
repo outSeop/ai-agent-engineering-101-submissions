@@ -11,14 +11,16 @@ import httpx
 from harness import decide_json, trace
 from context_compaction import MAX_TURNS, text
 import buyer_identity
-from buyer_policy import acceptance
+from buyer_policy import acceptance, quote_shelf_minimum
 
 
 def opening_request(name: str, sku: str, order: dict) -> str:
     policy = acceptance(order)
     note = 'A market-signed unit certificate is required.'
     if order.get('kind') == 'food':
-        note += f" The unit must have at least {policy['min_hours_left']:g} hours of shelf life left at checkout."
+        quote_hours=f"{quote_shelf_minimum(order):.6f}".rstrip('0').rstrip('.')
+        note += (f" The unit must have at least {quote_hours} hours of shelf life left when quoting "
+                 f"(includes two minutes for checkout). Checkout requires {policy['min_hours_left']:g} hours.")
     else:
         note += ' Only grade A or B is acceptable. A six-hour warranty is preferred, not required.'
     return f'I want to buy {name} ({sku}). {note}'

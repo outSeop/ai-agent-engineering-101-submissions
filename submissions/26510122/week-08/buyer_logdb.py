@@ -14,6 +14,7 @@ from pathlib import Path
 import sqlite3
 import time
 import uuid
+import buyer_forum_memory
 
 SOURCES = {'logs/buyer-events.jsonl': None, '.market/payments.jsonl': 'checkout_payment',
            '.market/broken.jsonl': 'breakage_notice', 'logs/buyer-order-observations.jsonl': None}
@@ -111,9 +112,11 @@ def sync(root):
         added = sum(index_file(db,root,source,override) for source,override in SOURCES.items())
         capture_order(db,root)
         added += index_file(db,root,'logs/buyer-order-observations.jsonl',None)
-        return {'indexed_lines': added, 'events': db.execute('SELECT COUNT(*) FROM events').fetchone()[0],
+        result = {'indexed_lines': added, 'events': db.execute('SELECT COUNT(*) FROM events').fetchone()[0],
                 'confirmed_purchases': db.execute('SELECT COUNT(*) FROM confirmed_purchases').fetchone()[0],
                 'parse_errors': db.execute("SELECT COUNT(*) FROM events WHERE event='log_parse_error'").fetchone()[0]}
+    result['forum']=buyer_forum_memory.ingest(root/'.market',db_path=root/'state/buyer.sqlite3')
+    return result
 
 
 if __name__ == '__main__':

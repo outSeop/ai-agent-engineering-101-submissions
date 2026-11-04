@@ -13,7 +13,7 @@ import time
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = ('market_buyer_r3.py', 'buyer_r3.py', 'buyer_policy.py', 'buyer_memory.py',
-         'buyer_identity.py', 'buyer_exploration.py', 'harness.py', 'context_compaction.py', 'review_r3.py')
+         'buyer_identity.py', 'buyer_exploration.py', 'harness.py', 'context_compaction.py', 'review_r3.py','buyer_forum_memory.py')
 NAME = 'outseop-26510122'
 STOP = False
 

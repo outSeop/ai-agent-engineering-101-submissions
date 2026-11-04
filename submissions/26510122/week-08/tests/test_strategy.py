@@ -103,8 +103,9 @@ class BuyerPolicyTests(unittest.TestCase):
                  "acceptable": ["F1"]}
         product = {"kind": "food", "list_price": 1000, "shelf_hours": 24}
         self.assertEqual(buyer_policy.price_cap(order, product), 850)
-        self.assertEqual(buyer_policy.acceptance(order), {"cert": True, "min_hours_left": 4.5})
-        self.assertEqual(buyer_policy.price_cap(order, dict(product, shelf_hours=4)), 0)
+        self.assertEqual(buyer_policy.acceptance(order), {"cert": True, "min_hours_left": 4.0})
+        self.assertEqual(buyer_policy.price_cap(order, dict(product, shelf_hours=3.99)), 0)
+        self.assertEqual(buyer_policy.price_cap(order, dict(product, shelf_hours=4)), 850)
         self.assertEqual(buyer_policy.price_cap(dict(order, budget=700), product), 700)
 
     def test_goods_grade_policy_and_receipt_guard(self) -> None:
@@ -140,7 +141,7 @@ class BuyerPolicyTests(unittest.TestCase):
                     result = market_buyer_r3.run(order, shops, catalog, "outseop-26510122",epsilon=0)
                 self.assertEqual(result["shop"], "https://external")
                 self.assertEqual(result["receipt"], receipt)
-                self.assertEqual(result["accept"], {"cert": True, "min_hours_left": 4.5})
+                self.assertEqual(result["accept"], {"cert": True, "min_hours_left": 4.0})
                 self.assertEqual(mock_negotiate.call_args.kwargs["cap"], 850)
             finally:
                 os.chdir(previous)
