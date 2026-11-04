@@ -29,6 +29,7 @@ class BuyerForumTests(unittest.TestCase):
   seen=[]
   def model(role,prompt,schema):
    if 'checker' in role:
+    self.assertIn('creative_copy',prompt);self.assertNotIn('post',prompt)
     seen.extend(prompt['paid_evidence']);return {'approve':True,'unsupported_claims':[]}
    return self.decision
   buyer_forum.run_once(self.root,now=self.now,model=model,dry_run=True)
