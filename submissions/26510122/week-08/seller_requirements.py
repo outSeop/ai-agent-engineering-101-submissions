@@ -12,7 +12,38 @@ import re
 
 def initial(message):
     return update({'original_request': message[:1000], 'condition_messages': [],
-                   'min_hours_left': 0., 'grades': None, 'warranty_hours': 0., 'cert_required': False}, message)
+                   'min_hours_left': 0., 'grades': None, 'warranty_hours': 0.,
+                   'warranty_preferred_hours':0., 'cert_required': False}, message)
+
+
+def optional_warranty(lower, match, grades):
+    """A conditional/preferred warranty is not a global purchase requirement.
+
+    Unknown conditions remain in the original wording for the model. A/B
+    acceptance remains strict when a separate C-grade alternative is ambiguous.
+    """
+    start=max(lower.rfind('.',0,match.start()),lower.rfind(';',0,match.start()),
+              lower.rfind('\n',0,match.start()))+1
+    end=min([p for p in (lower.find('.',match.end()),lower.find(';',match.end()),
+                          lower.find('\n',match.end())) if p>=0] or [len(lower)])
+    before=lower[start:match.start()];after=lower[match.end():end]
+    clause=lower[start:end]
+    conditional_grade=(re.search(r'\bgrade\s*([abc])(?:\s+\w+){0,2}\s+(?:only|with)\b',clause)
+                       or re.search(r'\b([abc])(?:\s+grade)?\s+(?:only|with)\b',clause))
+    if conditional_grade and grades and conditional_grade.group(1).upper() not in grades:
+        return True
+    if re.search(r'\bonly if\b|\b(?:require|need|must have|must include)\b',before):
+        return False
+    if re.search(r'\bif (?:you (?:offer|provide)|available|offered|provided)\b',before):
+        return True
+    if re.search(r'^\s*(?:is\s+)?(?:preferred|optional|welcome|not required)\b',after):
+        return True
+    if re.search(r'(?:가능하면|있으면|제공한다면)',before) or re.search(r'^\s*(?:선호|선택|환영)',after):
+        return True
+    conditional_grade=re.search(r'(?:\bgrade\s*|\b)([abc])\s*(?:grade\s*)?(?:only|with)',clause)
+    if conditional_grade and grades and conditional_grade.group(1).upper() not in grades:
+        return True
+    return False
 
 
 def update(previous, message):
@@ -41,10 +72,21 @@ def update(previous, message):
         view['min_hours_left'] = 0.
     warranty = list(re.finditer(r'(\d+(?:\.\d+)?)\s*(?:hours?|hrs?|h\b|시간)\s*(?:of\s*)?(?:warranty|보증)', lower))
     warranty += list(re.finditer(r'(?:warranty(?:_hours)?|보증)\s*(?:of|for|[:=])?\s*(\d+(?:\.\d+)?)\s*(?:hours?|hrs?|h\b|시간)?', lower))
-    if warranty:
-        view['warranty_hours'] = float(max(warranty, key=lambda m: m.start()).group(1))
+    # Parse the main grade condition first so a separate C-grade alternative
+    # does not impose its warranty on otherwise acceptable A/B goods.
+    main_grade=re.search(r'\bgrades?\s*[:=]?\s*([abc](?:\s*(?:or|and|/|,)\s*[abc])*)\b',lower)
+    main_grades=sorted(set(re.findall(r'[ABC]',main_grade.group(1).upper()))) if main_grade else view.get('grades')
+    required=[];preferred=[]
+    for match in warranty:
+        (preferred if optional_warranty(lower,match,main_grades) else required).append(match)
+    if required:
+        view['warranty_hours'] = float(max(required,key=lambda m:m.start()).group(1))
+    if preferred:
+        view['warranty_preferred_hours']=max(float(m.group(1)) for m in preferred)
     if re.search(r'no warranty (?:needed|required)|보증\s*(?:필요\s*없|불필요)', lower):
         view['warranty_hours'] = 0.
+    if re.search(r'warranty\s+(?:is\s+)?(?:preferred,?\s*)?(?:but\s+)?not required',lower):
+        view['warranty_hours']=0.
     grade = re.search(r'\bgrades?\s*[:=]?\s*([abc](?:\s*(?:or|and|/|,)\s*[abc])*)\b', lower)
     if not grade:
         grade = re.search(r'([ABC](?:\s*[/,]\s*[ABC])*)\s*등급', message)
