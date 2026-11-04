@@ -27,6 +27,7 @@ import inventory_portfolio
 import replenishment_plan
 from stock_policy import policy_view, NEW_STOCK
 from capital_policy import MIN_CASH, operating_policy
+from procurement_cost import ceiling as acquisition_ceiling
 
 
 COOLDOWN = Path("state/restock-cooldown.json")
@@ -375,7 +376,7 @@ def run(state: Path) -> dict:
                                      salvage=continuation, holding_per_leftover=holding,
                                      max_qty=observation['stock_limit'])
     balance = replenishment_plan.inventory_risk(inventory, now)['available_to_invest']
-    affordable = int(balance // math.ceil(list_price * 0.75))
+    affordable = int(balance // acquisition_ceiling(catalog[selected['sku']]))
     category_stock = sum(u.get('category') == selected.get('category') for u in live_units) if selected.get('category') else 0
     cap = max(0, min(affordable,replenishment_plan.MAX_TOTAL_STOCK-len(live_units),
                      observation['stock_limit']-selected['currently_stocked'],

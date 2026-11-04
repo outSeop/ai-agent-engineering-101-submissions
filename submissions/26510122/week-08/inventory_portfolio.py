@@ -10,6 +10,7 @@ from collections import Counter, defaultdict
 import fcntl
 import json
 import math
+from procurement_cost import ceiling as acquisition_ceiling
 from pathlib import Path
 import random
 
@@ -31,7 +32,7 @@ PREFERRED_MIN_BATCH = 5
 WINDOW_BUDGET = GROWTH_WINDOW_BUDGET
 ROLLING_BUDGET = GROWTH_EXPLORATION_BUDGET
 MAX_MAINTAINED_SKUS = 8
-POLICY_VERSION = 10
+POLICY_VERSION = 11
 DAY = 86400
 
 
@@ -40,7 +41,7 @@ def live_units(inventory, now):
             and (u.get('expires_at') is None or u['expires_at'] > now)]
 
 
-def candidates(catalog, inventory, history, now, excluded, rng):
+def candidates(catalog, inventory, history, now, excluded, rng, max_cost=MAX_UNIT_COST):
     """Request-backed candidates plus random categories, without owned SKUs."""
     owned = {u.get('sku') for u in live_units(inventory, now)}
     categories = Counter(u.get('category') for u in live_units(inventory, now))
@@ -65,8 +66,8 @@ def candidates(catalog, inventory, history, now, excluded, rng):
             continue
         if kind == 'food' and (p.get('shelf_hours') or 0) < 48:
             continue
-        ceiling = math.ceil(price * .75)
-        if ceiling > MAX_UNIT_COST:
+        ceiling = acquisition_ceiling(p)
+        if ceiling > min(MAX_UNIT_COST,max_cost):
             continue
         category = p.get('category') or kind
         if categories[category] >= MAX_CATEGORY_STOCK:
@@ -178,11 +179,12 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
     choice = state['windows'].get(key)
     if choice is None:
         draw = rng.random()
+        epsilon=operating.get('exploration_epsilon',EPSILON)
         variety = len({u.get('sku') for u in units})
         coverage = operating['allow_new_skus'] and variety < MIN_VARIETY
         allocation = operating['allow_new_skus'] and inventory_risk(inventory, now)['stock_acquisition_cost'] < target_inventory_cost(inventory,now)
-        choice = {'mode': 'explore' if operating['allow_new_skus'] and (coverage or allocation or draw < EPSILON) else 'exploit',
-                  'epsilon': EPSILON, 'draw': draw, 'coverage_recovery': coverage,
+        choice = {'mode': 'explore' if operating['allow_new_skus'] and (coverage or allocation or draw < epsilon) else 'exploit',
+                  'epsilon': epsilon, 'draw': draw, 'coverage_recovery': coverage,
                   'allocation_recovery': allocation,
                   'operating_phase':operating['phase'],'policy_version':POLICY_VERSION,
                   'variety': variety, 'at': now, 'attempted': False}
@@ -204,7 +206,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
     recent = [i for i in state['intents'] if i['at'] > now - DAY]
     reserved = sum(i['cost_ceiling']*i.get('qty',1) for i in recent if i.get('kind') != 'replenishment')
     pending = sum(pending_quantity(i) for i in state['intents'])
-    pending_cost = sum(i['cost_ceiling']*pending_quantity(i) for i in state['intents'])
+    pending_cost = sum(max(i['cost_ceiling'], acquisition_ceiling(catalog[i['sku']]) if i['sku'] in catalog else (i['cost_ceiling'] if i.get('surge_reserved') else math.ceil(i['cost_ceiling']*1.5)))*pending_quantity(i) for i in state['intents'])
     risk = inventory_risk(inventory, now, pending_cost)
     slots = min(MAX_SUPPLY_LINES, max(0, int((window['closes_at'] - now - 15) // 10)))
     unit_room = max(0, MAX_TOTAL_STOCK - len(units) - pending)
@@ -235,7 +237,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
                                 'budget_or_capacity_limited':qty<option['qty']})
         winner['target_options'] = bounded
     winners = [r for r in winners if r['target_options']]
-    rows = (candidates(catalog, inventory, history, now, {i['sku'] for i in recent}, rng)
+    rows = (candidates(catalog, inventory, history, now, {i['sku'] for i in recent}, rng, max_cost=exploration_budget)
             if choice['mode'] == 'explore' and operating['allow_new_skus'] else [])
     maintained_skus = {r['sku'] for r in winners}
     rows = [r for r in rows if r['cost_ceiling'] <= exploration_budget and r['sku'] not in maintained_skus]
@@ -291,7 +293,10 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
                                'Replenishment target_stock includes these pending units. A closed-window partial '
                                'delivery may be topped up in a new window, net of its pending quantity; this is not a retry.',
               'existing_categories': dict(Counter(u.get('category') for u in units)),
-              'objective': 'The operator wants active capital recycling: aim toward target_inventory_acquisition_cost '
+              'allocation_focus':operating.get('allocation_focus','balanced'),
+              'objective': 'Follow allocation_focus as model guidance: replenishment emphasizes proven deficits; '
+              'discovery emphasizes affordable single-unit trials after urgent deficits. Neither bypasses budgets. '
+              'The operator wants active capital recycling: aim toward target_inventory_acquisition_cost '
               'during growth, without spending merely to hit a quota. Cash is not idle savings for its own sake, '
               'but terminal cash still determines profit. ALL weights percentile profit/revenue/stars 0.5/0.3/0.2; '
               'do not combine raw currency and stars into a fabricated score. Prefer repeatable positive-margin '
@@ -435,7 +440,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
         categories[row['category']] += qty
         current_stocks[sku] += qty
         state['intents'].append({'sku': sku, 'qty': qty, 'kind':row['kind'], 'cost_ceiling': row['cost_ceiling'],
-                                'prior_units': [u['unit'] for u in owned if u.get('unit')],
+                                'surge_reserved':True, 'prior_units': [u['unit'] for u in owned if u.get('unit')],
                                 'status': 'issued_unknown', 'at': at, 'window': key,
                                 'second_trial':bool(row.get('second_trial'))})
         buy.append({'sku': sku, 'qty': qty})

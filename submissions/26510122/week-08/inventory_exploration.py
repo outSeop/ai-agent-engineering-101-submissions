@@ -10,6 +10,7 @@ from collections import Counter, defaultdict
 import fcntl
 import json
 import math
+from procurement_cost import ceiling as acquisition_ceiling
 from pathlib import Path
 import random
 
@@ -44,7 +45,7 @@ def candidates(catalog: dict, inventory: dict, history: list[dict], public: Coun
         if not isinstance(p, dict) or sku in owned or p.get('kind') not in ('food', 'goods'):
             continue
         price = p.get('list_price')
-        if type(price) is not int or price <= 0 or math.ceil(price * .75) > MAX_UNIT_CEILING:
+        if type(price) is not int or price <= 0 or acquisition_ceiling(p) > MAX_UNIT_CEILING:
             continue
         if p['kind'] == 'food' and (p.get('shelf_hours') or 0) < 48:
             continue
@@ -52,9 +53,9 @@ def candidates(catalog: dict, inventory: dict, history: list[dict], public: Coun
         groups[(p['kind'], category)].append({
             'sku': sku, 'name': p.get('name', sku), 'category': category, 'kind': p['kind'],
             'list_price': price, 'shelf_hours': p.get('shelf_hours'),
-            'cost_ceiling': math.ceil(price * .75), 'public_settlements': public[sku],
+            'cost_ceiling': acquisition_ceiling(p), 'public_settlements': public[sku],
             'observed_requests': requests[sku],
-            'storage_per_day_at_cost_ceiling': round(price * .75 * .01, 2) if p['kind'] == 'goods' else 0})
+            'storage_per_day_at_cost_ceiling': round(acquisition_ceiling(p) * .01, 2) if p['kind'] == 'goods' else 0})
     rng = random.Random('startup-basket-v1')
     for rows in groups.values():
         rng.shuffle(rows)

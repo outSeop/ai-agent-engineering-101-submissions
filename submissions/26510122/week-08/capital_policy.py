@@ -1,12 +1,13 @@
 """Working-capital policy for cash-based, percentile-ranked Round 3 scoring."""
 from datetime import datetime
+from seller_meta_policy import active
 
 ROUND_END = datetime.fromisoformat('2026-11-17T23:59:00+09:00').timestamp()
 MIN_CASH = 600_000
 MAX_COST = 12_000_000
 MAX_UNITS = 180
-MAX_UNIT_COST = 500_000
-GROWTH_WINDOW_BUDGET = 2_400_000
+MAX_UNIT_COST = MAX_COST  # absolute exposure bound; live cash/risk determines affordability
+GROWTH_WINDOW_BUDGET = MAX_COST  # actual budget is clipped to live investable capacity
 GROWTH_EXPLORATION_BUDGET = 12_000_000
 RANKING = {'profit':.5,'revenue':.3,'stars':.2}
 
@@ -22,7 +23,13 @@ def operating_policy(now):
     else:
         phase,share,target,window,rolling,new = ('growth',.75,.65,
             GROWTH_WINDOW_BUDGET,GROWTH_EXPLORATION_BUDGET,True)
-    return {'phase':phase,'hours_to_end':round(hours,4),'ends_at':ROUND_END,
+    meta=active(now)
+    if phase=='growth':
+        target=meta['target_capital_share'];window=min(window,meta['window_budget'])
+    return {'exploration_epsilon':meta['epsilon'] if phase=='growth' else .30,
+            'allocation_focus':meta['focus'] if phase=='growth' else 'replenishment',
+            'meta_version':meta['meta_version'],'meta_status':meta['meta_status'],
+            'phase':phase,'hours_to_end':round(hours,4),'ends_at':ROUND_END,
             'inventory_capital_share':share,'target_capital_share':target,
             'window_budget':window,'rolling_exploration_budget':rolling,
             'allow_new_skus':new,'allow_replenishment':hours>2,

@@ -59,7 +59,7 @@ class PortfolioTests(unittest.TestCase):
         self.assertEqual(model.call_count, 1)
         state = json.loads(self.path.read_text())
         self.assertEqual(len(state['windows']), 1)
-        self.assertEqual(sum(i['cost_ceiling'] for i in state['intents']), 60000)
+        self.assertEqual(sum(i['cost_ceiling'] for i in state['intents']), 90000)
 
     def test_exploitation_draw_delegates_without_exploration_model(self):
         model = Mock(side_effect=AssertionError('must delegate'))
@@ -94,7 +94,7 @@ class PortfolioTests(unittest.TestCase):
 
     def test_freshness_window_cash_and_capacity_rechecked_after_model(self):
         changed = inventory()
-        changed['balance'] = plans.MIN_BALANCE+10_000
+        changed['balance'] = plans.MIN_BALANCE+15_000
         self.assertEqual(len(self.run_portfolio(refresh=lambda: (changed, 1000, True))['buy']), 1)
         for refresh in (lambda: (inventory(), 1000, False), lambda: (inventory(), 1201, True),
                         lambda: (inventory(plans.MAX_TOTAL_STOCK), 1000, True)):
@@ -143,17 +143,17 @@ class PortfolioTests(unittest.TestCase):
         self.assertEqual(len(result['buy']),8)
         saved = json.loads(self.path.read_text())['intents']
         self.assertEqual(saved[:12],prior)  # no allowance reset or erased reservations
-        self.assertEqual(sum(i['cost_ceiling']*i['qty'] for i in saved[12:]),2_400_000)
+        self.assertEqual(sum(i['cost_ceiling']*i['qty'] for i in saved[12:]),3_600_000)
 
     def test_larger_approval_still_obeys_fresh_cash_after_model(self):
         products = {f's{i}':dict(kind='goods',name=f'Furniture {i}',category=f'category{i}',
                                list_price=400_000,shelf_hours=None) for i in range(16)}
-        current = inventory(0);current['balance'] = plans.MIN_BALANCE+300_000
+        current = inventory(0);current['balance'] = plans.MIN_BALANCE+450_000
         result = self.run_portfolio(inventory(0), products=products,
                                     refresh=lambda:(current,1000,True))
         self.assertEqual(len(result['buy']),1)
         saved = json.loads(self.path.read_text())['intents']
-        self.assertEqual(sum(i['cost_ceiling']*i['qty'] for i in saved),300_000)
+        self.assertEqual(sum(i['cost_ceiling']*i['qty'] for i in saved),450_000)
 
     def test_request_evidence_is_deduplicated_and_goods_survive_candidate_sampling(self):
         at = datetime.fromtimestamp(999, timezone.utc).isoformat()
@@ -258,7 +258,7 @@ class PortfolioTests(unittest.TestCase):
                                  'list_price': 240000, 'shelf_hours': None}
         rows = portfolio.candidates(products, inventory(0), [], 1000, set(), random.Random(1))
         desk = next(r for r in rows if r['sku'] == 'furniture')
-        self.assertEqual(desk['cost_ceiling'], 180000)
+        self.assertEqual(desk['cost_ceiling'], 270000)
         self.assertEqual(desk['price_band'], 'upper')
 
     def test_cost_exposure_rechecked_after_approval_in_both_planners(self):
@@ -279,7 +279,7 @@ class PortfolioTests(unittest.TestCase):
         path.write_text(json.dumps({'intents': [{'sku': 'new', 'at': 999, 'cost_ceiling': 250000,
                                                'prior_units': [], 'status': 'issued_unknown'}]}))
         inv = inventory(0)
-        self.assertEqual(plans.inventory_risk(inv, 1000)['pending_cost_ceiling'], 250000)
+        self.assertEqual(plans.inventory_risk(inv, 1000)['pending_cost_ceiling'], 375000)
         inv['units'].append({'sku': 'new', 'unit': 'arrived', 'grade': 'A', 'cost': 180000})
         risk = plans.inventory_risk(inv, 1000)
         self.assertEqual(risk['pending_cost_ceiling'], 0)

@@ -9,6 +9,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+from procurement_cost import ceiling as acquisition_ceiling
 from pathlib import Path
 import uuid
 import time
@@ -24,7 +25,7 @@ MAX_CATEGORY_STOCK = MAINTENANCE_CATEGORY_LIMIT
 MAX_TOTAL_STOCK = MAX_UNITS
 MAX_INVENTORY_COST = MAX_COST
 INVENTORY_CAPITAL_SHARE = .75
-POLICY_VERSION = 7
+POLICY_VERSION = 8
 
 
 def pending_exploration_cost(inventory: dict) -> int:
@@ -44,6 +45,7 @@ def pending_exploration_cost(inventory: dict) -> int:
         return MAX_INVENTORY_COST
     reconcile(state['intents'], inventory, events(), time.time())
     total = 0
+    catalog=load(Path('.market/catalog.json')) or {}
     for intent in state['intents']:
         if not isinstance(intent, dict) or intent.get('status') not in ('issued_unknown', 'observed_inventory', 'settled'):
             return MAX_INVENTORY_COST
@@ -51,7 +53,10 @@ def pending_exploration_cost(inventory: dict) -> int:
             continue
         if type(intent.get('cost_ceiling')) is not int or intent['cost_ceiling'] <= 0 or not isinstance(intent.get('prior_units'), list):
             return MAX_INVENTORY_COST
-        total += intent['cost_ceiling'] * pending_quantity(intent)
+        product=catalog.get(intent['sku'])
+        ceiling=max(intent['cost_ceiling'],acquisition_ceiling(product) if product else math.ceil(intent['cost_ceiling']*1.5))
+        if intent.get('surge_reserved'):ceiling=intent['cost_ceiling']
+        total += ceiling * pending_quantity(intent)
     return total
 
 
@@ -116,7 +121,7 @@ def create(*, sku: str, product: dict, candidate: dict, approval: dict,
             'stock_limit_at_approval': stock_limit,
             'max_initial_qty': candidate['qty'], 'max_total_qty': budget, 'emitted_qty': 0,
             'product_signature': product_signature(product),
-            'cost_ceiling_per_unit': math.ceil(product['list_price'] * .75),
+            'cost_ceiling_per_unit': acquisition_ceiling(product),
             'observed_no_stock_at_approval': observation['observed_no_stock_visits'],
             'observed_visit_rate_at_approval': observation['observed_visit_rate_while_stocked'],
             'approval': approval, 'candidate': candidate}

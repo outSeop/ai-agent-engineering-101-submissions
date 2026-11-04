@@ -1,6 +1,7 @@
 """First-hand sales evidence and explicit inventory-depth alternatives."""
 from collections import Counter
 import math
+from procurement_cost import ceiling as acquisition_ceiling
 
 from inventory_observation import timestamp, evidence
 from newsvendor_tool import poisson_pmf, recommend_quantity
@@ -135,7 +136,7 @@ def replenishment_candidates(catalog, inventory, history, now, blocked=(), trial
                         and len({e.get('ledger') for e in history if e.get('event') == 'settled'
                                  and e.get('sku') == sku and e.get('ledger') is not None}) == 1)
         if ((not signal['proven'] and not second_trial) or projected >= PROVEN_STOCK or type(price) is not int
-                or price <= 0 or math.ceil(price*.75) > MAX_UNIT_COST):
+                or price <= 0 or acquisition_ceiling(p) > MAX_UNIT_COST):
             continue
         if p['kind'] == 'food' and (p.get('shelf_hours') or 0) < 48:
             continue
@@ -147,7 +148,7 @@ def replenishment_candidates(catalog, inventory, history, now, blocked=(), trial
         if second_trial and room:
             options = [{'target_stock':1, 'qty':1, 'forecast_target':None,
                         'scenario':'second_trial', 'service_level':None,
-                        'cost_ceiling':math.ceil(price*.75)}]
+                        'cost_ceiling':acquisition_ceiling(p)}]
         for scenario in forecast['scenarios']:
             if second_trial: break
             target = scenario['target_stock']
@@ -156,13 +157,13 @@ def replenishment_candidates(catalog, inventory, history, now, blocked=(), trial
                 options.append({'target_stock': projected+qty, 'qty': qty,
                                 'forecast_target':target,'scenario':scenario['scenario'],
                                 'service_level':scenario['service_level'],
-                                'cost_ceiling': math.ceil(price*.75)*qty})
+                                'cost_ceiling': acquisition_ceiling(p)*qty})
         if not options:
             continue
         rows.append({'sku': sku, 'name': p.get('name', sku), 'kind': p['kind'], 'category': p.get('category'),
                      'currently_stocked': stocks[sku], 'pending_stock':reserved,
                      'second_trial':second_trial, 'evidence': signal, 'target_options': options,
-                     'cost_ceiling_per_unit': math.ceil(price*.75), 'forecast':forecast,
+                     'cost_ceiling_per_unit': acquisition_ceiling(p), 'forecast':forecast,
                      'budget_scope':'replenishment: shared window and cash/risk limits; NOT rolling novel-exploration budget',
                      'assumption':('One additional unit after exactly one positive-spread settlement; not proven maintenance.'
                                    if second_trial else 'Each target/quantity is forecast-derived; the model approves a candidate or holds.')})

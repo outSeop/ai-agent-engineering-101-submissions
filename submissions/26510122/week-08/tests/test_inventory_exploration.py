@@ -46,7 +46,7 @@ class ExplorationTests(unittest.TestCase):
         self.assertEqual(len(result['buy']), 8)
         self.assertTrue(all(r['qty'] == 1 for r in result['buy']))
         state = json.loads(self.path.read_text())
-        self.assertEqual(state['reserved'], 60000)
+        self.assertEqual(state['reserved'], 90000)
         self.assertTrue(state['completed'])
         self.assertIsNone(self.run_basket(now=1060, model=lambda *_: self.fail('must not replan')))
 
@@ -71,9 +71,9 @@ class ExplorationTests(unittest.TestCase):
         def model(role, prompt, schema):
             self.assertEqual(prompt['budget_remaining'], 50000)
             self.assertFalse(any(r['sku'] == 's0' for r in prompt['candidates']))
-            return {'skus': ['s1', 's2', 's3', 's4', 's5', 's6'], 'reason': 'Fit remaining budget'}
+            return {'skus': ['s1', 's2', 's3', 's4'], 'reason': 'Fit remaining budget'}
         result = self.run_basket(inv, model=model)
-        self.assertEqual(len(result['buy']), 6)
+        self.assertEqual(len(result['buy']), 4)
         state = json.loads(self.path.read_text())
         self.assertLessEqual(state['initial_cost'] + state['reserved'], explore.BUDGET)
 
@@ -92,9 +92,9 @@ class ExplorationTests(unittest.TestCase):
 
     def test_cash_is_rechecked_at_execution_not_only_model_selection(self):
         self.run_basket(inventory(False))
-        result = self.run_basket(inventory(balance=explore.MIN_BALANCE+10_000), model=lambda *_: self.fail('reuse'))
+        result = self.run_basket(inventory(balance=explore.MIN_BALANCE+15_000), model=lambda *_: self.fail('reuse'))
         self.assertEqual(len(result['buy']), 1)
-        self.assertEqual(json.loads(self.path.read_text())['reserved'], 7500)
+        self.assertEqual(json.loads(self.path.read_text())['reserved'], 11250)
 
     def test_catalog_change_replans_without_erasing_prior_reservations(self):
         self.run_basket(inventory(False))

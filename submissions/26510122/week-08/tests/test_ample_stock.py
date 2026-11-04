@@ -50,8 +50,8 @@ class AmpleStockTests(unittest.TestCase):
         state = json.loads(portfolio.STATE.read_text())
         self.assertEqual(state['intents'][0]['kind'], 'replenishment')
         used = sum(i['cost_ceiling']*i['qty'] for i in state['intents'] if i['kind']=='exploration')
-        self.assertEqual(used,45000)
-        self.assertEqual(sum(i['cost_ceiling']*pending_quantity(i) for i in state['intents']),60000)
+        self.assertEqual(used,67500)
+        self.assertEqual(sum(i['cost_ceiling']*pending_quantity(i) for i in state['intents']),90000)
 
     def test_fresh_stock_growth_cannot_raise_the_approved_target(self):
         inv = inventory()
@@ -72,12 +72,12 @@ class AmpleStockTests(unittest.TestCase):
             self.assertEqual(json.loads(portfolio.STATE.read_text())['intents'], [])
 
     def test_combined_budget_is_checked_not_just_each_half(self):
-        inv = inventory(); inv['units'][0]['cost'] = plans.MAX_INVENTORY_COST-76000  # room=50k
+        inv = inventory(); inv['units'][0]['cost'] = plans.MAX_INVENTORY_COST-96000  # room=70k including max surge
         self.assertEqual(self.run_batch(self.mixed, inv), {'buy':[]})
         self.assertEqual(json.loads(portfolio.STATE.read_text())['intents'], [])
 
     def test_invalid_approval_gets_one_numeric_correction_before_any_intent(self):
-        inv = inventory(); inv['units'][0]['cost'] = plans.MAX_INVENTORY_COST-76000
+        inv = inventory(); inv['units'][0]['cost'] = plans.MAX_INVENTORY_COST-96000
         calls = []
         def model(role,prompt,schema):
             calls.append(prompt)
@@ -110,9 +110,9 @@ class AmpleStockTests(unittest.TestCase):
         reconcile(state['intents'], {'units':[]}, [event], 1020)
         self.assertEqual(bulk['status'],'issued_unknown')
         self.assertEqual(pending_quantity(bulk),bulk['qty']-1)
-        self.assertEqual(bulk['cost_ceiling']*pending_quantity(bulk),7500)
+        self.assertEqual(bulk['cost_ceiling']*pending_quantity(bulk),11250)
         portfolio.STATE.write_text(json.dumps(state))
-        self.assertEqual(plans.pending_exploration_cost({'units':[]}),52500)
+        self.assertEqual(plans.pending_exploration_cost({'units':[]}),78750)
         rest = [dict(event,unit=f'new{i}',ledger=99+i) for i in range(1,bulk['qty'])]
         reconcile(state['intents'], {'units':[]}, rest, 1020)
         self.assertEqual(bulk['status'],'settled')
