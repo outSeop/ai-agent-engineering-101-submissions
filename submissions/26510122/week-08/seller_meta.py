@@ -13,6 +13,8 @@ from replenishment_plan import inventory_risk
 from procurement_cost import ceiling
 from seller_meta_policy import DEFAULT,BOUNDS,FOCUS,active,validate
 REVIEW_SECONDS=1800
+DATA_RETRY_SECONDS=60
+FAILURE_RETRY_SECONDS=120
 CHANGE_SECONDS=7200
 SCHEMA={'type':'object','additionalProperties':False,'properties':{
  'action':{'type':'string','enum':['hold','change','rollback']},
@@ -41,10 +43,24 @@ def public_sample():
         rows.extend(batch)
     return rows
 
+class InventoryUnavailable(ValueError):
+    def __init__(self,reason,age=None):
+        super().__init__(reason)
+        self.reason=reason;self.age=age
+
+
 def snapshot(runtime,now,public):
     path=runtime/'.market/inventory.json'
-    if not path.exists() or not 0<=now-path.stat().st_mtime<=30:raise ValueError('stale inventory')
-    inv=read(path,{});catalog=read(runtime/'.market/catalog.json',{})
+    try:
+        # Read metadata from the same file descriptor as the JSON. The kit may
+        # atomically replace the path while the review is collecting evidence.
+        with path.open() as source:
+            inv=json.load(source);source_time=os.fstat(source.fileno()).st_mtime
+    except (OSError,ValueError) as error:
+        raise InventoryUnavailable('inventory missing or temporarily unreadable') from error
+    age=now-source_time
+    if not -2<=age<=30:raise InventoryUnavailable('stale inventory',age)
+    catalog=read(runtime/'.market/catalog.json',{})
     if inv.get('round')!=3 or not catalog:raise ValueError('missing Round 3 evidence')
     history=events(runtime/'logs/shop-events.jsonl');risk=inventory_risk(inv,now)
     current=active(now,runtime/'state/seller-meta-policy.json');budget=min(risk['available_to_invest'],current['window_budget'])
@@ -71,7 +87,7 @@ def snapshot(runtime,now,public):
                          'sample_mean_paid':round(pr[sku]/count),'cost_ceiling_with_max_surge':cost,
                          'eligible':not why,'review_route':route,'blocked_by':why,'would_fail_removed_500k_cap':math.ceil(p['list_price']*.75)>500000})
     matched=[e for e in settled.values() if e.get('unit') in costs]
-    return {'at':now,'active_policy':current,'risk':risk,'effective_window_budget':budget,
+    return {'at':now,'inventory_source_time':source_time,'inventory_age_seconds':max(0,age),'active_policy':current,'risk':risk,'effective_window_budget':budget,
             'operator_bounds':BOUNDS,'focus_options':FOCUS,
             'own_3h':{'settlements':len(settled),'revenue':sum(e.get('price',0) for e in settled.values()),
                       'known_cost_sales':len(matched),'acquisition_spread_before_holding_refunds':sum(e['price']-costs[e['unit']] for e in matched),
@@ -124,9 +140,28 @@ def review(runtime,*,model=decide_json,now=None,public=None,shadow=False):
     with statepath.with_suffix('.lock').open('a') as lock:
         fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
         state=read(statepath,{});old=read(policy,{})
-        if not shadow and now-state.get('last_attempt',0)<REVIEW_SECONDS:return {'status':'cooldown'}
-        if not shadow:state['last_attempt']=now;save(statepath,state)
-        data=snapshot(runtime,now,public_sample() if public is None else public)
+        # Old releases wrote last_attempt before collecting evidence, so a
+        # transient failure incorrectly consumed the full review interval.
+        last_success=state.get('last_success',state.get('last_review',{}).get('at',0))
+        next_review=state.get('next_review_at',last_success+REVIEW_SECONDS if last_success else 0)
+        if not shadow and now<next_review:return {'status':'cooldown','next_review_at':next_review}
+        if not shadow:
+            state.update(last_attempt=now,next_review_at=now+FAILURE_RETRY_SECONDS)
+            save(statepath,state)  # also back off after a model/network failure or crash
+        try:
+            sample=public_sample() if public is None else public
+            # Public sampling can take seconds. Do not compare a newly refreshed
+            # inventory file with the timestamp captured before that network IO.
+            now=now if injected_clock else time.time()
+            data=snapshot(runtime,now,sample)
+        except InventoryUnavailable as error:
+            if shadow:raise
+            retry_at=(now if injected_clock else time.time())+DATA_RETRY_SECONDS
+            state.update(next_review_at=retry_at,last_failure={'at':now,'reason':error.reason,'inventory_age_seconds':error.age})
+            save(statepath,state)
+            record('meta_deferred',path=runtime/'logs/seller-meta-events.jsonl',
+                   reason=error.reason,inventory_age_seconds=error.age,retry_at=retry_at)
+            return {'status':'data_retry','reason':error.reason,'inventory_age_seconds':error.age,'next_review_at':retry_at}
         data['policy_evaluation']=evaluation(runtime,old,data,now)
         record('meta_snapshot',path=runtime/'logs/seller-meta-events.jsonl',snapshot=data)
         if not shadow:save(runtime/'state/seller-meta-market.json',{'at':now,'source':'public ledger sample','window':data['market_sample'],'rows':data['market_opportunities']})
@@ -165,13 +200,16 @@ def review(runtime,*,model=decide_json,now=None,public=None,shadow=False):
                      'baseline':baseline,
                      'changed_at':applied_at if not old or status in ('changed','rollback') else changed_at,
                      'config':new,'previous_config':config if new!=config else old.get('previous_config',config)}
-            save(policy,payload);state['last_review']={'at':now,'status':status,'decision':decision,'version':version};save(statepath,state)
+            save(policy,payload);state['last_review']={'at':applied_at,'status':status,'decision':decision,'version':version}
         with sqlite3.connect(runtime/'state/seller-meta.sqlite3') as db:
             db.execute('CREATE TABLE IF NOT EXISTS reviews (id TEXT PRIMARY KEY, at REAL, status TEXT, decision TEXT, before_config TEXT, after_config TEXT, evidence TEXT)')
             db.execute('INSERT INTO reviews VALUES (?,?,?,?,?,?,?)',(uuid.uuid4().hex,now,'shadow' if shadow else status,
                 json.dumps(decision,ensure_ascii=False),json.dumps(config),json.dumps(new),json.dumps(data,ensure_ascii=False)))
         record('meta_review',path=runtime/'logs/seller-meta-events.jsonl',status='shadow' if shadow else status,
                decision=decision,before=config,after=new,market_writes=False)
+        if not shadow:
+            state.update(last_success=applied_at,next_review_at=applied_at+REVIEW_SECONDS)
+            state.pop('last_failure',None);save(statepath,state)
         return {'status':'shadow' if shadow else status,'decision':decision,'before':config,'after':new}
 
 if __name__=='__main__':

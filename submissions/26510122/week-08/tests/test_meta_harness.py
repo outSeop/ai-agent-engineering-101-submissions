@@ -1,6 +1,6 @@
 import json,os,random,tempfile,time,unittest
 from pathlib import Path
-from unittest.mock import Mock
+from unittest.mock import Mock,patch
 import seller_meta as meta
 from seller_meta_policy import active,DEFAULT,validate
 from procurement_cost import ceiling
@@ -74,5 +74,49 @@ class MetaHarnessTests(unittest.TestCase):
   self.assertEqual(ev['after']['revenue'],200)
  def test_stale_evidence_never_calls_policy_model(self):
   model=Mock(side_effect=AssertionError('must not call'))
-  with self.assertRaises(ValueError):meta.review(self.root,now=self.now+31,public=[],model=model)
+  result=meta.review(self.root,now=self.now+31,public=[],model=model)
+  self.assertEqual(result['status'],'data_retry')
+  self.assertEqual(result['next_review_at'],self.now+31+meta.DATA_RETRY_SECONDS)
+  self.assertFalse((self.root/'state/seller-meta-policy.json').exists())
   model.assert_not_called()
+
+ def test_stale_attempt_recovers_after_short_retry_not_thirty_minutes(self):
+  start=self.now+31
+  meta.review(self.root,now=start,public=[],model=Mock(side_effect=AssertionError('stale')))
+  model=Mock(side_effect=lambda *a:self.decision())
+  self.fresh(start+30)
+  self.assertEqual(meta.review(self.root,now=start+30,public=[],model=model)['status'],'cooldown')
+  model.assert_not_called()
+  later=start+61;self.fresh(later)
+  self.assertEqual(meta.review(self.root,now=later,public=[],model=model)['status'],'changed')
+  state=json.loads((self.root/'state/seller-meta-review.json').read_text())
+  self.assertEqual(state['last_success'],later)
+  self.assertEqual(state['next_review_at'],later+meta.REVIEW_SECONDS)
+  self.assertNotIn('last_failure',state)
+
+ def test_network_failure_reserves_short_backoff_without_success(self):
+  with patch.object(meta,'public_sample',side_effect=OSError('temporary network failure')):
+   with self.assertRaises(OSError):meta.review(self.root,now=self.now,model=Mock())
+  state=json.loads((self.root/'state/seller-meta-review.json').read_text())
+  self.assertEqual(state['next_review_at'],self.now+meta.FAILURE_RETRY_SECONDS)
+  self.assertNotIn('last_success',state)
+
+ def test_legacy_failed_attempt_does_not_prevent_due_review(self):
+  (self.root/'state/seller-meta-review.json').write_text(json.dumps({'last_attempt':self.now-1,'last_review':{'at':self.now-2000}}))
+  result=meta.review(self.root,now=self.now,public=[],model=lambda *a:self.decision())
+  self.assertEqual(result['status'],'changed')
+
+ def test_sampling_refreshes_clock_before_checking_inventory_age(self):
+  clock=[self.now]
+  def fetch():
+   clock[0]+=100;self.fresh(clock[0]);return []
+  with patch.object(meta.time,'time',side_effect=lambda:clock[0]),patch.object(meta,'public_sample',side_effect=fetch):
+   result=meta.review(self.root,model=lambda *a:self.decision())
+  self.assertEqual(result['status'],'changed')
+  state=json.loads((self.root/'state/seller-meta-review.json').read_text())
+  self.assertEqual(state['last_success'],self.now+100)
+
+ def test_small_file_refresh_race_is_not_a_stale_snapshot(self):
+  self.fresh(self.now+1)
+  result=meta.review(self.root,now=self.now,public=[],model=lambda *a:self.decision())
+  self.assertEqual(result['status'],'changed')
