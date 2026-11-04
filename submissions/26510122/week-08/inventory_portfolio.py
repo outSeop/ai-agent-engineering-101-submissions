@@ -17,7 +17,7 @@ from inventory_exploration import window_open
 from inventory_observation import timestamp
 from market_memory import record
 from replenishment_plan import MAX_CATEGORY_STOCK, MAX_TOTAL_STOCK, inventory_risk, product_signature, save
-from supply_reconciliation import reconcile, pending_quantity
+from supply_reconciliation import reconcile, pending_quantity, partial_from_closed_window
 from stock_policy import replenishment_candidates, PROVEN_STOCK
 from capital_policy import MAX_UNIT_COST, operating_policy, target_inventory_cost
 
@@ -181,7 +181,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
         choice = {'mode': 'explore' if operating['allow_new_skus'] and (coverage or allocation or draw < EPSILON) else 'exploit',
                   'epsilon': EPSILON, 'draw': draw, 'coverage_recovery': coverage,
                   'allocation_recovery': allocation,
-                  'operating_phase':operating['phase'],'policy_version':8,
+                  'operating_phase':operating['phase'],'policy_version':9,
                   'variety': variety, 'at': now, 'attempted': False}
         state['windows'][key] = choice
         # Window records are summaries; the append-only event log retains all draws.
@@ -208,15 +208,20 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
     budget = min(WINDOW_BUDGET,operating['window_budget'], risk['available_to_invest'])
     rolling_budget = min(ROLLING_BUDGET,operating['rolling_exploration_budget'])
     exploration_budget = max(0, min(budget, rolling_budget-reserved))
-    blocked = {i['sku'] for i in state['intents'] if pending_quantity(i)}
+    pending_stocks = Counter()
+    for intent in state['intents']:
+        if pending_quantity(intent):
+            pending_stocks[intent['sku']] += pending_quantity(intent)
+    blocked = {i['sku'] for i in state['intents'] if pending_quantity(i)
+               and not partial_from_closed_window(i, now)}
     trialed = {i['sku'] for i in state['intents'] if i.get('second_trial')}
-    winners = replenishment_candidates(catalog, inventory, history, now, blocked, trialed)
+    winners = replenishment_candidates(catalog, inventory, history, now, blocked, trialed, pending_stocks)
     for winner in winners:
         bounded = []
         for option in winner['target_options']:
             qty = min(option['qty'],unit_room,max(0,budget//winner['cost_ceiling_per_unit']))
             if qty > 0 and not any(o['qty']==qty for o in bounded):
-                bounded.append({**option,'qty':qty,'target_stock':winner['currently_stocked']+qty,
+                bounded.append({**option,'qty':qty,'target_stock':winner['currently_stocked']+winner['pending_stock']+qty,
                                 'cost_ceiling':qty*winner['cost_ceiling_per_unit'],
                                 'budget_or_capacity_limited':qty<option['qty']})
         winner['target_options'] = bounded
@@ -271,6 +276,10 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
               'rolling_24h_cost_ceiling_budget': rolling_budget, 'reserved_24h': reserved,
               'operating_policy':operating,'target_inventory_acquisition_cost':target_inventory_cost(inventory,now),
               'existing_stock': dict(Counter(u.get('sku') for u in units)),
+              'pending_stock_by_sku':dict(pending_stocks),
+              'pending_policy':'Missing units remain reserved for cash, quantity and category capacity. '
+                               'Replenishment target_stock includes these pending units. A closed-window partial '
+                               'delivery may be topped up in a new window, net of its pending quantity; this is not a retry.',
               'existing_categories': dict(Counter(u.get('category') for u in units)),
               'objective': 'The operator wants active capital recycling: aim toward target_inventory_acquisition_cost '
               'during growth, without spending merely to hit a quota. Cash is not idle savings for its own sake, '
@@ -383,6 +392,8 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
     current_operating = operating_policy(at)
     cash = min(inventory_risk(current, at, pending_cost)['available_to_invest'],current_operating['window_budget'])
     categories = Counter(u.get('category') for u in owned)
+    for sku, qty in pending_stocks.items():
+        categories[catalog.get(sku,{}).get('category')] += qty
     buy = []
     current_stocks = Counter(u.get('sku') for u in owned)
     free_units = max(0, MAX_TOTAL_STOCK-len(owned)-pending)
@@ -399,7 +410,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
         if categories[row['category']] >= MAX_CATEGORY_STOCK:
             continue
         qty = min(row['qty'], free_units, MAX_CATEGORY_STOCK-categories[row['category']],
-                  (row['target_stock']-current_stocks[sku]) if row['kind']=='replenishment' else 1)
+                  (row['target_stock']-current_stocks[sku]-pending_stocks[sku]) if row['kind']=='replenishment' else 1)
         if qty <= 0 or row['cost_ceiling']*qty > cash:
             continue
         cash -= row['cost_ceiling']*qty

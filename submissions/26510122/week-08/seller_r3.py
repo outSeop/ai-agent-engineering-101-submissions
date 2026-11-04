@@ -265,6 +265,8 @@ class Seller(AgentExecutor):
             prompt = {
                 "phase": "opening", "task_id": task.id, "buyer_message": message[:500],
                 'purchase_requirements': requirements,
+                'warranty_policy':'No warranty is offered. warranty_hours is mandatory; '
+                                  'warranty_preferred_hours is optional and is not a reason to reject an otherwise feasible unit.',
                 "objective": "Choose one available physical unit and an opening price. "
                              "Use the calculation-tool candidates and market memory as evidence; "
                              "you may choose another positive price when you explain why. "
@@ -391,6 +393,7 @@ class Seller(AgentExecutor):
             "buyer_offer": offer, "history": deal["history"][-MAX_TURNS:], "memory": memory,
             'buyer_price_evidence':deal.get('buyer_price_evidence'),
             'purchase_requirements':deal['requirements'], 'buyer_message':message[:500],
+            'warranty_policy':'No warranty is offered. Preferred or if-offered warranty requests are optional; never promise coverage.',
             'market_objective':operating_policy(time.time()),
             "objective": "Accept, counter or reject. Consider purchase cost, grade, "
                          "food expiry and goods storage, but do not treat purchase cost "
@@ -451,7 +454,7 @@ class Seller(AgentExecutor):
             await up.add_artifact(parts=[new_data_part(receipt)], name="receipt")
             record("receipt_signed", task_id=task.id, sku=unit["sku"], unit=unit["unit"],
                    grade=quality['grade'], claim=quality['claim'], claim_reason=quality['reason'],
-                   price=offer,cost=unit['cost'],expires_at=unit.get('expires_at'))
+                   price=offer,cost=unit['cost'],expires_at=unit.get('expires_at'),supplied_at=unit.get('supplied_at'))
             self.holds[unit["unit"]] = time.monotonic() + HOLD_SECONDS
             await up.complete(say(f"Deal: {unit['name']} at {offer}."))
             trace("seller_receipt", task_id=task.id, unit=unit["unit"], price=offer,

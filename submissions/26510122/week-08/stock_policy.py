@@ -112,11 +112,12 @@ def demand_forecast(sku, product, inventory, history, now):
             'Exposure correction describes this shop only, not total market demand.'}
 
 
-def replenishment_candidates(catalog, inventory, history, now, blocked=(), trialed=()):
+def replenishment_candidates(catalog, inventory, history, now, blocked=(), trialed=(), pending=None):
     if not operating_policy(now)['allow_replenishment']: return []
     units = [u for u in inventory.get('units', []) if u.get('grade') in ('A', 'B', 'C')
              and (u.get('expires_at') is None or u['expires_at'] > now)]
     stocks = Counter(u['sku'] for u in units)
+    pending = pending or {}
     categories = Counter(u.get('category') for u in units)
     sold_skus = {e.get('sku') for e in history if e.get('event') == 'settled' and e.get('sku')}
     rows = []
@@ -126,17 +127,21 @@ def replenishment_candidates(catalog, inventory, history, now, blocked=(), trial
             continue
         signal = sales_evidence(sku, history, now)
         price = p.get('list_price')
-        second_trial = (operating_policy(now)['allow_new_skus'] and not stocks[sku] and sku not in trialed
+        reserved = pending.get(sku, 0)
+        projected = stocks[sku] + reserved
+        second_trial = (operating_policy(now)['allow_new_skus'] and not projected and sku not in trialed
                         and signal['settled_sales_12h'] == 1
                         and signal['confirmed_positive_spread_sales_12h'] == 1
                         and len({e.get('ledger') for e in history if e.get('event') == 'settled'
                                  and e.get('sku') == sku and e.get('ledger') is not None}) == 1)
-        if ((not signal['proven'] and not second_trial) or stocks[sku] >= PROVEN_STOCK or type(price) is not int
+        if ((not signal['proven'] and not second_trial) or projected >= PROVEN_STOCK or type(price) is not int
                 or price <= 0 or math.ceil(price*.75) > MAX_UNIT_COST):
             continue
         if p['kind'] == 'food' and (p.get('shelf_hours') or 0) < 48:
             continue
-        room = max(0, MAINTENANCE_CATEGORY_LIMIT-categories[p.get('category')])
+        reserved_category = sum(qty for key,qty in pending.items()
+                                if catalog.get(key,{}).get('category') == p.get('category'))
+        room = max(0, MAINTENANCE_CATEGORY_LIMIT-categories[p.get('category')]-reserved_category)
         forecast = demand_forecast(sku,p,inventory,history,now)
         options = []
         if second_trial and room:
@@ -146,16 +151,17 @@ def replenishment_candidates(catalog, inventory, history, now, blocked=(), trial
         for scenario in forecast['scenarios']:
             if second_trial: break
             target = scenario['target_stock']
-            qty = min(max(0, target-stocks[sku]),room)
+            qty = min(max(0, target-projected),room)
             if qty > 0 and not any(o['qty']==qty for o in options):
-                options.append({'target_stock': stocks[sku]+qty, 'qty': qty,
+                options.append({'target_stock': projected+qty, 'qty': qty,
                                 'forecast_target':target,'scenario':scenario['scenario'],
                                 'service_level':scenario['service_level'],
                                 'cost_ceiling': math.ceil(price*.75)*qty})
         if not options:
             continue
         rows.append({'sku': sku, 'name': p.get('name', sku), 'kind': p['kind'], 'category': p.get('category'),
-                     'currently_stocked': stocks[sku], 'second_trial':second_trial, 'evidence': signal, 'target_options': options,
+                     'currently_stocked': stocks[sku], 'pending_stock':reserved,
+                     'second_trial':second_trial, 'evidence': signal, 'target_options': options,
                      'cost_ceiling_per_unit': math.ceil(price*.75), 'forecast':forecast,
                      'budget_scope':'replenishment: shared window and cash/risk limits; NOT rolling novel-exploration budget',
                      'assumption':('One additional unit after exactly one positive-spread settlement; not proven maintenance.'
