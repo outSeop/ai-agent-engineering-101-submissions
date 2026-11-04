@@ -128,6 +128,9 @@ def _attempts(rows: list[dict]) -> list[dict]:
             attempts[task]['grade_at_receipt'] = row.get('grade')
             expires=row.get('expires_at',attempts[task].get('expires_at'))
             attempts[task]['hours_left_at_receipt'] = hours_left(expires,row.get('at'))
+        elif task in attempts and kind=='checkout_unpaid':
+            attempts[task]['outcome']='CHECKOUT_UNPAID'
+            attempts[task]['reason']=text(row.get('reason'))
         elif task in attempts and kind in {"rejected", "cancelled"}:
             attempts[task]["outcome"] = kind.upper()
             attempts[task]['reason'] = text(row.get('reason'))

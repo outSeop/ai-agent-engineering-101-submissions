@@ -34,12 +34,29 @@ def load_cache(path=CACHE):
 def ingest(rows: list[dict], *, own_name: str,history: list[dict],path: Path=EVENTS) -> list[dict]:
     receipts={e['task_id']:e for e in history if e['event']=='receipt_signed' and e.get('task_id')}
     linked={e['task_id'] for e in history if e['event']=='buyer_link' and e.get('task_id')}
+    unpaid_seen={e.get('source_seq') for e in history if e['event']=='checkout_unpaid'}
     proofs=[]
     for entry in rows:
         d=entry.get('data',{})
-        if entry.get('kind')!='result' or not isinstance(d,dict) or d.get('verified') is not True:
+        if entry.get('kind')!='result' or not isinstance(d,dict):
             continue
         rec=d.get('receipt');name=d.get('buyer')
+        local=receipts.get(rec.get('task')) if isinstance(rec,dict) else None
+        checks=d.get('checks')
+        checks=checks if isinstance(checks,dict) else {}
+        required=('order_issued_to_buyer','one_result_per_order','item_matches','price_within_budget',
+                  'task_not_seen','sig_seller_ok','sig_buyer_ok')
+        if (local and entry.get('round')==3 and type(entry.get('seq')) is int
+                and entry['seq'] not in unpaid_seen and checks.get('settled') is False
+                and all(checks.get(k) is True for k in required)
+                and rec.get('shop')==own_name and rec.get('item')==local.get('sku')
+                and rec.get('price')==local.get('price')):
+            record('checkout_unpaid',path=path,task_id=rec['task'],sku=local['sku'],
+                   unit=local.get('unit'),price=local['price'],source_seq=entry['seq'],
+                   source='public_market_result_checks',reason='Signed receipt submitted but not settled; buyer rejection reason unknown.')
+            unpaid_seen.add(entry['seq'])
+        if d.get('verified') is not True:
+            continue
         if not isinstance(rec,dict) or not isinstance(name,str) or not 0<len(name)<=100:
             continue
         if (type(entry.get('seq')) is not int or not all(k in rec for k in ('shop','item','price','task'))
@@ -76,7 +93,7 @@ def refresh(own_name: str, *, cache_path=CACHE,event_path=EVENTS,now=None) -> li
             proofs=ingest(rows,own_name=own_name,history=history,path=event_path)
             combined={p['seq']:p for p in cache.get('proofs',[])+proofs}
             cache['proofs']=list(combined.values())[-256:]
-            cache['rows']=(cache.get('rows',[])+[e for e in rows if e.get('kind')=='result' and isinstance(e.get('data'),dict) and e['data'].get('verified') is True])[-256:]
+            cache['rows']=(cache.get('rows',[])+[e for e in rows if e.get('kind')=='result' and isinstance(e.get('data'),dict)])[-256:]
             if rows:cache['cursor']=max(e['seq'] for e in rows if type(e.get('seq')) is int)
         except (httpx.HTTPError,ValueError,KeyError,TypeError):
             pass

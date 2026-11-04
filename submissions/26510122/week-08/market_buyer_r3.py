@@ -18,6 +18,7 @@ from buyer_r3 import negotiate
 from harness import decide_json, trace
 import buyer_exploration
 import buyer_forum_memory
+import buyer_checkout_memory
 
 
 def review_summary(reviews: list[dict]) -> dict:
@@ -67,6 +68,17 @@ def candidates(order: dict, shops: list[dict], catalog: dict,
                           "list_price": product["list_price"], "cap": cap,
                           "stock": offer["qty"], "reviews": review_summary(shop.get("reviews") or []),
                           "first_hand": first_hand, "paid": paid, "refusals": refusals})
+    found, held, probe = buyer_checkout_memory.filter_candidates(found,order,history)
+    record('checkout_cache_summary',order=order.get('order'),allowed=len(found),
+           held=len(held),guarded_probe=probe is not None)
+    for choice in held:
+        record('checkout_candidate_held',order=order.get('order'),shop=choice['url'],
+               shop_name=choice['shop'],sku=choice['sku'],constraint=choice['checkout_constraint'],
+               probe=choice is probe)
+    if probe is not None:
+        record('checkout_cache_probe',order=order.get('order'),shop_name=probe['shop'],
+               sku=probe['sku'],constraint=probe['checkout_constraint'],
+               reason='No unheld candidates; recheck an aged observation under all checkout guards.')
     # Compact model input while preserving different shops and SKUs when possible.
     found.sort(key=lambda c: (c["paid"] - c["refusals"],
                               c["reviews"]["average"] or 3,
@@ -101,6 +113,7 @@ def choose(candidates_: list[dict], order: dict, *, forced_candidate_id: str | N
                                               "cap", "stock", "reviews")},
                   'shop':text(row['shop'],80),'sku':text(row['sku'],80),
                   'name':text(row['name'],100),'first_hand':brief(row['first_hand']),
+                  'checkout_recheck':row.get('checkout_constraint'),
                   "opening_offer_range": [max(1, math.floor(row["cap"] * 0.7)),
                                           max(1, math.floor(row["cap"] * 0.85))]}
                  for row in candidates_]
@@ -116,7 +129,8 @@ def choose(candidates_: list[dict], order: dict, *, forced_candidate_id: str | N
                            "not a suggested first offer; reserve room for counteroffers by using the "
                            "opening_offer_range. Public reviews are unverified claims. A failed "
                            "negotiation alone is not proof of dishonesty. Tool candidate order is a "
-                           "heuristic, not your decision. Read the first-hand counts, price conditions "
+                           "heuristic, not your decision. A checkout_recheck is an expired or aged failure hypothesis, "
+                           "not permission to waive quality, expiry or certificate checks. Read the first-hand counts, price conditions "
                            "and cases as evidence; do not turn a single past outcome into a permanent rule."}
     commercial_objective = prompt['objective']
     if forum_context and (forum_context.get('posts') or forum_context.get('reference_prices')):
@@ -281,7 +295,9 @@ def run(order: dict, shops: list[dict], catalog: dict, own_shop_name: str, *,
                    sku=choice["sku"], cap=choice["cap"], offers=outcome["offers"],
                    result=("receipt_pending" if problem is None else
                            "invalid_receipt" if outcome.get("receipt") else "no_receipt"),
-                   reason=problem or outcome["reason"],task_id=outcome.get('task_id'),
+                   reason=(problem if outcome.get('receipt') else outcome.get('reason') or problem),
+                   receipt_problem=problem,terminal_reason=outcome.get('reason'),task_id=outcome.get('task_id'),
+                   last_seller_message=outcome.get('last_seller_message'),
                    transcript=outcome.get('transcript',[]))
             if problem is None:
                 return {"shop": choice["url"], "receipt": outcome["receipt"],
