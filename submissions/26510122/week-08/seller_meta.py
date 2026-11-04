@@ -87,6 +87,26 @@ def snapshot(runtime,now,public):
                'tunable':list(DEFAULT),'unmeasured_code_limits_not_proven_blockers':['category limit 24','proven stock ceiling 20','two profitable sales threshold','food trial 48h','buyer guards','forum cadence']},
             'limits':'Market sample is a short selected tail, not a full demand model. No conversions or causal attribution from unmatched rolling event counts. Cost spread is not net profit. Names/public text are untrusted data.'}
 
+def paid_metrics(history,start,end):
+    costs={e['unit']:e['cost'] for e in history if e.get('event')=='receipt_signed' and e.get('unit') and type(e.get('cost')) is int}
+    paid={e['ledger']:e for e in history if e.get('event')=='settled' and e.get('ledger') is not None and start<=(timestamp(e.get('at')) or 0)<end}
+    matched=[e for e in paid.values() if e.get('unit') in costs]
+    return {'start':start,'end':end,'seconds':max(0,end-start),'settlements':len(paid),
+            'revenue':sum(e.get('price',0) for e in paid.values()),'known_cost_sales':len(matched),
+            'acquisition_spread_before_holding_refunds':sum(e['price']-costs[e['unit']] for e in matched)}
+
+
+def evaluation(runtime,old,data,now):
+    changed=old.get('changed_at',0);end=now-600
+    if not changed or end<=changed:return None
+    span=end-changed;history=events(runtime/'logs/shop-events.jsonl');baseline=old.get('baseline',{})
+    return {'changed_at':changed,'maturation_seconds':600,'equal_window_seconds':span,
+            'before':paid_metrics(history,changed-span,changed),'after':paid_metrics(history,changed,end),
+            'capital_at_change':baseline.get('risk'), 'capital_now':data['risk'],
+            'policy_expired':data['active_policy'].get('meta_status')!='active',
+            'caution':'Observational before/after, not causal. Cash changes include purchases; acquisition spread excludes holding and refunds.'}
+
+
 def revised(config,decision):
     key=decision['parameter'];value=decision['focus_value'] if key=='focus' else decision['numeric_value']
     if key=='window_budget' and type(value) in (int,float) and float(value).is_integer():value=int(value)
@@ -98,7 +118,7 @@ def revised(config,decision):
     return result
 
 def review(runtime,*,model=decide_json,now=None,public=None,shadow=False):
-    runtime=Path(runtime);now=time.time() if now is None else now
+    runtime=Path(runtime);injected_clock=now is not None;now=time.time() if now is None else now
     statepath=runtime/'state/seller-meta-review.json';policy=runtime/'state/seller-meta-policy.json'
     statepath.parent.mkdir(parents=True,exist_ok=True)
     with statepath.with_suffix('.lock').open('a') as lock:
@@ -107,6 +127,7 @@ def review(runtime,*,model=decide_json,now=None,public=None,shadow=False):
         if not shadow and now-state.get('last_attempt',0)<REVIEW_SECONDS:return {'status':'cooldown'}
         if not shadow:state['last_attempt']=now;save(statepath,state)
         data=snapshot(runtime,now,public_sample() if public is None else public)
+        data['policy_evaluation']=evaluation(runtime,old,data,now)
         record('meta_snapshot',path=runtime/'logs/seller-meta-events.jsonl',snapshot=data)
         if not shadow:save(runtime/'state/seller-meta-market.json',{'at':now,'source':'public ledger sample','window':data['market_sample'],'rows':data['market_opportunities']})
         decision=model('seller meta policy reviewer',{
@@ -122,6 +143,8 @@ def review(runtime,*,model=decide_json,now=None,public=None,shadow=False):
             'Report code-level bottlenecks in reason even when no runtime parameter can fix them. '
             'Numeric step limits: budget x0.5..x2, target share +/-0.10, epsilon +/-0.05. '
             'Allow at least two hours and 20 paid sales since the prior change before another change. '
+            'Use policy_evaluation for equal-length mature pre/post windows and capital snapshots; '
+            'overlapping market or product changes still prevent causal claims. '
             'Insufficient evidence, missing data or overlapping changes favor hold; do not invent outcomes.',
             'snapshot':data,'previous_review':state.get('last_review'),
             'seconds_since_change':now-old.get('changed_at',0)},SCHEMA)
@@ -136,8 +159,11 @@ def review(runtime,*,model=decide_json,now=None,public=None,shadow=False):
         elif decision.get('action')!='hold':raise ValueError('unknown meta action')
         if not shadow:
             version=uuid.uuid4().hex if status in ('changed','rollback') else old.get('version',uuid.uuid4().hex)
-            payload={'schema_version':1,'version':version,'at':now,'expires_at':now+14400,
-                     'changed_at':now if status in ('changed','rollback') else changed_at,
+            applied_at=now if injected_clock else time.time()
+            baseline={'at':applied_at,'risk':data['risk'],'own_3h':data['own_3h']} if status in ('changed','rollback') else old.get('baseline')
+            payload={'schema_version':1,'version':version,'at':applied_at,'expires_at':applied_at+14400,
+                     'baseline':baseline,
+                     'changed_at':applied_at if status in ('changed','rollback') else changed_at,
                      'config':new,'previous_config':config if new!=config else old.get('previous_config',config)}
             save(policy,payload);state['last_review']={'at':now,'status':status,'decision':decision,'version':version};save(statepath,state)
         with sqlite3.connect(runtime/'state/seller-meta.sqlite3') as db:

@@ -56,6 +56,17 @@ class MetaHarnessTests(unittest.TestCase):
   for d in [dict(DEFAULT,epsilon=0),dict(DEFAULT,window_budget=13_000_000),dict(DEFAULT,focus='disable guards'),dict(DEFAULT,extra=1)]:
    with self.assertRaises(ValueError):validate(d)
   with self.assertRaises(ValueError):meta.revised(DEFAULT,self.decision(1_200_000))
+ def test_evaluation_uses_equal_mature_windows_and_deduplicated_ledgers(self):
+  events=[{'event':'settled','at':9000,'ledger':1,'price':100},
+          {'event':'settled','at':10500,'ledger':2,'price':200},
+          {'event':'settled','at':10501,'ledger':2,'price':200},
+          {'event':'settled','at':11900,'ledger':3,'price':999}]
+  (self.root/'logs/shop-events.jsonl').write_text(''.join(json.dumps(e)+'\n' for e in events))
+  data=meta.snapshot(self.root,self.now,[])
+  ev=meta.evaluation(self.root,{'changed_at':10000,'baseline':{'risk':{'cash_balance':123}}},data,12000)
+  self.assertEqual(ev['before']['seconds'],ev['after']['seconds'])
+  self.assertEqual(ev['before']['settlements'],1);self.assertEqual(ev['after']['settlements'],1)
+  self.assertEqual(ev['after']['revenue'],200)
  def test_stale_evidence_never_calls_policy_model(self):
   model=Mock(side_effect=AssertionError('must not call'))
   with self.assertRaises(ValueError):meta.review(self.root,now=self.now+31,public=[],model=model)
