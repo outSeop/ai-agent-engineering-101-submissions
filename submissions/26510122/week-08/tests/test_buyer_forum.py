@@ -34,6 +34,38 @@ class BuyerForumTests(unittest.TestCase):
   text=json.loads((self.root/'.market/outbox.jsonl').read_text())['post']
   self.assertNotIn('근거가 부족한 분류',text)
   self.assertIn('정산된 가격',text);self.assertIn('원장 #101',text)
+ def test_invalid_copy_filter_uses_verified_template_before_checker(self):
+  bad_copies=[('보증 6시간','가격 조건을 확인하세요.'),
+              ('구매 기록','https://unsupported.example'),
+              ('구매 기록','최저가 보장'),
+              ('','구매 기록'),('구매 기록','긴'*181)]
+  for headline,body in bad_copies:
+   with self.subTest(headline=headline,body=body[:20]):
+    self.decision.update(headline=headline,body=body)
+    calls=[]
+    def model(role,prompt,schema):
+     calls.append(role)
+     if 'checker' in role:self.fail('fixed factual copy needs no model claim checker')
+     return self.decision
+    result=buyer_forum.run_once(self.root,now=self.now,model=model,dry_run=True)
+    self.assertEqual(result['status'],'dry_run');self.assertEqual(len(calls),1)
+    self.assertIn('정산된 가격',result['text']);self.assertIn('원장 #101',result['text'])
+    self.assertEqual(result['decision']['ledger_refs'],[101])
+    self.assertFalse((self.root/'.market/outbox.jsonl').exists())
+
+ def test_invalid_copy_with_fake_reference_is_not_salvaged(self):
+  self.decision.update(ledger_refs=[999],body='보증 6시간')
+  with self.assertRaises(ValueError):buyer_forum.run_once(self.root,now=self.now,model=self.model)
+  self.assertFalse((self.root/'.market/outbox.jsonl').exists())
+
+ def test_numeric_editor_copy_can_reach_real_handoff(self):
+  self.decision['body']='보증 6시간 조건을 비교했습니다.'
+  result=buyer_forum.run_once(self.root,now=self.now,model=self.model)
+  self.assertEqual(result['status'],'queued')
+  payload=json.loads((self.root/'.market/outbox.jsonl').read_text())
+  self.assertEqual(payload['refs'],[101]);self.assertNotIn('보증 6시간',payload['post'])
+  self.assertIn('원장 #101',payload['post'])
+
  def test_checker_receives_explicit_settlement_provenance(self):
   seen=[]
   def model(role,prompt,schema):
