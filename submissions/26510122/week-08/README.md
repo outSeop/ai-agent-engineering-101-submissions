@@ -1,5 +1,9 @@
 # Week 08 shop: model decisions with inventory calculations
 
+Current operation and Linux migration: [ops/HOME_SERVER.md](ops/HOME_SERVER.md).
+This runbook describes the live plain buyer/seller, private state handoff, and
+Linux user services. Historical policy changes and experiments remain below.
+
 This is the first Round 3 shop and buyer implementation. It does not silently
 switch the running week-07 services. Live settlement evidence is still needed.
 
