@@ -25,6 +25,14 @@ class BuyerForumTests(unittest.TestCase):
   self.decision['ledger_refs']=[999]
   with self.assertRaises(ValueError):buyer_forum.run_once(self.root,now=self.now,model=self.model)
   self.assertFalse((self.root/'.market/outbox.jsonl').exists())
+ def test_checker_receives_explicit_settlement_provenance(self):
+  seen=[]
+  def model(role,prompt,schema):
+   if 'checker' in role:
+    seen.extend(prompt['paid_evidence']);return {'approve':True,'unsupported_claims':[]}
+   return self.decision
+  buyer_forum.run_once(self.root,now=self.now,model=model,dry_run=True)
+  self.assertEqual(seen[0]['event'],'settled');self.assertIn('successful paid settlement',seen[0]['provenance'])
  def test_dry_run_never_hands_off(self):
   self.assertEqual(buyer_forum.run_once(self.root,now=self.now,model=self.model,dry_run=True)['status'],'dry_run')
   self.assertFalse((self.root/'.market/outbox.jsonl').exists())
