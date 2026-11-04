@@ -60,3 +60,13 @@ Three synthetic open-window runs copied live evidence/portfolio state into tempo
 All 265 tests pass, including actual ASGI receipt signing/restart flow, grade boundaries, one-shot trial persistence, no repeated unknown supply, and existing promotion/cash/endgame guards. Initial and revised probe/test logs are retained. Source and runtime deployment are recorded separately.
 
 Evidence: seller-funnel-audit-v2-20261104.json, seller-claims-second-trial-tests-final.log, second-trial-model-probe[-v2/-v3]-20261104*/.
+
+## Deployment and connectivity follow-up
+
+Frozen seller release **9280dbf5f5f022da8e4caa138e26e2a1d753e91d** was deployed at 15:17:42 KST. Public card returned HTTP 200, registry URL matched, all frozen hashes matched, and inventory age was 8.3 seconds. Existing DB/state and signing keys stayed in place. Buyer supervisor/kit remained PID 56941/56944, observer stayed alive with no parse errors, and opening-event bytes/expiry/3% discount were unchanged.
+
+At approximately 15:19 KST, actual new food and goods receipts include A/B/C claims. The public board records **2 claims, 2 honest**. This confirms the missing field is reaching real settlements; it does not measure a sales improvement. Second-trial supply requires the next real supply window and model approval; the live evidence here proves the approval path internally, not a completed new trial purchase.
+
+A separate service review through 15:18:47 KST found **four unexpected SSH disconnects** in the preceding three hours (14:59:41, 15:10:02, 15:10:46, 15:12:47). Each had a logged detection-to-new-tunnel-ready gap of 19 seconds. Three scheduled 55-minute renewals had 20–21-second gaps, and this deployment had a 4-second gap. Network timeout/broken-pipe messages appear in the tunnel log. Registry propagation and disconnect detection can add delay, so these are lower-bound restart gaps, not uptime measurements. Address rotation can also interrupt in-flight requests. Automatic recovery is active and current public connectivity is healthy; no number of lost deals is attributed to these disconnects without stronger evidence. Connectivity stability is an independent improvement item alongside stock coverage and payment conversion.
+
+Additional evidence: seller-claims-trial-deploy-20261104.json, seller-claims-trial-health-20261104.json, seller-claims-trial-first-live-20261104.json, seller-tunnel-audit-20261104.json.
