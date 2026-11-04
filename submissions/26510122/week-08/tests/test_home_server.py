@@ -57,6 +57,8 @@ class HomeServerTests(unittest.TestCase):
                 self.assertNotIn(str(source),(rt/'agent.json').read_text())
             render(dest,dest/'state/systemd','/home/user/bin/codex')
             units=list((dest/'state/systemd').glob('*.service'));self.assertEqual(len(units),3)
+            for service in units:
+                self.assertIn(f'WorkingDirectory={dest}\n',service.read_text())
             buyer=(dest/'state/buyer-runtime/agent.json').read_text();self.assertNotIn('--life',buyer)
             with self.assertRaises(FileExistsError):restore_bundle(dest,bundle,target_owner)
 

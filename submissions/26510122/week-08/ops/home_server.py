@@ -180,7 +180,7 @@ def unit(root, role, codex_dir):
     path=f'{codex_dir}:{Path.home()/".local/bin"}:/usr/local/bin:/usr/bin:/bin'
     return '\n'.join(['[Unit]',f'Description=Outseop Round 3 {role}',
         'After=network-online.target','Wants=network-online.target','','[Service]','Type=simple',
-        'WorkingDirectory='+quote(root),'Environment='+quote('PATH='+path),'Environment=TZ=Asia/Seoul',
+        'WorkingDirectory='+str(root),'Environment='+quote('PATH='+path),'Environment=TZ=Asia/Seoul',
         'ExecStart='+' '.join(quote(v) for v in command),'Restart=always','RestartSec=5',
         'KillMode=mixed','TimeoutStopSec=45','UMask=0077','','[Install]','WantedBy=default.target',''])
 
