@@ -28,3 +28,7 @@ state/
 /logs/seller-r3-supervisor.log
 /logs/seller-r3-tunnel.log
 /logs/shop-events.jsonl
+
+# Slow meta worker output (structured verification snapshots are committed)
+/logs/seller-meta-console.log
+/logs/seller-meta-events.jsonl

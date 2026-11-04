@@ -33,7 +33,7 @@ def prepare(runtime, keys):
         elif destination.resolve() != source: raise ValueError('Existing key source differs')
     (runtime/'logs').mkdir(exist_ok=True)
     python = str(ROOT/'.venv/bin/python')
-    config = {'harness': 'Plain issued-order buyer; no life, roleplay, extra orders or forum publishing',
+    config = {'harness': 'Plain issued-order buyer; no roleplay or extra orders; forum worker is independent',
               'market_buyer': {'cmd': shlex.join([python, str(release/'market_buyer_r3.py'),
                                '--shops', '{shops}', '--order', '{order}', '--own-shop-name', NAME, '--epsilon', '0.1'])},
               'review': {'cmd': shlex.join([python, str(release/'review_r3.py'), '--deal', '{deal}'])}}

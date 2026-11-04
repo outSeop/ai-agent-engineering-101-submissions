@@ -19,7 +19,7 @@ import time
 ROOT = Path(__file__).resolve().parents[1]
 RUNTIMES = ('seller-runtime', 'buyer-runtime')
 SELLER_LOGS = {'shop-events.jsonl','seller-forum-events.jsonl','seller-forum-console.log',
-               'seller-r3-kit-console.log','seller-r3-supervisor.err','seller-r3-supervisor.log','seller-r3-tunnel.log'}
+               'seller-meta-console.log','seller-meta-events.jsonl','seller-r3-kit-console.log','seller-r3-supervisor.err','seller-r3-supervisor.log','seller-r3-tunnel.log'}
 
 
 def alive(pid):
@@ -36,7 +36,7 @@ def assert_stopped(root):
         for status in (runtime/'running.json', runtime/'state/buyer-logdb-status.json'):
             if not status.exists(): continue
             data = json.loads(status.read_text())
-            for field in ('supervisor_pid', 'kit_pid', 'forum_pid', 'tunnel_pid', 'pid'):
+            for field in ('supervisor_pid', 'kit_pid', 'forum_pid', 'tunnel_pid', 'meta_pid', 'buyer_forum_pid', 'pid'):
                 if alive(data.get(field)):
                     raise ValueError(f'Stop source services before export: {name}/{field} is alive')
 
@@ -105,7 +105,7 @@ def configs(root, runtime, role):
         return {'harness':'Frozen seller only; no buyer hooks',
                 'seller':{'cmd':shlex.join([python,str(release/'seller_r3.py'),'--port','{port}'])},
                 'restock':{'cmd':shlex.join([python,str(release/'restock.py'),'--state','{state}'])}}
-    return {'harness':'Plain issued-order buyer; no roleplay or buyer posts',
+    return {'harness':'Plain issued-order buyer; no roleplay; independent paid-evidence forum worker',
             'market_buyer':{'cmd':shlex.join([python,str(release/'market_buyer_r3.py'),
                 '--shops','{shops}','--order','{order}','--own-shop-name','outseop-26510122','--epsilon','0.1'])},
             'review':{'cmd':shlex.join([python,str(release/'review_r3.py'),'--deal','{deal}'])}}

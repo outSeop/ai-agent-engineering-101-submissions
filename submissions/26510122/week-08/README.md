@@ -4,23 +4,37 @@ Current operation and Linux migration: [ops/HOME_SERVER.md](ops/HOME_SERVER.md).
 This runbook describes the live plain buyer/seller, private state handoff, and
 Linux user services. Historical policy changes and experiments remain below.
 
-The 2026-11-05 seller expansion on `seller-market-share` is prepared locally;
-it has NOT been deployed to Linux. It starts from the last verified production
-code, without the paused forum draft. Growth now permits 2,400,000 worst-case
-spend per supply window and 12,000,000 novel exploration reservations per rolling
-24 hours. Existing intent history and pending reservations are retained. The
-soft inventory allocation target remains 65% and the exposure share ceiling 75%.
-The absolute exposure ceiling is 12,000,000 and the total-unit ceiling 180.
-These are maximum permissions, not mandatory spending. Model approval, fresh
-cash/stock validation, 600,000 minimum cash plus holding-cost buffer, per-unit
-500,000 ceiling, and the end-of-round taper still apply. A window can select up
-to eight maintained SKUs within twelve time-limited supply lines, alongside
-new single-unit trials, aiming toward fifty stocked SKUs. Proven targets remain
-forecast-derived; the growth prompt prefers the high option when justified,
-while the model can choose less or hold for concrete risks. Pricing and buyer
-code are unchanged. `portfolio_capacity` records the effective budgets, pending
-exposure and allocation gap so later graphs can distinguish capacity limits
-from model holds. No live improvement is claimed before deployment.
+The 2026-11-05 seller meta release removes the old 500,000 per-unit
+candidate filter. Growth permits up to the live cash/exposure capacity per supply
+window (absolute envelope 12,000,000), with 12,000,000 rolling novel exploration
+reservations. Existing intent history is retained. New-lot reservations include
+maximum 50% supply surge: 0.75 × 1.5 × catalog list price. Cached plans from the
+old cost policy are invalidated; unresolved old intents retain conservative
+reservations. The 65% soft inventory target, 75% exposure ceiling, 12,000,000
+absolute stock exposure, 180 units, cash/holding buffer and terminal taper remain.
+New SKUs are single-unit trials, including affordable high-ticket goods.
+
+`seller_meta.py` independently reviews paid outcomes, effective constraints and
+market candidates every 30 minutes. The model may change one bounded runtime
+parameter: window budget, target capital share, epsilon, or allocation focus.
+At least two hours and twenty mature, distinct paid ledgers are needed after a
+change before retuning. Policies expire after four hours unless reaffirmed;
+operator defaults then apply. Market/contract rules and reservations cannot be
+changed. Model decisions, before/after configurations and evidence are saved in
+append-only logs and `state/seller-meta.sqlite3`. Transaction models still approve
+every purchase; the meta reviewer never buys directly or edits source code.
+
+Seller forum now separates 24 root posts and 24 replies per rolling day, checks
+for opportunities every 330 seconds, and spaces roots by 30 minutes. Repeated
+SKU and thread guards remain. Full opening-event terms accompany explicit
+opening announcements instead of every product post. `buyer_forum.py` publishes
+plain, tool-rendered purchase notes independently of the issued-order buyer,
+at most 32/day and 30 minutes apart. A model selects/writes, a second model checks
+claims, and the kit's publication acknowledgement is recorded separately from
+queueing. No roleplay or extra buyer orders are enabled. The seller supervisor
+manages meta and both forum workers independently; buyer kit/order state is kept.
+Live activation and probes are evidenced by the dated rollout/health JSON logs;
+local tests alone are not evidence of market profit improvement.
 
 This is the first Round 3 shop and buyer implementation. It does not silently
 switch the running week-07 services. Live settlement evidence is still needed.
@@ -97,13 +111,13 @@ switch the running week-07 services. Live settlement evidence is still needed.
    witnesses these floors. Limited cash, category availability or window time
    can reduce them. The model is asked to prefer the maximum affordable batch,
    and can still hold for a concrete risk. The bounded candidate pool alternates
-   food/goods, samples price bands and admits unit cost ceilings up to 500,000,
+   food/goods, samples price bands and admits unit cost ceilings within live investable capacity,
    so medium-priced furniture is no longer excluded by the old 50,000 cutoff.
    A randomly sampled anchor
    (preferably without recent evidence) must be included in a buy, so the model
    cannot silently turn exploration into its familiar best sellers; it can hold
    for a concrete risk and chooses the rest of the basket. The model still approves every
-   basket. Its growth ceiling budget is 2,400,000 per window and 12,000,000 over a rolling
+   basket. Its growth ceiling envelope is 12,000,000 per window, clipped to live capacity and 12,000,000 over a rolling
    24 hours; these are worst-case intent reservations, not actual spend. Unknown
    outcomes retain spend and slot reservations. The same window is never redrawn
    or retried after a model failure, hold or ambiguous supply. Arrival evidence
@@ -147,7 +161,7 @@ switch the running week-07 services. Live settlement evidence is still needed.
    tool-calculated validation error (including spend totals), only while there
    is still enough window time. No supply intent exists before validation; a
    failed/ambiguous external purchase is never retried by this mechanism.
-   The growth shared limit is twelve supply requests, 2,400,000 worst-case spend, 180 total
+   The growth shared limit is twelve supply requests, live cash/exposure-limited worst-case spend, 180 total
    units and the existing cash/exposure limits. New-SKU exploration alone counts
    against the rolling 12,000,000 allowance; established replacements still obey
    shared cash/exposure limits. Exploration is optional in a maintenance batch
@@ -223,8 +237,9 @@ switch the running week-07 services. Live settlement evidence is still needed.
    receives a shorter evidence brief plus labeled public-review examples, so
    tool ordering never hides the reason a shop was included.
    `review_r3.py` records settled grade/value and can publish a ledger-backed
-   buyer forum note after a useful discount. Forum posts are spaced 30 minutes
-   apart. Buyer price shares (food 0.85, goods 0.75 of list) are starting
+   buyer forum note only when explicitly enabled. The independent
+   `buyer_forum.py` worker handles current publishing from paid evidence, with
+   30-minute spacing and without a minimum discount requirement. Buyer price shares (food 0.85, goods 0.75 of list) are starting
    hypotheses and need live calibration.
 
 The newsvendor rule is `F(Q*) >= (p-c)/(p-v)` for a discrete demand forecast,

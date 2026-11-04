@@ -78,6 +78,9 @@ def main():
         report['after']=after
         if all(r.get('source_commit')==commit for r in after.values()):break
         time.sleep(1)
+    buyer_config=read(runtimes['buyer']/'agent.json')
+    buyer_config['harness']='Plain issued-order buyer; independent ledger-backed forum worker'
+    (runtimes['buyer']/'agent.json').write_text(json.dumps(buyer_config,indent=2))
     report['hashes_match']={role:hashes(rt) for role,rt in runtimes.items()}
     report['promotion_hash_after']=digest(promotion)
     report['buyer_kit_preserved']=after['buyer']['kit_pid']==before['buyer']['kit_pid']

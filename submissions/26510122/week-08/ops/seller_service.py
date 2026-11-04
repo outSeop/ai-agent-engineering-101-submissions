@@ -18,7 +18,7 @@ import urllib.request
 ROOT=Path(__file__).resolve().parents[1]
 FILES=('seller_r3.py','harness.py','market_memory.py','newsvendor_tool.py','context_compaction.py',
        'inventory_observation.py','inventory_exploration.py','inventory_portfolio.py','supply_reconciliation.py','stock_policy.py',
-       'seller_state.py','seller_quality.py','seller_requirements.py','replenishment_plan.py','restock.py','buyer_identity.py','counterparty_memory.py','seller_forum.py','seller_promotion.py','capital_policy.py')
+       'seller_state.py','seller_quality.py','seller_requirements.py','replenishment_plan.py','restock.py','buyer_identity.py','counterparty_memory.py','seller_forum.py','seller_promotion.py','capital_policy.py','procurement_cost.py','seller_meta_policy.py','seller_meta.py','buyer_forum.py')
 STOP=False
 
 
@@ -81,9 +81,11 @@ def run(args):
     env['MARKET_OWNER']=args.owner_file.read_text().strip()
     env['PYTHONUNBUFFERED']='1'
     while not STOP:
-        ssh=market=forum=None
+        ssh=market=forum=None;workers={}
         try:
-            with (ROOT/'logs/seller-r3-tunnel.log').open('a') as ssh_log, \
+            with (ROOT/'logs/seller-meta-console.log').open('a') as meta_log, \
+                 (ROOT/'state/buyer-runtime/logs/forum-console.log').open('a') as buyer_forum_log, \
+                 (ROOT/'logs/seller-r3-tunnel.log').open('a') as ssh_log, \
                  (ROOT/'logs/seller-r3-kit-console.log').open('a') as kit_log, \
                  (ROOT/'logs/seller-forum-console.log').open('a') as forum_log:
                 ssh=subprocess.Popen(['/usr/bin/ssh','-p','443','-tt','-o','BatchMode=yes','-o','ConnectTimeout=8',
@@ -112,8 +114,19 @@ def run(args):
                 forum=subprocess.Popen([str(ROOT/'.venv/bin/python'),str(runtime/'release/seller_forum.py'),
                     '--runtime',str(runtime),'--loop'],cwd=runtime,env={k:v for k,v in env.items() if k!='MARKET_OWNER'},
                     stdout=forum_log,stderr=subprocess.STDOUT,start_new_session=True)
+                worker_specs={
+                    'meta_pid':('seller_meta.py',runtime,meta_log),
+                    'buyer_forum_pid':('buyer_forum.py',ROOT/'state/buyer-runtime',buyer_forum_log)}
+                def worker(spec):
+                    script,working,output=spec
+                    return subprocess.Popen([str(ROOT/'.venv/bin/python'),str(runtime/'release'/script),
+                        '--runtime',str(working),'--loop'],cwd=working,
+                        env={k:v for k,v in env.items() if k!='MARKET_OWNER'},
+                        stdout=output,stderr=subprocess.STDOUT,start_new_session=True)
+                workers={key:worker(spec) for key,spec in worker_specs.items()}
                 status={'supervisor_pid':os.getpid(),'kit_pid':market.pid,'tunnel_pid':ssh.pid,'forum_pid':forum.pid,'url':url,
                         'source_commit':manifest['source_commit'],'started_at':time.time(),'buyer_enabled':False}
+                status.update({key:proc.pid for key,proc in workers.items()})
                 (runtime/'running.json').write_text(json.dumps(status,indent=2))
                 until=time.monotonic()+55*60
                 while not STOP and ssh.poll() is None and market.poll() is None and time.monotonic()<until:
@@ -124,10 +137,17 @@ def run(args):
                             stdout=forum_log,stderr=subprocess.STDOUT,start_new_session=True)
                         status['forum_pid']=forum.pid
                         (runtime/'running.json').write_text(json.dumps(status,indent=2))
+                    for key,proc in list(workers.items()):
+                        if proc.poll() is not None:
+                            log(f'{key} worker exited; restarting independently')
+                            workers[key]=worker(worker_specs[key]);status[key]=workers[key].pid
+                            (runtime/'running.json').write_text(json.dumps(status,indent=2))
                     time.sleep(2)
                 log(f'Renew/exit: tunnel={ssh.poll()}, kit={market.poll()}')
         except Exception as error:log(f'Service cycle failed: {type(error).__name__}: {error}')
-        finally:stop(forum);stop(market);stop(ssh)
+        finally:
+            for proc in workers.values():stop(proc)
+            stop(forum);stop(market);stop(ssh)
         for _ in range(15):
             if STOP:break
             time.sleep(1)

@@ -25,8 +25,11 @@ from seller_requirements import initial, violations
 from seller_promotion import active_event
 
 SHOP = 'outseop-26510122'
-INTERVAL = 30 * 60
-DAILY_CAP = 12
+INTERVAL = 330
+ROOT_INTERVAL = 30 * 60
+ROOT_DAILY_CAP = 24
+REPLY_DAILY_CAP = 24
+DAILY_CAP = ROOT_DAILY_CAP + REPLY_DAILY_CAP
 SCHEMA = {'type': 'object', 'additionalProperties': False, 'properties': {
     'action': {'type': 'string', 'enum': ['post', 'hold']},
     'campaign': {'type': 'string', 'enum': ['spotlight', 'arrival', 'trade_record', 'buying_guide', 'demand_survey', 'opening_event', 'opening_discount', 'reply']},
@@ -179,7 +182,7 @@ def render(decision, evidence):
     stamp = datetime.fromtimestamp(evidence['at'], timezone.utc).isoformat(timespec='minutes')
     lines = [f"[{SHOP} · {decision['headline']}]", decision['body']]
     event = evidence.get('opening_event')
-    if event and decision['campaign'] != 'reply':
+    if event and decision['campaign'] in {'opening_event','opening_discount'}:
         zone = timezone(timedelta(hours=9))
         dates = [datetime.fromtimestamp(event[k],zone).strftime('%m/%d %H:%M') for k in ('starts_at','ends_at')]
         lines.append(f"오픈 안내 기간: {dates[0]}–{dates[1]} KST. 원하는 조건과 가격을 제안해 주세요. 가격은 개별 협상으로 결정합니다.")
@@ -270,10 +273,19 @@ def run_once(runtime, *, dry_run=False, decide=decide_json, now=None, announce_o
             if state['posts'] and now-state['posts'][-1]['at'] < 330:
                 return {'action': 'hold', 'reason': 'market posting cooldown'}
         elif state['attempts'] and now - state['attempts'][-1] < INTERVAL: return {'action': 'hold', 'reason': 'cooldown'}
-        if sum(now - p['at'] < 86400 for p in state['posts']) >= DAILY_CAP: return {'action': 'hold', 'reason': 'daily cap'}
+        daily=[p for p in state['posts'] if 0<=now-p['at']<86400]
+        if len(daily)>=DAILY_CAP:return {'action':'hold','reason':'daily cap'}
+        if state['posts'] and now-state['posts'][-1]['at']<330:return {'action':'hold','reason':'market posting cooldown'}
+        roots=[p for p in daily if p.get('campaign')!='reply'];replies=[p for p in daily if p.get('campaign')=='reply']
+        root_due=len(roots)<ROOT_DAILY_CAP and (not roots or now-max(p['at'] for p in roots)>=ROOT_INTERVAL)
         evidence = facts(runtime, now)
+        allowed=[]
+        if root_due or announce_opening:allowed=[c for c in SCHEMA['properties']['campaign']['enum'] if c!='reply']
+        if evidence['requests'] and len(replies)<REPLY_DAILY_CAP:allowed.append('reply')
+        if not allowed:return {'action':'hold','reason':'no eligible root or reply'}
         if announce_opening and not evidence.get('opening_event'): raise ValueError('opening event is inactive')
         schema = json.loads(json.dumps(SCHEMA))
+        schema['properties']['campaign']['enum']=allowed
         announcement = 'opening_discount' if (evidence.get('opening_event') or {}).get('discount_bps') else 'opening_event'
         if announce_opening: schema['properties']['campaign']['enum'] = [announcement]
         if not dry_run:
@@ -298,6 +310,7 @@ def run_once(runtime, *, dry_run=False, decide=decide_json, now=None, announce_o
                 + ('이번에는 오픈 안내 글만 작성하거나 hold.' if announce_opening else '별도 오픈 공지는 하루 한 번 이내.'),
             'facts': evidence, 'recent_posts': state['posts'][-6:],
             'evaluation': '좋아요·싫어요는 참고. 이후 판매와의 인과관계로 단정하지 말 것.'}, schema)
+        if decision.get('action') == 'post' and decision.get('campaign') not in schema['properties']['campaign']['enum']:raise ValueError('campaign is not currently eligible')
         if decision.get('action') == 'hold':
             record('forum_hold', path=runtime/'logs/seller-forum-events.jsonl', decision=decision)
             return decision
