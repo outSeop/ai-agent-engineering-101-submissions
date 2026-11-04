@@ -4,6 +4,24 @@ Current operation and Linux migration: [ops/HOME_SERVER.md](ops/HOME_SERVER.md).
 This runbook describes the live plain buyer/seller, private state handoff, and
 Linux user services. Historical policy changes and experiments remain below.
 
+The 2026-11-05 seller expansion on `seller-market-share` is prepared locally;
+it has NOT been deployed to Linux. It starts from the last verified production
+code, without the paused forum draft. Growth now permits 2,400,000 worst-case
+spend per supply window and 12,000,000 novel exploration reservations per rolling
+24 hours. Existing intent history and pending reservations are retained. The
+soft inventory allocation target remains 65% and the exposure share ceiling 75%.
+The absolute exposure ceiling is 12,000,000 and the total-unit ceiling 180.
+These are maximum permissions, not mandatory spending. Model approval, fresh
+cash/stock validation, 600,000 minimum cash plus holding-cost buffer, per-unit
+500,000 ceiling, and the end-of-round taper still apply. A window can select up
+to eight maintained SKUs within twelve time-limited supply lines, alongside
+new single-unit trials, aiming toward fifty stocked SKUs. Proven targets remain
+forecast-derived; the growth prompt prefers the high option when justified,
+while the model can choose less or hold for concrete risks. Pricing and buyer
+code are unchanged. `portfolio_capacity` records the effective budgets, pending
+exposure and allocation gap so later graphs can distinguish capacity limits
+from model holds. No live improvement is claimed before deployment.
+
 This is the first Round 3 shop and buyer implementation. It does not silently
 switch the running week-07 services. Live settlement evidence is still needed.
 
@@ -67,8 +85,8 @@ switch the running week-07 services. Live settlement evidence is still needed.
    bounds exploration, not all subsequent evidence-based replenishment.
 
    After startup, `inventory_portfolio.py` persists one epsilon draw per supply
-   window: 30% exploration, otherwise exploitation. Fewer than 24 stocked SKUs
-   or inventory acquisition cost below the 1,500,000 soft allocation target
+   window: 30% exploration, otherwise exploitation. Fewer than fifty stocked SKUs
+   or inventory acquisition cost below the dynamic 65% soft allocation target
    overrides the draw to build inventory. The target is a model planning goal,
    not a requirement to spend irrespective of demand or risk. This is an operator-controlled mixture
    around a model policy, not a learned Q-value table; percentages describe window
@@ -79,13 +97,13 @@ switch the running week-07 services. Live settlement evidence is still needed.
    witnesses these floors. Limited cash, category availability or window time
    can reduce them. The model is asked to prefer the maximum affordable batch,
    and can still hold for a concrete risk. The bounded candidate pool alternates
-   food/goods, samples price bands and admits unit cost ceilings up to 250,000,
+   food/goods, samples price bands and admits unit cost ceilings up to 500,000,
    so medium-priced furniture is no longer excluded by the old 50,000 cutoff.
    A randomly sampled anchor
    (preferably without recent evidence) must be included in a buy, so the model
    cannot silently turn exploration into its familiar best sellers; it can hold
    for a concrete risk and chooses the rest of the basket. The model still approves every
-   basket. Its ceiling budget is 600,000 per window and 2,500,000 over a rolling
+   basket. Its growth ceiling budget is 2,400,000 per window and 12,000,000 over a rolling
    24 hours; these are worst-case intent reservations, not actual spend. Unknown
    outcomes retain spend and slot reservations. The same window is never redrawn
    or retried after a model failure, hold or ambiguous supply. Arrival evidence
@@ -108,7 +126,7 @@ switch the running week-07 services. Live settlement evidence is still needed.
    there is no additional one-sale-in-the-last-hour gate that drops slow movers.
    Costs must link to first-hand signed receipts; unknown costs, pending receipts
    and public sales alone do not establish this status. The model can select up
-   to four such SKUs and forecast-derived targets, alongside new SKUs with the
+   to eight such SKUs and forecast-derived targets, alongside new SKUs with the
    remaining supply slots. Targets are no longer fixed at four or six units.
    The tool combines 1h/3h/12h settlement windows and paired in-stock exposure;
    it never divides all sales by an unrelated short exposure interval. Sparse
@@ -129,9 +147,9 @@ switch the running week-07 services. Live settlement evidence is still needed.
    tool-calculated validation error (including spend totals), only while there
    is still enough window time. No supply intent exists before validation; a
    failed/ambiguous external purchase is never retried by this mechanism.
-   The shared limit is eight supply requests, 600,000 worst-case spend, 60 total
+   The growth shared limit is twelve supply requests, 2,400,000 worst-case spend, 180 total
    units and the existing cash/exposure limits. New-SKU exploration alone counts
-   against the rolling 2,500,000 allowance; established replacements still obey
+   against the rolling 12,000,000 allowance; established replacements still obey
    shared cash/exposure limits. Exploration is optional in a maintenance batch
    when budget or capacity favors existing sellers; any exploratory picks must
    still include the sampled anchor. When no established seller qualifies,
@@ -143,8 +161,9 @@ switch the running week-07 services. Live settlement evidence is still needed.
 
    `replenishment_plan.inventory_risk` computes spendable capacity from cash and
    acquisition-cost exposure for both ordinary replenishment and exploration.
-   It preserves 1,000,000 cash and caps live inventory cost plus unresolved intent
-   ceilings at the smaller of 2,000,000 or 40% of cash plus live acquisition cost.
+   During growth it preserves at least 600,000 cash plus a goods holding-cost
+   buffer and caps live inventory cost plus unresolved intent ceilings at the
+   smaller of 12,000,000 or 75% of cash plus live acquisition cost.
    This is an exposure limit, not a resale-value estimate. Both paths recalculate
    capacity after model approval, and cached plans also check it on every issue.
 

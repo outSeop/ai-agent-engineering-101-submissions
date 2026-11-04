@@ -39,8 +39,14 @@ class SecondTrialTests(unittest.TestCase):
     def test_trial_bypasses_novel_cooldown_but_never_reissues_unknown(self):
         inv=inventory(0);path=Path('state/trial.json');path.parent.mkdir(exist_ok=True)
         # Exhaust the novel exploration budget, with no outstanding deliveries.
-        intents=[{'sku':'s1','cost_ceiling':500000,'qty':12,'prior_units':[],
-                  'status':'settled','at':950,'kind':'exploration'}]
+        intents=[];remaining=portfolio.ROLLING_BUDGET
+        while remaining:
+            ceiling=min(portfolio.MAX_UNIT_COST,remaining)
+            qty=min(20,remaining//ceiling)
+            intents.append({'sku':'s1' if not intents else f'old{len(intents)}',
+                            'cost_ceiling':ceiling,'qty':qty,'prior_units':[],
+                            'status':'settled','at':950,'kind':'exploration'})
+            remaining-=ceiling*qty
         path.write_text(json.dumps({'version':1,'windows':{},'intents':intents}))
         prompts=[]
         def choose(role,prompt,schema):

@@ -3,9 +3,11 @@ from datetime import datetime
 
 ROUND_END = datetime.fromisoformat('2026-11-17T23:59:00+09:00').timestamp()
 MIN_CASH = 600_000
-MAX_COST = 8_000_000
-MAX_UNITS = 120
+MAX_COST = 12_000_000
+MAX_UNITS = 180
 MAX_UNIT_COST = 500_000
+GROWTH_WINDOW_BUDGET = 2_400_000
+GROWTH_EXPLORATION_BUDGET = 12_000_000
 RANKING = {'profit':.5,'revenue':.3,'stars':.2}
 
 
@@ -18,7 +20,8 @@ def operating_policy(now):
     elif hours <= 72:
         phase,share,target,window,rolling,new = 'harvest',.50,.40,600_000,0,False
     else:
-        phase,share,target,window,rolling,new = 'growth',.75,.65,1_200_000,6_000_000,True
+        phase,share,target,window,rolling,new = ('growth',.75,.65,
+            GROWTH_WINDOW_BUDGET,GROWTH_EXPLORATION_BUDGET,True)
     return {'phase':phase,'hours_to_end':round(hours,4),'ends_at':ROUND_END,
             'inventory_capital_share':share,'target_capital_share':target,
             'window_budget':window,'rolling_exploration_budget':rolling,

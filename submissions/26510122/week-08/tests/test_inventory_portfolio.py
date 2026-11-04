@@ -127,6 +127,34 @@ class PortfolioTests(unittest.TestCase):
         model.assert_not_called()
         self.assertEqual(len(json.loads(self.path.read_text())['intents']), len(intents))
 
+    def test_expansion_resumes_above_old_rolling_cap_without_resetting_spend(self):
+        self.path.parent.mkdir()
+        prior = [{'sku':f'old{i}', 'cost_ceiling':500_000, 'qty':1, 'at':999,
+                  'prior_units':[], 'status':'settled'} for i in range(12)]
+        self.path.write_text(json.dumps({'version':1, 'windows':{}, 'intents':prior}))
+        products = {f's{i}':dict(kind='goods',name=f'Furniture {i}',category=f'category{i}',
+                               list_price=400_000,shelf_hours=None) for i in range(16)}
+        prompts = []
+        def model(role, prompt, schema):
+            prompts.append(prompt)
+            return approve(role,prompt,schema)
+        result = self.run_portfolio(inventory(0), model=model, products=products)
+        self.assertEqual(prompts[0]['reserved_24h'],6_000_000)
+        self.assertEqual(len(result['buy']),8)
+        saved = json.loads(self.path.read_text())['intents']
+        self.assertEqual(saved[:12],prior)  # no allowance reset or erased reservations
+        self.assertEqual(sum(i['cost_ceiling']*i['qty'] for i in saved[12:]),2_400_000)
+
+    def test_larger_approval_still_obeys_fresh_cash_after_model(self):
+        products = {f's{i}':dict(kind='goods',name=f'Furniture {i}',category=f'category{i}',
+                               list_price=400_000,shelf_hours=None) for i in range(16)}
+        current = inventory(0);current['balance'] = plans.MIN_BALANCE+300_000
+        result = self.run_portfolio(inventory(0), products=products,
+                                    refresh=lambda:(current,1000,True))
+        self.assertEqual(len(result['buy']),1)
+        saved = json.loads(self.path.read_text())['intents']
+        self.assertEqual(sum(i['cost_ceiling']*i['qty'] for i in saved),300_000)
+
     def test_request_evidence_is_deduplicated_and_goods_survive_candidate_sampling(self):
         at = datetime.fromtimestamp(999, timezone.utc).isoformat()
         history = [{'event': e, 'at': at, 'task_id': 't', 'requested_skus': ['s20']}

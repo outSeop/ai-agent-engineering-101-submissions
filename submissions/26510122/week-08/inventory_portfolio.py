@@ -19,16 +19,19 @@ from market_memory import record
 from replenishment_plan import MAX_CATEGORY_STOCK, MAX_TOTAL_STOCK, inventory_risk, product_signature, save
 from supply_reconciliation import reconcile, pending_quantity, partial_from_closed_window
 from stock_policy import replenishment_candidates, PROVEN_STOCK
-from capital_policy import MAX_UNIT_COST, operating_policy, target_inventory_cost
+from capital_policy import (MAX_UNIT_COST, GROWTH_WINDOW_BUDGET, GROWTH_EXPLORATION_BUDGET,
+                            operating_policy, target_inventory_cost)
 
 STATE = Path('state/inventory-portfolio.json')
 EPSILON = .30
-MIN_VARIETY = 40
+MIN_VARIETY = 50
 MAX_NEW_SKUS = 8
+MAX_SUPPLY_LINES = 12
 PREFERRED_MIN_BATCH = 5
-WINDOW_BUDGET = 1_200_000
-ROLLING_BUDGET = 6_000_000
-MAX_MAINTAINED_SKUS = 6
+WINDOW_BUDGET = GROWTH_WINDOW_BUDGET
+ROLLING_BUDGET = GROWTH_EXPLORATION_BUDGET
+MAX_MAINTAINED_SKUS = 8
+POLICY_VERSION = 10
 DAY = 86400
 
 
@@ -181,7 +184,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
         choice = {'mode': 'explore' if operating['allow_new_skus'] and (coverage or allocation or draw < EPSILON) else 'exploit',
                   'epsilon': EPSILON, 'draw': draw, 'coverage_recovery': coverage,
                   'allocation_recovery': allocation,
-                  'operating_phase':operating['phase'],'policy_version':9,
+                  'operating_phase':operating['phase'],'policy_version':POLICY_VERSION,
                   'variety': variety, 'at': now, 'attempted': False}
         state['windows'][key] = choice
         # Window records are summaries; the append-only event log retains all draws.
@@ -203,11 +206,17 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
     pending = sum(pending_quantity(i) for i in state['intents'])
     pending_cost = sum(i['cost_ceiling']*pending_quantity(i) for i in state['intents'])
     risk = inventory_risk(inventory, now, pending_cost)
-    slots = min(MAX_NEW_SKUS, max(0, int((window['closes_at'] - now - 15) // 10)))
+    slots = min(MAX_SUPPLY_LINES, max(0, int((window['closes_at'] - now - 15) // 10)))
     unit_room = max(0, MAX_TOTAL_STOCK - len(units) - pending)
     budget = min(WINDOW_BUDGET,operating['window_budget'], risk['available_to_invest'])
     rolling_budget = min(ROLLING_BUDGET,operating['rolling_exploration_budget'])
     exploration_budget = max(0, min(budget, rolling_budget-reserved))
+    record('portfolio_capacity', policy_version=POLICY_VERSION, window=key,
+           operating_phase=operating['phase'], risk_capacity=risk,
+           target_inventory_cost=target_inventory_cost(inventory,now),
+           supply_lines=slots, unit_room=unit_room, shared_budget=budget,
+           exploration_budget=exploration_budget, rolling_budget=rolling_budget,
+           reserved_24h=reserved)
     pending_stocks = Counter()
     for intent in state['intents']:
         if pending_quantity(intent):
@@ -230,7 +239,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
             if choice['mode'] == 'explore' and operating['allow_new_skus'] else [])
     maintained_skus = {r['sku'] for r in winners}
     rows = [r for r in rows if r['cost_ceiling'] <= exploration_budget and r['sku'] not in maintained_skus]
-    new_slots = min(6 if winners else MAX_NEW_SKUS, max(0, slots-(min(MAX_MAINTAINED_SKUS, len(winners)) if rows else 0)), unit_room)
+    new_slots = min(MAX_NEW_SKUS, max(0, slots-(min(MAX_MAINTAINED_SKUS, len(winners)) if rows else 0)), unit_room)
     if not slots or not unit_room or budget <= 0 or (not winners and (not rows or not new_slots)):
         record('portfolio_hold', reason='exploration_capacity_or_budget', slots=slots, budget=budget)
         choice.update(mode='exploit', fallback_reason='exploration_capacity_or_budget', delegated=True)
@@ -264,6 +273,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
     prompt = {'phase': 'recurring_inventory_exploration', 'policy': choice,
               'candidates': rows, 'maximum_new_skus': new_slots, 'cost_ceiling_budget': budget,
               'replenishment_candidates':winners, 'maximum_supply_lines':slots,
+              'maximum_maintained_skus':MAX_MAINTAINED_SKUS,
               'maximum_new_units':unit_room, 'exploration_cost_ceiling_budget':exploration_budget,
               'budget_scopes':{'skus':'novel exploration: shared budget AND exploration_cost_ceiling_budget',
                                'replenishment':'ALL listed candidates INCLUDING second_trial: shared cost_ceiling_budget ONLY; NOT exploration_cost_ceiling_budget'},
@@ -285,7 +295,8 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
               'during growth, without spending merely to hit a quota. Cash is not idle savings for its own sake, '
               'but terminal cash still determines profit. ALL weights percentile profit/revenue/stars 0.5/0.3/0.2; '
               'do not combine raw currency and stars into a fabricated score. Prefer repeatable positive-margin '
-              'sales and successful, honest checkout over maximizing one markup. In the SAME window replenish up to six eligible sellers '
+              'sales and successful, honest checkout over maximizing one markup. '
+              f'In the SAME window replenish up to {MAX_MAINTAINED_SKUS} eligible sellers '
               'to the forecast-derived target_options, and explore new SKUs with remaining resources. '
               'Candidates marked second_trial are a separate, single-unit second test after one positive sale, '
               'not proven winners. At most two are offered per window; prioritize proven deficits but use '
@@ -299,6 +310,12 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
               'Cover affordable maintenance deficits across eligible SKUs, not only the single fastest seller, '
               'then use remaining shared resources for exploration. '
               'Compare recent rate, stock exposure, protection until next procurement and uncertainty. '
+              'During growth below the capital target, prefer the high forecast-derived option for proven '
+              'sellers when shelf life, holding cost, margin and cash permit; explain a concrete risk if '
+              'choosing a lower option or omitting an affordable proven deficit. This is model guidance, '
+              'not an instruction to buy through a constraint. Measure expansion using confirmed paid '
+              'units, revenue and acquisition spread separately; more cheap sales alone do not prove '
+              'better profit. Use wider availability to reach more orders across categories. '
               'Prioritize evidenced fast sellers instead of letting variety coverage block their replacement. '
               'Choose replenishment target_options exactly; quantity is calculated from current stock. '
               'Replenishment plus exploration must fit the shared spend, unit and supply-line caps; '
@@ -424,6 +441,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
         buy.append({'sku': sku, 'qty': qty})
     save(path, state)  # all reservations precede externally executed supply calls
     record('portfolio_exploration_intent', buy=buy, model_choice=answer,
+           policy_version=POLICY_VERSION, operating_phase=current_operating['phase'],
            reserved_24h=reserved + sum(i['cost_ceiling']*i.get('qty',1) for i in state['intents'] if i['at']==at and i.get('kind')=='exploration'),
            warning='Intent is not a confirmed purchase; unknown outcomes retain reservations.')
     return {'buy': buy}

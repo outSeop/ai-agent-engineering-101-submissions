@@ -38,7 +38,7 @@ class CapitalPolicyTests(unittest.TestCase):
         self.assertEqual(risk['available_to_invest'],3_500_000)
         self.assertEqual(risk['cash_reserve'],600_000)
         self.assertEqual(target_inventory_cost(inv,now),3_900_000)
-        self.assertEqual(risk['operating_policy']['window_budget'],1_200_000)
+        self.assertEqual(risk['operating_policy']['window_budget'],2_400_000)
 
     def test_bankruptcy_line_and_pending_commitments_still_bind(self):
         now=ROUND_END-7*86400;inv=self.inventory(now)
