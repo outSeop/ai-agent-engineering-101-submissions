@@ -146,6 +146,24 @@ class PersistenceTests(unittest.TestCase):
             {'action':'accept','price':None,'unit_id':'u1','reason':'model accepts'}]*3
         with patch.object(seller_r3,'decide_json',side_effect=answers):asyncio.run(flow())
 
+    def test_receipt_claim_matches_food_and_signature_still_verifies(self):
+        async def flow():
+            async with self.client() as c:
+                first = await self.send(c, 'I want F1')
+                await self.send(c, '800', first['id'])
+            receipt = SellerState().pending_receipt(first['id'])
+            self.assertEqual(receipt['claim'], 'B')
+            import base64
+            key = serialization.load_pem_private_key(Path('shop_key.pem').read_bytes(), password=None)
+            key.public_key().verify(base64.b64decode(receipt['sig_seller']), seller_r3.canon({k:receipt[k] for k in ('shop','item','price','task')}))
+            rows = market_memory.events()
+            self.assertEqual(next(e for e in rows if e['event']=='receipt_signed')['claim'],'B')
+            self.assertTrue(any('grade B at quote' in e.get('text','') for e in rows if e['event']=='seller_message'))
+        with patch.object(seller_r3,'decide_json',side_effect=[
+                {'action':'ask','price':900,'unit_id':'u1','reason':'quote'},
+                {'action':'accept','price':None,'unit_id':'u1','reason':'agreed'}]):
+            asyncio.run(flow())
+
     def test_signed_unit_remains_locked_across_restart_and_is_persisted_before_artifact(self):
         async def flow():
             async with self.client() as c:

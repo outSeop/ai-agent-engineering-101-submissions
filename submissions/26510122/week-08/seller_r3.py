@@ -32,6 +32,7 @@ import buyer_identity
 import counterparty_memory
 from newsvendor_tool import GRADE_ANCHORS
 from seller_state import SellerState, SQLiteTaskStore, ResumingContextBuilder
+import seller_quality
 import seller_requirements
 from seller_promotion import discount_quote
 from capital_policy import operating_policy
@@ -350,7 +351,9 @@ class Seller(AgentExecutor):
                 label = 'Opening quote discount included' if promotion['saving'] else 'Minimum selling price; no discount available'
                 note = (f" {label}: {promotion['ordinary_quote']} -> {ask}; saving {promotion['saving']}. "
                         'Negotiable; no extra automatic discount.')
-            await up.requires_input(say(f"{unit['name']}: asking {ask}.{note} Short replies save tokens; send a number."))
+            quality = seller_quality.quality(unit, MARKET_DIR, time.time(), HOLD_SECONDS)
+            record('quality_disclosed',task_id=task.id,sku=unit['sku'],unit=unit['unit'],**quality)
+            await up.requires_input(say(f"{unit['name']}: asking {ask}. {seller_quality.description(unit,quality)}.{note} Short replies save tokens; send a number."))
             return
 
         offer = seller_requirements.offer(message)
@@ -435,8 +438,11 @@ class Seller(AgentExecutor):
             answer = {**answer, 'price': min(deal['ask'],max(promotion['price_floor'],offer))}
             record('promotion_accept_guard',task_id=task.id,buyer_offer=offer,counter=answer['price'])
         if action == "accept" and offer > 0:
-            receipt = sign({"shop": NAME, "item": unit["sku"], "price": offer,
-                            "task": task.id, "unit": unit["unit"]})
+            quality = seller_quality.quality(unit, MARKET_DIR, time.time(), HOLD_SECONDS)
+            terms = {"shop":NAME,"item":unit["sku"],"price":offer,"task":task.id,"unit":unit["unit"]}
+            if quality["claim"] is not None:
+                terms["claim"] = quality["claim"]
+            receipt = sign(terms)
             if not self.state.commit_receipt(task.id, receipt, HOLD_SECONDS):
                 self.open.pop(task.id, None)
                 await up.reject(say('That unit reservation expired. Please start a new request.'))
@@ -444,7 +450,8 @@ class Seller(AgentExecutor):
             self.holds[unit['unit']] = time.monotonic() + HOLD_SECONDS
             await up.add_artifact(parts=[new_data_part(receipt)], name="receipt")
             record("receipt_signed", task_id=task.id, sku=unit["sku"], unit=unit["unit"],
-                   grade=unit["grade"], price=offer,cost=unit['cost'],expires_at=unit.get('expires_at'))
+                   grade=quality['grade'], claim=quality['claim'], claim_reason=quality['reason'],
+                   price=offer,cost=unit['cost'],expires_at=unit.get('expires_at'))
             self.holds[unit["unit"]] = time.monotonic() + HOLD_SECONDS
             await up.complete(say(f"Deal: {unit['name']} at {offer}."))
             trace("seller_receipt", task_id=task.id, unit=unit["unit"], price=offer,
