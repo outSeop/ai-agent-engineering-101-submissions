@@ -23,14 +23,14 @@ def active_event(path=EVENT, now=None):
             'description':'오픈 안내. 활성 할인은 첫 제시가에만 적용, 최저판매가 한도. 이후 네고 가능. 중복 적용 없음.'}
 
 
-def discount_quote(unit, ordinary_price, *, path=EVENT, now=None):
+def discount_quote(unit, ordinary_price, *, path=EVENT, now=None, minimum_price=0):
     now = time.time() if now is None else now
     event = active_event(path, now)
     if not event or not event['discount_bps']: return None
     cost = int(unit['cost'])
     age_days = max(0., now-float(unit.get('supplied_at') or now))/86400
     holding = cost*.01*age_days if unit.get('kind') == 'goods' else 0.
-    floor = math.ceil(cost+holding)+1
+    floor = max(minimum_price,math.ceil(cost+holding)+1)
     baseline = max(int(ordinary_price),floor)
     # Round the saving down: the effective reduction never exceeds the advertised maximum.
     saving = baseline*event['discount_bps']//10000

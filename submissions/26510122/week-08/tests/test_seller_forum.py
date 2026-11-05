@@ -37,15 +37,29 @@ class ShopForumTests(unittest.TestCase):
     def test_stale_inventory_holds(self):
         with self.assertRaisesRegex(ValueError, 'fresh'): forum.facts(self.root, self.now+40)
 
-    def test_food_and_no_warranty_are_disclosed(self):
+    def test_food_life_and_goods_only_warranty_are_disclosed(self):
         text = forum.render(self.copy, self.evidence())
         self.assertIn('B등급·잔여 2시간 이상', text)
-        self.assertIn('보증은 제공하지 않습니다', text)
+        self.assertIn('6시간 보증이 총액에 포함', text)
+        self.assertIn('식품은 보증 대상이 아닙니다', text)
         self.assertNotIn('원가', text)
 
     def test_unverified_refs_and_unavailable_sku_rejected(self):
         for change in ({'ledger_refs': [123]}, {'skus': ['s2']}):
             with self.assertRaises(ValueError): forum.validate(self.copy | change, self.evidence(), [], self.now)
+
+    def test_goods_warranty_request_can_receive_relevant_reply(self):
+        self.units[0].update(kind='goods',expires_at=None,name='의자',category='가구')
+        (self.root/'.market/inventory.json').write_text(json.dumps({'round':3,'units':self.units}))
+        os.utime(self.root/'.market/inventory.json',(self.now,self.now))
+        (self.root/'.market/forum.json').write_text(json.dumps([
+            {'id':1,'role':'buyer','ts':self.now,'text':'의자 구합니다. 6시간 보증 필요합니다.'},
+            {'id':2,'role':'buyer','ts':self.now,'text':'의자 구합니다. 24시간 보증 필요합니다.'}]))
+        evidence=self.evidence()
+        self.assertEqual([r['id'] for r in evidence['requests']],[1])
+        decision=self.copy|{'campaign':'reply','thread_id':1}
+        forum.validate(decision,evidence,[],self.now)
+        self.assertEqual(forum.reply_stock(evidence,decision)[0]['units'][0]['unit'],'free')
 
     def test_false_promotion_rejected(self):
         for body in ('육시간 보증', '최저가 할인', '새 상품', '직접써봤어요', '가격은 100원'):

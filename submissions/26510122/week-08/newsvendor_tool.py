@@ -12,13 +12,14 @@ import math
 import sys
 import time
 from typing import Any
+import seller_warranty
 
 
 # Starting hypotheses, not values supplied by the lecture or the market.
 GRADE_ANCHORS = {"A": 1.0, "B": 0.80, "C": 0.60}
 
 
-def quote_candidates(unit: dict[str, Any], now: float | None = None) -> dict[str, Any]:
+def quote_candidates(unit: dict[str, Any], now: float | None = None, *, warranty_hours: int = 0) -> dict[str, Any]:
     """Return three grade-aware anchors and the unit economics behind them."""
     now = time.time() if now is None else now
     grade = unit.get("grade")
@@ -32,15 +33,19 @@ def quote_candidates(unit: dict[str, Any], now: float | None = None) -> dict[str
     expires = unit.get("expires_at")
     hours_left = max(0.0, (float(expires) - now) / 3600) if expires else None
     storage_day = round(cost * 0.01, 2) if unit.get("kind") == "goods" else 0.0
+    warranty = seller_warranty.economics(unit, now=now, warranty_hours=warranty_hours)
+    prices = sorted({max(price,warranty['price_floor']) for price in prices})
     return {
         "sku": unit["sku"], "unit": unit["unit"], "grade": grade,
         "kind": unit.get("kind"), "cost": cost, "list_price": list_price,
         "hours_left": round(hours_left, 2) if hours_left is not None else None,
         "storage_per_day": storage_day,
+        "warranty": warranty,
         "anchor_source": "unvalidated grade priors A=1.0, B=0.8, C=0.6 of list price",
         "candidates": [
             {"price": price, "margin_over_purchase_cost": price - cost,
-             "below_purchase_cost": price < cost}
+             "below_purchase_cost": price < cost,
+             "warranty_risk": seller_warranty.economics(unit,price,now=now,warranty_hours=warranty_hours)}
             for price in prices
         ],
     }

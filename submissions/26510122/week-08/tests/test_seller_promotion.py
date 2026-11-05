@@ -39,6 +39,11 @@ class PromotionTests(unittest.TestCase):
         event=self.event | {'discount_starts_at':self.now+1};self.path.write_text(json.dumps(event))
         self.assertIsNone(self.quote(1000))
 
+    def test_refund_reserve_floor_is_preserved_after_discount(self):
+        quote=discount_quote({'kind':'goods','cost':900},1000,path=self.path,now=self.now,minimum_price=1001)
+        self.assertEqual(quote['price'],1001)
+        self.assertEqual(quote['price_floor'],1001)
+
     def test_cannot_raise_campaign_above_authorized_rate(self):
         self.path.write_text(json.dumps(self.event | {'discount_bps':1000}))
         self.assertEqual(active_event(self.path,self.now)['discount_bps'],0)

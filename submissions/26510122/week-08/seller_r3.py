@@ -34,6 +34,7 @@ from newsvendor_tool import GRADE_ANCHORS
 from seller_state import SellerState, SQLiteTaskStore, ResumingContextBuilder
 import seller_quality
 import seller_requirements
+import seller_warranty
 from seller_promotion import discount_quote
 from capital_policy import operating_policy
 
@@ -42,6 +43,7 @@ NAME = "outseop-26510122"
 SELLER_DESCRIPTION = (
     "Brief quotes help save tokens. Negotiable prices; counteroffers welcome. "
     "Clear prices and checkout certificates. Stocked products. "
+    "New goods quotes include a 6 h market warranty in the total price. "
     "Numeric offers; signed receipts on agreement."
 )
 MARKET_DIR = Path(os.environ.get("MARKET_DIR", ".market"))
@@ -182,7 +184,7 @@ class Seller(AgentExecutor):
                 current = read_inventory()
                 unit = next((u for u in current.get('units', []) if u.get('unit') == receipt['unit']), None)
                 saved = self.state.requirements_for(task.id) or seller_requirements.initial('')
-                if current.get('round') == 3 and (unit is None or seller_requirements.violations(unit, saved, time.time())):
+                if current.get('round') == 3 and (unit is None or seller_requirements.violations(unit, saved, time.time(), warranty_hours=receipt.get('warranty_hours',0))):
                     await up.reject(say('The saved receipt unit no longer meets the purchase conditions.'))
                     return
                 await up.add_artifact(parts=[new_data_part(receipt)], name='receipt')
@@ -220,7 +222,7 @@ class Seller(AgentExecutor):
                 await up.reject(say("Sorry, no matching unit is in stock."))
                 return
             requirements = seller_requirements.initial(message)
-            choices = [u for u in choices if not seller_requirements.violations(u, requirements, time.time())]
+            choices = [u for u in choices if not seller_requirements.violations(u, requirements, time.time(), warranty_hours=seller_warranty.hours(u))]
             if not choices:
                 record('requirements_unmet', task_id=task.id, requirements=requirements)
                 await up.reject(say('No available unit meets the requested expiry, grade or warranty.'))
@@ -241,7 +243,7 @@ class Seller(AgentExecutor):
                     if len(self.identity_messages)>=512:self.identity_messages.pop(next(iter(self.identity_messages)))
                     self.identity_messages[context.message.message_id]=now
             record('buyer_identity_observed',task_id=task.id,**identity)
-            tools = [quote_candidates(u) for u in choices]
+            tools = [quote_candidates(u,warranty_hours=seller_warranty.hours(u)) for u in choices]
             keys=list(dict.fromkeys((u['sku'],u['grade']) for u in choices))
             per_key=min(3600,12000//len(keys)-64)
             memories={f'{sku}:{grade}':compact_context(sku,grade,max_bytes=per_key) for sku,grade in keys}
@@ -262,8 +264,7 @@ class Seller(AgentExecutor):
             prompt = {
                 "phase": "opening", "task_id": task.id, "buyer_message": message[:500],
                 'purchase_requirements': requirements,
-                'warranty_policy':'No warranty is offered. warranty_hours is mandatory; '
-                                  'warranty_preferred_hours is optional and is not a reason to reject an otherwise feasible unit.',
+                'warranty_policy':seller_warranty.POLICY,
                 "objective": "Choose one available physical unit and an opening price. "
                              "Use the calculation-tool candidates and market memory as evidence; "
                              "you may choose another positive price when you explain why. "
@@ -301,19 +302,25 @@ class Seller(AgentExecutor):
                     await up.reject(say("That unit is no longer available. Please try again."))
                     return
                 unit = current_unit
-            errors = seller_requirements.violations(unit, requirements, time.time())
+            warranty_hours = seller_warranty.hours(unit)
+            warranty = seller_warranty.economics(unit,now=time.time(),warranty_hours=warranty_hours)
+            errors = seller_requirements.violations(unit, requirements, time.time(),warranty_hours=warranty_hours)
             if errors:
                 record('requirements_unmet', task_id=task.id, errors=errors)
                 await up.reject(say('That unit no longer meets the requested conditions. Please start a new request.'))
                 return
             proposed = answer.get("price")
             maximum = max(1, 2 * int(unit["list_price"]))
+            if warranty['price_floor'] > maximum:
+                await up.reject(say('No viable covered quote is available for this unit.'))
+                return
             ask = min(maximum, max(1, int(proposed))) if type(proposed) is int else middle
+            ask = max(ask,warranty['price_floor'])
             if ask != proposed or unit["unit"] != answer.get("unit_id"):
                 trace("decision_guard", phase="opening", proposed_price=proposed,
                       effective_price=ask, proposed_unit=answer.get("unit_id"),
                       effective_unit=unit["unit"])
-            promotion = discount_quote(unit, ask)
+            promotion = discount_quote(unit, ask,minimum_price=warranty['price_floor'])
             if promotion:
                 if promotion['price'] > maximum:
                     await up.reject(say('No suitable price for this unit.'))
@@ -325,6 +332,7 @@ class Seller(AgentExecutor):
                 'opened_monotonic':time.monotonic(),'last_activity':time.monotonic(),
                 'buyer_identity':identity,'buyer_price_evidence':profiles_by_unit[unit['unit']],
                 'last_activity_at':time.time(), 'requirements':requirements,
+                'warranty_hours':warranty_hours,'warranty_price_floor':warranty['price_floor'],
             }
             if promotion: deal['promotion'] = promotion
             if not self.state.save_deal(task.id, deal):
@@ -334,7 +342,7 @@ class Seller(AgentExecutor):
             record("opening", task_id=task.id, sku=unit["sku"], unit=unit["unit"],
                    category=unit.get("category"), grade=unit["grade"], kind=unit.get("kind"),
                    cost=unit["cost"], list_price=unit["list_price"], ask=ask,
-                   expires_at=unit.get("expires_at"))
+                   expires_at=unit.get("expires_at"),warranty_hours=warranty_hours,warranty_economics=warranty)
             evidence=profiles_by_unit[unit['unit']]
             ordinary=unit['list_price']*GRADE_ANCHORS[unit['grade']]
             if evidence['eligible_for_price_probe'] and ask>ordinary*1.025:
@@ -352,7 +360,8 @@ class Seller(AgentExecutor):
                         'Negotiable; no extra automatic discount.')
             quality = seller_quality.quality(unit, MARKET_DIR, time.time(), HOLD_SECONDS)
             record('quality_disclosed',task_id=task.id,sku=unit['sku'],unit=unit['unit'],**quality)
-            await up.requires_input(say(f"{unit['name']}: asking {ask}. {seller_quality.description(unit,quality)}.{note} Short replies save tokens; send a number."))
+            coverage = f' Warranty {warranty_hours} h included in this total price; covered breakage receives a full market refund.' if warranty_hours else ''
+            await up.requires_input(say(f"{unit['name']}: asking {ask}. {seller_quality.description(unit,quality)}.{note}{coverage} Short replies save tokens; send a number."))
             return
 
         offer = seller_requirements.offer(message)
@@ -368,7 +377,9 @@ class Seller(AgentExecutor):
                 self.state.close_deal(task.id)
                 return
             unit = deal["unit"] = fresh
-        errors = seller_requirements.violations(unit, deal['requirements'], time.time())
+        warranty_hours = deal.get('warranty_hours',0)  # legacy negotiations keep their agreed terms
+        warranty_floor = deal.get('warranty_price_floor',0)
+        errors = seller_requirements.violations(unit, deal['requirements'], time.time(),warranty_hours=warranty_hours)
         if errors:
             record('requirements_unmet', task_id=task.id, errors=errors)
             self.state.close_deal(task.id)
@@ -386,11 +397,12 @@ class Seller(AgentExecutor):
         memory = compact_context(unit["sku"], unit["grade"])
         prompt = {
             "phase": "follow_up", "task_id": task.id,
-            "unit": quote_candidates(unit), "current_ask": deal["ask"],
+            "unit": quote_candidates(unit,warranty_hours=warranty_hours), "current_ask": deal["ask"],
             "buyer_offer": offer, "history": deal["history"][-MAX_TURNS:], "memory": memory,
             'buyer_price_evidence':deal.get('buyer_price_evidence'),
             'purchase_requirements':deal['requirements'], 'buyer_message':message[:500],
-            'warranty_policy':'No warranty is offered. Preferred or if-offered warranty requests are optional; never promise coverage.',
+            'warranty_policy':seller_warranty.POLICY,'agreed_warranty_hours':warranty_hours,
+            'warranty_price_floor':warranty_floor,
             'market_objective':operating_policy(time.time()),
             "objective": "Accept, counter or reject. Consider purchase cost, grade, "
                          "food expiry and goods storage, but do not treat purchase cost "
@@ -422,7 +434,7 @@ class Seller(AgentExecutor):
                 self.state.close_deal(task.id)
                 return
             unit = fresh
-        errors = seller_requirements.violations(unit, deal['requirements'], time.time())
+        errors = seller_requirements.violations(unit, deal['requirements'], time.time(),warranty_hours=warranty_hours)
         if errors:
             record('requirements_unmet', task_id=task.id, errors=errors)
             self.state.close_deal(task.id)
@@ -431,6 +443,10 @@ class Seller(AgentExecutor):
             return
         action = answer["action"]
         promotion = deal.get('promotion')
+        if action == 'accept' and offer < warranty_floor:
+            action = 'counter'
+            answer = {**answer,'price':warranty_floor}
+            record('warranty_price_guard',task_id=task.id,buyer_offer=offer,price_floor=warranty_floor)
         if promotion and action == 'accept' and (offer < promotion['price_floor'] or offer > deal['ask']):
             # A lower price must be offered and acknowledged, never silently signed
             # at a price different from the buyer's final numeric message.
@@ -440,6 +456,7 @@ class Seller(AgentExecutor):
         if action == "accept" and offer > 0:
             quality = seller_quality.quality(unit, MARKET_DIR, time.time(), HOLD_SECONDS)
             terms = {"shop":NAME,"item":unit["sku"],"price":offer,"task":task.id,"unit":unit["unit"]}
+            if warranty_hours:terms['warranty_hours']=warranty_hours
             if quality["claim"] is not None:
                 terms["claim"] = quality["claim"]
             receipt = sign(terms)
@@ -451,9 +468,11 @@ class Seller(AgentExecutor):
             await up.add_artifact(parts=[new_data_part(receipt)], name="receipt")
             record("receipt_signed", task_id=task.id, sku=unit["sku"], unit=unit["unit"],
                    grade=quality['grade'], claim=quality['claim'], claim_reason=quality['reason'],
-                   price=offer,cost=unit['cost'],expires_at=unit.get('expires_at'),supplied_at=unit.get('supplied_at'))
+                   price=offer,cost=unit['cost'],expires_at=unit.get('expires_at'),supplied_at=unit.get('supplied_at'),
+                   warranty_hours=warranty_hours,warranty_economics=seller_warranty.economics(unit,offer,warranty_hours=warranty_hours))
             self.holds[unit["unit"]] = time.monotonic() + HOLD_SECONDS
-            await up.complete(say(f"Deal: {unit['name']} at {offer}."))
+            coverage = f' Includes {warranty_hours} h market warranty.' if warranty_hours else ''
+            await up.complete(say(f"Deal: {unit['name']} at {offer}.{coverage}"))
             trace("seller_receipt", task_id=task.id, unit=unit["unit"], price=offer,
                   status="pending settlement")
             del self.open[task.id]
@@ -469,6 +488,7 @@ class Seller(AgentExecutor):
         proposed = answer.get("price")
         maximum = max(1, 2 * int(unit["list_price"]))
         ask = min(maximum, max(1, int(proposed))) if type(proposed) is int else deal["ask"]
+        if warranty_floor:ask = max(warranty_floor,min(deal['ask'],ask))
         if promotion:
             ask = min(deal['ask'], max(promotion['price_floor'],ask))
         if ask != proposed:

@@ -80,9 +80,10 @@ switch the running week-07 services. Live settlement evidence is still needed.
    such as `800, but only if it lasts 84 hours` preserve both the price and term;
    ambiguous prices require clarification. Conditions are checked before quoting
    and immediately before exposing a receipt, including after slow model calls.
-   The seller still does not offer warranties: a requested unsupported warranty
-   fails explicitly rather than being silently promised. Pricing remains a model
-   decision, with separate condition-validation guards.
+   New goods quotes include a six-hour market warranty in their total price.
+   Food has no goods warranty; requests longer than six hours fail explicitly.
+   Saved negotiations and issued receipts keep their original coverage terms.
+   Pricing remains a model decision with refund scenarios and condition guards.
 5. Before ordinary replenishment, `inventory_exploration.py` asks the model for
    a startup basket of 5–8 distinct SKUs, one unit each, including existing stock.
    The finite 250,000-credit allowance includes existing stock cost and reserves
@@ -722,3 +723,25 @@ cooldown. This checks call reuse and guards, not live service or profit.
 - The buyer policy has not yet been exercised against Round 3 live shops. Track
   `payments.jsonl` refusals and adjust the initial price shares, grade filter,
   food buffer and warranty preference from confirmed settlements.
+
+### Six-hour goods warranty — November 5
+
+`seller_warranty.py` defines six-hour coverage for new goods negotiations. The
+total quoted price includes coverage; the seller discloses it in the opening
+message and sends `warranty_hours=6` in the receipt artifact, as required by the
+market checkout contract. Food receives no goods coverage. Requests exceeding
+six hours fail validation. Existing negotiations and saved receipts retain their
+original terms; the change does not retroactively cover old purchases.
+
+The true failure probability is unpublished. A 10% refund-share scenario is an
+operator planning assumption, not an estimated market failure rate. Quote tools
+show margins under 0%, 5%, 10% and 20% full-price refunds. The covered price guard
+is `ceil((purchase_cost + accrued_holding) / 0.9) + 1`; the model still selects the
+quote and negotiation action. The opening discount cannot bypass this guard,
+and the buyer must acknowledge the final price before a receipt is signed.
+
+Procurement reserves 10% of still-covered, confirmed paid amounts as a cash
+buffer. Distinct settlement ledgers are joined to their receipt terms; unpaid
+signatures and expired coverage do not create that reserve. This is a scenario
+buffer, not a guarantee against correlated failures. Opening, receipt and
+settlement logs retain coverage hours, and forum facts disclose the new policy.

@@ -14,6 +14,7 @@ from pathlib import Path
 import uuid
 import time
 from market_memory import events
+import seller_warranty
 from supply_reconciliation import reconcile, pending_quantity
 from stock_policy import PROVEN_STOCK, NEW_STOCK, MAINTENANCE_CATEGORY_LIMIT
 from capital_policy import MIN_CASH, MAX_COST, MAX_UNITS, operating_policy
@@ -72,11 +73,13 @@ def inventory_risk(inventory: dict, now: float, pending_cost: int | None = None)
     goods_cost = sum(max(0,int(u.get('cost') or 0)) for u in inventory.get('units',[])
                      if u.get('kind')=='goods' and u.get('grade') in ('A','B','C'))
     storage_reserve = math.ceil(goods_cost*.01*min(14.,policy['hours_to_end']/24))
-    reserve = max(MIN_BALANCE,int(inventory.get('bankrupt_line') or 500_000)+100_000)+storage_reserve
+    warranty = seller_warranty.exposure(events(),now)
+    reserve = max(MIN_BALANCE,int(inventory.get('bankrupt_line') or 500_000)+100_000)+storage_reserve+warranty['cash_reserve']
     limit = min(MAX_INVENTORY_COST, int((balance + stock_cost) * policy['inventory_capital_share']))
     cash_room = max(0, balance - reserve)
     exposure_room = max(0, limit - stock_cost - max(0, pending_cost))
     return {'cash_balance': balance, 'cash_reserve': reserve, 'storage_cash_buffer':storage_reserve,
+            'warranty_exposure':warranty,
             'stock_acquisition_cost': stock_cost,
             'pending_cost_ceiling': pending_cost, 'inventory_cost_limit': limit,
             'capital_share_limit': policy['inventory_capital_share'], 'operating_policy':policy,

@@ -232,7 +232,9 @@ class SellerIdentityIntegrationTests(unittest.TestCase):
             try:
                 Path('.market').mkdir()
                 Path('.market/inventory.json').write_text(json.dumps({'round':3,'units':[
-                    UNIT,{**UNIT,'unit':'u2'},{**UNIT,'unit':'u3'}]}))
+                    {**UNIT,'supplied_at':time.time()},
+                    {**UNIT,'unit':'u2','supplied_at':time.time()},
+                    {**UNIT,'unit':'u3','supplied_at':time.time()}]}))
                 for row in trade('past',time.time()-3600):
                     market_memory.record(row.pop('event'),**row)
                 with patch.object(memory,'load_cache',return_value={'proofs':[proof(key)]}), \
