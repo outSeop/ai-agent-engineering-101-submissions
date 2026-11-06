@@ -10,7 +10,7 @@ import inventory_portfolio as portfolio
 import replenishment_plan as plans
 from stock_policy import sales_evidence, replenishment_candidates
 from supply_reconciliation import reconcile, pending_quantity
-from test_inventory_portfolio import catalog, inventory
+from test_inventory_portfolio import catalog, inventory, reviewed_model
 
 
 def history(n=3):
@@ -32,7 +32,7 @@ class AmpleStockTests(unittest.TestCase):
     def run_batch(self, model, inv=None, refresh=None, rows=None):
         inv = inv or inventory()
         return portfolio.run(inv, catalog(), rows if rows is not None else history(), 1000,
-                             model=model, refresh=refresh or (lambda:(inv,1000,True)), rng=random.Random(1))
+                             model=reviewed_model(model), refresh=refresh or (lambda:(inv,1000,True)), rng=random.Random(1))
 
     def mixed(self, role, prompt, schema, target=None, new_count=6):
         self.assertEqual(prompt['replenishment_candidates'][0]['sku'], 's1')

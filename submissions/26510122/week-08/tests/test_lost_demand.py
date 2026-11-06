@@ -1,3 +1,4 @@
+from test_inventory_portfolio import reviewed_model
 """Demand includes eligible lost requests without inventing paid sales."""
 import json
 import os
@@ -131,7 +132,7 @@ class LostDemandApprovalTests(unittest.TestCase):
             new=[anchor]+[r['sku'] for r in prompt['candidates'] if r['sku']!=anchor][:1]
             return {'action':'buy','skus':new,'replenishment':[{'sku':'s1',
                 'target_stock':winner['target_options'][-1]['target_stock']}],'reason':'Model accepts calculated demand with explicit uncertainty'}
-        portfolio.run(inv,catalog(),rows,10000,model=model,rng=random.Random(1),
+        portfolio.run(inv,catalog(),rows,10000,model=reviewed_model(model),rng=random.Random(1),
             refresh=lambda:(inv,10000,True),state_path=self.path,prepare_only=True)
         ready=portfolio.read_ready();basis=ready['desired'][0]['demand_basis']
         self.assertEqual(basis['windows']['1']['expected_lost_sales'],2)

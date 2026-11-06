@@ -126,3 +126,31 @@ meta cannot change them. The model sees the sample counts and uncertainty.
 Demand based on missed requests does not bypass the proven-sale threshold or
 single-unit new/second trials. Approval records preserve raw sales, eligible
 missed requests, expected lost sales, conversion and exposure as separate facts.
+
+
+## Audited allocation comparisons (portfolio 17)
+
+The transaction model receives feasible broad, balanced and depth examples.
+They reserve the existing feasible exploration floor, then fit listed targets
+within the same cash, novel budget, line, unit, pending and category limits.
+Broad emphasizes up to eight novel lines and near-window maintenance; balanced
+uses up to four novel lines and intermediate buffers; depth uses up to two
+novel lines and the longest supplied buffers. Existing exploration floors can
+raise those counts. Identical or infeasible examples are omitted. These are
+comparison baskets, not new spending constraints or automatic orders.
+
+During growth capital recovery, if multiple examples and proven sellers exist,
+a buy must compare at least two examples and explain the allocation tradeoff.
+The model may select an exact example or a custom basket. Every omitted proven
+SKU or lower-than-largest offered target requires a SKU-specific exception.
+An absent/incomplete review gets the existing single correction before any
+reservation; a hold remains available. The option named `high` is explicitly
+identified as near-window coverage, rather than the deepest offered target.
+
+Examples compare approximate mean-demand coverage over the SAME two-hour
+horizon and same evidenced sellers. Novel demand is unknown, not worthless;
+the coverage diagnostic omits margin, uncertainty, holding, spoilage and
+refunds and cannot be treated as a profit score. Approval logs retain all
+examples, the structured model comparison and actual buffered/omitted SKU
+counts. Meta sees these cases, so an unused budget is not misdiagnosed as a
+reason to raise the monetary ceiling again.

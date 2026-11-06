@@ -27,6 +27,23 @@ def inventory(variety=5):
                        'grade': 'A', 'cost': 6500} for i in range(variety)]}
 
 
+def reviewed_model(model):
+    """Accounting fixtures supply explicit synthetic allocation reasoning.
+
+    Dedicated strategy tests exercise absent/incomplete reviews separately.
+    """
+    def call(role,prompt,schema):
+        answer=model(role,prompt,schema)
+        if isinstance(answer,dict) and answer.get('action')=='buy':
+            answer={**answer,'strategy_review':{
+                'compared_ids':[a['id'] for a in prompt.get('basket_comparison',{}).get('alternatives',[])][:2],
+                'chosen_approach':'custom','tradeoff':'Synthetic fixed basket isolates the accounting behavior under test.',
+                'exceptions':[{'sku':w['sku'],'reason':'Synthetic fixture retains its specified target to isolate the existing accounting check.'}
+                              for w in prompt.get('replenishment_candidates',[])]}}
+        return answer
+    return call
+
+
 def approve(role, prompt, schema):
     anchor = prompt['exploration_anchor_sku']
     skus = [anchor] + [r['sku'] for r in prompt['candidates'] if r['sku'] != anchor][:prompt['maximum_new_skus']-1]

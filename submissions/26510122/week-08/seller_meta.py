@@ -167,6 +167,14 @@ def snapshot(runtime,now,public):
                             for line in r['lines'] if line['cut_qty']]} for r in executions[-3:]],
         'note':'Emitted is not arrival. Reasons can overlap for a reduced line; per-reason totals are not additive. '
                'A time-limited batch does not demonstrate a spend-policy bottleneck.'}
+    approvals=[e for e in history if e.get('event')=='portfolio_approval'
+               and now-10800<=(timestamp(e.get('at')) or 0)<=now]
+    data['allocation_behavior']={'recent_cases':[{k:e.get(k) for k in
+        ('at','decision_id','planning_budget','allocation_review','allocation_behavior')}
+        for e in approvals[-4:]],
+        'note':'Use actual chosen coverage and omitted proven SKUs to diagnose model allocation. '
+               'An unused budget is not proof that raising the spend ceiling will increase buying. '
+               'Focus can guide the transaction model; hard rules still apply.'}
     cash_room=max(0,risk['cash_balance']-risk['cash_reserve'])
     exposure_room=max(0,risk['inventory_cost_limit']-risk['stock_acquisition_cost']-risk['pending_cost_ceiling'])
     spend_limits={'cash_after_reserves':cash_room,'inventory_exposure_after_pending':exposure_room,
@@ -254,6 +262,9 @@ def review(runtime,*,model=decide_json,now=None,public=None,shadow=False):
         if not shadow:save(runtime/'state/seller-meta-market.json',{'at':now,'source':'public ledger sample','window':data['market_sample'],'rows':data['market_opportunities']})
         decision=model('seller meta policy reviewer',{
             'instruction':'Review whether the operating policy blocks valuable market opportunities. '
+            'Inspect allocation_behavior for repeated near-window targets, omitted proven sellers and '
+            'novelty crowding out replenishment while capital is available. Use focus guidance when useful; '
+            'do not propose budget increases as a cure for an unused budget or a source-level review failure. '
             'Prefer expansion when confirmed paid demand, margins and capital support it; identify rejection reasons '
             'even for products the transaction model never sees. Change only ONE tunable parameter, or hold. '
             'Eligible candidates are NOT blocked: they await transaction-model review. Already-stocked SKUs route '

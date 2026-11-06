@@ -1,3 +1,4 @@
+from test_inventory_portfolio import reviewed_model
 from datetime import datetime, timezone
 import json
 import os
@@ -98,7 +99,7 @@ class AdaptiveForecastTests(unittest.TestCase):
                     anchor = prompt['exploration_anchor_sku']
                     new = [anchor]+[r['sku'] for r in prompt['candidates'] if r['sku']!=anchor][:1]
                     return {'action':'buy','skus':new,'replenishment':picks,'reason':'Maintain moderate sellers too'}
-                result = portfolio.run(inv,catalog(),rows,1000,model=model,
+                result = portfolio.run(inv,catalog(),rows,1000,model=reviewed_model(model),
                                        refresh=lambda:(inv,1000,True),rng=random.Random(1))
                 self.assertEqual(len(result['buy']),10)
                 intents = json.loads(portfolio.STATE.read_text())['intents']

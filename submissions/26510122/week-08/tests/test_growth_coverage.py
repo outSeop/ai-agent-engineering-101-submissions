@@ -1,3 +1,4 @@
+from test_inventory_portfolio import reviewed_model
 """Recovery must expand real choices, not just the cash ceiling."""
 import json
 import random
@@ -37,12 +38,12 @@ class GrowthCoverageTests(unittest.TestCase):
                 new=[anchor]+[r['sku'] for r in prompt['candidates'] if r['sku']!=anchor][:1]
             return {'action':'buy','skus':new,'replenishment':[{'sku':winner['sku'],
                 'target_stock':winner['target_options'][-1]['target_stock']}],'reason':'model chooses buffered recovery'}
-        result=portfolio.run(inv,products,history(),1000,model=model,
+        result=portfolio.run(inv,products,history(),1000,model=reviewed_model(model),
             refresh=lambda:(inv,1000,True),rng=random.Random(2),state_path=self.path)
         self.assertEqual(len(calls),2)
         self.assertEqual(len(result['buy']),3)
         self.assertEqual(sum(i['kind']=='exploration' for i in json.loads(self.path.read_text())['intents']),2)
-        self.assertEqual(portfolio.run(inv,products,history(),1000,model=model,
+        self.assertEqual(portfolio.run(inv,products,history(),1000,model=reviewed_model(model),
             refresh=lambda:(inv,1000,True),state_path=self.path),{'buy':[]})
         self.assertEqual(len(calls),2)
 
@@ -55,7 +56,7 @@ class GrowthCoverageTests(unittest.TestCase):
             winner=prompt['replenishment_candidates'][0]
             return {'action':'buy','skus':new,'replenishment':[{'sku':winner['sku'],
                 'target_stock':winner['target_options'][-1]['target_stock']}],'reason':'Six novel categories and a proven buffer'}
-        result=portfolio.run(inv,catalog(),history(),1000,model=model,
+        result=portfolio.run(inv,catalog(),history(),1000,model=reviewed_model(model),
             refresh=lambda:(inv,1000,True),state_path=self.path,rng=random.Random(1))
         self.assertEqual(len(result['buy']),7)
         self.assertGreater(result['buy'][0]['qty'],2)

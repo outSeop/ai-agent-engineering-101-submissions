@@ -1,3 +1,4 @@
+from test_inventory_portfolio import reviewed_model
 from collections import Counter
 from datetime import datetime,timezone
 import json
@@ -82,7 +83,7 @@ class PartialSupplyTests(unittest.TestCase):
                     anchor=prompt['exploration_anchor_sku']
                     new=([anchor]+[c['sku'] for c in prompt['candidates'] if c['sku']!=anchor])[:prompt['minimum_new_skus_if_buy']]
                     return {'action':'buy','skus':new, 'replenishment':[{'sku':'s1','target_stock':winner['target_options'][-1]['target_stock']}],'reason':'new window, net pending'}
-                result=portfolio.run(inv,catalog(),history(2),1000,model=approve,
+                result=portfolio.run(inv,catalog(),history(2),1000,model=reviewed_model(approve),
                                      refresh=lambda:(inv,1000,True),rng=random.Random(1),state_path=p)
                 self.assertEqual(result['buy'][0],{'sku':'s1','qty':net['target_options'][-1]['qty']})
                 self.assertEqual(len(result['buy']),3)

@@ -1,3 +1,4 @@
+from test_inventory_portfolio import reviewed_model
 """Pre-open model decisions; fresh model-free, once-only kit execution."""
 import json
 import random
@@ -87,7 +88,7 @@ class PreparedProcurementTests(unittest.TestCase):
             new=[anchor]+[c['sku'] for c in prompt['candidates'] if c['sku']!=anchor][:prompt['minimum_new_skus_if_buy']-1]
             return {'action':'buy','skus':new,'replenishment':[{'sku':r['sku'],
                 'target_stock':max(o['target_stock'] for o in r['target_options'])}],'reason':'forecast target'}
-        portfolio.run(inv,fixtures.catalog(),rows,800,model=choose,refresh=lambda:(inv,800,True),
+        portfolio.run(inv,fixtures.catalog(),rows,800,model=reviewed_model(choose),refresh=lambda:(inv,800,True),
             rng=random.Random(1),state_path=self.path,prepare_only=True)
         ready=portfolio.read_ready();row=ready['desired'][0]
         target=row['target_stock'];self.assertGreater(target,1)

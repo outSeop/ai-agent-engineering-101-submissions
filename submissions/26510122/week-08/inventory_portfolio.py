@@ -18,6 +18,7 @@ import decision_audit as audit
 from harness import MODEL
 from market_scoring import VERSION
 from procurement_audit import select_lines,blocked as blocked_lines
+from procurement_strategy import comparison_baskets,review_schema,validate_review
 
 from inventory_exploration import window_open,CLOSING_MARGIN_SECONDS
 from inventory_observation import timestamp
@@ -37,7 +38,7 @@ PREFERRED_MIN_BATCH = 5
 WINDOW_BUDGET = GROWTH_WINDOW_BUDGET
 ROLLING_BUDGET = GROWTH_EXPLORATION_BUDGET
 MAX_MAINTAINED_SKUS = 8
-POLICY_VERSION = 16
+POLICY_VERSION = 17
 DAY = 86400
 READY = Path('state/procurement-ready.json')
 PREPARE_LEAD_SECONDS = 240
@@ -340,6 +341,14 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
         'minimum_new_skus':minimum,'minimum_categories':minimum_categories,
         'instruction':'Follow effective mode and recovery flags. Recovery overrides draw >= epsilon. '
                       'Choose at least the feasible novel floor on buy, or hold for a concrete risk.'}
+    projected_categories=Counter(u.get('category') for u in units)
+    for sku,qty in pending_stocks.items():projected_categories[catalog.get(sku,{}).get('category')]+=qty
+    alternatives=comparison_baskets(winners,rows,anchor=anchor['sku'] if anchor else None,
+        minimum=minimum,minimum_categories=minimum_categories,slots=slots,units=unit_room,
+        budget=budget,novel_budget=exploration_budget,stocks=Counter(u.get('sku') for u in units),
+        categories=projected_categories,pending=pending_stocks)
+    review_required=(operating['phase']=='growth' and bool(choice.get('allocation_recovery'))
+                     and any(not w['second_trial'] for w in winners) and len(alternatives)>=2)
     schema = {'type': 'object', 'properties': {
         'action': {'type': 'string', 'enum': ['buy', 'hold']},
         'skus': {'type': 'array', 'items': ({'type':'string','enum':[r['sku'] for r in rows]} if rows else {'type':'string'}), 'maxItems': new_slots},
@@ -348,9 +357,16 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
                             'target_stock': ({'type':'integer','enum':sorted({o['target_stock'] for r in winners for o in r['target_options']})}
                                              if winners else {'type':'integer','minimum':1,'maximum':PROVEN_STOCK})},
              'required': ['sku','target_stock'], 'additionalProperties': False}},
-        'reason': {'type': 'string'}}, 'required': ['action', 'skus', 'replenishment', 'reason'], 'additionalProperties': False}
+        'strategy_review':review_schema(alternatives,winners),
+        'reason': {'type': 'string'}}, 'required': ['action', 'skus', 'replenishment', 'strategy_review','reason'], 'additionalProperties': False}
     prompt = {'phase': 'recurring_inventory_exploration', 'policy': choice,
               'exploration_contract':exploration_contract,
+              'basket_comparison':{'required':review_required,'alternatives':alternatives,
+                  'instruction':'Compare at least two feasible baskets when required. Choose an example exactly '
+                    'or use custom and choose your own valid listed targets. Explain lower depth or omission '
+                    'of every proven SKU in strategy_review.exceptions. Compare across the SAME two-hour '
+                    'evidenced-demand horizon; novel discovery has unknown value, not zero value. '
+                    'Do not maximize the coverage diagnostic alone or spend solely to fill a budget.'},
               'execution_timing':{'preparation_only':prepare_only,'not_before':window['opens_at'],
                   'note':'Pre-open approval only; no funds reserved until fresh execution checks. '
                          'Forecast protection includes the upcoming window and its next replenishment opportunity.'},
@@ -404,7 +420,11 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
               'Do not assume every next supply opportunity will succeed. During capital recovery, '
               'compare the listed multi-hour buffers for proven sellers, including their holding cost '
               'and food expiry uncertainty, before choosing a next-window-only target. '
-              'During growth below the capital target, prefer the high forecast-derived option for proven '
+              'The option named high covers only the next supply window, NOT the deepest stock option. '
+              'During capital recovery prefer affordable cover_* multi-hour options for proven sellers '
+              'when expiry, margin and holding risk permit. Compare balanced/depth against broad discovery; '
+              'do not automatically spend eight of ten lines on single-unit novelty while proven sellers stock out. '
+              'During growth below the capital target, prefer the buffered forecast-derived option for proven '
               'sellers when shelf life, holding cost, margin and cash permit; explain a concrete risk if '
               'choosing a lower option or omitting an affordable proven deficit. This is model guidance, '
               'not an instruction to buy through a constraint. Measure expansion using confirmed paid '
@@ -418,7 +438,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
               'or its rolling 24h reservation. Do not reject a second trial because novel-exploration budget is low. '
               'Build toward target_stocked_variety stocked SKUs during growth, '
               'one unit per new SKU, instead of waiting for sales proof while cash is idle. '
-              'Approve preferably the maximum affordable batch, at least minimum_new_skus_if_buy, '
+              'Approve an active, evidenced mixed basket, at least minimum_new_skus_if_buy, '
               'covering minimum_categories_if_buy or more categories. A hold needs a concrete risk, '
               'not merely missing demand evidence or a general preference to conserve cash. '
               'Include food and goods when feasible, and consider low, medium and upper price bands; '
@@ -481,6 +501,8 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
             raise ValueError('combined supply/unit limit exceeded')
         if not skus and not restock_orders:
             raise ValueError('empty buy')
+        if review_required or answer.get('strategy_review') is not None:
+            validate_review(answer.get('strategy_review'),alternatives,winners,skus,selected_restock)
         return skus, allowed, restock_orders
 
     correction = None
@@ -523,7 +545,14 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
     record('portfolio_approval',window=key,planning_at=now,approved_lines=[
         {k:r.get(k) for k in ('sku','kind','qty','target_stock','cost_ceiling','second_trial',
                             'forecast_scenario','coverage_hours','forecast_mean','demand_basis')} for r in desired],
-        model_choice=answer,planning_supply_lines=slots,planning_budget=budget,
+        model_choice=answer,allocation_review=answer.get('strategy_review'),
+        allocation_behavior={'review_required':review_required,
+            'offered_proven_skus':sum(not w['second_trial'] for w in winners),
+            'selected_proven_skus':sum(not r['second_trial'] for r in restock_orders),
+            'buffered_proven_skus':sum(not r['second_trial'] and (r.get('coverage_hours') or 0)>=1 for r in restock_orders),
+            'omitted_proven_skus':[w['sku'] for w in winners if not w['second_trial'] and w['sku'] not in {r['sku'] for r in restock_orders}],
+            'novel_skus':len(skus)},
+        comparison_baskets=alternatives,planning_supply_lines=slots,planning_budget=budget,
         approved_meta_version=operating.get('meta_version'),preparation_only=prepare_only)
     if prepare_only:
         current,at,fresh=refresh()
