@@ -14,12 +14,12 @@ class MetaHarnessTests(unittest.TestCase):
   self.addCleanup(self.tmp.cleanup);self.addCleanup(os.chdir,self.old)
   self.root=Path.cwd();self.now=10000
   for p in ['.market','state','logs']:(self.root/p).mkdir()
-  self.inv={'round':3,'balance':10_000_000,'units':[],'restock':{'open':True,'opens_at':9990,'closes_at':10170}}
+  self.inv={'round':3,'balance':20_000_000,'units':[],'restock':{'open':True,'opens_at':9990,'closes_at':10170}}
   self.cat={'bed':{'name':'Bed','kind':'goods','category':'beds','list_price':4_000_000}}
   (self.root/'.market/catalog.json').write_text(json.dumps(self.cat));self.fresh()
  def fresh(self,now=None):
   t=self.now if now is None else now;p=self.root/'.market/inventory.json';p.write_text(json.dumps(self.inv));os.utime(p,(t,t))
- def decision(self,value=6_000_000):return {'action':'change','parameter':'window_budget','numeric_value':value,'focus_value':None,'reason':'Observe smaller spend','expected_effect':'Controlled experiment','evidence':['risk']}
+ def decision(self,value=12_000_000):return {'action':'change','parameter':'window_budget','numeric_value':value,'focus_value':None,'reason':'Observe smaller spend','expected_effect':'Controlled experiment','evidence':['risk']}
  def test_high_ticket_candidate_is_affordable_and_surge_is_reserved(self):
   self.assertEqual(ceiling(self.cat['bed']),4_500_000)
   def choose(role,prompt,schema):
@@ -37,7 +37,7 @@ class MetaHarnessTests(unittest.TestCase):
   self.assertEqual(expired[0]['public_settlements_sample'],0)
  def test_single_change_is_active_and_hard_market_cutoff_remains(self):
   r=meta.review(self.root,now=self.now,public=[],model=lambda *a:self.decision())
-  self.assertEqual(r['status'],'changed');self.assertEqual(operating_policy(self.now)['window_budget'],6_000_000)
+  self.assertEqual(r['status'],'changed');self.assertEqual(operating_policy(self.now)['window_budget'],12_000_000)
   self.assertEqual(operating_policy(ROUND_END)['window_budget'],0)
   self.assertEqual(active(self.now+14401)['meta_status'],'operator_default')
  def test_initial_hold_still_establishes_an_evaluation_baseline(self):
@@ -48,8 +48,8 @@ class MetaHarnessTests(unittest.TestCase):
  def test_no_rapid_or_unobserved_retuning(self):
   meta.review(self.root,now=self.now,public=[],model=lambda *a:self.decision())
   later=self.now+1801;self.fresh(later)
-  r=meta.review(self.root,now=later,public=[],model=lambda *a:self.decision(3_000_000))
-  self.assertEqual(r['status'],'evaluation_pending');self.assertEqual(active(later)['window_budget'],6_000_000)
+  r=meta.review(self.root,now=later,public=[],model=lambda *a:self.decision(6_000_000))
+  self.assertEqual(r['status'],'evaluation_pending');self.assertEqual(active(later)['window_budget'],12_000_000)
  def test_eligible_market_opportunity_is_not_a_rejection(self):
   data=meta.snapshot(self.root,self.now,[{'kind':'settle','ts':self.now-1,'data':{'sku':'bed','amount':3_000_000}}])
   self.assertEqual(data['candidate_eligibility_counts']['eligible'],1)
@@ -83,7 +83,7 @@ class MetaHarnessTests(unittest.TestCase):
   self.assertEqual(data['market_opportunities'][0]['selection_sources'],['volume','revenue'])
   self.assertEqual(data['opportunity_input_coverage']['omitted_skus'],[])
  def test_invalid_bounds_never_become_live_config(self):
-  for d in [dict(DEFAULT,epsilon=0),dict(DEFAULT,window_budget=13_000_000),dict(DEFAULT,focus='disable guards'),dict(DEFAULT,extra=1)]:
+  for d in [dict(DEFAULT,epsilon=0),dict(DEFAULT,window_budget=1_000_000_001),dict(DEFAULT,focus='disable guards'),dict(DEFAULT,extra=1)]:
    with self.assertRaises(ValueError):validate(d)
   with self.assertRaises(ValueError):meta.revised(DEFAULT,self.decision(1_200_000))
  def test_evaluation_uses_equal_mature_windows_and_deduplicated_ledgers(self):
@@ -112,7 +112,7 @@ class MetaHarnessTests(unittest.TestCase):
   def decide(role,prompt,schema):
    self.assertTrue(prompt['snapshot']['score_transition']['rebased'])
    self.assertIsNone(prompt['snapshot']['policy_evaluation'])
-   return self.decision(6_000_000)
+   return self.decision(12_000_000)
   result=meta.review(self.root,now=self.now,public=[],model=decide)
   self.assertEqual(result['status'],'evaluation_pending')
   policy=json.loads((self.root/'state/seller-meta-policy.json').read_text())

@@ -6,7 +6,7 @@ from unittest.mock import patch
 
 import meta_effects as effects
 import seller_meta as meta
-from seller_meta_policy import DEFAULT
+from seller_meta_policy import DEFAULT,POLICY_VERSION
 from market_scoring import VERSION
 import test_meta_harness as fixtures
 
@@ -21,16 +21,15 @@ def observed(config=None):
 
 
 class EffectCalculationTests(unittest.TestCase):
-    def test_live_65_to_70_percent_does_not_unlock_absolute_inventory_cap(self):
+    def test_target_guidance_scales_with_capital_after_removing_absolute_cap(self):
         d=observed();effect=effects.evaluate(d,DEFAULT,{**DEFAULT,'target_capital_share':.7})
-        self.assertFalse(effect['has_effect'])
-        self.assertEqual(effect['before']['target_stock_cost'],12_000_000)
-        self.assertEqual(effect['after']['target_stock_cost'],12_000_000)
+        self.assertTrue(effect['has_effect'])
+        self.assertEqual(effect['before']['target_stock_cost'],int((28_851_151+6_602_876)*.65))
+        self.assertEqual(effect['after']['target_stock_cost'],int((28_851_151+6_602_876)*.70))
         self.assertEqual(effect['effective_budget_delta'],0)
-        self.assertIn('target_clipped_by_absolute_inventory_limit',effect['no_effect_reasons'])
+        self.assertEqual(effect['effect_types'],['target_guidance_only'])
         eligible,excluded=effects.options(d)
-        self.assertFalse(any(r['parameter']=='target_capital_share' for r in eligible))
-        self.assertTrue(any(r['parameter']=='target_capital_share' for r in excluded))
+        self.assertTrue(any(r['parameter']=='target_capital_share' for r in eligible))
 
     def test_budget_edit_below_unchanged_cash_exposure_ceiling_is_not_effective(self):
         effect=effects.evaluate(observed(),DEFAULT,{**DEFAULT,'window_budget':6_000_000})
@@ -89,12 +88,13 @@ class MetaEffectGuardTests(unittest.TestCase):
         self.assertEqual(d['procurement_execution']['recent_cases'][0]['decision_id'],'approval')
         self.assertEqual(d['constraint_breakdown']['binding_spend_limits'],['inventory_exposure_after_pending'])
 
-    def test_model_cannot_apply_or_recommend_the_noop_soft_target_edit(self):
+    def test_model_cannot_apply_exposure_increase_when_window_budget_already_binds(self):
         self.inv['balance']=30_000_000;self.fresh()
         def choose(role,prompt,schema):
             self.assertTrue(prompt['snapshot']['ineffective_policy_changes'])
-            self.assertFalse(any(r['parameter']=='target_capital_share' for r in prompt['snapshot']['policy_change_options']))
-            return {**self.decision(),'parameter':'target_capital_share','numeric_value':.7}
+            self.assertFalse(any(r['parameter']=='inventory_capital_share' and r['numeric_value']>.8
+                                 for r in prompt['snapshot']['policy_change_options']))
+            return {**self.decision(),'parameter':'inventory_capital_share','numeric_value':.9}
         result=meta.review(self.root,now=self.now,public=[],model=choose)
         self.assertEqual(result['status'],'ineffective_change_blocked')
         self.assertEqual(result['decision']['action'],'hold')
@@ -116,7 +116,7 @@ class MetaEffectGuardTests(unittest.TestCase):
 
     def test_effective_expansion_still_obeys_maturity_gate_then_applies(self):
         config={**DEFAULT,'window_budget':6_000_000}
-        old={'schema_version':1,'score_version':VERSION,'version':'previous','config':config,
+        old={'schema_version':2,'policy_contract_version':POLICY_VERSION,'score_version':VERSION,'version':'previous','config':config,
              'previous_config':DEFAULT,'at':self.now-100,'expires_at':self.now+1000,
              'changed_at':1,'baseline':{'at':1,'book':{'book':0}}}
         (self.root/'state/seller-meta-policy.json').write_text(json.dumps(old))
@@ -135,7 +135,7 @@ class MetaEffectGuardTests(unittest.TestCase):
 
     def test_ineffective_rollback_does_not_reset_policy_version_or_baseline(self):
         self.inv['balance']=30_000_000;self.fresh()
-        old={'schema_version':1,'score_version':VERSION,'version':'keep','config':{**DEFAULT,'target_capital_share':.7},
+        old={'schema_version':2,'policy_contract_version':POLICY_VERSION,'score_version':VERSION,'version':'keep','config':{**DEFAULT,'window_budget':48_000_000},
              'previous_config':DEFAULT,'at':self.now-1,'expires_at':self.now+1000,
              'changed_at':1,'baseline':{'at':1,'book':{'book':123}}}
         path=self.root/'state/seller-meta-policy.json';path.write_text(json.dumps(old))

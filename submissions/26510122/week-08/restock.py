@@ -213,8 +213,6 @@ def run(state: Path) -> dict:
     if inventory_observation.snapshot(inventory,inventory_path,history,now):
         history = events()
     live_units = [u for u in inventory.get("units", []) if u.get("grade") != "expired"]
-    if len(live_units) >= replenishment_plan.MAX_TOTAL_STOCK:
-        return {"buy": []}
     try:
         imported = sync_settlements()
         if imported:
@@ -282,7 +280,7 @@ def run(state: Path) -> dict:
         "balance": inventory.get("balance"), "candidate_skus": candidates,
         'portfolio_limits': {'maximum_stock_per_sku': replenishment_plan.MAX_SKU_STOCK,
                              'maximum_stock_per_category': replenishment_plan.MAX_CATEGORY_STOCK,
-                             'maximum_total_stock': replenishment_plan.MAX_TOTAL_STOCK},
+                             'maximum_total_stock': None},
         'risk_capacity': replenishment_plan.inventory_risk(inventory, now),
         'new_lot_economics': {'food_grade_probabilities': {'A': .25, 'B': .5, 'C': .25},
                               'goods_grade_probabilities': {'A': .7, 'B': .2, 'C': .1},
@@ -381,7 +379,7 @@ def run(state: Path) -> dict:
     balance = replenishment_plan.inventory_risk(inventory, now)['available_to_invest']
     affordable = int(balance // acquisition_ceiling(catalog[selected['sku']]))
     category_stock = sum(u.get('category') == selected.get('category') for u in live_units) if selected.get('category') else 0
-    cap = max(0, min(affordable,replenishment_plan.MAX_TOTAL_STOCK-len(live_units),
+    cap = max(0, min(affordable,
                      observation['stock_limit']-selected['currently_stocked'],
                      replenishment_plan.MAX_CATEGORY_STOCK-category_stock,
                      STARTUP_MAX_BUY if sparse else 20))

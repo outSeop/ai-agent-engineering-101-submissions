@@ -50,7 +50,7 @@ def main():
     seller_config_before=(runtimes['seller']/'agent.json').read_bytes()
     seller_config_after=rebound_seller_config(stages['seller'],runtimes['seller'])
     # Never terminate a sequential supply batch in an open or imminent window.
-    deadline=time.monotonic()+240
+    deadline=time.monotonic()+360  # imminent-window buffer + 3-minute window + file refresh
     while True:
         path=runtimes['seller']/'.market/inventory.json';inv=read(path);now=time.time();window=inv.get('restock') or {}
         if now-path.stat().st_mtime<30 and not window.get('open') and window.get('opens_at',0)-now>90:break
@@ -125,6 +125,8 @@ def main():
         report['inventory_age_seconds']=time.time()-(runtimes['seller']/'.market/inventory.json').stat().st_mtime
         if -2<=report['inventory_age_seconds']<30 or time.monotonic()>=inventory_deadline:break
         time.sleep(2)
+    # A real buyer order can load the new release during the network checks.
+    after={role:read(rt/'running.json') for role,rt in runtimes.items()};report['after']=after
     report['complete']=all(report['hashes_match'].values()) and all(r.get('source_commit')==commit for r in after.values()) and report['buyer_kit_preserved'] and report['buyer_supervisor_preserved'] and report['plain_buyer'] and report['procurement_worker_alive'] and report['prepared_restock_hook'] and promo==report['promotion_hash_after'] and report['public_card_status']==200 and report['registry_matches'] and report['inventory_age_seconds']<30
     path=ROOT/'logs'/f'linux-rollout-{args.tag}.json';path.write_text(json.dumps(report,indent=2))
     print(json.dumps(report,indent=2),flush=True)

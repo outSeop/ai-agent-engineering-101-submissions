@@ -72,12 +72,12 @@ class AmpleStockTests(unittest.TestCase):
             self.assertEqual(json.loads(portfolio.STATE.read_text())['intents'], [])
 
     def test_combined_budget_is_checked_not_just_each_half(self):
-        inv = inventory(); inv['units'][0]['cost'] = plans.MAX_INVENTORY_COST-96000  # room=70k including max surge
+        inv = inventory(); inv['units'][0]['cost'] = 19_624_000  # room=70k including max surge
         self.assertEqual(self.run_batch(self.mixed, inv), {'buy':[]})
         self.assertEqual(json.loads(portfolio.STATE.read_text())['intents'], [])
 
     def test_invalid_approval_gets_one_numeric_correction_before_any_intent(self):
-        inv = inventory(); inv['units'][0]['cost'] = plans.MAX_INVENTORY_COST-96000
+        inv = inventory(); inv['units'][0]['cost'] = 19_624_000
         calls = []
         def model(role,prompt,schema):
             calls.append(prompt)

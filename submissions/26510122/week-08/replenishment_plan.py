@@ -18,16 +18,14 @@ import seller_warranty
 from market_scoring import book_metrics
 from supply_reconciliation import reconcile, pending_quantity
 from stock_policy import PROVEN_STOCK, NEW_STOCK, MAINTENANCE_CATEGORY_LIMIT
-from capital_policy import MIN_CASH, MAX_COST, MAX_UNITS, operating_policy
+from capital_policy import MIN_CASH, INVALID_STATE_EXPOSURE, operating_policy
 
 MAX_VALID_SECONDS = 600
 MIN_BALANCE = MIN_CASH
 MAX_SKU_STOCK = PROVEN_STOCK
 MAX_CATEGORY_STOCK = MAINTENANCE_CATEGORY_LIMIT
-MAX_TOTAL_STOCK = MAX_UNITS
-MAX_INVENTORY_COST = MAX_COST
-INVENTORY_CAPITAL_SHARE = .75
-POLICY_VERSION = 9
+MAX_INVENTORY_COST = INVALID_STATE_EXPOSURE  # fail-closed invalid-state reservation only
+POLICY_VERSION = 10
 
 
 def pending_exploration_cost(inventory: dict) -> int:
@@ -76,7 +74,7 @@ def inventory_risk(inventory: dict, now: float, pending_cost: int | None = None)
     storage_reserve = math.ceil(goods_cost*.01*min(14.,policy['hours_to_end']/24))
     warranty = seller_warranty.exposure(events(),now)
     reserve = max(MIN_BALANCE,int(inventory.get('bankrupt_line') or 500_000)+100_000)+storage_reserve+warranty['cash_reserve']
-    limit = min(MAX_INVENTORY_COST, int((balance + stock_cost) * policy['inventory_capital_share']))
+    limit = int((balance + stock_cost) * policy['inventory_capital_share'])
     cash_room = max(0, balance - reserve)
     exposure_room = max(0, limit - stock_cost - max(0, pending_cost))
     return {'cash_balance': balance, 'cash_reserve': reserve, 'storage_cash_buffer':storage_reserve,
@@ -189,7 +187,7 @@ def execute(plan: dict, *, inventory: dict, product: dict, observation: dict,
     if missing and not budget:
         return None, 'authorized_budget_exhausted'
     available = inventory_risk(inventory, now)['available_to_invest']
-    qty = min(missing, budget, plan['max_initial_qty'], category_room, MAX_TOTAL_STOCK-len(live), available//plan['cost_ceiling_per_unit'])
+    qty = min(missing, budget, plan['max_initial_qty'], category_room, available//plan['cost_ceiling_per_unit'])
     qty = max(0, qty)
     plan['emitted_qty'] += qty
     if qty and snapshot_time is not None:

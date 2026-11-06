@@ -30,15 +30,15 @@ class CapitalPolicyTests(unittest.TestCase):
                        dict(event='settled',sku='s1',unit=f'paid{i}',ledger=i,price=8000,at=at)]
         return result
 
-    def test_growth_uses_75_percent_exposure_and_65_percent_soft_target(self):
+    def test_growth_uses_80_percent_exposure_and_65_percent_soft_target(self):
         now=ROUND_END-7*86400;inv=self.inventory(now)
         inv['units']=[dict(sku='old',grade='A',cost=1_000_000)]
         risk=plans.inventory_risk(inv,now,pending_cost=0)
-        self.assertEqual(risk['inventory_cost_limit'],4_500_000)
-        self.assertEqual(risk['available_to_invest'],3_500_000)
+        self.assertEqual(risk['inventory_cost_limit'],4_800_000)
+        self.assertEqual(risk['available_to_invest'],3_800_000)
         self.assertEqual(risk['cash_reserve'],600_000)
         self.assertEqual(target_inventory_cost(inv,now),3_900_000)
-        self.assertEqual(risk['operating_policy']['window_budget'],12_000_000)
+        self.assertEqual(risk['operating_policy']['window_budget'],24_000_000)
 
     def test_bankruptcy_line_and_pending_commitments_still_bind(self):
         now=ROUND_END-7*86400;inv=self.inventory(now)
@@ -56,7 +56,7 @@ class CapitalPolicyTests(unittest.TestCase):
     def test_book_keeps_risk_bounds_until_the_actual_round_end(self):
         for remaining,phase in [(73,'growth'),(72,'harvest'),(24,'final_day'),(2,'closing')]:
             policy=operating_policy(ROUND_END-remaining*3600)
-            self.assertEqual((policy['phase'],policy['inventory_capital_share']),(phase,.75))
+            self.assertEqual((policy['phase'],policy['inventory_capital_share']),(phase,.80))
             self.assertTrue(policy['allow_new_skus']);self.assertTrue(policy['allow_replenishment'])
             self.assertEqual(policy['score_weights'],{'book':.5,'revenue':.3,'stars':.2})
         ended=operating_policy(ROUND_END)

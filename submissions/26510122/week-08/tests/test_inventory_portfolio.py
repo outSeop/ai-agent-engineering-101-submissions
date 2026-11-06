@@ -96,8 +96,7 @@ class PortfolioTests(unittest.TestCase):
         changed = inventory()
         changed['balance'] = plans.MIN_BALANCE+15_000
         self.assertEqual(len(self.run_portfolio(refresh=lambda: (changed, 1000, True))['buy']), 1)
-        for refresh in (lambda: (inventory(), 1000, False), lambda: (inventory(), 1201, True),
-                        lambda: (inventory(plans.MAX_TOTAL_STOCK), 1000, True)):
+        for refresh in (lambda: (inventory(), 1000, False), lambda: (inventory(), 1201, True)):
             self.path.unlink(missing_ok=True)
             self.assertEqual(self.run_portfolio(refresh=refresh), {'buy': []})
             self.assertEqual(json.loads(self.path.read_text())['intents'], [])
@@ -118,9 +117,9 @@ class PortfolioTests(unittest.TestCase):
     def test_rolling_reservation_budget_survives_restart_and_does_not_block_greedy(self):
         # Unknown intents retain their spend reservations even after a restart.
         self.path.parent.mkdir()
-        intents = [{'sku': f'x{i}', 'cost_ceiling': portfolio.MAX_UNIT_COST, 'at': 999,
+        intents = [{'sku': f'x{i}', 'cost_ceiling': 500_000, 'at': 999,
                     'prior_units': [], 'status': 'issued_unknown'}
-                   for i in range(portfolio.ROLLING_BUDGET//portfolio.MAX_UNIT_COST)]
+                   for i in range(portfolio.ROLLING_BUDGET//500_000)]
         self.path.write_text(json.dumps({'version': 1, 'windows': {}, 'intents': intents}))
         model = Mock(side_effect=AssertionError('budget exhausted'))
         self.assertIsNone(self.run_portfolio(model=model))
@@ -269,7 +268,7 @@ class PortfolioTests(unittest.TestCase):
 
     def test_cost_exposure_rechecked_after_approval_in_both_planners(self):
         inv = inventory(0)
-        inv['units'] = [{'unit': 'expensive', 'sku': 'old', 'grade': 'A', 'cost': plans.MAX_INVENTORY_COST-5000}]
+        inv['units'] = [{'unit': 'expensive', 'sku': 'old', 'grade': 'A', 'cost': 19_975_000}]
         risk = plans.inventory_risk(inv, 1000)
         self.assertEqual(risk['available_to_invest'], 5000)
         self.assertEqual(self.run_portfolio(refresh=lambda: (inv, 1000, True)), {'buy': []})

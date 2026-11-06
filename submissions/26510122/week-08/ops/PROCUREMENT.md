@@ -38,3 +38,33 @@ missing evidence, partially observed quantities and 5xx are not released.
 Validation uses the actual shared kit's restock function with synthetic HTTP
 responses: 402 batch interruption, never-sent tails, retry exhaustion, success,
 5xx, timeout, conflicting evidence and ambiguous legacy batches.
+
+## Capital policy v2
+
+The old 12,000,000-won total exposure ceiling and 180-unit global inventory
+ceiling are removed from recurring, cached and startup execution paths.
+Quantity still requires model approval, forecast-based SKU targets, per-SKU and
+category room, current cash, unresolved commitments and the official kit's
+10 lines / 20 units per request. The 200-unit number is a window protocol
+capacity, not a limit on existing inventory.
+
+Actual inventory cost plus pending acquisition ceilings is bounded by a
+tunable share of live cash plus unsold stock cost: default 80%, permitted
+65–90%. Minimum cash, bankruptcy-line buffer, holding-cost buffer and warranty
+cash reserves are mandatory regardless of that share. The 65% allocation target
+remains guidance for the transaction model, rather than a forced purchase.
+
+Meta can change `inventory_capital_share`, `window_budget`,
+`rolling_exploration_budget`, `target_capital_share`, `epsilon` or `focus`.
+Both budgets start at 24,000,000 won and can range from 1,200,000 to
+1,000,000,000; live capital/risk always clips actual spending. One review can
+change one parameter: share steps at most 0.10, budget multipliers 0.5–2,
+epsilon steps at most 0.05. A refreshed-snapshot counterfactual must demonstrate
+an actual budget/branch change or explicitly labeled prompt-guidance change.
+Unspent budget is not profit, an order, or a demonstrated improvement.
+
+Version-1 policy reads add the new operator defaults and replace the old
+12,000,000 default window budget with 24,000,000. Learned target, epsilon and
+focus, custom budgets, trade logs and pending reservations are preserved.
+The next real review records schema 2, rebases its outcome baseline for the
+new capital contract and cannot credit historical Book growth to this change.

@@ -22,11 +22,11 @@ from procurement_audit import select_lines,blocked as blocked_lines
 from inventory_exploration import window_open,CLOSING_MARGIN_SECONDS
 from inventory_observation import timestamp
 from market_memory import record
-from replenishment_plan import MAX_CATEGORY_STOCK, MAX_TOTAL_STOCK, inventory_risk, product_signature, save
+from replenishment_plan import MAX_CATEGORY_STOCK, inventory_risk, product_signature, save
 from supply_reconciliation import reconcile, pending_quantity, partial_from_closed_window, reserved_quantity
 from stock_policy import replenishment_candidates, PROVEN_STOCK
 from capital_policy import (MAX_UNIT_COST, GROWTH_WINDOW_BUDGET, GROWTH_EXPLORATION_BUDGET,
-                            operating_policy, target_inventory_cost)
+                            operating_policy, target_inventory_cost, WINDOW_MAX_UNITS)
 
 STATE = Path('state/inventory-portfolio.json')
 EPSILON = .30
@@ -37,7 +37,7 @@ PREFERRED_MIN_BATCH = 5
 WINDOW_BUDGET = GROWTH_WINDOW_BUDGET
 ROLLING_BUDGET = GROWTH_EXPLORATION_BUDGET
 MAX_MAINTAINED_SKUS = 8
-POLICY_VERSION = 13
+POLICY_VERSION = 14
 DAY = 86400
 READY = Path('state/procurement-ready.json')
 PREPARE_LEAD_SECONDS = 240
@@ -271,9 +271,9 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
     risk = inventory_risk(inventory, now, pending_cost)
     capacity_at=window['opens_at'] if prepare_only else now
     slots = min(MAX_SUPPLY_LINES, max(0, int((window['closes_at'] - capacity_at - CLOSING_MARGIN_SECONDS) // 10)))
-    unit_room = max(0, MAX_TOTAL_STOCK - len(units) - pending)
-    budget = min(WINDOW_BUDGET,operating['window_budget'], risk['available_to_invest'])
-    rolling_budget = min(ROLLING_BUDGET,operating['rolling_exploration_budget'])
+    unit_room = WINDOW_MAX_UNITS
+    budget = min(operating['window_budget'], risk['available_to_invest'])
+    rolling_budget = operating['rolling_exploration_budget']
     exploration_budget = max(0, min(budget, rolling_budget-reserved))
     record('portfolio_capacity', policy_version=POLICY_VERSION, meta_version=operating.get('meta_version'), window=key,
            operating_phase=operating['phase'], risk_capacity=risk,
@@ -558,8 +558,8 @@ def _emit_approved(state,path,desired,answer,window,key,operating,now,slots,budg
     for sku, qty in pending_stocks.items():
         categories[catalog.get(sku,{}).get('category')] += qty
     current_stocks = Counter(u.get('sku') for u in owned)
-    free_units = max(0, MAX_TOTAL_STOCK-len(owned)-pending)
-    rolling_remaining=max(0,min(ROLLING_BUDGET,current_operating['rolling_exploration_budget'])-reserved)
+    free_units = WINDOW_MAX_UNITS
+    rolling_remaining=max(0,current_operating['rolling_exploration_budget']-reserved)
     buy,execution=select_lines(desired,stocks=current_stocks,categories=categories,
         pending_stock=pending_stocks,catalog=catalog,unit_room=free_units,supply_lines=room,budget=cash,
         allow_replenishment=current_operating['allow_replenishment'],allow_new_skus=current_operating['allow_new_skus'],
