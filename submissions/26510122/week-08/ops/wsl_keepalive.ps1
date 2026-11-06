@@ -11,11 +11,18 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$identity = [Security.Principal.WindowsIdentity]::GetCurrent().Name
+$currentIdentity = [Security.Principal.WindowsIdentity]::GetCurrent()
+$identity = $currentIdentity.Name
 $description = 'Keep the authorized Ubuntu market runtime alive across SSH disconnects; market services are separately managed by systemd.'
 $existing = Get-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue
-if ($existing -and (($existing.Description -ne $description) -or ($existing.Principal.UserId -ine $identity))) {
-    throw 'An unrelated scheduled task exists; it has been left unchanged.'
+if ($existing) {
+    # Task Scheduler may return "user" after registration as "COMPUTER\user".
+    # Compare resolved identities, preserving the unrelated-task safeguard.
+    $existingSid = ([Security.Principal.NTAccount]::new($existing.Principal.UserId)).Translate(
+        [Security.Principal.SecurityIdentifier]).Value
+    if (($existing.Description -ne $description) -or ($existingSid -ne $currentIdentity.User.Value)) {
+        throw 'An unrelated scheduled task exists; it has been left unchanged.'
+    }
 }
 
 $action = New-ScheduledTaskAction -Execute "$env:WINDIR\System32\wsl.exe" `
