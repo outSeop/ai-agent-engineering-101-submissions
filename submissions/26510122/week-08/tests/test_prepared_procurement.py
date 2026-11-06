@@ -104,6 +104,15 @@ class PreparedProcurementTests(unittest.TestCase):
         self.assertEqual(model.call_count,1)
         self.assertEqual(portfolio.read_ready(),first)
 
+    def test_failed_preparation_keeps_its_draw_and_retry_state_without_reservations(self):
+        failed=Mock(side_effect=RuntimeError('synthetic timeout'))
+        self.prepare(failed);held=portfolio.read_ready()
+        self.assertEqual(held['status'],'held');self.assertEqual(held['held_reason'],'model_unavailable')
+        self.prepare(failed,now=810)
+        self.assertEqual(failed.call_count,1)
+        self.assertEqual(portfolio.read_ready()['policy']['draw'],held['policy']['draw'])
+        self.assertFalse(self.path.exists())
+
     def test_stale_snapshot_waits_without_claiming_and_fresh_snapshot_executes(self):
         self.prepare();inv=fixtures.inventory(0);fresh=[False]
         with patch.object(scheduler,'snapshot',side_effect=lambda *a:(inv,fixtures.catalog(),900,fresh[0])):

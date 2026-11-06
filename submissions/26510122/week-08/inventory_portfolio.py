@@ -175,6 +175,11 @@ def run(inventory, catalog, history, now, *, model, refresh, rng=None, state_pat
 def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_only=False,ready_path=READY):
     def persist():
         if not prepare_only:save(path,state)
+    def hold_preparation(reason):
+        if prepare_only:
+            held=read_ready(ready_path)
+            held.update(status='held',held_reason=reason)
+            save(ready_path,held);record('portfolio_preparation_held',window=key,reason=reason)
     operating = operating_policy(now)
     if path.exists():
         try:
@@ -301,6 +306,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
     rows = [r for r in rows if r['cost_ceiling'] <= exploration_budget and r['sku'] not in maintained_skus]
     new_slots = min(MAX_NEW_SKUS, max(0, slots-(min(MAX_MAINTAINED_SKUS, len(winners)) if rows else 0)), unit_room)
     if not slots or not unit_room or budget <= 0 or (not winners and (not rows or not new_slots)):
+        hold_preparation('no_candidates_or_capacity')
         record('portfolio_hold', reason='exploration_capacity_or_budget', slots=slots, budget=budget)
         choice.update(mode='exploit', fallback_reason='exploration_capacity_or_budget', delegated=True)
         persist()
@@ -451,12 +457,14 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
         try:
             answer = model('recurring inventory explorer', request, schema)
         except Exception as error:
+            hold_preparation('model_unavailable')
             audit.proposed({'action':'hold'},source='fallback',reason=type(error).__name__)
             audit.executed('hold',status='applied',reason='model_unavailable')
             record('portfolio_hold', reason='model_unavailable', error=type(error).__name__)
             return {'buy': []}
         audit.proposed(answer if isinstance(answer,dict) else {'invalid_answer':answer})
         if isinstance(answer,dict) and answer.get('action') == 'hold':
+            hold_preparation('model_hold')
             audit.executed('hold',status='applied',reason=answer.get('reason'))
             record('portfolio_hold', reason='model_hold', model_choice=answer)
             return {'buy': []}
@@ -474,6 +482,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
             still_plannable=(window_key(current.get('restock') or {})==key and at<window['closes_at']-45
                              if prepare_only else window_open(current,at) and current['restock']['closes_at']-at>=45)
             if attempt == 1 or not fresh or not still_plannable:
+                hold_preparation('invalid_approval_or_no_correction_time')
                 record('portfolio_hold', reason='invalid_approval_or_no_correction_time')
                 return {'buy': []}
     desired = [{**o, 'kind':'replenishment'} for o in restock_orders]
@@ -486,6 +495,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
         current,at,fresh=refresh()
         latest=current.get('restock') or {}
         if not fresh or current.get('round')!=3 or window_key(latest)!=key or at>=window['closes_at']-CLOSING_MARGIN_SECONDS:
+            hold_preparation('freshness_or_window_changed')
             record('portfolio_preparation_discarded',window=key,reason='freshness_or_window_changed')
             return {'buy':[]}
         for row in desired:row['signature']=product_signature(catalog[row['sku']])
