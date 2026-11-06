@@ -92,3 +92,37 @@ Approval records retain the chosen forecast scenario, coverage hours and
 forecast mean. Compare approved units, emitted requests, accepted responses,
 physical arrivals and later sales separately; a larger model approval alone
 does not establish better performance or actual capital deployment.
+
+## Lost demand and exposure (portfolio 16)
+
+The planner's once-per-minute maintenance now records fresh inventory snapshots
+using the mtime of the file actually read. The old restock hook had recorded
+these observations; switching to prepared procurement accidentally bypassed
+that recording. New observations restore forward-looking exposure coverage.
+Historical gaps remain unknown; today's inventory never backfills them.
+
+Each forecast window uses the larger of (a) the exposure-adjusted paid-sales
+rate and (b) `(confirmed sales + eligible missed requests * conversion) / hours`.
+The two rates are not added, because exposure correction already infers some
+unobserved demand. Low/base/high and multi-hour choices use the resulting rate.
+No inferred missed sale is reported as an actual transaction or revenue.
+
+Eligible missed requests are distinct `no_stock` tasks naming exactly one SKU.
+Category-only and multi-SKU requests are excluded from SKU loss quantities.
+Requests subsequently quoted or settled for that SKU are excluded too. A
+legacy settlement can be joined only through a unique signed-receipt
+SKU/unit/price match. A task is the available identity; unrelated new task IDs
+cannot be proven to be the same demand. `no_stock` means no matching available
+unit, including units unavailable because of reservations, not proof of zero
+physical stock.
+
+Conversion uses the last 12 hours of served quotes at least 15 minutes old.
+Linked settlements are successes; explicit rejected/cancelled/unpaid outcomes
+are non-successes. Pending, receipt-only, expired-unknown and immature attempts
+are excluded. The shop has an explicit Beta(2,2) prior (50% without evidence),
+and each SKU is shrunk toward that shop estimate with four prior attempts.
+These are operator hypotheses, not calibrated conversion probabilities, and
+meta cannot change them. The model sees the sample counts and uncertainty.
+Demand based on missed requests does not bypass the proven-sale threshold or
+single-unit new/second trials. Approval records preserve raw sales, eligible
+missed requests, expected lost sales, conversion and exposure as separate facts.

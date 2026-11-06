@@ -77,6 +77,18 @@ class MetaEffectGuardTests(unittest.TestCase):
     fresh=fixtures.MetaHarnessTests.fresh
     decision=fixtures.MetaHarnessTests.decision
 
+    def test_model_sees_missing_snapshot_coverage_as_unknown(self):
+        self.fresh()
+        d=meta.snapshot(self.root,self.now,[])
+        self.assertIsNone(d['demand_observation_health']['latest_snapshot_age_seconds'])
+        self.assertFalse(d['demand_observation_health']['recent_observation_available'])
+        path=self.root/'logs/shop-events.jsonl'
+        with path.open('a') as output:
+            output.write(json.dumps({'event':'inventory_snapshot','round':3,'source_time':self.now-60,'stock':{}})+'\n')
+        d=meta.snapshot(self.root,self.now,[])
+        self.assertEqual(d['demand_observation_health']['latest_snapshot_age_seconds'],60)
+        self.assertTrue(d['demand_observation_health']['recent_observation_available'])
+
     def test_meta_sees_lost_window_time_and_actual_binding_spend_limit(self):
         row={'event':'portfolio_execution','at':self.now-1,'decision_id':'approval',
              'approved_units':8,'emitted_units':3,'cut_units':5,'planning_elapsed_seconds':150,

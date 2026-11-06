@@ -37,7 +37,7 @@ PREFERRED_MIN_BATCH = 5
 WINDOW_BUDGET = GROWTH_WINDOW_BUDGET
 ROLLING_BUDGET = GROWTH_EXPLORATION_BUDGET
 MAX_MAINTAINED_SKUS = 8
-POLICY_VERSION = 15
+POLICY_VERSION = 16
 DAY = 86400
 READY = Path('state/procurement-ready.json')
 PREPARE_LEAD_SECONDS = 240
@@ -397,6 +397,10 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
               'Cover affordable maintenance deficits across eligible SKUs, not only the single fastest seller, '
               'then use remaining shared resources for exploration. '
               'Compare recent rate, stock exposure, next-window and multi-hour coverage options, and uncertainty. '
+              'Forecast windows separate confirmed sales, deduplicated eligible stockout requests and '
+              'conversion-weighted expected lost sales. These expected losses are hypotheses, not actual sales. '
+              'Exposure correction and stockout estimates use the larger rate, not their sum; do not add them again. '
+              'Ambiguous category/multi-SKU requests and requests later served or settled do not count as lost SKU sales. '
               'Do not assume every next supply opportunity will succeed. During capital recovery, '
               'compare the listed multi-hour buffers for proven sellers, including their holding cost '
               'and food expiry uncertainty, before choosing a next-window-only target. '
@@ -462,6 +466,11 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
                                   'forecast_scenario':option['scenario'],
                                   'coverage_hours':option.get('coverage_hours'),
                                   'forecast_mean':option.get('forecast_mean'),
+                                  'demand_basis':{'sales_rate_per_hour':winner['forecast']['sales_rate_per_hour'],
+                                      'conversion_probability':winner['forecast']['stockout_conversion']['probability'],
+                                      'windows':{key:{k:view[k] for k in ('settlements','eligible_lost_stockouts',
+                                          'expected_lost_sales','in_stock_exposure_hours','snapshot_coverage_hours')}
+                                          for key,view in winner['forecast']['windows'].items()}},
                                   'cost_ceiling':winner['cost_ceiling_per_unit'], 'category':winner['category'],
                                   'second_trial':winner['second_trial']})
         replacement_cost = sum(o['qty']*o['cost_ceiling'] for o in restock_orders)
@@ -513,7 +522,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
     desired += [{**allowed[sku], 'qty':1, 'kind':'exploration'} for sku in skus]
     record('portfolio_approval',window=key,planning_at=now,approved_lines=[
         {k:r.get(k) for k in ('sku','kind','qty','target_stock','cost_ceiling','second_trial',
-                            'forecast_scenario','coverage_hours','forecast_mean')} for r in desired],
+                            'forecast_scenario','coverage_hours','forecast_mean','demand_basis')} for r in desired],
         model_choice=answer,planning_supply_lines=slots,planning_budget=budget,
         approved_meta_version=operating.get('meta_version'),preparation_only=prepare_only)
     if prepare_only:

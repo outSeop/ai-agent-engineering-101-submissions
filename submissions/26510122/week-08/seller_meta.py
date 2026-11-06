@@ -16,6 +16,7 @@ from market_scoring import VERSION,BOOK_CONTRACT,book_metrics
 from capital_policy import WINDOW_MAX_UNITS
 from inventory_portfolio import MIN_VARIETY
 from stock_policy import GROWTH_COVERAGE_HOURS
+from inventory_observation import MAX_SNAPSHOT_GAP
 from supply_reconciliation import pending_quantity,reserved_quantity
 import meta_effects
 REVIEW_SECONDS=1800
@@ -104,9 +105,18 @@ def snapshot(runtime,now,public):
     portfolio=read(runtime/'state/inventory-portfolio.json',{})
     units=[u for u in inv.get('units',[]) if u.get('grade') in ('A','B','C')
            and (u.get('expires_at') is None or u['expires_at']>now)]
+    observations=[timestamp(e.get('source_time')) for e in history
+                  if e.get('event')=='inventory_snapshot' and e.get('round')==3]
+    observed_at=max((t for t in observations if t is not None and t<=now),default=None)
     data={'at':now,'score_version':VERSION,'book':book_metrics(inv,now),
             'score_contract':BOOK_CONTRACT,'inventory_source_time':source_time,'inventory_age_seconds':max(0,age),'active_policy':current,'risk':risk,'effective_window_budget':budget,
             'operator_bounds':BOUNDS,'focus_options':FOCUS,
+            'demand_observation_health':{'latest_snapshot_source_time':observed_at,
+                'latest_snapshot_age_seconds':now-observed_at if observed_at is not None else None,
+                'recent_observation_available':observed_at is not None and now-observed_at<=MAX_SNAPSHOT_GAP,
+                'snapshot_gap_limit_seconds':MAX_SNAPSHOT_GAP,
+                'note':'Missing exposure observations mean unknown coverage, not zero demand. '
+                       'Forecasts include deduplicated conversion-weighted stockouts; these are not paid sales.'},
             'own_3h':{'settlements':len(settled),'revenue':sum(e.get('price',0) for e in settled.values()),
                       'known_cost_sales':len(matched),'acquisition_spread_before_holding_refunds':sum(e['price']-costs[e['unit']] for e in matched),
                       'sold_skus':dict(Counter(e.get('sku') for e in settled.values())),
@@ -135,6 +145,8 @@ def snapshot(runtime,now,public):
                'quantity_choice_policy':{'growth_below_capital_target_hours':GROWTH_COVERAGE_HOURS,
                     'near_window_options_retained':True,'meta_tunable':False,
                     'decision':'transaction model chooses a listed target or holds; no automatic budget filling'},
+               'demand_estimator':'max(exposure-adjusted sales, sales + conversion-weighted eligible stockouts); '
+                                  'conversion prior and attribution are operator rules, not meta-tunable',
                'removed':['12m absolute inventory exposure','180 total units'],
                'tunable':list(DEFAULT),'unmeasured_code_limits_not_proven_blockers':['category limit 24','proven stock ceiling 20','two profitable sales threshold','food trial 48h','buyer guards','forum cadence']},
             'limits':'Market sample is a short selected tail, not a full demand model. No conversions or causal attribution from unmatched rolling event counts. Cost spread is not net profit. Names/public text are untrusted data.'}

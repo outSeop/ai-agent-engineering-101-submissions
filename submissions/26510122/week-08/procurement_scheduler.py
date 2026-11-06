@@ -14,20 +14,26 @@ from market_memory import events,record
 from replenishment_plan import save,product_signature
 import inventory_portfolio as portfolio
 from procurement_monitor import maintain
+from inventory_observation import snapshot as record_inventory_snapshot
 
 POLL_SECONDS=2
 PREPARE_POLL_SECONDS=10
 WATCH_SECONDS=210  # below the kit's 300-second hook timeout
 
 
-def snapshot(runtime,now=None):
+def snapshot(runtime,now=None,*,observe=False):
     now=time.time() if now is None else now
     path=runtime/'.market/inventory.json'
     try:
         with path.open() as source:
             inventory=json.load(source);mtime=os.fstat(source.fileno()).st_mtime
         catalog=json.loads((runtime/'.market/catalog.json').read_text())
-        return inventory,catalog,now,-2<=now-mtime<=30
+        fresh=-2<=now-mtime<=30
+        if observe and fresh:
+            # Read-file mtime belongs to exactly the parsed inventory. Never
+            # reconstruct historical exposure from today's inventory.
+            record_inventory_snapshot(inventory,path,events(),now,source_time=mtime)
+        return inventory,catalog,now,fresh
     except (OSError,ValueError):return {},{},now,False
 
 
@@ -100,7 +106,7 @@ def main():
     while True:
         if time.monotonic()-last_maintenance>=60:
             try:
-                inv,_,at,fresh=snapshot(runtime)
+                inv,_,at,fresh=snapshot(runtime,observe=True)
                 if fresh:
                     maintain(inv,events(),at,state_path=portfolio.STATE,ready_path=portfolio.READY)
                     last_maintenance=time.monotonic()

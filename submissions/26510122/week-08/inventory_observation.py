@@ -15,6 +15,74 @@ from market_memory import record
 
 MAX_SNAPSHOT_GAP = 120.0
 MAX_SNAPSHOT_AGE = 30.0
+CONVERSION_WINDOW_HOURS = 12.
+CONVERSION_MATURITY_SECONDS = 900
+CONVERSION_PRIOR_SUCCESSES = 2.
+CONVERSION_PRIOR_FAILURES = 2.
+SKU_CONVERSION_PRIOR_ATTEMPTS = 4.
+
+
+def demand_outcomes(history: list[dict], now: float) -> dict:
+    """Link served attempts once per forecast batch; pending is not failure.
+
+    A task is the request identity. Legacy settlements without a task can only
+    use a unique signed-receipt unit/price/SKU match. No name-based joins.
+    """
+    start = now-CONVERSION_WINDOW_HOURS*3600
+    openings, receipts, settlements, failures = {}, defaultdict(dict), {}, defaultdict(list)
+    for row in history:
+        at=timestamp(row.get('at'))
+        if at is None or not start <= at <= now:continue
+        event,task,sku=row.get('event'),row.get('task_id'),row.get('sku')
+        if event=='opening' and task and sku:
+            key=(task,sku);openings[key]=min(at,openings.get(key,at))
+        elif event=='receipt_signed' and task and sku and row.get('unit') and type(row.get('price')) is int:
+            receipts[(sku,row['unit'],row['price'])][task]=at
+        elif event=='settled' and row.get('ledger') is not None and sku:
+            settlements.setdefault(row['ledger'],(row,at))
+        elif event in ('rejected','cancelled','checkout_unpaid') and task:
+            failures[task].append(at)
+    settled_tasks=defaultdict(set);settled_at={}
+    for row,at in settlements.values():
+        task=row.get('task_id');sku=row['sku']
+        if not task:
+            matches={task for task,t in receipts.get((sku,row.get('unit'),row.get('price')),{}).items() if t<=at}
+            if len(matches)==1:task=next(iter(matches))
+        if task:
+            settled_tasks[sku].add(task)
+            key=(task,sku);settled_at[key]=min(at,settled_at.get(key,at))
+    counts=defaultdict(lambda:{'settled':0,'not_settled':0,'pending_or_immature':0})
+    for (task,sku),opened in openings.items():
+        target=counts[sku]
+        if now-opened<CONVERSION_MATURITY_SECONDS:
+            target['pending_or_immature']+=1
+        elif settled_at.get((task,sku),-1)>=opened:
+            target['settled']+=1
+        elif any(at>=opened for at in failures.get(task,[])):
+            target['not_settled']+=1
+        else:
+            target['pending_or_immature']+=1
+    return {'settled_tasks':settled_tasks,'served_tasks':{key for key in openings},
+            'conversion_counts':dict(counts)}
+
+
+def conversion_estimate(sku: str, outcomes: dict) -> dict:
+    counts=outcomes['conversion_counts']
+    shop_success=sum(r['settled'] for r in counts.values())
+    shop_failure=sum(r['not_settled'] for r in counts.values())
+    shop_rate=(shop_success+CONVERSION_PRIOR_SUCCESSES)/(shop_success+shop_failure+
+                CONVERSION_PRIOR_SUCCESSES+CONVERSION_PRIOR_FAILURES)
+    local=counts.get(sku,{'settled':0,'not_settled':0,'pending_or_immature':0})
+    completed=local['settled']+local['not_settled']
+    rate=(local['settled']+SKU_CONVERSION_PRIOR_ATTEMPTS*shop_rate)/(completed+SKU_CONVERSION_PRIOR_ATTEMPTS)
+    return {'probability':round(rate,6),'sku_outcomes':local,'shop_settled':shop_success,
+            'shop_not_settled':shop_failure,'window_hours':CONVERSION_WINDOW_HOURS,
+            'maturity_seconds':CONVERSION_MATURITY_SECONDS,
+            'shop_beta_prior':[CONVERSION_PRIOR_SUCCESSES,CONVERSION_PRIOR_FAILURES],
+            'sku_prior_attempts':SKU_CONVERSION_PRIOR_ATTEMPTS,
+            'source':'SKU completed served attempts shrunk toward shop rate; shop Beta(2,2) prior',
+            'caution':'Unvalidated estimate from selected completed quotes, not guaranteed stockout conversion. '
+                      'Pending, expiry-unknown and immature attempts are excluded, not labeled failures.'}
 
 
 def timestamp(value) -> float | None:
@@ -41,11 +109,12 @@ def requested_skus(text: str, catalog: dict) -> list[str]:
     return names if len(names) == 1 else []
 
 
-def snapshot(inventory: dict, source: Path, history: list[dict], now: float) -> bool:
-    try:
-        source_time = source.stat().st_mtime
-    except OSError:
-        return False
+def snapshot(inventory: dict, source: Path, history: list[dict], now: float, *, source_time=None) -> bool:
+    if source_time is None:
+        try:
+            source_time = source.stat().st_mtime
+        except OSError:
+            return False
     if not 0 <= now - source_time <= MAX_SNAPSHOT_AGE:
         return False
     previous = next((e for e in reversed(history) if e['event'] == 'inventory_snapshot'), {})
@@ -64,11 +133,13 @@ def snapshot(inventory: dict, source: Path, history: list[dict], now: float) -> 
     return True
 
 
-def evidence(sku: str, history: list[dict], now: float, hours: float = 12.) -> dict:
+def evidence(sku: str, history: list[dict], now: float, hours: float = 12., *, outcomes=None) -> dict:
     start = now - hours * 3600
     visits, settled, no_stock = {}, {}, {}
     snapshots = {}
     unattributed = set()
+    eligible_stockouts=set();ambiguous_stockouts=set()
+    outcomes=demand_outcomes(history,now) if outcomes is None else outcomes
     for row in history:
         at = timestamp(row.get('at'))
         if row['event'] == 'inventory_snapshot' and row.get('round') == 3:
@@ -85,6 +156,8 @@ def evidence(sku: str, history: list[dict], now: float, hours: float = 12.) -> d
         elif row['event'] == 'no_stock' and task:
             if sku in row.get('requested_skus', []):
                 no_stock.setdefault(task, at); visits.setdefault(task, at)
+                if set(row['requested_skus'])=={sku}:eligible_stockouts.add(task)
+                else:ambiguous_stockouts.add(task)
             elif not row.get('requested_skus'):
                 unattributed.add(task)
         elif row['event'] == 'settled' and row.get('sku') == sku and row.get('ledger') is not None:
@@ -104,8 +177,15 @@ def evidence(sku: str, history: list[dict], now: float, hours: float = 12.) -> d
         if any(a <= at < b for a, b in stocked_intervals):
             in_stock_visits += 1
     in_stock_settlements = sum(any(a <= at < b for a,b in stocked_intervals) for at in settled.values())
+    # Never add a request again after it was served or actually settled.
+    already_served={task for task in eligible_stockouts if (task,sku) in outcomes['served_tasks']
+                    or task in outcomes['settled_tasks'].get(sku,set())}
+    eligible_stockouts-=already_served|ambiguous_stockouts
     return {'window_hours': hours, 'observed_visits': len(visits),
             'observed_no_stock_visits': len(no_stock), 'confirmed_settlements': len(settled),
+            'eligible_lost_stockout_visits':len(eligible_stockouts),
+            'ambiguous_stockout_visits':len(ambiguous_stockouts),
+            'already_served_stockout_visits':len(already_served),
             'recent_stockout_times': sorted(no_stock.values())[-10:],
             'snapshot_coverage_hours': round(coverage / 3600, 4),
             'in_stock_exposure_hours': round(exposure / 3600, 4),

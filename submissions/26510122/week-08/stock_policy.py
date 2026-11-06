@@ -3,7 +3,7 @@ from collections import Counter
 import math
 from procurement_cost import ceiling as acquisition_ceiling
 
-from inventory_observation import timestamp, evidence
+from inventory_observation import timestamp, evidence, demand_outcomes, conversion_estimate
 from newsvendor_tool import poisson_pmf, recommend_quantity
 from capital_policy import MAX_UNIT_COST, operating_policy, target_inventory_cost
 from market_scoring import continuation
@@ -63,30 +63,56 @@ def _quantile(mean, level):
     return PROVEN_STOCK
 
 
-def demand_forecast(sku, product, inventory, history, now):
+def demand_forecast(sku, product, inventory, history, now, *, outcomes=None):
+    outcomes=demand_outcomes(history,now) if outcomes is None else outcomes
+    conversion=conversion_estimate(sku,outcomes)
     windows = {}
     for hours in (1,3,12):
-        observed = evidence(sku,history,now,float(hours))
+        observed = evidence(sku,history,now,float(hours),outcomes=outcomes)
         raw_rate = observed['confirmed_settlements']/hours
+        lost_count=observed['eligible_lost_stockout_visits']
+        expected_lost=lost_count*conversion['probability']
+        observed_demand_rate=(observed['confirmed_settlements']+expected_lost)/hours
         exposure = observed['in_stock_exposure_hours']
         matched = observed['settlements_during_observed_stock']
         # Pair numerator and denominator. All sales / a short exposed interval
         # would exaggerate demand. Gaps and out-of-stock time are not zero demand.
         conditional = (matched+raw_rate*.5)/(exposure+.5) if exposure >= .25 else None
+        corrected=max(raw_rate,conditional or 0.)
         windows[str(hours)] = {'settlements':observed['confirmed_settlements'],
                               'in_stock_exposure_hours':exposure, 'covered_settlements':matched,
                               'observed_stockouts':observed['observed_no_stock_visits'],
-                              'rate_per_hour':max(raw_rate,conditional or 0.),
-                              'rate_source':'paired exposure with shrinkage' if conditional is not None and conditional>raw_rate else 'full-window observed sales lower bound'}
-    if windows['1']['settlements'] >= 2:
+                              'eligible_lost_stockouts':lost_count,
+                              'ambiguous_stockouts_excluded':observed['ambiguous_stockout_visits'],
+                              'already_served_stockouts_excluded':observed['already_served_stockout_visits'],
+                              'expected_lost_sales':round(expected_lost,4),
+                              'sales_plus_expected_lost_rate':round(observed_demand_rate,4),
+                              'exposure_adjusted_sales_rate':corrected,
+                              'snapshot_coverage_hours':observed['snapshot_coverage_hours'],
+                              # Exposure correction already estimates unobserved demand.
+                              # Add lost requests only to raw sales, then take the max.
+                              'rate_per_hour':max(observed_demand_rate,corrected),
+                              'rate_source':('sales plus conversion-weighted stockouts' if observed_demand_rate>corrected else
+                                  'paired exposure with shrinkage' if corrected>raw_rate else 'full-window observed sales lower bound')}
+    if windows['1']['settlements']+windows['1']['expected_lost_sales'] >= 2:
         rate = .65*windows['1']['rate_per_hour']+.35*windows['3']['rate_per_hour']
         source = '65% recent 1h + 35% recent 3h'
-    elif windows['3']['settlements']:
+    elif windows['3']['settlements']+windows['3']['expected_lost_sales']:
         rate = windows['3']['rate_per_hour']
         source = 'recent 3h; sparse 1h evidence'
     else:
         rate = windows['12']['rate_per_hour']
         source = 'recent 12h fallback; short-window absence is not proof of zero demand'
+    if windows['1']['settlements']>=2:
+        paid_rate=.65*windows['1']['exposure_adjusted_sales_rate']+.35*windows['3']['exposure_adjusted_sales_rate']
+    elif windows['3']['settlements']:
+        paid_rate=windows['3']['exposure_adjusted_sales_rate']
+    else:
+        paid_rate=windows['12']['exposure_adjusted_sales_rate']
+    # Inferred losses can activate a recent window. That branch switch must
+    # never erase the existing paid-sales signal from a different window.
+    if paid_rate>rate:
+        rate=paid_rate;source='paid-sales baseline retained; inferred losses do not lower demand'
     protection = protection_hours(inventory,now)
     mean = rate*protection['hours']
     operating = operating_policy(now)
@@ -124,6 +150,11 @@ def demand_forecast(sku, product, inventory, history, now):
                 'caution':'Catalog shelf life is not a guarantee of an incoming food unit remaining lifetime; '
                           'grade, expiry, breakage and holding risk still require model judgment.'})
     return {'sales_rate_per_hour':round(rate,4),'rate_source':source,'windows':windows,
+            'paid_sales_only_rate_per_hour':round(paid_rate,4),
+            'lost_demand_increase_per_hour':round(max(0,rate-paid_rate),4),
+            'stockout_conversion':conversion,
+            'demand_rate_policy':'max(exposure-adjusted sales rate, (sales + eligible stockouts * conversion) / hours); '
+                                 'never add stockouts on top of exposure correction',
             'operating_phase':operating['phase'],'terminal_sale_capacity_estimate':terminal_capacity,
             'protection_period':protection,'demand_mean_until_next_replenishment':round(mean,4),
             'scenarios':scenarios,'maximum_target':max(s['target_stock'] for s in scenarios),
@@ -147,6 +178,7 @@ def replenishment_candidates(catalog, inventory, history, now, blocked=(), trial
     pending = pending or {}
     categories = Counter(u.get('category') for u in units)
     sold_skus = {e.get('sku') for e in history if e.get('event') == 'settled' and e.get('sku')}
+    outcomes=demand_outcomes(history,now)
     rows = []
     for sku in sold_skus:
         p = catalog.get(sku)
@@ -169,7 +201,7 @@ def replenishment_candidates(catalog, inventory, history, now, blocked=(), trial
         reserved_category = sum(qty for key,qty in pending.items()
                                 if catalog.get(key,{}).get('category') == p.get('category'))
         room = max(0, MAINTENANCE_CATEGORY_LIMIT-categories[p.get('category')]-reserved_category)
-        forecast = demand_forecast(sku,p,inventory,history,now)
+        forecast = demand_forecast(sku,p,inventory,history,now,outcomes=outcomes)
         options = []
         if second_trial and room:
             options = [{'target_stock':1, 'qty':1, 'forecast_target':None,
