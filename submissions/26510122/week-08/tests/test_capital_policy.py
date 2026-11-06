@@ -78,12 +78,14 @@ class CapitalPolicyTests(unittest.TestCase):
         def model(role,prompt,schema):
             self.assertEqual(prompt['operating_policy']['phase'],'harvest')
             winner=prompt['replenishment_candidates'][0]
-            return {'action':'buy','skus':[],'replenishment':[{'sku':winner['sku'],
+            anchor=prompt['exploration_anchor_sku']
+            new=([anchor]+[r['sku'] for r in prompt['candidates'] if r['sku']!=anchor])[:prompt['minimum_new_skus_if_buy']]
+            return {'action':'buy','skus':new,'replenishment':[{'sku':winner['sku'],
                 'target_stock':winner['target_options'][-1]['target_stock']}],'reason':'Sell before deadline'}
         result=portfolio.run(inv,catalog(),self.history(now),now,model=model,
                              refresh=lambda:(inv,now,True),rng=random.Random(2))
         self.assertTrue(result['buy'])
-        self.assertEqual({r['sku'] for r in result['buy']},{'s1'})
+        self.assertIn('s1',{r['sku'] for r in result['buy']})
 
     def test_forecast_is_not_clipped_to_zero_terminal_sale_capacity(self):
         now=ROUND_END-3*3600;inv=self.inventory(now)

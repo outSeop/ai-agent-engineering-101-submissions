@@ -36,7 +36,9 @@ class AmpleStockTests(unittest.TestCase):
 
     def mixed(self, role, prompt, schema, target=None, new_count=6):
         self.assertEqual(prompt['replenishment_candidates'][0]['sku'], 's1')
-        target = target if target is not None else max(o['target_stock'] for o in prompt['replenishment_candidates'][0]['target_options'])
+        # These reservation fixtures choose the near-window option explicitly.
+        # Multi-hour choices are exercised separately by test_growth_coverage.
+        target = target if target is not None else max(o['target_stock'] for o in prompt['replenishment_candidates'][0]['target_options'] if o['scenario'] in ('low','base','high'))
         anchor = prompt['exploration_anchor_sku']
         skus = ([anchor] + [r['sku'] for r in prompt['candidates'] if r['sku'] != anchor])[:new_count]
         return {'action':'buy','skus':skus,'replenishment':[{'sku':'s1','target_stock':target}],
@@ -57,7 +59,7 @@ class AmpleStockTests(unittest.TestCase):
         inv = inventory()
         current = inventory()
         current['units'] += [dict(current['units'][1], unit='arrived')]
-        result = self.run_batch(lambda *args:self.mixed(*args,new_count=1), inv,
+        result = self.run_batch(lambda *args:self.mixed(*args,new_count=2), inv,
                                 refresh=lambda:(current,1000,True))
         self.assertEqual(result['buy'][0], {'sku':'s1','qty':1})  # fresh 2 -> forecast-approved 3
 

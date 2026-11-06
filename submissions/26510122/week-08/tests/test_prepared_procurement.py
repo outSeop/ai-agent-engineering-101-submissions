@@ -83,7 +83,9 @@ class PreparedProcurementTests(unittest.TestCase):
         rows=[{**r,'at':790} for r in history(2)]
         def choose(role,prompt,schema):
             r=prompt['replenishment_candidates'][0]
-            return {'action':'buy','skus':[],'replenishment':[{'sku':r['sku'],
+            anchor=prompt['exploration_anchor_sku']
+            new=[anchor]+[c['sku'] for c in prompt['candidates'] if c['sku']!=anchor][:prompt['minimum_new_skus_if_buy']-1]
+            return {'action':'buy','skus':new,'replenishment':[{'sku':r['sku'],
                 'target_stock':max(o['target_stock'] for o in r['target_options'])}],'reason':'forecast target'}
         portfolio.run(inv,fixtures.catalog(),rows,800,model=choose,refresh=lambda:(inv,800,True),
             rng=random.Random(1),state_path=self.path,prepare_only=True)
@@ -92,7 +94,8 @@ class PreparedProcurementTests(unittest.TestCase):
         inv=fixtures.inventory(0)
         inv['units']=[{'unit':f'new{i}','sku':row['sku'],'grade':'A','category':row['category'],'cost':1000} for i in range(target-1)]
         result=self.execute(inv)
-        self.assertEqual(result['buy'],[{'sku':row['sku'],'qty':1}])
+        self.assertEqual(result['buy'][0],{'sku':row['sku'],'qty':1})
+        self.assertEqual(len(result['buy']),3)  # replenishment plus required recovery exploration
         self.assertIn('decision_id',result['_procurement'])
         executed=[r for r in events() if r['event']=='portfolio_execution'][-1]
         self.assertEqual(executed['cut_units'],target-1)

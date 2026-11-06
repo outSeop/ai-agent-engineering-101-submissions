@@ -68,3 +68,27 @@ Version-1 policy reads add the new operator defaults and replace the old
 focus, custom budgets, trade logs and pending reservations are preserved.
 The next real review records schema 2, rebases its outcome baseline for the
 new capital contract and cannot credit historical Book growth to this change.
+
+## Recovery quantity choices (portfolio 15)
+
+Increasing the cash ceiling alone did not expand near-window-only quantities.
+During growth below the live inventory-cost target, proven sellers now offer
+additional demand-derived coverage choices: 2/6 hours for goods and 1/2 hours
+for food. Existing next-window low/base/high options remain available. These
+are operator-defined alternatives, not meta-adjustable parameters or automatic
+orders. The model compares margin, holding, expiry and uncertainty, then
+chooses an exact target or holds. All quantities remain subject to the same
+SKU, category, pending, current cash and execution-time limits. Second trials
+remain one unit. Catalog shelf life never guarantees incoming remaining life.
+
+An explore buy with replenishment must include the feasible novel floor:
+up to two new SKUs for recovery, or one for an ordinary epsilon draw. A high
+random draw cannot cancel an effective recovery override. An invalid basket
+gets one correction before any intent is reserved; a concrete-risk hold is
+allowed. The model allocates the shared ten lines, rather than pre-reserving
+eight for replenishment and leaving only two possible novel choices.
+
+Approval records retain the chosen forecast scenario, coverage hours and
+forecast mean. Compare approved units, emitted requests, accepted responses,
+physical arrivals and later sales separately; a larger model approval alone
+does not establish better performance or actual capital deployment.

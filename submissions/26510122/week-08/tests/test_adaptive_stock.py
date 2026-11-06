@@ -92,7 +92,7 @@ class AdaptiveForecastTests(unittest.TestCase):
                 def model(role,prompt,schema):
                     self.assertEqual(len(prompt['replenishment_candidates']),8)
                     self.assertEqual(schema['properties']['replenishment']['maxItems'],8)
-                    self.assertEqual(prompt['maximum_new_skus'],2)
+                    self.assertEqual(prompt['maximum_new_skus'],8)  # model allocates the shared ten lines
                     picks = [{'sku':r['sku'],'target_stock':max(o['target_stock'] for o in r['target_options'])}
                              for r in prompt['replenishment_candidates'][:8]]
                     anchor = prompt['exploration_anchor_sku']

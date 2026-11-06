@@ -5,7 +5,7 @@ from procurement_cost import ceiling as acquisition_ceiling
 
 from inventory_observation import timestamp, evidence
 from newsvendor_tool import poisson_pmf, recommend_quantity
-from capital_policy import MAX_UNIT_COST, operating_policy
+from capital_policy import MAX_UNIT_COST, operating_policy, target_inventory_cost
 from market_scoring import continuation
 
 PROVEN_STOCK = 20  # safety ceiling, never a desired inventory target
@@ -15,6 +15,7 @@ MIN_POSITIVE_SALES = 2
 SUPPLY_CYCLE_SECONDS = 20*60
 SUPPLY_JITTER_BUFFER_SECONDS = 120
 PURCHASE_LEAD_SECONDS = 60
+GROWTH_COVERAGE_HOURS={'goods':(2.,6.),'food':(1.,2.)}
 
 
 def sales_evidence(sku, history, now):
@@ -103,14 +104,35 @@ def demand_forecast(sku, product, inventory, history, now):
     diagnostic = recommend_quantity(poisson_pmf(mean),sale,cost,holding_per_leftover=holding,max_qty=PROVEN_STOCK)
     retained = continuation(product,cost,0,protection['hours'],operating['hours_to_end'])
     book_diagnostic = recommend_quantity(poisson_pmf(mean),sale,cost,salvage=retained['value'],holding_per_leftover=holding,max_qty=PROVEN_STOCK)
+    # The near-window forecast remains a diagnostic. Recovery also offers
+    # explicit demand-derived buffers instead of assuming perfect replenishment
+    # every twenty minutes. These are choices, never automatic buy quantities.
+    coverage=[]
+    growing=(operating['phase']=='growth' and
+             sum(max(0,int(u.get('cost') or 0)) for u in inventory.get('units',[])
+                 if u.get('grade') in ('A','B','C') and (u.get('expires_at') is None or u['expires_at']>now))
+             <target_inventory_cost(inventory,now))
+    if growing:
+        for requested in GROWTH_COVERAGE_HOURS.get(product.get('kind'),()):
+            hours=min(requested,operating['hours_to_end'])
+            if product.get('kind')=='food':hours=min(hours,max(0,float(product.get('shelf_hours') or 0))/4)
+            if hours<=protection['hours']:continue
+            coverage.append({'scenario':f'cover_{hours:g}h','coverage_hours':hours,
+                'forecast_mean':round(rate*hours,4),'service_level':.975,
+                'target_stock':_quantile(rate*hours,.975),
+                'holding_per_unit_at_assumed_cost':round(cost*.01*hours/24,2) if product.get('kind')=='goods' else 0.,
+                'caution':'Catalog shelf life is not a guarantee of an incoming food unit remaining lifetime; '
+                          'grade, expiry, breakage and holding risk still require model judgment.'})
     return {'sales_rate_per_hour':round(rate,4),'rate_source':source,'windows':windows,
             'operating_phase':operating['phase'],'terminal_sale_capacity_estimate':terminal_capacity,
             'protection_period':protection,'demand_mean_until_next_replenishment':round(mean,4),
             'scenarios':scenarios,'maximum_target':max(s['target_stock'] for s in scenarios),
+            'growth_coverage_options':coverage,
+            'maximum_approval_target':max(s['target_stock'] for s in scenarios+coverage),
             'newsvendor_zero_continuation_diagnostic':diagnostic,
             'newsvendor_book_diagnostic':book_diagnostic,'book_continuation':retained,
             'assumption':'Poisson and service levels are unvalidated planning hypotheses. '
-            'Targets cover demand until the next procurement opportunity, not a fixed unit count. '
+            'Near-window scenarios cover the next procurement opportunity; growth coverage options span multiple opportunities. '
             'Zero-continuation diagnostic is a pessimistic reference, not the Book objective. '
             'Terminal sale capacity is a diagnostic, not an unsold-stock liquidation constraint. '
             'remaining inventory is not actually discarded at this short horizon. '
@@ -153,17 +175,20 @@ def replenishment_candidates(catalog, inventory, history, now, blocked=(), trial
             options = [{'target_stock':1, 'qty':1, 'forecast_target':None,
                         'scenario':'second_trial', 'service_level':None,
                         'cost_ceiling':acquisition_ceiling(p)}]
-        for scenario in forecast['scenarios']:
+        for scenario in forecast['scenarios']+forecast['growth_coverage_options']:
             if second_trial: break
             target = scenario['target_stock']
             qty = min(max(0, target-projected),room)
             if qty > 0 and not any(o['qty']==qty for o in options):
                 options.append({'target_stock': projected+qty, 'qty': qty,
                                 'forecast_target':target,'scenario':scenario['scenario'],
+                                'coverage_hours':scenario.get('coverage_hours',forecast['protection_period']['hours']),
+                                'forecast_mean':scenario['forecast_mean'],
                                 'service_level':scenario['service_level'],
                                 'cost_ceiling': acquisition_ceiling(p)*qty})
         if not options:
             continue
+        options.sort(key=lambda option:option['qty'])
         rows.append({'sku': sku, 'name': p.get('name', sku), 'kind': p['kind'], 'category': p.get('category'),
                      'currently_stocked': stocks[sku], 'pending_stock':reserved,
                      'second_trial':second_trial, 'evidence': signal, 'target_options': options,
@@ -184,5 +209,5 @@ def policy_view(sku, product, inventory, history, now):
     signal = sales_evidence(sku,history,now)
     if signal['maintenance_eligible']:
         forecast = demand_forecast(sku,product,inventory,history,now)
-        return {**signal,'stock_limit':forecast['maximum_target'],'forecast':forecast}
+        return {**signal,'stock_limit':forecast['maximum_approval_target'],'forecast':forecast}
     return signal

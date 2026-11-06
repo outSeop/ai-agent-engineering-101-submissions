@@ -79,14 +79,17 @@ class PartialSupplyTests(unittest.TestCase):
                 prompts=[]
                 def approve(role,prompt,schema):
                     prompts.append(prompt);winner=next(c for c in prompt['replenishment_candidates'] if c['sku']=='s1')
-                    return {'action':'buy','skus':[], 'replenishment':[{'sku':'s1','target_stock':winner['target_options'][-1]['target_stock']}],'reason':'new window, net pending'}
+                    anchor=prompt['exploration_anchor_sku']
+                    new=([anchor]+[c['sku'] for c in prompt['candidates'] if c['sku']!=anchor])[:prompt['minimum_new_skus_if_buy']]
+                    return {'action':'buy','skus':new, 'replenishment':[{'sku':'s1','target_stock':winner['target_options'][-1]['target_stock']}],'reason':'new window, net pending'}
                 result=portfolio.run(inv,catalog(),history(2),1000,model=approve,
                                      refresh=lambda:(inv,1000,True),rng=random.Random(1),state_path=p)
-                self.assertEqual(result['buy'],[{'sku':'s1','qty':net['target_options'][-1]['qty']}])
+                self.assertEqual(result['buy'][0],{'sku':'s1','qty':net['target_options'][-1]['qty']})
+                self.assertEqual(len(result['buy']),3)
                 self.assertEqual(prompts[0]['risk_capacity']['pending_cost_ceiling'],11250)
                 self.assertEqual(prompts[0]['pending_stock_by_sku'],{'s1':1})
                 saved=json.loads(p.read_text());self.assertEqual(pending_quantity(saved['intents'][0]),1)
-                self.assertEqual(len(saved['intents']),2)
+                self.assertEqual(len(saved['intents']),4)
             finally:os.chdir(before)
 
 

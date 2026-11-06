@@ -37,7 +37,7 @@ PREFERRED_MIN_BATCH = 5
 WINDOW_BUDGET = GROWTH_WINDOW_BUDGET
 ROLLING_BUDGET = GROWTH_EXPLORATION_BUDGET
 MAX_MAINTAINED_SKUS = 8
-POLICY_VERSION = 14
+POLICY_VERSION = 15
 DAY = 86400
 READY = Path('state/procurement-ready.json')
 PREPARE_LEAD_SECONDS = 240
@@ -304,7 +304,9 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
             if choice['mode'] == 'explore' and operating['allow_new_skus'] else [])
     maintained_skus = {r['sku'] for r in winners}
     rows = [r for r in rows if r['cost_ceiling'] <= exploration_budget and r['sku'] not in maintained_skus]
-    new_slots = min(MAX_NEW_SKUS, max(0, slots-(min(MAX_MAINTAINED_SKUS, len(winners)) if rows else 0)), unit_room)
+    # The model allocates the shared ten lines. Reserving eight lines before
+    # its decision silently reduced every mixed experiment to two new SKUs.
+    new_slots = min(MAX_NEW_SKUS, slots, unit_room)
     if not slots or not unit_room or budget <= 0 or (not winners and (not rows or not new_slots)):
         hold_preparation('no_candidates_or_capacity')
         record('portfolio_hold', reason='exploration_capacity_or_budget', slots=slots, budget=budget)
@@ -324,9 +326,20 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
     minimum, new_slots, minimum_categories = basket_limits(rows, anchor, new_slots, exploration_budget) if rows else (0, 0, 0)
     # Replenishment and exploration share one spend/slot approval. The model
     # can choose fewer new items to leave room for an evidenced seller.
-    if winners:
-        minimum = 0
-        minimum_categories = min(minimum_categories, minimum)
+    if winners and rows:
+        # An explore window stays an experiment even with proven deficits.
+        # Recovery overrides a high random draw; a concrete-risk hold remains
+        # allowed, but a buy cannot silently drop every novel SKU.
+        floor=2 if choice.get('coverage_recovery') or choice.get('allocation_recovery') else 1
+        minimum=min(minimum,floor)
+        minimum_categories=min(minimum_categories,minimum)
+    exploration_contract={'required_on_buy':bool(rows and minimum),
+        'trigger':('variety_recovery' if choice.get('coverage_recovery') else
+                   'capital_recovery' if choice.get('allocation_recovery') else
+                   'epsilon_draw' if rows else 'not_available'),
+        'minimum_new_skus':minimum,'minimum_categories':minimum_categories,
+        'instruction':'Follow effective mode and recovery flags. Recovery overrides draw >= epsilon. '
+                      'Choose at least the feasible novel floor on buy, or hold for a concrete risk.'}
     schema = {'type': 'object', 'properties': {
         'action': {'type': 'string', 'enum': ['buy', 'hold']},
         'skus': {'type': 'array', 'items': ({'type':'string','enum':[r['sku'] for r in rows]} if rows else {'type':'string'}), 'maxItems': new_slots},
@@ -337,6 +350,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
              'required': ['sku','target_stock'], 'additionalProperties': False}},
         'reason': {'type': 'string'}}, 'required': ['action', 'skus', 'replenishment', 'reason'], 'additionalProperties': False}
     prompt = {'phase': 'recurring_inventory_exploration', 'policy': choice,
+              'exploration_contract':exploration_contract,
               'execution_timing':{'preparation_only':prepare_only,'not_before':window['opens_at'],
                   'note':'Pre-open approval only; no funds reserved until fresh execution checks. '
                          'Forecast protection includes the upcoming window and its next replenishment opportunity.'},
@@ -351,7 +365,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
               'exploration_anchor_sku': anchor['sku'] if anchor else None,
               'anchor_policy': 'One random category and SKU among candidates without recent evidence '
                                '(all candidates if none are unknown). If exploring, include it. '
-                               'Maintenance-only is allowed when shared resources favor existing sellers.',
+                               'Maintenance-only is allowed only when the exploration contract requires zero new SKUs.',
               'rolling_24h_cost_ceiling_budget': rolling_budget, 'reserved_24h': reserved,
               'operating_policy':operating,'target_inventory_acquisition_cost':target_inventory_cost(inventory,now),
               'existing_stock': dict(Counter(u.get('sku') for u in units)),
@@ -382,7 +396,10 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
               'Slow sellers may need only 1-2 units, and fast sellers can require more than six. '
               'Cover affordable maintenance deficits across eligible SKUs, not only the single fastest seller, '
               'then use remaining shared resources for exploration. '
-              'Compare recent rate, stock exposure, protection until next procurement and uncertainty. '
+              'Compare recent rate, stock exposure, next-window and multi-hour coverage options, and uncertainty. '
+              'Do not assume every next supply opportunity will succeed. During capital recovery, '
+              'compare the listed multi-hour buffers for proven sellers, including their holding cost '
+              'and food expiry uncertainty, before choosing a next-window-only target. '
               'During growth below the capital target, prefer the high forecast-derived option for proven '
               'sellers when shelf life, holding cost, margin and cash permit; explain a concrete risk if '
               'choosing a lower option or omitting an affordable proven deficit. This is model guidance, '
@@ -416,7 +433,11 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
         selected_restock = answer.get('replenishment', [])
         if answer.get('action') not in ('buy', 'hold') or not isinstance(skus, list):
             raise ValueError('invalid action or basket')
-        if not minimum <= len(skus) <= new_slots or any(not isinstance(s, str) or s not in allowed for s in skus) or len(set(skus)) != len(skus):
+        if len(skus)<minimum:
+            raise ValueError(f'exploration_required: effective mode={choice["mode"]}, '
+                             f'trigger={exploration_contract["trigger"]}, minimum_new_skus={minimum}; '
+                             'recovery overrides the random draw; approve the feasible exploration floor or hold')
+        if not len(skus) <= new_slots or any(not isinstance(s, str) or s not in allowed for s in skus) or len(set(skus)) != len(skus):
             raise ValueError('invalid SKU membership/cardinality')
         if anchor and skus and anchor['sku'] not in skus:
             raise ValueError('buy must include the sampled exploration anchor')
@@ -438,6 +459,9 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
                 raise ValueError('invalid or duplicated replenishment target')
             restock_orders.append({'sku':item['sku'], 'qty':option['qty'],
                                   'target_stock':option['target_stock'],
+                                  'forecast_scenario':option['scenario'],
+                                  'coverage_hours':option.get('coverage_hours'),
+                                  'forecast_mean':option.get('forecast_mean'),
                                   'cost_ceiling':winner['cost_ceiling_per_unit'], 'category':winner['category'],
                                   'second_trial':winner['second_trial']})
         replacement_cost = sum(o['qty']*o['cost_ceiling'] for o in restock_orders)
@@ -488,7 +512,8 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
     desired = [{**o, 'kind':'replenishment'} for o in restock_orders]
     desired += [{**allowed[sku], 'qty':1, 'kind':'exploration'} for sku in skus]
     record('portfolio_approval',window=key,planning_at=now,approved_lines=[
-        {k:r.get(k) for k in ('sku','kind','qty','target_stock','cost_ceiling','second_trial')} for r in desired],
+        {k:r.get(k) for k in ('sku','kind','qty','target_stock','cost_ceiling','second_trial',
+                            'forecast_scenario','coverage_hours','forecast_mean')} for r in desired],
         model_choice=answer,planning_supply_lines=slots,planning_budget=budget,
         approved_meta_version=operating.get('meta_version'),preparation_only=prepare_only)
     if prepare_only:

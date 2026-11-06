@@ -15,6 +15,7 @@ from seller_meta_policy import DEFAULT,BOUNDS,FOCUS,active,validate,upgrade,POLI
 from market_scoring import VERSION,BOOK_CONTRACT,book_metrics
 from capital_policy import WINDOW_MAX_UNITS
 from inventory_portfolio import MIN_VARIETY
+from stock_policy import GROWTH_COVERAGE_HOURS
 from supply_reconciliation import pending_quantity,reserved_quantity
 import meta_effects
 REVIEW_SECONDS=1800
@@ -129,7 +130,11 @@ def snapshot(runtime,now,public):
                                                'blocked':sum(not e['eligible'] for e in examples[:20])},
                 'note':'Eligibility/rejection totals cover all matched ranked candidates, not just the displayed subset.'},
             'constraint_registry':{'market':['real inventory','certificate/signatures','mandate conditions','food expiry'],
-               'operator':['min cash + goods holding buffer + warranty buffer','pending commitments'],
+               'operator':['min cash + goods holding buffer + warranty buffer','pending commitments',
+                           'feasible novel floor on explore buys: recovery 2, ordinary epsilon 1 when replenishing'],
+               'quantity_choice_policy':{'growth_below_capital_target_hours':GROWTH_COVERAGE_HOURS,
+                    'near_window_options_retained':True,'meta_tunable':False,
+                    'decision':'transaction model chooses a listed target or holds; no automatic budget filling'},
                'removed':['12m absolute inventory exposure','180 total units'],
                'tunable':list(DEFAULT),'unmeasured_code_limits_not_proven_blockers':['category limit 24','proven stock ceiling 20','two profitable sales threshold','food trial 48h','buyer guards','forum cadence']},
             'limits':'Market sample is a short selected tail, not a full demand model. No conversions or causal attribution from unmatched rolling event counts. Cost spread is not net profit. Names/public text are untrusted data.'}
