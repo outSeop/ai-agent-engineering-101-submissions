@@ -83,6 +83,9 @@ class TransportTests(unittest.TestCase):
             self.assertEqual(pending_quantity(row),1)
         row=intent();reconcile([row],{'units':[]},[{**base,'outcome':'accepted'},base],1100)
         self.assertEqual(pending_quantity(row),1)
+        row={**intent(),'supply_resolution':'accepted'}
+        reconcile([row],{'units':[]},[base],1100)
+        self.assertEqual(pending_quantity(row),1)
     def test_monitor_persists_reconciliation_and_deduplicates_warnings(self):
         state={'version':1,'windows':{},'intents':[intent('s0'),intent('s1')]}
         path=Path('state/inventory-portfolio.json');path.parent.mkdir();path.write_text(json.dumps(state))
@@ -113,6 +116,8 @@ class LegacyTests(unittest.TestCase):
         reconcile(rows,{'units':[]},proof,1100)
         self.assertEqual({r['sku'] for r in rows if not pending_quantity(r)},{'s0','s10','s11'})
         self.assertEqual(len(proof),3)
+        from io import StringIO
+        self.assertEqual(discover(copy.deepcopy(rows),h,StringIO(text)),proof)
     def test_duplicate_batches_days_or_intents_are_ambiguous(self):
         rows,h,text=self.sample()
         self.assertEqual(discover(copy.deepcopy(rows),h,text+text),[])

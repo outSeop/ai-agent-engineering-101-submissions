@@ -47,8 +47,8 @@ def resolve_responses(intents, history):
                   and e.get('window')==intent.get('window')]
         if not matching:continue
         # An accepted or uncertain request always takes precedence over a release.
-        accepted=any(e.get('outcome')=='accepted' for e in matching)
-        uncertain=any(e.get('outcome')=='unknown' for e in matching)
+        accepted=intent.get('supply_resolution')=='accepted' or any(e.get('outcome')=='accepted' for e in matching)
+        uncertain=intent.get('supply_resolution')=='unknown' or any(e.get('outcome')=='unknown' for e in matching)
         final=next((e for e in reversed(matching) if e.get('outcome') in ('rejected','not_sent')),None)
         resolution='accepted' if accepted else 'unknown' if uncertain else final.get('outcome') if final else None
         if resolution in ('rejected','not_sent') and intent.get('observed_units'):

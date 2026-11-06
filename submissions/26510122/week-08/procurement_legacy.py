@@ -18,8 +18,10 @@ REFUSAL=re.compile(r'^\d\d:\d\d:\d\d \[supply\] (\{.*?\}) refused: (\d+)')
 
 def discover(intents,history,log_text):
     emissions=[e for e in history if e.get('event')=='portfolio_exploration_intent' and e.get('buy')]
-    batches=[];active=None
-    for number,line in enumerate(log_text.splitlines(),1):
+    batches=[];active=None;hasher=hashlib.sha256()
+    source=log_text.splitlines(keepends=True) if isinstance(log_text,str) else log_text
+    for number,raw in enumerate(source,1):
+        hasher.update(raw.encode());line=raw.rstrip('\r\n')
         match=PROTOCOL.match(line)
         if match:
             active=None
@@ -42,7 +44,7 @@ def discover(intents,history,log_text):
                 except (ValueError,SyntaxError):continue
                 active['refusals'].append((body,int(match[2]),number))
     events=[];duplicate={id(b['event']):sum(o['event'] is b['event'] for o in batches) for b in batches}
-    digest=hashlib.sha256(log_text.encode()).hexdigest()
+    digest=hasher.hexdigest()
     for batch in batches:
         if duplicate[id(batch['event'])]!=1:continue
         emission=batch['event'];at=timestamp(emission.get('at'))
