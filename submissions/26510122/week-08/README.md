@@ -4,6 +4,26 @@ Current operation and Linux migration: [ops/HOME_SERVER.md](ops/HOME_SERVER.md).
 This runbook describes the live plain buyer/seller, private state handoff, and
 Linux user services. Historical policy changes and experiments remain below.
 
+Supply-window execution now uses `procurement_scheduler.py`. A supervised worker
+prepares a model-approved portfolio during the four minutes before a published
+window; this never reserves cash or emits purchases. Approvals are bounded to
+ten minutes and their intended window, with catalog/policy versions and a content
+digest. The kit hook watches fresh local inventory every two seconds (the kit
+refreshes it about every ten), instead of waiting for the next minute's callback.
+When the window opens it performs fresh cash/exposure, pending, target/category,
+catalog, rolling exploration budget and time checks, then returns the kit's normal
+buy protocol without another model call. No market credentials are given to the
+planner; authenticated supply and 429 handling stay in the existing kit.
+
+Preparation and execution use different locks; a slow preparation cannot block
+an already prepared execution. The window claim and pending reservations precede
+emission, so process restarts/unknown supply are not retried. Changed/expired
+approvals are invalidated with a reason. The portfolio now respects the kit's
+actual ten-line limit rather than reserving twelve lines it cannot all execute.
+Portfolio policy version 13 supersedes old prepared plans, retaining existing
+inventory, unresolved intents and risk bounds. Logs distinguish preparation time,
+approval age and fast execution time; the seller supervisor reports `procurement_pid`.
+
 Decision audit (2026-11-06): seller quote/negotiation and buyer shop selection/
 counteroffers now have per-turn `decision_id`s, grouped by seller task or buyer
 issued order (`episode_id`). Buyer shop attempts also have separate `attempt_id`s;

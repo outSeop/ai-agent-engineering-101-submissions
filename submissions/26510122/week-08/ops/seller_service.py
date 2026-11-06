@@ -17,7 +17,7 @@ import urllib.request
 
 ROOT=Path(__file__).resolve().parents[1]
 FILES=('seller_r3.py','harness.py','market_memory.py','market_scoring.py','decision_audit.py','newsvendor_tool.py','context_compaction.py',
-       'inventory_observation.py','inventory_exploration.py','inventory_portfolio.py','procurement_audit.py','supply_reconciliation.py','stock_policy.py',
+       'inventory_observation.py','inventory_exploration.py','inventory_portfolio.py','procurement_audit.py','procurement_scheduler.py','supply_reconciliation.py','stock_policy.py',
        'seller_state.py','seller_quality.py','seller_requirements.py','seller_warranty.py','replenishment_plan.py','restock.py','buyer_identity.py','counterparty_memory.py','seller_forum.py','seller_promotion.py','capital_policy.py','procurement_cost.py','seller_meta_policy.py','seller_meta.py','meta_effects.py','buyer_forum.py')
 STOP=False
 
@@ -43,7 +43,7 @@ def prepare(runtime,keys):
     python=ROOT/'.venv/bin/python'
     config={'harness':'Frozen seller-only Round 3 release; buyer and roleplay are not enabled',
             'seller':{'cmd':shlex.join([str(python),str(release/'seller_r3.py'),'--port','{port}'])},
-            'restock':{'cmd':shlex.join([str(python),str(release/'restock.py'),'--state','{state}'])}}
+            'restock':{'cmd':shlex.join([str(python),str(release/'procurement_scheduler.py'),'--execute','--state','{state}'])}}
     (runtime/'agent.json').write_text(json.dumps(config,indent=2))
     commit=subprocess.run(['git','rev-parse','HEAD'],cwd=ROOT,capture_output=True,text=True,check=True).stdout.strip()
     (runtime/'release.json').write_text(json.dumps({'source_commit':commit,'sha256':digests,'prepared_at':time.time()},indent=2))
@@ -84,6 +84,7 @@ def run(args):
         ssh=market=forum=None;workers={}
         try:
             with (ROOT/'logs/seller-meta-console.log').open('a') as meta_log, \
+                 (ROOT/'logs/procurement-console.log').open('a') as procurement_log, \
                  (ROOT/'state/buyer-runtime/logs/forum-console.log').open('a') as buyer_forum_log, \
                  (ROOT/'logs/seller-r3-tunnel.log').open('a') as ssh_log, \
                  (ROOT/'logs/seller-r3-kit-console.log').open('a') as kit_log, \
@@ -116,6 +117,7 @@ def run(args):
                     stdout=forum_log,stderr=subprocess.STDOUT,start_new_session=True)
                 worker_specs={
                     'meta_pid':('seller_meta.py',runtime,meta_log),
+                    'procurement_pid':('procurement_scheduler.py',runtime,procurement_log),
                     'buyer_forum_pid':('buyer_forum.py',ROOT/'state/buyer-runtime',buyer_forum_log)}
                 def worker(spec):
                     script,working,output=spec

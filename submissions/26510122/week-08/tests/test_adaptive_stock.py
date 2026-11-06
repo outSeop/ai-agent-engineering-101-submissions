@@ -78,7 +78,7 @@ class AdaptiveForecastTests(unittest.TestCase):
         self.assertIsNone(result)
         self.assertEqual(reason,'sales_evidence_changed')
 
-    def test_eight_moderate_sellers_and_four_new_skus_can_share_a_window(self):
+    def test_eight_moderate_sellers_and_two_new_skus_fit_kit_ten_line_limit(self):
         with tempfile.TemporaryDirectory() as directory:
             old = Path.cwd();os.chdir(directory)
             try:
@@ -92,18 +92,18 @@ class AdaptiveForecastTests(unittest.TestCase):
                 def model(role,prompt,schema):
                     self.assertEqual(len(prompt['replenishment_candidates']),8)
                     self.assertEqual(schema['properties']['replenishment']['maxItems'],8)
-                    self.assertEqual(prompt['maximum_new_skus'],4)
+                    self.assertEqual(prompt['maximum_new_skus'],2)
                     picks = [{'sku':r['sku'],'target_stock':max(o['target_stock'] for o in r['target_options'])}
                              for r in prompt['replenishment_candidates'][:8]]
                     anchor = prompt['exploration_anchor_sku']
-                    new = [anchor]+[r['sku'] for r in prompt['candidates'] if r['sku']!=anchor][:3]
+                    new = [anchor]+[r['sku'] for r in prompt['candidates'] if r['sku']!=anchor][:1]
                     return {'action':'buy','skus':new,'replenishment':picks,'reason':'Maintain moderate sellers too'}
                 result = portfolio.run(inv,catalog(),rows,1000,model=model,
                                        refresh=lambda:(inv,1000,True),rng=random.Random(1))
-                self.assertEqual(len(result['buy']),12)
+                self.assertEqual(len(result['buy']),10)
                 intents = json.loads(portfolio.STATE.read_text())['intents']
                 self.assertEqual(sum(i['kind']=='replenishment' for i in intents),8)
-                self.assertEqual(sum(i['kind']=='exploration' for i in intents),4)
+                self.assertEqual(sum(i['kind']=='exploration' for i in intents),2)
             finally:
                 os.chdir(old)
 

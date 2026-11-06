@@ -104,7 +104,7 @@ def configs(root, runtime, role):
     if role=='seller':
         return {'harness':'Frozen seller only; no buyer hooks',
                 'seller':{'cmd':shlex.join([python,str(release/'seller_r3.py'),'--port','{port}'])},
-                'restock':{'cmd':shlex.join([python,str(release/'restock.py'),'--state','{state}'])}}
+                'restock':{'cmd':shlex.join([python,str(release/'procurement_scheduler.py'),'--execute','--state','{state}'])}}
     return {'harness':'Plain issued-order buyer; no roleplay; independent paid-evidence forum worker',
             'market_buyer':{'cmd':shlex.join([python,str(release/'market_buyer_r3.py'),
                 '--shops','{shops}','--order','{order}','--own-shop-name','outseop-26510122','--epsilon','0.1'])},

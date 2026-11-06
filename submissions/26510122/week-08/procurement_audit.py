@@ -15,7 +15,7 @@ def blocked(desired, reason):
 
 def select_lines(desired, *, stocks, categories, pending_stock, catalog,
                  unit_room, supply_lines, budget, allow_replenishment,
-                 allow_new_skus, time_limited):
+                 allow_new_skus, time_limited, exploration_budget=None):
     stocks=Counter(stocks);categories=Counter(categories)
     result=[];emitted=[]
     for index,row in enumerate(desired):
@@ -48,8 +48,11 @@ def select_lines(desired, *, stocks, categories, pending_stock, catalog,
             elif row['cost_ceiling']*qty>budget:
                 checks['quantity_caps_before_budget']=list(reasons)
                 reasons=['shared_budget'];qty=0
+            elif row['kind']=='exploration' and exploration_budget is not None and row['cost_ceiling']*qty>exploration_budget:
+                reasons=['rolling_exploration_budget'];qty=0
             else:
                 budget-=row['cost_ceiling']*qty;unit_room-=qty
+                if row['kind']=='exploration' and exploration_budget is not None:exploration_budget-=row['cost_ceiling']*qty
                 categories[category]+=qty;stocks[sku]+=qty
                 emitted.append({'sku':sku,'qty':qty})
         result.append({'sku':sku,'kind':row['kind'],'approved_qty':requested,

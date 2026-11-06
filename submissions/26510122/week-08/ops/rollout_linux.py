@@ -86,6 +86,11 @@ def main():
     report['buyer_kit_preserved']=after['buyer']['kit_pid']==before['buyer']['kit_pid']
     report['buyer_supervisor_preserved']=after['buyer']['supervisor_pid']==before['buyer']['supervisor_pid']
     report['plain_buyer']=read(runtimes['buyer']/'agent.json').keys()=={'harness','market_buyer','review'}
+    try:
+        os.kill(after['seller']['procurement_pid'],0);report['procurement_worker_alive']=True
+    except (KeyError,OSError):report['procurement_worker_alive']=False
+    hook=read(runtimes['seller']/'agent.json')['restock']['cmd']
+    report['prepared_restock_hook']='procurement_scheduler.py' in hook and '--execute' in hook
     report['public_card_status']=None;report['registry_matches']=False
     for _ in range(20):
         try:
@@ -105,7 +110,7 @@ def main():
         report['inventory_age_seconds']=time.time()-(runtimes['seller']/'.market/inventory.json').stat().st_mtime
         if -2<=report['inventory_age_seconds']<30 or time.monotonic()>=inventory_deadline:break
         time.sleep(2)
-    report['complete']=all(report['hashes_match'].values()) and all(r.get('source_commit')==commit for r in after.values()) and report['buyer_kit_preserved'] and report['buyer_supervisor_preserved'] and report['plain_buyer'] and promo==report['promotion_hash_after'] and report['public_card_status']==200 and report['registry_matches'] and report['inventory_age_seconds']<30
+    report['complete']=all(report['hashes_match'].values()) and all(r.get('source_commit')==commit for r in after.values()) and report['buyer_kit_preserved'] and report['buyer_supervisor_preserved'] and report['plain_buyer'] and report['procurement_worker_alive'] and report['prepared_restock_hook'] and promo==report['promotion_hash_after'] and report['public_card_status']==200 and report['registry_matches'] and report['inventory_age_seconds']<30
     path=ROOT/'logs'/f'linux-rollout-{args.tag}.json';path.write_text(json.dumps(report,indent=2))
     print(json.dumps(report,indent=2),flush=True)
     if not report['complete']:raise RuntimeError('Rollout health incomplete; inspect the saved report before declaring completion')

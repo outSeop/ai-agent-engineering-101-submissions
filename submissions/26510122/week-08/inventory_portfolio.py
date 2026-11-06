@@ -9,6 +9,7 @@ from __future__ import annotations
 from collections import Counter, defaultdict
 import fcntl
 import json
+import hashlib
 import math
 from procurement_cost import ceiling as acquisition_ceiling
 from pathlib import Path
@@ -31,13 +32,16 @@ STATE = Path('state/inventory-portfolio.json')
 EPSILON = .30
 MIN_VARIETY = 50
 MAX_NEW_SKUS = 8
-MAX_SUPPLY_LINES = 12
+MAX_SUPPLY_LINES = 10  # kit executes buy[:10]; never reserve an eleventh line
 PREFERRED_MIN_BATCH = 5
 WINDOW_BUDGET = GROWTH_WINDOW_BUDGET
 ROLLING_BUDGET = GROWTH_EXPLORATION_BUDGET
 MAX_MAINTAINED_SKUS = 8
-POLICY_VERSION = 12
+POLICY_VERSION = 13
 DAY = 86400
+READY = Path('state/procurement-ready.json')
+PREPARE_LEAD_SECONDS = 240
+MAX_APPROVAL_AGE_SECONDS = 600
 
 
 def live_units(inventory, now):
@@ -148,24 +152,29 @@ def basket_limits(rows, anchor, slots, budget):
         categories -= 1
 
 
-def run(inventory, catalog, history, now, *, model, refresh, rng=None, state_path=None):
+def run(inventory, catalog, history, now, *, model, refresh, rng=None, state_path=None,
+        prepare_only=False,ready_path=None):
     """None delegates this window to the model's exploitation planner."""
     if inventory.get('round') != 3:
         return {'buy': []}
     if not operating_policy(now)['allow_replenishment']: return {'buy':[]}
     path = state_path or STATE
-    if not window_open(inventory, now) and not path.exists():
+    ready_path=ready_path or READY
+    if prepare_only and not preparation_window(inventory,now):return {'buy':[]}
+    if not prepare_only and not window_open(inventory, now) and not path.exists():
         return {'buy': []}
     path.parent.mkdir(parents=True, exist_ok=True)
-    with path.with_suffix('.lock').open('a') as lock:
-        fcntl.flock(lock, fcntl.LOCK_EX)
+    with path.with_suffix('.prepare.lock' if prepare_only else '.lock').open('a') as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX | (fcntl.LOCK_NB if prepare_only else 0))
         with audit.scope('seller',record,episode_id=f"procurement:{inventory.get('restock',{}).get('opens_at')}:{now}",
                          score_version=VERSION,policy_version=f'portfolio-{POLICY_VERSION}',model=MODEL):
             return _run(inventory, catalog, history, now, model, refresh,
-                        rng or random.SystemRandom(), path)
+                        rng or random.SystemRandom(), path,prepare_only,ready_path)
 
 
-def _run(inventory, catalog, history, now, model, refresh, rng, path):
+def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_only=False,ready_path=READY):
+    def persist():
+        if not prepare_only:save(path,state)
     operating = operating_policy(now)
     if path.exists():
         try:
@@ -191,13 +200,35 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
     # Arrival observation releases outstanding slot reservations, never spend.
     units = live_units(inventory, now)
     for change in reconcile(state['intents'], inventory, history, now):
-        record('portfolio_intent_reconciled', **change)
-    if not window_open(inventory, now):
-        save(path, state)
+        if not prepare_only:record('portfolio_intent_reconciled', **change)
+    if not prepare_only and not window_open(inventory, now):
+        persist()
         return {'buy': []}
     window = inventory['restock']
     key = f"{window['opens_at']}:{window['closes_at']}"
     choice = state['windows'].get(key)
+    if prepare_only and choice and choice.get('attempted'):return {'buy':[]}
+    previous=read_ready(ready_path) if prepare_only else {}
+    if prepare_only and previous.get('window')==key:
+        compatible=(previous.get('policy_version')==POLICY_VERSION and
+                    previous.get('approval_digest')==approval_digest(previous) and
+                    all(previous.get('operating_policy',{}).get(k)==operating.get(k)
+                        for k in ('meta_version','phase','allow_new_skus','allow_replenishment')) and
+                    all(r.get('sku') in catalog and product_signature(catalog[r['sku']])==r.get('signature')
+                        and (catalog[r['sku']].get('category') or catalog[r['sku']].get('kind'))==r.get('category')
+                        for r in previous.get('desired',[])))
+        if previous.get('status')=='ready' and previous.get('valid_until',0)>now and compatible:return {'buy':[]}
+        if previous.get('retry_after',0)>now:return {'buy':[]}
+        if choice is None:choice=dict(previous.get('policy') or {}) or None
+        if choice and choice.get('meta_version')!=operating.get('meta_version'):
+            # Keep the window's random draw while applying the newly reviewed policy.
+            draw=choice['draw'];epsilon=operating['exploration_epsilon']
+            coverage=operating['allow_new_skus'] and len({u.get('sku') for u in units})<MIN_VARIETY
+            allocation=operating['allow_new_skus'] and inventory_risk(inventory,now)['stock_acquisition_cost']<target_inventory_cost(inventory,now)
+            choice={**choice,'mode':'explore' if operating['allow_new_skus'] and (coverage or allocation or draw<epsilon) else 'exploit',
+                    'epsilon':epsilon,'meta_version':operating.get('meta_version'),'attempted':False,
+                    'coverage_recovery':coverage,'allocation_recovery':allocation}
+            choice.pop('delegated',None)
     if choice is None:
         draw = rng.random()
         epsilon=operating.get('exploration_epsilon',EPSILON)
@@ -215,8 +246,8 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
         if len(state['windows']) > 100:
             oldest = min(state['windows'], key=lambda k: state['windows'][k]['at'])
             del state['windows'][oldest]
-        record('portfolio_window_choice', window=key, policy=choice)
-    save(path, state)
+        record('portfolio_window_choice', window=key, policy=choice,preparation_only=prepare_only)
+    persist()
     if choice.get('delegated'):
         return None
     if choice['attempted']:
@@ -224,13 +255,17 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
     # Persist before calling the model: a crash/unavailable model does not redraw
     # or submit the same experiment on the next 60-second hook.
     choice['attempted'] = True
-    save(path, state)
+    persist()
+    if prepare_only:
+        save(ready_path,{'schema_version':1,'status':'planning','window':key,
+             'policy':{**choice,'attempted':False},'retry_after':now+120})
     recent = [i for i in state['intents'] if i['at'] > now - DAY]
     reserved = sum(i['cost_ceiling']*i.get('qty',1) for i in recent if i.get('kind') != 'replenishment')
     pending = sum(pending_quantity(i) for i in state['intents'])
     pending_cost = sum(max(i['cost_ceiling'], acquisition_ceiling(catalog[i['sku']]) if i['sku'] in catalog else (i['cost_ceiling'] if i.get('surge_reserved') else math.ceil(i['cost_ceiling']*1.5)))*pending_quantity(i) for i in state['intents'])
     risk = inventory_risk(inventory, now, pending_cost)
-    slots = min(MAX_SUPPLY_LINES, max(0, int((window['closes_at'] - now - CLOSING_MARGIN_SECONDS) // 10)))
+    capacity_at=window['opens_at'] if prepare_only else now
+    slots = min(MAX_SUPPLY_LINES, max(0, int((window['closes_at'] - capacity_at - CLOSING_MARGIN_SECONDS) // 10)))
     unit_room = max(0, MAX_TOTAL_STOCK - len(units) - pending)
     budget = min(WINDOW_BUDGET,operating['window_budget'], risk['available_to_invest'])
     rolling_budget = min(ROLLING_BUDGET,operating['rolling_exploration_budget'])
@@ -248,7 +283,8 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
     blocked = {i['sku'] for i in state['intents'] if pending_quantity(i)
                and not partial_from_closed_window(i, now)}
     trialed = {i['sku'] for i in state['intents'] if i.get('second_trial')}
-    winners = replenishment_candidates(catalog, inventory, history, now, blocked, trialed, pending_stocks)
+    forecast_inventory=({**inventory,'restock':{**window,'open':True}} if prepare_only else inventory)
+    winners = replenishment_candidates(catalog, forecast_inventory, history, now, blocked, trialed, pending_stocks)
     for winner in winners:
         bounded = []
         for option in winner['target_options']:
@@ -267,7 +303,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
     if not slots or not unit_room or budget <= 0 or (not winners and (not rows or not new_slots)):
         record('portfolio_hold', reason='exploration_capacity_or_budget', slots=slots, budget=budget)
         choice.update(mode='exploit', fallback_reason='exploration_capacity_or_budget', delegated=True)
-        save(path, state)
+        persist()
         return None
     # A model left entirely free to choose can turn every exploratory basket
     # back into its familiar best sellers. Require one randomly drawn anchor;
@@ -295,6 +331,9 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
              'required': ['sku','target_stock'], 'additionalProperties': False}},
         'reason': {'type': 'string'}}, 'required': ['action', 'skus', 'replenishment', 'reason'], 'additionalProperties': False}
     prompt = {'phase': 'recurring_inventory_exploration', 'policy': choice,
+              'execution_timing':{'preparation_only':prepare_only,'not_before':window['opens_at'],
+                  'note':'Pre-open approval only; no funds reserved until fresh execution checks. '
+                         'Forecast protection includes the upcoming window and its next replenishment opportunity.'},
               'candidates': rows, 'maximum_new_skus': new_slots, 'cost_ceiling_budget': budget,
               'replenishment_candidates':winners, 'maximum_supply_lines':slots,
               'maximum_maintained_skus':MAX_MAINTAINED_SKUS,
@@ -432,7 +471,9 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
                           'instruction':'Revise the choice using the tool-calculated candidates and exact spend limits. '
                                         'No purchase was issued. This is the final correction attempt.'}
             current, at, fresh = refresh()
-            if attempt == 1 or not fresh or not window_open(current,at) or current['restock']['closes_at']-at < 45:
+            still_plannable=(window_key(current.get('restock') or {})==key and at<window['closes_at']-45
+                             if prepare_only else window_open(current,at) and current['restock']['closes_at']-at>=45)
+            if attempt == 1 or not fresh or not still_plannable:
                 record('portfolio_hold', reason='invalid_approval_or_no_correction_time')
                 return {'buy': []}
     desired = [{**o, 'kind':'replenishment'} for o in restock_orders]
@@ -440,7 +481,36 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
     record('portfolio_approval',window=key,planning_at=now,approved_lines=[
         {k:r.get(k) for k in ('sku','kind','qty','target_stock','cost_ceiling','second_trial')} for r in desired],
         model_choice=answer,planning_supply_lines=slots,planning_budget=budget,
-        approved_meta_version=operating.get('meta_version'))
+        approved_meta_version=operating.get('meta_version'),preparation_only=prepare_only)
+    if prepare_only:
+        current,at,fresh=refresh()
+        latest=current.get('restock') or {}
+        if not fresh or current.get('round')!=3 or window_key(latest)!=key or at>=window['closes_at']-CLOSING_MARGIN_SECONDS:
+            record('portfolio_preparation_discarded',window=key,reason='freshness_or_window_changed')
+            return {'buy':[]}
+        for row in desired:row['signature']=product_signature(catalog[row['sku']])
+        prepared={'schema_version':1,'policy_version':POLICY_VERSION,'status':'ready','window':key,
+            'window_data':window,'policy':{**choice,'attempted':False},'prepared_at':at,'planning_at':now,
+            'valid_until':min(at+MAX_APPROVAL_AGE_SECONDS,window['closes_at']-CLOSING_MARGIN_SECONDS),
+            'approved_budget':budget,'approved_supply_lines':slots,'desired':desired,
+            'answer':answer,'operating_policy':operating,'audit':audit.links()}
+        prepared['approval_digest']=approval_digest(prepared)
+        save(ready_path,prepared)
+        record('portfolio_prepared',window=key,prepared_at=at,valid_until=prepared['valid_until'],
+               approved_lines=len(desired),approved_units=sum(r['qty'] for r in desired))
+        audit.executed('prepare',status='applied',approved_lines=len(desired))
+        return {'buy':[]}
+    return _emit_approved(state,path,desired,answer,window,key,operating,now,slots,budget,refresh,catalog)
+
+
+def _emit_approved(state,path,desired,answer,window,key,operating,now,slots,budget,refresh,catalog):
+    pending=sum(pending_quantity(i) for i in state['intents'])
+    pending_cost=sum(max(i['cost_ceiling'],acquisition_ceiling(catalog[i['sku']]) if i['sku'] in catalog else
+                     (i['cost_ceiling'] if i.get('surge_reserved') else math.ceil(i['cost_ceiling']*1.5)))*pending_quantity(i)
+                     for i in state['intents'])
+    pending_stocks=Counter()
+    for i in state['intents']:pending_stocks[i['sku']]+=pending_quantity(i)
+    reserved=sum(i['cost_ceiling']*i.get('qty',1) for i in state['intents'] if i['at']>now-DAY and i.get('kind')!='replenishment')
     def log_execution(lines, at, **limits):
         reasons=Counter(reason for r in lines for reason in r['reasons'])
         record('portfolio_execution',window=key,planning_at=now,execution_at=at,
@@ -472,16 +542,17 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
     room=min(slots,time_slots)
     current_operating = operating_policy(at)
     current_risk=inventory_risk(current,at,pending_cost)
-    cash = min(current_risk['available_to_invest'],current_operating['window_budget'])
+    cash = min(current_risk['available_to_invest'],current_operating['window_budget'],budget)
     categories = Counter(u.get('category') for u in owned)
     for sku, qty in pending_stocks.items():
         categories[catalog.get(sku,{}).get('category')] += qty
     current_stocks = Counter(u.get('sku') for u in owned)
     free_units = max(0, MAX_TOTAL_STOCK-len(owned)-pending)
+    rolling_remaining=max(0,min(ROLLING_BUDGET,current_operating['rolling_exploration_budget'])-reserved)
     buy,execution=select_lines(desired,stocks=current_stocks,categories=categories,
         pending_stock=pending_stocks,catalog=catalog,unit_room=free_units,supply_lines=room,budget=cash,
         allow_replenishment=current_operating['allow_replenishment'],allow_new_skus=current_operating['allow_new_skus'],
-        time_limited=time_slots<slots)
+        time_limited=time_slots<slots,exploration_budget=rolling_remaining)
     by_sku={r['sku']:r for r in desired}
     for emitted in buy:
         sku,qty=emitted['sku'],emitted['qty'];row=by_sku[sku]
@@ -503,3 +574,98 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
            reserved_24h=reserved + sum(i['cost_ceiling']*i.get('qty',1) for i in state['intents'] if i['at']==at and i.get('kind')=='exploration'),
            warning='Intent is not a confirmed purchase; unknown outcomes retain reservations.')
     return {'buy': buy}
+
+
+def window_key(window):
+    return f"{window.get('opens_at')}:{window.get('closes_at')}"
+
+
+def preparation_window(inventory,now):
+    window=inventory.get('restock') or {}
+    start,end=window.get('opens_at'),window.get('closes_at')
+    return (window.get('open') is False and type(start) in (int,float) and type(end) in (int,float)
+            and math.isfinite(start) and math.isfinite(end) and 0<start-now<=PREPARE_LEAD_SECONDS and end>start)
+
+
+def read_ready(path=READY):
+    try:
+        data=json.loads(path.read_text())
+        return data if isinstance(data,dict) else {}
+    except (OSError,ValueError):return {}
+
+
+def approval_digest(data):
+    fields=('schema_version','policy_version','window','window_data','prepared_at','valid_until','planning_at',
+            'approved_budget','approved_supply_lines','desired','answer','operating_policy','audit')
+    return hashlib.sha256(json.dumps({k:data.get(k) for k in fields},sort_keys=True,separators=(',',':')).encode()).hexdigest()
+
+
+def execute_prepared(inventory,catalog,history,now,*,refresh,state_path=None,ready_path=None):
+    """No model call. None means wait; a protocol dict finishes the kit hook."""
+    if inventory.get('round')!=3 or not operating_policy(now)['allow_replenishment']:return {'buy':[]}
+    if not window_open(inventory,now):return None
+    path=state_path or STATE;ready_path=ready_path or READY
+    path.parent.mkdir(parents=True,exist_ok=True)
+    with path.with_suffix('.lock').open('a') as lock:
+        # Preparation uses a different lock and never holds this through a model.
+        fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+        prepared=read_ready(ready_path);key=window_key(inventory['restock'])
+        if prepared.get('window')==key and prepared.get('status') in ('claimed','invalidated'):return {'buy':[]}
+        if prepared.get('window')!=key or prepared.get('status')!='ready':return None
+        try:
+            state=json.loads(path.read_text()) if path.exists() else {'version':1,'windows':{},'intents':[]}
+            if state.get('version')!=1 or not isinstance(state.get('windows'),dict) or not isinstance(state.get('intents'),list):
+                raise ValueError('invalid_portfolio_state')
+            if any(not isinstance(i,dict) or type(i.get('qty',1)) is not int or not 1<=i.get('qty',1)<=PROVEN_STOCK
+                   or not isinstance(i.get('prior_units'),list) or type(i.get('cost_ceiling')) is not int
+                   or i['cost_ceiling']<=0 or i.get('status') not in ('issued_unknown','observed_inventory','settled')
+                   or type(i.get('at')) not in (int,float) or not math.isfinite(i['at']) for i in state['intents']):
+                raise ValueError('invalid_portfolio_state')
+            if state['windows'].get(key,{}).get('attempted'):return {'buy':[]}
+            if prepared.get('schema_version')!=1 or prepared.get('policy_version')!=POLICY_VERSION:raise ValueError('approval_version_changed')
+            if prepared.get('approval_digest')!=approval_digest(prepared):raise ValueError('approval_content_changed')
+            if not 0<=now-prepared['prepared_at']<=MAX_APPROVAL_AGE_SECONDS or now>=prepared['valid_until']:
+                raise ValueError('approval_expired')
+            operating=operating_policy(now);old=prepared['operating_policy']
+            if any(old.get(k)!=operating.get(k) for k in ('meta_version','phase','allow_new_skus','allow_replenishment')):
+                raise ValueError('operating_policy_changed')
+            desired=prepared['desired']
+            if (not isinstance(desired,list) or not 1<=len(desired)<=MAX_SUPPLY_LINES
+                    or len({r['sku'] for r in desired})!=len(desired)
+                    or type(prepared['approved_budget']) is not int or prepared['approved_budget']<=0
+                    or type(prepared['approved_supply_lines']) is not int or not 1<=prepared['approved_supply_lines']<=MAX_SUPPLY_LINES
+                    or not isinstance(prepared['audit'].get('decision_id'),str)
+                    or not isinstance(prepared['audit'].get('episode_id'),str)):
+                raise ValueError('invalid_approved_basket')
+            for row in desired:
+                sku=row['sku'];p=catalog.get(sku)
+                if (not isinstance(p,dict) or product_signature(p)!=row['signature']
+                        or (p.get('category') or p.get('kind'))!=row['category']
+                        or acquisition_ceiling(p)>row['cost_ceiling']):raise ValueError('approved_catalog_changed')
+                if (type(row['qty']) is not int or not 1<=row['qty']<=PROVEN_STOCK
+                        or row['kind'] not in ('exploration','replenishment')
+                        or type(row['cost_ceiling']) is not int or not 0<row['cost_ceiling']<=MAX_UNIT_COST
+                        or row['kind']=='exploration' and row['qty']!=1
+                        or row['kind']=='replenishment' and not 1<=row['target_stock']<=PROVEN_STOCK):
+                    raise ValueError('invalid_approved_line')
+            if sum(r['qty']*r['cost_ceiling'] for r in desired)>prepared['approved_budget']:
+                raise ValueError('approval_budget_exceeded')
+        except (ValueError,KeyError,TypeError) as error:
+            prepared.update(status='invalidated',invalid_reason=str(error),invalidated_at=now)
+            save(ready_path,prepared);record('portfolio_prepared_invalidated',window=key,reason=str(error))
+            return {'buy':[]}
+        for change in reconcile(state['intents'],inventory,history,now):record('portfolio_intent_reconciled',**change)
+        # Claim before reservations/emission; crashes or unknown supply are not retried.
+        prepared.update(status='claimed',claimed_at=now);save(ready_path,prepared)
+        state['windows'][key]={**prepared['policy'],'attempted':True,'prepared_approval_id':prepared['audit']['decision_id']}
+        if len(state['windows'])>100:
+            del state['windows'][min(state['windows'],key=lambda k:state['windows'][k]['at'])]
+        save(path,state)
+        with audit.scope('seller',record,episode_id=prepared['audit']['episode_id'],score_version=VERSION,
+                         policy_version=f'portfolio-{POLICY_VERSION}',model=MODEL):
+            audit.begin('portfolio_prepared_execution',parent_decision_id=prepared['audit']['decision_id'])
+            audit.proposed(prepared['answer'],source='prepared_approval',reason='Previously model-approved; fresh tool checks only')
+            record('portfolio_prepared_reused',window=key,prepared_at=prepared['prepared_at'],
+                   approval_age_seconds=now-prepared['prepared_at'],model_calls=0)
+            return _emit_approved(state,path,desired,prepared['answer'],inventory['restock'],key,
+                prepared['operating_policy'],now,prepared['approved_supply_lines'],prepared['approved_budget'],refresh,catalog)
