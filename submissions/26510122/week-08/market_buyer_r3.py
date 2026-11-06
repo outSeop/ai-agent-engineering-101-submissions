@@ -19,7 +19,8 @@ from harness import decide_json, trace, MODEL
 import buyer_exploration
 import buyer_forum_memory
 import buyer_checkout_memory
-from market_scoring import buyer_candidate,BUYER_WEIGHTS,SAVED_CONTRACT,VERSION
+from market_scoring import (buyer_candidate,BUYER_WEIGHTS,SAVED_CONTRACT,VERSION,
+                            BUYER_RANKING_VERSION,BUYER_SCORE_SCALES,BUYER_ALL_CONTRACT)
 import decision_audit as audit
 
 
@@ -124,7 +125,9 @@ def choose(candidates_: list[dict], order: dict, *, forced_candidate_id: str | N
     prompt = {"phase": "buyer_selection", "order_item": text(order.get("item"),120),
               "kind": order.get("kind"), "use_within_hours": order.get("use_within_hours"),
               "candidate_shop_skus": displayed,
-              'score_contract':{'version':VERSION,'weights':BUYER_WEIGHTS,'definition':SAVED_CONTRACT},
+              'score_contract':{'version':VERSION,'ranking_version':BUYER_RANKING_VERSION,
+                                'weights':BUYER_WEIGHTS,'scales':BUYER_SCORE_SCALES,
+                                'definition':SAVED_CONTRACT,'all_definition':BUYER_ALL_CONTRACT},
               'selection_policy':{'mode':'forced_exploration' if forced_candidate_id is not None else 'model_choice',
                                   'forced_candidate_id':forced_candidate_id,
                                   'note':'In exploration the harness fixes the candidate; choose its opening price. '
@@ -282,7 +285,7 @@ def _run(order: dict, shops: list[dict], catalog: dict, own_shop_name: str, *,
     selection_decision_id=audit.links().get('decision_id')
     record('buyer_policy_selection',selection_id=selection_id,order=order.get('order'),**policy,
            **telemetry,
-           score_version=VERSION,score_metric='saved',
+           score_version=VERSION,score_metric='saved',ranking_version=BUYER_RANKING_VERSION,
            saved_if_usable_at_cap=chosen['score_evidence']['saved_if_usable_at_cap'],
            candidate_id=chosen['id'],shop_name=chosen['shop'],shop=chosen['url'],sku=chosen['sku'],
            opening_offer=first_offer,

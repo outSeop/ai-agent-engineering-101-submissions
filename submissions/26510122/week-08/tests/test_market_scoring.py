@@ -72,5 +72,9 @@ class SavedPolicyTests(unittest.TestCase):
                 self.assertEqual(chosen['sku'],'cheap');self.assertLessEqual(price,chosen['cap'])
                 prompt=model.call_args.args[1]
                 self.assertEqual(prompt['score_contract']['weights']['saved'],.5)
+                self.assertEqual(prompt['score_contract']['scales']['forum'],'raw_rating_0_to_1')
+                self.assertEqual(prompt['score_contract']['scales']['saved'],'percentile')
+                self.assertEqual(prompt['score_contract']['ranking_version'],'round3-patch3.5')
+                self.assertIn('paid votes reduce shop cash and Book',prompt['score_contract']['all_definition'])
                 self.assertIn('not absolute currency surplus',prompt['objective'])
             finally:os.chdir(old)

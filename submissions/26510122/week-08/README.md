@@ -80,8 +80,14 @@ Meta market inputs interleave distinct volume/revenue top-20 candidates before
 the 20-row cut, retain source ranks, and disclose omitted/catalog-missing SKUs and
 displayed counts separately from full ranked-candidate eligibility totals.
 
-Current scoring alignment (2026-11-06, Patch 3.4): seller ALL uses Book/revenue/stars
+Current scoring alignment (2026-11-06, Patch 3.5): seller ALL uses Book/revenue/stars
 percentiles at 0.5/0.3/0.2; buyer ALL uses Saved/forum/deals/posts at 0.5/0.3/0.1/0.1.
+Buyer forum uses its raw Wilson rating (0..1); the other components use percentiles.
+The buyer selector/forum editor receive this mixed-scale contract and ranking
+version. Paid dislike power costs unit*(N-1)^2 in total (only the difference on
+an increase); the authoritative unit is inventory.dislike_power_unit and the fee
+reduces shop cash/Book. Existing posting schemas do not create votes. Actual shop
+balance is rechecked before procurement, including fees already charged by market.
 `market_scoring.py` owns both contracts. Buyer candidate ordering and model inputs
 use normalized savings, not currency saved. Saved-at-cap is conditional on a usable
 settled purchase, not an actual offer or final score; later failures/refunds remain

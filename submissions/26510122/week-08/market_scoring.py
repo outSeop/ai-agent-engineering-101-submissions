@@ -1,9 +1,18 @@
-"""Inspectable Patch 3.4 contracts; currency is never a percentile score."""
+"""Inspectable Book/Saved contracts and Patch 3.5 mixed-scale buyer ranking."""
 import math
 
 VERSION = 'round3-book-saved-v1'
 SELLER_WEIGHTS = {'book':.5,'revenue':.3,'stars':.2}
 BUYER_WEIGHTS = {'saved':.5,'forum':.3,'deals':.1,'posts':.1}
+BUYER_RANKING_VERSION = 'round3-patch3.5'
+BUYER_SCORE_SCALES = {'saved':'percentile','forum':'raw_rating_0_to_1','deals':'percentile','posts':'percentile'}
+BUYER_ALL_CONTRACT = ('Buyer ALL = .5 Saved percentile + .3 raw forum rating (Wilson lower bound, 0..1) '
+                      '+ .1 deals percentile + .1 posts percentile. Only forum uses its value directly. '
+                      'Paid dislike power is unit*(N-1)^2 in total, paying only increases in that total. '
+                      'The authoritative unit is inventory.dislike_power_unit; paid votes reduce shop cash and Book. '
+                      'New negative-author hourly fees are separate; paid power alone is not the whole voting cost. '
+                      'Counted votes require at least 50 settled deals and a different owner. '
+                      'Voting eligibility and fees remain enforced by the market; a posted note is not a paid vote.')
 SAVED_CONTRACT = ('Saved uses normalized realized surplus per list price, divided by deals+100. '
                   'At a usable settlement its contribution is 1-paid/list; expensive goods get no extra weight. '
                   'Unusable food and broken goods can lower it; a covered full refund neutralizes that loss. '
@@ -13,7 +22,7 @@ BOOK_CONTRACT = ('Book = cash balance - starting capital - bankruptcy injections
                  'Buying inventory at its paid cost is initially Book-neutral, not a profit or a score boost. '
                  'Sale spread, holding costs, food spoilage and warranty refunds change Book. '
                  'Stock credit persists at round end, but is not a cash buyback. '
-                 'ALL weights are percentiles, not weights on raw currency and stars.')
+                 'Shop ALL components use percentiles, not raw currency and stars. Buyer forum rating uses its raw 0..1 value.')
 
 def saved_at_price(list_price,price):
     if type(list_price) not in (int,float) or not math.isfinite(list_price) or list_price<=0:
