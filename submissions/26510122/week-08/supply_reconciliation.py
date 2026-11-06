@@ -1,6 +1,7 @@
 """Reconcile acquisition intents from physical-unit evidence, never from price guesses."""
 from inventory_observation import timestamp
 import math
+from decision_audit import LINKS
 
 
 def supply_window(intent):
@@ -63,7 +64,9 @@ def reconcile(intents, inventory, history, now):
         index = candidates[0]
         intent = intents[index]
         old = intent['status']
-        units = set(intent.get('observed_units', [])) | {proof['unit']}
+        previous_units=set(intent.get('observed_units', []))
+        previous_settled=set(intent.get('settled_units', []))
+        units = previous_units | {proof['unit']}
         intent['observed_units'] = sorted(units)
         owners[proof['unit']] = index
         if proof['source'] == 'settled':
@@ -73,7 +76,9 @@ def reconcile(intents, inventory, history, now):
             intent['status'] = 'settled'
         elif len(units) >= intent.get('qty', 1) and old != 'settled':
             intent['status'] = 'observed_inventory'
-        if old != intent['status']:
+        if old != intent['status'] or units!=previous_units or set(intent.get('settled_units',[]))!=previous_settled:
             changes.append({'sku': intent['sku'], 'unit': proof['unit'], 'old_status': old,
-                            'status': intent['status'], 'source': proof['source'], 'ledger': proof.get('ledger')})
+                            'status': intent['status'], 'source': proof['source'], 'ledger': proof.get('ledger'),
+                            'outcome_link_status':'exact_intent_unit' if intent.get('decision_id') else 'legacy_or_unmatched',
+                            **{key:intent[key] for key in (*LINKS,'intent_id') if intent.get(key) is not None}})
     return changes

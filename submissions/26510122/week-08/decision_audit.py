@@ -157,11 +157,21 @@ def journeys(rows):
             item = group['decisions'].setdefault(decision, {'decision_id': decision, 'events': []})
             item['events'].append(row)
         if event in ('settled', 'payment', 'negotiation', 'negotiation_expired',
-                     'rejected', 'cancelled', 'receipt_signed', 'checkout_unpaid'):
+                     'rejected', 'cancelled', 'receipt_signed', 'checkout_unpaid',
+                     'portfolio_approval','portfolio_execution','portfolio_intent_reconciled'):
             group['outcomes'].append(row)
     result = []
     for group in groups.values():
         outcomes = group['outcomes']
+        if group['episode_id'].startswith('procurement:'):
+            group['kind']='procurement'
+            reconciled=[r for r in outcomes if r['event']=='portfolio_intent_reconciled']
+            group['status']=('resale_observed' if any(r.get('source')=='settled' and r.get('ledger') is not None for r in reconciled)
+                             else 'arrival_observed' if reconciled else
+                             'emitted_pending' if any(r.get('emitted_units',0)>0 for r in outcomes) else 'blocked_or_held')
+            group['decisions']=list(group['decisions'].values())
+            if group['decisions']:result.append(group)
+            continue
         paid = [r for r in outcomes if (r['event'] == 'settled'
                 or r['event'] == 'payment' and r.get('paid') is True) and r.get('ledger') is not None]
         if paid:

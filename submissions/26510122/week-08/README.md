@@ -32,8 +32,16 @@ Read an episode without modifying market state:
 The report groups every audited turn contributing to a transaction and retains
 separate attempt/outcome links. Raw model inputs/answers in the harness trace use
 the same IDs. Historical records are not backfilled with invented model choices.
-This first audit covers trading negotiation; procurement and forum still retain
-their existing intent/publication-specific evidence, not this per-turn schema.
+Procurement approvals now use the same decision/episode IDs. `portfolio_approval`
+retains all validated lines and quantities; `portfolio_execution` records every
+approved SKU, emitted quantity, cut quantity, binding reason and the live cash,
+unit/category/target and supply-line checks. Planning/execution budgets, remaining
+window time and elapsed deliberation are kept separately. A later receipt/sale
+or inventory arrival links back through the durable intent ID; partial arrivals
+are recorded without releasing missing reservations. Legacy intents stay unlinked.
+The report labels procurement arrival/resale separately from buyer payment.
+The sequential replenishment-before-exploration priority and all guards remain.
+Forum retains its publication-specific evidence.
 Meta market inputs interleave distinct volume/revenue top-20 candidates before
 the 20-row cut, retain source ranks, and disclose omitted/catalog-missing SKUs and
 displayed counts separately from full ranked-candidate eligibility totals.

@@ -13,6 +13,10 @@ import math
 from procurement_cost import ceiling as acquisition_ceiling
 from pathlib import Path
 import random
+import decision_audit as audit
+from harness import MODEL
+from market_scoring import VERSION
+from procurement_audit import select_lines,blocked as blocked_lines
 
 from inventory_exploration import window_open
 from inventory_observation import timestamp
@@ -155,8 +159,10 @@ def run(inventory, catalog, history, now, *, model, refresh, rng=None, state_pat
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.with_suffix('.lock').open('a') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
-        return _run(inventory, catalog, history, now, model, refresh,
-                    rng or random.SystemRandom(), path)
+        with audit.scope('seller',record,episode_id=f"procurement:{inventory.get('restock',{}).get('opens_at')}:{now}",
+                         score_version=VERSION,policy_version=f'portfolio-{POLICY_VERSION}',model=MODEL):
+            return _run(inventory, catalog, history, now, model, refresh,
+                        rng or random.SystemRandom(), path)
 
 
 def _run(inventory, catalog, history, now, model, refresh, rng, path):
@@ -402,18 +408,25 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
     correction = None
     for attempt in range(2):
         request = prompt if correction is None else {**prompt, 'correction':correction}
+        audit.begin('portfolio_approval',parent_decision_id=audit.links().get('decision_id'))
         try:
             answer = model('recurring inventory explorer', request, schema)
         except Exception as error:
+            audit.proposed({'action':'hold'},source='fallback',reason=type(error).__name__)
+            audit.executed('hold',status='applied',reason='model_unavailable')
             record('portfolio_hold', reason='model_unavailable', error=type(error).__name__)
             return {'buy': []}
+        audit.proposed(answer if isinstance(answer,dict) else {'invalid_answer':answer})
         if isinstance(answer,dict) and answer.get('action') == 'hold':
+            audit.executed('hold',status='applied',reason=answer.get('reason'))
             record('portfolio_hold', reason='model_hold', model_choice=answer)
             return {'buy': []}
         try:
             skus, allowed, restock_orders = validate(answer)
             break
         except (ValueError,TypeError,AttributeError) as error:
+            audit.guard('invalid_approval',error=str(error))
+            audit.executed('buy',status='blocked',reason='invalid_approval')
             record('portfolio_approval_invalid', attempt=attempt, error=str(error), model_choice=answer)
             correction = {'previous_choice':answer,'tool_validation_error':str(error),
                           'instruction':'Revise the choice using the tool-calculated candidates and exact spend limits. '
@@ -422,47 +435,61 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
             if attempt == 1 or not fresh or not window_open(current,at) or current['restock']['closes_at']-at < 45:
                 record('portfolio_hold', reason='invalid_approval_or_no_correction_time')
                 return {'buy': []}
+    desired = [{**o, 'kind':'replenishment'} for o in restock_orders]
+    desired += [{**allowed[sku], 'qty':1, 'kind':'exploration'} for sku in skus]
+    record('portfolio_approval',window=key,planning_at=now,approved_lines=[
+        {k:r.get(k) for k in ('sku','kind','qty','target_stock','cost_ceiling','second_trial')} for r in desired],
+        model_choice=answer,planning_supply_lines=slots,planning_budget=budget,
+        approved_meta_version=operating.get('meta_version'))
+    def log_execution(lines, at, **limits):
+        reasons=Counter(reason for r in lines for reason in r['reasons'])
+        record('portfolio_execution',window=key,planning_at=now,execution_at=at,
+               planning_elapsed_seconds=max(0,at-now),lines=lines,
+               approved_units=sum(r['approved_qty'] for r in lines),
+               emitted_units=sum(r['emitted_qty'] for r in lines),
+               cut_units=sum(r['cut_qty'] for r in lines),cut_reason_counts=dict(reasons),
+               planning_supply_lines=slots,planning_budget=budget,
+               approved_meta_version=operating.get('meta_version'),**limits,
+               warning='Emitted requests are not confirmed arrivals; unresolved reservations remain.')
+        for reason in reasons:audit.guard(reason,affected_skus=[r['sku'] for r in lines if reason in r['reasons']])
+        audit.executed('buy',status='emitted' if any(r['emitted_qty'] for r in lines) else 'blocked',
+                       buy=[{'sku':r['sku'],'qty':r['emitted_qty']} for r in lines if r['emitted_qty']])
     current, at, fresh = refresh()
     if not fresh or current.get('round') != 3 or not window_open(current, at) or current['restock']['opens_at'] != window['opens_at']:
+        reason=('inventory_stale' if not fresh else 'round_changed' if current.get('round')!=3
+                else 'supply_window_closed' if not window_open(current,at) else 'supply_window_changed')
+        log_execution(blocked_lines(desired,reason),at,fresh_inventory=fresh)
         record('portfolio_hold', reason='window_or_freshness_changed_after_approval')
         return {'buy': []}
     owned = live_units(current, at)
-    room = min(slots,
-               max(0, int((current['restock']['closes_at'] - at - 15) // 10)))
+    time_slots=max(0,int((current['restock']['closes_at']-at-15)//10))
+    room=min(slots,time_slots)
     current_operating = operating_policy(at)
-    cash = min(inventory_risk(current, at, pending_cost)['available_to_invest'],current_operating['window_budget'])
+    current_risk=inventory_risk(current,at,pending_cost)
+    cash = min(current_risk['available_to_invest'],current_operating['window_budget'])
     categories = Counter(u.get('category') for u in owned)
     for sku, qty in pending_stocks.items():
         categories[catalog.get(sku,{}).get('category')] += qty
-    buy = []
     current_stocks = Counter(u.get('sku') for u in owned)
     free_units = max(0, MAX_TOTAL_STOCK-len(owned)-pending)
-    desired = [{**o, 'kind':'replenishment'} for o in restock_orders]
-    desired += [{**allowed[sku], 'qty':1, 'kind':'exploration'} for sku in skus]
-    for row in desired:
-        sku = row['sku']
-        if not current_operating['allow_replenishment']: break
-        if (row['kind']=='exploration' or row.get('second_trial')) and not current_operating['allow_new_skus']: continue
-        if len(buy) >= room:
-            break
-        if row['kind']=='exploration' and (current_stocks[sku] or product_signature(catalog[sku]) != row['signature']):
-            continue
-        if categories[row['category']] >= MAX_CATEGORY_STOCK:
-            continue
-        qty = min(row['qty'], free_units, MAX_CATEGORY_STOCK-categories[row['category']],
-                  (row['target_stock']-current_stocks[sku]-pending_stocks[sku]) if row['kind']=='replenishment' else 1)
-        if qty <= 0 or row['cost_ceiling']*qty > cash:
-            continue
-        cash -= row['cost_ceiling']*qty
-        free_units -= qty
-        categories[row['category']] += qty
-        current_stocks[sku] += qty
+    buy,execution=select_lines(desired,stocks=current_stocks,categories=categories,
+        pending_stock=pending_stocks,catalog=catalog,unit_room=free_units,supply_lines=room,budget=cash,
+        allow_replenishment=current_operating['allow_replenishment'],allow_new_skus=current_operating['allow_new_skus'],
+        time_limited=time_slots<slots)
+    by_sku={r['sku']:r for r in desired}
+    for emitted in buy:
+        sku,qty=emitted['sku'],emitted['qty'];row=by_sku[sku]
         state['intents'].append({'sku': sku, 'qty': qty, 'kind':row['kind'], 'cost_ceiling': row['cost_ceiling'],
                                 'surge_reserved':True, 'prior_units': [u['unit'] for u in owned if u.get('unit')],
                                 'status': 'issued_unknown', 'at': at, 'window': key,
-                                'second_trial':bool(row.get('second_trial'))})
-        buy.append({'sku': sku, 'qty': qty})
+                                'second_trial':bool(row.get('second_trial')),
+                                **audit.links(),'intent_id':f"{audit.links()['decision_id']}:{sku}"})
     save(path, state)  # all reservations precede externally executed supply calls
+    log_execution(execution,at,execution_supply_lines=room,time_limited_supply_lines=time_slots,
+                  execution_budget=cash,execution_unit_room=free_units,
+                  execution_risk_capacity=current_risk,
+                  seconds_until_window_close=current['restock']['closes_at']-at,
+                  emitted_meta_version=current_operating.get('meta_version'))
     record('portfolio_exploration_intent', buy=buy, model_choice=answer,
            policy_version=POLICY_VERSION, approved_meta_version=operating.get('meta_version'),
            emitted_meta_version=current_operating.get('meta_version'), operating_phase=current_operating['phase'],
