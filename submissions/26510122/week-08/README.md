@@ -42,6 +42,17 @@ are recorded without releasing missing reservations. Legacy intents stay unlinke
 The report labels procurement arrival/resale separately from buyer payment.
 The sequential replenishment-before-exploration priority and all guards remain.
 Forum retains its publication-specific evidence.
+`meta_effects.py` checks policy edits on a fixed inventory snapshot before the
+model sees change options, and again on refreshed inventory before a proposed
+change/rollback is applied. The check distinguishes effective spending capacity,
+recovery-forced exploration, and changes to model guidance. A soft target clipped
+at the same absolute cap, an epsilon edit overridden by recovery, or a window
+budget edit above the same available-capital ceiling is excluded. Guidance-only
+changes are explicitly labelled and never presented as extra spending capacity.
+No-effect proposals become holds with the original model proposal and computed
+reason preserved in JSONL/SQLite; policy versions/baselines and hard limits are
+not reset. The existing two-hour/twenty-mature-sale gate remains. Meta also sees
+recent approval/emission cuts and a decomposition of the binding spend limit.
 Meta market inputs interleave distinct volume/revenue top-20 candidates before
 the 20-row cut, retain source ranks, and disclose omitted/catalog-missing SKUs and
 displayed counts separately from full ranked-candidate eligibility totals.
