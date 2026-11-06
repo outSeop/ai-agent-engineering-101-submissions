@@ -25,6 +25,12 @@ STOP=False
 def log(message):print(time.strftime('%Y-%m-%d %H:%M:%S')+' '+message,flush=True)
 
 
+def kit_entrypoint(runtime,kit,manifest):
+    # Source can update before a frozen release is swapped, or during rollback.
+    # Only a manifest-verified new release may use the observing entrypoint.
+    return ([str(runtime/'release/seller_kit.py'),str(kit)] if 'seller_kit.py' in manifest['sha256'] else [str(kit)])
+
+
 def prepare(runtime,keys):
     runtime.mkdir(parents=True,exist_ok=True)
     release=runtime/'release';release.mkdir(exist_ok=False)
@@ -107,7 +113,7 @@ def run(args):
                 if STOP:break
                 if not url:raise RuntimeError('Public tunnel did not become ready')
                 log(f'Tunnel ready: {url}')
-                market=subprocess.Popen([str(ROOT/'.venv/bin/python'),str(runtime/'release/seller_kit.py'),str(kit),'join','--dir',str(runtime),
+                market=subprocess.Popen([str(ROOT/'.venv/bin/python'),*kit_entrypoint(runtime,kit,manifest),'join','--dir',str(runtime),
                     '--market','https://market.ourolabs.ai','--name','outseop-26510122','--port',str(args.port),
                     '--public-url',url,'--shop-only'],cwd=runtime,env=env,
                     stdout=kit_log,stderr=subprocess.STDOUT,start_new_session=True)
