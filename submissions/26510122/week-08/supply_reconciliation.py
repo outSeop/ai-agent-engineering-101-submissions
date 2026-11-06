@@ -85,9 +85,11 @@ def reconcile(intents, inventory, history, now):
                          'source': kind, 'ledger': event.get('ledger')})
     # Evidence for an already identified unit belongs to that original intent.
     owners = {unit: i for i, intent in enumerate(intents) for unit in intent.get('observed_units', [])}
+    by_sku={}
+    for i,intent in enumerate(intents):by_sku.setdefault(intent['sku'],[]).append((i,intent))
     for proof in evidence:
-        candidates = [i for i, intent in enumerate(intents)
-                      if intent['sku'] == proof['sku'] and intent['at'] <= proof['at']
+        candidates = [i for i, intent in by_sku.get(proof['sku'],[])
+                      if intent['at'] <= proof['at']
                       and proof['unit'] not in intent.get('prior_units', [])
                       and (pending_quantity(intent) or proof['unit'] in intent.get('observed_units', [])
                            or intent.get('supply_resolution') in ('rejected','not_sent'))]
