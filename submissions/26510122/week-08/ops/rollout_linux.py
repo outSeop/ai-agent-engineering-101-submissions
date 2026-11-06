@@ -98,7 +98,13 @@ def main():
             if report['public_card_status']==200 and report['registry_matches']:break
         except (OSError,ValueError):pass
         time.sleep(2)
-    report['inventory_age_seconds']=time.time()-(runtimes['seller']/'.market/inventory.json').stat().st_mtime
+    # The first inventory refresh can lag the ready public card after restart.
+    # Observe it before deciding whether the release is unhealthy.
+    inventory_deadline=time.monotonic()+60
+    while True:
+        report['inventory_age_seconds']=time.time()-(runtimes['seller']/'.market/inventory.json').stat().st_mtime
+        if -2<=report['inventory_age_seconds']<30 or time.monotonic()>=inventory_deadline:break
+        time.sleep(2)
     report['complete']=all(report['hashes_match'].values()) and all(r.get('source_commit')==commit for r in after.values()) and report['buyer_kit_preserved'] and report['buyer_supervisor_preserved'] and report['plain_buyer'] and promo==report['promotion_hash_after'] and report['public_card_status']==200 and report['registry_matches'] and report['inventory_age_seconds']<30
     path=ROOT/'logs'/f'linux-rollout-{args.tag}.json';path.write_text(json.dumps(report,indent=2))
     print(json.dumps(report,indent=2),flush=True)
