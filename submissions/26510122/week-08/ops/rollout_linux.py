@@ -26,6 +26,13 @@ def hashes(runtime):
     return all(digest(runtime/'release'/name)==value for name,value in m['sha256'].items())
 
 
+def rebound_seller_config(stage,runtime):
+    config=read(stage/'agent.json')
+    for key in ('seller','restock'):
+        config[key]['cmd']=config[key]['cmd'].replace(str(stage/'release'),str(runtime/'release'))
+    return config
+
+
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--tag',required=True);args=parser.parse_args()
     if sys.platform!='linux':raise RuntimeError('This rollout is for Linux user services')
@@ -40,6 +47,8 @@ def main():
     buyer_service.prepare(stages['buyer'],runtimes['buyer'])
     for role,stage in stages.items():
         assert hashes(stage) and read(stage/'release.json')['source_commit']==commit
+    seller_config_before=(runtimes['seller']/'agent.json').read_bytes()
+    seller_config_after=rebound_seller_config(stages['seller'],runtimes['seller'])
     # Never terminate a sequential supply batch in an open or imminent window.
     deadline=time.monotonic()+240
     while True:
@@ -59,6 +68,11 @@ def main():
             backups[role]=backup
             (stages[role]/'release').rename(runtime/'release')
             (stages[role]/'release.json').rename(runtime/'release.json');swapped.append(role)
+        config_backup=runtimes['seller']/f'release-previous-{args.tag}.agent.json'
+        config_backup.write_bytes(seller_config_before)
+        config_temp=runtimes['seller']/f'agent-{args.tag}.tmp'
+        config_temp.write_text(json.dumps(seller_config_after,indent=2))
+        os.replace(config_temp,runtimes['seller']/'agent.json')
         os.kill(pid,signal.SIGCONT);paused=False
         run('systemctl','--user','start','outseop-r3-seller.service');stopped=False
     except Exception:
@@ -67,6 +81,7 @@ def main():
             if (runtime/'release').exists():(runtime/'release').rename(runtime/f'release-rejected-{args.tag}')
             if (runtime/'release.json').exists():(runtime/'release.json').rename(runtime/f'release-rejected-{args.tag}.json')
             backup.rename(runtime/'release');backup.with_suffix('.json').rename(runtime/'release.json')
+        (runtimes['seller']/'agent.json').write_bytes(seller_config_before)
         raise
     finally:
         if paused:os.kill(pid,signal.SIGCONT)
