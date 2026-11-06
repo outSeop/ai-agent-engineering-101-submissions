@@ -25,9 +25,10 @@ MIN_SKUS = 5
 MAX_SKUS = 8
 MIN_BALANCE = MIN_CASH
 MAX_UNIT_CEILING = 50_000
+CLOSING_MARGIN_SECONDS = 15
 
 
-def window_open(inventory: dict, now: float, margin: float = 15) -> bool:
+def window_open(inventory: dict, now: float, margin: float = CLOSING_MARGIN_SECONDS) -> bool:
     window = inventory.get('restock')
     if not isinstance(window, dict):
         return False

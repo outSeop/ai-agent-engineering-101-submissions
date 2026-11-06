@@ -36,7 +36,10 @@ Procurement approvals now use the same decision/episode IDs. `portfolio_approval
 retains all validated lines and quantities; `portfolio_execution` records every
 approved SKU, emitted quantity, cut quantity, binding reason and the live cash,
 unit/category/target and supply-line checks. Planning/execution budgets, remaining
-window time and elapsed deliberation are kept separately. A later receipt/sale
+window time and elapsed deliberation are kept separately. An open published window
+inside the existing 15-second safety margin is labelled `supply_window_closing_buffer`,
+separately from an actually closed window; the safety margin itself is unchanged.
+A later receipt/sale
 or inventory arrival links back through the durable intent ID; partial arrivals
 are recorded without releasing missing reservations. Legacy intents stay unlinked.
 The report labels procurement arrival/resale separately from buyer payment.

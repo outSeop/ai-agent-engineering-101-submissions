@@ -18,7 +18,7 @@ from harness import MODEL
 from market_scoring import VERSION
 from procurement_audit import select_lines,blocked as blocked_lines
 
-from inventory_exploration import window_open
+from inventory_exploration import window_open,CLOSING_MARGIN_SECONDS
 from inventory_observation import timestamp
 from market_memory import record
 from replenishment_plan import MAX_CATEGORY_STOCK, MAX_TOTAL_STOCK, inventory_risk, product_signature, save
@@ -230,7 +230,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
     pending = sum(pending_quantity(i) for i in state['intents'])
     pending_cost = sum(max(i['cost_ceiling'], acquisition_ceiling(catalog[i['sku']]) if i['sku'] in catalog else (i['cost_ceiling'] if i.get('surge_reserved') else math.ceil(i['cost_ceiling']*1.5)))*pending_quantity(i) for i in state['intents'])
     risk = inventory_risk(inventory, now, pending_cost)
-    slots = min(MAX_SUPPLY_LINES, max(0, int((window['closes_at'] - now - 15) // 10)))
+    slots = min(MAX_SUPPLY_LINES, max(0, int((window['closes_at'] - now - CLOSING_MARGIN_SECONDS) // 10)))
     unit_room = max(0, MAX_TOTAL_STOCK - len(units) - pending)
     budget = min(WINDOW_BUDGET,operating['window_budget'], risk['available_to_invest'])
     rolling_budget = min(ROLLING_BUDGET,operating['rolling_exploration_budget'])
@@ -456,13 +456,19 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
                        buy=[{'sku':r['sku'],'qty':r['emitted_qty']} for r in lines if r['emitted_qty']])
     current, at, fresh = refresh()
     if not fresh or current.get('round') != 3 or not window_open(current, at) or current['restock']['opens_at'] != window['opens_at']:
+        latest=current.get('restock') or {}
+        closes=latest.get('closes_at');remaining=closes-at if type(closes) in (int,float) else None
         reason=('inventory_stale' if not fresh else 'round_changed' if current.get('round')!=3
-                else 'supply_window_closed' if not window_open(current,at) else 'supply_window_changed')
-        log_execution(blocked_lines(desired,reason),at,fresh_inventory=fresh)
+                else 'supply_window_changed' if latest.get('opens_at')!=window['opens_at']
+                else 'supply_window_closing_buffer' if latest.get('open') is True and remaining is not None
+                     and 0<remaining<=CLOSING_MARGIN_SECONDS else 'supply_window_closed')
+        log_execution(blocked_lines(desired,reason),at,fresh_inventory=fresh,
+                      observed_supply_window=latest,seconds_until_window_close=remaining,
+                      closing_safety_seconds=CLOSING_MARGIN_SECONDS)
         record('portfolio_hold', reason='window_or_freshness_changed_after_approval')
         return {'buy': []}
     owned = live_units(current, at)
-    time_slots=max(0,int((current['restock']['closes_at']-at-15)//10))
+    time_slots=max(0,int((current['restock']['closes_at']-at-CLOSING_MARGIN_SECONDS)//10))
     room=min(slots,time_slots)
     current_operating = operating_policy(at)
     current_risk=inventory_risk(current,at,pending_cost)
@@ -489,6 +495,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
                   execution_budget=cash,execution_unit_room=free_units,
                   execution_risk_capacity=current_risk,
                   seconds_until_window_close=current['restock']['closes_at']-at,
+                  closing_safety_seconds=CLOSING_MARGIN_SECONDS,
                   emitted_meta_version=current_operating.get('meta_version'))
     record('portfolio_exploration_intent', buy=buy, model_choice=answer,
            policy_version=POLICY_VERSION, approved_meta_version=operating.get('meta_version'),

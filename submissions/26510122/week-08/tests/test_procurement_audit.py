@@ -86,6 +86,16 @@ class ProcurementExecutionTests(unittest.TestCase):
         self.assertEqual(rows[1]['reasons'],['category_capacity'])
         self.assertEqual(sum(r['approved_qty'] for r in rows),sum(r['emitted_qty']+r['cut_qty'] for r in rows))
 
+    def test_published_window_can_be_open_but_inside_fifteen_second_safety_margin(self):
+        inv=inventory()
+        self.assertEqual(self.run_portfolio(inv,refresh=lambda:(inv,1190,True)),{'buy':[]})
+        row=self.execution()
+        self.assertEqual(row['cut_reason_counts'],{'supply_window_closing_buffer':8})
+        self.assertTrue(row['observed_supply_window']['open'])
+        self.assertEqual(row['seconds_until_window_close'],10)
+        self.assertEqual(row['closing_safety_seconds'],15)
+        self.assertEqual(json.loads(self.path.read_text())['intents'],[])
+
     def test_partial_delivery_is_recorded_once_before_full_quantity_arrives(self):
         intent={'sku':'a','at':1000,'qty':2,'prior_units':[],'status':'issued_unknown','window':'990:1200',
                 'episode_id':'procurement:original','decision_id':'d1','intent_id':'d1:a'}
