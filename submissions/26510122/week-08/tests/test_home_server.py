@@ -69,6 +69,37 @@ class HomeServerTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError,'Stop source services'):
                     export_bundle(root,root/'state/private.handoff.tar.gz',owner)
 
+    def test_procurement_worker_blocks_export_even_without_live_supervisor(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)/'source';owner=self.fixture(root)
+            status=root/'state/seller-runtime/running.json'
+            status.write_text(json.dumps({'supervisor_pid':9999999,'procurement_pid':12345}))
+            with patch('ops.home_server.alive',side_effect=lambda pid:pid==12345):
+                with self.assertRaisesRegex(ValueError,'procurement_pid'):
+                    export_bundle(root,root/'state/private.handoff.tar.gz',owner)
+            self.assertFalse((root/'state/private.handoff.tar.gz').exists())
+
+    def test_scheduler_heartbeat_blocks_export_with_stale_running_record(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)/'source';owner=self.fixture(root)
+            (root/'state/seller-runtime/state/procurement-scheduler-status.json').write_text(
+                json.dumps({'pid':12345,'status':'planning'}))
+            with patch('ops.home_server.alive',side_effect=lambda pid:pid==12345):
+                with self.assertRaisesRegex(ValueError,'Stop source services'):
+                    export_bundle(root,root/'state/private.handoff.tar.gz',owner)
+
+    def test_procurement_console_evidence_survives_migration(self):
+        with tempfile.TemporaryDirectory() as d:
+            source=Path(d)/'source';owner=self.fixture(source)
+            evidence='synthetic procurement timeout evidence\n'
+            (source/'logs/procurement-console.log').write_text(evidence)
+            bundle=source/'state/migration/private.handoff.tar.gz'
+            with patch('ops.home_server.subprocess.check_output',return_value='testcommit'):
+                export_bundle(source,bundle,owner)
+            dest=Path(d)/'target';dest.mkdir()
+            restore_bundle(dest,bundle,dest/'owner-code')
+            self.assertEqual((dest/'logs/procurement-console.log').read_text(),evidence)
+
     def test_unsafe_archive_rejected_before_install(self):
         with tempfile.TemporaryDirectory() as d:
             root=Path(d);bundle=root/'evil.tar.gz'

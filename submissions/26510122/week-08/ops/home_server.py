@@ -19,7 +19,7 @@ import time
 ROOT = Path(__file__).resolve().parents[1]
 RUNTIMES = ('seller-runtime', 'buyer-runtime')
 SELLER_LOGS = {'shop-events.jsonl','seller-forum-events.jsonl','seller-forum-console.log',
-               'seller-meta-console.log','seller-meta-events.jsonl','seller-r3-kit-console.log','seller-r3-supervisor.err','seller-r3-supervisor.log','seller-r3-tunnel.log'}
+               'seller-meta-console.log','seller-meta-events.jsonl','procurement-console.log','seller-r3-kit-console.log','seller-r3-supervisor.err','seller-r3-supervisor.log','seller-r3-tunnel.log'}
 
 
 def alive(pid):
@@ -33,10 +33,11 @@ def alive(pid):
 def assert_stopped(root):
     for name in RUNTIMES:
         runtime = root/'state'/name
-        for status in (runtime/'running.json', runtime/'state/buyer-logdb-status.json'):
+        for status in (runtime/'running.json', runtime/'state/buyer-logdb-status.json',
+                       runtime/'state/procurement-scheduler-status.json'):
             if not status.exists(): continue
             data = json.loads(status.read_text())
-            for field in ('supervisor_pid', 'kit_pid', 'forum_pid', 'tunnel_pid', 'meta_pid', 'buyer_forum_pid', 'pid'):
+            for field in ('supervisor_pid', 'kit_pid', 'forum_pid', 'tunnel_pid', 'meta_pid', 'procurement_pid', 'buyer_forum_pid', 'pid'):
                 if alive(data.get(field)):
                     raise ValueError(f'Stop source services before export: {name}/{field} is alive')
 
