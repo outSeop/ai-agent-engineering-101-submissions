@@ -176,7 +176,7 @@ class ShopForumTests(unittest.TestCase):
 
     def test_daily_cap(self):
         forum.save(self.root/'state/seller-forum.json', {'attempts': [], 'posts': [
-            {'id': str(i), 'at': self.now-i*1800, 'status': 'published', 'text': 'x'} for i in range(forum.DAILY_CAP)]})
+            {'id': str(i), 'at': self.now-i*330, 'status': 'published', 'text': 'x'} for i in range(forum.DAILY_CAP)]})
         result = forum.run_once(self.root, decide=lambda *a: self.fail('cap'), now=self.now)
         self.assertEqual(result['reason'], 'daily cap')
 
