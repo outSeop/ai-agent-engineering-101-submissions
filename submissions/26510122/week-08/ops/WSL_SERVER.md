@@ -9,6 +9,12 @@
 - Ubuntu 사용자로 Codex CLI를 설치·로그인하고, `harness.py`가 쓰는 CLI 플래그를 확인한다. 기존 모델을 그대로 쓰는 JSON 응답 점검 1회와 전체 테스트를 수행한다.
 - Windows SSH 방화벽과 공개키의 `from=`은 관리용 컴퓨터의 Tailscale IP로 제한한다. 실제 IP·개인키·인증 캐시는 이 문서나 Git에 넣지 않는다.
 
+### 새 사용자 계정의 Pinggy SSH 인증
+
+기존 셀러 관리자는 `BatchMode=yes`로 Pinggy에 접속한다. SSH 키가 없는 새 WSL에서는 `Permission denied (publickey,password)`가 날 수 있다. 이 이전에서는 포워딩 없는 인증 점검으로 별도의 Ed25519 키를 제공했을 때 SSH 인증에 성공함을 확인했다. 지갑 서명 키나 다른 컴퓨터의 SSH 개인키를 재사용하지 않는다.
+
+`~/.ssh/market-pinggy-ed25519` 같은 전용 키를 만들고, 기존 SSH 설정을 먼저 확인한 뒤 `Host free.pinggy.io`에 해당 키의 `IdentityFile`과 `IdentitiesOnly yes`를 지정한다. 키 파일은 사용자 전용 권한으로 보관한다. 인증 점검과 실제 역방향 터널 공개는 별개이며, 목적지와 공개 API 범위를 확인한 뒤 셀러를 시작한다.
+
 ## WSL과 사용자 서비스 유지
 
 systemd 서비스가 실행 중인 것만으로 WSL 인스턴스가 계속 유지된다고 가정하지 않는다. Ubuntu에서 `sudo loginctl enable-linger "$USER"`를 설정하고, 관리자 Windows PowerShell에서 `ops/wsl_keepalive.ps1 -LinuxUser <Linux사용자>`를 실행한다. 스크립트는 실행한 Windows 계정에 부팅·로그인 트리거를 가진 전용 작업을 만들고 `sleep infinity`를 통해 WSL을 유지한다. 다른 작업은 변경하지 않는다.
@@ -33,5 +39,6 @@ Ubuntu에서 `restore`와 `render`를 실행한 뒤 [Linux 이전 안내](HOME_S
 - [Microsoft: systemd와 WSL 인스턴스 수명](https://devblogs.microsoft.com/commandline/systemd-support-is-now-available-in-wsl/)
 - [Microsoft: 예약 작업 S4U 실행 방식](https://learn.microsoft.com/en-us/windows/win32/taskschd/principal-logontype)
 - [Tailscale: Windows와 WSL 동시 설치 고려 사항](https://tailscale.com/docs/install/windows/wsl2)
+- [Pinggy: SSH 사용자명·인증 및 포워딩](https://pinggy.io/docs/usages/)
 
 교내 장비·망에서 외부 공개 서비스의 운영 가능 여부는 학교 지침과 해당 망의 운영 기준에 따라 확인한다. 이 문서는 기관의 운영 허가를 대신하지 않는다.
