@@ -22,11 +22,51 @@ def partial_from_closed_window(intent, now):
 def pending_quantity(intent):
     if intent.get('status') != 'issued_unknown':
         return 0
+    if intent.get('supply_resolution') in ('rejected', 'not_sent'):
+        return 0
     return max(0, intent.get('qty', 1)-len(set(intent.get('observed_units', []))))
 
 
+def reserved_quantity(intent):
+    """A confirmed non-purchase consumes neither outstanding nor rolling spend."""
+    return 0 if intent.get('supply_resolution') in ('rejected','not_sent') else intent.get('qty',1)
+
+
+def resolve_responses(intents, history):
+    changes=[]
+    by_id={i.get('intent_id'):i for i in intents if i.get('intent_id')}
+    grouped={}
+    for e in history:
+        if e.get('event')!='procurement_supply_result':continue
+        grouped.setdefault(e.get('intent_id'),[]).append(e)
+    for identity,rows in grouped.items():
+        intent=by_id.get(identity)
+        if not intent:continue
+        matching=[e for e in rows if e.get('decision_id')==intent.get('decision_id')
+                  and e.get('sku')==intent['sku'] and e.get('qty')==intent.get('qty',1)
+                  and e.get('window')==intent.get('window')]
+        if not matching:continue
+        # An accepted or uncertain request always takes precedence over a release.
+        accepted=any(e.get('outcome')=='accepted' for e in matching)
+        uncertain=any(e.get('outcome')=='unknown' for e in matching)
+        final=next((e for e in reversed(matching) if e.get('outcome') in ('rejected','not_sent')),None)
+        resolution='accepted' if accepted else 'unknown' if uncertain else final.get('outcome') if final else None
+        if resolution in ('rejected','not_sent') and intent.get('observed_units'):
+            resolution='conflicting_evidence'
+        if resolution and intent.get('supply_resolution')!=resolution:
+            intent['supply_resolution']=resolution
+            proof=next((e for e in reversed(matching) if e.get('outcome')==resolution),final or matching[-1])
+            intent['resolution_evidence']={k:proof.get(k) for k in
+                ('request_id','at','http_status','evidence_source','log_line','log_sha256')}
+            changes.append({'intent_id':identity,'sku':intent['sku'],'resolution':resolution,
+                'released_units':intent.get('qty',1) if resolution in ('rejected','not_sent') else 0,
+                **{k:intent[k] for k in LINKS if intent.get(k) is not None}})
+    return changes
+
+
 def reconcile(intents, inventory, history, now):
-    changes = []
+    history=list(history)
+    changes=resolve_responses(intents,history)
     evidence = []
     for unit in inventory.get('units', []):
         if unit.get('unit') and unit.get('sku'):
@@ -49,7 +89,8 @@ def reconcile(intents, inventory, history, now):
         candidates = [i for i, intent in enumerate(intents)
                       if intent['sku'] == proof['sku'] and intent['at'] <= proof['at']
                       and proof['unit'] not in intent.get('prior_units', [])
-                      and (pending_quantity(intent) or proof['unit'] in intent.get('observed_units', []))]
+                      and (pending_quantity(intent) or proof['unit'] in intent.get('observed_units', [])
+                           or intent.get('supply_resolution') in ('rejected','not_sent'))]
         supplied = proof.get('supplied_at')
         if supplied is not None and supplied > now + 2:
             continue
@@ -63,6 +104,8 @@ def reconcile(intents, inventory, history, now):
             continue  # ambiguous repeated same-SKU acquisitions need stronger evidence
         index = candidates[0]
         intent = intents[index]
+        if intent.get('supply_resolution') in ('rejected','not_sent'):
+            intent['supply_resolution']='conflicting_evidence'
         old = intent['status']
         previous_units=set(intent.get('observed_units', []))
         previous_settled=set(intent.get('settled_units', []))

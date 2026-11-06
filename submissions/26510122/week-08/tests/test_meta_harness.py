@@ -26,7 +26,7 @@ class MetaHarnessTests(unittest.TestCase):
    self.assertEqual(prompt['candidates'][0]['sku'],'bed')
    return {'action':'buy','skus':['bed'],'replenishment':[],'reason':'Single high ticket test'}
   result=portfolio.run(self.inv,self.cat,[],self.now,model=choose,rng=random.Random(1),refresh=lambda:(self.inv,self.now,True))
-  self.assertEqual(result,{'buy':[{'sku':'bed','qty':1}]})
+  self.assertEqual(result['buy'],[{'sku':'bed','qty':1}])
   i=json.loads(portfolio.STATE.read_text())['intents'][0];self.assertEqual(i['cost_ceiling'],4_500_000)
  def test_public_watchlist_reaches_transaction_candidates_and_expires(self):
   path=self.root/'state/seller-meta-market.json'

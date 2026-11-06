@@ -92,7 +92,8 @@ class PreparedProcurementTests(unittest.TestCase):
         inv=fixtures.inventory(0)
         inv['units']=[{'unit':f'new{i}','sku':row['sku'],'grade':'A','category':row['category'],'cost':1000} for i in range(target-1)]
         result=self.execute(inv)
-        self.assertEqual(result,{'buy':[{'sku':row['sku'],'qty':1}]})
+        self.assertEqual(result['buy'],[{'sku':row['sku'],'qty':1}])
+        self.assertIn('decision_id',result['_procurement'])
         executed=[r for r in events() if r['event']=='portfolio_execution'][-1]
         self.assertEqual(executed['cut_units'],target-1)
         self.assertEqual(executed['lines'][0]['reasons'],['target_already_satisfied'])

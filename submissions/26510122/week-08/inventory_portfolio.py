@@ -23,7 +23,7 @@ from inventory_exploration import window_open,CLOSING_MARGIN_SECONDS
 from inventory_observation import timestamp
 from market_memory import record
 from replenishment_plan import MAX_CATEGORY_STOCK, MAX_TOTAL_STOCK, inventory_risk, product_signature, save
-from supply_reconciliation import reconcile, pending_quantity, partial_from_closed_window
+from supply_reconciliation import reconcile, pending_quantity, partial_from_closed_window, reserved_quantity
 from stock_policy import replenishment_candidates, PROVEN_STOCK
 from capital_policy import (MAX_UNIT_COST, GROWTH_WINDOW_BUDGET, GROWTH_EXPLORATION_BUDGET,
                             operating_policy, target_inventory_cost)
@@ -265,7 +265,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
         save(ready_path,{'schema_version':1,'status':'planning','window':key,
              'policy':{**choice,'attempted':False},'retry_after':now+120})
     recent = [i for i in state['intents'] if i['at'] > now - DAY]
-    reserved = sum(i['cost_ceiling']*i.get('qty',1) for i in recent if i.get('kind') != 'replenishment')
+    reserved = sum(i['cost_ceiling']*reserved_quantity(i) for i in recent if i.get('kind') != 'replenishment')
     pending = sum(pending_quantity(i) for i in state['intents'])
     pending_cost = sum(max(i['cost_ceiling'], acquisition_ceiling(catalog[i['sku']]) if i['sku'] in catalog else (i['cost_ceiling'] if i.get('surge_reserved') else math.ceil(i['cost_ceiling']*1.5)))*pending_quantity(i) for i in state['intents'])
     risk = inventory_risk(inventory, now, pending_cost)
@@ -520,7 +520,7 @@ def _emit_approved(state,path,desired,answer,window,key,operating,now,slots,budg
                      for i in state['intents'])
     pending_stocks=Counter()
     for i in state['intents']:pending_stocks[i['sku']]+=pending_quantity(i)
-    reserved=sum(i['cost_ceiling']*i.get('qty',1) for i in state['intents'] if i['at']>now-DAY and i.get('kind')!='replenishment')
+    reserved=sum(i['cost_ceiling']*reserved_quantity(i) for i in state['intents'] if i['at']>now-DAY and i.get('kind')!='replenishment')
     def log_execution(lines, at, **limits):
         reasons=Counter(reason for r in lines for reason in r['reasons'])
         record('portfolio_execution',window=key,planning_at=now,execution_at=at,
@@ -529,6 +529,7 @@ def _emit_approved(state,path,desired,answer,window,key,operating,now,slots,budg
                emitted_units=sum(r['emitted_qty'] for r in lines),
                cut_units=sum(r['cut_qty'] for r in lines),cut_reason_counts=dict(reasons),
                planning_supply_lines=slots,planning_budget=budget,
+               transport_observation='supply-http-v1',
                approved_meta_version=operating.get('meta_version'),**limits,
                warning='Emitted requests are not confirmed arrivals; unresolved reservations remain.')
         for reason in reasons:audit.guard(reason,affected_skus=[r['sku'] for r in lines if reason in r['reasons']])
@@ -581,9 +582,9 @@ def _emit_approved(state,path,desired,answer,window,key,operating,now,slots,budg
     record('portfolio_exploration_intent', buy=buy, model_choice=answer,
            policy_version=POLICY_VERSION, approved_meta_version=operating.get('meta_version'),
            emitted_meta_version=current_operating.get('meta_version'), operating_phase=current_operating['phase'],
-           reserved_24h=reserved + sum(i['cost_ceiling']*i.get('qty',1) for i in state['intents'] if i['at']==at and i.get('kind')=='exploration'),
+           reserved_24h=reserved + sum(i['cost_ceiling']*reserved_quantity(i) for i in state['intents'] if i['at']==at and i.get('kind')=='exploration'),
            warning='Intent is not a confirmed purchase; unknown outcomes retain reservations.')
-    return {'buy': buy}
+    return {'buy': buy,**({'_procurement':{'window':key,**audit.links()}} if buy else {})}
 
 
 def window_key(window):
@@ -677,5 +678,12 @@ def execute_prepared(inventory,catalog,history,now,*,refresh,state_path=None,rea
             audit.proposed(prepared['answer'],source='prepared_approval',reason='Previously model-approved; fresh tool checks only')
             record('portfolio_prepared_reused',window=key,prepared_at=prepared['prepared_at'],
                    approval_age_seconds=now-prepared['prepared_at'],model_calls=0)
-            return _emit_approved(state,path,desired,prepared['answer'],inventory['restock'],key,
-                prepared['operating_policy'],now,prepared['approved_supply_lines'],prepared['approved_budget'],refresh,catalog)
+            record('portfolio_execution_started',window=key)
+            try:
+                result=_emit_approved(state,path,desired,prepared['answer'],inventory['restock'],key,
+                    prepared['operating_policy'],now,prepared['approved_supply_lines'],prepared['approved_budget'],refresh,catalog)
+            except Exception as error:
+                record('portfolio_execution_failed',window=key,error=type(error).__name__)
+                raise
+            record('portfolio_execution_completed',window=key,emitted_units=sum(b['qty'] for b in result['buy']))
+            return result

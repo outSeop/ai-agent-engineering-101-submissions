@@ -13,6 +13,7 @@ from harness import decide_json
 from market_memory import events,record
 from replenishment_plan import save,product_signature
 import inventory_portfolio as portfolio
+from procurement_monitor import maintain
 
 POLL_SECONDS=2
 PREPARE_POLL_SECONDS=10
@@ -86,8 +87,27 @@ def main():
     runtime=(args.runtime or (args.state.parent if args.state else Path.cwd())).resolve()
     os.chdir(runtime)
     if args.execute:
-        print(json.dumps(watch(runtime)),flush=True);return
+        try:
+            result=watch(runtime)
+            record('procurement_protocol_output',**result.get('_procurement',{}),
+                emitted_units=sum(b['qty'] for b in result['buy']))
+            print(json.dumps(result),flush=True)
+        except Exception as error:
+            record('procurement_hook_error',error=type(error).__name__)
+            raise
+        return
+    last_maintenance=0
     while True:
+        if time.monotonic()-last_maintenance>=60:
+            try:
+                inv,_,at,fresh=snapshot(runtime)
+                if fresh:
+                    maintain(inv,events(),at,state_path=portfolio.STATE,ready_path=portfolio.READY)
+                    last_maintenance=time.monotonic()
+            except BlockingIOError:pass
+            except Exception as error:
+                record('procurement_maintenance_error',error=type(error).__name__)
+                last_maintenance=time.monotonic()
         try:status=prepare_once(runtime)
         except Exception as error:
             status='error';record('portfolio_preparation_error',error=type(error).__name__)

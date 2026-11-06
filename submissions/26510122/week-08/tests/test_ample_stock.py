@@ -150,7 +150,7 @@ class AmpleStockTests(unittest.TestCase):
                     'reason':'Replace the proven seller only'}
         result = portfolio.run(inv,catalog(),history(),1000,model=model,
                                refresh=lambda:(inv,1000,True),rng=random.Random(2))
-        self.assertEqual(result,{'buy':[{'sku':'s1','qty':2}]})
+        self.assertEqual(result['buy'],[{'sku':'s1','qty':2}])
 
 
 if __name__ == '__main__':

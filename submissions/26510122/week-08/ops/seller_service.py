@@ -17,7 +17,7 @@ import urllib.request
 
 ROOT=Path(__file__).resolve().parents[1]
 FILES=('seller_r3.py','harness.py','market_memory.py','market_scoring.py','decision_audit.py','newsvendor_tool.py','context_compaction.py',
-       'inventory_observation.py','inventory_exploration.py','inventory_portfolio.py','procurement_audit.py','procurement_scheduler.py','supply_reconciliation.py','stock_policy.py',
+       'inventory_observation.py','inventory_exploration.py','inventory_portfolio.py','procurement_audit.py','procurement_scheduler.py','procurement_transport.py','procurement_monitor.py','seller_kit.py','supply_reconciliation.py','stock_policy.py',
        'seller_state.py','seller_quality.py','seller_requirements.py','seller_warranty.py','replenishment_plan.py','restock.py','buyer_identity.py','counterparty_memory.py','seller_forum.py','seller_promotion.py','capital_policy.py','procurement_cost.py','seller_meta_policy.py','seller_meta.py','meta_effects.py','buyer_forum.py')
 STOP=False
 
@@ -107,7 +107,7 @@ def run(args):
                 if STOP:break
                 if not url:raise RuntimeError('Public tunnel did not become ready')
                 log(f'Tunnel ready: {url}')
-                market=subprocess.Popen([str(ROOT/'.venv/bin/python'),str(kit),'join','--dir',str(runtime),
+                market=subprocess.Popen([str(ROOT/'.venv/bin/python'),str(runtime/'release/seller_kit.py'),str(kit),'join','--dir',str(runtime),
                     '--market','https://market.ourolabs.ai','--name','outseop-26510122','--port',str(args.port),
                     '--public-url',url,'--shop-only'],cwd=runtime,env=env,
                     stdout=kit_log,stderr=subprocess.STDOUT,start_new_session=True)

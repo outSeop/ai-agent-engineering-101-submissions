@@ -55,7 +55,7 @@ class SecondTrialTests(unittest.TestCase):
             return {'action':'buy','skus':[], 'replenishment':[{'sku':r['sku'],'target_stock':1}], 'reason':'second unit'}
         result=portfolio.run(inv,catalog(),history(1),1000,model=choose,
                              refresh=lambda:(inv,1000,True),rng=random.Random(1),state_path=path)
-        self.assertEqual(result,{'buy':[{'sku':'s1','qty':1}]})
+        self.assertEqual(result['buy'],[{'sku':'s1','qty':1}])
         state=json.loads(path.read_text());self.assertTrue(state['intents'][-1]['second_trial'])
         self.assertEqual(prompts[0]['exploration_cost_ceiling_budget'],0)
         self.assertIn('NOT exploration_cost_ceiling_budget',prompts[0]['budget_scopes']['replenishment'])
