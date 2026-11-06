@@ -8,6 +8,7 @@ from pathlib import Path
 import subprocess
 import tempfile
 import time
+import decision_audit
 
 
 MODEL = os.environ.get("WEEK08_MODEL", "gpt-5.6-luna")
@@ -15,7 +16,7 @@ TIMEOUT = int(os.environ.get("WEEK08_MODEL_TIMEOUT", "60"))
 
 
 def trace(event: str, **fields: object) -> None:
-    print(json.dumps({"event": event, **fields}, ensure_ascii=False), flush=True)
+    print(json.dumps({"event": event, **decision_audit.enrich(fields)}, ensure_ascii=False), flush=True)
 
 
 def decide_json(role: str, prompt: dict, schema: dict) -> dict:

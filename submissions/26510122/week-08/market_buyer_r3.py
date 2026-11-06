@@ -15,11 +15,12 @@ from buyer_memory import brief, context, import_broken, import_payments, read_ev
 from context_compaction import BUYER_PROMPT_BYTES, size, text
 from buyer_policy import acceptance, price_cap, receipt_problem
 from buyer_r3 import negotiate
-from harness import decide_json, trace
+from harness import decide_json, trace, MODEL
 import buyer_exploration
 import buyer_forum_memory
 import buyer_checkout_memory
 from market_scoring import buyer_candidate,BUYER_WEIGHTS,SAVED_CONTRACT,VERSION
+import decision_audit as audit
 
 
 def review_summary(reviews: list[dict]) -> dict:
@@ -110,6 +111,7 @@ def choose(candidates_: list[dict], order: dict, *, forced_candidate_id: str | N
         candidates_=[c for c in candidates_ if c['id']==forced_candidate_id]
     if not candidates_:
         raise ValueError('no candidate is available for this selection')
+    audit.begin('buyer_selection',policy_version='buyer-saved-v1')
     displayed = [{**{key: row[key] for key in ("id", "list_price",
                                               "cap", "stock", "reviews")},
                   'shop':text(row['shop'],80),'sku':text(row['sku'],80),
@@ -180,12 +182,15 @@ def choose(candidates_: list[dict], order: dict, *, forced_candidate_id: str | N
     }, "required": ["candidate_id", "opening_offer", "reason"], "additionalProperties": False}
     try:
         answer = decide_json("buyer shop selector", prompt, schema)
+        audit.proposed({'action':'select','candidate_id':answer.get('candidate_id'),
+                        'price':answer.get('opening_offer')},reason=answer.get('reason'))
         if telemetry is not None:
             telemetry.update({'model_candidate_id':answer.get('candidate_id'),
                               'model_reason':text(answer.get('reason'),350),'model_fallback':False,
                               'preference_advice_present':advice is not None})
         chosen_id=forced_candidate_id if forced_candidate_id is not None else answer['candidate_id']
         if forced_candidate_id is not None and answer.get('candidate_id')!=forced_candidate_id:
+            audit.guard('forced_exploration',proposed=answer.get('candidate_id'),effective=forced_candidate_id)
             trace('buyer_exploration_guard',proposed=answer.get('candidate_id'),effective=forced_candidate_id)
         allowed={c['id'] for c in displayed}
         if chosen_id not in allowed:
@@ -196,14 +201,23 @@ def choose(candidates_: list[dict], order: dict, *, forced_candidate_id: str | N
             raise ValueError("non-integer opening offer")
         opening = min(max(1, math.floor(chosen["cap"] * 0.85)),
                       max(max(1, math.floor(chosen["cap"] * 0.7)), proposed))
+        if opening != proposed:
+            audit.guard('opening_offer_range',proposed_price=proposed,effective_price=opening)
         trace("buyer_selection", candidate_id=chosen["id"], sku=chosen["sku"],
               shop=chosen["shop"], proposed=proposed, opening=opening, reason=answer["reason"])
+        audit.executed('select',status='applied',candidate_id=chosen['id'],price=opening,
+                       shop=chosen.get('url'),sku=chosen['sku'])
         return chosen, opening
     except Exception as error:
         if telemetry is not None:
             telemetry.update({'model_fallback':True,'model_error':type(error).__name__})
         chosen = candidates_[0]
         opening = max(1, math.floor(chosen["cap"] * 0.8))
+        audit.guard('selection_fallback',error=type(error).__name__)
+        audit.proposed({'action':'select','candidate_id':chosen['id'],'price':opening},
+                       source='fallback',reason=type(error).__name__)
+        audit.executed('select',status='applied',candidate_id=chosen['id'],price=opening,
+                       shop=chosen.get('url'),sku=chosen['sku'])
         trace("buyer_selection_fallback", error=type(error).__name__,
               candidate_id=chosen["id"], opening=opening)
         return chosen, opening
@@ -211,6 +225,13 @@ def choose(candidates_: list[dict], order: dict, *, forced_candidate_id: str | N
 
 def run(order: dict, shops: list[dict], catalog: dict, own_shop_name: str, *,
         epsilon: float = buyer_exploration.DEFAULT_EPSILON,rng=None,life=None,life_advice: bool = False) -> dict:
+    with audit.scope('buyer',record,order=order.get('order'),
+                     episode_id=f"buyer:{order.get('order') or uuid.uuid4().hex}",score_version=VERSION,model=MODEL):
+        return _run(order,shops,catalog,own_shop_name,epsilon=epsilon,rng=rng,life=life,life_advice=life_advice)
+
+
+def _run(order: dict, shops: list[dict], catalog: dict, own_shop_name: str, *,
+         epsilon: float,rng=None,life=None,life_advice: bool = False) -> dict:
     started = time.monotonic()
     register_shops(shops)
     imported = import_payments()
@@ -233,6 +254,7 @@ def run(order: dict, shops: list[dict], catalog: dict, own_shop_name: str, *,
                 "review": "No suitable stocked SKU was available."}
     policy=buyer_exploration.plan(available,epsilon,rng)
     selection_id=uuid.uuid4().hex
+    audit.bind(selection_id=selection_id)
     displayed=([c for c in available if c['id']==policy['forced_candidate_id']]
                if policy['mode']=='explore' else shortlist(available))
     forum_context={}
@@ -257,6 +279,7 @@ def run(order: dict, shops: list[dict], catalog: dict, own_shop_name: str, *,
     telemetry={}
     chosen, first_offer = choose(displayed, order,forced_candidate_id=policy['forced_candidate_id'],telemetry=telemetry,
                                  life_context=life_context,forum_context=forum_context)
+    selection_decision_id=audit.links().get('decision_id')
     record('buyer_policy_selection',selection_id=selection_id,order=order.get('order'),**policy,
            **telemetry,
            score_version=VERSION,score_metric='saved',
@@ -274,8 +297,18 @@ def run(order: dict, shops: list[dict], catalog: dict, own_shop_name: str, *,
                    if isinstance(expires, (int, float)) else float("inf"))
     last_shop = chosen["url"]
     for index, (choice, opening) in enumerate(attempts):
+        audit.bind(attempt_id=f'{selection_id}:{index}',attempt_index=index,
+                   shop=choice['url'],shop_name=choice['shop'],sku=choice['sku'],task_id=None)
         policy_mode=policy['mode'] if index==0 else 'fallback'
+        if index:
+            audit.begin('buyer_fallback_shop',parent_decision_id=selection_decision_id)
+            audit.proposed({'action':'select','price':opening,'candidate_id':choice['id']},
+                           source='policy',reason='alternate shop after primary attempt')
+            audit.executed('select',status='applied',candidate_id=choice['id'],price=opening,
+                           shop=choice['url'],sku=choice['sku'])
         if deadline - time.monotonic() < 75:
+            audit.guard('order_deadline')
+            audit.executed('negotiate',status='blocked',reason='insufficient time before order deadline')
             record('negotiation_skipped',selection_id=selection_id,order=order.get('order'),
                    shop_name=choice['shop'],sku=choice['sku'],attempt_index=index,
                    policy_mode=policy_mode,reason='insufficient time before order deadline')
@@ -306,6 +339,7 @@ def run(order: dict, shops: list[dict], catalog: dict, own_shop_name: str, *,
                    result=("receipt_pending" if problem is None else
                            "invalid_receipt" if outcome.get("receipt") else "no_receipt"),
                    reason=(problem if outcome.get('receipt') else outcome.get('reason') or problem),
+                   receipt_price=outcome['receipt'].get('price') if outcome.get('receipt') else None,
                    receipt_problem=problem,terminal_reason=outcome.get('reason'),task_id=outcome.get('task_id'),
                    last_seller_message=outcome.get('last_seller_message'),
                    transcript=outcome.get('transcript',[]))
@@ -314,6 +348,7 @@ def run(order: dict, shops: list[dict], catalog: dict, own_shop_name: str, *,
                         "stars": 4, "review": "Agreed receipt; awaiting checkout and settlement.",
                         "accept": acceptance(order, outcome["receipt"])}
         except Exception as error:
+            audit.executed('negotiate',status='failed',reason=type(error).__name__)
             trace("buyer_shop_error", shop=choice["url"], error=type(error).__name__,
                   detail=str(error)[-200:])
             record("negotiation", order=order.get("order"), shop=choice["url"],shop_name=choice['shop'],

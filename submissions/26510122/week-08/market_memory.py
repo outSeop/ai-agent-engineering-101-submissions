@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 import re
 from typing import Any
+import decision_audit
 from context_compaction import (MAX_TURNS, SELLER_MEMORY_BYTES, bounded, hours_left,
                                 price_ranges, select_cases, text)
 
@@ -42,7 +43,7 @@ def events(path: Path = EVENTS) -> list[dict[str, Any]]:
 
 def record(event: str, *, path: Path = EVENTS, **fields: Any) -> dict[str, Any]:
     row = {"at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-           "event": event, **fields}
+           "event": event, **decision_audit.enrich(fields)}
     path.parent.mkdir(parents=True, exist_ok=True)
     data = (json.dumps(row, ensure_ascii=False, separators=(",", ":")) + "\n").encode()
     fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o644)
@@ -61,8 +62,10 @@ def sync_settlements(kit_log: Path = KIT_LOG, *, event_log: Path = EVENTS,
         return 0
     old = events(event_log)
     seen = {int(e["ledger"]) for e in old if e["event"] == "settled" and "ledger" in e}
-    receipt_by_unit = {e["unit"]: e for e in old
-                       if e["event"] == "receipt_signed" and e.get("unit")}
+    receipts_by_unit = defaultdict(list)
+    for row in old:
+        if row['event']=='receipt_signed' and row.get('unit'):
+            receipts_by_unit[row['unit']].append(row)
     stat = kit_log.stat()
     try:
         cursor = json.loads(cursor_path.read_text(encoding="utf-8"))
@@ -87,11 +90,18 @@ def sync_settlements(kit_log: Path = KIT_LOG, *, event_log: Path = EVENTS,
             ledger = int(match["ledger"])
             if ledger in seen:
                 continue
-            receipt = receipt_by_unit.get(match["unit"], {})
+            matches={row.get('task_id'):row for row in receipts_by_unit.get(match['unit'],[])
+                     if row.get('price')==int(match['price']) and row.get('task_id')}
+            receipt=next(iter(matches.values())) if len(matches)==1 else {}
             record("settled", path=event_log, ledger=ledger, unit=match["unit"],
                    grade=match["grade"], price=int(match["price"]),
                    sku=receipt.get("sku"), task_id=receipt.get("task_id"),
-                   warranty_hours=receipt.get('warranty_hours',0),score_version=receipt.get('score_version'))
+                   warranty_hours=receipt.get('warranty_hours',0),score_version=receipt.get('score_version'),
+                   **{key:receipt[key] for key in decision_audit.LINKS
+                      if key not in ('task_id','sku','score_version') and receipt.get(key) is not None},
+                   outcome_link_status=('exact_receipt_unit_price' if receipt.get('decision_id') else
+                                        'ambiguous' if len(matches)>1 else 'legacy_or_unmatched'),
+                   outcome_source='kit_acp_settlement')
             seen.add(ledger)
             added += 1
         next_offset = source.tell()

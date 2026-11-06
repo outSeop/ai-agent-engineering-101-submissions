@@ -13,6 +13,7 @@ from context_compaction import MAX_TURNS, text
 import buyer_identity
 from buyer_policy import acceptance, quote_shelf_minimum
 from market_scoring import saved_at_price
+import decision_audit as audit
 
 
 def opening_request(name: str, sku: str, order: dict) -> str:
@@ -87,12 +88,15 @@ def followup_offer(*, message: str, last_offer: int, cap: int, sku: str,
                    list_price: int, memory: dict, deadline: float,
                    history: list[dict] | None = None,
                    offers_remaining: int | None = None) -> int | None:
+    audit.begin('buyer_counter',parent_decision_id=audit.links().get('decision_id'))
     ask = asking_price(message)
     fallback = (ask if ask is not None and ask <= cap else
                 min(cap, last_offer + max(1, (cap - last_offer) // 2)))
     if fallback <= last_offer and (ask is None or ask > cap):
+        audit.proposed({'action':'walk','price':None},source='policy',reason='no higher authorized offer')
         return None
     if deadline - time.monotonic() < 70:
+        audit.proposed({'action':'offer','price':fallback},source='fallback',reason='model time budget unavailable')
         return fallback
     prompt = {"phase": "buyer_counter", "sku": sku, "list_price": list_price,
               "seller_message": message[:350], "last_offer": last_offer,
@@ -116,16 +120,25 @@ def followup_offer(*, message: str, last_offer: int, cap: int, sku: str,
     }, "required": ["action", "price", "reason"], "additionalProperties": False}
     try:
         choice = decide_json("buyer negotiator", prompt, schema)
+        audit.proposed({'action':choice['action'],'price':choice.get('price')},reason=choice.get('reason'))
         if choice["action"] == "walk":
             return None
         proposed = choice.get("price")
         if type(proposed) is int:
             guarded = min(cap, max(1, proposed))
+            if guarded != proposed:
+                audit.guard('authorized_price_range',proposed_price=proposed,effective_price=guarded)
             trace("buyer_counter_choice", sku=sku, proposed=proposed, effective=guarded,
                   reason=choice["reason"])
-            return guarded if guarded > last_offer or (ask is not None and guarded == ask) else fallback
+            if guarded > last_offer or (ask is not None and guarded == ask):
+                return guarded
+            audit.guard('nonprogressing_offer',proposed_price=guarded,effective_price=fallback)
+            return fallback
+        audit.guard('invalid_offer_type')
     except Exception as error:
         trace("buyer_counter_fallback", error=type(error).__name__)
+        audit.guard('counter_fallback',error=type(error).__name__)
+        audit.proposed({'action':'offer','price':fallback},source='fallback',reason=type(error).__name__)
     return fallback
 
 
@@ -147,6 +160,7 @@ def negotiate(shop_url: str, sku: str, name: str, order: dict, *, opening_offer:
         opening = opening_request(name, sku, order)
         remember('buyer',opening)
         task = send(client, endpoint, opening, deadline,identity=identity)
+        audit.bind(task_id=task.get('id'))
         for turn in range(3):
             if status(task) != "TASK_STATE_INPUT_REQUIRED":
                 break
@@ -155,12 +169,17 @@ def negotiate(shop_url: str, sku: str, name: str, order: dict, *, opening_offer:
             ask = asking_price(message)
             if turn == 0:
                 offer = min(opening_offer, ask) if ask is not None and ask <= opening_offer else opening_offer
+                if offer != opening_offer:
+                    audit.guard('seller_ask_below_opening_offer',selected_offer=opening_offer,effective_price=offer)
             else:
                 offer = followup_offer(message=message, last_offer=offered[-1], cap=cap,
                                        sku=sku, list_price=list_price, memory=memory, deadline=deadline,
                                        history=transcript,
                                        offers_remaining=3-turn)
             if offer is None or deadline - time.monotonic() < 5:
+                if offer is not None:
+                    audit.guard('order_deadline')
+                audit.executed('walk',status='applied',reason='walked away or order deadline reached')
                 return {"receipt": None, "reason": "walked away or order deadline reached",
                         "offers": offered, "task_id": task.get("id"),'transcript':transcript}
             offer = min(cap, max(1, int(offer)))
@@ -168,6 +187,7 @@ def negotiate(shop_url: str, sku: str, name: str, order: dict, *, opening_offer:
             remember('buyer',str(offer),task.get('id'))
             trace("buyer_offer", sku=sku, shop=shop_url, offer=offer, turn=turn)
             task = send(client, endpoint, str(offer), deadline, task.get("id"),identity=identity)
+            audit.executed('offer',price=offer,turn=turn)
         receipt = get_receipt(task) if status(task) == "TASK_STATE_COMPLETED" else None
         remember('seller',status_text(task),task.get('id'))
         return {"receipt": receipt, "reason": "receipt received" if receipt else

@@ -23,7 +23,7 @@ from a2a.server.routes import create_agent_card_routes, create_jsonrpc_routes
 from a2a.server.tasks import TaskUpdater
 from a2a.types import AgentCapabilities, AgentCard, AgentInterface, AgentSkill
 
-from harness import decide_json, trace
+from harness import decide_json, trace, MODEL
 from market_memory import compact_context, events, record, sync_settlements
 from newsvendor_tool import quote_candidates
 from inventory_observation import requested_skus
@@ -38,6 +38,7 @@ import seller_warranty
 from seller_promotion import discount_quote
 from capital_policy import operating_policy
 from market_scoring import VERSION
+import decision_audit as audit
 
 
 NAME = "outseop-26510122"
@@ -130,6 +131,7 @@ class Seller(AgentExecutor):
                 del self.open[task_id]
                 self.state.close_deal(task_id)
                 record('negotiation_expired',task_id=task_id,sku=deal['unit']['sku'],unit=deal['unit']['unit'],
+                       role='seller',episode_id=f'seller:{task_id}',decision_id=deal.get('last_decision_id'),
                        reason='negotiation reservation timed out; payment outcome unknown')
 
     def available(self, text: str) -> list[dict]:
@@ -147,12 +149,17 @@ class Seller(AgentExecutor):
         return find_units(text, taken, inventory)
 
     async def choose(self, prompt: dict, actions: list[str], fallback: dict) -> dict:
+        audit.begin(prompt['phase'], policy_version=prompt.get('market_objective',{}).get('meta_version') or 'operator_default')
+        source='model'
         try:
             answer = await asyncio.to_thread(decide_json, "seller", prompt, decision_schema(actions))
         except Exception as error:
             trace("model_fallback", phase=prompt["phase"], error=type(error).__name__,
                   reason=str(error)[-400:])
             answer = dict(fallback, reason=f"model unavailable: {type(error).__name__}")
+            source='fallback'
+        audit.proposed({'action':answer['action'],'price':answer.get('price'),
+                        'unit':answer.get('unit_id')},source=source,reason=answer.get('reason'))
         record("model_choice", task_id=prompt["task_id"], phase=prompt["phase"],
                action=answer["action"], price=answer.get("price"),
                unit=answer.get("unit_id"), reason=answer.get("reason"),
@@ -163,7 +170,12 @@ class Seller(AgentExecutor):
         key = context.current_task.id if context.current_task else context.message.message_id
         lock = self.task_locks.setdefault(key, asyncio.Lock())
         async with lock:
-            await self._execute(context, event_queue)
+            with audit.scope('seller',record,score_version=VERSION,model=MODEL):
+                try:
+                    await self._execute(context, event_queue)
+                except Exception as error:
+                    audit.executed('unknown',status='failed',reason=type(error).__name__)
+                    raise
 
     async def _execute(self, context, event_queue) -> None:
         task = context.current_task
@@ -172,9 +184,14 @@ class Seller(AgentExecutor):
             task = new_task_from_user_message(context.message)
             await event_queue.enqueue_event(task)
         up = TaskUpdater(event_queue=event_queue, task_id=task.id, context_id=task.context_id)
+        audit.bind(task_id=task.id,episode_id=f'seller:{task.id}')
         def say(message):
             record('seller_message',task_id=task.id,text=message)
             return up.new_agent_message(parts=[new_text_part(message)])
+        async def reject(message, reason):
+            await up.reject(say(message))
+            if reason != 'model_reject':audit.guard(reason)
+            audit.executed('reject',status='emitted',reason=reason)
         message = get_message_text(context.message) or ""
         record('buyer_message',task_id=task.id,text=message)
         self.expire_negotiations()
@@ -289,9 +306,11 @@ class Seller(AgentExecutor):
                                        {"action": "ask", "price": middle, "unit_id": choices[0]["unit"]})
             if answer["action"] == "reject":
                 record("rejected", task_id=task.id, reason=answer["reason"])
-                await up.reject(say("No suitable offer for this request."))
+                await reject("No suitable offer for this request.",'model_reject')
                 return
             unit = next((u for u in choices if u["unit"] == answer.get("unit_id")), choices[0])
+            if unit['unit'] != answer.get('unit_id'):
+                audit.guard('unavailable_model_unit',proposed_unit=answer.get('unit_id'),effective_unit=unit['unit'])
             current = read_inventory()
             if current.get("round", 0) >= 3:
                 current_unit = next((u for u in current.get("units", [])
@@ -302,7 +321,7 @@ class Seller(AgentExecutor):
                         or any(current_unit.get(k) != unit.get(k)
                                for k in ("grade", "cost", "expires_at"))):
                     record("stale_inventory", task_id=task.id, unit=unit["unit"])
-                    await up.reject(say("That unit is no longer available. Please try again."))
+                    await reject("That unit is no longer available. Please try again.",'stale_inventory')
                     return
                 unit = current_unit
             warranty_hours = seller_warranty.hours(unit)
@@ -310,14 +329,18 @@ class Seller(AgentExecutor):
             errors = seller_requirements.violations(unit, requirements, time.time(),warranty_hours=warranty_hours)
             if errors:
                 record('requirements_unmet', task_id=task.id, errors=errors)
-                await up.reject(say('That unit no longer meets the requested conditions. Please start a new request.'))
+                await reject('That unit no longer meets the requested conditions. Please start a new request.','requirements_unmet')
                 return
             proposed = answer.get("price")
             maximum = max(1, 2 * int(unit["list_price"]))
             if warranty['price_floor'] > maximum:
-                await up.reject(say('No viable covered quote is available for this unit.'))
+                await reject('No viable covered quote is available for this unit.','warranty_floor_above_maximum')
                 return
             ask = min(maximum, max(1, int(proposed))) if type(proposed) is int else middle
+            if ask != proposed:
+                audit.guard('price_range_or_type',proposed_price=proposed,effective_price=ask)
+            if ask < warranty['price_floor']:
+                audit.guard('warranty_price_floor',price_floor=warranty['price_floor'])
             ask = max(ask,warranty['price_floor'])
             if ask != proposed or unit["unit"] != answer.get("unit_id"):
                 trace("decision_guard", phase="opening", proposed_price=proposed,
@@ -326,9 +349,10 @@ class Seller(AgentExecutor):
             promotion = discount_quote(unit, ask,minimum_price=warranty['price_floor'])
             if promotion:
                 if promotion['price'] > maximum:
-                    await up.reject(say('No suitable price for this unit.'))
+                    await reject('No suitable price for this unit.','promotion_above_maximum')
                     return
                 ask = promotion['price']
+                audit.guard('opening_promotion',ordinary_quote=promotion['ordinary_quote'],effective_price=ask)
                 record('promotion_applied', task_id=task.id, sku=unit['sku'], unit=unit['unit'], **promotion)
             self.open[task.id] = deal = {
                 "unit": unit, "ask": ask, "history": [], "opened_at": time.time(),
@@ -336,11 +360,12 @@ class Seller(AgentExecutor):
                 'buyer_identity':identity,'buyer_price_evidence':profiles_by_unit[unit['unit']],
                 'last_activity_at':time.time(), 'requirements':requirements,
                 'warranty_hours':warranty_hours,'warranty_price_floor':warranty['price_floor'],
+                'last_decision_id':audit.links().get('decision_id'),
             }
             if promotion: deal['promotion'] = promotion
             if not self.state.save_deal(task.id, deal):
                 del self.open[task.id]
-                await up.reject(say('That unit was reserved by another purchase. Please try again.'))
+                await reject('That unit was reserved by another purchase. Please try again.','reservation_conflict')
                 return
             record("opening", task_id=task.id, sku=unit["sku"], unit=unit["unit"],
                    category=unit.get("category"), grade=unit["grade"], kind=unit.get("kind"),
@@ -366,6 +391,7 @@ class Seller(AgentExecutor):
             record('quality_disclosed',task_id=task.id,sku=unit['sku'],unit=unit['unit'],**quality)
             coverage = f' Warranty {warranty_hours} h included in this total price; covered breakage receives a full market refund.' if warranty_hours else ''
             await up.requires_input(say(f"{unit['name']}: asking {ask}. {seller_quality.description(unit,quality)}.{note}{coverage} Short replies save tokens; send a number."))
+            audit.executed('ask',status='emitted',price=ask,unit=unit['unit'])
             return
 
         offer = seller_requirements.offer(message)
@@ -424,9 +450,13 @@ class Seller(AgentExecutor):
                                     'that discounted quote or accept below its price_floor. Do not stack discounts. '
                                     'Receipt price must exactly equal the buyer\'s acknowledged offer.')
         fallback_action = "accept" if offer >= int(unit["cost"]) else "counter"
+        audit.bind(parent_decision_id=deal.get('last_decision_id'))
         answer = await self.choose(prompt, ["accept", "counter", "reject"],
                                    {"action": fallback_action, "price": deal["ask"],
                                     "unit_id": unit["unit"]})
+        deal['last_decision_id']=audit.links().get('decision_id')
+        if answer.get('unit_id') != unit['unit']:
+            audit.guard('unit_fixed_to_reservation',proposed_unit=answer.get('unit_id'),effective_unit=unit['unit'])
         current = read_inventory()
         if current.get("round", 0) >= 3:
             fresh = next((u for u in current.get("units", [])
@@ -434,7 +464,7 @@ class Seller(AgentExecutor):
             if (fresh is None or any(fresh.get(k) != unit.get(k)
                                      for k in ("grade", "cost", "expires_at"))):
                 record("stale_inventory", task_id=task.id, unit=unit["unit"])
-                await up.reject(say("That unit changed during negotiation. Please try again."))
+                await reject("That unit changed during negotiation. Please try again.",'stale_inventory')
                 del self.open[task.id]
                 self.state.close_deal(task.id)
                 return
@@ -444,15 +474,17 @@ class Seller(AgentExecutor):
             record('requirements_unmet', task_id=task.id, errors=errors)
             self.state.close_deal(task.id)
             del self.open[task.id]
-            await up.reject(say('The unit no longer meets your saved purchase conditions. Please start a new request.'))
+            await reject('The unit no longer meets your saved purchase conditions. Please start a new request.','requirements_unmet')
             return
         action = answer["action"]
         promotion = deal.get('promotion')
         if action == 'accept' and offer < warranty_floor:
+            audit.guard('warranty_price_floor',buyer_offer=offer,price_floor=warranty_floor)
             action = 'counter'
             answer = {**answer,'price':warranty_floor}
             record('warranty_price_guard',task_id=task.id,buyer_offer=offer,price_floor=warranty_floor)
         if promotion and action == 'accept' and (offer < promotion['price_floor'] or offer > deal['ask']):
+            audit.guard('promotion_accept_guard',buyer_offer=offer,price_floor=promotion['price_floor'],current_ask=deal['ask'])
             # A lower price must be offered and acknowledged, never silently signed
             # at a price different from the buyer's final numeric message.
             action = 'counter'
@@ -467,7 +499,7 @@ class Seller(AgentExecutor):
             receipt = sign(terms)
             if not self.state.commit_receipt(task.id, receipt, HOLD_SECONDS):
                 self.open.pop(task.id, None)
-                await up.reject(say('That unit reservation expired. Please start a new request.'))
+                await reject('That unit reservation expired. Please start a new request.','reservation_expired')
                 return
             self.holds[unit['unit']] = time.monotonic() + HOLD_SECONDS
             await up.add_artifact(parts=[new_data_part(receipt)], name="receipt")
@@ -479,6 +511,7 @@ class Seller(AgentExecutor):
             self.holds[unit["unit"]] = time.monotonic() + HOLD_SECONDS
             coverage = f' Includes {warranty_hours} h market warranty.' if warranty_hours else ''
             await up.complete(say(f"Deal: {unit['name']} at {offer}.{coverage}"))
+            audit.executed('accept',status='emitted',price=offer,unit=unit['unit'],receipt_status='pending_settlement')
             trace("seller_receipt", task_id=task.id, unit=unit["unit"], price=offer,
                   status="pending settlement")
             del self.open[task.id]
@@ -487,26 +520,37 @@ class Seller(AgentExecutor):
         if action == "reject":
             record("rejected", task_id=task.id, sku=unit["sku"], unit=unit["unit"],
                    price=offer, reason=answer["reason"])
-            await up.reject(say("No deal."))
+            await reject("No deal.",'model_reject')
             del self.open[task.id]
             self.state.close_deal(task.id)
             return
         proposed = answer.get("price")
         maximum = max(1, 2 * int(unit["list_price"]))
         ask = min(maximum, max(1, int(proposed))) if type(proposed) is int else deal["ask"]
+        if ask != proposed:
+            audit.guard('price_range_or_type',proposed_price=proposed,effective_price=ask)
+        before_floor=ask
         if warranty_floor:ask = max(warranty_floor,min(deal['ask'],ask))
+        if ask != before_floor:
+            audit.guard('warranty_floor_or_current_ask',before=before_floor,effective_price=ask)
         if promotion:
+            before_promotion=ask
             ask = min(deal['ask'], max(promotion['price_floor'],ask))
+            if ask != before_promotion:
+                audit.guard('promotion_counter_bounds',before=before_promotion,effective_price=ask)
         if ask != proposed:
             trace("decision_guard", phase="follow_up", proposed_price=proposed, effective_price=ask)
         deal["ask"] = ask
         if not self.state.save_deal(task.id, deal, create=False):
             self.open.pop(task.id, None)
+            audit.guard('reservation_expired')
+            audit.executed('counter',status='blocked',price=ask,unit=unit['unit'],reason='reservation_expired')
             return
         record("counter", task_id=task.id, sku=unit["sku"], unit=unit["unit"],
                buyer_offer=offer, ask=ask)
         trace("seller_counter", task_id=task.id, sku=unit["sku"], offer=offer, ask=ask)
         await up.requires_input(say(f"Counteroffer: {ask}."))
+        audit.executed('counter',status='emitted',price=ask,unit=unit['unit'])
 
     async def cancel(self, context, event_queue) -> None:
         task = context.current_task
@@ -514,7 +558,8 @@ class Seller(AgentExecutor):
             return
         deal = self.open.pop(task.id, None)
         self.state.close_deal(task.id)
-        record("cancelled", task_id=task.id, sku=deal["unit"]["sku"] if deal else None)
+        record("cancelled", task_id=task.id, sku=deal["unit"]["sku"] if deal else None,
+               role='seller',episode_id=f'seller:{task.id}',decision_id=deal.get('last_decision_id') if deal else None)
         await TaskUpdater(event_queue=event_queue, task_id=task.id, context_id=task.context_id).cancel()
 
 

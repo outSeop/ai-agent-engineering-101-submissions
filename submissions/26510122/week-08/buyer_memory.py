@@ -8,6 +8,7 @@ import json
 import os
 from pathlib import Path
 from typing import Any
+import decision_audit
 from context_compaction import (BUYER_MEMORY_BYTES, BUYER_BRIEF_BYTES, MAX_TURNS,
                                 bounded, price_ranges, select_cases, text)
 
@@ -35,7 +36,7 @@ def read_events(path: Path = EVENTS) -> list[dict[str, Any]]:
 def record(event: str, *, path: Path = EVENTS, **fields: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     row = {"at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-           "event": event, **fields}
+           "event": event, **decision_audit.enrich(fields)}
     data = (json.dumps(row, ensure_ascii=False, separators=(",", ":")) + "\n").encode()
     fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o644)
     try:
@@ -88,11 +89,15 @@ def import_payments(payment_path: Path = PAYMENTS, *, event_path: Path = EVENTS)
             normalized = {**payment,'sku':payment.get('item'),'paid':payment.get('paid') is True}
             if key(normalized) in seen:
                 continue
+            linked = decision_audit.buyer_outcome_links(history, order=payment['order'],
+                        shop=payment.get('shop'), sku=payment.get('item'), price=payment.get('price'))
             record("payment", path=event_path, order=payment["order"],
                    shop_name=resolve_shop_name(payment.get('shop'),order=payment['order'],history=history),
                    shop=payment.get("shop"), sku=payment.get("item"),
                    price=payment.get("price"), paid=payment.get("paid") is True,
-                   ledger=payment.get("ledger"), reason=payment.get("reason"))
+                   ledger=payment.get("ledger"), reason=payment.get("reason"),
+                   **{k:v for k,v in linked.items() if k not in ('order','shop','shop_name','sku')},
+                   outcome_source='kit_payment')
             seen.add(key(normalized))
             count += 1
     return count
@@ -116,7 +121,8 @@ def import_broken(broken_path: Path = BROKEN, *, event_path: Path = EVENTS) -> i
             key = (news["name"], news["broke_at"])
             if key in seen:
                 continue
-            record("broken", path=event_path, name=news["name"], broke_at=news["broke_at"])
+            record("broken", path=event_path, name=news["name"], broke_at=news["broke_at"],
+                   outcome_link_status='unmatched',outcome_source='kit_breakage_notice')
             seen.add(key)
             count += 1
     return count

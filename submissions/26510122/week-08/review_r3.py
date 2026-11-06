@@ -12,6 +12,7 @@ import time
 from buyer_memory import read_events, record, resolve_shop_name
 from context_compaction import hours_left
 from market_scoring import saved_at_price,VERSION
+import decision_audit
 
 
 OUTBOX = Path(".market/outbox.jsonl")
@@ -39,6 +40,8 @@ def run(deal: dict, catalog: dict, *, life=None,allow_forum_publish=False) -> di
     grade = settled.get("grade")
     ledger = settled.get("ledger")
     shop = settled.get("shop")
+    linked = decision_audit.buyer_outcome_links(read_events(), order=order.get('order'),
+                shop=shop, sku=sku, price=price, task_id=deal['receipt'].get('task'))
     record("settled", order=order.get("order"), shop=shop, sku=sku,
            shop_name=resolve_shop_name(shop,order=order.get('order')),
            name=settled.get("name"), price=price, list_price=list_price,
@@ -48,6 +51,8 @@ def run(deal: dict, catalog: dict, *, life=None,allow_forum_publish=False) -> di
            score_version=VERSION,score_metric='saved',
            saved_if_usable_at_payment=saved_at_price(list_price,price) if list_price>0 else None,
            saved_maturity='payment-time condition only; later breakage and refunds are resolved by the market',
+           **{k:v for k,v in linked.items() if k not in ('order','shop','shop_name','sku','score_version')},
+           outcome_source='kit_settled_review',
            hours_left_at_recording=hours_left(settled.get('expires_at'),
                                               datetime.now(timezone.utc).isoformat()))
     if value <= 0:

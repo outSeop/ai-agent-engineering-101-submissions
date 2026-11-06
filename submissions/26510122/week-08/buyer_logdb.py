@@ -49,6 +49,12 @@ def connect(path):
                 AND p.id=(SELECT MIN(q.id) FROM events q WHERE q.event='checkout_payment'
                     AND q.paid=1 AND q.ledger=p.ledger);
     ''')
+    # Additive migration keeps old indexed evidence/cursors intact.
+    columns={row[1] for row in db.execute('PRAGMA table_info(events)')}
+    for name in ('episode_id','decision_id','attempt_id'):
+        if name not in columns:db.execute(f'ALTER TABLE events ADD COLUMN {name} TEXT')
+    db.execute('CREATE INDEX IF NOT EXISTS buyer_decision_events ON events(decision_id,id)')
+    db.execute('CREATE INDEX IF NOT EXISTS buyer_episode_events ON events(episode_id,id)')
     return db
 
 
@@ -58,11 +64,12 @@ def insert(db, source, generation, offset, row, override=None):
     paid = int(row['paid']) if type(row.get('paid')) is bool else None
     db.execute('''INSERT OR IGNORE INTO events (
         source,generation,byte_offset,at,event,order_id,selection_id,task_id,
-        shop_name,shop_url,sku,price,paid,ledger,grade,value,payload)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)''', (
+        shop_name,shop_url,sku,price,paid,ledger,grade,value,payload,episode_id,decision_id,attempt_id)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)''', (
         source,generation,offset,row.get('at'),event,row.get('order'),row.get('selection_id'),row.get('task_id'),
         row.get('shop_name'),row.get('shop'),row.get('sku') or (row.get('item') if override=='checkout_payment' else None),row.get('price'),paid,
-        row.get('ledger'),row.get('grade'),row.get('value'),json.dumps(row,ensure_ascii=False)))
+        row.get('ledger'),row.get('grade'),row.get('value'),json.dumps(row,ensure_ascii=False),
+        row.get('episode_id'),row.get('decision_id'),row.get('attempt_id')))
 
 
 def index_file(db, root, source, override):

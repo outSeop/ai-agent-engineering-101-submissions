@@ -4,7 +4,7 @@ import sqlite3
 import tempfile
 import unittest
 
-from buyer_logdb import sync
+from buyer_logdb import sync,connect
 
 
 class BuyerLogDBTests(unittest.TestCase):
@@ -33,6 +33,24 @@ class BuyerLogDBTests(unittest.TestCase):
         self.write('.market/payments.jsonl',[dict(order='o1',paid=False,reason='certificate missing')])
         self.assertEqual(sync(self.root)['confirmed_purchases'],0)
         self.assertIn('certificate missing',self.query('SELECT payload FROM events')[0][0])
+
+    def test_existing_database_migrates_without_losing_rows_or_cursor(self):
+        self.write('logs/buyer-events.jsonl',[dict(event='legacy',order='o1')]);sync(self.root)
+        path=self.root/'state/buyer.sqlite3'
+        with sqlite3.connect(path) as db:
+            cursor=db.execute('SELECT generation,offset FROM sources').fetchall()
+            db.execute('DROP INDEX buyer_decision_events');db.execute('DROP INDEX buyer_episode_events')
+            for name in ('episode_id','decision_id','attempt_id'):
+                db.execute(f'ALTER TABLE events DROP COLUMN {name}')
+        with connect(path) as db:
+            self.assertEqual(db.execute('SELECT generation,offset FROM sources').fetchall(),cursor)
+            self.assertEqual(db.execute('SELECT event FROM events').fetchall(),[('legacy',)])
+        with (self.root/'logs/buyer-events.jsonl').open('a') as target:
+            target.write(json.dumps(dict(event='decision_executed',order='o1',episode_id='buyer:o1',
+                                         decision_id='d1',attempt_id='a1'))+'\n')
+        sync(self.root)
+        self.assertEqual(self.query("SELECT episode_id,decision_id,attempt_id FROM events WHERE event='decision_executed'"),
+                         [('buyer:o1','d1','a1')])
 
     def test_partial_line_is_retried_not_lost(self):
         p=self.root/'logs/buyer-events.jsonl'; p.write_text('{"event":"no_candidate","order":"o1"}')

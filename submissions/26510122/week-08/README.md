@@ -4,6 +4,40 @@ Current operation and Linux migration: [ops/HOME_SERVER.md](ops/HOME_SERVER.md).
 This runbook describes the live plain buyer/seller, private state handoff, and
 Linux user services. Historical policy changes and experiments remain below.
 
+Decision audit (2026-11-06): seller quote/negotiation and buyer shop selection/
+counteroffers now have per-turn `decision_id`s, grouped by seller task or buyer
+issued order (`episode_id`). Buyer shop attempts also have separate `attempt_id`s;
+follow-up decisions retain their parent decision. The configured model, scoring
+contract, runtime policy and hash-verified frozen source commit accompany them.
+`decision_proposed` preserves the model/fallback choice; `decision_guard` names a
+correction; `decision_executed` records the applied selection, protocol emission,
+successful HTTP offer, blocked action or failed execution. Seller protocol emission
+means the task updater accepted it, not that a buyer received it or paid. No extra
+model calls or price/eligibility policy changes are introduced by this audit.
+
+Existing role JSONL files remain append-only. Seller payment imports link by an
+unambiguous signed-receipt unit **and price**. Buyer payment/review imports link by
+exact task or a unique order/shop/SKU/receipt-price attempt; ambiguous/legacy
+evidence remains explicitly unlinked rather than borrowing the current decision.
+Receipts, reservation expiry and transport failures never become paid trades.
+Payment-time evidence is not mature warranty-adjusted Book/Saved. The buyer SQLite
+index adds episode/decision/attempt columns without replacing old rows or cursors.
+Read an episode without modifying market state:
+
+```sh
+.venv/bin/python ops/decision_report.py --runtime state/seller-runtime --role seller --limit 5
+.venv/bin/python ops/decision_report.py --runtime state/buyer-runtime --role buyer --limit 5
+```
+
+The report groups every audited turn contributing to a transaction and retains
+separate attempt/outcome links. Raw model inputs/answers in the harness trace use
+the same IDs. Historical records are not backfilled with invented model choices.
+This first audit covers trading negotiation; procurement and forum still retain
+their existing intent/publication-specific evidence, not this per-turn schema.
+Meta market inputs interleave distinct volume/revenue top-20 candidates before
+the 20-row cut, retain source ranks, and disclose omitted/catalog-missing SKUs and
+displayed counts separately from full ranked-candidate eligibility totals.
+
 Current scoring alignment (2026-11-06, Patch 3.4): seller ALL uses Book/revenue/stars
 percentiles at 0.5/0.3/0.2; buyer ALL uses Saved/forum/deals/posts at 0.5/0.3/0.1/0.1.
 `market_scoring.py` owns both contracts. Buyer candidate ordering and model inputs
