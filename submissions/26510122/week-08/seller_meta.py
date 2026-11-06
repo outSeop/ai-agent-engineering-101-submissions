@@ -12,6 +12,7 @@ from inventory_observation import timestamp
 from replenishment_plan import inventory_risk
 from procurement_cost import ceiling
 from seller_meta_policy import DEFAULT,BOUNDS,FOCUS,active,validate
+from market_scoring import VERSION,BOOK_CONTRACT,book_metrics
 REVIEW_SECONDS=1800
 DATA_RETRY_SECONDS=60
 FAILURE_RETRY_SECONDS=120
@@ -87,7 +88,8 @@ def snapshot(runtime,now,public):
                          'sample_mean_paid':round(pr[sku]/count),'cost_ceiling_with_max_surge':cost,
                          'eligible':not why,'review_route':route,'blocked_by':why,'would_fail_removed_500k_cap':math.ceil(p['list_price']*.75)>500000})
     matched=[e for e in settled.values() if e.get('unit') in costs]
-    return {'at':now,'inventory_source_time':source_time,'inventory_age_seconds':max(0,age),'active_policy':current,'risk':risk,'effective_window_budget':budget,
+    return {'at':now,'score_version':VERSION,'book':book_metrics(inv,now),
+            'score_contract':BOOK_CONTRACT,'inventory_source_time':source_time,'inventory_age_seconds':max(0,age),'active_policy':current,'risk':risk,'effective_window_budget':budget,
             'operator_bounds':BOUNDS,'focus_options':FOCUS,
             'own_3h':{'settlements':len(settled),'revenue':sum(e.get('price',0) for e in settled.values()),
                       'known_cost_sales':len(matched),'acquisition_spread_before_holding_refunds':sum(e['price']-costs[e['unit']] for e in matched),
@@ -116,11 +118,15 @@ def evaluation(runtime,old,data,now):
     changed=old.get('changed_at',0);end=now-600
     if not changed or end<=changed:return None
     span=end-changed;history=events(runtime/'logs/shop-events.jsonl');baseline=old.get('baseline',{})
+    previous_book=baseline.get('book',{}).get('book');current_book=data.get('book',{}).get('book')
     return {'changed_at':changed,'maturation_seconds':600,'equal_window_seconds':span,
             'before':paid_metrics(history,changed-span,changed),'after':paid_metrics(history,changed,end),
             'capital_at_change':baseline.get('risk'), 'capital_now':data['risk'],
+            'book_at_change':previous_book,'book_now':current_book,
+            'observed_book_change':current_book-previous_book if previous_book is not None and current_book is not None else None,
             'policy_expired':data['active_policy'].get('meta_status')!='active',
-            'caution':'Observational before/after, not causal. Cash changes include purchases; acquisition spread excludes holding and refunds.'}
+            'caution':'Observed Book change includes storage, spoilage, refunds and sales; it is not causal attribution. '
+                      'Cash changes include purchases and are not Book change. Acquisition spread excludes holding and refunds.'}
 
 
 def revised(config,decision):
@@ -144,9 +150,10 @@ def review(runtime,*,model=decide_json,now=None,public=None,shadow=False):
         # transient failure incorrectly consumed the full review interval.
         last_success=state.get('last_success',state.get('last_review',{}).get('at',0))
         next_review=state.get('next_review_at',last_success+REVIEW_SECONDS if last_success else 0)
-        if not shadow and now<next_review:return {'status':'cooldown','next_review_at':next_review}
+        if not shadow and now<next_review and state.get('attempt_score_version')==VERSION:
+            return {'status':'cooldown','next_review_at':next_review}
         if not shadow:
-            state.update(last_attempt=now,next_review_at=now+FAILURE_RETRY_SECONDS)
+            state.update(last_attempt=now,next_review_at=now+FAILURE_RETRY_SECONDS,attempt_score_version=VERSION)
             save(statepath,state)  # also back off after a model/network failure or crash
         try:
             sample=public_sample() if public is None else public
@@ -162,7 +169,10 @@ def review(runtime,*,model=decide_json,now=None,public=None,shadow=False):
             record('meta_deferred',path=runtime/'logs/seller-meta-events.jsonl',
                    reason=error.reason,inventory_age_seconds=error.age,retry_at=retry_at)
             return {'status':'data_retry','reason':error.reason,'inventory_age_seconds':error.age,'next_review_at':retry_at}
-        data['policy_evaluation']=evaluation(runtime,old,data,now)
+        score_transition=bool(old and old.get('score_version')!=VERSION)
+        data['policy_evaluation']=None if score_transition else evaluation(runtime,old,data,now)
+        data['score_transition']={'rebased':score_transition,'previous_version':old.get('score_version'),
+                                  'current_version':VERSION,'note':'Old scoring-policy evidence is not a causal baseline for this code change.'}
         record('meta_snapshot',path=runtime/'logs/seller-meta-events.jsonl',snapshot=data)
         if not shadow:save(runtime/'state/seller-meta-market.json',{'at':now,'source':'public ledger sample','window':data['market_sample'],'rows':data['market_opportunities']})
         decision=model('seller meta policy reviewer',{
@@ -173,7 +183,8 @@ def review(runtime,*,model=decide_json,now=None,public=None,shadow=False):
             'to inventory/replenishment review and are not rejected new opportunities. Only call a constraint binding '
             'when an actual rejection reason demonstrates it; unmeasured code limits are not observed bottlenecks. '
             'Do not change code, hard risk bounds, contracts or pending reservations. Do not tighten merely because '
-            'cash falls after procurement. Higher revenue or cheap trade count alone does not prove profit. '
+            'cash falls after procurement. Optimize Book under score_contract, not Cash. Buying at cost is Book-neutral; '
+            'use observed Book changes after refunds, storage and spoilage. Revenue or cheap trade count alone does not prove Book growth. '
             'A candidate is NOT a purchase authorization. Rollback uses the previous reviewed policy. '
             'Report code-level bottlenecks in reason even when no runtime parameter can fix them. '
             'Numeric step limits: budget x0.5..x2, target share +/-0.10, epsilon +/-0.05. '
@@ -184,7 +195,7 @@ def review(runtime,*,model=decide_json,now=None,public=None,shadow=False):
             'snapshot':data,'previous_review':state.get('last_review'),
             'seconds_since_change':now-old.get('changed_at',0)},SCHEMA)
         config={k:data['active_policy'][k] for k in DEFAULT};status='held';new=config
-        changed_at=old.get('changed_at',0)
+        changed_at=now if score_transition else old.get('changed_at',0)
         if decision.get('action') in ('change','rollback'):
             mature_sales=len({e['ledger'] for e in events(runtime/'logs/shop-events.jsonl') if e.get('event')=='settled' and e.get('ledger') is not None and changed_at<=(timestamp(e.get('at')) or 0)<=now-600})
             if old and (now-changed_at<CHANGE_SECONDS or mature_sales<20):status='evaluation_pending'
@@ -193,12 +204,12 @@ def review(runtime,*,model=decide_json,now=None,public=None,shadow=False):
             else:new=revised(config,decision);status='changed'
         elif decision.get('action')!='hold':raise ValueError('unknown meta action')
         if not shadow:
-            version=uuid.uuid4().hex if status in ('changed','rollback') else old.get('version',uuid.uuid4().hex)
+            version=uuid.uuid4().hex if score_transition or status in ('changed','rollback') else old.get('version',uuid.uuid4().hex)
             applied_at=now if injected_clock else time.time()
-            baseline={'at':applied_at,'risk':data['risk'],'own_3h':data['own_3h']} if not old or status in ('changed','rollback') else old.get('baseline')
-            payload={'schema_version':1,'version':version,'at':applied_at,'expires_at':applied_at+14400,
+            baseline={'at':applied_at,'risk':data['risk'],'book':data['book'],'own_3h':data['own_3h']} if not old or score_transition or status in ('changed','rollback') else old.get('baseline')
+            payload={'schema_version':1,'score_version':VERSION,'version':version,'at':applied_at,'expires_at':applied_at+14400,
                      'baseline':baseline,
-                     'changed_at':applied_at if not old or status in ('changed','rollback') else changed_at,
+                     'changed_at':applied_at if not old or score_transition or status in ('changed','rollback') else changed_at,
                      'config':new,'previous_config':config if new!=config else old.get('previous_config',config)}
             save(policy,payload);state['last_review']={'at':applied_at,'status':status,'decision':decision,'version':version}
         with sqlite3.connect(runtime/'state/seller-meta.sqlite3') as db:

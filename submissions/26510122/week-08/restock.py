@@ -28,6 +28,7 @@ import replenishment_plan
 from stock_policy import policy_view, NEW_STOCK
 from capital_policy import MIN_CASH, operating_policy
 from procurement_cost import ceiling as acquisition_ceiling
+from market_scoring import continuation as book_continuation,BOOK_CONTRACT
 
 
 COOLDOWN = Path("state/restock-cooldown.json")
@@ -141,7 +142,7 @@ def observation_view(observed: dict) -> dict:
 
 def quantity_candidates(mean: float, price: int, cost: int, stocked: int, cap: int,
                         continuation_value: float = 0., holding_per_leftover: float = 0., stock_limit: int = NEW_STOCK) -> list[dict]:
-    table = [{'id':'hold','qty':0,'target_stock':stocked,'expected_incremental_profit':0,
+    table = [{'id':'hold','qty':0,'target_stock':stocked,'expected_incremental_book_change':0,
               'assumption':'wait until next review; not a promise of zero future sales'}]
     seen = {0}
     for label, factor in [('low',.65),('base',1.),('high',1.5)]:
@@ -157,9 +158,9 @@ def quantity_candidates(mean: float, price: int, cost: int, stocked: int, cap: i
                           for d,prob in enumerate(pmf))
         table.append({'id':label,'qty':qty,'target_stock':stocked+qty,
                       'forecast_mean':round(mean*factor,3),'calculation':calc,
-                      'expected_incremental_profit':round(incremental,2),
+                      'expected_incremental_book_change':round(incremental,2),
                       'assumption':'scenario estimate; fixed sale price, existing stock assumed saleable; '
-                                   'continuation value is uncertain future net revenue, not a market buyback; '
+                                   'continuation is the supplied Book-retention/future-value scenario, not a cash buyback; '
                                    'actual grade, expiry and cost can change realized outcome'})
     return table
 
@@ -316,8 +317,9 @@ def run(state: Path) -> dict:
                      "discarded merely because this short planning horizon ends. Missing observations are UNKNOWN, "
                      "not zero demand. demand.json lists categories without demand weights.",
     }
-    prompt['objective'] += (' The market end is a hard cash-realization deadline. Limit the forecast horizon to '
-                            'hours_to_end minus two hours if shorter, and do not assign terminal value to unsold stock. '
+    prompt['objective'] += (' '+BOOK_CONTRACT+' Limit the forecast horizon to hours_to_end if shorter. '
+                            'Goods unsold at round end retain acquisition-cost Book credit, not sale proceeds. '
+                            'Food credit requires it to survive without spoilage; do not invent survival odds. '
                             'The operator prefers active capital turnover with positive acquisition spread, '
                             'revenue and honest buyer satisfaction over idle cash or extreme per-sale markups. '
                             'Ranking weights apply to percentiles, not raw units.')
@@ -369,8 +371,9 @@ def run(state: Path) -> dict:
     continuation = (max(0., min(expected_cost, float(residual)))
                     if type(residual) in (int, float) and math.isfinite(residual) else 0.)
     horizon_hours = 24.0 if selected['kind'] == 'goods' else min(24.0, selected['shelf_hours'] * .25)
-    horizon_hours = min(horizon_hours,max(0.,operating['hours_to_end']-2))
-    if operating['phase'] != 'growth': continuation = 0.
+    horizon_hours = min(horizon_hours,max(0.,operating['hours_to_end']))
+    retained = book_continuation(catalog[selected['sku']],expected_cost,continuation,horizon_hours,operating['hours_to_end'])
+    continuation = retained['value']
     holding = expected_cost * .01 * horizon_hours / 24 if selected['kind'] == 'goods' else 0.
     calculation = recommend_quantity(poisson_pmf(mean), price, expected_cost,
                                      salvage=continuation, holding_per_leftover=holding,
@@ -394,7 +397,7 @@ def run(state: Path) -> dict:
                        'continuation_value':continuation,
                        'holding_per_leftover':holding,
                        'portfolio_limits':prompt['portfolio_limits'],
-                       'continuation_value_contract':'Uncertain future net revenue after horizon, not buyback or confirmed cash.',
+                       'continuation_value_contract':retained['contract'],'book_continuation':retained,
                        'forecast_policy_cap':forecast_cap,
                        'observation':observation,'quantity_candidates':table,
                        'scenario_age_seconds':round(now-cooldown.get('scenario_at',now)) if reusable_scenario else 0,

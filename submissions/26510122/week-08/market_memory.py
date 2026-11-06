@@ -91,7 +91,7 @@ def sync_settlements(kit_log: Path = KIT_LOG, *, event_log: Path = EVENTS,
             record("settled", path=event_log, ledger=ledger, unit=match["unit"],
                    grade=match["grade"], price=int(match["price"]),
                    sku=receipt.get("sku"), task_id=receipt.get("task_id"),
-                   warranty_hours=receipt.get('warranty_hours',0))
+                   warranty_hours=receipt.get('warranty_hours',0),score_version=receipt.get('score_version'))
             seen.add(ledger)
             added += 1
         next_offset = source.tell()

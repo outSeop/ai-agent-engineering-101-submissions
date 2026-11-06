@@ -53,29 +53,30 @@ class CapitalPolicyTests(unittest.TestCase):
         self.assertEqual(risk['storage_cash_buffer'],100_000)
         self.assertEqual(risk['cash_reserve'],700_000)
 
-    def test_capital_tapers_and_new_exploration_stops_before_end(self):
-        self.assertTrue(operating_policy(ROUND_END-73*3600)['allow_new_skus'])
-        for remaining,phase,share in [(72,'harvest',.5),(24,'final_day',.25),(2,'sell_only',0),(0,'sell_only',0)]:
+    def test_book_keeps_risk_bounds_until_the_actual_round_end(self):
+        for remaining,phase in [(73,'growth'),(72,'harvest'),(24,'final_day'),(2,'closing')]:
             policy=operating_policy(ROUND_END-remaining*3600)
-            self.assertEqual((policy['phase'],policy['inventory_capital_share']),(phase,share))
-            self.assertFalse(policy['allow_new_skus'])
+            self.assertEqual((policy['phase'],policy['inventory_capital_share']),(phase,.75))
+            self.assertTrue(policy['allow_new_skus']);self.assertTrue(policy['allow_replenishment'])
+            self.assertEqual(policy['score_weights'],{'book':.5,'revenue':.3,'stars':.2})
+        ended=operating_policy(ROUND_END)
+        self.assertFalse(ended['allow_replenishment']);self.assertEqual(ended['window_budget'],0)
         inv=self.inventory(ROUND_END-3600)
-        self.assertEqual(plans.inventory_risk(inv,ROUND_END-3600,pending_cost=0)['available_to_invest'],0)
+        self.assertGreater(plans.inventory_risk(inv,ROUND_END-3600,pending_cost=0)['available_to_invest'],0)
 
-    def test_cached_plan_cannot_buy_through_final_two_hour_cutoff(self):
+    def test_cached_plan_remains_eligible_before_the_actual_deadline(self):
         now=ROUND_END-7210
         observation={'proven':True,'stock_limit':2,'observed_visits':5,'observed_no_stock_visits':0,
                      'observed_visit_rate_while_stocked':None}
         p=plans.create(sku='s1',product=catalog()['s1'],candidate={'qty':1,'target_stock':1},
                        approval={'valid_for_seconds':600,'max_total_qty':1},observation=observation,now=now)
         result,reason=plans.execute(p,inventory=self.inventory(now),product=catalog()['s1'],observation=observation,now=ROUND_END-7199)
-        self.assertEqual((result,reason),({'buy':[]},'market_closing'))
+        self.assertEqual((result,reason),({'buy':[{'sku':'s1','qty':1}]},'approved_plan'))
 
-    def test_harvest_buys_proven_replacements_without_new_skus(self):
+    def test_late_period_can_replenish_proven_stock_under_book(self):
         now=ROUND_END-48*3600;inv=self.inventory(now)
         def model(role,prompt,schema):
             self.assertEqual(prompt['operating_policy']['phase'],'harvest')
-            self.assertEqual(prompt['candidates'],[])
             winner=prompt['replenishment_candidates'][0]
             return {'action':'buy','skus':[],'replenishment':[{'sku':winner['sku'],
                 'target_stock':winner['target_options'][-1]['target_stock']}],'reason':'Sell before deadline'}
@@ -84,14 +85,14 @@ class CapitalPolicyTests(unittest.TestCase):
         self.assertTrue(result['buy'])
         self.assertEqual({r['sku'] for r in result['buy']},{'s1'})
 
-    def test_slow_seller_target_does_not_assume_terminal_inventory_has_value(self):
+    def test_forecast_is_not_clipped_to_zero_terminal_sale_capacity(self):
         now=ROUND_END-3*3600;inv=self.inventory(now)
         forecast=demand_forecast('s1',catalog()['s1'],inv,self.history(now,age=5*3600),now)
         self.assertEqual(forecast['terminal_sale_capacity_estimate'],0)
-        self.assertEqual(forecast['maximum_target'],0)
+        self.assertGreater(forecast['maximum_target'],0)
 
     def test_final_cutoff_blocks_portfolio_and_startup_calls(self):
-        now=ROUND_END-3600;inv=self.inventory(now)
+        now=ROUND_END;inv=self.inventory(now)
         def model(*_):self.fail('No new buying calls near market end')
         self.assertEqual(portfolio.run(inv,catalog(),[],now,model=model,refresh=lambda:(inv,now,True)),{'buy':[]})
         self.assertIsNone(startup.run(inv,catalog(),[],{},now,model=model))

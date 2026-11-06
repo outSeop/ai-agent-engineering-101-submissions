@@ -1,6 +1,7 @@
-"""Working-capital policy for cash-based, percentile-ranked Round 3 scoring."""
+"""Working-capital policy for Book-based, percentile-ranked Round 3 scoring."""
 from datetime import datetime
 from seller_meta_policy import active
+from market_scoring import SELLER_WEIGHTS,BOOK_CONTRACT,VERSION
 
 ROUND_END = datetime.fromisoformat('2026-11-17T23:59:00+09:00').timestamp()
 MIN_CASH = 600_000
@@ -9,32 +10,27 @@ MAX_UNITS = 180
 MAX_UNIT_COST = MAX_COST  # absolute exposure bound; live cash/risk determines affordability
 GROWTH_WINDOW_BUDGET = MAX_COST  # actual budget is clipped to live investable capacity
 GROWTH_EXPLORATION_BUDGET = 12_000_000
-RANKING = {'profit':.5,'revenue':.3,'stars':.2}
+RANKING = SELLER_WEIGHTS
 
 
 def operating_policy(now):
     hours = max(0.,(ROUND_END-now)/3600)
-    if hours <= 2:
-        phase,share,target,window,rolling,new = 'sell_only',0.,0.,0,0,False
-    elif hours <= 24:
-        phase,share,target,window,rolling,new = 'final_day',.25,.20,300_000,0,False
-    elif hours <= 72:
-        phase,share,target,window,rolling,new = 'harvest',.50,.40,600_000,0,False
-    else:
-        phase,share,target,window,rolling,new = ('growth',.75,.65,
-            GROWTH_WINDOW_BUDGET,GROWTH_EXPLORATION_BUDGET,True)
+    phase = 'ended' if hours<=0 else 'closing' if hours<=2 else 'final_day' if hours<=24 else 'harvest' if hours<=72 else 'growth'
+    share,target,window,rolling,new = ((.75,.65,GROWTH_WINDOW_BUDGET,GROWTH_EXPLORATION_BUDGET,True)
+                                     if hours>0 else (0.,0.,0,0,False))
     meta=active(now)
-    if phase=='growth':
+    if hours>0:
         target=meta['target_capital_share'];window=min(window,meta['window_budget'])
-    return {'exploration_epsilon':meta['epsilon'] if phase=='growth' else .30,
+    return {'exploration_epsilon':meta['epsilon'] if hours>0 else .30,
             'allocation_focus':meta['focus'] if phase=='growth' else 'replenishment',
             'meta_version':meta['meta_version'],'meta_status':meta['meta_status'],
             'phase':phase,'hours_to_end':round(hours,4),'ends_at':ROUND_END,
             'inventory_capital_share':share,'target_capital_share':target,
             'window_budget':window,'rolling_exploration_budget':rolling,
-            'allow_new_skus':new,'allow_replenishment':hours>2,
+            'allow_new_skus':new,'allow_replenishment':hours>0,
             'score_weights':RANKING,'score_unit':'each component is a market percentile, not a raw weighted sum',
-            'profit_definition':'cash balance minus starting capital minus bankruptcy injections; unsold stock has no credited terminal value'}
+            'score_version':VERSION,'book_definition':BOOK_CONTRACT,
+            'terminal_policy':'Retained stock counts at acquisition cost; compare Book after spoilage, holding and refunds. No forced cash liquidation.'}
 
 
 def target_inventory_cost(inventory, now):

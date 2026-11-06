@@ -37,6 +37,7 @@ import seller_requirements
 import seller_warranty
 from seller_promotion import discount_quote
 from capital_policy import operating_policy
+from market_scoring import VERSION
 
 
 NAME = "outseop-26510122"
@@ -280,7 +281,9 @@ class Seller(AgentExecutor):
             prompt['objective'] += (' Calculate the ordinary opening quote without anticipating promotions; '
                                     'a separate tool applies any campaign afterward. Never inflate a base price to offset a discount. '
                                     'Prefer repeatable positive-margin turnover, settled revenue and honest quality over '
-                                    'maximizing one markup. Terminal unsold stock has no credited cash value; ranking weights are percentiles.')
+                                    'maximizing one markup. Unsold inventory retains acquisition-cost Book credit at round end. '
+                                    'Compare selling with holding after storage, spoilage and refund risk; credit is not a cash buyback. '
+                                    'Buying inventory does not itself increase Book. Ranking weights are percentiles.')
             middle = tools[0]["candidates"][len(tools[0]["candidates"]) // 2]["price"]
             answer = await self.choose(prompt, ["ask", "reject"],
                                        {"action": "ask", "price": middle, "unit_id": choices[0]["unit"]})
@@ -342,7 +345,8 @@ class Seller(AgentExecutor):
             record("opening", task_id=task.id, sku=unit["sku"], unit=unit["unit"],
                    category=unit.get("category"), grade=unit["grade"], kind=unit.get("kind"),
                    cost=unit["cost"], list_price=unit["list_price"], ask=ask,
-                   expires_at=unit.get("expires_at"),warranty_hours=warranty_hours,warranty_economics=warranty)
+                   expires_at=unit.get("expires_at"),warranty_hours=warranty_hours,warranty_economics=warranty,
+                   score_version=VERSION,score_metric='book')
             evidence=profiles_by_unit[unit['unit']]
             ordinary=unit['list_price']*GRADE_ANCHORS[unit['grade']]
             if evidence['eligible_for_price_probe'] and ask>ordinary*1.025:
@@ -410,8 +414,9 @@ class Seller(AgentExecutor):
                          "A receipt counts only if checkout later settles. The buyer profile is a hypothesis; "
                          "a new low offer is evidence against the tested price. Do not escalate mechanically.",
         }
-        prompt['objective'] += (' Value settled revenue and buyer satisfaction alongside cash profit. '
-                                'As the market deadline approaches, favor realizing cash over holding unsold inventory. '
+        prompt['objective'] += (' Value Book, settled revenue and honest buyer satisfaction. '
+                                'Compare sale proceeds after warranty risk with retained inventory Book credit, storage and spoilage. '
+                                'Do not force below-cost liquidation solely because the round is ending. '
                                 'Never relax the buyer\'s quality, expiry or signature requirements to create volume.')
         if deal.get('promotion'):
             prompt['opening_promotion'] = deal['promotion']
@@ -469,7 +474,8 @@ class Seller(AgentExecutor):
             record("receipt_signed", task_id=task.id, sku=unit["sku"], unit=unit["unit"],
                    grade=quality['grade'], claim=quality['claim'], claim_reason=quality['reason'],
                    price=offer,cost=unit['cost'],expires_at=unit.get('expires_at'),supplied_at=unit.get('supplied_at'),
-                   warranty_hours=warranty_hours,warranty_economics=seller_warranty.economics(unit,offer,warranty_hours=warranty_hours))
+                   warranty_hours=warranty_hours,warranty_economics=seller_warranty.economics(unit,offer,warranty_hours=warranty_hours),
+                   score_version=VERSION,score_metric='book')
             self.holds[unit["unit"]] = time.monotonic() + HOLD_SECONDS
             coverage = f' Includes {warranty_hours} h market warranty.' if warranty_hours else ''
             await up.complete(say(f"Deal: {unit['name']} at {offer}.{coverage}"))

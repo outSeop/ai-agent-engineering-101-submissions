@@ -12,6 +12,7 @@ from harness import decide_json, trace
 from context_compaction import MAX_TURNS, text
 import buyer_identity
 from buyer_policy import acceptance, quote_shelf_minimum
+from market_scoring import saved_at_price
 
 
 def opening_request(name: str, sku: str, order: dict) -> str:
@@ -98,9 +99,16 @@ def followup_offer(*, message: str, last_offer: int, cap: int, sku: str,
               "maximum_authorized_price": cap, "recent_memory": memory,
               'recent_turns':[{'speaker':r['speaker'],'text':text(r['text'],180)}
                               for r in (history or [])[-MAX_TURNS:]],
-              "objective": "Choose the next offer or walk away. Keep positive buyer surplus. "
+              "objective": "Choose the next offer or walk away. Optimize normalized Saved, not absolute currency savings. "
+                           "A usable trade contributes (list_price-paid)/list_price; qualify shelf life, grade and warranty. "
+                           "A quoted discount is not a realized score; broken or unusable goods can reduce Saved. "
+                           "Balance a better rate with completing a valid issued order before its deadline. "
                            "A high asking price is negotiable; do not reveal the private mandate limit."}
     prompt['offers_remaining']=offers_remaining
+    prompt['saved_if_usable']={'at_last_offer':saved_at_price(list_price,last_offer),
+                               'at_cap':saved_at_price(list_price,cap),
+                               'at_seller_ask':saved_at_price(list_price,ask) if ask is not None else None,
+                               'note':'Conditional usable-deal contributions, not realized final Saved.'}
     prompt['seconds_until_deadline']=max(0,round(deadline-time.monotonic()))
     schema = {"type": "object", "properties": {
         "action": {"type": "string", "enum": ["offer", "walk"]},

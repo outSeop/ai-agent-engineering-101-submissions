@@ -15,6 +15,7 @@ import uuid
 import time
 from market_memory import events
 import seller_warranty
+from market_scoring import book_metrics
 from supply_reconciliation import reconcile, pending_quantity
 from stock_policy import PROVEN_STOCK, NEW_STOCK, MAINTENANCE_CATEGORY_LIMIT
 from capital_policy import MIN_CASH, MAX_COST, MAX_UNITS, operating_policy
@@ -26,7 +27,7 @@ MAX_CATEGORY_STOCK = MAINTENANCE_CATEGORY_LIMIT
 MAX_TOTAL_STOCK = MAX_UNITS
 MAX_INVENTORY_COST = MAX_COST
 INVENTORY_CAPITAL_SHARE = .75
-POLICY_VERSION = 8
+POLICY_VERSION = 9
 
 
 def pending_exploration_cost(inventory: dict) -> int:
@@ -80,6 +81,7 @@ def inventory_risk(inventory: dict, now: float, pending_cost: int | None = None)
     exposure_room = max(0, limit - stock_cost - max(0, pending_cost))
     return {'cash_balance': balance, 'cash_reserve': reserve, 'storage_cash_buffer':storage_reserve,
             'warranty_exposure':warranty,
+            'book':book_metrics(inventory,now),
             'stock_acquisition_cost': stock_cost,
             'pending_cost_ceiling': pending_cost, 'inventory_cost_limit': limit,
             'capital_share_limit': policy['inventory_capital_share'], 'operating_policy':policy,

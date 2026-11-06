@@ -5,6 +5,7 @@ import seller_meta as meta
 from seller_meta_policy import active,DEFAULT,validate
 from procurement_cost import ceiling
 from capital_policy import operating_policy,ROUND_END
+from market_scoring import VERSION
 import inventory_portfolio as portfolio
 
 class MetaHarnessTests(unittest.TestCase):
@@ -37,7 +38,7 @@ class MetaHarnessTests(unittest.TestCase):
  def test_single_change_is_active_and_hard_market_cutoff_remains(self):
   r=meta.review(self.root,now=self.now,public=[],model=lambda *a:self.decision())
   self.assertEqual(r['status'],'changed');self.assertEqual(operating_policy(self.now)['window_budget'],6_000_000)
-  self.assertEqual(operating_policy(ROUND_END-3600)['window_budget'],0)
+  self.assertEqual(operating_policy(ROUND_END)['window_budget'],0)
   self.assertEqual(active(self.now+14401)['meta_status'],'operator_default')
  def test_initial_hold_still_establishes_an_evaluation_baseline(self):
   decision=self.decision();decision['action']='hold'
@@ -79,6 +80,27 @@ class MetaHarnessTests(unittest.TestCase):
   self.assertEqual(result['next_review_at'],self.now+31+meta.DATA_RETRY_SECONDS)
   self.assertFalse((self.root/'state/seller-meta-policy.json').exists())
   model.assert_not_called()
+
+ def test_old_cash_baseline_is_rebased_without_changing_tunables(self):
+  (self.root/'state/seller-meta-policy.json').write_text(json.dumps({'version':'old','changed_at':1,'config':DEFAULT,
+   'previous_config':DEFAULT,'at':self.now-10,'expires_at':self.now+1000,'baseline':{'at':1,'risk':{}}}))
+  (self.root/'state/seller-meta-review.json').write_text(json.dumps({'last_review':{'at':self.now-1}}))
+  def decide(role,prompt,schema):
+   self.assertTrue(prompt['snapshot']['score_transition']['rebased'])
+   self.assertIsNone(prompt['snapshot']['policy_evaluation'])
+   return self.decision(6_000_000)
+  result=meta.review(self.root,now=self.now,public=[],model=decide)
+  self.assertEqual(result['status'],'evaluation_pending')
+  policy=json.loads((self.root/'state/seller-meta-policy.json').read_text())
+  self.assertEqual(policy['config'],DEFAULT);self.assertEqual(policy['score_version'],VERSION)
+  self.assertEqual(policy['changed_at'],self.now)
+  self.assertIn('book',policy['baseline'])
+
+ def test_book_evaluation_uses_observed_book_not_cash_movement(self):
+  data=meta.snapshot(self.root,self.now,[])
+  old={'changed_at':self.now-1000,'baseline':{'book':{'book':data['book']['book']-123},'risk':{}}}
+  ev=meta.evaluation(self.root,old,data,self.now)
+  self.assertEqual(ev['observed_book_change'],123)
 
  def test_stale_attempt_recovers_after_short_retry_not_thirty_minutes(self):
   start=self.now+31

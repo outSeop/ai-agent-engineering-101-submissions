@@ -32,7 +32,7 @@ PREFERRED_MIN_BATCH = 5
 WINDOW_BUDGET = GROWTH_WINDOW_BUDGET
 ROLLING_BUDGET = GROWTH_EXPLORATION_BUDGET
 MAX_MAINTAINED_SKUS = 8
-POLICY_VERSION = 11
+POLICY_VERSION = 12
 DAY = 86400
 
 
@@ -314,7 +314,8 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
               'discovery emphasizes affordable single-unit trials after urgent deficits. Neither bypasses budgets. '
               'The operator wants active capital recycling: aim toward target_inventory_acquisition_cost '
               'during growth, without spending merely to hit a quota. Cash is not idle savings for its own sake, '
-              'but terminal cash still determines profit. ALL weights percentile profit/revenue/stars 0.5/0.3/0.2; '
+              'and retained stock is credited at acquisition cost in terminal Book. Buying stock is Book-neutral, '
+              'not an immediate profit. ALL weights percentile book/revenue/stars 0.5/0.3/0.2; '
               'do not combine raw currency and stars into a fabricated score. Prefer repeatable positive-margin '
               'sales and successful, honest checkout over maximizing one markup. '
               f'In the SAME window replenish up to {MAX_MAINTAINED_SKUS} eligible sellers '
@@ -336,7 +337,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path):
               'choosing a lower option or omitting an affordable proven deficit. This is model guidance, '
               'not an instruction to buy through a constraint. Measure expansion using confirmed paid '
               'units, revenue and acquisition spread separately; more cheap sales alone do not prove '
-              'better profit. Use wider availability to reach more orders across categories. '
+              'better Book after holding, spoilage and refunds. Use wider availability to reach more orders across categories. '
               'Prioritize evidenced fast sellers instead of letting variety coverage block their replacement. '
               'Choose replenishment target_options exactly; quantity is calculated from current stock. '
               'Replenishment plus exploration must fit the shared spend, unit and supply-line caps; '

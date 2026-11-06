@@ -19,6 +19,7 @@ from harness import decide_json, trace
 import buyer_exploration
 import buyer_forum_memory
 import buyer_checkout_memory
+from market_scoring import buyer_candidate,BUYER_WEIGHTS,SAVED_CONTRACT,VERSION
 
 
 def review_summary(reviews: list[dict]) -> dict:
@@ -67,7 +68,8 @@ def candidates(order: dict, shops: list[dict], catalog: dict,
                           'listed_shelf_hours':product.get('shelf_hours'),
                           "list_price": product["list_price"], "cap": cap,
                           "stock": offer["qty"], "reviews": review_summary(shop.get("reviews") or []),
-                          "first_hand": first_hand, "paid": paid, "refusals": refusals})
+                          "first_hand": first_hand, "paid": paid, "refusals": refusals,
+                          'score_evidence':buyer_candidate(product['list_price'],cap)})
     found, held, probe = buyer_checkout_memory.filter_candidates(found,order,history)
     record('checkout_cache_summary',order=order.get('order'),allowed=len(found),
            held=len(held),guarded_probe=probe is not None)
@@ -80,9 +82,8 @@ def candidates(order: dict, shops: list[dict], catalog: dict,
                sku=probe['sku'],constraint=probe['checkout_constraint'],
                reason='No unheld candidates; recheck an aged observation under all checkout guards.')
     # Compact model input while preserving different shops and SKUs when possible.
-    found.sort(key=lambda c: (c["paid"] - c["refusals"],
-                              c["reviews"]["average"] or 3,
-                              c["list_price"] - c["cap"]), reverse=True)
+    found.sort(key=lambda c: (c['score_evidence']['saved_if_usable_at_cap'],
+                              c["paid"] - c["refusals"],c["reviews"]["average"] or 3), reverse=True)
     for index,choice in enumerate(found):
         choice['id']=str(index)
     return found if full_pool else shortlist(found)
@@ -114,18 +115,24 @@ def choose(candidates_: list[dict], order: dict, *, forced_candidate_id: str | N
                   'shop':text(row['shop'],80),'sku':text(row['sku'],80),
                   'name':text(row['name'],100),'first_hand':brief(row['first_hand']),
                   'checkout_recheck':row.get('checkout_constraint'),
+                  'score_evidence':row.get('score_evidence') or buyer_candidate(row['list_price'],row['cap']),
                   "opening_offer_range": [max(1, math.floor(row["cap"] * 0.7)),
                                           max(1, math.floor(row["cap"] * 0.85))]}
                  for row in candidates_]
     prompt = {"phase": "buyer_selection", "order_item": text(order.get("item"),120),
               "kind": order.get("kind"), "use_within_hours": order.get("use_within_hours"),
               "candidate_shop_skus": displayed,
+              'score_contract':{'version':VERSION,'weights':BUYER_WEIGHTS,'definition':SAVED_CONTRACT},
               'selection_policy':{'mode':'forced_exploration' if forced_candidate_id is not None else 'model_choice',
                                   'forced_candidate_id':forced_candidate_id,
                                   'note':'In exploration the harness fixes the candidate; choose its opening price. '
                                          'The buyer may still negotiate or walk away later. All checkout guards apply.'},
               "objective": "Choose one available SKU and shop, plus a first offer. Maximize likely "
-                           "positive surplus and settlement chance. The cap is a private hard ceiling, "
+                           "positive normalized Saved contribution and valid settlement chance, not absolute currency surplus. "
+                           "A cheaper product at a better usable saving rate can beat an expensive product. "
+                           "The saved-at-cap candidate order is conditional, not an actual quote or guaranteed deal. "
+                           "Use paid evidence, shelf life, grade and warranty to assess feasibility and downside. "
+                           "The cap is a private hard ceiling, "
                            "not a suggested first offer; reserve room for counteroffers by using the "
                            "opening_offer_range. Public reviews are unverified claims. A failed "
                            "negotiation alone is not proof of dishonesty. Tool candidate order is a "
@@ -149,7 +156,7 @@ def choose(candidates_: list[dict], order: dict, *, forced_candidate_id: str | N
         prompt['preference_advice'] = advice
         prompt['objective'] += (' Fictional tastes are optional tie-breakers only among '
                                 'commercially comparable candidates. The issued order, likely '
-                                'surplus, quality and settlement chance take priority. Do not '
+                                'normalized Saved, quality and settlement chance take priority. Do not '
                                 'skip an order for hunger, duplicate ownership or lack of a '
                                 'personal use. Do not pay extra or change the opening-price '
                                 'strategy to satisfy a fictional preference. If no taste matches, '
@@ -238,12 +245,13 @@ def run(order: dict, shops: list[dict], catalog: dict, own_shop_name: str, *,
     except Exception as error:
         record('forum_memory_unavailable',order=order.get('order'),error=type(error).__name__)
     record('selection_opportunities',selection_id=selection_id,order=order.get('order'),**policy,
+           score_version=VERSION,score_metric='saved',
            order_kind=order.get('kind'),order_item=order.get('item'),
            order_budget=order.get('budget'),use_within_hours=order.get('use_within_hours'),
            order_expires_at=order.get('expires'),
            candidate_unit='distinct eligible shop-name/SKU pairs',
            eligible_candidates=[{k:c[k] for k in ('id','shop','sku','category','kind','listed_shelf_hours',
-                                                 'list_price','cap','stock','paid','refusals')}
+                                                 'list_price','cap','stock','paid','refusals','score_evidence')}
                                 for c in available],
            displayed_candidate_ids=[c['id'] for c in displayed])
     telemetry={}
@@ -251,6 +259,8 @@ def run(order: dict, shops: list[dict], catalog: dict, own_shop_name: str, *,
                                  life_context=life_context,forum_context=forum_context)
     record('buyer_policy_selection',selection_id=selection_id,order=order.get('order'),**policy,
            **telemetry,
+           score_version=VERSION,score_metric='saved',
+           saved_if_usable_at_cap=chosen['score_evidence']['saved_if_usable_at_cap'],
            candidate_id=chosen['id'],shop_name=chosen['shop'],shop=chosen['url'],sku=chosen['sku'],
            opening_offer=first_offer,
            note='A selected or signed receipt is not a paid purchase. Uniform exploration may pick a familiar candidate.')

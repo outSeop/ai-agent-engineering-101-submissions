@@ -13,6 +13,8 @@ import sys
 import time
 from typing import Any
 import seller_warranty
+from market_scoring import terminal_credit
+from capital_policy import ROUND_END
 
 
 # Starting hypotheses, not values supplied by the lecture or the market.
@@ -34,6 +36,8 @@ def quote_candidates(unit: dict[str, Any], now: float | None = None, *, warranty
     hours_left = max(0.0, (float(expires) - now) / 3600) if expires else None
     storage_day = round(cost * 0.01, 2) if unit.get("kind") == "goods" else 0.0
     warranty = seller_warranty.economics(unit, now=now, warranty_hours=warranty_hours)
+    credit = terminal_credit(unit,ROUND_END)
+    future_holding = storage_day*max(0.,ROUND_END-now)/86400
     prices = sorted({max(price,warranty['price_floor']) for price in prices})
     return {
         "sku": unit["sku"], "unit": unit["unit"], "grade": grade,
@@ -41,6 +45,10 @@ def quote_candidates(unit: dict[str, Any], now: float | None = None, *, warranty
         "hours_left": round(hours_left, 2) if hours_left is not None else None,
         "storage_per_day": storage_day,
         "warranty": warranty,
+        "book": {'current_stock_credit':cost,'credit_if_unsold_at_round_end':credit,
+                 'estimated_future_holding_if_unsold':round(future_holding,2),
+                 'book_change_if_held_to_end':round(credit-cost-future_holding,2),
+                 'contract':'Compare sale spread after warranty risk with hold-to-end Book change; inventory credit is not cash.'},
         "anchor_source": "unvalidated grade priors A=1.0, B=0.8, C=0.6 of list price",
         "candidates": [
             {"price": price, "margin_over_purchase_cost": price - cost,

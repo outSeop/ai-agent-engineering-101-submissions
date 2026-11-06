@@ -224,14 +224,20 @@ class PortfolioTests(unittest.TestCase):
         (state/'catalog.json').write_text(json.dumps({'s0': catalog()['s0']}))
         choice = {'action': 'buy', 'sku': 's0', 'expected_sale_price': 9200,
                   'demand_mean': 1.2, 'continuation_value': 0, 'reason': 'observed goods demand'}
-        approval = {'action': 'approve', 'candidate_id': 'base-600-repeat', 'reason': 'bounded'}
-        with patch.object(restock, 'decide_json', side_effect=[choice, approval]) as model, \
+        def approve(role,prompt,schema):
+            if role=='restocking agent':return choice
+            row=next(r for r in prompt['quantity_candidates'] if r['qty'])
+            return {'action':'approve','candidate_id':row['id'],'reason':'bounded Book plan'}
+        with patch.object(restock, 'decide_json', side_effect=approve) as model, \
              patch.object(restock, 'fetch_market_sales', return_value=Counter({'s0': 3})):
             result = restock.run(state)
-        self.assertEqual(result, {'buy': [{'sku': 's0', 'qty': 1}]})
+        self.assertEqual(result, {'buy': [{'sku': 's0', 'qty': 2}]})
         calc = next(c['calculation'] for c in model.call_args.args[1]['quantity_candidates'] if c['qty'])
         self.assertEqual(calc['cost'], 5900)
         self.assertEqual(calc['holding_per_leftover'], 59)
+
+        self.assertGreater(calc['salvage'],0)
+        self.assertGreater(model.call_args.args[1]['book_continuation']['book_retention_floor'],0)
 
     def test_larger_basket_can_pass_twenty_units_without_deepening_existing_sku(self):
         inv = inventory(6)

@@ -6,6 +6,7 @@ from procurement_cost import ceiling as acquisition_ceiling
 from inventory_observation import timestamp, evidence
 from newsvendor_tool import poisson_pmf, recommend_quantity
 from capital_policy import MAX_UNIT_COST, operating_policy
+from market_scoring import continuation
 
 PROVEN_STOCK = 20  # safety ceiling, never a desired inventory target
 NEW_STOCK = 2
@@ -88,12 +89,11 @@ def demand_forecast(sku, product, inventory, history, now):
     protection = protection_hours(inventory,now)
     mean = rate*protection['hours']
     operating = operating_policy(now)
-    terminal_capacity = (max(0,math.floor(rate*max(0.,operating['hours_to_end']-2)))
+    terminal_capacity = (max(0,math.floor(rate*operating['hours_to_end']))
                          if operating['phase'] != 'growth' else None)
     scenarios = []
     for name,factor,level in (('low',.8,.90),('base',1.,.95),('high',1.25,.975)):
         target = _quantile(mean*factor,level)
-        if terminal_capacity is not None: target = min(target,terminal_capacity)
         scenarios.append({'scenario':name,'forecast_mean':round(mean*factor,4),'service_level':level,
                           'target_stock':target,'safety_ceiling_binding':target==PROVEN_STOCK})
     price = product.get('list_price') or 1
@@ -101,14 +101,18 @@ def demand_forecast(sku, product, inventory, history, now):
     sale = max(1,round(price*(.80 if product.get('kind')=='food' else .92)))
     holding = cost*.01*protection['hours']/24 if product.get('kind')=='goods' else 0.
     diagnostic = recommend_quantity(poisson_pmf(mean),sale,cost,holding_per_leftover=holding,max_qty=PROVEN_STOCK)
+    retained = continuation(product,cost,0,protection['hours'],operating['hours_to_end'])
+    book_diagnostic = recommend_quantity(poisson_pmf(mean),sale,cost,salvage=retained['value'],holding_per_leftover=holding,max_qty=PROVEN_STOCK)
     return {'sales_rate_per_hour':round(rate,4),'rate_source':source,'windows':windows,
             'operating_phase':operating['phase'],'terminal_sale_capacity_estimate':terminal_capacity,
             'protection_period':protection,'demand_mean_until_next_replenishment':round(mean,4),
             'scenarios':scenarios,'maximum_target':max(s['target_stock'] for s in scenarios),
             'newsvendor_zero_continuation_diagnostic':diagnostic,
+            'newsvendor_book_diagnostic':book_diagnostic,'book_continuation':retained,
             'assumption':'Poisson and service levels are unvalidated planning hypotheses. '
             'Targets cover demand until the next procurement opportunity, not a fixed unit count. '
-            'The newsvendor diagnostic assumes zero continuation value, a pessimistic reference; '
+            'Zero-continuation diagnostic is a pessimistic reference, not the Book objective. '
+            'Terminal sale capacity is a diagnostic, not an unsold-stock liquidation constraint. '
             'remaining inventory is not actually discarded at this short horizon. '
             'Exposure correction describes this shop only, not total market demand.'}
 

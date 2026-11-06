@@ -4,6 +4,25 @@ Current operation and Linux migration: [ops/HOME_SERVER.md](ops/HOME_SERVER.md).
 This runbook describes the live plain buyer/seller, private state handoff, and
 Linux user services. Historical policy changes and experiments remain below.
 
+Current scoring alignment (2026-11-06, Patch 3.4): seller ALL uses Book/revenue/stars
+percentiles at 0.5/0.3/0.2; buyer ALL uses Saved/forum/deals/posts at 0.5/0.3/0.1/0.1.
+`market_scoring.py` owns both contracts. Buyer candidate ordering and model inputs
+use normalized savings, not currency saved. Saved-at-cap is conditional on a usable
+settled purchase, not an actual offer or final score; later failures/refunds remain
+the market's authority. Epsilon exploration and all checkout conditions remain.
+
+Book includes unsold stock at acquisition cost. Procurement at cost is Book-neutral;
+storage, expiry, sale spread and warranty refunds change it. Seller quotes compare
+sale economics with retained stock credit. Quantity tools include retained goods
+credit less future holding; food survival is not invented. The old automatic cash
+taper, two-hour purchase stop and zero terminal-stock assumption are removed.
+Buying stops at the actual round end, and cash/holding/refund reserves, unresolved
+reservations, absolute exposure and quantity limits still apply. Old approvals are
+invalidated by policy version; existing inventory and pending intents are retained.
+The meta reviewer rebases old Cash-policy evidence onto a new Book baseline before
+retuning, with the same two-hour/twenty-mature-sale requirement. Its logs and DB keep
+the scoring version and observed Book change; historical evidence is not rewritten.
+
 The 2026-11-05 seller meta release removes the old 500,000 per-unit
 candidate filter. Growth permits up to the live cash/exposure capacity per supply
 window (absolute envelope 12,000,000), with 12,000,000 rolling novel exploration
@@ -11,7 +30,8 @@ reservations. Existing intent history is retained. New-lot reservations include
 maximum 50% supply surge: 0.75 × 1.5 × catalog list price. Cached plans from the
 old cost policy are invalidated; unresolved old intents retain conservative
 reservations. The 65% soft inventory target, 75% exposure ceiling, 12,000,000
-absolute stock exposure, 180 units, cash/holding buffer and terminal taper remain.
+absolute stock exposure, 180 units and cash/holding buffer remain. The terminal
+taper described in older experiments is superseded by the Book policy above.
 New SKUs are single-unit trials, including affordable high-ticket goods.
 
 `seller_meta.py` independently reviews paid outcomes, effective constraints and

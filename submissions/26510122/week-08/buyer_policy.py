@@ -27,7 +27,7 @@ def quote_shelf_minimum(order: dict) -> float:
 
 
 def price_cap(order: dict, product: dict) -> int:
-    """Protect the private mandate and a provisional positive surplus margin."""
+    """Protect the private mandate and a provisional positive normalized saving."""
     if not isinstance(product, dict) or type(product.get("list_price")) is not int:
         return 0
     list_price = product["list_price"]

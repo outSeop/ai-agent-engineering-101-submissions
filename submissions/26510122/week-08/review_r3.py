@@ -11,6 +11,7 @@ import time
 
 from buyer_memory import read_events, record, resolve_shop_name
 from context_compaction import hours_left
+from market_scoring import saved_at_price,VERSION
 
 
 OUTBOX = Path(".market/outbox.jsonl")
@@ -44,6 +45,9 @@ def run(deal: dict, catalog: dict, *, life=None,allow_forum_publish=False) -> di
            grade=grade, value=value, ledger=ledger,
            claim_honest=settled.get("claim_honest"),
            warranty_hours=settled.get("warranty_hours"),expires_at=settled.get('expires_at'),
+           score_version=VERSION,score_metric='saved',
+           saved_if_usable_at_payment=saved_at_price(list_price,price) if list_price>0 else None,
+           saved_maturity='payment-time condition only; later breakage and refunds are resolved by the market',
            hours_left_at_recording=hours_left(settled.get('expires_at'),
                                               datetime.now(timezone.utc).isoformat()))
     if value <= 0:
