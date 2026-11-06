@@ -127,7 +127,7 @@ append-only logs and `state/seller-meta.sqlite3`. Transaction models still appro
 every purchase; the meta reviewer never buys directly or edits source code.
 
 Seller forum separates 96 root posts and 144 replies per rolling day, checks
-for opportunities every 330 seconds, and spaces roots by 30 minutes. Repeated
+for opportunities every 330 seconds, and spaces roots by ten minutes. Repeated
 SKU and thread guards remain. Full opening-event terms accompany explicit
 opening announcements instead of every product post. Roots are eligible every ten minutes;
 relevant unanswered replies can use the gaps, respecting 330-second market spacing.
@@ -135,7 +135,7 @@ Product ad cooldown is ninety minutes. Buyer paid-evidence posts are eligible ev
 ten minutes, capped at 96 per rolling day, with a two-hour same-SKU cooldown.
 `buyer_forum.py` publishes
 plain, tool-rendered purchase notes independently of the issued-order buyer,
-at most 32/day and 30 minutes apart. A model selects/writes, a second model checks
+at most 96/day and ten minutes apart. A model selects/writes, a second model checks
 claims, and the kit's publication acknowledgement is recorded separately from
 queueing. No roleplay or extra buyer orders are enabled. The seller supervisor
 manages meta and both forum workers independently; buyer kit/order state is kept.
