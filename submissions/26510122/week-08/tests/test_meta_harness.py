@@ -58,6 +58,30 @@ class MetaHarnessTests(unittest.TestCase):
  def test_shadow_does_not_write_active_policy(self):
   r=meta.review(self.root,now=self.now,public=[],model=lambda *a:self.decision(),shadow=True)
   self.assertEqual(r['status'],'shadow');self.assertFalse((self.root/'state/seller-meta-policy.json').exists())
+ def test_revenue_only_opportunities_survive_bounded_input(self):
+  catalog={f'volume-{i}':{'name':f'Volume {i}','kind':'goods','list_price':100} for i in range(20)}
+  catalog.update({f'revenue-{i}':{'name':f'Revenue {i}','kind':'goods','list_price':1000} for i in range(20)})
+  (self.root/'.market/catalog.json').write_text(json.dumps(catalog))
+  public=[]
+  for sku in catalog:
+   count,price=(3,1) if sku.startswith('volume') else (1,10000)
+   public.extend({'kind':'settle','ts':self.now-1,'data':{'sku':sku,'amount':price}} for _ in range(count))
+  data=meta.snapshot(self.root,self.now,public)
+  shown=data['market_opportunities'];coverage=data['opportunity_input_coverage']
+  self.assertEqual(len(shown),20)
+  self.assertEqual(sum(r['sku'].startswith('revenue') for r in shown),10)
+  self.assertEqual(sum(r['sku'].startswith('volume') for r in shown),10)
+  self.assertEqual(coverage['catalog_matched_candidates'],40)
+  self.assertEqual(len(coverage['omitted_skus']),20)
+  self.assertEqual(data['candidate_eligibility_counts']['eligible'],40)
+  self.assertEqual(coverage['displayed_eligibility_counts']['eligible'],20)
+  self.assertEqual(shown[1]['selection_sources'],['revenue'])
+  self.assertEqual(shown[1]['revenue_rank'],1)
+ def test_overlapping_rankings_are_deduplicated_without_losing_coverage(self):
+  data=meta.snapshot(self.root,self.now,[{'kind':'settle','ts':self.now,'data':{'sku':'bed','amount':100}}])
+  self.assertEqual(len(data['market_opportunities']),1)
+  self.assertEqual(data['market_opportunities'][0]['selection_sources'],['volume','revenue'])
+  self.assertEqual(data['opportunity_input_coverage']['omitted_skus'],[])
  def test_invalid_bounds_never_become_live_config(self):
   for d in [dict(DEFAULT,epsilon=0),dict(DEFAULT,window_budget=13_000_000),dict(DEFAULT,focus='disable guards'),dict(DEFAULT,extra=1)]:
    with self.assertRaises(ValueError):validate(d)

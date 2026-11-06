@@ -73,7 +73,11 @@ def snapshot(runtime,now,public):
         if r.get('kind')=='settle':
             d=r['data'];sku=d.get('sku',d.get('item'));pc[sku]+=1;pr[sku]+=d.get('amount',0)
     reasons=Counter();examples=[];owned={u['sku'] for u in inv.get('units',[])}
-    selected=dict.fromkeys([sku for sku,_ in pc.most_common(20)]+[sku for sku,_ in pr.most_common(20)])
+    volume=[sku for sku,_ in pc.most_common(20)]
+    revenue=[sku for sku,_ in pr.most_common(20)]
+    # Interleave before the bounded model-input cut. Appending revenue after
+    # volume used to silently discard every revenue-only opportunity.
+    selected=dict.fromkeys(sku for pair in zip(volume,revenue) for sku in pair)
     for sku in selected:
         count=pc[sku]
         p=catalog.get(sku)
@@ -86,7 +90,11 @@ def snapshot(runtime,now,public):
         reasons.update(why)
         examples.append({'sku':sku,'name':p.get('name'),'kind':p.get('kind'),'public_settles':count,
                          'sample_mean_paid':round(pr[sku]/count),'cost_ceiling_with_max_surge':cost,
-                         'eligible':not why,'review_route':route,'blocked_by':why,'would_fail_removed_500k_cap':math.ceil(p['list_price']*.75)>500000})
+                         'eligible':not why,'review_route':route,'blocked_by':why,
+                         'selection_sources':[source for source,ranking in [('volume',volume),('revenue',revenue)] if sku in ranking],
+                         'volume_rank':volume.index(sku)+1 if sku in volume else None,
+                         'revenue_rank':revenue.index(sku)+1 if sku in revenue else None,
+                         'would_fail_removed_500k_cap':math.ceil(p['list_price']*.75)>500000})
     matched=[e for e in settled.values() if e.get('unit') in costs]
     return {'at':now,'score_version':VERSION,'book':book_metrics(inv,now),
             'score_contract':BOOK_CONTRACT,'inventory_source_time':source_time,'inventory_age_seconds':max(0,age),'active_policy':current,'risk':risk,'effective_window_budget':budget,
@@ -100,6 +108,14 @@ def snapshot(runtime,now,public):
             'candidate_rejection_counts':dict(reasons),
             'candidate_eligibility_counts':{'eligible':sum(e['eligible'] for e in examples),'blocked':sum(not e['eligible'] for e in examples)},
             'market_opportunities':examples[:20],
+            'opportunity_input_coverage':{'method':'deduplicated interleaved volume/revenue top-20 lists',
+                'ranked_candidates':len(selected),'catalog_matched_candidates':len(examples),
+                'displayed_candidates':min(20,len(examples)),
+                'omitted_skus':[e['sku'] for e in examples[20:]],
+                'catalog_missing_skus':[sku for sku in selected if sku not in catalog],
+                'displayed_eligibility_counts':{'eligible':sum(e['eligible'] for e in examples[:20]),
+                                               'blocked':sum(not e['eligible'] for e in examples[:20])},
+                'note':'Eligibility/rejection totals cover all matched ranked candidates, not just the displayed subset.'},
             'constraint_registry':{'market':['real inventory','certificate/signatures','mandate conditions','food expiry'],
                'operator':['min cash + goods holding buffer','75% total exposure','12m absolute inventory exposure','180 units','pending commitments'],
                'tunable':list(DEFAULT),'unmeasured_code_limits_not_proven_blockers':['category limit 24','proven stock ceiling 20','two profitable sales threshold','food trial 48h','buyer guards','forum cadence']},
