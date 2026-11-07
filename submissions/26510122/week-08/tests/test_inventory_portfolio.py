@@ -67,6 +67,25 @@ class PortfolioTests(unittest.TestCase):
                              refresh=refresh or (lambda: (inv, now, True)),
                              rng=rng or random.Random(1), state_path=self.path)
 
+    def test_stockout_trials_rank_eligible_unserved_exact_requests(self):
+        now = 50_000
+        history = [
+            {'event': 'no_stock', 'at': now-10, 'requested_skus': [sku], 'task_id': f'{sku}-{i}'}
+            for sku, count in [('s0', 8), ('s5', 7), ('s6', 6), ('s7', 5), ('s8', 4), ('s9', 3), ('s10', 2)]
+            for i in range(count)
+        ]
+        history += [next(row for row in history if row['task_id'] == 's8-0'),
+                    {'event': 'no_stock', 'at': now-5, 'requested_skus': ['s8', 's11'], 'task_id': 'ambiguous'},
+                    {'event': 'opening', 'at': now-1, 'sku': 's6', 'task_id': 's6-0'},
+                    {'event': 'settled', 'at': now-1, 'sku': 's6', 'task_id': 's6-1', 'ledger': 1}]
+        rows = portfolio.candidates(catalog(), inventory(), history, now, {'s5'}, random.Random(1))
+        trials = [(r['sku'], r['stockout_trial']) for r in rows if r.get('stockout_trial')]
+        self.assertEqual(trials, [
+            ('s7', {'unserved_exact_tasks_12h': 5, 'quantity': 1}),
+            ('s6', {'unserved_exact_tasks_12h': 4, 'quantity': 1}),
+            ('s8', {'unserved_exact_tasks_12h': 4, 'quantity': 1}),
+        ])
+
     def test_epsilon_draw_is_persistent_not_redrawn_per_poll_or_restart(self):
         model = Mock(side_effect=approve)
         first = self.run_portfolio(model=model)  # seed1 => .134 < .30

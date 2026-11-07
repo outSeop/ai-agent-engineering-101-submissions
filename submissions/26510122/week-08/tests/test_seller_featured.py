@@ -97,6 +97,50 @@ class FeaturedPublicationTests(unittest.TestCase):
         self.assertEqual(featured.active(self.db,self.now),[])
         self.assertFalse((self.root/'.market/outbox.jsonl').exists())
 
+    def write_requests(self, budget=800):
+        requests = [
+            {'id': 41, 'role': 'buyer', 'ts': self.now, 'text': f'스툴 구합니다. B급 예산 {budget}원.'},
+            {'id': 42, 'role': 'buyer', 'ts': self.now, 'text': '스툴 구합니다. B급 예산 100원.'},
+        ]
+        (self.root/'.market/forum.json').write_text(json.dumps(requests, ensure_ascii=False), encoding='utf-8')
+
+    def quote_reply(self, role, prompt, schema):
+        if 'checker' in role:
+            return self.model(role, prompt, schema)
+        quotes = prompt['facts']['reply_quotes']
+        self.assertEqual(list(quotes), [41])
+        self.offer = quotes[41][0]
+        return {'action': 'post', 'campaign': 'reply', 'thread_id': 41, 'skus': ['g'],
+                'offer_ids': [self.offer['id']], 'ledger_refs': [], 'headline': '찾으시는 스툴 안내',
+                'body': '요청하신 조건으로 상담하실 수 있습니다.', 'reason': 'Use the checked reply quote.'}
+
+    def test_request_reply_binds_code_to_original_thread_and_unit_through_ack(self):
+        self.write_requests()
+        forum.run_once(self.root, now=self.now, decide=self.quote_reply)
+        payload = json.loads((self.root/'.market/outbox.jsonl').read_text())
+        self.assertEqual(payload['thread'], 41)
+        self.assertIn(self.offer['id'], payload['post'])
+        self.assertIn(f"최대 {self.offer['price']:,}원", payload['post'])
+        self.assertEqual(featured.active(self.db,self.now)[0]['source_thread'], 41)
+        (self.root/'.market/outbox.sent.jsonl').write_text(json.dumps({'sent':payload,'status':200,'answer':'{"post":555}'})+'\n')
+        forum.run_once(self.root, now=self.now+1, decide=lambda *a:self.fail('cooldown'))
+        with sqlite3.connect(self.db) as db:
+            self.assertEqual(db.execute('SELECT phase FROM featured_quotes').fetchone()[0], 'published')
+
+    def test_budget_change_after_checker_prevents_quote_and_publication(self):
+        self.write_requests()
+
+        def decide(role, prompt, schema):
+            result = self.quote_reply(role, prompt, schema)
+            if 'checker' in role:
+                self.write_requests(budget=100)
+            return result
+
+        with self.assertRaisesRegex(ValueError, 'no longer meets'):
+            forum.run_once(self.root, now=self.now, decide=decide)
+        self.assertEqual(featured.active(self.db,self.now), [])
+        self.assertFalse((self.root/'.market/outbox.jsonl').exists())
+
 
 class FeaturedContractTests(unittest.TestCase):
     tearDown=fixtures.PersistenceTests.tearDown

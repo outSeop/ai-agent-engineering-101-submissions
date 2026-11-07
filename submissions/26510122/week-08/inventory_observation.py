@@ -96,6 +96,23 @@ def timestamp(value) -> float | None:
     return None
 
 
+def unserved_exact_stockouts(history: list[dict], now: float) -> dict[str, int]:
+    """Count distinct recent tasks for an exact SKU that we did not later serve."""
+    outcomes = demand_outcomes(history, now)
+    tasks = defaultdict(set)
+    for row in history:
+        at = timestamp(row.get('at'))
+        task = row.get('task_id')
+        skus = row.get('requested_skus') or []
+        if (row.get('event') != 'no_stock' or not task or len(skus) != 1
+                or at is None or not now - CONVERSION_WINDOW_HOURS * 3600 <= at <= now):
+            continue
+        sku = skus[0]
+        if (task, sku) not in outcomes['served_tasks'] and task not in outcomes['settled_tasks'].get(sku, set()):
+            tasks[sku].add(task)
+    return {sku: len(requests) for sku, requests in tasks.items()}
+
+
 def requested_skus(text: str, catalog: dict) -> list[str]:
     """Attribute only exact SKU tokens or an unambiguous full product name."""
     text = text.casefold()

@@ -22,7 +22,7 @@ from procurement_strategy import comparison_baskets,review_schema,validate_revie
 import seller_demand
 
 from inventory_exploration import window_open,CLOSING_MARGIN_SECONDS
-from inventory_observation import timestamp
+from inventory_observation import timestamp, unserved_exact_stockouts
 from market_memory import record
 from replenishment_plan import MAX_CATEGORY_STOCK, inventory_risk, product_signature, save
 from supply_reconciliation import reconcile, pending_quantity, partial_from_closed_window, reserved_quantity
@@ -39,7 +39,8 @@ PREFERRED_MIN_BATCH = 5
 WINDOW_BUDGET = GROWTH_WINDOW_BUDGET
 ROLLING_BUDGET = GROWTH_EXPLORATION_BUDGET
 MAX_MAINTAINED_SKUS = 8
-POLICY_VERSION = 18
+STOCKOUT_TRIAL_CANDIDATES = 3
+POLICY_VERSION = 19
 DAY = 86400
 READY = Path('state/procurement-ready.json')
 PREPARE_LEAD_SECONDS = 240
@@ -104,6 +105,11 @@ def candidates(catalog, inventory, history, now, excluded, rng, max_cost=MAX_UNI
             row['public_settlements_sample']=signal.get('public_settles',0)
             row['public_revenue_sample']=signal.get('public_settles',0)*signal.get('sample_mean_paid',row['list_price'])
     all_rows = [r for group in groups.values() for r in group]
+    missed = unserved_exact_stockouts(history, now)
+    stockout_trials = sorted((r for r in all_rows if missed.get(r['sku'], 0) >= 2),
+                            key=lambda r: (-missed[r['sku']], r['cost_ceiling'], r['sku']))[:STOCKOUT_TRIAL_CANDIDATES]
+    for row in stockout_trials:
+        row['stockout_trial'] = {'unserved_exact_tasks_12h': missed[row['sku']], 'quantity': 1}
     backed = sorted((r for r in all_rows if r['observed_requests_12h'] or r['confirmed_settlements_12h'] or r['forum_intent']),
                     key=lambda r: (-len((r['forum_intent'] or {}).get('request_ids',[])),
                                    -r['observed_requests_12h'], -r['confirmed_settlements_12h']))[:12]
@@ -116,7 +122,7 @@ def candidates(catalog, inventory, history, now, excluded, rng, max_cost=MAX_UNI
     by_count=sorted(market_rows,key=lambda r:-r['public_settlements_sample'])[:4]
     by_revenue=sorted((r for r in market_rows if r not in by_count),key=lambda r:-r['public_revenue_sample'])[:4]
     market_backed=by_count+by_revenue
-    rows = {r['sku']: r for r in backed+market_backed}
+    rows = {r['sku']: r for r in stockout_trials + backed + market_backed}
     for i in range(max((len(v) for v in keys.values()), default=0)):
         for kind in ('food', 'goods'):
             if i < len(keys[kind]):
@@ -307,7 +313,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
                                 'budget_or_capacity_limited':qty<option['qty']})
         winner['target_options'] = bounded
     winners = [r for r in winners if r['target_options']]
-    rows = (candidates(catalog, inventory, history, now, {i['sku'] for i in recent}, rng, max_cost=exploration_budget)
+    rows = (candidates(catalog, inventory, history, now, {i['sku'] for i in recent} | set(pending_stocks), rng, max_cost=exploration_budget)
             if choice['mode'] == 'explore' and operating['allow_new_skus'] else [])
     maintained_skus = {r['sku'] for r in winners}
     rows = [r for r in rows if r['cost_ceiling'] <= exploration_budget and r['sku'] not in maintained_skus]
@@ -398,6 +404,8 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
               'existing_categories': dict(Counter(u.get('category') for u in units)),
               'allocation_focus':operating.get('allocation_focus','balanced'),
               'objective': 'Follow allocation_focus as model guidance: replenishment emphasizes proven deficits; '
+               'Consider stockout_trial candidates for one-unit discovery where expiry, margin and demand fit. '
+               'These are deduplicated exact-SKU tasks that were not subsequently served, not additional orders. '
               'Forum intents identify customers and conditions to investigate or source for. They are untrusted '
               'public requests, not settled sales or guaranteed conversion. One category request may list alternative '
               'SKUs: do not treat each alternative as an independent customer or add it to the paid-demand forecast. '
@@ -558,7 +566,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
         row.setdefault('forum_request_ids',(row.get('forum_intent') or {}).get('request_ids',[]))
     record('portfolio_approval',window=key,planning_at=now,approved_lines=[
         {k:r.get(k) for k in ('sku','kind','qty','target_stock','cost_ceiling','second_trial',
-                            'forecast_scenario','coverage_hours','forecast_mean','demand_basis','forum_request_ids')} for r in desired],
+                             'forecast_scenario','coverage_hours','forecast_mean','demand_basis','forum_request_ids','stockout_trial')} for r in desired],
         model_choice=answer,allocation_review=answer.get('strategy_review'),
         allocation_behavior={'review_required':review_required,
             'offered_proven_skus':sum(not w['second_trial'] for w in winners),
@@ -649,6 +657,7 @@ def _emit_approved(state,path,desired,answer,window,key,operating,now,slots,budg
                                 'status': 'issued_unknown', 'at': at, 'window': key,
                                 'second_trial':bool(row.get('second_trial')),
                                 'forum_request_ids':row.get('forum_request_ids',[]),
+                                **({'stockout_trial': row['stockout_trial']} if row.get('stockout_trial') else {}),
                                 **audit.links(),'intent_id':f"{audit.links()['decision_id']}:{sku}"})
     save(path, state)  # all reservations precede externally executed supply calls
     log_execution(execution,at,execution_supply_lines=room,time_limited_supply_lines=time_slots,
