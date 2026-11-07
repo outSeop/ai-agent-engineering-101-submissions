@@ -44,10 +44,16 @@ def decide_json(role: str, prompt: dict, schema: dict) -> dict:
             "--config", f"developer_instructions={json.dumps(instructions)}",
             "--output-schema", str(schema_path),
             "--output-last-message", str(output_path),
-            serialized_prompt,
+            "-",
         ]
-        completed = subprocess.run(command, stdin=subprocess.DEVNULL, capture_output=True,
-                                   text=True, timeout=TIMEOUT, check=False)
+        try:
+            completed = subprocess.run(
+                command, input=serialized_prompt, capture_output=True,
+                encoding="utf-8", timeout=TIMEOUT, check=False,
+            )
+        except OSError as error:
+            trace("harness_error", role=role, error=str(error), errno=error.errno)
+            raise
         if completed.returncode:
             error = completed.stderr[-1200:] or "codex exec failed without stderr"
             trace("harness_error", role=role, error=error)
