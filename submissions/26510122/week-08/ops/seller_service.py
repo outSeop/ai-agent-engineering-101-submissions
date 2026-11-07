@@ -67,6 +67,21 @@ def stop(proc):
         proc.wait(timeout=5)
 
 
+def tunnel_url(urls, alternate=False):
+    """Choose only a provider URL, rotating domains after a failed kit start."""
+    from urllib.parse import urlsplit
+    suffixes=('.free.pinggy.net','.run.pinggy-free.link')
+    if alternate:suffixes=suffixes[::-1]
+    for suffix in suffixes:
+        for url in urls:
+            if not isinstance(url,str):continue
+            parsed=urlsplit(url)
+            if (parsed.scheme=='https' and parsed.hostname and parsed.hostname.endswith(suffix)
+                    and not parsed.username and not parsed.password and parsed.path in ('','/')
+                    and not parsed.query and not parsed.fragment):return url.rstrip('/')
+    return None
+
+
 def run(args):
     global STOP
     def finish(*_):
@@ -86,6 +101,7 @@ def run(args):
     env['PATH']=f"{Path.home()/'.local/bin'}:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:{env.get('PATH','')}"
     env['MARKET_OWNER']=args.owner_file.read_text().strip()
     env['PYTHONUNBUFFERED']='1'
+    alternate_domain=False
     while not STOP:
         ssh=market=forum=None;workers={}
         try:
@@ -105,8 +121,7 @@ def run(args):
                     try:
                         with urllib.request.urlopen(f'http://127.0.0.1:{args.debug_port}/urls',timeout=2) as response:
                             urls=json.load(response).get('urls',[])
-                        url=next((u for suffix in ('.free.pinggy.net','.run.pinggy-free.link') for u in urls
-                                  if isinstance(u,str) and u.startswith('https://') and suffix in u),None)
+                        url=tunnel_url(urls,alternate_domain)
                         if url:break
                     except (OSError,ValueError):pass
                     time.sleep(1)
@@ -152,6 +167,9 @@ def run(args):
                             (runtime/'running.json').write_text(json.dumps(status,indent=2))
                     time.sleep(2)
                 log(f'Renew/exit: tunnel={ssh.poll()}, kit={market.poll()}')
+                if market.poll() not in (None,0):
+                    alternate_domain=not alternate_domain
+                    log('Kit failed; next tunnel cycle will try the other provider domain first')
         except Exception as error:log(f'Service cycle failed: {type(error).__name__}: {error}')
         finally:
             for proc in workers.values():stop(proc)

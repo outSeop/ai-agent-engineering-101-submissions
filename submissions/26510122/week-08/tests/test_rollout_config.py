@@ -20,3 +20,14 @@ class RolloutConfigTests(unittest.TestCase):
             self.assertEqual(shlex.split(result['restock']['cmd']),
                              ['python',str(live/'release/procurement_scheduler.py'),'--execute','--state','{state}'])
             self.assertEqual(json.loads((stage/'agent.json').read_text()),original)
+
+
+class TunnelDomainTests(unittest.TestCase):
+    def test_failed_start_can_choose_the_second_provider_domain(self):
+        from ops.seller_service import tunnel_url
+        urls=['https://a.run.pinggy-free.link','https://b.free.pinggy.net']
+        self.assertEqual(tunnel_url(urls),'https://b.free.pinggy.net')
+        self.assertEqual(tunnel_url(urls,True),'https://a.run.pinggy-free.link')
+    def test_unrelated_url_cannot_masquerade_as_provider_domain(self):
+        from ops.seller_service import tunnel_url
+        self.assertIsNone(tunnel_url(['https://example.com/.free.pinggy.net','https://a.free.pinggy.net.evil.com','https://u:p@a.free.pinggy.net','http://a.free.pinggy.net']))
