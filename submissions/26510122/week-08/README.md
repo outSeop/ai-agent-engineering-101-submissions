@@ -1,5 +1,8 @@
 # Week 08 shop: model decisions with inventory calculations
 
+Windows 로컬에서 이어서 작업: [ops/LOCAL_HANDOFF.md](ops/LOCAL_HANDOFF.md).
+현재 실행 구조·사용자 의도·확인 순서·개인 대시보드 실행법을 먼저 읽는다.
+
 Current operation and Linux migration: [ops/HOME_SERVER.md](ops/HOME_SERVER.md).
 This runbook describes the live plain buyer/seller, private state handoff, and
 Linux user services. Historical policy changes and experiments remain below.
