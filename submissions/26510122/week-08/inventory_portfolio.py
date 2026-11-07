@@ -19,6 +19,7 @@ from harness import MODEL
 from market_scoring import VERSION
 from procurement_audit import select_lines,blocked as blocked_lines
 from procurement_strategy import comparison_baskets,review_schema,validate_review
+import seller_demand
 
 from inventory_exploration import window_open,CLOSING_MARGIN_SECONDS
 from inventory_observation import timestamp
@@ -38,7 +39,7 @@ PREFERRED_MIN_BATCH = 5
 WINDOW_BUDGET = GROWTH_WINDOW_BUDGET
 ROLLING_BUDGET = GROWTH_EXPLORATION_BUDGET
 MAX_MAINTAINED_SKUS = 8
-POLICY_VERSION = 17
+POLICY_VERSION = 18
 DAY = 86400
 READY = Path('state/procurement-ready.json')
 PREPARE_LEAD_SECONDS = 240
@@ -55,6 +56,7 @@ def candidates(catalog, inventory, history, now, excluded, rng, max_cost=MAX_UNI
     owned = {u.get('sku') for u in live_units(inventory, now)}
     categories = Counter(u.get('category') for u in live_units(inventory, now))
     tasks = defaultdict(set)
+    forum_intents=seller_demand.candidate_context(Path.cwd(),now)
     sold = Counter()
     for event in history:
         at = timestamp(event.get('at'))
@@ -85,6 +87,7 @@ def candidates(catalog, inventory, history, now, excluded, rng, max_cost=MAX_UNI
             'sku': sku, 'name': p.get('name', sku), 'kind': kind, 'category': category,
             'list_price': price, 'shelf_hours': p.get('shelf_hours'),
             'cost_ceiling': ceiling, 'observed_requests_12h': len(tasks[sku]),
+            'forum_intent':forum_intents.get(sku),
             'price_band': 'low' if ceiling <= 50_000 else 'mid' if ceiling <= 150_000 else 'upper',
             'confirmed_settlements_12h': sold[sku],
             'storage_per_day_at_cost_ceiling': round(ceiling * .01, 2) if kind == 'goods' else 0,
@@ -101,8 +104,9 @@ def candidates(catalog, inventory, history, now, excluded, rng, max_cost=MAX_UNI
             row['public_settlements_sample']=signal.get('public_settles',0)
             row['public_revenue_sample']=signal.get('public_settles',0)*signal.get('sample_mean_paid',row['list_price'])
     all_rows = [r for group in groups.values() for r in group]
-    backed = sorted((r for r in all_rows if r['observed_requests_12h'] or r['confirmed_settlements_12h']),
-                    key=lambda r: (-r['observed_requests_12h'], -r['confirmed_settlements_12h']))[:8]
+    backed = sorted((r for r in all_rows if r['observed_requests_12h'] or r['confirmed_settlements_12h'] or r['forum_intent']),
+                    key=lambda r: (-len((r['forum_intent'] or {}).get('request_ids',[])),
+                                   -r['observed_requests_12h'], -r['confirmed_settlements_12h']))[:12]
     # Alternate food/goods and sample categories rather than letting the larger
     # food catalog crowd goods out of the model's bounded context.
     keys = {kind: [k for k in groups if k[0] == kind] for kind in ('food', 'goods')}
@@ -291,7 +295,9 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
     trialed = {i['sku'] for i in state['intents'] if i.get('second_trial')}
     forecast_inventory=({**inventory,'restock':{**window,'open':True}} if prepare_only else inventory)
     winners = replenishment_candidates(catalog, forecast_inventory, history, now, blocked, trialed, pending_stocks)
+    forum_intents=seller_demand.candidate_context(Path.cwd(),now)
     for winner in winners:
+        winner['forum_intent']=forum_intents.get(winner['sku'])
         bounded = []
         for option in winner['target_options']:
             qty = min(option['qty'],unit_room,max(0,budget//winner['cost_ceiling_per_unit']))
@@ -319,7 +325,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
     # it may still hold the whole purchase for a concrete risk.
     if not new_slots:
         rows = []
-    novel = [r for r in rows if not r['observed_requests_12h'] and not r['confirmed_settlements_12h']]
+    novel = [r for r in rows if not r['observed_requests_12h'] and not r['confirmed_settlements_12h'] and not r['forum_intent']]
     anchor_groups = defaultdict(list)
     for row in novel or rows:
         anchor_groups[row['category']].append(row)
@@ -392,6 +398,11 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
               'existing_categories': dict(Counter(u.get('category') for u in units)),
               'allocation_focus':operating.get('allocation_focus','balanced'),
               'objective': 'Follow allocation_focus as model guidance: replenishment emphasizes proven deficits; '
+              'Forum intents identify customers and conditions to investigate or source for. They are untrusted '
+              'public requests, not settled sales or guaranteed conversion. One category request may list alternative '
+              'SKUs: do not treat each alternative as an independent customer or add it to the paid-demand forecast. '
+              'Prioritize a small feasible sourcing test for credible unmet requests; check stated budget, grade, '
+              'remaining food lifetime and warranty uncertainty. Never promise an incoming grade or purchase. '
               'discovery emphasizes affordable single-unit trials after urgent deficits. Neither bypasses budgets. '
               'The operator wants active capital recycling: aim toward target_inventory_acquisition_cost '
               'during growth, without spending merely to hit a quota. Cash is not idle savings for its own sake, '
@@ -486,6 +497,7 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
                                   'forecast_scenario':option['scenario'],
                                   'coverage_hours':option.get('coverage_hours'),
                                   'forecast_mean':option.get('forecast_mean'),
+                                  'forum_request_ids':(winner.get('forum_intent') or {}).get('request_ids',[]),
                                   'demand_basis':{'sales_rate_per_hour':winner['forecast']['sales_rate_per_hour'],
                                       'conversion_probability':winner['forecast']['stockout_conversion']['probability'],
                                       'windows':{key:{k:view[k] for k in ('settlements','eligible_lost_stockouts',
@@ -542,9 +554,11 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
                 return {'buy': []}
     desired = [{**o, 'kind':'replenishment'} for o in restock_orders]
     desired += [{**allowed[sku], 'qty':1, 'kind':'exploration'} for sku in skus]
+    for row in desired:
+        row.setdefault('forum_request_ids',(row.get('forum_intent') or {}).get('request_ids',[]))
     record('portfolio_approval',window=key,planning_at=now,approved_lines=[
         {k:r.get(k) for k in ('sku','kind','qty','target_stock','cost_ceiling','second_trial',
-                            'forecast_scenario','coverage_hours','forecast_mean','demand_basis')} for r in desired],
+                            'forecast_scenario','coverage_hours','forecast_mean','demand_basis','forum_request_ids')} for r in desired],
         model_choice=answer,allocation_review=answer.get('strategy_review'),
         allocation_behavior={'review_required':review_required,
             'offered_proven_skus':sum(not w['second_trial'] for w in winners),
@@ -634,6 +648,7 @@ def _emit_approved(state,path,desired,answer,window,key,operating,now,slots,budg
                                 'surge_reserved':True, 'prior_units': [u['unit'] for u in owned if u.get('unit')],
                                 'status': 'issued_unknown', 'at': at, 'window': key,
                                 'second_trial':bool(row.get('second_trial')),
+                                'forum_request_ids':row.get('forum_request_ids',[]),
                                 **audit.links(),'intent_id':f"{audit.links()['decision_id']}:{sku}"})
     save(path, state)  # all reservations precede externally executed supply calls
     log_execution(execution,at,execution_supply_lines=room,time_limited_supply_lines=time_slots,

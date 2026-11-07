@@ -15,6 +15,7 @@ from replenishment_plan import save,product_signature
 import inventory_portfolio as portfolio
 from procurement_monitor import maintain
 from inventory_observation import snapshot as record_inventory_snapshot
+import seller_demand
 
 POLL_SECONDS=2
 PREPARE_POLL_SECONDS=10
@@ -106,8 +107,9 @@ def main():
     while True:
         if time.monotonic()-last_maintenance>=60:
             try:
-                inv,_,at,fresh=snapshot(runtime,observe=True)
+                inv,cat,at,fresh=snapshot(runtime,observe=True)
                 if fresh:
+                    seller_demand.ingest(runtime,cat,at)
                     maintain(inv,events(),at,state_path=portfolio.STATE,ready_path=portfolio.READY)
                     last_maintenance=time.monotonic()
             except BlockingIOError:pass

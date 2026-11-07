@@ -36,6 +36,7 @@ import seller_quality
 import seller_requirements
 import seller_warranty
 from seller_promotion import discount_quote
+import seller_featured
 from capital_policy import operating_policy
 from market_scoring import VERSION
 import decision_audit as audit
@@ -227,14 +228,23 @@ class Seller(AgentExecutor):
             except (OSError, ValueError):
                 catalog = {}
             requested = requested_skus(message, catalog)
-            record('request_seen', task_id=task.id, requested_skus=requested)
+            public_quotes=seller_featured.active(self.state.path,time.time())
+            public_request=seller_featured.requested(message,public_quotes)
+            if public_request and not public_request.get('unavailable') and not requested:requested=[public_request['sku']]
+            record('request_seen', task_id=task.id, requested_skus=requested,
+                   forum_offer_id=public_request.get('id') if public_request else None)
+            if public_request and (public_request.get('unavailable') or public_request['sku'] not in requested):
+                await up.reject(say('That public quote code is expired, unavailable or conflicts with the requested SKU. Please ask for a new quote.'))
+                return
             try:
                 imported = sync_settlements()
                 if imported:
                     trace("settlements_imported", count=imported)
             except OSError as error:
                 trace("settlement_sync_error", error=str(error))
-            choices = self.available(message)
+            choices = self.available(public_request['sku'] if public_request else message)
+            if public_request:choices=[u for u in choices if u['unit']==public_request['unit']]
+            else:choices.sort(key=lambda u:not any(o['unit']==u['unit'] for o in public_quotes))
             if not choices:
                 record("no_stock", task_id=task.id, request=message[:160], requested_skus=requested)
                 await up.reject(say("Sorry, no matching unit is in stock."))
@@ -262,6 +272,9 @@ class Seller(AgentExecutor):
                     self.identity_messages[context.message.message_id]=now
             record('buyer_identity_observed',task_id=task.id,**identity)
             tools = [quote_candidates(u,warranty_hours=seller_warranty.hours(u)) for u in choices]
+            for unit,tool in zip(choices,tools):
+                tool['public_quote'] = next(({k:o[k] for k in ('id','price','valid_until','grade')}
+                                            for o in public_quotes if o['unit']==unit['unit']),None)
             keys=list(dict.fromkeys((u['sku'],u['grade']) for u in choices))
             per_key=min(3600,12000//len(keys)-64)
             memories={f'{sku}:{grade}':compact_context(sku,grade,max_bytes=per_key) for sku,grade in keys}
@@ -296,6 +309,8 @@ class Seller(AgentExecutor):
                 'market_objective':operating_policy(time.time()),
             }
             prompt['objective'] += (' Calculate the ordinary opening quote without anticipating promotions; '
+                                    'A public_quote is a binding price ceiling for its physical unit. Prefer a compatible '
+                                    'featured unit when useful to the buyer. An explicit quote code narrows the unit choices. '
                                     'a separate tool applies any campaign afterward. Never inflate a base price to offset a discount. '
                                     'Prefer repeatable positive-margin turnover, settled revenue and honest quality over '
                                     'maximizing one markup. Unsold inventory retains acquisition-cost Book credit at round end. '
@@ -346,7 +361,14 @@ class Seller(AgentExecutor):
                 trace("decision_guard", phase="opening", proposed_price=proposed,
                       effective_price=ask, proposed_unit=answer.get("unit_id"),
                       effective_unit=unit["unit"])
-            promotion = discount_quote(unit, ask,minimum_price=warranty['price_floor'])
+            try:promotion=seller_featured.apply(unit,ask,public_quotes,time.time())
+            except ValueError:
+                await reject('That public quote no longer has a viable unit. Please request another quote.','public_quote_unavailable')
+                return
+            if public_request and promotion is None:
+                await reject('That public quote expired before a quote could be issued. Please request a new quote.','public_quote_expired')
+                return
+            if promotion is None:promotion = discount_quote(unit, ask,minimum_price=warranty['price_floor'])
             if promotion:
                 if promotion['price'] > maximum:
                     await reject('No suitable price for this unit.','promotion_above_maximum')
@@ -384,9 +406,12 @@ class Seller(AgentExecutor):
                   grade=unit["grade"], cost=unit["cost"], ask=ask)
             note = ''
             if promotion:
-                label = 'Opening quote discount included' if promotion['saving'] else 'Minimum selling price; no discount available'
-                note = (f" {label}: {promotion['ordinary_quote']} -> {ask}; saving {promotion['saving']}. "
-                        'Negotiable; no extra automatic discount.')
+                if promotion.get('kind')=='featured':
+                    note=f" Public quote {promotion['offer_id']} honored: ceiling {promotion['public_price_ceiling']}; asking {ask}. Negotiable."
+                else:
+                    label = 'Opening quote discount included' if promotion['saving'] else 'Minimum selling price; no discount available'
+                    note = (f" {label}: {promotion['ordinary_quote']} -> {ask}; saving {promotion['saving']}. "
+                            'Negotiable; no extra automatic discount.')
             quality = seller_quality.quality(unit, MARKET_DIR, time.time(), HOLD_SECONDS)
             record('quality_disclosed',task_id=task.id,sku=unit['sku'],unit=unit['unit'],**quality)
             coverage = f' Warranty {warranty_hours} h included in this total price; covered breakage receives a full market refund.' if warranty_hours else ''
@@ -446,7 +471,7 @@ class Seller(AgentExecutor):
                                 'Never relax the buyer\'s quality, expiry or signature requirements to create volume.')
         if deal.get('promotion'):
             prompt['opening_promotion'] = deal['promotion']
-            prompt['objective'] += (' The opening discount is already included. Never raise the ask above '
+            prompt['objective'] += (' The campaign price ceiling is already applied. Never raise the ask above '
                                     'that discounted quote or accept below its price_floor. Do not stack discounts. '
                                     'Receipt price must exactly equal the buyer\'s acknowledged offer.')
         fallback_action = "accept" if offer >= int(unit["cost"]) else "counter"
@@ -507,7 +532,7 @@ class Seller(AgentExecutor):
                    grade=quality['grade'], claim=quality['claim'], claim_reason=quality['reason'],
                    price=offer,cost=unit['cost'],expires_at=unit.get('expires_at'),supplied_at=unit.get('supplied_at'),
                    warranty_hours=warranty_hours,warranty_economics=seller_warranty.economics(unit,offer,warranty_hours=warranty_hours),
-                   score_version=VERSION,score_metric='book')
+                   score_version=VERSION,score_metric='book',public_offer_id=promotion.get('offer_id') if promotion else None)
             self.holds[unit["unit"]] = time.monotonic() + HOLD_SECONDS
             coverage = f' Includes {warranty_hours} h market warranty.' if warranty_hours else ''
             await up.complete(say(f"Deal: {unit['name']} at {offer}.{coverage}"))
