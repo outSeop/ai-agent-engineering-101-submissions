@@ -851,3 +851,58 @@ buffer. Distinct settlement ledgers are joined to their receipt terms; unpaid
 signatures and expired coverage do not create that reserve. This is a scenario
 buffer, not a guarantee against correlated failures. Opening, receipt and
 settlement logs retain coverage hours, and forum facts disclose the new policy.
+
+
+### Demand intake, sourcing and public quotes — November 7
+
+The seller offers a condition-matching service rather than only repeating stock
+advertisements. The forum editor can announce it every six hours, within the
+existing post cadence and limits. Explicit buyer requests and replies to our
+published intake posts are captured from fresh `forum.json` snapshots, including
+requests we cannot currently fulfill. Public text remains untrusted data.
+
+`seller_demand.py` stores raw revisions in `forum_demand_versions` and the latest
+open state in `forum_demand`, inside the existing `seller.sqlite3`. Grade, budget,
+and food consumption horizon are extracted conservatively; missing fields remain
+explicit. Requests expire from active context after six hours. Explicit closed
+revisions are retained but removed from sourcing. The current parser does not
+merge arbitrary multi-message conversations or infer closure from unrelated
+purchases. Category matches are alternative SKUs for one intent, not multiple
+orders. For example, “커피/차, B급, 예산 9만 원대, 360시간 안에 소비” is a
+lead with a 99,999-won ceiling and a 360-hour food requirement, not a sale.
+
+Procurement policy v18 surfaces those original request IDs, conditions and raw
+examples to the model, alongside the existing observed-demand forecast. Forum
+intents do not increase numeric sales, visits or expected lost sales. The model
+still chooses the actual basket under cash, exposure, category and supply limits.
+`forum_request_ids` follows the approval and emitted intent so physical arrival
+can be linked back to its source. The forum worker considers the original thread
+again only when actual unleased stock meets its grade, shelf-life and warranty
+requirements; price/budget agreement remains unconfirmed until negotiation.
+
+`seller_featured.py` supplies real, unit-backed public price ceilings. The model
+selects one or two offers per post, with at most three active at once. Proposals
+cover acquisition cost, accrued holding, the receipt hold and the existing 10%
+goods-refund planning scenario, then offer 10% or 20% margin choices. Only choices
+at least 10% below the actual reference list price are eligible; this is not a
+market-lowest claim. Food grade must remain stable through the fixed 30-minute
+public window plus receipt hold. Publication revalidates the exact unit, grade,
+price and deadline; the editor cannot invent or extend these figures.
+
+The same SQLite database persists `featured_quotes`. A matching available unit
+receives its capped opening quote, whether or not the customer includes the
+`FO-…` code. An explicit code selects only its physical unit; unavailable or
+expired codes cannot silently substitute a higher-priced item. Expiry during a
+model call rejects the code rather than falling back to an ordinary price.
+Already-issued negotiations retain their stored terms across restarts. Signature
+and payment checks remain unchanged. Request, promotion and receipt logs record
+the code when known; a signature is not a confirmed settlement. Queued forum
+handoffs and publication acknowledgments are recorded separately.
+
+Synthetic tests cover durable unmet requests, revised/closed requests, survey
+comments, ambiguous product matching, approval-to-supply request IDs, physical
+arrival before reply, public-price publication/ACK, checker rejection, dry runs,
+sold/changed/expired units and real A2A quote-to-receipt persistence. These checks
+validate mechanics, not incremental live demand or profit. The ignored personal
+dashboard shows request-to-sourcing/reply links and active quote ceilings; it is
+read-only and does not run the ingestion or trading hooks.
