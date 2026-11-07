@@ -33,8 +33,17 @@ def rebound_seller_config(stage,runtime):
     return config
 
 
+def offline_gap(runtime,now,registry):
+    """Explicit offline recovery requires stale data and an absent own listing."""
+    path=runtime/'.market/inventory.json'
+    if now-path.stat().st_mtime<90:return False
+    shops=registry.get('shops') if isinstance(registry,dict) else None
+    if not isinstance(shops,list):return False
+    return not any(s.get('name')=='outseop-26510122' for s in shops)
+
+
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--tag',required=True);args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--tag',required=True);parser.add_argument('--allow-offline',action='store_true',help='Allow state-preserving recovery only with stale inventory and no own registry entry');args=parser.parse_args()
     if sys.platform!='linux':raise RuntimeError('This rollout is for Linux user services')
     if not args.tag.replace('-','').isalnum():raise ValueError('Use an alphanumeric tag')
     commit=run('git','-C',str(ROOT),'rev-parse','HEAD').stdout.strip()
@@ -50,16 +59,28 @@ def main():
     seller_config_before=(runtimes['seller']/'agent.json').read_bytes()
     seller_config_after=rebound_seller_config(stages['seller'],runtimes['seller'])
     # Never terminate a sequential supply batch in an open or imminent window.
+    offline=False;offline_inventory_mtime=None
     deadline=time.monotonic()+360  # imminent-window buffer + 3-minute window + file refresh
     while True:
         path=runtimes['seller']/'.market/inventory.json';inv=read(path);now=time.time();window=inv.get('restock') or {}
         if now-path.stat().st_mtime<30 and not window.get('open') and window.get('opens_at',0)-now>90:break
+        if args.allow_offline and now-path.stat().st_mtime>=90:
+            observed_mtime=path.stat().st_mtime
+            with urllib.request.urlopen('https://market.ourolabs.ai/api/shops',timeout=10) as response:registry=json.load(response)
+            if offline_gap(runtimes['seller'],time.time(),registry) and path.stat().st_mtime==observed_mtime:
+                offline=True;offline_inventory_mtime=observed_mtime;break
+
         if time.monotonic()>deadline:raise RuntimeError('No safe gap between supply windows; releases not changed')
         time.sleep(2)
-    report={'at':time.time(),'source_commit':commit,'before':before,'promotion_hash_before':promo}
+    report={'at':time.time(),'source_commit':commit,'before':before,'promotion_hash_before':promo,'offline_recovery':offline}
     backups={};swapped=[];paused=False;stopped=False;pid=before['buyer']['kit_pid']
     try:
         run('systemctl','--user','stop','outseop-r3-seller.service');stopped=True
+        if offline:
+            path=runtimes['seller']/'.market/inventory.json'
+            if path.stat().st_mtime!=offline_inventory_mtime or time.time()-path.stat().st_mtime<90:
+                raise RuntimeError('Inventory recovered during offline guard; use a normal safe gap')
+
         os.kill(pid,signal.SIGSTOP);paused=True;time.sleep(2)
         for role,runtime in runtimes.items():
             backup=runtime/f'release-previous-{args.tag}'
@@ -107,7 +128,7 @@ def main():
     hook=read(runtimes['seller']/'agent.json')['restock']['cmd']
     report['prepared_restock_hook']='procurement_scheduler.py' in hook and '--execute' in hook
     report['public_card_status']=None;report['registry_matches']=False
-    for _ in range(20):
+    for _ in range(3 if offline else 20):
         try:
             current=read(runtimes['seller']/'running.json');url=current['url']
             with urllib.request.urlopen(url+'/.well-known/agent-card.json',timeout=8) as response:
@@ -120,7 +141,7 @@ def main():
         time.sleep(2)
     # The first inventory refresh can lag the ready public card after restart.
     # Observe it before deciding whether the release is unhealthy.
-    inventory_deadline=time.monotonic()+60
+    inventory_deadline=time.monotonic()+(10 if offline else 60)
     while True:
         report['inventory_age_seconds']=time.time()-(runtimes['seller']/'.market/inventory.json').stat().st_mtime
         if -2<=report['inventory_age_seconds']<30 or time.monotonic()>=inventory_deadline:break

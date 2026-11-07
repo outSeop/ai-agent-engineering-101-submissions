@@ -65,3 +65,22 @@ are temporary, have no uptime guarantee, and do not support SSE. This kit uses
 ordinary JSON requests and polling; this fallback is not a stable-hostname or
 availability guarantee. Check the registry, public card and fresh inventory after
 changing providers.
+
+
+During a market-registration outage, a normal rollout deliberately refuses stale
+inventory. `ops/rollout_linux.py --tag NAME --allow-offline` is an explicit
+recovery option: it requires inventory at least 90 seconds old and no own shop
+entry in a freshly read registry, then checks that inventory did not recover
+before the stopped-service swap. It preserves the same DBs, buyer kit, promotion
+and unknown supply reservations. Source hashes may pass while `complete` remains
+false; fresh inventory and registry/public-card checks are still required before
+claiming a healthy service. Do not use this flag to bypass an active supply batch.
+
+
+The observing `seller_kit.py` wrapper also keeps the same public URL alive for
+up to four registration attempts when the market specifically returns a 400
+agent-card TimeoutError/ConnectTimeout/ReadTimeout. Attempts wait 15 seconds and
+use the official signing/join method again. Other refusals and buyer joins keep
+their original behavior; purchases and payments are not retried. This allows
+transient card routing/DNS failures to recover without immediately discarding a
+new tunnel, but does not conceal an unavailable market.

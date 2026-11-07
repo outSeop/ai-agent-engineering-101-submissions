@@ -44,3 +44,43 @@ class CloudflareRecoveryTests(unittest.TestCase):
         command=cloudflare_command('/home/user/.local/bin/cloudflared',9300)
         self.assertEqual(command[command.index('--url')+1],'http://127.0.0.1:9300')
         self.assertNotIn('--no-tls-verify',command)
+
+
+class OfflineRecoveryGuardTests(unittest.TestCase):
+    def test_only_stale_inventory_with_explicit_absence_can_use_offline_path(self):
+        import os
+        from ops.rollout_linux import offline_gap
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);(root/'.market').mkdir();p=root/'.market/inventory.json';p.write_text('{}');os.utime(p,(1000,1000))
+            self.assertFalse(offline_gap(root,1050,{'shops':[]}))
+            self.assertFalse(offline_gap(root,1200,{'shops':[{'name':'outseop-26510122'}]}))
+            self.assertFalse(offline_gap(root,1200,{}))
+            self.assertTrue(offline_gap(root,1200,{'shops':[]}))
+
+
+class RegistrationRetryTests(unittest.TestCase):
+    def fixture(self,errors):
+        from types import SimpleNamespace
+        from unittest.mock import Mock
+        class Market:pass
+        Market.join=Mock(side_effect=errors)
+        kit=SimpleNamespace(Market=Market,log=Mock());sleep=Mock()
+        from seller_kit import instrument_registration
+        original=Market.join;instrument_registration(kit,sleep=sleep)
+        return kit,sleep,original
+    def timeout(self):
+        return SystemExit('[market] join as shop failed: 400 '+json.dumps({'error':'cannot read an agent card at https://same.example/.well-known/agent-card.json (TimeoutError)'}))
+    def test_card_timeout_retries_same_registration_without_rotating_url(self):
+        kit,sleep,join=self.fixture([self.timeout(),{'name':'shop'}]);market=kit.Market();key=object()
+        result=market.join('shop','same-shop',key,'https://same.example')
+        self.assertEqual(result,{'name':'shop'});self.assertEqual(join.call_count,2)
+        self.assertEqual(join.call_args_list[0],join.call_args_list[1]);sleep.assert_called_once_with(15)
+    def test_other_refusals_and_buyer_errors_are_never_retried(self):
+        for role,error in [('shop',SystemExit('[market] join as shop failed: 401 denied')),('shop',SystemExit('[market] join as shop failed: 400 bad key')),('buyer',self.timeout())]:
+            kit,sleep,join=self.fixture([error])
+            with self.assertRaises(SystemExit):kit.Market().join(role,'name',object())
+            self.assertEqual(join.call_count,1);sleep.assert_not_called()
+    def test_timeout_retry_is_bounded_and_still_surfaces_failure(self):
+        kit,sleep,join=self.fixture([self.timeout() for _ in range(4)])
+        with self.assertRaises(SystemExit):kit.Market().join('shop','name',object(),'https://same.example')
+        self.assertEqual(join.call_count,4);self.assertEqual(sleep.call_count,3)
