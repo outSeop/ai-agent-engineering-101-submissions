@@ -84,7 +84,8 @@ class CapitalUnlockTests(unittest.TestCase):
         self.assertEqual(data['book']['book'],meta.snapshot(self.root,self.now,[])['book']['book'])
     def test_rolling_budget_is_an_actual_tunable_and_still_counts_prior_spend(self):
         data=meta.snapshot(self.root,self.now,[]);data['inventory_state']['rolling_exploration_reserved']=23_000_000
-        effect=meta_effects.evaluate(data,DEFAULT,{**DEFAULT,'rolling_exploration_budget':48_000_000})
+        prior={**DEFAULT,'rolling_exploration_budget':24_000_000}
+        effect=meta_effects.evaluate(data,prior,{**prior,'rolling_exploration_budget':48_000_000})
         self.assertEqual(effect['before']['effective_exploration_budget'],1_000_000)
         self.assertEqual(effect['after']['effective_exploration_budget'],18_655_503)
         self.assertGreater(effect['effective_exploration_budget_delta'],0)

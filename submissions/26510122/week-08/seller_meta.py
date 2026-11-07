@@ -257,7 +257,7 @@ def review(runtime,*,model=decide_json,now=None,public=None,shadow=False):
         data['score_transition']={'rebased':score_transition,'previous_version':old.get('score_version'),
                                   'current_version':VERSION,'note':'Old scoring-policy evidence is not a causal baseline for this code change.'}
         data['capital_policy_transition']={'rebased':capital_transition,'current_version':POLICY_VERSION,
-            'note':'Rebase observed outcomes after removing fixed caps; do not attribute historical results to the new capacity.'}
+            'note':'Rebase observed outcomes after the operator changes the capital policy; do not attribute historical results to the new capacity.'}
         record('meta_snapshot',path=runtime/'logs/seller-meta-events.jsonl',snapshot=data)
         if not shadow:save(runtime/'state/seller-meta-market.json',{'at':now,'source':'public ledger sample','window':data['market_sample'],'rows':data['market_opportunities']})
         decision=model('seller meta policy reviewer',{
@@ -295,7 +295,7 @@ def review(runtime,*,model=decide_json,now=None,public=None,shadow=False):
         config={k:data['active_policy'][k] for k in DEFAULT};status='held';new=config;change_effect=None
         changed_at=now if rebase else old.get('changed_at',0)
         if decision.get('action') in ('change','rollback'):
-            candidate=(upgrade(old.get('previous_config',config)) if decision['action']=='rollback'
+            candidate=(upgrade(old.get('previous_config',config),old.get('policy_contract_version')) if decision['action']=='rollback'
                        else revised(config,decision))
             try:
                 effect_data=data if injected_clock else snapshot(runtime,time.time(),sample)
@@ -323,7 +323,7 @@ def review(runtime,*,model=decide_json,now=None,public=None,shadow=False):
             payload={'schema_version':2,'policy_contract_version':POLICY_VERSION,'score_version':VERSION,'version':version,'at':applied_at,'expires_at':applied_at+14400,
                      'baseline':baseline,
                      'changed_at':applied_at if not old or rebase or status in ('changed','rollback') else changed_at,
-                     'config':new,'previous_config':config if new!=config else upgrade(old.get('previous_config',config))}
+                     'config':new,'previous_config':config if new!=config else upgrade(old.get('previous_config',config),old.get('policy_contract_version'))}
             save(policy,payload);state['last_review']={'at':applied_at,'status':status,'decision':decision,
                 'proposed_decision':proposed_decision,'change_effect':change_effect,'version':version}
         with sqlite3.connect(runtime/'state/seller-meta.sqlite3') as db:

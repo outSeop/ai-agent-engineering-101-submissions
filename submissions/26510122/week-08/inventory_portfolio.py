@@ -11,7 +11,7 @@ import fcntl
 import json
 import hashlib
 import math
-from procurement_cost import ceiling as acquisition_ceiling
+from procurement_cost import ceiling as acquisition_ceiling, estimate_unit_cost
 from pathlib import Path
 import random
 import decision_audit as audit
@@ -40,7 +40,8 @@ WINDOW_BUDGET = GROWTH_WINDOW_BUDGET
 ROLLING_BUDGET = GROWTH_EXPLORATION_BUDGET
 MAX_MAINTAINED_SKUS = 8
 STOCKOUT_TRIAL_CANDIDATES = 3
-POLICY_VERSION = 19
+POLICY_VERSION = 20
+GROWTH_SPEND_SHARE = .50
 DAY = 86400
 READY = Path('state/procurement-ready.json')
 PREPARE_LEAD_SECONDS = 240
@@ -122,7 +123,12 @@ def candidates(catalog, inventory, history, now, excluded, rng, max_cost=MAX_UNI
     by_count=sorted(market_rows,key=lambda r:-r['public_settlements_sample'])[:4]
     by_revenue=sorted((r for r in market_rows if r not in by_count),key=lambda r:-r['public_revenue_sample'])[:4]
     market_backed=by_count+by_revenue
-    rows = {r['sku']: r for r in stockout_trials + backed + market_backed}
+    value_backed = sorted((r for r in all_rows if r['price_band'] != 'low' and
+                           (r['observed_requests_12h'] >= 2 or r['confirmed_settlements_12h']
+                            or r['forum_intent'] or r['public_settlements_sample'] >= 2)),
+                          key=lambda r: (-r['confirmed_settlements_12h'], -r['public_revenue_sample'],
+                                         -r['observed_requests_12h'], r['sku']))[:6]
+    rows = {r['sku']: r for r in stockout_trials + value_backed + backed + market_backed}
     for i in range(max((len(v) for v in keys.values()), default=0)):
         for kind in ('food', 'goods'):
             if i < len(keys[kind]):
@@ -284,12 +290,14 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
     slots = min(MAX_SUPPLY_LINES, max(0, int((window['closes_at'] - capacity_at - CLOSING_MARGIN_SECONDS) // 10)))
     unit_room = WINDOW_MAX_UNITS
     budget = min(operating['window_budget'], risk['available_to_invest'])
+    net_cash = max(0, risk['cash_balance'] - risk['cash_reserve'] - pending_cost)
+    spend_target = int(min(budget, net_cash) * GROWTH_SPEND_SHARE) if operating['phase'] == 'growth' else None
     rolling_budget = operating['rolling_exploration_budget']
     exploration_budget = max(0, min(budget, rolling_budget-reserved))
     record('portfolio_capacity', policy_version=POLICY_VERSION, meta_version=operating.get('meta_version'), window=key,
            operating_phase=operating['phase'], risk_capacity=risk,
            target_inventory_cost=target_inventory_cost(inventory,now),
-           supply_lines=slots, unit_room=unit_room, shared_budget=budget,
+           supply_lines=slots, unit_room=unit_room, shared_budget=budget, spend_target_krw=spend_target,
            exploration_budget=exploration_budget, rolling_budget=rolling_budget,
            reserved_24h=reserved)
     pending_stocks = Counter()
@@ -359,6 +367,13 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
         minimum=minimum,minimum_categories=minimum_categories,slots=slots,units=unit_room,
         budget=budget,novel_budget=exploration_budget,stocks=Counter(u.get('sku') for u in units),
         categories=projected_categories,pending=pending_stocks)
+    surge = {row['sku']:row.get('factor', 1) for row in inventory.get('surge', [])
+             if isinstance(row, dict) and row.get('sku')}
+    unit_costs = {r['sku']:estimate_unit_cost(catalog[r['sku']], surge.get(r['sku'], 1)) for r in winners + rows}
+    for row in winners + rows:
+        row['estimated_unit_cost_krw'] = unit_costs[row['sku']]
+    for basket in alternatives:
+        basket['estimated_spend_krw'] = sum(line['qty'] * unit_costs[line['sku']] for line in basket['lines'])
     review_required=(operating['phase']=='growth' and bool(choice.get('allocation_recovery'))
                      and any(not w['second_trial'] for w in winners) and len(alternatives)>=2)
     schema = {'type': 'object', 'properties': {
@@ -382,6 +397,13 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
               'execution_timing':{'preparation_only':prepare_only,'not_before':window['opens_at'],
                   'note':'Pre-open approval only; no funds reserved until fresh execution checks. '
                          'Forecast protection includes the upcoming window and its next replenishment opportunity.'},
+              'spend_guidance': {'target_krw':spend_target, 'share':GROWTH_SPEND_SHARE if spend_target is not None else None,
+                  'definition':'Growth target is half the smaller of safe cash after buffers/pending and current window capacity. '
+                               'Compare estimated_spend_krw at observed surge against this soft target; risk limits use cost ceilings. '
+                               'Use sales, exposure, eligible missed demand and holding/expiry risk. '
+                               'Consider evidenced mid/upper-price SKUs when their margin and demand justify the spend. '
+                               'If the feasible forecast-backed basket falls short, name the binding limitation in reason. '
+                               'Do not spend to fill the target or infer a sale from a forum post.'},
               'candidates': rows, 'maximum_new_skus': new_slots, 'cost_ceiling_budget': budget,
               'replenishment_candidates':winners, 'maximum_supply_lines':slots,
               'maximum_maintained_skus':MAX_MAINTAINED_SKUS,
@@ -564,7 +586,8 @@ def _run(inventory, catalog, history, now, model, refresh, rng, path,prepare_onl
     desired += [{**allowed[sku], 'qty':1, 'kind':'exploration'} for sku in skus]
     for row in desired:
         row.setdefault('forum_request_ids',(row.get('forum_intent') or {}).get('request_ids',[]))
-    record('portfolio_approval',window=key,planning_at=now,approved_lines=[
+    record('portfolio_approval',window=key,planning_at=now,spend_target_krw=spend_target,
+        estimated_spend_krw=sum(r['qty']*unit_costs[r['sku']] for r in desired),approved_lines=[
         {k:r.get(k) for k in ('sku','kind','qty','target_stock','cost_ceiling','second_trial',
                              'forecast_scenario','coverage_hours','forecast_mean','demand_basis','forum_request_ids','stockout_trial')} for r in desired],
         model_choice=answer,allocation_review=answer.get('strategy_review'),
