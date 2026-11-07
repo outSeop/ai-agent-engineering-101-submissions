@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import shlex
 import shutil
@@ -82,6 +83,16 @@ def tunnel_url(urls, alternate=False):
     return None
 
 
+def cloudflare_url(text):
+    match=re.search(r'https://[a-z0-9-]+\.trycloudflare\.com(?=[\s|]|$)',text)
+    return match[0] if match else None
+
+
+def cloudflare_command(binary,port):
+    # Forward the existing kit API proxy only, never a directory/file server.
+    return [binary,'tunnel','--no-autoupdate','--protocol','http2','--url',f'http://127.0.0.1:{port}']
+
+
 def run(args):
     global STOP
     def finish(*_):
@@ -111,17 +122,29 @@ def run(args):
                  (ROOT/'logs/seller-r3-tunnel.log').open('a') as ssh_log, \
                  (ROOT/'logs/seller-r3-kit-console.log').open('a') as kit_log, \
                  (ROOT/'logs/seller-forum-console.log').open('a') as forum_log:
-                ssh=subprocess.Popen(['/usr/bin/ssh','-p','443','-tt','-o','BatchMode=yes','-o','ConnectTimeout=8',
-                    '-o','ExitOnForwardFailure=yes','-o','ServerAliveInterval=20','-o','ServerAliveCountMax=3',
-                    '-o','StrictHostKeyChecking=accept-new','-o',f'UserKnownHostsFile={runtime/"known_hosts"}',
-                    f'-R0:127.0.0.1:{args.port}',f'-L{args.debug_port}:localhost:4300','free.pinggy.io'],
-                    stdin=subprocess.PIPE,stdout=ssh_log,stderr=subprocess.STDOUT,start_new_session=True)
-                until=time.monotonic()+40;url=None
+                provider=getattr(args,'tunnel_provider','pinggy')
+                if provider not in ('pinggy','cloudflare'):raise ValueError('Unknown tunnel provider')
+                output_offset=ssh_log.tell()
+                if provider=='cloudflare':
+                    binary=shutil.which('cloudflared',path=env['PATH'])
+                    if not binary:raise RuntimeError('Install verified cloudflared before selecting this provider')
+                    command=cloudflare_command(binary,args.port)
+                else:
+                    command=['/usr/bin/ssh','-p','443','-tt','-o','BatchMode=yes','-o','ConnectTimeout=8',
+                        '-o','ExitOnForwardFailure=yes','-o','ServerAliveInterval=20','-o','ServerAliveCountMax=3',
+                        '-o','StrictHostKeyChecking=accept-new','-o',f'UserKnownHostsFile={runtime/"known_hosts"}',
+                        f'-R0:127.0.0.1:{args.port}',f'-L{args.debug_port}:localhost:4300','free.pinggy.io']
+                ssh=subprocess.Popen(command,stdin=subprocess.PIPE,stdout=ssh_log,stderr=subprocess.STDOUT,start_new_session=True)
+                until=time.monotonic()+60;url=None
                 while not STOP and ssh.poll() is None and time.monotonic()<until:
                     try:
-                        with urllib.request.urlopen(f'http://127.0.0.1:{args.debug_port}/urls',timeout=2) as response:
-                            urls=json.load(response).get('urls',[])
-                        url=tunnel_url(urls,alternate_domain)
+                        if provider=='cloudflare':
+                            with (ROOT/'logs/seller-r3-tunnel.log').open() as reader:
+                                reader.seek(output_offset);url=cloudflare_url(reader.read(65536))
+                        else:
+                            with urllib.request.urlopen(f'http://127.0.0.1:{args.debug_port}/urls',timeout=2) as response:
+                                urls=json.load(response).get('urls',[])
+                            url=tunnel_url(urls,alternate_domain)
                         if url:break
                     except (OSError,ValueError):pass
                     time.sleep(1)
@@ -148,7 +171,7 @@ def run(args):
                         stdout=output,stderr=subprocess.STDOUT,start_new_session=True)
                 workers={key:worker(spec) for key,spec in worker_specs.items()}
                 status={'supervisor_pid':os.getpid(),'kit_pid':market.pid,'tunnel_pid':ssh.pid,'forum_pid':forum.pid,'url':url,
-                        'source_commit':manifest['source_commit'],'started_at':time.time(),'buyer_enabled':False}
+                        'source_commit':manifest['source_commit'],'started_at':time.time(),'buyer_enabled':False,'tunnel_provider':provider}
                 status.update({key:proc.pid for key,proc in workers.items()})
                 (runtime/'running.json').write_text(json.dumps(status,indent=2))
                 until=time.monotonic()+55*60
@@ -183,6 +206,7 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--runtime',type=Path,default=ROOT/'state/seller-runtime')
     parser.add_argument('--prepare-only',action='store_true');parser.add_argument('--keys-dir',type=Path)
     parser.add_argument('--owner-file',type=Path,default=Path.home()/'.config/ourolabs-market/owner-code')
+    parser.add_argument('--tunnel-provider',choices=('pinggy','cloudflare'),default=os.environ.get('OUTSEOP_TUNNEL_PROVIDER','pinggy'))
     parser.add_argument('--port',type=int,default=9300);parser.add_argument('--debug-port',type=int,default=9437)
     args=parser.parse_args();args.runtime=args.runtime.resolve()
     if args.prepare_only:

@@ -42,3 +42,26 @@ Ubuntu에서 `restore`와 `render`를 실행한 뒤 [Linux 이전 안내](HOME_S
 - [Pinggy: SSH 사용자명·인증 및 포워딩](https://pinggy.io/docs/usages/)
 
 교내 장비·망에서 외부 공개 서비스의 운영 가능 여부는 학교 지침과 해당 망의 운영 기준에 따라 확인한다. 이 문서는 기관의 운영 허가를 대신하지 않는다.
+
+
+### Temporary public-tunnel recovery
+
+If both Pinggy domains repeatedly fail the market's agent-card check while the
+local card answers, the same seller supervisor supports
+`OUTSEOP_TUNNEL_PROVIDER=cloudflare` (or `--tunnel-provider cloudflare`). Install
+`cloudflared` in the existing user's `~/.local/bin` from the official
+[Cloudflare downloads](https://developers.cloudflare.com/tunnel/downloads/),
+verifying the release asset's SHA-256 digest before execution. This does not need
+an account token or root installation. Set the environment in an existing user
+service drop-in, reload user systemd and restart only in a safe supply gap (or
+when stale inventory has already prevented execution). The default remains
+Pinggy. `running.json` records the actual provider and URL.
+
+Both providers forward only the existing kit proxy on `127.0.0.1:9300`. No private
+dashboard or directory server is exposed. The supervisor cleans up the tunnel
+process group on shutdown and renews the public URL through the normal market
+join path. Cloudflare [Quick Tunnels](https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/)
+are temporary, have no uptime guarantee, and do not support SSE. This kit uses
+ordinary JSON requests and polling; this fallback is not a stable-hostname or
+availability guarantee. Check the registry, public card and fresh inventory after
+changing providers.

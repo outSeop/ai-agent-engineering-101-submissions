@@ -31,3 +31,16 @@ class TunnelDomainTests(unittest.TestCase):
     def test_unrelated_url_cannot_masquerade_as_provider_domain(self):
         from ops.seller_service import tunnel_url
         self.assertIsNone(tunnel_url(['https://example.com/.free.pinggy.net','https://a.free.pinggy.net.evil.com','https://u:p@a.free.pinggy.net','http://a.free.pinggy.net']))
+
+
+class CloudflareRecoveryTests(unittest.TestCase):
+    def test_url_discovery_rejects_similar_unrelated_hosts(self):
+        from ops.seller_service import cloudflare_url
+        self.assertEqual(cloudflare_url('INF | https://real-name.trycloudflare.com |'),'https://real-name.trycloudflare.com')
+        self.assertIsNone(cloudflare_url('https://real-name.trycloudflare.com.evil.example'))
+        self.assertIsNone(cloudflare_url('https://evil.example/trycloudflare.com'))
+    def test_recovery_forwards_only_the_existing_local_api_proxy(self):
+        from ops.seller_service import cloudflare_command
+        command=cloudflare_command('/home/user/.local/bin/cloudflared',9300)
+        self.assertEqual(command[command.index('--url')+1],'http://127.0.0.1:9300')
+        self.assertNotIn('--no-tls-verify',command)
