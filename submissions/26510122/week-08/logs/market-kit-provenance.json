@@ -1,0 +1,105 @@
+{
+  "file": "logs/market-kit.log",
+  "source": "logs/home-server-handoff-20261104/seller/market-kit.log",
+  "source_commit": "ef7e66bc58e95a8e6f131b3c675ef24055e1c1aa",
+  "source_manifest": "logs/home-server-handoff-20261104/manifest.json",
+  "source_capture_kst": "2026-11-04T15:27:22.748273+09:00",
+  "sha256": "34a6eb8e3d40e49c0f0f0333c3e02efd9fcb927b3df809068a52745dc1e29d37",
+  "bytes": 693512,
+  "line_count": 292,
+  "copy_is_byte_identical": true,
+  "actual_acp_settlements": 10,
+  "settlement_lines": [
+    {
+      "line": 6,
+      "time_as_logged": "15:07:46",
+      "amount": 55890,
+      "ledger_seq": 2415733,
+      "unit": "u-de5bb215d5a8",
+      "grade": "C"
+    },
+    {
+      "line": 69,
+      "time_as_logged": "15:14:47",
+      "amount": 22900,
+      "ledger_seq": 2417633,
+      "unit": "u-d99a1afb2780",
+      "grade": "B"
+    },
+    {
+      "line": 82,
+      "time_as_logged": "15:15:09",
+      "amount": 28240,
+      "ledger_seq": 2417728,
+      "unit": "u-3a90e281f76d",
+      "grade": "A"
+    },
+    {
+      "line": 88,
+      "time_as_logged": "15:15:25",
+      "amount": 22900,
+      "ledger_seq": 2417801,
+      "unit": "u-d7347d88b9e4",
+      "grade": "B"
+    },
+    {
+      "line": 109,
+      "time_as_logged": "15:16:34",
+      "amount": 22900,
+      "ledger_seq": 2418137,
+      "unit": "u-5d1dc68f1876",
+      "grade": "B"
+    },
+    {
+      "line": 117,
+      "time_as_logged": "15:16:48",
+      "amount": 65000,
+      "ledger_seq": 2418198,
+      "unit": "u-72bd0961ef9e",
+      "grade": "B"
+    },
+    {
+      "line": 137,
+      "time_as_logged": "15:18:36",
+      "amount": 26221,
+      "ledger_seq": 2418706,
+      "unit": "u-04f467715a4d",
+      "grade": "B"
+    },
+    {
+      "line": 150,
+      "time_as_logged": "15:18:49",
+      "amount": 86427,
+      "ledger_seq": 2418780,
+      "unit": "u-0a07ee2fcff6",
+      "grade": "A"
+    },
+    {
+      "line": 171,
+      "time_as_logged": "15:20:17",
+      "amount": 11000,
+      "ledger_seq": 2419179,
+      "unit": "u-9ea00c801ce4",
+      "grade": "B"
+    },
+    {
+      "line": 245,
+      "time_as_logged": "15:22:24",
+      "amount": 29900,
+      "ledger_seq": 2419770,
+      "unit": "u-39f71dd42325",
+      "grade": "A"
+    }
+  ],
+  "checked_date_kst": "2026-11-21",
+  "credential_pattern_hits": {
+    "private_key_header": 0,
+    "api_token": 0,
+    "bearer_value": 0,
+    "secret_assignment": 0,
+    "jwt": 0
+  },
+  "scan_scope": "The complete UTF-8 snapshot; PEM private keys, common API tokens, bearer values, secret assignments and JWT patterns. Pattern scanning is not a proof against every possible secret format.",
+  "coverage": "Original Mac deployment segment preserved at the November 4 handoff. Not a full-Round-3 or November-17-close log.",
+  "later_deployment_log": "The later WSL deployment could not be reached during this read-only audit (SSH connection timeout); no later log or outcome is claimed."
+}

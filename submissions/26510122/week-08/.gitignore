@@ -18,8 +18,10 @@ state/
 *.sqlite3-shm
 *.handoff.tar.gz
 
-# Growing live logs: immutable handoff snapshots are committed instead
-/logs/market-kit.log
+# Required deployment-log snapshot for the Week 08 submission.
+!/logs/market-kit.log
+
+# Other growing live logs and rotated segments remain private.
 /logs/market-kit.log.[0-9]*
 /logs/seller-forum-console.log
 /logs/seller-forum-events.jsonl
