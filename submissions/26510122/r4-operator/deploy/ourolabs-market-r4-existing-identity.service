@@ -1,5 +1,5 @@
 [Unit]
-Description=OuroLabs Round 4 생활 상점 autonomous shop (existing market identity outseop-r4)
+Description=OuroLabs Round 4 outseop-r4 autonomous shop (existing market identity outseop-r4)
 After=network-online.target
 Wants=network-online.target
 StartLimitIntervalSec=600

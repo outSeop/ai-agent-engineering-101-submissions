@@ -12,7 +12,7 @@ import sys
 import types
 
 ROOT = Path(__file__).resolve().parent
-SHOP_NAME = '생활 상점'
+SHOP_NAME = 'outseop-r4'
 KIT = ROOT / 'kit'
 AGENT = ROOT.parent / 'round-4'
 PYTHON = ROOT / '.venv/bin/python'
