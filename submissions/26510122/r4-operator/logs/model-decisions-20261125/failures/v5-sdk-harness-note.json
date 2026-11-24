@@ -1,0 +1,6 @@
+{
+  "actual_model_and_tool": "quote_and_send selected correctly, signed checkout generated.",
+  "harness_error": "KeyError: artifacts; evaluation assumed flat result instead of result.task wrapper.",
+  "correction": "Official customer uses result.task or result; evaluation now does the same. Repeated actual-model SDK test passed with original JWT equality, official signature verification, and mock settlement/credit.",
+  "real_trades": 0
+}
