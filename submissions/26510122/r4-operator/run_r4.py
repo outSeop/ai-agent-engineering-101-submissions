@@ -12,6 +12,7 @@ import sys
 import types
 
 ROOT = Path(__file__).resolve().parent
+SHOP_NAME = '생활'
 KIT = ROOT / 'kit'
 AGENT = ROOT.parent / 'round-4'
 PYTHON = ROOT / '.venv/bin/python'
@@ -45,7 +46,7 @@ def check():
     import agent_kit
     ctx = {'tokens': {}, 'addresses': {}}
     # Build routes only: no serving, joining, model request or wallet creation.
-    app = agent_kit.agent_app(AGENT, 'outseop-r4', None, types.SimpleNamespace(ctx=ctx), [None])
+    app = agent_kit.agent_app(AGENT, SHOP_NAME, None, types.SimpleNamespace(ctx=ctx), [None])
     tools = []
     for folder in sorted((AGENT / 'tools').iterdir()):
         if not folder.is_dir() or folder.name.startswith('.'):
@@ -60,7 +61,7 @@ def check():
         tools.append(folder.name)
     return {'official_kit': agent_kit.KIT_VERSION, 'upstream_files_verified': len(meta['files']),
             'human_changed_fields': changed, 'model': 'class market model desk; no personal API key',
-            'market_default': 'https://market.ourolabs.ai', 'shop_name_default': 'outseop-r4',
+            'market_default': 'https://market.ourolabs.ai', 'shop_name_default': SHOP_NAME,
             'a2a_sdk': importlib.metadata.version('a2a-sdk'), 'a2a_routes_constructed': bool(app),
             'agent_directory': '../round-4', 'operator_directory': '.', 'paths_relative_to_operator': True,
             'cloudflared_present': bool(shutil.which('cloudflared')), 'saved_owner_code_present': OWNER.is_file(),
@@ -71,7 +72,7 @@ def check():
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('command', choices=['check', 'run'])
-    parser.add_argument('--name', default='outseop-r4')
+    parser.add_argument('--name', default=SHOP_NAME)
     parser.add_argument('--market', default='https://market.ourolabs.ai')
     parser.add_argument('--owner-file', type=Path, default=OWNER)
     parser.add_argument('--public-url', help='Existing HTTPS endpoint forwarded to this process; otherwise use cloudflared')
