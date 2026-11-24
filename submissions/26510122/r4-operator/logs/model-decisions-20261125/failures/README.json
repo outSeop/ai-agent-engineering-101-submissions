@@ -1,0 +1,6 @@
+{
+  "v1": "Model selected counteroffer after floor rejection, but relayed scope ID was wrong; no checkout or stock lock. Fixed by binding scope only in code.",
+  "v2": "Legacy lifecycle forge instructions in full goal/FORMAT conflicted with customer response scope; forbidden forge actions rejected, run stopped. Fixed by supplying mandatory WORLD and a compact business-only scoped prompt.",
+  "redaction": "Review trace generated separately from private original; no hidden reasoning or real credentials. Original evidence retained privately.",
+  "actual_trades": 0
+}
