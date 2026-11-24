@@ -7,7 +7,7 @@ from unittest import TestCase, main
 from unittest.mock import patch
 from uuid import uuid4
 
-from broker import Broker, Trace, class_context, SYSTEM
+from broker import Broker, Trace, class_context, SYSTEM, stated_prices
 from fixture import Fixture, MOCK_MARKET, MOCK_SHOP, MOCK_SKU
 from e2e import agent_kit, customer_module, no_network
 from managed_runtime import managed_classes
@@ -94,6 +94,26 @@ class BrokerTests(TestCase):
         self.assertIn("42 credits", self.f.call({"text": f"잔액 권리 {rights}"})["reply"])
         self.assertIn("구매", self.trace.private.read_text())
         self.assertNotIn(rights, self.trace.review.read_text())
+
+    def test_native_won_prices_are_exact_whole_credit_ceilings(self):
+        for text, expected in (("4,500원",4500),("3만원",30000),("3만5천원",35000),
+                               ("3.5만원",35000),("4,500 크레딧",4500)):
+            self.assertEqual(stated_prices(text),({expected},False))
+        self.f.add_unit("u-native-won")
+        out=self.handle("키친타올 걸이 4,500원 이내면 지금 살게요.",
+                        self.priced("quote_and_send",4600),self.priced("quote_and_send",4500))
+        self.assertEqual(out["data"]["price"],4500)
+        self.assertIn("customer_stated_price_exceeded",self.model.inputs[-1])
+
+    def test_ambiguous_native_price_range_does_not_sign(self):
+        self.f.add_unit("u-range-price")
+        for text in ("가격 4,200~4,500원 이내면 지금 살게요.", "3만원부터 4만원이면 지금 살게요.",
+                     "3.5만5천원에 지금 살게요.", "4500원이나 4000 크레딧이면 지금 살게요.",
+                     "4,500.50원에 지금 살게요."):
+            out=self.handle(text,self.priced("quote_and_send"),call("respond",text="구매하실 금액을 하나만 확인해 주세요."))
+            self.assertNotIn("data",out)
+            self.assertIn("ambiguous_customer_price",self.model.inputs[-1])
+        self.assertEqual(self.count("sale"),0)
 
     def test_known_offer_is_prefetched_before_first_model_decision(self):
         self.f.add_unit("u-prefetch")

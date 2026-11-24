@@ -44,7 +44,47 @@ NOT_ASSENT = re.compile(r"안\s*(?:살게|사겠|구매|결제)|않(?:겠|을|�
 META = re.compile(r"라고\s*(?:쓰|말하|입력|적|하면|한|했)|라는\s*(?:말|문구|예시|형식)|인용|예시.{0,10}(?:문구|명령)|"
                   r"\b(?:quote|example|write|print|say)\s+['\"]", re.I)
 CONDITIONAL = re.compile(r"가격이면|금액이면|이라면|가능하면|조건이면|이하면|이내면|되면|\bif\b|如果", re.I)
-PRICES = re.compile(r"(?<![\d,])([1-9]\d{0,8}(?:,\d{3})*)\s*(?:크레딧|credits?)(?![a-z])", re.I)
+CREDIT_PRICE = re.compile(r"(?<![\d,.])([1-9]\d{0,8}(?:,\d{3})*)\s*(?:크레딧|credits?)(?![a-z])",re.I)
+WON_PRICE = re.compile(
+    r"(?<![\d,.])(?:(?P<man>[1-9]\d{0,5})(?:\.(?P<decimal>\d{1,4}))?\s*만"
+    r"(?:\s*(?P<thousands>[1-9])\s*천)?|(?P<plain>[1-9]\d{0,8}(?:,\d{3})*))\s*원"
+    r"(?![금료하])",
+)
+MONEY_RANGE = re.compile(
+    r"\d[\d,.]*\s*(?:만\s*원?|천\s*원?|원|크레딧|credits?)?\s*(?:~|～|–|—|-|부터)\s*"
+    r"\d[\d,.]*\s*(?:만\s*원?|천\s*원?|원|크레딧|credits?)",
+    re.I,
+)
+
+
+UNPARSED_MONEY = re.compile(
+    r"[0-9][0-9,.]*[ ]*(?:(?:억|만|천|백|십)[ ]*[0-9]*)*[ ]*(?:원(?![금료하])|크레딧|credits?)", re.I
+)
+
+
+def stated_prices(text):
+    if MONEY_RANGE.search(text):
+        return set(), True
+    # Refuse unsupported monetary notation rather than dropping its cap. Mask
+    # already-recognized amounts before checking the remaining input.
+    if UNPARSED_MONEY.search(WON_PRICE.sub(" ", CREDIT_PRICE.sub(" ", text))):
+        return set(), True
+    prices={int(match.replace(",","")) for match in CREDIT_PRICE.findall(text)}
+    for match in WON_PRICE.finditer(text):
+        if match["plain"]:
+            prices.add(int(match["plain"].replace(",","")))
+            continue
+        if match["decimal"] and match["thousands"]:
+            return set(),True
+        won=int(match["man"])*10000
+        if match["decimal"]:
+            won+=int(match["decimal"].ljust(4,"0"))
+        elif match["thousands"]:
+            won+=int(match["thousands"])*1000
+        prices.add(won)
+    return prices,len(prices)>1
+
+
 REFUND = re.compile(r"환불|되돌려\s*주|退款|refund", re.I)
 DANGEROUS_REPLY = re.compile(r"https?://|checkout_jwt|권리코드\s+[A-Za-z0-9_-]{10,}|포인트.*(?:적립했|차감했)|"
                              r"(?:환불|송금|결제|구매).{0,12}(?:완료|승인됐|보냈|했습니다)|"
@@ -151,12 +191,16 @@ class Broker:
     def __init__(self, execute, model, trace=None, *, max_steps=5, seconds=100):
         self.execute, self.model, self.trace = execute, model, trace
         self.max_steps, self.seconds = max_steps, seconds
+        self.model_used = False
 
     def handle(self, text, *, transport_id=None, claimed_from=None):
         text = text[:1500] if isinstance(text, str) else ""
         ref = secrets.token_urlsafe(12)
         scoped = evidence(text)
-        prices = {int(match.replace(",", "")) for match in PRICES.findall(mask(text))}
+        explicit_skus = set(re.findall(r"(?<![A-Za-z0-9])[FG][A-Fa-f0-9]{8}(?![A-Za-z0-9])", mask(text)))
+        if len(explicit_skus) == 1:
+            scoped["requested_sku"] = explicit_skus.pop()
+        prices, ambiguous_price = stated_prices(mask(text))
         if isinstance(transport_id, str) and 12 <= len(transport_id) <= 128:
             scoped["commit"] = sha256((transport_id + "\0" + text).encode()).hexdigest()
             scoped["observation"] = sha256(transport_id.encode()).hexdigest()
@@ -199,6 +243,7 @@ class Broker:
             if monotonic() >= expires:
                 break
             try:
+                self.model_used = True
                 raw = self.model.complete(messages)
             except Exception:
                 event("model_error", {"reason": "model unavailable"})
@@ -232,10 +277,10 @@ class Broker:
                 result = {"outcome": "invalid_tool_arguments"}
             elif action not in ("offer", "quote_and_send") and args:
                 result = {"outcome": "invalid_tool_arguments"}
+            elif action == "quote_and_send" and ambiguous_price:
+                result = {"outcome": "ambiguous_customer_price"}
             elif action == "quote_and_send" and not consents(text, scoped, prices):
                 result = {"outcome": "explicit_purchase_confirmation_required"}
-            elif action == "quote_and_send" and len(prices) > 1:
-                result = {"outcome": "ambiguous_customer_price"}
             elif action == "quote_and_send" and prices and (
                     type(args["proposed_price"]) is not int or args["proposed_price"] > min(prices)):
                 result = {"outcome": "customer_stated_price_exceeded"}
