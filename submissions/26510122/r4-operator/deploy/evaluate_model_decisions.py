@@ -122,9 +122,10 @@ def main():
                 checks['sdk_signature_valid']=customer_module().jwt_payload(token,fixture.kit.address('shop'))['price']==4500
                 fixture.settle(delivered)
                 checks['sdk_mock_settlement_and_credit']=fixture.sync()['current'] and count('lot')==1
-            elif case=='purchase':
+            elif case in ('purchase','native_krw'):
                 add('u-natural')
-                out=talk('키친타올 걸이 A등급 하나 지금 살게요. 가격은 4,500 크레딧 이내면 됩니다.')
+                out=talk('키친타올 걸이 A등급 하나 4,500원 이내면 지금 살게요.' if case=='native_krw'
+                         else '키친타올 걸이 A등급 하나 지금 살게요. 가격은 4,500 크레딧 이내면 됩니다.')
                 checks['checkout_issued']=bool(out.get('data',{}).get('checkout_jwt'))
                 if checks['checkout_issued']:
                     secrets.append(fixture.right(out)); fixture.settle(out)

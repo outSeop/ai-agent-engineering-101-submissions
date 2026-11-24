@@ -1,0 +1,94 @@
+[
+  {
+    "case": "coldstart_breadth",
+    "checks": {
+      "no_payment_before_window": true,
+      "actual_class_model_chose_valid_plan": true,
+      "fee_negative_cheap_sku_not_offered": true,
+      "approved_lines_arrived": true,
+      "one_wallet_send_per_approved_line": true,
+      "no_quantity_expansion": true,
+      "no_real_keys_used": true
+    },
+    "passed": true,
+    "error": null,
+    "real_transfers": 0,
+    "scope": "Actual class model; synthetic catalog and paid history, ephemeral wallets, fake wholesale and chain.",
+    "model_choices": [
+      {
+        "seconds": 7.784,
+        "choice": {
+          "action": "buy",
+          "lines": [
+            {
+              "sku": "G00000001",
+              "qty": 1
+            },
+            {
+              "sku": "G0026722f",
+              "qty": 1
+            },
+            {
+              "sku": "G00000002",
+              "qty": 1
+            }
+          ],
+          "reason": "서로 다른 품목을 각 1개씩 시험해 첫 고객 반응을 폭넓게 확인한다."
+        }
+      }
+    ]
+  },
+  {
+    "case": "cash_protected",
+    "checks": {
+      "no_payment_before_window": true,
+      "no_model_or_payment_when_no_headroom": true,
+      "no_real_keys_used": true
+    },
+    "passed": true,
+    "error": null,
+    "real_transfers": 0,
+    "scope": "Actual class model; synthetic catalog and paid history, ephemeral wallets, fake wholesale and chain.",
+    "model_choices": []
+  },
+  {
+    "case": "proven_replenishment",
+    "checks": {
+      "no_payment_before_window": true,
+      "actual_class_model_chose_valid_plan": true,
+      "fee_negative_cheap_sku_not_offered": true,
+      "two_confirmed_positive_sales_recognized": true,
+      "approved_lines_arrived": true,
+      "one_wallet_send_per_approved_line": true,
+      "no_quantity_expansion": true,
+      "no_real_keys_used": true
+    },
+    "passed": true,
+    "error": null,
+    "real_transfers": 0,
+    "scope": "Actual class model; synthetic catalog and paid history, ephemeral wallets, fake wholesale and chain.",
+    "model_choices": [
+      {
+        "seconds": 9.699,
+        "choice": {
+          "action": "buy",
+          "lines": [
+            {
+              "sku": "G00000001",
+              "qty": 1
+            },
+            {
+              "sku": "G00000002",
+              "qty": 1
+            },
+            {
+              "sku": "G0026722f",
+              "qty": 2
+            }
+          ],
+          "reason": "서로 다른 세 품목의 초기 고객 반응을 최소 허용 수량으로 검증해 재고 위험을 낮춘다."
+        }
+      }
+    ]
+  }
+]

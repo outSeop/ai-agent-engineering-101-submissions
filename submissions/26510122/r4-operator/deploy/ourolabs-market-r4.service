@@ -8,13 +8,14 @@ StartLimitBurst=4
 [Service]
 Type=simple
 WorkingDirectory=%h/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator
-ExecStart=%h/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/.venv/bin/python %h/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/run_r4.py run
+ExecStart=%h/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/.venv/bin/python %h/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/run_r4.py run --port 18805 --name outseop-r4 --enable-procurement --procurement-lines 3
 Environment=PATH=%h/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/.venv/bin:%h/.local/bin:/usr/local/bin:/usr/bin:/bin
 Environment=PYTHONUNBUFFERED=1
 Environment=PYTHONUTF8=1
 UMask=0077
 Nice=10
 CPUQuota=100%
+MemoryHigh=768M
 MemoryMax=1G
 TasksMax=128
 Restart=on-failure

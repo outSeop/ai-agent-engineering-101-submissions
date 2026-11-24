@@ -1,0 +1,65 @@
+[
+  {
+    "source": "r3-method-source.json",
+    "sha256": "16cea50a24b44c2a0c080ae95c48a0f98590d8269ed1be0ed579a0569cee2a3b",
+    "real_secret_matches": false,
+    "bearer_or_jwt_literal": false,
+    "source_scope": "Synthetic verification or public method provenance only; no real operating snapshot/DB/customer trace selected."
+  },
+  {
+    "source": "final-installed-validation.log",
+    "sha256": "8302b217ce4dc378a32182bea0be486cdab5422f507bda888c8821e6a1ab2358",
+    "real_secret_matches": false,
+    "bearer_or_jwt_literal": false,
+    "source_scope": "Synthetic verification or public method provenance only; no real operating snapshot/DB/customer trace selected."
+  },
+  {
+    "source": "public-model-payload-proof.json",
+    "sha256": "9b3c871c867db8f671f027707d5bc32adf02aab30b9b1d41f46802e8afbf467c",
+    "real_secret_matches": false,
+    "bearer_or_jwt_literal": false,
+    "source_scope": "Synthetic verification or public method provenance only; no real operating snapshot/DB/customer trace selected."
+  },
+  {
+    "source": "agent-work/codex-r4/forge-procurement-v3-offline.log",
+    "sha256": "b431c9f8cce164c18078bd0130e2b4c116852d5acf663719ef3a80ec6da99210",
+    "real_secret_matches": false,
+    "bearer_or_jwt_literal": false,
+    "source_scope": "Synthetic verification or public method provenance only; no real operating snapshot/DB/customer trace selected."
+  },
+  {
+    "source": "agent-work/codex-r4/forge-public-metadata.log",
+    "sha256": "89fe0ed9bbce945b0b61c877cdba8631697e23d04e710f2cd4149c7fec0277f1",
+    "real_secret_matches": false,
+    "bearer_or_jwt_literal": false,
+    "source_scope": "Synthetic verification or public method provenance only; no real operating snapshot/DB/customer trace selected."
+  },
+  {
+    "source": "customer-regression-final/summary.json",
+    "sha256": "77c767314328c5790f49fcf8e828a6f5bcc2edc77d436965b490ad9ab4008ed5",
+    "real_secret_matches": false,
+    "bearer_or_jwt_literal": false,
+    "source_scope": "Synthetic verification or public method provenance only; no real operating snapshot/DB/customer trace selected."
+  },
+  {
+    "source": "native-price-final/summary.json",
+    "sha256": "e2c9ed4693ca9a2a8c7220cf40cb3e2309bdb1c30cdbc452a5852034976bb037",
+    "real_secret_matches": false,
+    "bearer_or_jwt_literal": false,
+    "source_scope": "Synthetic verification or public method provenance only; no real operating snapshot/DB/customer trace selected."
+  },
+  {
+    "source": "public-menu-model-regression/summary.json",
+    "sha256": "ff1aa83d1c17a28930b5b65f32601c6e4f3f14c571bdd99bc6fdc52eba25164b",
+    "real_secret_matches": false,
+    "bearer_or_jwt_literal": false,
+    "source_scope": "Synthetic verification or public method provenance only; no real operating snapshot/DB/customer trace selected."
+  },
+  {
+    "source": "public-menu-model-regression/source-hashes.json",
+    "sha256": "e2fc58b9f8f14bf4ce1fef17f2c082574f826f603be5c34db07e2ea3b13866d1",
+    "real_secret_matches": false,
+    "bearer_or_jwt_literal": false,
+    "source_scope": "Synthetic verification or public method provenance only; no real operating snapshot/DB/customer trace selected."
+  }
+]

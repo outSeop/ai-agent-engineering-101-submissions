@@ -1,0 +1,11 @@
+{
+  "top_keys": [
+    "line_limit",
+    "choices",
+    "alternatives"
+  ],
+  "choices": 24,
+  "public_catalog_fields_match_source": true,
+  "cash_budget_history_credentials_excluded": true,
+  "source": "Public /api/catalog plus locally allowed quantities, not actual finances."
+}

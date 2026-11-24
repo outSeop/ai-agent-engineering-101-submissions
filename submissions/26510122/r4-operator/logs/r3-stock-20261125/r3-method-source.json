@@ -1,0 +1,46 @@
+{
+  "r3_head": "ef1f075fc12059e448feb0789c1a00a6c03f014d",
+  "source_files": [
+    {
+      "name": "procurement_strategy.py",
+      "sha256": "bfb93f584aefc27003b563efb6742ed681e2efa138295033ddc72ddbf851ce55",
+      "matches_last_deployed": true
+    },
+    {
+      "name": "stock_policy.py",
+      "sha256": "a3ac69bd4e1c186a96130a3a034e682b4425444d4701755a9fa454bac136731d",
+      "matches_last_deployed": true
+    },
+    {
+      "name": "replenishment_plan.py",
+      "sha256": "afd3f1382a073781c6cdde4643ad34940ef22dac2f055caaf0c379f41dd4a9c6",
+      "matches_last_deployed": true
+    },
+    {
+      "name": "inventory_portfolio.py",
+      "sha256": "c435285711640156c10dbce3e67bc56df90117a55a32a2487a8e956765c05b21",
+      "matches_last_deployed": true
+    },
+    {
+      "name": "capital_policy.py",
+      "sha256": "e805e74490d8abb9f20ebcce33c23e10a422a70fe0a98b9a78489db02ae0e58e",
+      "matches_last_deployed": true
+    },
+    {
+      "name": "supply_reconciliation.py",
+      "sha256": "13674e41153b07973918e26d23b7fcf6135d9d091c0786e7604f0be1d68a0cb2",
+      "matches_last_deployed": true
+    },
+    {
+      "name": "procurement_scheduler.py",
+      "sha256": "3c1248bf283b2809ed69279ee98656d56174dc7305cafb732d2ab54bd5a76fbe",
+      "matches_last_deployed": true
+    },
+    {
+      "name": "inventory_observation.py",
+      "sha256": "0ed435b3f5f534429b081c34abe216aea82744df1bb35e46922b10c5deb680a5",
+      "matches_last_deployed": true
+    }
+  ],
+  "data_boundary": "Methods only: no R3 transactions, private DB, old monetary caps or historic demand imported into R4."
+}

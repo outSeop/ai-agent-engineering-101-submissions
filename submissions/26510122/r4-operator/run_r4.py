@@ -79,6 +79,8 @@ def main():
     parser.add_argument('--port', type=int, help='A2A local port, useful with an existing server reverse proxy')
     parser.add_argument('--app-port', type=int, default=8800)
     parser.add_argument('--app-tunnel', action='store_true')
+    parser.add_argument('--enable-procurement', action='store_true', help='Enable validated R3-method stock planning and execution')
+    parser.add_argument('--procurement-lines', type=int, choices=range(1,11), default=10, help='Operator line limit per supply window; start with 3 for a canary')
     args = parser.parse_args()
     result = check()
     if args.command == 'check':
@@ -110,9 +112,11 @@ def main():
     command += ['--public-url', args.public_url] if args.public_url else ['--tunnel']
     if args.port:
         command += ['--port', str(args.port)]
+    if args.enable_procurement:
+        command += ['--enable-procurement', '--procurement-lines', str(args.procurement_lines)]
     if args.app_tunnel:
         raise SystemExit('The managed runtime keeps private app and financial paths separate')
-    print('공식 R4 키트를 시작합니다. 모델은 수업용 라인, 시장 도구는 에이전트가 직접 생성합니다.', flush=True)
+    print('보존된 R4 가게를 시작합니다. 도구 구현은 Codex GPT-6.2 Sol, 운영 판단은 수업 모델입니다.', flush=True)
     print('Ctrl-C로 종료합니다. 가게 지갑과 상태 폴더를 유지해야 같은 가게로 다시 실행할 수 있습니다.', flush=True)
     os.execve(str(PYTHON), command, env)
 

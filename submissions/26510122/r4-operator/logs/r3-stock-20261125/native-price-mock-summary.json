@@ -1,0 +1,40 @@
+[
+  {
+    "case": "native_krw",
+    "checks": {
+      "all_signatures_valid": true,
+      "checkout_issued": true,
+      "settled_and_delivered": true,
+      "mileage_45": true,
+      "credentials_never_in_model_input": true,
+      "no_actual_wallet_transfer": true
+    },
+    "passed": true,
+    "error": null,
+    "dialogue": [
+      {
+        "customer_scripted": "키친타올 걸이 A등급 하나 4,500원 이내면 지금 살게요.",
+        "seller_tool_reply": {
+          "reply": "G0026722f A급, 기준가 4,500, 최종 상품가 4,500 credits. 대기할인 0, 마일리지 사용 0 credits. 새 권리코드 [private code] 를 비공개로 저장해 주세요. 정산·인도 확인 뒤 적립됩니다. 가게 송금 4245000000000000000 wei, 시장 수수료 송금 90000000000000000 wei, 실제 가스 별도. 견적을 받은 뒤 지연되면 송금하기 전에 같은 권리코드로 다시 확인해 주세요. 판매자 귀책 미인도와 확인된 인도 후 48시간 내 초기 문제는 원 송금 주소에 검증된 상품 송금·시장 수수료·가스 실지출(가스 합계 420000000000000000 wei 한도)을 반환합니다.",
+          "data": {
+            "checkout_jwt": "[customer-only]",
+            "sku": "G0026722f",
+            "price": 4500,
+            "unit": "u-natural",
+            "grade": "A",
+            "warranty_hours": 48
+          },
+          "state": "completed"
+        },
+        "seconds": 4.546
+      }
+    ],
+    "scope": "Actual class model; scripted mock customer; isolated inventory, DB, ephemeral key and simulated settlement; zero real trades.",
+    "model_calls": [
+      {
+        "seconds": 4.408,
+        "error": null
+      }
+    ]
+  }
+]

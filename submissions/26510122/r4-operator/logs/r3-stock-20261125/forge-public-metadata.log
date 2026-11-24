@@ -1,0 +1,3 @@
+06:10:53 [forge] loaded 9 tools: a2a_info, buy_stock, market_read, pay_confirm_stock, read_cards, rename_shop_card, serve_checkout, shop_info, stock_procurement
+06:10:53 [forge] publish_shop_info v1 passed its test and is ready
+{"test": "passed", "tool": "publish_shop_info", "version": 1, "result": {"authorship": "OpenAI Codex GPT-6.2 Sol", "test": "isolated fake card publication and protected field preservation"}, "printed": null}
