@@ -1,3 +1,7 @@
+# outseop-r4 운영 관리
+
+현재 서비스 중지. 구현/검증 결과와 현재 구조는 [R4_INTERNAL_VALIDATION_20261125.md](R4_INTERNAL_VALIDATION_20261125.md)를 먼저 읽는다. 사용자 재가동 요청 전에는 start/enable --now를 실행하지 않는다.
+
 # 생활 — R4 운영 패키지
 
 서버의 Codex는 **[SERVER_CODEX_HANDOFF.md](SERVER_CODEX_HANDOFF.md)**부터 읽고 실제 배포와 첫 가동을 수행한다. 이 패키지는 설정과 공식 런타임을 전달하며 아직 시장에서 동작한 가게를 증명하지 않는다.
