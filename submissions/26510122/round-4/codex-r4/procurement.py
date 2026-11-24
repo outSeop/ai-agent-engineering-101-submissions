@@ -15,11 +15,14 @@ import httpx
 from eth_account import Account
 from eth_account.messages import encode_defunct
 
-DEPENDENCY_SHA256 = "a3e52d089719e77e2dcc3e77b523de82221c243f5278bb922ad73f0a115a5c0b"
+DEPENDENCY_SHA256 = "84e0eca3a0211e80772ed78f2ba3c166902ba0125577e7153b06cc5bb13de0cd"
 dependency = Path.cwd() / "codex-r4" / "dispatcher.py"
 if __name__ == "logic":
     if hashlib.sha256(dependency.read_bytes()).hexdigest() != DEPENDENCY_SHA256:
         raise RuntimeError("dispatcher dependency differs from the forged financial contract")
+    pricing = dependency.with_name("price_policy.py")
+    if hashlib.sha256(pricing.read_bytes()).hexdigest() != "6e101702c38d47b3f2c68c860dc0198fd1d7557e311c2753dc4a71fed127118f":
+        raise RuntimeError("pricing dependency differs from the forged financial contract")
 sys.path.insert(0, str(dependency.parent))
 import dispatcher as sales
 

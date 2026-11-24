@@ -139,6 +139,39 @@ class ManagedRuntimeTests(TestCase):
             mind.loop()
         self.assertEqual(ran,["stock"])
 
+    def test_forum_and_card_are_never_public_model_capabilities(self):
+        fake={"action":"publish","decision":{"action":"spotlight","sku":MOCK_SKU,"grade":"A"}}
+        mind=self.mind(FakeModel([]))
+        for name in ("forum_marketing","publish_shop_info"):
+            self.assertFalse(self.toolbox.call(name,fake)["ok"])
+            self.assertFalse(mind.toolbox.call(name,fake)["ok"])
+        self.assertEqual(set(mind.toolbox.tools),{"shop_info"})
+
+    def test_forum_validation_rejects_wallet_and_broad_card_writes(self):
+        perm={"identity":["shop"],"network":["market.ourolabs.ai"],"write":["state/r4-benefits"]}
+        self.toolbox.tools["forum_marketing"]={"perm":perm}
+        self.toolbox.tools["publish_shop_info"]={"perm":{"write":["card.json"]}}
+        self.toolbox.validate()
+        perm["wallet"]=["pay"]
+        with self.assertRaises(RuntimeError):
+            self.toolbox.validate()
+        del perm["wallet"]
+        self.toolbox.tools["publish_shop_info"]["perm"]["write"].append("shop_wallet.key")
+        with self.assertRaises(RuntimeError):
+            self.toolbox.validate()
+
+    def test_marketing_and_stock_share_one_periodic_lane(self):
+        tools,mind_type,_=boundary.managed_classes(agent_kit,enable_stock=True)
+        toolbox=tools(self.root,self.ctx)
+        toolbox.tools["forum_marketing"]={"perm":{}}
+        mind=mind_type(self.root,{},FakeModel([]),toolbox,self.ctx,["shop"])
+        ran=[]
+        original_stock=mind.stock_coordinator
+        mind.marketing_coordinator=SimpleNamespace(loop=lambda stock,maintenance:ran.append((stock,callable(maintenance))))
+        with patch.object(agent_kit.Mind,"loop",side_effect=AssertionError("generic Mind loop started")):
+            mind.loop()
+        self.assertEqual(ran,[(original_stock,True)])
+
     def test_validation_refuses_any_extra_handler_or_shop_info_wallet_permission(self):
         self.toolbox.tools["serve_checkout"]["perm"]["handles"] = ["a2a"]
         with self.assertRaises(RuntimeError):

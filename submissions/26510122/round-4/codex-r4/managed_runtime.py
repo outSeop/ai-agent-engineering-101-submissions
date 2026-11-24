@@ -8,6 +8,8 @@ from threading import Lock
 from time import monotonic, time
 import secrets
 
+from marketing_runtime import MarketingCoordinator, FORUM_TOOL
+from marketing_card import build_card
 from stock_runtime import StockCoordinator, STOCK_TOOL
 
 PUBLIC_DISPATCH = "a2a_info"
@@ -61,6 +63,27 @@ def managed_classes(official, *, enable_stock=False, stock_lines=10):
                 args = dict(args,line_cap=stock_lines)
             result = super().run(STOCK_TOOL,"call",args)
             return result["result"] if result.get("ok") else {"status":"stock_tool_unavailable"}
+
+        def forum_executor(self, args):
+            if not enable_stock or FORUM_TOOL not in self.tools:
+                return {"status":"forum_disabled"}
+            result = super().run(FORUM_TOOL, "call", args)
+            return result["result"] if result.get("ok") else {"status":"forum_tool_unavailable"}
+
+        def refresh_public_card(self):
+            if customer_active():
+                return
+            current=time()
+            if current < getattr(self,"next_card_refresh",0):
+                return
+            self.next_card_refresh=current+120
+            view=self.decision_tool({"action":"context"})
+            if view.get("outcome")!="context":
+                return
+            public=build_card(view.get("inventory",[]),now=current)
+            result=super().call("publish_shop_info",public)
+            if result.get("ok") and result.get("result",{}).get("status")=="published":
+                self.next_card_refresh=current+600
 
         def public_answer(self, args):
             nonlocal active_customers
@@ -133,6 +156,17 @@ def managed_classes(official, *, enable_stock=False, stock_lines=10):
                         or set(perm.get("network",[]))!={"market.ourolabs.ai","rpc-testnet.maroo.io"}):
                     raise RuntimeError("unexpected background procurement permissions")
 
+            if FORUM_TOOL in self.tools:
+                perm=self.tools[FORUM_TOOL]["perm"]
+                if (perm.get("wallet") or perm.get("exec") or perm.get("handles")
+                        or set(perm.get("identity",[]))!={"shop"}
+                        or perm.get("write")!=["state/r4-benefits"]
+                        or set(perm.get("network",[]))!={"market.ourolabs.ai"}):
+                    raise RuntimeError("unexpected forum publication permissions")
+                publisher=self.tools.get("publish_shop_info",{}).get("perm",{})
+                if (publisher.get("write")!=["card.json"] or any(publisher.get(k) for k in ("wallet","exec","handles","identity","network"))):
+                    raise RuntimeError("unexpected card publication permissions")
+
         def listing(self):
             if MODEL_INFO not in self.tools:
                 return "(no public lookup tool is available)"
@@ -197,6 +231,7 @@ def managed_classes(official, *, enable_stock=False, stock_lines=10):
         def __init__(self, root, agent, model, toolbox, ctx, roles):
             toolbox.bind_decision_model(model, agent)
             super().__init__(root, agent, model, ModelTools(toolbox), ctx, roles)
+            self.marketing_coordinator = None
             self.stock_coordinator = None
             if enable_stock:
                 class StockModel:
@@ -204,11 +239,20 @@ def managed_classes(official, *, enable_stock=False, stock_lines=10):
                         context=[dict(messages[0],content=official.WORLD+chr(10)*2+messages[0]["content"]),*messages[1:]]
                         return model.complete(context,max_tokens=550,timeout=42)
                 self.stock_coordinator=StockCoordinator(toolbox.stock_executor,StockModel(),customer_active=customer_active)
+                if FORUM_TOOL in toolbox.tools:
+                    class MarketingModel:
+                        def complete(_, messages):
+                            context=[dict(messages[0],content=official.WORLD+chr(10)*2+messages[0]["content"]),*messages[1:]]
+                            return model.complete(context,max_tokens=280,timeout=25)
+                    self.marketing_coordinator=MarketingCoordinator(toolbox.forum_executor,MarketingModel(),customer_active=customer_active)
+                    self.refresh_public_card=toolbox.refresh_public_card
 
         def loop(self):
             if self.stock_coordinator:
                 # The official launcher already runs Mind.loop on its own
                 # thread. With stock enabled this is the only periodic model path.
+                if self.marketing_coordinator:
+                    return self.marketing_coordinator.loop(self.stock_coordinator,maintenance=self.refresh_public_card)
                 return self.stock_coordinator.loop()
             return super().loop()
 

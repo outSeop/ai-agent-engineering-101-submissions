@@ -54,6 +54,7 @@ def prepare(db, market, sale_id, now):
 
 def reverse(db, sale, now):
     db.execute("UPDATE sale SET status='refunded' WHERE id=?", (sale["id"],))
+    shop.price_policy.resolve(db,sale["id"],"refunded")
     db.execute("UPDATE lot SET revoked=? WHERE sale_id=? AND revoked IS NULL", (now, sale["id"]))
     allocations = db.execute("SELECT lot_id,amount FROM allocation WHERE sale_id=? AND status IN ('held','spent')",
                              (sale["id"],)).fetchall()

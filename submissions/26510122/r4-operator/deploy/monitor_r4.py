@@ -6,6 +6,7 @@ from decimal import Decimal
 import json
 import os
 from pathlib import Path
+from zoneinfo import ZoneInfo
 import sqlite3
 import subprocess
 import time
@@ -73,6 +74,15 @@ def ledger_metrics(path,now,credit):
             out['procurement_states']=dict(db.execute('SELECT state,count(*) FROM stock_intent GROUP BY state').fetchall())
             out['procurement_unknown']=db.execute("SELECT count(*) FROM stock_intent WHERE state IN ('sending','unknown')").fetchone()[0]
             out['confirmed_arrival_units']=db.execute("SELECT coalesce(sum(qty),0) FROM stock_intent WHERE state='arrived'").fetchone()[0]
+        if 'forum_publication' in tables:
+            out['forum_states']=dict(db.execute('SELECT status,count(*) FROM forum_publication GROUP BY status').fetchall())
+            out['forum_posted_last_30m']=db.execute("SELECT count(*) FROM forum_publication WHERE status='posted' AND created>=?",(now-1800,)).fetchone()[0]
+            out['forum_unresolved']=db.execute("SELECT count(*) FROM forum_publication WHERE status IN ('sending','unknown')").fetchone()[0]
+        if 'promotion_loss' in tables:
+            out['promotion_signed_exposures']=db.execute("SELECT count(*) FROM promotion_loss").fetchone()[0]
+            out['promotion_committed_loss_credits']=db.execute("SELECT coalesce(sum(amount),0) FROM promotion_loss").fetchone()[0]
+        if 'sale' in tables:
+            out['c_settlements_last_30m']=db.execute("SELECT count(*) FROM sale WHERE grade='C' AND status IN ('settled','refunded') AND settled>=?",(now-1800,)).fetchone()[0]
         if 'stock_audit' in tables:
             out['recent_procurement_events']=[{'at':x[0],'event':x[1]} for x in db.execute('SELECT at,event FROM stock_audit ORDER BY id DESC LIMIT 12')]
         return out
@@ -150,12 +160,30 @@ def main():
     for name in ('latest.json',datetime.fromtimestamp(now,timezone.utc).strftime('snapshot-%Y%m%d-%H%M%S.json')):
         (dest/name).write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n')
     with (dest/'observations.jsonl').open('a') as f:f.write(json.dumps(out,ensure_ascii=False)+'\n')
-    text=['# R4 운영 관측','',out['time_utc'],'',f"상점 순위: {out.get('shop_rank','미확인')}",
-          f"공개 접속: {out.get('listed_alive','미확인')}",'','```json',json.dumps(out,ensure_ascii=False,indent=2),'```','']
+    inv=out.get('inventory',{});led=out.get('ledger',{});period=led.get('last_30m',{})
+    active=all(out['services'][u].get('ActiveState')=='active' for u in ('ourolabs-market-r4.service','ourolabs-market-r4-worker.service'))
+    text=['# R4 운영 관측','',datetime.fromtimestamp(now,ZoneInfo('Asia/Seoul')).strftime('%Y-%m-%d %H:%M:%S KST'),'',
+          f"R4 메인·정산 워커: {'가동 중' if active else '상태 확인 필요'} · 공개 접속: {out.get('listed_alive','미확인')}",'',
+          f"- 상점 순위: {out.get('shop_rank','미확인')}",
+          f"- 실제 재고: {inv.get('units','미확인')}개 / {inv.get('skus','미확인')}품목 · 등급 {inv.get('grades',{})}",
+          f"- 확인된 신규 입고: {led.get('confirmed_arrival_units','미확인')}개 · 송금 불명확: {led.get('procurement_unknown','미확인')}건",
+          f"- 최근 30분 실제 정산: {period.get('settlements','미확인')}건 · 첫 정산: {period.get('first_settlements','미확인')}건",
+          f"- 최근 30분 미분류 문의: {out.get('last_30m_unlabelled_requests','미확인')}건 · 별도 운영자 조회: {out.get('last_30m_known_operator_probes','미확인')}건",
+          f"- 2시간 이내 만료 재고: {inv.get('expires_within_2h','미확인')}개 · 5분 넘은 서명 미정산: {led.get('signed_unsettled_over_5m','미확인')}건",
+           f"- Marketing posts / 30m: {led.get('forum_posted_last_30m',0)}; unresolved: {led.get('forum_unresolved',0)}; grade-C settlements: {led.get('c_settlements_last_30m',0)}",
+          f"- 기존 지갑 일치: {out.get('card',{}).get('wallet_preserved','미확인')}",'',
+          '같은 시간 비교: '+('연속 가동 1시간 이상인 두 30분 구간이다.' if out['equal_30m_windows_fully_live'] else '아직 연속 가동 1시간 미만이다. 이전 구간의 중지·기동 시간을 성과 개선으로 해석하지 않는다.'),'',
+          '입고는 매출이 아니며, 미분류 문의도 확인된 신규 구매자 수는 아니다. 금액·원장 원문·고객 데이터는 이 화면에 공개하지 않고 비공개 WSL runtime에 보존한다.','']
     (dest/'LATEST.md').write_text('\n'.join(text))
     if args.publish:
         args.publish.parent.mkdir(parents=True,exist_ok=True);args.publish.write_text('\n'.join(text))
-    print(json.dumps(out,ensure_ascii=False,indent=2))
+    public={k:out[k] for k in ('time_utc','shop_rank','listed_alive','main_uptime_seconds','equal_30m_windows_fully_live','errors') if k in out}
+    public['inventory']={k:inv[k] for k in ('units','skus','grades','expires_within_2h') if k in inv}
+    public['ledger']={k:led[k] for k in ('quick_check','sale_states','procurement_states','procurement_unknown','confirmed_arrival_units','signed_unsettled_over_5m','forum_states','forum_posted_last_30m','forum_unresolved','c_settlements_last_30m','promotion_signed_exposures') if k in led}
+    public['last_30m']={k:period[k] for k in ('settlements','first_settlements') if k in period}
+    public['known_operator_probes']=out.get('last_30m_known_operator_probes')
+    public['unlabelled_requests']=out.get('last_30m_unlabelled_requests')
+    print(json.dumps(public,ensure_ascii=False,indent=2))
 
 
 if __name__=='__main__':main()

@@ -11,3 +11,6 @@ meshkit.json
 
 # Private customer and financial ledger
 state/r4-benefits/
+
+# Deployment-local finite launch pricing configuration
+/codex-r4/launch-price-policy.json

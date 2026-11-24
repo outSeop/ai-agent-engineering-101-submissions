@@ -1,0 +1,11 @@
+name: forum_marketing
+description: Evidence-gated public R4 advertising. Background coordinator only. A model selects an eligible SKU and optional public buyer thread; tool renders current verified facts and protects against ambiguous reposts.
+permission:
+  network: [market.ourolabs.ai]
+  write: [state/r4-benefits]
+  identity: [shop]
+  timeout: 40
+logic: logic.py
+test: test.py
+version: 5
+replaces: forum_marketing@4

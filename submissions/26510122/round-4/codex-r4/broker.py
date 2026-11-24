@@ -32,6 +32,8 @@ SYSTEM = (
     "환불 요청은 review_refund로 근거를 확인한다. 검토 접수를 송금 완료로 표현하지 않는다. "
     "검증된 금융 응답은 도구가 고객에게 직접 전송한다. request_ref나 고객·목적지 인자를 출력하지 않는다. "
     "서명, 토큰, 고객의 기밀을 재구성하지 않는다. "
+    "가격이나 기존 견적 없이 처음 문의하거나 구매할 때는 verified_context의 해당 등급 preferred_price를 우선 제안한다. "
+    "고객의 표시 상한 및 검증된 기존 견적을 우선 준수하며, 특히 C등급은 현재 등급을 숨기지 않는다. "
     "나머지 답변은 respond를 사용한다. " + json.dumps(TOOLS, ensure_ascii=False)
 )
 CODES = re.compile(r"(?<![A-Za-z0-9_-])[A-Za-z0-9_-]{43}(?![A-Za-z0-9_-])")

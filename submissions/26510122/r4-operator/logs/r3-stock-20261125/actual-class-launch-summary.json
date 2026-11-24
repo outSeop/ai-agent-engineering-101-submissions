@@ -1,0 +1,38 @@
+[
+  {
+    "case": "first",
+    "seconds": 4.677,
+    "checks": {
+      "actual_model_used": true,
+      "checkout_produced": true,
+      "same_public_base": true,
+      "actual_mileage_reduction": true,
+      "actual_wait_reduction": true
+    },
+    "passed": true
+  },
+  {
+    "case": "returning",
+    "seconds": 4.528,
+    "checks": {
+      "actual_model_used": true,
+      "checkout_produced": true,
+      "same_public_base": true,
+      "actual_mileage_reduction": true,
+      "actual_wait_reduction": true
+    },
+    "passed": true
+  },
+  {
+    "case": "combined",
+    "seconds": 5.225,
+    "checks": {
+      "actual_model_used": true,
+      "checkout_produced": true,
+      "same_public_base": true,
+      "actual_mileage_reduction": true,
+      "actual_wait_reduction": true
+    },
+    "passed": true
+  }
+]

@@ -8,12 +8,21 @@ from pathlib import Path
 import re
 import secrets
 import sqlite3
+import sys
 import time
 from time import monotonic
 from unicodedata import category as unicode_category
 from urllib.parse import urlsplit
 
 import httpx
+
+PRICE_POLICY_SHA256 = "6e101702c38d47b3f2c68c860dc0198fd1d7557e311c2753dc4a71fed127118f"
+if __name__ == "logic":
+    policy_source = Path.cwd() / "codex-r4" / "price_policy.py"
+    if hashlib.sha256(policy_source.read_bytes()).hexdigest() != PRICE_POLICY_SHA256:
+        raise RuntimeError("price policy differs from the forged dispatcher")
+    sys.path.insert(0, str(policy_source.parent))
+import price_policy
 
 SHOP = "outseop-r4"
 MARKET = "https://market.ourolabs.ai"
@@ -197,7 +206,7 @@ def open_db(db_path, wallet):
         db.row_factory = sqlite3.Row
         db.execute("PRAGMA foreign_keys=ON")
         db.execute("PRAGMA journal_mode=WAL")
-        db.executescript(SCHEMA)
+        db.executescript(SCHEMA + price_policy.SCHEMA)
         with atomic(db):
             db.execute("INSERT OR IGNORE INTO identity VALUES(1,?,?)", (SHOP, wallet))
             identity = one(db, "SELECT shop,wallet FROM identity WHERE singleton=1")
@@ -452,6 +461,7 @@ def finalize_sale(db, sale, data, settled, payer, now):
     buyer = data.get("buyer")
     if isinstance(buyer, str) and 1 <= len(buyer) <= 80 and not CODE.fullmatch(buyer):
         db.execute("INSERT INTO sale_buyer VALUES(?,?,?)", (sale["id"], buyer, settled))
+    price_policy.resolve(db,sale["id"],"settled")
     db.execute("UPDATE allocation SET status='spent' WHERE sale_id=? AND status='held'", (sale["id"],))
     if sale["ticket"]:
         db.execute("UPDATE ticket SET status='used' WHERE key=?", (sale["ticket"],))
@@ -664,14 +674,14 @@ def acquisition_network_buffer(network):
     return network // 2
 
 
-def price_terms(unit, bps, network):
+def price_terms(unit, bps, network, allowance=0):
     # The live inventory list price and observed grade set the undiscounted offer.
     # Fees, stock cost and the new mileage liability set the minimum shop proceeds.
     base = unit["list_price"] * GRADES[unit["grade"]] // 100
     fee = lambda price: price * bps // 10000 + network // 2
     # Exact integer lower bound by monotone search, including the fee rounding.
     lo, hi = 1, base
-    minimum_proceeds = max(1, unit["cost"] + base // 100 + acquisition_network_buffer(network))
+    minimum_proceeds = max(1, unit["cost"] + base // 100 + acquisition_network_buffer(network) - allowance)
     if base - fee(base) < minimum_proceeds:
         return None
     while lo < hi:
@@ -681,6 +691,14 @@ def price_terms(unit, bps, network):
         else:
             hi = mid
     return base, lo
+
+
+def preferred_sale_price(unit, terms, bps, network, *, launch=False):
+    reference = terms[0]
+    healthy = price_terms(unit,bps,network)
+    if healthy:
+        return price_policy.preferred(reference,healthy[1],unit["cost"],unit["grade"],launch)
+    return reference
 
 
 def pinned(db, unit):
@@ -745,8 +763,11 @@ def checkout(db, market, sku, account_code, ticket_code, now, observation=None, 
     # Keep authoritative market reads outside SQLite's write transaction.
     units = usable_units(market.inventory(), now, sku)
     credit_wei, bps, network, fee_wallet = market.chain()
-    terms_by_unit = {u["unit"]: terms for u in units if (terms := price_terms(u, bps, network))}
     with atomic(db):
+        policy=price_policy.current(now)
+        budget=price_policy.room(db,policy)
+        terms_by_unit={u["unit"]:terms for u in units
+                       if (terms:=price_terms(u,bps,network,price_policy.per_deal(u["cost"],budget,policy)))}
         if owner and not one(db, "SELECT key FROM account WHERE key=?", owner):
             return respond(DENIED)
         offer_key = key_of(offer_code)
@@ -789,7 +810,9 @@ def checkout(db, market, sku, account_code, ticket_code, now, observation=None, 
             if not viable:
                 return decision_result("price_out_of_bounds", "해당 가격은 현재 상품의 판매 범위를 벗어납니다.")
             available = [unit for unit in available if unit in viable]
-        wait_discount = (proposed or terms_by_unit[eligible[0]["unit"]][0]) // 100
+        first=eligible[0]
+        wait_discount=(proposed or preferred_sale_price(first,terms_by_unit[first["unit"]],bps,network,
+                                                         launch=bool(policy)))//100
         if not available:
             if not any(reserved_pending(db, u["unit"]) for u in eligible):
                 return decision_result("market_busy", "시장 재고와 기존 결제 상태를 대조하고 있습니다.")
@@ -802,9 +825,12 @@ def checkout(db, market, sku, account_code, ticket_code, now, observation=None, 
         """, sku, now)
         if front and front["key"] != ticket_key:
             return wait_for_sku(db, market, sku, owner, now, wait_discount, commit)
-        offers = [(u, terms_by_unit[u["unit"]]) for u in available]
-        if proposed is not None:
-            offers = [(unit, (proposed, floor)) for unit, (_, floor) in offers]
+        offers=[]
+        for unit in available:
+            terms=terms_by_unit[unit["unit"]]
+            gross=proposed if proposed is not None else preferred_sale_price(
+                unit,terms,bps,network,launch=bool(policy))
+            offers.append((unit,(gross,terms[1])))
         if ticket:
             offers = [(u, terms) for u, terms in offers if terms[0] // 100 == ticket["discount"]]
             if not offers:
@@ -813,15 +839,19 @@ def checkout(db, market, sku, account_code, ticket_code, now, observation=None, 
         discount = base // 100 if ticket else 0
         if base - discount < floor:
             return respond("원가와 수수료 때문에 현재 재고에는 이 대기할인을 적용할 수 없습니다.")
+        if owner:
+            reallocate_debt(db, owner, now)
+        spent = min(balance(db, owner, now) if owner else 0, base - discount - floor)
+        price = base - discount - spent
+        launch_loss=price_policy.loss(unit["cost"],base,price,bps,network)
+        if launch_loss>price_policy.per_deal(unit["cost"],budget,policy):
+            return decision_result("price_out_of_bounds", "현재 혜택을 포함한 최종 가격을 승인할 수 없습니다.")
         new_code = None
         if not owner:
             new_code = secrets.token_urlsafe(32)
             owner = key_of(new_code)
             db.execute("INSERT INTO account VALUES(?,?)", (owner, now))
             record_visit(db, owner, now, observation)
-        reallocate_debt(db, owner, now)
-        spent = min(balance(db, owner, now), base - discount - floor)
-        price = base - discount - spent
         sale_id = "r4-" + secrets.token_hex(16)
         payload = {"id": sale_id, "shop": SHOP, "shop_url": market.shop_url, "item": sku, "price": price,
                    "task": sale_id, "currency": "credits", "iat": int(now), "unit": unit["unit"],
@@ -838,6 +868,9 @@ def checkout(db, market, sku, account_code, ticket_code, now, observation=None, 
               market.shop_url, market.wallet, now, digest(jwt), jwt,
               str((price - fee - network // 2) * credit_wei), str(2 * fee * credit_wei),
               str(network * credit_wei), fee_wallet, unit["grade"]))
+        if launch_loss:
+            price_policy.reserve(db,sale_id,policy,launch_loss,now)
+            audit(db,now,"promotion_loss_reserved",sale_id)
         category = category_key(unit.get("category"))
         if category:
             db.execute("INSERT INTO sale_category VALUES(?,?)", (sale_id, category))
@@ -1008,23 +1041,24 @@ def process_queue(db, market, now):
     ready = 0
     with atomic(db):
         supply = {}
+        policy=price_policy.current(now)
+        room=price_policy.room(db,policy)
         for unit in units:
-            terms = price_terms(unit, bps, network)
+            terms=price_terms(unit,bps,network,price_policy.per_deal(unit["cost"],room,policy))
             if terms and not pinned(db, unit["unit"]):
-                base, floor = terms
-                discount = base // 100
-                if base - discount >= floor:
-                    sku_supply = supply.setdefault(unit["sku"], [])
-                    sku_supply.append(discount)
+                supply.setdefault(unit["sku"],[]).append(terms)
         queue = db.execute("""
             SELECT * FROM ticket WHERE status='waiting' AND expires>? ORDER BY created,rowid
         """, (now,)).fetchall()
         blocked = set()
         for ticket in queue:
             stock = supply.get(ticket["sku"], [])
-            is_ready = ticket["sku"] not in blocked and ticket["discount"] in stock
+            discount=ticket["discount"]
+            compatible=next(((base,floor) for base,floor in stock
+                             if max(floor+discount,discount*100)<=min(base,discount*100+99)),None)
+            is_ready = ticket["sku"] not in blocked and compatible is not None
             if is_ready:
-                stock.remove(ticket["discount"])
+                stock.remove(compatible)
                 ready += 1
                 if ticket["ready"] is None:
                     audit(db, now, "queue_ready", ticket["key"], sku=ticket["sku"])
@@ -1068,15 +1102,19 @@ def decision_call(db, market, details, now):
     if action == "context":
         units = usable_units(market.inventory(), now)
         _, bps, network, _ = market.chain()
+        policy=price_policy.current(now)
+        room=price_policy.room(db,policy)
         items = []
         for unit in units[:30]:
-            terms = price_terms(unit, bps, network)
+            terms = price_terms(unit,bps,network,price_policy.per_deal(unit["cost"],room,policy))
             if terms:
                 base, minimum = terms
                 name = public_product_name(unit.get("name"))
                 items.append({"sku": unit["sku"], "name": name, "grade": unit["grade"],
                               "category": category_key(unit.get("category")),
                               "reference_price": base, "min_base": minimum,
+                              "preferred_price": preferred_sale_price(
+                                  unit,terms,bps,network,launch=bool(policy)),
                               "stock_status": ("available" if not pinned(db, unit["unit"]) else
                                                "reserved_pending" if reserved_pending(db, unit["unit"]) else "reconciling")})
         available_skus = {item["sku"] for item in items if item["stock_status"] == "available"}
@@ -1141,8 +1179,10 @@ def decision_call(db, market, details, now):
         units = usable_units(market.inventory(), now, sku)
         _, bps, network, _ = market.chain()
         applicable = []
+        policy=price_policy.current(now)
+        room=price_policy.room(db,policy)
         for unit in units:
-            terms = price_terms(unit, bps, network)
+            terms = price_terms(unit,bps,network,price_policy.per_deal(unit["cost"],room,policy))
             if terms and not pinned(db, unit["unit"]):
                 base, floor = terms
                 if floor <= proposed <= base:

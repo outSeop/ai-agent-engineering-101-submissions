@@ -1,0 +1,141 @@
+{
+  "precopy_secret_scan": true,
+  "files": [
+    {
+      "file": "round-4/codex-r4/dispatcher.py",
+      "sha256": "84e0eca3a0211e80772ed78f2ba3c166902ba0125577e7153b06cc5bb13de0cd"
+    },
+    {
+      "file": "round-4/codex-r4/price_policy.py",
+      "sha256": "6e101702c38d47b3f2c68c860dc0198fd1d7557e311c2753dc4a71fed127118f"
+    },
+    {
+      "file": "round-4/codex-r4/procurement.py",
+      "sha256": "675bdaa2942f7bdf3d119d10c6e1176f790ae0bacbb22a32cf77ae82de0628c6"
+    },
+    {
+      "file": "round-4/codex-r4/refund_admin.py",
+      "sha256": "d1d5026ceef7f5f9b2e63a81c3c56f459cd708e1d0fd75c560171614520ce80d"
+    },
+    {
+      "file": "round-4/codex-r4/broker.py",
+      "sha256": "78e4f929e56b2083cd39e65e2f5ce0125e24f4fc20befb40632e284e01b9d27a"
+    },
+    {
+      "file": "round-4/codex-r4/forum.py",
+      "sha256": "c15424eacded61da86e9f27303b16a705287cecf81c5254a2da5360db3ee9b48"
+    },
+    {
+      "file": "round-4/codex-r4/marketing_card.py",
+      "sha256": "00edf4d80fd4607aa8ae2a8b6d91d8f5bc23f11fd58dcb195098ea1276ceabfc"
+    },
+    {
+      "file": "round-4/codex-r4/marketing_runtime.py",
+      "sha256": "e176c5f430cd2854169245954cc7769d8a2aa7b13e7c73dd5b8ed755aa2a3211"
+    },
+    {
+      "file": "round-4/codex-r4/managed_runtime.py",
+      "sha256": "1eda55d5142230f2ba6860f33e424b288531fde32f9f915170dd527831cc19a6"
+    },
+    {
+      "file": "round-4/codex-r4/stock_runtime.py",
+      "sha256": "f44540cbd525ccb9cf67371a7363c45a912bfe2cfb661ca93726f5c338e44388"
+    },
+    {
+      "file": "round-4/codex-r4/test_price_policy.py",
+      "sha256": "52ee261912717f78130b896d71f5fe203d7f261c9de161d22580f172a01a039b"
+    },
+    {
+      "file": "round-4/codex-r4/test_forum.py",
+      "sha256": "42e9e0f4ace30819a61b7240ced435160bc37f1efd3cb295572d1ef63cc54970"
+    },
+    {
+      "file": "round-4/codex-r4/test_managed_runtime.py",
+      "sha256": "8e877d100a0bfd5c55c2353195a7908b22fb6d5c4afb54996545714a784a90e5"
+    },
+    {
+      "file": "round-4/codex-r4/launch-price-policy.example.json",
+      "sha256": "bbad83ffc9e592b836ff9aaa18a89856ecb5d2868b35d60ab8c962834f55cc8a"
+    },
+    {
+      "file": "round-4/tools/a2a_info/test.py",
+      "sha256": "5e267fce4e18da3b3f16d118a79200fc394b5b58e4960049671fd4d5b6973e51"
+    },
+    {
+      "file": "round-4/tools/a2a_info/forge.json",
+      "sha256": "fb21f3e26772d7b20189d811d42191084ad1a25bb1f45aadfbe64020ffbf20f6"
+    },
+    {
+      "file": "round-4/tools/a2a_info/logic.py",
+      "sha256": "84e0eca3a0211e80772ed78f2ba3c166902ba0125577e7153b06cc5bb13de0cd"
+    },
+    {
+      "file": "round-4/tools/a2a_info/permission.yml",
+      "sha256": "2a16ff743a2b5c2ba60bf02b6cd9afcdfd5ac19e2149f1bfeab2e25f5752605c"
+    },
+    {
+      "file": "round-4/tools/stock_procurement/test.py",
+      "sha256": "7a7901e9ccecdbd2640ec1db56d420c1ff42dc5adfee15e57321bd2edb8bb9a3"
+    },
+    {
+      "file": "round-4/tools/stock_procurement/forge.json",
+      "sha256": "94fa8314042e0fe6e69b3bde57724fdb743b8358b48b5cc0c5cbfd817efc6531"
+    },
+    {
+      "file": "round-4/tools/stock_procurement/logic.py",
+      "sha256": "675bdaa2942f7bdf3d119d10c6e1176f790ae0bacbb22a32cf77ae82de0628c6"
+    },
+    {
+      "file": "round-4/tools/stock_procurement/permission.yml",
+      "sha256": "d5e7753ad44bfb73963ebac29bed9018c1c30bed43ee3c05870eb590a2f9367e"
+    },
+    {
+      "file": "round-4/tools/forum_marketing/test.py",
+      "sha256": "22b2c0890e24a3b1871b7b95d29ba14276678ab36bdec7b11a3cfabc3d7c8c3b"
+    },
+    {
+      "file": "round-4/tools/forum_marketing/forge.json",
+      "sha256": "4860cda63fe97786915d5153e1d9054f17987c877a839b685e0cbdbf1970e307"
+    },
+    {
+      "file": "round-4/tools/forum_marketing/logic.py",
+      "sha256": "c15424eacded61da86e9f27303b16a705287cecf81c5254a2da5360db3ee9b48"
+    },
+    {
+      "file": "round-4/tools/forum_marketing/permission.yml",
+      "sha256": "da96a18919a24399b5b8eb549367f62a4bbcf4eed2015681898f95e160da08c1"
+    },
+    {
+      "file": "round-4/logs/forge.jsonl",
+      "sha256": "da56444bb99a6ccb1c1f84bea7992abdf5803fb6142c6b42f097ee48c6f7a70a"
+    },
+    {
+      "file": "round-4/.gitignore",
+      "sha256": "db2e567012b7b3c039e40f7a9f2fcee204c5dd80ca5656b6ab662d4053bd64fa"
+    },
+    {
+      "file": "r4-operator/SERVER_CODEX_HANDOFF.md",
+      "sha256": "45b0fcb647e0b492b1b6f8427bf83151c7dcfd5215af1658e6562d593612db00"
+    },
+    {
+      "file": "r4-operator/R4_LAUNCH_MARKETING_20261125.md",
+      "sha256": "9008531de7e97c25d675939302eddaab2a59194944370e2a31404c66318ad205"
+    },
+    {
+      "file": "r4-operator/deploy/monitor_r4.py",
+      "sha256": "df75d35bf2eaf737ff2ca761a2c3b378c2f30d38a1592f8dc71c04cd81de5509"
+    },
+    {
+      "file": "r4-operator/runtime/r3-stock-20261124-204104/agent-work/codex-r4/same-public-price-full-gate.log",
+      "sha256": "128a09139d13bd002e1cc6c2923683a8e2cbddfa6af73a3aa227e2333292ffd6"
+    },
+    {
+      "file": "r4-operator/runtime/r3-stock-20261124-204104/agent-work/codex-r4/same-public-price-forge.log",
+      "sha256": "28b36d875de4be473d12e3fd8cf64ff5a140d1f276abf54ca22e1288ccbb6e5b"
+    },
+    {
+      "file": "r4-operator/runtime/r3-stock-20261124-204104/actual-class-launch-final/summary.json",
+      "sha256": "c0a6ece0c652d16fae57bca29480608783606f0b7e49e9c508592684f289ca63"
+    }
+  ]
+}
