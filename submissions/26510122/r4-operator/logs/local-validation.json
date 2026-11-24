@@ -1,0 +1,53 @@
+{
+  "date_kst": "2026-11-25",
+  "scope": "local preparation and Git handoff, not live market validation",
+  "syntax_compiled_files": [
+    "submissions/26510122/r4-operator/run_r4.py",
+    "submissions/26510122/r4-operator/deploy/server_probe.py",
+    "submissions/26510122/r4-operator/kit/cli_model.py",
+    "submissions/26510122/r4-operator/kit/agent_kit.py",
+    "submissions/26510122/r4-operator/kit/forge_runner.py",
+    "submissions/26510122/r4-operator/kit/miniapp.py",
+    "submissions/26510122/r4-operator/kit/maroo.py",
+    "submissions/26510122/r4-operator/kit/market_kit.py"
+  ],
+  "official_upstream_files_verified": 7,
+  "human_changed_agent_fields": [
+    "goal",
+    "llm",
+    "persona"
+  ],
+  "a2a_routes_constructed": true,
+  "ignore_rule_checks": {
+    "logs/agent-kit.log": false,
+    "logs/react.jsonl": false,
+    "logs/forge.jsonl": false,
+    "shop_wallet.key": true,
+    "buyer_wallet.key": true,
+    ".market/token.json": true,
+    ".kit/app.key": true,
+    "meshkit.json": true,
+    ".env": true,
+    "logs/key.key": true
+  },
+  "credential_pattern_violations": [],
+  "personal_market_code_found_in_publish_files": false,
+  "wallets_in_publish_files": false,
+  "actual_market_registration": false,
+  "live_model_access": false,
+  "live_generated_tools": 0,
+  "live_transactions": 0,
+  "course_round4_checker": "not present on fork main; not run",
+  "preflight_attempts": [
+    {
+      "attempt": 1,
+      "status": "failed",
+      "reason": "Validation command resolved virtualenv Python symlink into base interpreter; httpx unavailable. Original stderr retained. The product launcher did not use this resolution."
+    },
+    {
+      "attempt": 2,
+      "status": "passed",
+      "reason": "Invoked the installed virtualenv interpreter without resolving its symlink."
+    }
+  ]
+}

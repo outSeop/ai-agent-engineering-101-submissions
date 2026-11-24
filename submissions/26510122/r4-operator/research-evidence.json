@@ -1,0 +1,77 @@
+{
+  "date_kst": "2026-11-25",
+  "kind": "synthetic_Luna_research_not_live_R4",
+  "model": "gpt-5.6-luna",
+  "profiles": 24,
+  "visits": 384,
+  "interviews": 24,
+  "technical_exclusions": 0,
+  "policy_aggregates": [
+    {
+      "arm": "w0m0",
+      "label": "둘 다 없음",
+      "first_n": 48,
+      "first_contact": 22,
+      "first_purchase": 14,
+      "return_n": 48,
+      "return_purchase": 12,
+      "joint": 9,
+      "paired_n": 48
+    },
+    {
+      "arm": "w1m0",
+      "label": "대기표 할인만",
+      "first_n": 48,
+      "first_contact": 40,
+      "first_purchase": 40,
+      "return_n": 48,
+      "return_purchase": 41,
+      "joint": 36,
+      "paired_n": 48
+    },
+    {
+      "arm": "w0m1",
+      "label": "구매 후 마일리지만",
+      "first_n": 48,
+      "first_contact": 46,
+      "first_purchase": 25,
+      "return_n": 48,
+      "return_purchase": 26,
+      "joint": 22,
+      "paired_n": 48
+    },
+    {
+      "arm": "w1m1",
+      "label": "둘 다",
+      "first_n": 48,
+      "first_contact": 48,
+      "first_purchase": 47,
+      "return_n": 48,
+      "return_purchase": 47,
+      "joint": 46,
+      "paired_n": 48
+    }
+  ],
+  "protocol": {
+    "shop_count": 3,
+    "same_ordinary_price_stock_grade": true,
+    "first_contact_free_choice": true,
+    "next_visit_assigned": true,
+    "next_sku_different": true,
+    "same_persona_counterfactuals": true,
+    "shop_ready_seconds_from_visit_start": [
+      20,
+      60
+    ],
+    "action_seconds": 15,
+    "wait_discount_bps": 100,
+    "earned_mileage_bps": 100,
+    "mileage_after_actual_mock_purchase_only": true
+  },
+  "audit_errors": 0,
+  "cost": {
+    "new_estimated_usd": 1.19775316,
+    "same_research_group_cumulative_estimated_usd": 4.791038545000001,
+    "verified_invoice": false
+  }
+}
