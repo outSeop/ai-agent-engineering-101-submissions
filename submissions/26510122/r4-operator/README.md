@@ -1,4 +1,4 @@
-# R4 운영 패키지
+# 생활 — R4 운영 패키지
 
 서버의 Codex는 **[SERVER_CODEX_HANDOFF.md](SERVER_CODEX_HANDOFF.md)**부터 읽고 실제 배포와 첫 가동을 수행한다. 이 패키지는 설정과 공식 런타임을 전달하며 아직 시장에서 동작한 가게를 증명하지 않는다.
 
@@ -27,7 +27,7 @@ python3.12 -m venv .venv
 
 `check`는 원본 키트의 해시, 사람의 설정 변경 범위, A2A 라우트 구성, 도구 provenance, 비공개 파일 제외를 확인한다. 시장 등록·모델 호출·송금·지갑 생성은 하지 않는다. cloudflared 설치와 실제 클래스 모델 접근은 별도 확인 항목이다.
 
-실행은 다음과 같다. 기본 가게명 `outseop-r4`, 시장 `https://market.ourolabs.ai`, 사람용 앱은 서버 로컬18804포트로 둔다.
+실행은 다음과 같다. 기본 가게명은 사용자가 확정한 `생활`, 시장 `https://market.ourolabs.ai`, 사람용 앱은 서버 로컬18804포트로 둔다. 실행 기본값의 정본은 `run_r4.py`의 `SHOP_NAME`이다. 기존 가동 환경은 먼저 인계 문서의 이름 적용 절차를 따른다.
 
 ```bash
 .venv/bin/python run_r4.py run --app-port 18804
