@@ -1,0 +1,61 @@
+Collecting a2a-sdk==1.3.1 (from -r /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/requirements.lock.txt (line 1))
+  Downloading a2a_sdk-1.3.1-py3-none-any.whl.metadata (9.6 kB)
+Collecting annotated-types==0.8.0 (from -r /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/requirements.lock.txt (line 2))
+  Using cached annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+Collecting anyio==4.16.0 (from -r /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/requirements.lock.txt (line 3))
+  Using cached anyio-4.16.0-py3-none-any.whl.metadata (4.7 kB)
+Collecting bitarray==3.12.4 (from -r /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/requirements.lock.txt (line 4))
+  Downloading bitarray-3.12.4-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (40 kB)
+Collecting certifi==2026.11.20 (from -r /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/requirements.lock.txt (line 5))
+  Downloading certifi-2026.11.20-py3-none-any.whl.metadata (2.5 kB)
+Collecting cffi==2.1.1 (from -r /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/requirements.lock.txt (line 6))
+  Using cached cffi-2.1.1-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.5 kB)
+Collecting charset-normalizer==3.5.3 (from -r /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/requirements.lock.txt (line 7))
+  Downloading charset_normalizer-3.5.3-cp314-cp314-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (43 kB)
+Collecting ckzg==2.1.8 (from -r /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/requirements.lock.txt (line 8))
+  Downloading ckzg-2.1.8-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (887 bytes)
+Collecting click==8.5.1 (from -r /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/requirements.lock.txt (line 9))
+  Using cached click-8.5.1-py3-none-any.whl.metadata (2.6 kB)
+Collecting coincurve==21.0.0 (from -r /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/requirements.lock.txt (line 10))
+  Downloading coincurve-21.0.0.tar.gz (128 kB)
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Installing backend dependencies: started
+  Installing backend dependencies: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'error'
+  error: subprocess-exited-with-error
+  
+  × Preparing metadata (pyproject.toml) did not run successfully.
+  │ exit code: 1
+  ╰─> [18 lines of output]
+      Traceback (most recent call last):
+        File "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/.venv/lib/python3.14/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 389, in <module>
+          main()
+          ~~~~^^
+        File "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/.venv/lib/python3.14/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 373, in main
+          json_out["return_val"] = hook(**hook_input["kwargs"])
+                                   ~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/.venv/lib/python3.14/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 178, in prepare_metadata_for_build_wheel
+          whl_basename = backend.build_wheel(metadata_directory, config_settings)
+        File "/tmp/pip-build-env-8javmlfl/overlay/lib/python3.14/site-packages/hatchling/build.py", line 58, in build_wheel
+          return os.path.basename(next(builder.build(directory=wheel_directory, versions=["standard"])))
+                                  ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/tmp/pip-build-env-8javmlfl/overlay/lib/python3.14/site-packages/hatchling/builders/plugin/interface.py", line 158, in build
+          build_hook.initialize(version, build_data)
+          ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+        File "/tmp/pip-install-dfuttlk3/coincurve_8845abccdf6f46f89e012ed0b484e699/hatch_build.py", line 34, in initialize
+          raise RuntimeError(message)
+      RuntimeError: Expected exactly one LICENSE file in cffi distribution, got 0
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+error: metadata-generation-failed
+
+× Encountered error while generating package metadata.
+╰─> See above for output.
+
+note: This is an issue with the package mentioned above, not pip.
+hint: See above for details.
