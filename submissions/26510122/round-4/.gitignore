@@ -1,0 +1,10 @@
+!logs/
+!logs/**
+__pycache__/
+*.pyc
+.env
+.env.*
+*.key
+.market/
+.kit/
+meshkit.json

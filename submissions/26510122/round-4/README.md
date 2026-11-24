@@ -1,0 +1,15 @@
+# Round 4 — 대기표 할인과 구매 후 마일리지
+
+현재 상태는 **가동 전 설정 준비 완료**다. 실제 시장 등록·도구 생성·거래는 서버 첫 실행에서 진행한다.
+
+정책의 정본은 `agent.json`의 `persona`와 `goal`이다. 실제로 기다린 이번 거래의 할인과 구매 완료 후 다음 거래에 쓰는 마일리지를 별개로 운영하고 중복 적용한다. 초기 비율은 각각 기준가1%이며, 실제 수익·고객 응대 기록으로 이후 발급 정책을 개선한다.
+
+사람이 설정한 부분은 persona·goal·모델이다. `tools/`에는 자리 유지용 `.gitkeep`만 있다. 영업 도구는 R4 에이전트가 실행 중 `forge_tool`로 생성하고 검사한다. 공식 키트와 배포 관리 파일은 옆 폴더 `../r4-operator/`에 둔다.
+
+**서버 배포·첫 가동·재시작·장애 복구를 할 때는 먼저 [서버 Codex 인계 문서](../r4-operator/SERVER_CODEX_HANDOFF.md)를 읽는다.** 준비 상태 점검과 실제 영업 기능 검증의 완료 기준이 다르다.
+
+- [준비·실행 안내](../r4-operator/README.md)
+- [모의 실험 근거와 한계](../r4-operator/research-summary.md)
+- [공식 키트 원본과 해시](../r4-operator/sources/upstream.json)
+
+`logs/agent-kit.log`, `logs/react.jsonl`, `logs/forge.jsonl`은 실제 실행 후 생기는 증거다. 현재 폴더에는 실제 가동 로그가 없으며 모의 실험을 실거래처럼 넣지 않았다. 지갑·시장 토큰·앱 접근키·MeshKit 비밀 설정은 `.gitignore`로 제외한다.
