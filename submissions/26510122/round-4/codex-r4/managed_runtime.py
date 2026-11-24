@@ -1,5 +1,9 @@
 """Round 4 operator boundary. Authored by OpenAI Codex GPT-6.2 Sol."""
 from contextvars import ContextVar
+import json
+
+from broker import Broker, Trace, class_context
+import dispatcher as dispatcher
 from threading import Lock
 
 PUBLIC_DISPATCH = "a2a_info"
@@ -27,8 +31,30 @@ def managed_classes(official):
     """Inject an in-process Python capability. No request arg is trusted as origin."""
     request_scope = ContextVar("r4_a2a_scope", default=None)
     permit = ContextVar("r4_a2a_permit", default=None)
+    message_id = ContextVar("r4_message_id", default=None)
 
     class ManagedToolbox(official.Toolbox):
+        def bind_decision_model(self, model, agent):
+            class DecisionModel:
+                def complete(_, messages):
+                    return model.complete(class_context(official, messages, agent), max_tokens=700, timeout=52)
+            self.decision_model = DecisionModel()
+
+        def decision_tool(self, details):
+            answer = super().call(PUBLIC_DISPATCH, {"_broker": details})
+            return answer["result"] if answer.get("ok") else {"outcome": "tool_unavailable"}
+
+        def public_answer(self, args):
+            text = args.get("text", "")
+            command = dispatcher.parse(text)[0]
+            # Structured benefits and private profile commands bypass semantic
+            # interpretation. Only request text is accepted from the SDK.
+            if command in ("balance", "wait", "paid", "cancel", "profile"):
+                return super().call(PUBLIC_DISPATCH, {"text": text, "task_id": message_id.get()})
+            trace = Trace(self.root / ".kit/decision-trace-private.jsonl", self.root / ".kit/decision-trace-review.jsonl")
+            request = Broker(self.decision_tool, self.decision_model, trace)
+            return {"ok": True, "result": request.handle(text, transport_id=message_id.get())}
+
         def validate(self):
             info = self.tools.get(MODEL_INFO)
             dispatcher = self.tools.get(PUBLIC_DISPATCH)
@@ -79,7 +105,7 @@ def managed_classes(official):
                 if (request_scope.get() is self and authority is not None
                         and authority.consume(self)):
                     try:
-                        return super().call(name, args)
+                        return self.public_answer(args)
                     except Exception:
                         return {"ok": True, "result": dict(FALLBACK)}
             return {"ok": False, "error": PERMISSION_ERROR}
@@ -108,6 +134,7 @@ def managed_classes(official):
 
     class ManagedMind(official.Mind):
         def __init__(self, root, agent, model, toolbox, ctx, roles):
+            toolbox.bind_decision_model(model, agent)
             super().__init__(root, agent, model, ModelTools(toolbox), ctx, roles)
 
         def deliver(self, event):
@@ -126,11 +153,39 @@ def managed_classes(official):
         async def app(scope, receive, send):
             if scope["type"] != "http" or scope["method"] != "POST" or scope["path"] != "/":
                 return await original(scope, receive, send)
+            initial = []
+            size = 0
+            while True:
+                part = await receive()
+                initial.append(part)
+                if part["type"] != "http.request":
+                    break
+                size += len(part.get("body", b""))
+                if size > 65536:
+                    await send({"type": "http.response.start", "status": 413, "headers": []})
+                    await send({"type": "http.response.body", "body": b"request too large"})
+                    return
+                if not part.get("more_body"):
+                    break
+            transport_id = None
+            try:
+                payload = json.loads(b"".join(part.get("body", b"") for part in initial))
+                if payload["method"] in ("SendMessage", "message/send"):
+                    message = payload["params"]["message"]
+                    transport_id = message.get("messageId") or message.get("message_id")
+            except (ValueError, KeyError, TypeError, AttributeError):
+                pass
+
+            async def replay():
+                return initial.pop(0) if initial else await receive()
+
             scope_token = request_scope.set(toolbox)
             permit_token = permit.set(None)
+            message_token = message_id.set(transport_id)
             try:
-                return await original(scope, receive, send)
+                return await original(scope, replay, send)
             finally:
+                message_id.reset(message_token)
                 permit.reset(permit_token)
                 request_scope.reset(scope_token)
 

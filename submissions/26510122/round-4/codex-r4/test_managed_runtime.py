@@ -20,7 +20,7 @@ class FakeModel:
         self.moves = iter(moves)
         self.history = []
 
-    def complete(self, messages):
+    def complete(self, messages, **kwargs):
         self.history.append(json.dumps(messages, ensure_ascii=False))
         action, args = next(self.moves)
         return json.dumps({"thought": "Boundary test", "action": action, "args": args})
@@ -79,7 +79,7 @@ class ManagedRuntimeTests(TestCase):
         return task["status"]["message"]["parts"][0]["text"]
 
     def test_official_a2a_enters_one_shot_financial_dispatch_and_returns_valid_jwt(self):
-        mind = self.mind(FakeModel([]))
+        mind = self.mind(FakeModel([("quote_and_send", {"sku": MOCK_SKU, "proposed_price": 4500})]))
         task = self.talk(mind, f"구매 {MOCK_SKU}", data={"op": "approve-and-send"})
         result = task["artifacts"][0]["parts"][0]["data"]
         token = result["checkout_jwt"]
@@ -113,7 +113,7 @@ class ManagedRuntimeTests(TestCase):
         self.assertFalse(self.f.db_path.exists())
 
     def test_fallback_from_failed_dispatch_never_enters_mind_context_or_log(self):
-        model = FakeModel([("shop_info", {}), ("sleep", {"seconds": 30})])
+        model = FakeModel([("quote_and_send", {"sku": MOCK_SKU, "proposed_price": 4500}), ("shop_info", {}), ("sleep", {"seconds": 30})])
         mind = self.mind(model)
         checkout = self.talk(mind, f"구매 {MOCK_SKU}")
         rights = self.f.right({"reply": self.reply(checkout)})

@@ -282,3 +282,24 @@ def test(run, kit):
     return {"authorship": "OpenAI Codex GPT-6.2 Sol",
             "asserted": "single concurrent checkout; signed voucher/JWT; deadline; pinned cancellation; settlement; bearer authentication; next-sale mileage"}
 
+
+prior_tests = test
+
+def test(run, kit):
+    from tempfile import mkdtemp
+    from pathlib import Path
+    earlier = prior_tests(run, kit)
+    f = Fixture(Path(mkdtemp(dir=Path("state/r4-benefits/tests"))), run, kit)
+    unit = f.add_unit("u-broker")
+    unit["name"] = "키친타올 걸이"
+    context = f.call({"_broker": {"action": "context"}})
+    assert context["inventory"][0]["reference_price"] == 4500
+    assert context["inventory"][0]["name"] == "키친타올 걸이"
+    assert f.call({"_broker": {"action": "offer", "sku": MOCK_SKU, "proposed_price": 1}})["outcome"] == "price_or_stock_unavailable"
+    offer = f.call({"_broker": {"action": "offer", "sku": MOCK_SKU, "proposed_price": 4200}})
+    assert offer["outcome"] == "offer_prepared" and "data" not in offer
+    result = f.call({"_broker": {"action": "quote_and_send", "sku": MOCK_SKU, "proposed_price": 4200,
+                                "offer": f.right(offer, "견적"), "commit": "fixture-commit"}})
+    assert result["data"]["price"] == 4200
+    assert "checkout_jwt" in result["data"]
+    return dict(earlier, broker="read context, reject below floor, nonbinding offer, accepted offer to signed checkout")

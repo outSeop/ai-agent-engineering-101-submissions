@@ -113,6 +113,13 @@ CREATE TABLE IF NOT EXISTS event (
 CREATE TABLE IF NOT EXISTS removal (
     unit TEXT PRIMARY KEY, seq INTEGER NOT NULL, reason TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS broker_commit (
+    request TEXT PRIMARY KEY, at REAL NOT NULL
+);
+CREATE TABLE IF NOT EXISTS broker_offer (
+    id TEXT PRIMARY KEY, owner TEXT REFERENCES account(key), sku TEXT NOT NULL,
+    base INTEGER NOT NULL CHECK(base>0), expires REAL NOT NULL, consumed REAL
+);
 CREATE TABLE IF NOT EXISTS cursor (
     singleton INTEGER PRIMARY KEY CHECK(singleton=1), seq INTEGER NOT NULL, hash TEXT NOT NULL
 );
@@ -667,7 +674,13 @@ def pinned(db, unit):
     return one(db, "SELECT id FROM sale WHERE unit=? LIMIT 1", unit) is not None
 
 
-def wait_for_sku(db, market, sku, owner, now, discount):
+def reserved_pending(db, unit):
+    return one(db, """
+        SELECT id FROM sale WHERE unit=? AND status IN ('issued','cancel_requested','paid') LIMIT 1
+    """, unit) is not None
+
+
+def wait_for_sku(db, market, sku, owner, now, discount, commit=None):
     # Issue only against an existing reservation that actually blocks this SKU.
     if owner and one(db, """
         SELECT key FROM ticket WHERE sku=? AND owner=? AND status='waiting' AND expires>?
@@ -686,6 +699,8 @@ def wait_for_sku(db, market, sku, owner, now, discount):
     if not isinstance(signature, str):
         raise Unavailable("voucher signer did not answer")
     db.execute("INSERT INTO ticket VALUES(?,?,?,?,?,?,NULL,'waiting')", (key, sku, owner, now, expires, discount))
+    if commit:
+        db.execute("INSERT INTO broker_commit VALUES(?,?)", (commit, now))
     audit(db, now, "delay_ticket_issued", key, sku=sku, expires=expires)
     owner_hint = " 기존 권리코드도 함께 보내 주세요." if owner else ""
     return respond(f"앞선 문의가 처리 중입니다. 발급 후 120초 이내 대기 {code} 로 다시 확인해 주세요."
@@ -709,7 +724,7 @@ def checkout_response(sale, code=None):
     )
 
 
-def checkout(db, market, sku, account_code, ticket_code, now, observation=None):
+def checkout(db, market, sku, account_code, ticket_code, now, observation=None, *, proposed=None, commit=None, offer_code=None):
     if not SKU.fullmatch(sku):
         return respond("구매 명령은 상품 식별자만 적어 보내 주세요. 예시는 구매 G0026722f 입니다.")
     owner = key_of(account_code)
@@ -721,6 +736,15 @@ def checkout(db, market, sku, account_code, ticket_code, now, observation=None):
     with atomic(db):
         if owner and not one(db, "SELECT key FROM account WHERE key=?", owner):
             return respond(DENIED)
+        offer_key = key_of(offer_code)
+        if offer_key:
+            offer = one(db, "SELECT * FROM broker_offer WHERE id=?", offer_key)
+            if (not offer or offer["expires"] <= now or offer["consumed"] is not None
+                    or (offer["owner"] and offer["owner"] != owner)
+                    or (sku, proposed) != (offer["sku"], offer["base"])):
+                return decision_result("invalid_offer", "참고 견적과 현재 요청을 대조하지 못했습니다.")
+        if commit and one(db, "SELECT request FROM broker_commit WHERE request=?", commit):
+            return decision_result("already_dispatched", "이 메시지의 결제권은 이미 발급되었습니다. 기존 응답을 확인해 주세요.")
         if owner:
             existing = one(db, """
                 SELECT * FROM sale WHERE owner=? AND sku=?
@@ -728,6 +752,8 @@ def checkout(db, market, sku, account_code, ticket_code, now, observation=None):
                 ORDER BY created DESC LIMIT 1
             """, owner, sku)
             if existing:
+                if proposed is not None and existing["base"] != proposed:
+                    return decision_result("checkout_already_committed", "이 상품은 이전 가격으로 결제권이 발급되어 가격을 바꿀 수 없습니다.")
                 if existing["status"] == "issued" and any(u["unit"] == existing["unit"]
                                                             and u["grade"] == existing["grade"] for u in units):
                     return checkout_response(existing)
@@ -744,18 +770,28 @@ def checkout(db, market, sku, account_code, ticket_code, now, observation=None):
         if not eligible:
             return respond("현재 등급에서 원가와 수수료를 충당하는 판매가를 제시할 수 없습니다.")
         available = [unit for unit in eligible if not pinned(db, unit["unit"])]
-        proposed = terms_by_unit[eligible[0]["unit"]][0] // 100
+        if proposed is not None:
+            viable = [unit for unit in (available or eligible)
+                      if terms_by_unit[unit["unit"]][1] <= proposed <= terms_by_unit[unit["unit"]][0]]
+            if not viable:
+                return decision_result("price_out_of_bounds", "해당 가격은 현재 상품의 판매 범위를 벗어납니다.")
+            available = [unit for unit in available if unit in viable]
+        wait_discount = (proposed or terms_by_unit[eligible[0]["unit"]][0]) // 100
         if not available:
+            if not any(reserved_pending(db, u["unit"]) for u in eligible):
+                return decision_result("market_busy", "시장 재고와 기존 결제 상태를 대조하고 있습니다.")
             if ticket:
                 return respond("현재 재고의 앞선 결제를 확인 중입니다. 대기코드를 유지해 주세요.")
-            return wait_for_sku(db, market, sku, owner, now, proposed)
+            return wait_for_sku(db, market, sku, owner, now, wait_discount, commit)
         front = one(db, """
             SELECT key FROM ticket WHERE sku=? AND status='waiting' AND expires>?
             ORDER BY created,rowid LIMIT 1
         """, sku, now)
         if front and front["key"] != ticket_key:
-            return wait_for_sku(db, market, sku, owner, now, proposed)
+            return wait_for_sku(db, market, sku, owner, now, wait_discount, commit)
         offers = [(u, terms_by_unit[u["unit"]]) for u in available]
+        if proposed is not None:
+            offers = [(unit, (proposed, floor)) for unit, (_, floor) in offers]
         if ticket:
             offers = [(u, terms) for u, terms in offers if terms[0] // 100 == ticket["discount"]]
             if not offers:
@@ -795,6 +831,10 @@ def checkout(db, market, sku, account_code, ticket_code, now, observation=None):
         reserve(db, sale_id, owner, spent, now)
         if ticket:
             db.execute("UPDATE ticket SET status='held', owner=? WHERE key=?", (owner, ticket_key))
+        if commit:
+            db.execute("INSERT INTO broker_commit VALUES(?,?)", (commit, now))
+        if offer_key:
+            db.execute("UPDATE broker_offer SET consumed=? WHERE id=?", (now, offer_key))
         audit(db, now, "checkout_issued", sale_id, unit=unit["unit"], spent=spent, discount=discount)
         return checkout_response(one(db, "SELECT * FROM sale WHERE id=?", sale_id), new_code)
 
@@ -982,16 +1022,119 @@ def process_queue(db, market, now):
     return ready
 
 
+def decision_result(code, reply, data=None):
+    return dict(respond(reply, data), outcome=code)
+
+
+def decision_call(db, market, details, now):
+    """Only the managed broker constructs this private tool invocation."""
+    owner = key_of(details.get("right"))
+    ticket = key_of(details.get("wait"))
+    offer = key_of(details.get("offer"))
+    action = details["action"]
+    if owner and not one(db, "SELECT key FROM account WHERE key=?", owner):
+        return decision_result("unverified_right", DENIED)
+    verified_ticket = one(db, "SELECT sku,discount,expires,owner FROM ticket WHERE key=? AND status='waiting'", ticket) if ticket else None
+    if ticket and (not verified_ticket or verified_ticket["expires"] <= now
+                   or (verified_ticket["owner"] and verified_ticket["owner"] != owner)):
+        return decision_result("unverified_wait", DENIED)
+    verified_offer = one(db, "SELECT sku,base,owner,expires FROM broker_offer WHERE id=? AND consumed IS NULL", offer) if offer else None
+    if offer and (not verified_offer or verified_offer["expires"] <= now
+                  or (verified_offer["owner"] and verified_offer["owner"] != owner)):
+        return decision_result("unverified_offer", DENIED)
+    if not reconcile(db, market, now):
+        return decision_result("market_busy", BUSY)
+    if action == "context":
+        units = usable_units(market.inventory(), now)
+        _, bps, network, _ = market.chain()
+        items = []
+        for unit in units[:30]:
+            terms = price_terms(unit, bps, network)
+            if terms:
+                base, minimum = terms
+                name = unit.get("name")
+                if not isinstance(name, str) or not re.fullmatch(r"[가-힣A-Za-z0-9 ()/+,.&·-]{1,80}", name):
+                    name = None
+                items.append({"sku": unit["sku"], "name": name, "grade": unit["grade"],
+                              "category": category_key(unit.get("category")),
+                              "reference_price": base, "min_base": minimum,
+                              "stock_status": ("available" if not pinned(db, unit["unit"]) else
+                                               "reserved_pending" if reserved_pending(db, unit["unit"]) else "reconciling")})
+        available_skus = {item["sku"] for item in items if item["stock_status"] == "available"}
+        for item in items:
+            item["available"] = item["stock_status"] == "available"
+            item["wait_eligible"] = item["stock_status"] == "reserved_pending" and item["sku"] not in available_skus
+        prefs = []
+        if owner:
+            with atomic(db):
+                record_visit(db, owner, now, details.get("observation"))
+                reallocate_debt(db, owner, now)
+            rows = db.execute("""
+                SELECT value FROM profile_fact WHERE id IN (
+                    SELECT max(id) FROM profile_fact WHERE owner=? AND field='preference' GROUP BY fact_key
+                ) AND discarded=0 LIMIT 10
+            """, (owner,)).fetchall()
+            prefs = [dict(json.loads(row["value"]), provenance="customer_self_report") for row in rows]
+        return {"outcome": "context", "inventory": items, "verified_account": bool(owner),
+                "redeemable_mileage": balance(db, owner, now) if owner else 0, "preferences": prefs,
+                "wait": dict(verified_ticket)["sku"] if verified_ticket else None,
+                "wait_discount": verified_ticket["discount"] if verified_ticket else 0,
+                "prior_offer": {"sku": verified_offer["sku"], "base": verified_offer["base"]} if verified_offer else None,
+                "transfer_reference_present": bool(tx_hash(details.get("payment")))}
+    if action == "review_refund":
+        if not owner or not tx_hash(details.get("payment")):
+            return decision_result("refund_evidence_missing", "환불 검토에는 원 송금해시와 비공개 권리코드가 필요합니다.")
+        return payment_request(db, market, "refund", owner, tx_hash(details["payment"]), now, tx_hash(details.get("fee")))
+    sku = details.get("sku")
+    if not isinstance(sku, str) or not SKU.fullmatch(sku):
+        return decision_result("invalid_sku", "상품 식별자를 확인해 주세요.")
+    try:
+        proposed = whole(details.get("proposed_price"), 1)
+    except Unavailable:
+        return decision_result("invalid_amount", "상품가는 양의 정수 크레딧이어야 합니다.")
+    if action == "quote_and_send":
+        return checkout(db, market, sku, details.get("right"), details.get("wait"), now,
+                        details.get("observation"), proposed=proposed, commit=details.get("commit"),
+                        offer_code=details.get("offer"))
+    if action == "offer":
+        units = usable_units(market.inventory(), now, sku)
+        _, bps, network, _ = market.chain()
+        applicable = []
+        for unit in units:
+            terms = price_terms(unit, bps, network)
+            if terms and not pinned(db, unit["unit"]):
+                base, floor = terms
+                if floor <= proposed <= base:
+                    applicable.append(unit)
+        if not applicable:
+            return decision_result("price_or_stock_unavailable", "현재 재고와 원가를 확인한 결과 이 가격의 참고 견적은 어렵습니다.")
+        code = secrets.token_urlsafe(32)
+        with atomic(db):
+            commit = details.get("commit")
+            if commit and one(db, "SELECT request FROM broker_commit WHERE request=?", commit):
+                return decision_result("already_dispatched", "이 메시지의 응답은 이미 전달되었습니다. 기존 응답을 확인해 주세요.")
+            db.execute("INSERT INTO broker_offer VALUES(?,?,?,?,?,NULL)", (key_of(code), owner, sku, proposed, now + 600))
+            if commit:
+                db.execute("INSERT INTO broker_commit VALUES(?,?)", (commit, now))
+        return decision_result("offer_prepared",
+                               f"{sku} 상품은 기준가 {proposed:,} credits에 제안할 수 있습니다. 재고를 확정하는 결제권은 아직 발급하지 않았습니다. "
+                               f"10분 이내 구매를 결정하면 견적 {code} 를 함께 보내 주세요.")
+    return decision_result("unknown_action", "이 요청은 지원하지 않습니다.")
+
+
 def run(args, kit):
     # A2A data, claimed name and task history are deliberately ignored. Even an
     # internal model tool call can only enter this same public text interface.
+    details = args.get("_broker")
     text = args.get("text")
-    if parse(text)[0] == "help":
+    if details is None and parse(text)[0] == "help":
         return respond(HELP)
     db = None
     try:
         market = Market(kit)
         db = open_db(DB, market.wallet)
+        if details is not None:
+            return decision_call(db, market, details, time.time())
         return dispatch(db, market, text, time.time(), args.get("task_id"))
     except (Unavailable, httpx.HTTPError, ValueError, TypeError, KeyError, AttributeError, sqlite3.Error, OSError):
         # Returning a reply prevents the official kit from forwarding bearer codes

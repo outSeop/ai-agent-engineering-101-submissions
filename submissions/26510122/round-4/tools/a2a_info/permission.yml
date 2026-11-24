@@ -1,13 +1,13 @@
 name: a2a_info
-description: Codex GPT-6.2 Sol 작성. 공개 A2A는 빠른 자동 응답. Mind는 비밀 없는 재고·문의만 호출한다. Mind 직접 호출은 고객에게 자동 전송되지 않으니 대기 메시지 ID로 reply{to, text=result.reply, data=result.data, state=result.state}를 원문 그대로 즉시 보내고 미응답이면 sleep 금지. 예: 설명은 빼고 재고; 고객 결제 명령은 구매 G0026722f. 실고객 권리코드는 모델·로그에 전달하지 않는다. 운영 동기화·환불은 OS CLI.
+description: Codex GPT-6.2 Sol 작성. 고객 범위로 제한된 관리 브로커의 검증·실행 도구. 모델은 구조화 결정을 브로커에 보내며 서명·권리 문자열은 도구가 고객에게 직접 전달한다.
 permission:
   network: [market.ourolabs.ai, rpc-testnet.maroo.io]
   write: [state/r4-benefits]
   identity: [shop]
   wallet: [sign, sign_jwt]
-  timeout: 65
+  timeout: 50
   handles: [a2a]
 logic: logic.py
 test: test.py
-version: 5
-replaces: a2a_info@4
+version: 7
+replaces: a2a_info@6
