@@ -1,0 +1,8 @@
+name: publish_shop_info
+description: Operator-only public card publishing. Updates description and skills only for outseop-r4.
+permission:
+  write: [card.json]
+  timeout: 8
+logic: logic.py
+test: test.py
+version: 1

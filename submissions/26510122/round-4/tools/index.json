@@ -23,5 +23,15 @@
   "uses": 2,
   "fails": 0,
   "last": 1795545100
+ },
+ "publish_shop_info": {
+  "uses": 1,
+  "fails": 0,
+  "last": 1795554941
+ },
+ "a2a_info": {
+  "uses": 1,
+  "fails": 0,
+  "last": 1795555130
  }
 }
