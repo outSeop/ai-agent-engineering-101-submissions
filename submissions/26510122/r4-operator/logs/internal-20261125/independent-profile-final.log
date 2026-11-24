@@ -1,0 +1,8 @@
+test_expensive_purchase_does_not_infer_income_or_family (__main__.Profiles.test_expensive_purchase_does_not_infer_income_or_family) ... ok
+test_same_task_after_idle_is_new_contact_session (__main__.Profiles.test_same_task_after_idle_is_new_contact_session) ... ok
+test_structured_self_reports_do_not_change_finance_or_leak_codes (__main__.Profiles.test_structured_self_reports_do_not_change_finance_or_leak_codes) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.061s
+
+OK

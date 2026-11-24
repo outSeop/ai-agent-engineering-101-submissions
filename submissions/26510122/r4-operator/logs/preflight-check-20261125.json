@@ -1,0 +1,23 @@
+{
+  "official_kit": "v5.1",
+  "upstream_files_verified": 7,
+  "human_changed_fields": [
+    "goal",
+    "llm",
+    "persona"
+  ],
+  "model": "class market model desk; no personal API key",
+  "market_default": "https://market.ourolabs.ai",
+  "shop_name_default": "outseop-r4",
+  "a2a_sdk": "1.3.1",
+  "a2a_routes_constructed": true,
+  "agent_directory": "../round-4",
+  "operator_directory": ".",
+  "paths_relative_to_operator": true,
+  "cloudflared_present": true,
+  "saved_owner_code_present": true,
+  "agent_generated_tools": [],
+  "logs_excluded_from_submission": false,
+  "market_registered_or_model_called_by_check": false
+}
+agent_card passed to DefaultRequestHandlerV2: AgentCard is not spec-compliant - REQUIRED fields missing or empty: skills. This is allowed and does not raise, but it may not verify or interoperate across SDKs and could be rejected in a future major release. See https://a2a-protocol.org/latest/specification/#57-field-presence-and-optionality

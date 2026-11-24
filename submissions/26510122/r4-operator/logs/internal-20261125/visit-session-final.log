@@ -1,0 +1,35 @@
+test_concurrent_refund_approval_claims_transfer_once (__main__.Contract.test_concurrent_refund_approval_claims_transfer_once) ... ok
+test_expiry_releases_held_miles_but_timeout_and_cancel_alone_do_not (__main__.Contract.test_expiry_releases_held_miles_but_timeout_and_cancel_alone_do_not) ... ok
+test_operator_permission_cannot_be_smuggled_over_a2a_and_wallet_is_pinned (__main__.Contract.test_operator_permission_cannot_be_smuggled_over_a2a_and_wallet_is_pinned) ... ok
+test_order_of_source_and_usage_refund_never_creates_free_points (__main__.Contract.test_order_of_source_and_usage_refund_never_creates_free_points) ... ok
+test_ordinary_settlement_and_48h_boundary (__main__.Contract.test_ordinary_settlement_and_48h_boundary) ... ok
+test_payment_without_delivery_waits_for_proven_removal_and_checks_costs (__main__.Contract.test_payment_without_delivery_waits_for_proven_removal_and_checks_costs) ... ok
+test_price_floor_and_invalid_numbers (__main__.Contract.test_price_floor_and_invalid_numbers) ... ok
+test_tampered_hash_chain_and_wrong_payment_receipt_do_not_earn (__main__.Contract.test_tampered_hash_chain_and_wrong_payment_receipt_do_not_earn) ... ok
+test_uncertain_transfer_survives_process_restart_without_second_send (__main__.Contract.test_uncertain_transfer_survives_process_restart_without_second_send) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.133s
+
+OK
+test_30_minute_gap_and_duplicate_transport_do_not_inflate_visits (__main__.CustomerProfile.test_30_minute_gap_and_duplicate_transport_do_not_inflate_visits) ... ok
+test_additive_backfill_assigns_profile_id_to_older_account_without_inventing_visits (__main__.CustomerProfile.test_additive_backfill_assigns_profile_id_to_older_account_without_inventing_visits) ... ok
+test_family_income_preferences_and_tombstones_keep_structured_provenance (__main__.CustomerProfile.test_family_income_preferences_and_tombstones_keep_structured_provenance) ... ok
+test_operator_intake_is_idempotent_strict_and_never_updates_ledger (__main__.CustomerProfile.test_operator_intake_is_idempotent_strict_and_never_updates_ledger) ... ok
+test_purchase_preference_and_mileage_projection_tracks_real_state_changes (__main__.CustomerProfile.test_purchase_preference_and_mileage_projection_tracks_real_state_changes) ... ok
+test_same_market_buyer_and_wallet_do_not_merge_rights_or_infer_income (__main__.CustomerProfile.test_same_market_buyer_and_wallet_do_not_merge_rights_or_infer_income) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.066s
+
+OK
+/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/internal-maintenance-20261124-183442/agent-work/codex-r4/e2e.py:12: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient
+agent_card passed to DefaultRequestHandlerV2: AgentCard is not spec-compliant - REQUIRED fields missing or empty: skills. This is allowed and does not raise, but it may not verify or interoperate across SDKs and could be rejected in a future major release. See https://a2a-protocol.org/latest/specification/#57-field-presence-and-optionality
+{"first_price": 4500, "next_with_wait_and_mileage": 4410, "verified_mock_refunds": 1, "customer_method": "captured Visit.talk and Visit.buy", "a2a": "official ASGI 1.0", "live": false}
+04:15:11 [forge] loaded 8 tools: a2a_info, buy_stock, ledger_core, market_read, pay_confirm_stock, read_cards, rename_shop_card, serve_checkout
+04:15:11 [forge] serve_checkout v5 passed its test and is ready (replaces v4)
+{"test": "passed", "tool": "serve_checkout", "version": 5, "result": null, "printed": null}
+04:15:12 [forge] a2a_info v5 passed its test and is ready (replaces v4)
+{"test": "passed", "tool": "a2a_info", "version": 5, "result": {"authorship": "OpenAI Codex GPT-6.2 Sol", "asserted": "single concurrent checkout; signed voucher/JWT; deadline; pinned cancellation; settlement; bearer authentication; next-sale mileage"}, "printed": null}
+04:15:12 [forge] loaded 8 tools: a2a_info, buy_stock, ledger_core, market_read, pay_confirm_stock, read_cards, rename_shop_card, serve_checkout

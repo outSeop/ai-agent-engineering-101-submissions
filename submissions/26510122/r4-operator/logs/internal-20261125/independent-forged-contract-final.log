@@ -1,0 +1,14 @@
+test_concurrent_orders_cannot_spend_same_points_twice (__main__.Contract.test_concurrent_orders_cannot_spend_same_points_twice) ... ok
+test_credit_expires_at_seven_days (__main__.Contract.test_credit_expires_at_seven_days) ... ok
+test_next_purchase_uses_previous_credit_only (__main__.Contract.test_next_purchase_uses_previous_credit_only) ... ok
+test_no_advance_credit_and_idempotent_settlement (__main__.Contract.test_no_advance_credit_and_idempotent_settlement) ... ok
+test_public_metadata_never_authorizes_account (__main__.Contract.test_public_metadata_never_authorizes_account) ... ok
+test_repeated_checkout_is_identical (__main__.Contract.test_repeated_checkout_is_identical) ... ok
+test_single_unit_cannot_be_sold_twice_or_released_by_timeout (__main__.Contract.test_single_unit_cannot_be_sold_twice_or_released_by_timeout) ... ok
+test_wait_discount_expires_at_120_seconds (__main__.Contract.test_wait_discount_expires_at_120_seconds) ... ok
+test_wait_discount_immediate_and_signed (__main__.Contract.test_wait_discount_immediate_and_signed) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.141s
+
+OK

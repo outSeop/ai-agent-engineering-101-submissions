@@ -1,0 +1,27 @@
+[Unit]
+Description=Round 4 queue and settlement reconciliation for the existing outseop-r4 shop
+Requisite=ourolabs-market-r4.service
+PartOf=ourolabs-market-r4.service
+After=ourolabs-market-r4.service
+StartLimitIntervalSec=600
+StartLimitBurst=3
+
+[Service]
+Type=simple
+WorkingDirectory=%h/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator
+ExecStart=%h/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/.venv/bin/python %h/.local/share/ourolabs-r4-checkout/submissions/26510122/round-4/codex-r4/worker_bootstrap.py --agent-root %h/.local/share/ourolabs-r4-checkout/submissions/26510122/round-4
+UMask=0077
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONUTF8=1
+NoNewPrivileges=yes
+MemoryMax=256M
+TasksMax=64
+CPUQuota=50%
+Nice=10
+Restart=on-failure
+RestartSec=30
+TimeoutStopSec=15
+
+[Install]
+WantedBy=ourolabs-market-r4.service
+

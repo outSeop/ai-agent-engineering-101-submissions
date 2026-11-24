@@ -1,0 +1,3 @@
+04:21:19 [forge] loaded 8 tools: a2a_info, buy_stock, ledger_core, market_read, pay_confirm_stock, read_cards, rename_shop_card, serve_checkout
+04:21:19 [forge] shop_info v1 passed its test and is ready
+{"test": "passed", "tool": "shop_info", "version": 1, "result": {"authorship": "OpenAI Codex GPT-6.2 Sol", "mock": "read-only market inventory and published policy"}, "printed": null}

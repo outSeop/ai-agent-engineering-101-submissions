@@ -1,0 +1,19 @@
+{
+  "same_order_can_spend_own_earnings": {
+    "accepted": {
+      "reserved": 10
+    },
+    "balance_after": 35
+  },
+  "spend_can_exceed_purchase_price": {
+    "accepted": {
+      "reserved": 40
+    }
+  },
+  "refund_deletes_referenced_lot": {
+    "orphan_reservations": 1,
+    "refund": {
+      "status": "refunded"
+    }
+  }
+}

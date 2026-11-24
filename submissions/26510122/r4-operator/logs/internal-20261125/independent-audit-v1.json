@@ -1,0 +1,11 @@
+{
+  "negative_spend_increases_balance": {
+    "before": 45,
+    "after": 145,
+    "reproduced": true
+  },
+  "other_shop_earns_mileage": {
+    "status": "settled",
+    "earned": 45
+  }
+}

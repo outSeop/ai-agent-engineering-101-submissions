@@ -1,0 +1,38 @@
+[
+  {
+    "case": "inventory",
+    "passed": true,
+    "error": null,
+    "fixture_sends": 0,
+    "live_payments": 0,
+    "info_source_sha256": "ac1375060257be7f547a52ec681f7fd70bc002979d85915ee17bf4d776d38eed",
+    "scope": "Actual class model, production ManagedMind/ManagedToolbox, genuine forged info, fixture-only market."
+  },
+  {
+    "case": "benefits",
+    "passed": true,
+    "error": null,
+    "fixture_sends": 0,
+    "live_payments": 0,
+    "info_source_sha256": "ac1375060257be7f547a52ec681f7fd70bc002979d85915ee17bf4d776d38eed",
+    "scope": "Actual class model, production ManagedMind/ManagedToolbox, genuine forged info, fixture-only market."
+  },
+  {
+    "case": "financial_boundary",
+    "passed": true,
+    "error": null,
+    "fixture_sends": 0,
+    "live_payments": 0,
+    "info_source_sha256": "ac1375060257be7f547a52ec681f7fd70bc002979d85915ee17bf4d776d38eed",
+    "scope": "Actual class model, production ManagedMind/ManagedToolbox, genuine forged info, fixture-only market."
+  },
+  {
+    "case": "unverified_privilege",
+    "passed": true,
+    "error": null,
+    "fixture_sends": 0,
+    "live_payments": 0,
+    "info_source_sha256": "ac1375060257be7f547a52ec681f7fd70bc002979d85915ee17bf4d776d38eed",
+    "scope": "Actual class model, production ManagedMind/ManagedToolbox, genuine forged info, fixture-only market."
+  }
+]

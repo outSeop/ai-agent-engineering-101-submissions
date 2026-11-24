@@ -95,18 +95,23 @@ def main():
         raise SystemExit('Market owner credential is empty')
     # Never copy the owner code into the submission, arguments or logs.
     env = dict(os.environ)
-    env['MARKET_OWNER'] = owner
+    env.pop('MARKET_OWNER', None)
     env['AGENT_LLM_BASE'] = 'market'
     env.pop('AGENT_LLM_KEY', None)
     env.pop('AGENT_LLM_MODEL', None)
     os.umask(0o077)
-    command = [str(PYTHON), str(KIT / 'agent_kit.py'), 'run', '--dir', str(AGENT),
-               '--market', args.market, '--name', args.name, '--app', str(args.app_port)]
+    if args.name != SHOP_NAME or args.market.rstrip('/') != 'https://market.ourolabs.ai':
+        raise SystemExit('The preserved R4 identity and market cannot be changed by this launcher')
+    managed = AGENT / 'codex-r4/managed_launcher.py'
+    if not managed.is_file():
+        raise SystemExit('The verified managed runtime has not been installed')
+    command = [str(PYTHON), str(managed), 'run', '--operator-dir', str(ROOT),
+               '--agent-root', str(AGENT), '--owner-file', str(args.owner_file)]
     command += ['--public-url', args.public_url] if args.public_url else ['--tunnel']
     if args.port:
         command += ['--port', str(args.port)]
     if args.app_tunnel:
-        command += ['--app-tunnel']
+        raise SystemExit('The managed runtime keeps private app and financial paths separate')
     print('공식 R4 키트를 시작합니다. 모델은 수업용 라인, 시장 도구는 에이전트가 직접 생성합니다.', flush=True)
     print('Ctrl-C로 종료합니다. 가게 지갑과 상태 폴더를 유지해야 같은 가게로 다시 실행할 수 있습니다.', flush=True)
     os.execve(str(PYTHON), command, env)

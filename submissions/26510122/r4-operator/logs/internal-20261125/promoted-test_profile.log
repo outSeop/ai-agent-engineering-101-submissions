@@ -1,0 +1,11 @@
+test_30_minute_gap_and_duplicate_transport_do_not_inflate_visits (__main__.CustomerProfile.test_30_minute_gap_and_duplicate_transport_do_not_inflate_visits) ... ok
+test_additive_backfill_assigns_profile_id_to_older_account_without_inventing_visits (__main__.CustomerProfile.test_additive_backfill_assigns_profile_id_to_older_account_without_inventing_visits) ... ok
+test_family_income_preferences_and_tombstones_keep_structured_provenance (__main__.CustomerProfile.test_family_income_preferences_and_tombstones_keep_structured_provenance) ... ok
+test_operator_intake_is_idempotent_strict_and_never_updates_ledger (__main__.CustomerProfile.test_operator_intake_is_idempotent_strict_and_never_updates_ledger) ... ok
+test_purchase_preference_and_mileage_projection_tracks_real_state_changes (__main__.CustomerProfile.test_purchase_preference_and_mileage_projection_tracks_real_state_changes) ... ok
+test_same_market_buyer_and_wallet_do_not_merge_rights_or_infer_income (__main__.CustomerProfile.test_same_market_buyer_and_wallet_do_not_merge_rights_or_infer_income) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.062s
+
+OK

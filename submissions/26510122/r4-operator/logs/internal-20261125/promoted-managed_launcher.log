@@ -1,0 +1,2 @@
+04:32:00 [forge] loaded 8 tools: a2a_info, buy_stock, market_read, pay_confirm_stock, read_cards, rename_shop_card, serve_checkout, shop_info
+{"official_kit_files_verified": 7, "a2a": "a2a_info", "class_model": "market", "model_tools": ["shop_info"], "joined_or_started": false}

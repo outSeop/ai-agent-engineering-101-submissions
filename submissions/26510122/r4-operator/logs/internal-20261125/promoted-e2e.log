@@ -1,0 +1,4 @@
+{"first_price": 4500, "next_with_wait_and_mileage": 4410, "verified_mock_refunds": 1, "customer_method": "captured Visit.talk and Visit.buy", "a2a": "official ASGI 1.0", "live": false}
+/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/round-4/codex-r4/e2e.py:13: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient
+agent_card passed to DefaultRequestHandlerV2: AgentCard is not spec-compliant - REQUIRED fields missing or empty: skills. This is allowed and does not raise, but it may not verify or interoperate across SDKs and could be rejected in a future major release. See https://a2a-protocol.org/latest/specification/#57-field-presence-and-optionality

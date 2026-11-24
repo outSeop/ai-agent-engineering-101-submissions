@@ -1,0 +1,11 @@
+test_inactive_main_does_not_touch_network_or_credentials (__main__.Bootstrap.test_inactive_main_does_not_touch_network_or_credentials) ... ok
+test_local_card_and_live_registry_and_authenticated_inventory_match (__main__.Bootstrap.test_local_card_and_live_registry_and_authenticated_inventory_match) ... ok
+test_local_or_registry_mismatch_rejected_without_token_use (__main__.Bootstrap.test_local_or_registry_mismatch_rejected_without_token_use) ... ok
+test_main_exports_exact_token_atomically_and_reuses_official_join (__main__.Bootstrap.test_main_exports_exact_token_atomically_and_reuses_official_join) ... ok
+test_market_failure_has_bounded_retries_and_no_body_in_output (__main__.Bootstrap.test_market_failure_has_bounded_retries_and_no_body_in_output) ... ok
+test_token_permissions_required_and_symlink_not_followed (__main__.Bootstrap.test_token_permissions_required_and_symlink_not_followed) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.006s
+
+OK

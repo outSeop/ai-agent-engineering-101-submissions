@@ -1,0 +1,14 @@
+test_concurrent_refund_approval_claims_transfer_once (__main__.Contract.test_concurrent_refund_approval_claims_transfer_once) ... ok
+test_expiry_releases_held_miles_but_timeout_and_cancel_alone_do_not (__main__.Contract.test_expiry_releases_held_miles_but_timeout_and_cancel_alone_do_not) ... ok
+test_operator_permission_cannot_be_smuggled_over_a2a_and_wallet_is_pinned (__main__.Contract.test_operator_permission_cannot_be_smuggled_over_a2a_and_wallet_is_pinned) ... ok
+test_order_of_source_and_usage_refund_never_creates_free_points (__main__.Contract.test_order_of_source_and_usage_refund_never_creates_free_points) ... ok
+test_ordinary_settlement_and_48h_boundary (__main__.Contract.test_ordinary_settlement_and_48h_boundary) ... ok
+test_payment_without_delivery_waits_for_proven_removal_and_checks_costs (__main__.Contract.test_payment_without_delivery_waits_for_proven_removal_and_checks_costs) ... ok
+test_price_floor_and_invalid_numbers (__main__.Contract.test_price_floor_and_invalid_numbers) ... ok
+test_tampered_hash_chain_and_wrong_payment_receipt_do_not_earn (__main__.Contract.test_tampered_hash_chain_and_wrong_payment_receipt_do_not_earn) ... ok
+test_uncertain_transfer_survives_process_restart_without_second_send (__main__.Contract.test_uncertain_transfer_survives_process_restart_without_second_send) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.154s
+
+OK

@@ -1,0 +1,4 @@
+{
+  "http_status": 403,
+  "body": "{\"error\":{\"message\":\"agent outseop-r4 is not reachable from the market: the desk serves an agent while it is on the market (is the tunnel up?)\",\"type\":\"model_desk\",\"reason\":\"agent_not_alive\"}}"
+}

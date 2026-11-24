@@ -1,0 +1,28 @@
+/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/internal-maintenance-20261124-183442/agent-work/codex-r4/test_managed_runtime.py:10: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient
+test_fallback_from_failed_dispatch_never_enters_mind_context_or_log (__main__.ManagedRuntimeTests.test_fallback_from_failed_dispatch_never_enters_mind_context_or_log) ... 04:22:12 [forge] loaded 4 tools: a2a_info, pay_confirm_stock, serve_checkout, shop_info
+agent_card passed to DefaultRequestHandlerV2: AgentCard is not spec-compliant - REQUIRED fields missing or empty: skills. This is allowed and does not raise, but it may not verify or interoperate across SDKs and could be rejected in a future major release. See https://a2a-protocol.org/latest/specification/#57-field-presence-and-optionality
+agent_card passed to DefaultRequestHandlerV2: AgentCard is not spec-compliant - REQUIRED fields missing or empty: skills. This is allowed and does not raise, but it may not verify or interoperate across SDKs and could be rejected in a future major release. See https://a2a-protocol.org/latest/specification/#57-field-presence-and-optionality
+04:22:13 [mind] shop_info | Boundary test
+04:22:13 [mind] sleeps 30 s: Boundary test
+ok
+test_mind_allowlisted_lookup_and_rejects_forgery_new_code_and_hidden_tools (__main__.ManagedRuntimeTests.test_mind_allowlisted_lookup_and_rejects_forgery_new_code_and_hidden_tools) ... 04:22:13 [forge] loaded 4 tools: a2a_info, pay_confirm_stock, serve_checkout, shop_info
+04:22:13 [mind] a2a_info | Boundary test
+04:22:13 [mind] serve_checkout | Boundary test
+04:22:13 [mind] pay_confirm_stock | Boundary test
+04:22:13 [mind] forge_tool | Boundary test
+04:22:13 [mind] read_tool | Boundary test
+04:22:13 [mind] shop_info | Boundary test
+04:22:13 [mind] sleeps 30 s: Boundary test
+ok
+test_official_a2a_enters_one_shot_financial_dispatch_and_returns_valid_jwt (__main__.ManagedRuntimeTests.test_official_a2a_enters_one_shot_financial_dispatch_and_returns_valid_jwt) ... 04:22:13 [forge] loaded 4 tools: a2a_info, pay_confirm_stock, serve_checkout, shop_info
+agent_card passed to DefaultRequestHandlerV2: AgentCard is not spec-compliant - REQUIRED fields missing or empty: skills. This is allowed and does not raise, but it may not verify or interoperate across SDKs and could be rejected in a future major release. See https://a2a-protocol.org/latest/specification/#57-field-presence-and-optionality
+agent_card passed to DefaultRequestHandlerV2: AgentCard is not spec-compliant - REQUIRED fields missing or empty: skills. This is allowed and does not raise, but it may not verify or interoperate across SDKs and could be rejected in a future major release. See https://a2a-protocol.org/latest/specification/#57-field-presence-and-optionality
+ok
+test_validation_refuses_any_extra_handler_or_shop_info_wallet_permission (__main__.ManagedRuntimeTests.test_validation_refuses_any_extra_handler_or_shop_info_wallet_permission) ... 04:22:13 [forge] loaded 4 tools: a2a_info, pay_confirm_stock, serve_checkout, shop_info
+ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.314s
+
+OK
