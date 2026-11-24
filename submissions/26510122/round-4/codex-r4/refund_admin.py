@@ -39,6 +39,9 @@ def prepare(db, market, sale_id, now):
         raise shop.Unavailable("unknown refund reason")
     block = shop.hex_int(market.rpc("eth_blockNumber"))
     with shop.atomic(db):
+        if (shop.one(db, "SELECT name FROM sqlite_master WHERE type='table' AND name='stock_intent'")
+                and shop.one(db, "SELECT id FROM stock_intent WHERE state IN ('sending','unknown','paid') LIMIT 1")):
+            raise shop.Unavailable("unresolved wholesale transfer blocks a new wallet send")
         current = shop.one(db, "SELECT * FROM sale WHERE id=?", sale_id)
         if (current["status"], current["payer"], current["payment"]) != (sale["status"], sale["payer"], sale["payment"]):
             raise shop.Unavailable("original transaction changed during review")

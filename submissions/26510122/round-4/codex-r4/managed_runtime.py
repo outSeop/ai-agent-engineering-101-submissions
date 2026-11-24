@@ -5,6 +5,10 @@ import json
 from broker import Broker, Trace, class_context
 import dispatcher as dispatcher
 from threading import Lock
+from time import monotonic, time
+import secrets
+
+from stock_runtime import StockCoordinator, STOCK_TOOL
 
 PUBLIC_DISPATCH = "a2a_info"
 MODEL_INFO = "shop_info"
@@ -27,11 +31,17 @@ class RequestAuthority:
             return True
 
 
-def managed_classes(official):
+def managed_classes(official, *, enable_stock=False, stock_lines=10):
     """Inject an in-process Python capability. No request arg is trusted as origin."""
     request_scope = ContextVar("r4_a2a_scope", default=None)
     permit = ContextVar("r4_a2a_permit", default=None)
     message_id = ContextVar("r4_message_id", default=None)
+    activity_lock = Lock()
+    active_customers = 0
+
+    def customer_active():
+        with activity_lock:
+            return active_customers>0
 
     class ManagedToolbox(official.Toolbox):
         def bind_decision_model(self, model, agent):
@@ -44,7 +54,45 @@ def managed_classes(official):
             answer = super().call(PUBLIC_DISPATCH, {"_broker": details})
             return answer["result"] if answer.get("ok") else {"outcome": "tool_unavailable"}
 
+        def stock_executor(self, args):
+            if not enable_stock:
+                return {"status":"stock_disabled"}
+            if args.get("action")=="context":
+                args = dict(args,line_cap=stock_lines)
+            result = super().run(STOCK_TOOL,"call",args)
+            return result["result"] if result.get("ok") else {"status":"stock_tool_unavailable"}
+
         def public_answer(self, args):
+            nonlocal active_customers
+            started = monotonic()
+            ref = secrets.token_hex(12)
+            result_kind = "unavailable"
+            status = {"model_used":False}
+            path = self.root / ".kit/transport-metrics.jsonl"
+
+            def metric(event, **fields):
+                try:
+                    Trace.append(path, {"at":time(),"event":event,"internal_ref":ref,**fields})
+                except OSError:
+                    pass
+
+            with activity_lock:
+                active_customers += 1
+            try:
+                metric("request_start")
+                out = self._public_answer(args,status)
+                result = out.get("result") or {}
+                data = result.get("data") or {}
+                result_kind = ("checkout" if "checkout_jwt" in data else "wait" if "wait_voucher" in data
+                               else "response" if out.get("ok") and result.get("reply") else "unavailable")
+                return out
+            finally:
+                with activity_lock:
+                    active_customers -= 1
+                metric("request_end",seconds=round(monotonic()-started,4),result_kind=result_kind,
+                       model_decision_used=status["model_used"])
+
+        def _public_answer(self, args, status):
             text = args.get("text", "")
             command = dispatcher.parse(text)[0]
             # Structured benefits and private profile commands bypass semantic
@@ -53,7 +101,11 @@ def managed_classes(official):
                 return super().call(PUBLIC_DISPATCH, {"text": text, "task_id": message_id.get()})
             trace = Trace(self.root / ".kit/decision-trace-private.jsonl", self.root / ".kit/decision-trace-review.jsonl")
             request = Broker(self.decision_tool, self.decision_model, trace)
-            return {"ok": True, "result": request.handle(text, transport_id=message_id.get())}
+            try:
+                answer = request.handle(text, transport_id=message_id.get())
+                return {"ok": True, "result": answer}
+            finally:
+                status["model_used"] = request.model_used
 
         def validate(self):
             info = self.tools.get(MODEL_INFO)
@@ -71,6 +123,15 @@ def managed_classes(official):
                     or [name for name, tool in self.tools.items() if "a2a" in tool["perm"].get("handles", [])] != [PUBLIC_DISPATCH]
                     or super().handler("a2a") != PUBLIC_DISPATCH):
                 raise RuntimeError("unexpected public dispatcher permissions or selection")
+            if enable_stock:
+                tool=self.tools.get(STOCK_TOOL)
+                perm=tool["perm"] if tool else {}
+                if (set(perm.get("wallet",[]))!={"pay"} or perm.get("exec") or perm.get("handles")
+                        or set(perm.get("identity",[]))!={"shop"}
+                        or perm.get("pay_limit")!=1000000
+                        or perm.get("write")!=["state/r4-benefits"]
+                        or set(perm.get("network",[]))!={"market.ourolabs.ai","rpc-testnet.maroo.io"}):
+                    raise RuntimeError("unexpected background procurement permissions")
 
         def listing(self):
             if MODEL_INFO not in self.tools:
@@ -136,6 +197,20 @@ def managed_classes(official):
         def __init__(self, root, agent, model, toolbox, ctx, roles):
             toolbox.bind_decision_model(model, agent)
             super().__init__(root, agent, model, ModelTools(toolbox), ctx, roles)
+            self.stock_coordinator = None
+            if enable_stock:
+                class StockModel:
+                    def complete(_, messages):
+                        context=[dict(messages[0],content=official.WORLD+chr(10)*2+messages[0]["content"]),*messages[1:]]
+                        return model.complete(context,max_tokens=550,timeout=42)
+                self.stock_coordinator=StockCoordinator(toolbox.stock_executor,StockModel(),customer_active=customer_active)
+
+        def loop(self):
+            if self.stock_coordinator:
+                # The official launcher already runs Mind.loop on its own
+                # thread. With stock enabled this is the only periodic model path.
+                return self.stock_coordinator.loop()
+            return super().loop()
 
         def deliver(self, event):
             # A2A success bypasses Mind entirely. Even an SDK, process or tool

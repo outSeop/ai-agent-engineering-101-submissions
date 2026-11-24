@@ -113,6 +113,13 @@ CREATE TABLE IF NOT EXISTS event (
 CREATE TABLE IF NOT EXISTS removal (
     unit TEXT PRIMARY KEY, seq INTEGER NOT NULL, reason TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS stock_signal (
+    observation TEXT NOT NULL, sku TEXT NOT NULL, outcome TEXT NOT NULL, at REAL NOT NULL,
+    qualified INTEGER NOT NULL, PRIMARY KEY(observation,sku,outcome)
+);
+CREATE TABLE IF NOT EXISTS stockout_observation (
+    demand TEXT PRIMARY KEY, sku TEXT NOT NULL, at REAL NOT NULL, reason TEXT NOT NULL, resolved REAL
+);
 CREATE TABLE IF NOT EXISTS broker_commit (
     request TEXT PRIMARY KEY, at REAL NOT NULL
 );
@@ -765,7 +772,7 @@ def checkout(db, market, sku, account_code, ticket_code, now, observation=None, 
                     or ticket["expires"] <= now or (ticket["owner"] and ticket["owner"] != owner)):
                 return respond(DENIED)
         if not units:
-            return respond("현재 판매 가능한 재고가 없습니다. 기존 대기권은 기록된 기간까지 유지됩니다.")
+            return decision_result("stockout", "현재 판매 가능한 재고가 없습니다. 기존 대기권은 기록된 기간까지 유지됩니다.") if proposed is not None else respond("현재 판매 가능한 재고가 없습니다. 기존 대기권은 기록된 기간까지 유지됩니다.")
         eligible = [unit for unit in units if unit["unit"] in terms_by_unit]
         if not eligible:
             return respond("현재 등급에서 원가와 수수료를 충당하는 판매가를 제시할 수 없습니다.")
@@ -1093,9 +1100,31 @@ def decision_call(db, market, details, now):
     except Unavailable:
         return decision_result("invalid_amount", "상품가는 양의 정수 크레딧이어야 합니다.")
     if action == "quote_and_send":
-        return checkout(db, market, sku, details.get("right"), details.get("wait"), now,
-                        details.get("observation"), proposed=proposed, commit=details.get("commit"),
-                        offer_code=details.get("offer"))
+        result = checkout(db, market, sku, details.get("right"), details.get("wait"), now,
+                          details.get("observation"), proposed=proposed, commit=details.get("commit"),
+                          offer_code=details.get("offer"))
+        observation = details.get("observation")
+        if observation:
+            payload = result.get("data", {})
+            outcome = result.get("outcome") or (
+                "reserved_pending" if "wait_voucher" in payload else
+                "checkout_issued" if "checkout_jwt" in payload else "not_attributed")
+            exact = details.get("requested_sku") == sku
+            qualified = bool(owner and exact)
+            with atomic(db):
+                # One exact, authenticated request per account/SKU/contact
+                # bucket. A transport ID alone cannot confer eligibility.
+                db.execute("INSERT OR IGNORE INTO stock_signal VALUES(?,?,?,?,?)",
+                           (observation, sku if exact else "", outcome, now, int(qualified)))
+                if qualified:
+                    demand = digest(f"{owner}:{sku}:{int(now)//1800}")
+                    if outcome in ("stockout", "reserved_pending"):
+                        db.execute("INSERT OR IGNORE INTO stockout_observation VALUES(?,?,?,?,NULL)",
+                                   (demand, sku, now, outcome))
+                    elif outcome == "checkout_issued":
+                        db.execute("UPDATE stockout_observation SET resolved=? WHERE demand=? AND resolved IS NULL",
+                                   (now,demand))
+        return result
     if action == "offer":
         units = usable_units(market.inventory(), now, sku)
         _, bps, network, _ = market.chain()

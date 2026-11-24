@@ -1,0 +1,11 @@
+{
+ "tool": "stock_procurement",
+ "version": 3,
+ "forged_at": 1795554527,
+ "kit": "v5.1",
+ "sha256": {
+  "permission.yml": "5c78b582ce8e6bcea51e8ee7bffdd07bcf14e6e313061b60ce83b0ded0cba390",
+  "logic.py": "cd95c83fe4fbd6dcebbe17d93916711ce862caf16f758d2015ec4349e95af6c8",
+  "test.py": "7a7901e9ccecdbd2640ec1db56d420c1ff42dc5adfee15e57321bd2edb8bb9a3"
+ }
+}

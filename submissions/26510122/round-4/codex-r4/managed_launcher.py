@@ -29,8 +29,8 @@ def verify_kit(operator):
             raise RuntimeError("official kit integrity mismatch: " + name)
 
 
-def install(official):
-    toolbox, mind, app = managed_classes(official)
+def install(official, *, enable_stock=False, stock_lines=10):
+    toolbox, mind, app = managed_classes(official,enable_stock=enable_stock,stock_lines=stock_lines)
     official.Toolbox = toolbox
     official.Mind = mind
     official.agent_app = app
@@ -46,6 +46,8 @@ def main():
     access.add_argument("--tunnel", action="store_true")
     parser.add_argument("--port", type=int)
     parser.add_argument("--owner-file", type=Path)
+    parser.add_argument("--enable-procurement", action="store_true")
+    parser.add_argument("--procurement-lines", type=int, choices=range(1,11), default=10)
     args = parser.parse_args()
     operator = args.operator_dir.resolve(strict=True)
     root = args.agent_root.resolve(strict=True)
@@ -56,13 +58,13 @@ def main():
     sys.path.insert(0, str(operator / "kit"))
     import agent_kit as official
 
-    install(official)
+    install(official,enable_stock=args.enable_procurement,stock_lines=args.procurement_lines)
     if args.action == "check":
         # Loading and checking provenance does not construct a signer or join.
         toolbox = official.Toolbox(root, {"tokens": {}, "addresses": {}})
         toolbox.validate()
         print(json.dumps({"official_kit_files_verified": 7, "a2a": "a2a_info",
-                          "class_model": "market", "model_tools": ["shop_info"],
+                          "class_model": "market", "model_tools": ["shop_info"], "background_procurement": args.enable_procurement,
                           "joined_or_started": False}, ensure_ascii=False))
         return
     if not args.owner_file or not (args.public_url or args.tunnel):

@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 import shutil
 from tempfile import TemporaryDirectory
+from types import SimpleNamespace
 from unittest import TestCase, main
 from unittest.mock import patch
 from uuid import uuid4
@@ -127,6 +128,16 @@ class ManagedRuntimeTests(TestCase):
         log = (self.root / "logs" / "react.jsonl").read_text(encoding="utf-8")
         self.assertNotIn(rights, log)
         self.assertNotIn("fixture private failure", log)
+
+    def test_stock_runtime_does_not_start_generic_mind_loop(self):
+        tools, mind_type, _ = boundary.managed_classes(agent_kit,enable_stock=True)
+        toolbox=tools(self.root,self.ctx)
+        mind=mind_type(self.root,{},FakeModel([]),toolbox,self.ctx,["shop"])
+        ran=[]
+        mind.stock_coordinator=SimpleNamespace(loop=lambda:ran.append("stock"))
+        with patch.object(agent_kit.Mind,"loop",side_effect=AssertionError("generic Mind loop started")):
+            mind.loop()
+        self.assertEqual(ran,["stock"])
 
     def test_validation_refuses_any_extra_handler_or_shop_info_wallet_permission(self):
         self.toolbox.tools["serve_checkout"]["perm"]["handles"] = ["a2a"]
