@@ -1,0 +1,35 @@
+/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/round-4/codex-r4/e2e.py:13: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient
+...........................07:20:55 [forge] loaded 3 tools: a2a_info, serve_checkout, shop_info
+agent_card passed to DefaultRequestHandlerV2: AgentCard is not spec-compliant - REQUIRED fields missing or empty: skills. This is allowed and does not raise, but it may not verify or interoperate across SDKs and could be rejected in a future major release. See https://a2a-protocol.org/latest/specification/#57-field-presence-and-optionality
+...07:20:55 [forge] loaded 4 tools: a2a_info, pay_confirm_stock, serve_checkout, shop_info
+agent_card passed to DefaultRequestHandlerV2: AgentCard is not spec-compliant - REQUIRED fields missing or empty: skills. This is allowed and does not raise, but it may not verify or interoperate across SDKs and could be rejected in a future major release. See https://a2a-protocol.org/latest/specification/#57-field-presence-and-optionality
+agent_card passed to DefaultRequestHandlerV2: AgentCard is not spec-compliant - REQUIRED fields missing or empty: skills. This is allowed and does not raise, but it may not verify or interoperate across SDKs and could be rejected in a future major release. See https://a2a-protocol.org/latest/specification/#57-field-presence-and-optionality
+07:20:55 [mind] shop_info | Boundary test
+07:20:55 [mind] sleeps 30 s: Boundary test
+.07:20:55 [forge] loaded 4 tools: a2a_info, pay_confirm_stock, serve_checkout, shop_info
+07:20:55 [mind] a2a_info | Boundary test
+07:20:55 [mind] serve_checkout | Boundary test
+07:20:55 [mind] pay_confirm_stock | Boundary test
+07:20:55 [mind] forge_tool | Boundary test
+07:20:55 [mind] read_tool | Boundary test
+07:20:55 [mind] shop_info | Boundary test
+07:20:55 [mind] sleeps 30 s: Boundary test
+.07:20:55 [forge] loaded 4 tools: a2a_info, pay_confirm_stock, serve_checkout, shop_info
+agent_card passed to DefaultRequestHandlerV2: AgentCard is not spec-compliant - REQUIRED fields missing or empty: skills. This is allowed and does not raise, but it may not verify or interoperate across SDKs and could be rejected in a future major release. See https://a2a-protocol.org/latest/specification/#57-field-presence-and-optionality
+agent_card passed to DefaultRequestHandlerV2: AgentCard is not spec-compliant - REQUIRED fields missing or empty: skills. This is allowed and does not raise, but it may not verify or interoperate across SDKs and could be rejected in a future major release. See https://a2a-protocol.org/latest/specification/#57-field-presence-and-optionality
+.07:20:55 [forge] loaded 4 tools: a2a_info, pay_confirm_stock, serve_checkout, shop_info
+07:20:55 [forge] loaded 4 tools: a2a_info, pay_confirm_stock, serve_checkout, shop_info
+.07:20:55 [forge] loaded 4 tools: a2a_info, pay_confirm_stock, serve_checkout, shop_info
+........................
+----------------------------------------------------------------------
+Ran 58 tests in 0.705s
+
+OK
+
+Traceback (most recent call last):
+  File "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/deploy/test_internal_contract.py", line 14, in <module>
+    sys.path.insert(0, sys.argv.pop(1))
+                       ^^^^^^^^^^^^^^^
+IndexError: pop index out of range
+

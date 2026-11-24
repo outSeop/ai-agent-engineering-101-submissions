@@ -235,6 +235,19 @@ class Procurement(TestCase):
         self.assertEqual(self.f.calls,[{"sku":MOCK_SKU,"qty":4}])
         self.assertEqual(self.state()["state"],"no_purchase")
 
+    def test_quoted_goods_without_gas_headroom_are_not_paid(self):
+        self.approve()
+        self.f.advance(91)
+        current_room=2700
+        def new_balance(_quote):
+            # After price discovery, the wallet can cover merchandise but
+            # cannot also cover the bank-standard acquisition buffer.
+            self.f.cash=600000+current_room
+        self.f.quote_override=new_balance
+        self.assertEqual(self.f.action({"action":"execute"})["status"],"no_purchase")
+        self.assertEqual(self.f.calls,[{"sku":MOCK_SKU,"qty":1}])
+        self.assertEqual(self.f.sends,0)
+
     def test_expired_window_and_refresh_cash_stop_stale_model_approval(self):
         self.approve()
         self.f.advance(91)
@@ -249,7 +262,7 @@ class Procurement(TestCase):
         db=self.f.open_proc()
         try:
             db.execute("INSERT INTO stockout_observation VALUES('event',?,?,?,NULL)", (MOCK_SKU,self.f.now,"stockout"))
-            signal=stock.forecast(db,MOCK_SKU,self.f.now,.12,COIN)
+            signal=stock.forecast(db,MOCK_SKU,self.f.now,.12,COIN,420)
             self.assertEqual(signal["positive_sales_12h"],0)
             self.assertGreater(signal["rate"],0)
         finally:
@@ -261,7 +274,7 @@ class Procurement(TestCase):
             db=self.f.open_proc()
             try:
                 market=stock.Market(self.f.kit)
-                self.assertEqual(stock.capacity(db,market.snapshot(),self.f.now,market.chain())["pending_cost"],2700)
+                self.assertEqual(stock.capacity(db,market.snapshot(),self.f.now,market.chain())["pending_cost"],2910)
             finally:
                 db.close()
 

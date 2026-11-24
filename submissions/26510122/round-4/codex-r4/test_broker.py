@@ -7,6 +7,7 @@ from unittest import TestCase, main
 from unittest.mock import patch
 from uuid import uuid4
 
+import dispatcher as core
 from broker import Broker, Trace, class_context, SYSTEM, stated_prices
 from fixture import Fixture, MOCK_MARKET, MOCK_SHOP, MOCK_SKU
 from e2e import agent_kit, customer_module, no_network
@@ -95,6 +96,16 @@ class BrokerTests(TestCase):
         self.assertIn("구매", self.trace.private.read_text())
         self.assertNotIn(rights, self.trace.review.read_text())
 
+    def test_new_checkout_prices_include_bank_standard_acquisition_buffer(self):
+        unit=self.f.add_unit("u-live-cost",cost=2987)
+        self.assertGreater(core.price_terms(unit,100,420)[1],3274)
+        refused=self.handle("키친타올 걸이 지금 살게요.",self.priced("quote_and_send",3274),
+                            call("respond",text="이 가격으로는 판매하기 어렵습니다."))
+        self.assertNotIn("data",refused)
+        self.assertIn("price_out_of_bounds",self.model.inputs[-1])
+        accepted=self.handle("키친타올 걸이 지금 살게요.",self.priced("quote_and_send",4500))
+        self.assertEqual(accepted["data"]["price"],4500)
+
     def test_native_won_prices_are_exact_whole_credit_ceilings(self):
         for text, expected in (("4,500원",4500),("3만원",30000),("3만5천원",35000),
                                ("3.5만원",35000),("4,500 크레딧",4500)):
@@ -114,6 +125,24 @@ class BrokerTests(TestCase):
             self.assertNotIn("data",out)
             self.assertIn("ambiguous_customer_price",self.model.inputs[-1])
         self.assertEqual(self.count("sale"),0)
+
+    def test_catalog_title_keeps_public_symbols_and_drops_invisible_controls(self):
+        unit=self.f.add_unit("u-catalog-style",grade="B")
+        short="[신라명과] 마드레느 × 2 ／ 90g 6개입 무료배송 15%"
+        unit["name"]=short
+        view=self.f.call({"_broker":{"action":"context"}})
+        self.assertEqual(view["inventory"][0]["name"],short)
+        unit["name"]="  "+short+chr(0)+chr(0x202E)+chr(9)+("원재료 및 상품명 "*16)
+        self.handle("상품 이름을 알려주세요.",call("respond",text="신라명과 마드레느 상품이 있습니다."))
+        messages=json.loads(self.model.inputs[0])
+        user=json.loads(messages[1]["content"])
+        title=user["verified_context"]["inventory"][0]["name"]
+        self.assertTrue(title.startswith(short+" "))
+        self.assertEqual(len(title),120)
+        self.assertNotIn(chr(0x202E),title)
+        self.assertNotIn(chr(0),title)
+        self.assertNotIn(short,messages[0]["content"])
+        self.assertIsNone(core.public_product_name(chr(0x202E)+chr(0)+" "))
 
     def test_known_offer_is_prefetched_before_first_model_decision(self):
         self.f.add_unit("u-prefetch")

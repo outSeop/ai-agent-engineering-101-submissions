@@ -9,5 +9,5 @@ permission:
   timeout: 155
 logic: logic.py
 test: test.py
-version: 3
-replaces: stock_procurement@2
+version: 5
+replaces: stock_procurement@4

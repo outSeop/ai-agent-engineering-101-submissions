@@ -15,7 +15,7 @@ import httpx
 from eth_account import Account
 from eth_account.messages import encode_defunct
 
-DEPENDENCY_SHA256 = "443ac1d3ed6d3fcb405efa602cc3a32dbd7046fadc606905624d261b1534e2c9"
+DEPENDENCY_SHA256 = "a3e52d089719e77e2dcc3e77b523de82221c243f5278bb922ad73f0a115a5c0b"
 dependency = Path.cwd() / "codex-r4" / "dispatcher.py"
 if __name__ == "logic":
     if hashlib.sha256(dependency.read_bytes()).hexdigest() != DEPENDENCY_SHA256:
@@ -124,13 +124,14 @@ def quality(inv, now):
 
 
 def capacity(db, inv, now, chain, exclude=None):
-    credit, *_ = chain
+    credit, _, network, _ = chain
+    acquisition_buffer = sales.acquisition_network_buffer(network)
     cash = sales.whole(inv.get("balance"))
     bankrupt = sales.whole(inv.get("bankrupt_line"), 1)
     stock = quality(inv, now)
     stock_cost = sum(u["cost"] for u in stock)
     rows = [i for i in pending(db) if i["id"] != exclude]
-    pending_cost = sum(i["total"] for i in rows)
+    pending_cost = sum(i["total"] + acquisition_buffer for i in rows)
     active_refunds = sum(int(row[0]) for row in db.execute("SELECT wei FROM refund WHERE status!='refunded'"))
     warranty = sum(int(row[0]) + int(row[1]) for row in db.execute("""
         SELECT expected_wei,fee_wei FROM sale WHERE status='settled' AND settled>?
@@ -151,7 +152,7 @@ def capacity(db, inv, now, chain, exclude=None):
     equity = cash + stock_cost
     headroom = max(0, min(cash - reserve - pending_cost, equity * 80//100 - stock_cost - pending_cost))
     return {"cash": cash, "stock_cost": stock_cost, "equity_at_cost": equity, "pending_cost": pending_cost,
-            "cash_reserve": reserve, "holding_and_dues": holding, "refund_buffer": refund,
+            "acquisition_buffer": acquisition_buffer, "cash_reserve": reserve, "holding_and_dues": holding, "refund_buffer": refund,
             "benefits_buffer": credits_exposed, "inventory_target": equity*65//100,
             "inventory_maximum": equity*80//100, "spend_room": headroom, "credit_wei": credit}
 
@@ -168,7 +169,7 @@ def paid_sales(db, sku, now, hours):
     """, (sku, now-hours*HOUR, now)).fetchall()
 
 
-def forecast(db, sku, now, rate, credit):
+def forecast(db, sku, now, rate, credit, network):
     snapshots = [(row["at"], sku in json.loads(row["skus"])) for row in db.execute(
         "SELECT * FROM stock_observation WHERE at BETWEEN ? AND ? ORDER BY at", (now-12*HOUR, now))]
     signals = {}
@@ -189,7 +190,7 @@ def forecast(db, sku, now, rate, credit):
                                "unique_stockouts": misses, "rate": max(correction, (len(rows)+.5*misses)/hours)}
     rows = paid_sales(db, sku, now, 12)
     contributions = [int(row["expected_wei"])/credit - row["cost"]*(1+rate) - row["base"]//100
-                     - row["price"]*REFUND_STRESS for row in rows]
+                     - row["price"]*REFUND_STRESS - sales.acquisition_network_buffer(network) for row in rows]
     positive = sum(value>0 for value in contributions)
     current = (.65*signals["1"]["rate"] + .35*signals["3"]["rate"] if signals["1"]["paid"] >= 2
                else signals["3"]["rate"] if signals["3"]["rate"] else signals["12"]["rate"])
@@ -238,7 +239,8 @@ def expected_contribution(item, surge, chain, inv):
     for grade in ("A","B"):
         base=listed*sales.GRADES[grade]//100
         adjusted=base-2*(base//100)
-        result[grade]=adjusted-adjusted*bpts//10000-network//2-cost-carry-math.ceil(base*REFUND_STRESS)
+        result[grade]=(adjusted-adjusted*bpts//10000-network//2-cost-carry-math.ceil(base*REFUND_STRESS)
+                       - sales.acquisition_network_buffer(network))
     return {"by_grade":result,"cost_assumption":cost,"carrying_assumption":carry,
             "booking":"scenario only; excludes existing sunk arrears and does not infer sales"}
 
@@ -273,6 +275,7 @@ def candidates(db, inv, catalog, chain, limits, now):
     novel = sorted((sku for sku in catalog if sku not in prior),
                    key=lambda sku: hashlib.sha256(f"{int(now)//1200}/{sku}".encode()).digest())[:192]
     output = []
+    goods_room=max(0,limits["spend_room"]-limits["acquisition_buffer"])
     _, opens, closes = window(inv)
     horizon = max(.33,(closes-max(now,opens))/HOUR+.33)
     for sku in sorted(examined | set(novel)):
@@ -288,9 +291,9 @@ def candidates(db, inv, catalog, chain, limits, now):
             continue
         projected = stock[sku] + reserved[sku]
         cat_room = max(0,PER_CATEGORY-category[item["category"]])
-        if unit_cost > limits["spend_room"] or unit_cost>WALLET_MAX_CREDITS or not cat_room:
+        if unit_cost > goods_room or unit_cost>WALLET_MAX_CREDITS or not cat_room:
             continue
-        evidence = forecast(db,sku,now,inv["storage_per_day"],chain[0]) if sku in examined else {
+        evidence = forecast(db,sku,now,inv["storage_per_day"],chain[0],chain[2]) if sku in examined else {
             "rate":None,"positive_sales_12h":0,"windows":{}}
         proven = evidence["positive_sales_12h"] >= 2 and evidence.get("net_contribution_12h",0)>0
         tier = "proven" if proven else "second_trial" if evidence["positive_sales_12h"]==1 else "novel" if sku not in prior else "unproven"
@@ -304,7 +307,7 @@ def candidates(db, inv, catalog, chain, limits, now):
         qtys = []
         for opt in options:
             qty = min(max(0,opt["target"]-projected),cat_room,PER_SKU,
-                      limits["spend_room"]//unit_cost,WALLET_MAX_CREDITS//unit_cost)
+                      goods_room//unit_cost,WALLET_MAX_CREDITS//unit_cost)
             if qty and all(q["qty"]!=qty for q in qtys):
                 qtys.append(dict(opt,qty=qty,estimated_ceiling=qty*unit_cost))
         if qtys:
@@ -321,7 +324,7 @@ def candidates(db, inv, catalog, chain, limits, now):
 
 
 
-def alternatives(rows, headroom, novel_limit, line_cap):
+def alternatives(rows, headroom, novel_limit, line_cap, acquisition_buffer):
     examples = []
     seen = set()
     for name, seek_novel, qty_i in (("broad",6,0),("balanced",max(1,min(3,line_cap-1)),1),("depth",1,-1)):
@@ -331,18 +334,18 @@ def alternatives(rows, headroom, novel_limit, line_cap):
         for row in ordered:
             if len(picks) == line_cap or row["tier"]=="novel" and novel >= min(novel_limit,max(1,seek_novel)):
                 continue
-            possible = [q for q in row["options"] if q["estimated_ceiling"]<=budget
+            possible = [q for q in row["options"] if q["estimated_ceiling"]+acquisition_buffer<=budget
                         and cats[row["category"]]+q["qty"]<=row["category_room"]]
             if not possible:
                 continue
             choice = possible[min(qty_i,len(possible)-1)]
-            budget -= choice["estimated_ceiling"]
+            budget -= choice["estimated_ceiling"]+acquisition_buffer
             picks.append({"sku":row["sku"],"qty":choice["qty"]})
             novel += row["tier"]=="novel"
             cats[row["category"]] += choice["qty"]
         key = tuple(sorted((x["sku"],x["qty"]) for x in picks))
         if picks and key not in seen:
-            examples.append({"id":name,"lines":picks,"estimated_goods":headroom-budget})
+            examples.append({"id":name,"lines":picks,"estimated_goods":headroom-budget-acquisition_buffer*len(picks)})
             seen.add(key)
     return examples
 
@@ -363,13 +366,19 @@ def stock_context(db, market, now, line_cap=WINDOW_LINES):
         return {"status":existing["status"],"opens_at":opens,"closes_at":closes}
     # Catalog and forecast are not repeatedly fetched after model approval.
     if existing and now < existing["expires"]:
-        return {"status":"draft","plan":existing["id"],"context":json.loads(existing["choices"])}
+        previous = json.loads(existing["choices"])
+        if "acquisition_buffer" in previous.get("finance", {}):
+            return {"status":"draft","plan":existing["id"],"context":previous}
+        # The new fee policy must be reflected in a fresh candidate set.
+        # Only obsolete drafts are refreshed, never approvals or intents.
+        with sales.atomic(db):
+            db.execute("UPDATE stock_plan SET expires=? WHERE id=? AND status='draft'", (now,existing["id"]))
     catalog = market.catalog()
     rows = candidates(db, inv, catalog, chain, limits, now)
     novel_limit = line_cap
     context = {"opens_at":opens,"closes_at":closes,"finance":limits, "novel_limit":novel_limit,
                "limits":{"lines":line_cap,"per_sku":PER_SKU,"per_category":PER_CATEGORY},
-               "choices":rows,"alternatives":alternatives(rows,limits["spend_room"],novel_limit,line_cap),
+               "choices":rows,"alternatives":alternatives(rows,limits["spend_room"],novel_limit,line_cap,limits["acquisition_buffer"]),
                "cold_start":"No measured demand for untested SKUs. A novel choice is a single-unit trial.",
                "exposure_note":"Measured from actual available R4 stock. Missing observations are unknown."}
     ident = secrets.token_hex(16)
@@ -409,6 +418,8 @@ def stock_plan(db, market, now, ident, decision):
         context = json.loads(row["choices"])
         if action!="buy" or not isinstance(lines,list) or not 1<=len(lines)<=context["limits"]["lines"]:
             return {"status":"invalid_choice"}
+        if "acquisition_buffer" not in context.get("finance", {}):
+            return {"status":"stale_draft_policy"}
         choices = {r["sku"]:r for r in context["choices"]}
         selected, seen, novel, ceiling = [], set(), 0, 0
         category_totals = Counter()
@@ -430,7 +441,8 @@ def stock_plan(db, market, now, ident, decision):
                              "goods_ceiling":fit["estimated_ceiling"],"tier":choice["tier"],
                              "coverage_hours":fit.get("horizon_hours"),
                              "list_price":choice["list_price"],"kind":choice["kind"],"category":choice["category"]})
-        if ceiling>context["finance"]["spend_room"] or novel>context["novel_limit"]:
+        if (ceiling+len(selected)*context["finance"]["acquisition_buffer"]>context["finance"]["spend_room"]
+                or novel>context["novel_limit"]):
             return {"status":"basket_exceeds_limit"}
         db.execute("UPDATE stock_plan SET status='ready',decision=? WHERE id=?",
                    (entries({"lines":selected,"reason":reason}),ident))
@@ -445,7 +457,7 @@ def validate_quote(quote, line, market, inv, chain, now, spend_room):
     gross = sales.whole(quote.get("goods"),1)
     storage, forum = sales.whole(quote.get("storage")), sales.whole(quote.get("forum_fees"))
     total = sales.whole(quote.get("total"),1,WALLET_MAX_CREDITS)
-    if (total!=gross+storage+forum or gross>line["goods_ceiling"] or total>spend_room
+    if (total!=gross+storage+forum or gross>line["goods_ceiling"] or total+sales.acquisition_network_buffer(network)>spend_room
             or storage>sales.whole(inv.get("storage_due_with_next_lot"))+1
             or forum>sales.whole(inv.get("next_dislike_fee"))):
         raise sales.Unavailable("wholesale quote exceeds verified costs or authority")
@@ -488,7 +500,7 @@ def validate_quote(quote, line, market, inv, chain, now, spend_room):
         discounted = base - 2*(base//100)
         received = discounted - discounted*bps//10000 - network//2
         holding = math.ceil(cost * inv["storage_per_day"]) if line["kind"]=="goods" else 0
-        if received <= cost+holding+math.ceil((storage+forum)/len(units))+math.ceil(base*REFUND_STRESS):
+        if received <= cost+holding+math.ceil((storage+forum+sales.acquisition_network_buffer(network))/len(units))+math.ceil(base*REFUND_STRESS):
             raise sales.Unavailable("wholesale grade/expiry and fees imply inadequate margin")
     if cost_sum != gross:
         raise sales.Unavailable("wholesale goods total differs from unit costs")
@@ -552,7 +564,7 @@ def stock_execute(db, market, now, pay):
         if projected+line["qty"]>line["target"] or category+line["qty"]>PER_CATEGORY:
             return {"status":"fresh_quantity_limit"}
         limits=capacity(db,inv,now,chain)
-        if limits["spend_room"]<line["goods_ceiling"]:
+        if limits["spend_room"]<line["goods_ceiling"]+limits["acquisition_buffer"]:
             return {"status":"fresh_cash_limit"}
         ident=secrets.token_hex(16)
         db.execute("""INSERT INTO stock_intent(id,plan_id,sku,qty,total,state,created) VALUES(?,?,?,?,?,'reserved',?)""",

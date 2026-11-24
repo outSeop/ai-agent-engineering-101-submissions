@@ -10,6 +10,7 @@ import secrets
 import sqlite3
 import time
 from time import monotonic
+from unicodedata import category as unicode_category
 from urllib.parse import urlsplit
 
 import httpx
@@ -658,6 +659,11 @@ def usable_units(units, now, sku=None):
     return result
 
 
+def acquisition_network_buffer(network):
+    """Bank-standard planning buffer, not a measured acquisition gas cost."""
+    return network // 2
+
+
 def price_terms(unit, bps, network):
     # The live inventory list price and observed grade set the undiscounted offer.
     # Fees, stock cost and the new mileage liability set the minimum shop proceeds.
@@ -665,7 +671,7 @@ def price_terms(unit, bps, network):
     fee = lambda price: price * bps // 10000 + network // 2
     # Exact integer lower bound by monotone search, including the fee rounding.
     lo, hi = 1, base
-    minimum_proceeds = max(1, unit["cost"] + base // 100)
+    minimum_proceeds = max(1, unit["cost"] + base // 100 + acquisition_network_buffer(network))
     if base - fee(base) < minimum_proceeds:
         return None
     while lo < hi:
@@ -1033,6 +1039,14 @@ def decision_result(code, reply, data=None):
     return dict(respond(reply, data), outcome=code)
 
 
+def public_product_name(value):
+    if not isinstance(value, str):
+        return None
+    visible = "".join(" " if char.isspace() else char for char in value
+                      if char.isspace() or unicode_category(char) not in ("Cc", "Cf", "Cs"))
+    return " ".join(visible.split())[:120].rstrip() or None
+
+
 def decision_call(db, market, details, now):
     """Only the managed broker constructs this private tool invocation."""
     owner = key_of(details.get("right"))
@@ -1059,9 +1073,7 @@ def decision_call(db, market, details, now):
             terms = price_terms(unit, bps, network)
             if terms:
                 base, minimum = terms
-                name = unit.get("name")
-                if not isinstance(name, str) or not re.fullmatch(r"[가-힣A-Za-z0-9 ()/+,.&·-]{1,80}", name):
-                    name = None
+                name = public_product_name(unit.get("name"))
                 items.append({"sku": unit["sku"], "name": name, "grade": unit["grade"],
                               "category": category_key(unit.get("category")),
                               "reference_price": base, "min_base": minimum,

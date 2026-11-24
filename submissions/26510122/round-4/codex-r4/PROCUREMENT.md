@@ -10,7 +10,7 @@
 
 공급가, 처리 수수료, 보관료, 할인·적립, 환불 위험을 반영했을 때 최근 자체 양의 정산이 둘 이상이고 전체 양의 기여가 확인된 품목에 수요 기반 보충을 제안한다. 신규 SKU별 수량과 두 번째 시험은 한 개 단위다. 창 전체의 신규 품목 수는 현금·카테고리·설정 라인 한도에서 모델이 고른다. 신규 판매 기록이 부족하면 수요를 unknown으로 제공한다. 가까운 공급창과 다시간의 low/base/high 및 보충 시나리오를 계산한다. 식품은 견적에서 받은 모든 단위의 잔여 유통기한이 승인된 수요 충당 시간에 처리 여유 3분을 더한 값 이상인지 확인한다. 실측 수요가 없는 신규·두 번째 시험은 2시간에 같은 여유를 더한다. 새 후보는 예상 순기여가 양수인 등급 가정이 하나라도 있어야 하며 카테고리와 가격대가 한쪽에 몰리지 않도록 구성한다. 비교 바구니가 동일하면 하나만 제시한다.
 
-현재 현금과 실물 재고 원가로 환산한 자기자본의 65%는 참고 목표이고 80%는 노출 상한이다. 파산선 위 현금 완충, 보관료, 환불과 마일리지 의무, 다른 입고의 미확정 예약을 유지한다. 권한의 지갑 상한은 한 요청당 100만 크레딧이며 실제 권한은 모델 승인·견적·새 계좌 검증 중 더 작은 금액으로 제한된다. 한 창의 최대 10라인은 운영 한도다. 첫 운영에서 명시적으로 3으로 낮출 수 있다.
+현재 현금과 실물 재고 원가로 환산한 자기자본의 65%는 참고 목표이고 80%는 노출 상한이다. 파산선 위 현금 완충, 보관료, 환불과 마일리지 의무, 다른 입고의 미확정 예약을 유지한다. 신규 계산은 은행 표준 네트워크 비용의 절반을 매입 가스 여유분으로 둔다. 견적·자금검증에서는 지급 한 번당 한 번, 품목 순기여에서는 단위당 배분하거나 안전한 경우 전체 여유분을 반영한다. 실제 가스 비용 측정값과 별개이며 이미 발급한 결제권을 수정하지 않는다. 권한의 지갑 상한은 한 요청당 100만 크레딧이며 실제 권한은 모델 승인·견적·새 계좌 검증 중 더 작은 금액으로 제한된다. 한 창의 최대 10라인은 운영 한도다. 첫 운영에서 명시적으로 3으로 낮출 수 있다.
 
 ## 결제·입고 상태
 
@@ -28,9 +28,3 @@
 
 격리 검증은 test_procurement.py와 공식 forge 기록에 있다. 실제 토큰, 지갑, 운영 재고, 시장 HTTP 호출을 사용하지 않았다. 모델 판단을 실증할 때는 별도의 실제 수업 모델 응답 기록과, 도구 결과를 체인·시장 fixture로 재생한 기록을 확인한다.
 
-
-## Model input privacy boundary
-
-The financial context remains in the local tools and SQLite ledger. `stock_runtime.public_model_view` sends the class model only public catalog fields, permitted quantities and already validated alternative line combinations. It omits cash, budgets, reserve amounts, pending costs, wallet identities, customers, stock quantities, sales history, rates and exact outcomes. Model output is still an exact SKU/quantity decision; local tools retain all capital and execution checks. A failed combination receives one generic correction without private error details.
-
-An automatic approval review rejected the earlier manual request containing actual cash/risk details. That payload was not transmitted by the rejected commands. The revised public-menu payload was separately verified and allowed; do not restore the old finance-bearing model input as a workaround.

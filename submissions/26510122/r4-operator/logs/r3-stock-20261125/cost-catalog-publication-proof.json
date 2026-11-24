@@ -1,0 +1,77 @@
+{
+  "precopy_scan": true,
+  "files": [
+    {
+      "file": "round-4/codex-r4/dispatcher.py",
+      "sha256": "a3e52d089719e77e2dcc3e77b523de82221c243f5278bb922ad73f0a115a5c0b"
+    },
+    {
+      "file": "round-4/codex-r4/broker.py",
+      "sha256": "bc9aea0a253559624c8ef166c9496f72facfb15189a8a71d1e2718b906a0bd90"
+    },
+    {
+      "file": "round-4/codex-r4/procurement.py",
+      "sha256": "47df32819342c6615824c54c2d6922a0329bcfc7dc587c822005d9ba7d9d5559"
+    },
+    {
+      "file": "round-4/codex-r4/test_broker.py",
+      "sha256": "0348db1ae90c6422ed58bbc313a71da931454143bcf8ab07c5c88b243e0e29a4"
+    },
+    {
+      "file": "round-4/codex-r4/test_procurement.py",
+      "sha256": "a0e6e4c13724d2b582e4e2c4000851793190d8987c87601072b5f59434f486dc"
+    },
+    {
+      "file": "round-4/codex-r4/PROCUREMENT.md",
+      "sha256": "91897943868d29e8d274311f65c5c8f3448a6dabd2bec33a10b5053247257619"
+    },
+    {
+      "file": "round-4/tools/a2a_info/logic.py",
+      "sha256": "a3e52d089719e77e2dcc3e77b523de82221c243f5278bb922ad73f0a115a5c0b"
+    },
+    {
+      "file": "round-4/tools/a2a_info/test.py",
+      "sha256": "5e267fce4e18da3b3f16d118a79200fc394b5b58e4960049671fd4d5b6973e51"
+    },
+    {
+      "file": "round-4/tools/a2a_info/permission.yml",
+      "sha256": "b3a1678a6839c9c30f460d7482e27cc86ff0fad525413424894bf37d9957dc88"
+    },
+    {
+      "file": "round-4/tools/a2a_info/forge.json",
+      "sha256": "6acf8c899950a7a4b4e2060060922dbdf430d908226883b9599309bbeee3330c"
+    },
+    {
+      "file": "round-4/tools/stock_procurement/logic.py",
+      "sha256": "47df32819342c6615824c54c2d6922a0329bcfc7dc587c822005d9ba7d9d5559"
+    },
+    {
+      "file": "round-4/tools/stock_procurement/test.py",
+      "sha256": "7a7901e9ccecdbd2640ec1db56d420c1ff42dc5adfee15e57321bd2edb8bb9a3"
+    },
+    {
+      "file": "round-4/tools/stock_procurement/permission.yml",
+      "sha256": "d85f2f02e363f9e6a6c736ef57e5891a932e5c6ac2aa8a1f7f0cddf4f1f0073a"
+    },
+    {
+      "file": "round-4/tools/stock_procurement/forge.json",
+      "sha256": "e8ef4f85c4fdea61ff8b14d63ad5a111cc176e71d2915d647994db056fcf5b41"
+    },
+    {
+      "file": "round-4/logs/forge.jsonl",
+      "sha256": "02907ce02c9b3e606cb3c25dab86268749ddefd7245a2444d24d239113d37c9f"
+    },
+    {
+      "file": "r4-operator/runtime/r3-stock-20261124-204104/live-catalog-validation-70.log",
+      "sha256": "b083eda2dad31dc74db2457e9785bb48e6b19c554592689acf6828351ae70617"
+    },
+    {
+      "file": "r4-operator/runtime/r3-stock-20261124-204104/live-catalog-validation-70-corrected.log",
+      "sha256": "7ae73439248d1b92233dbddc7d70b9ead64b786ae357d162eaf3223ad1ab5b33"
+    },
+    {
+      "file": "r4-operator/runtime/r3-stock-20261124-204104/live-catalog-profile-corrected.log",
+      "sha256": "38d6f63ccdffe6e964c1f7a6d8870d9a40c61ec26c9b602754ca1709357a64a2"
+    }
+  ]
+}
