@@ -1,0 +1,5 @@
+{
+  "observed": "Accepted offer code was masked and the model skipped context lookup, asking customer for already recorded SKU/price.",
+  "fix": "Always prefetch scoped verified context before asking the model for a commercial decision.",
+  "real_trade": false
+}
