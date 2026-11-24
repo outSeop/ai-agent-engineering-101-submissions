@@ -1,0 +1,27 @@
+[Unit]
+Description=OuroLabs Round 4 outseop-r4 autonomous shop
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=600
+StartLimitBurst=4
+
+[Service]
+Type=simple
+WorkingDirectory=%h/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator
+ExecStart=%h/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/.venv/bin/python %h/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/run_r4.py run --app-port 18804
+Environment=PATH=%h/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/.venv/bin:%h/.local/bin:/usr/local/bin:/usr/bin:/bin
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONUTF8=1
+UMask=0077
+Nice=10
+CPUQuota=100%
+MemoryMax=1G
+TasksMax=128
+Restart=on-failure
+RestartSec=30
+KillSignal=SIGINT
+KillMode=control-group
+TimeoutStopSec=40
+
+[Install]
+WantedBy=default.target

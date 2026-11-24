@@ -1,0 +1,40 @@
+{
+  "fetched_date_kst": "2026-11-25",
+  "files": [
+    {
+      "name": "LICENSE",
+      "upstream_git_blob_sha": "6932a712ea5be5eaf67639e76ef79ecc0db14170",
+      "url": "https://github.com/Q00/ai-agent-engineering-101/blob/main/scripts/round4/LICENSE"
+    },
+    {
+      "name": "agent_kit.py",
+      "upstream_git_blob_sha": "fbc59a60aab804c9781337ecabb018e13e8aaa50",
+      "url": "https://github.com/Q00/ai-agent-engineering-101/blob/main/scripts/round4/agent_kit.py"
+    },
+    {
+      "name": "cli_model.py",
+      "upstream_git_blob_sha": "723fc629468287199249222c7962aed461d041e8",
+      "url": "https://github.com/Q00/ai-agent-engineering-101/blob/main/scripts/round4/cli_model.py"
+    },
+    {
+      "name": "forge_runner.py",
+      "upstream_git_blob_sha": "e28121cd47a34952c5d5cd059f91cf66630e7a0a",
+      "url": "https://github.com/Q00/ai-agent-engineering-101/blob/main/scripts/round4/forge_runner.py"
+    },
+    {
+      "name": "market_kit.py",
+      "upstream_git_blob_sha": "9afca589cd2f6ae061eee04f29ca602572d9ad72",
+      "url": "https://github.com/Q00/ai-agent-engineering-101/blob/main/scripts/round4/market_kit.py"
+    },
+    {
+      "name": "maroo.py",
+      "upstream_git_blob_sha": "2de4cebfb8df881bedbb9cb42135b1d8e432c638",
+      "url": "https://github.com/Q00/ai-agent-engineering-101/blob/main/scripts/round4/maroo.py"
+    },
+    {
+      "name": "miniapp.py",
+      "upstream_git_blob_sha": "b2570ac69ca169dec11c6c31346921a24507b03d",
+      "url": "https://github.com/Q00/ai-agent-engineering-101/blob/main/scripts/round4/miniapp.py"
+    }
+  ]
+}
