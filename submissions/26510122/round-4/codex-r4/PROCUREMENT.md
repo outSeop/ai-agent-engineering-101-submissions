@@ -28,3 +28,9 @@
 
 격리 검증은 test_procurement.py와 공식 forge 기록에 있다. 실제 토큰, 지갑, 운영 재고, 시장 HTTP 호출을 사용하지 않았다. 모델 판단을 실증할 때는 별도의 실제 수업 모델 응답 기록과, 도구 결과를 체인·시장 fixture로 재생한 기록을 확인한다.
 
+
+## Model input privacy boundary
+
+The financial context remains in the local tools and SQLite ledger. `stock_runtime.public_model_view` sends the class model only public catalog fields, permitted quantities and already validated alternative line combinations. It omits cash, budgets, reserve amounts, pending costs, wallet identities, customers, stock quantities, sales history, rates and exact outcomes. Model output is still an exact SKU/quantity decision; local tools retain all capital and execution checks. A failed combination receives one generic correction without private error details.
+
+An automatic approval review rejected the earlier manual request containing actual cash/risk details. That payload was not transmitted by the rejected commands. The revised public-menu payload was separately verified and allowed; do not restore the old finance-bearing model input as a workaround.

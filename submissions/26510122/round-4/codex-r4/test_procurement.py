@@ -17,7 +17,7 @@ import dispatcher as sales
 from fixture import Fixture, MOCK_MARKET, MOCK_SKU, COIN, MARKET_WALLET
 import procurement as stock
 import refund_admin
-from stock_runtime import StockCoordinator
+from stock_runtime import StockCoordinator, public_model_view
 
 
 class StockFixture(Fixture):
@@ -372,6 +372,56 @@ class Procurement(TestCase):
                 self.assertEqual(customer.sends,0)
             finally:
                 db.close()
+
+    def test_model_receives_only_public_whitelist_and_locally_allowed_choices(self):
+        secret="fixture-private-token-or-quote"
+        def execute(args):
+            view=self.f.action(args)
+            if args["action"]=="context" and view["status"]=="draft":
+                private=view["context"]
+                private.update(wallet=self.f.kit.address("shop"),token=secret,raw_history=[secret])
+                private["choices"][0].update(stock=98,pending=97,demand={"rate":3.14159},cost_ceiling=27271,
+                                             margin_scenario={"profit":12345},tier="proven")
+                private["choices"][0]["options"][0].update(_quote=secret,estimated_ceiling=27271)
+                private["alternatives"][0].update(cash=self.f.cash,token=secret)
+                self.assertEqual(set(public_model_view(private)),{"line_limit","choices","alternatives"})
+            return view
+        requests=[]
+        class Model:
+            def complete(_,messages):
+                requests.append(messages)
+                return '{"action":"buy","lines":[{"sku":"G0026722f","qty":1}]}'
+        coordinator=StockCoordinator(execute,Model(),now=lambda:self.f.now)
+        self.assertEqual(coordinator.tick()[-1]["status"],"ready")
+        sent=requests[0][1]["content"]
+        for prohibited in ("finance","cash","equity","wallet","cost_ceiling","tier","pending","margin_scenario",
+                           "forecast","history","opens_at","closes_at","profit","stock","token",secret,
+                           self.f.kit.address("shop"),str(self.f.cash),"27271"):
+            self.assertNotIn(prohibited,sent)
+        payload=json.loads(sent)
+        self.assertEqual(set(payload),{"line_limit","choices","alternatives"})
+        shown,=payload["choices"]
+        self.assertEqual(shown["list_price"],4500)
+        self.assertEqual(shown["options"],[{"qty":1,"label":"allowed"}])
+        self.assertEqual(payload["alternatives"][0]["lines"],[{"sku":MOCK_SKU,"qty":1}])
+        self.f.advance(91)
+        self.assertEqual(coordinator.tick()[-1]["status"],"paid_pending_confirmation")
+        self.assertEqual(self.f.sends,1)
+
+    def test_rejected_basket_correction_never_sends_internal_reason(self):
+        outputs=[]
+        class Model:
+            def complete(_,messages):
+                outputs.append(messages)
+                qty=2 if len(outputs)==1 else 1
+                return json.dumps({"action":"buy","lines":[{"sku":MOCK_SKU,"qty":qty}]})
+        worker=StockCoordinator(self.f.action,Model(),now=lambda:self.f.now)
+        self.assertEqual(worker.tick()[-1]["status"],"quantity_not_offered")
+        self.f.advance(76)
+        self.assertEqual(worker.tick()[-1]["status"],"ready")
+        self.assertIn("로컬 검증을 통과하지 못했다",outputs[-1][0]["content"])
+        self.assertNotIn("quantity_not_offered",json.dumps(outputs[-1]))
+        self.assertEqual(json.loads(outputs[0][1]["content"]),json.loads(outputs[-1][1]["content"]))
 
     def test_background_model_is_called_once_and_only_with_customer_idle(self):
         view=self.f.action({"action":"context"})
