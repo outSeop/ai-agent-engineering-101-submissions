@@ -1,0 +1,40 @@
+{
+  "at": 1795551394.1283693,
+  "services": {
+    "ourolabs-r4-decisions-tunnel.service": {
+      "ActiveState": "inactive",
+      "UnitFileState": "",
+      "MainPID": "0"
+    },
+    "ourolabs-r4-decisions-endpoint.service": {
+      "ActiveState": "inactive",
+      "UnitFileState": "",
+      "MainPID": "0"
+    },
+    "ourolabs-market-r4.service": {
+      "ActiveState": "inactive",
+      "UnitFileState": "disabled",
+      "MainPID": "0"
+    },
+    "ourolabs-market-r4-worker.service": {
+      "ActiveState": "inactive",
+      "UnitFileState": "enabled",
+      "MainPID": "0"
+    },
+    "outseop-r3-buyer.service": {
+      "ActiveState": "inactive",
+      "UnitFileState": "disabled",
+      "MainPID": "0"
+    },
+    "outseop-r3-seller.service": {
+      "ActiveState": "inactive",
+      "UnitFileState": "disabled",
+      "MainPID": "0"
+    },
+    "outseop-r3-buyer-logdb.service": {
+      "ActiveState": "inactive",
+      "UnitFileState": "disabled",
+      "MainPID": "0"
+    }
+  }
+}

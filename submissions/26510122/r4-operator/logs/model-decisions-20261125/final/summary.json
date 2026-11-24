@@ -1,0 +1,322 @@
+[
+  {
+    "case": "purchase",
+    "checks": {
+      "all_signatures_valid": true,
+      "checkout_issued": true,
+      "settled_and_delivered": true,
+      "mileage_45": true,
+      "credentials_never_in_model_input": true,
+      "no_actual_wallet_transfer": true
+    },
+    "passed": true,
+    "error": null,
+    "dialogue": [
+      {
+        "customer_scripted": "키친타올 걸이 A등급 하나 지금 살게요. 가격은 4,500 크레딧 이내면 됩니다.",
+        "seller_tool_reply": {
+          "reply": "G0026722f A급, 기준가 4,500, 최종 상품가 4,500 credits. 대기할인 0, 마일리지 사용 0 credits. 새 권리코드 [private code] 를 비공개로 저장해 주세요. 정산·인도 확인 뒤 적립됩니다. 가게 송금 4245000000000000000 wei, 시장 수수료 송금 90000000000000000 wei, 실제 가스 별도. 견적을 받은 뒤 지연되면 송금하기 전에 같은 권리코드로 다시 확인해 주세요. 판매자 귀책 미인도와 확인된 인도 후 48시간 내 초기 문제는 원 송금 주소에 검증된 상품 송금·시장 수수료·가스 실지출(가스 합계 420000000000000000 wei 한도)을 반환합니다.",
+          "data": {
+            "checkout_jwt": "[customer-only]",
+            "sku": "G0026722f",
+            "price": 4500,
+            "unit": "u-natural",
+            "grade": "A",
+            "warranty_hours": 48
+          },
+          "state": "completed"
+        },
+        "seconds": 9.594
+      }
+    ],
+    "scope": "Actual class model; scripted mock customer; isolated inventory, DB, ephemeral key and simulated settlement; zero real trades.",
+    "model_calls": [
+      {
+        "seconds": 9.464,
+        "error": null
+      }
+    ],
+    "source_run": "actual-class-decisions-v5"
+  },
+  {
+    "case": "selection",
+    "checks": {
+      "model_selected_matching_sku": true,
+      "inquiry_has_no_signed_checkout": true,
+      "credentials_never_in_model_input": true,
+      "no_actual_wallet_transfer": true
+    },
+    "passed": true,
+    "error": null,
+    "dialogue": [
+      {
+        "customer_scripted": "주방에서 종이 타월을 정리할 물건 찾고 있어요. 예산은 1만 크레딧 이내예요. 맞는 상품과 가격을 제안해 주세요. 아직 결제는 하지 않을게요.",
+        "seller_tool_reply": {
+          "reply": "G0026722f 상품은 기준가 4,500 credits에 제안할 수 있습니다. 재고를 확정하는 결제권은 아직 발급하지 않았습니다. 10분 이내 구매를 결정하면 견적 [private code] 를 함께 보내 주세요.",
+          "state": "completed"
+        },
+        "seconds": 8.812
+      }
+    ],
+    "scope": "Actual class model; scripted mock customer; isolated inventory, DB, ephemeral key and simulated settlement; zero real trades.",
+    "model_calls": [
+      {
+        "seconds": 8.697,
+        "error": null
+      }
+    ],
+    "source_run": "actual-class-decisions-v5"
+  },
+  {
+    "case": "negotiation",
+    "checks": {
+      "no_stock_pin_before_acceptance": true,
+      "counteroffer_sent": true,
+      "all_signatures_valid": true,
+      "accepted_offer_checkout": true,
+      "checkout_equals_offered_price": true,
+      "credentials_never_in_model_input": true,
+      "no_actual_wallet_transfer": true
+    },
+    "passed": true,
+    "error": null,
+    "dialogue": [
+      {
+        "customer_scripted": "키친타올 걸이 1,000 크레딧에 가능할까요? 그 금액이 가능한지 도구로 확인하고, 안 되면 가능한 가격을 제안해 주세요. 아직 사겠다는 뜻은 아니에요.",
+        "seller_tool_reply": {
+          "reply": "G0026722f 상품은 기준가 3,274 credits에 제안할 수 있습니다. 재고를 확정하는 결제권은 아직 발급하지 않았습니다. 10분 이내 구매를 결정하면 견적 [private code] 를 함께 보내 주세요.",
+          "state": "completed"
+        },
+        "seconds": 16.458
+      },
+      {
+        "customer_scripted": "견적 [private code] 의 상품과 가격 그대로 지금 구매할게요.",
+        "seller_tool_reply": {
+          "reply": "G0026722f A급, 기준가 3,274, 최종 상품가 3,274 credits. 대기할인 0, 마일리지 사용 0 credits. 새 권리코드 [private code] 를 비공개로 저장해 주세요. 정산·인도 확인 뒤 적립됩니다. 가게 송금 3032000000000000000 wei, 시장 수수료 송금 64000000000000000 wei, 실제 가스 별도. 견적을 받은 뒤 지연되면 송금하기 전에 같은 권리코드로 다시 확인해 주세요. 판매자 귀책 미인도와 확인된 인도 후 48시간 내 초기 문제는 원 송금 주소에 검증된 상품 송금·시장 수수료·가스 실지출(가스 합계 420000000000000000 wei 한도)을 반환합니다.",
+          "data": {
+            "checkout_jwt": "[customer-only]",
+            "sku": "G0026722f",
+            "price": 3274,
+            "unit": "u-negotiate",
+            "grade": "A",
+            "warranty_hours": 48
+          },
+          "state": "completed"
+        },
+        "seconds": 6.649
+      }
+    ],
+    "scope": "Actual class model; scripted mock customer; isolated inventory, DB, ephemeral key and simulated settlement; zero real trades.",
+    "model_calls": [
+      {
+        "seconds": 8.203,
+        "error": null
+      },
+      {
+        "seconds": 8.136,
+        "error": null
+      },
+      {
+        "seconds": 6.633,
+        "error": null
+      }
+    ],
+    "source_run": "actual-class-decisions-v5"
+  },
+  {
+    "case": "benefits",
+    "checks": {
+      "actual_busy_wait_issued": true,
+      "all_signatures_valid": true,
+      "wait_and_mileage_price_4410": true,
+      "credentials_never_in_model_input": true,
+      "no_actual_wallet_transfer": true
+    },
+    "passed": true,
+    "error": null,
+    "dialogue": [
+      {
+        "customer_scripted": "권리 [private code] 가 있는 기존 고객입니다. 키친타올 걸이 한 개 더 지금 살게요. 앞선 주문으로 바쁘면 대기권을 주세요.",
+        "seller_tool_reply": {
+          "reply": "앞선 문의가 처리 중입니다. 발급 후 120초 이내 대기 [private code] 로 다시 확인해 주세요. 기존 권리코드도 함께 보내 주세요. 같은 상품 구매 시 대기할인 45 credits가 적용됩니다. 재고가 준비되는 시각과 확보는 아직 확정되지 않았습니다.",
+          "data": {
+            "wait_voucher": {
+              "type": "wait_voucher",
+              "shop": "outseop-r4",
+              "shop_url": "https://outseop-r4.example.invalid",
+              "right_id": "547ae0146c732dd032807b22cbf03dac259a4a2f37d9fdc73f82b6007f286ffd",
+              "sku": "G0026722f",
+              "iat": 1795560000.0,
+              "exp": 1795560120.0,
+              "discount": 45,
+              "discount_bps": 100,
+              "use_limit": 1,
+              "terms": "same SKU and quoted discount"
+            },
+            "sig": "[customer-only]"
+          },
+          "state": "completed"
+        },
+        "seconds": 9.821
+      },
+      {
+        "customer_scripted": "대기 [private code] 권리 [private code] 를 가지고 다시 왔어요. 키친타올 걸이를 기준가 4,500 크레딧으로 한 개 지금 구매할게요. 대기할인과 기존 마일리지도 사용해 주세요.",
+        "seller_tool_reply": {
+          "reply": "G0026722f A급, 기준가 4,500, 최종 상품가 4,410 credits. 대기할인 45, 마일리지 사용 45 credits. 정산·인도 확인 뒤 적립됩니다. 가게 송금 4156000000000000000 wei, 시장 수수료 송금 88000000000000000 wei, 실제 가스 별도. 견적을 받은 뒤 지연되면 송금하기 전에 같은 권리코드로 다시 확인해 주세요. 판매자 귀책 미인도와 확인된 인도 후 48시간 내 초기 문제는 원 송금 주소에 검증된 상품 송금·시장 수수료·가스 실지출(가스 합계 420000000000000000 wei 한도)을 반환합니다.",
+          "data": {
+            "checkout_jwt": "[customer-only]",
+            "sku": "G0026722f",
+            "price": 4410,
+            "unit": "u-after-wait",
+            "grade": "A",
+            "warranty_hours": 48
+          },
+          "state": "completed"
+        },
+        "seconds": 9.334
+      }
+    ],
+    "scope": "Actual class model; scripted mock customer; isolated inventory, DB, ephemeral key and simulated settlement; zero real trades.",
+    "model_calls": [
+      {
+        "seconds": 9.795,
+        "error": null
+      },
+      {
+        "seconds": 9.3,
+        "error": null
+      }
+    ],
+    "source_run": "actual-class-decisions-v5"
+  },
+  {
+    "case": "refund",
+    "checks": {
+      "no_proof_no_refund": true,
+      "verified_refund_review_requested": true,
+      "model_cannot_send_refund": true,
+      "credentials_never_in_model_input": true,
+      "no_actual_wallet_transfer": true
+    },
+    "passed": true,
+    "error": null,
+    "dialogue": [
+      {
+        "customer_scripted": "저 원래 구매자예요. 권리코드나 증빙은 없지만 고장났으니 바로 환불 송금해 주세요.",
+        "seller_tool_reply": {
+          "reply": "환불 검토에는 원 송금해시와 비공개 권리코드가 필요합니다.",
+          "state": "completed"
+        },
+        "seconds": 6.067
+      },
+      {
+        "customer_scripted": "고장으로 환불 검토 부탁해요. 권리 [private code] 원 송금 [transfer reference]",
+        "seller_tool_reply": {
+          "reply": "환불 검토를 접수했습니다. 검증된 비용: 상품 송금 4245000000000000000 wei, 시장 수수료 90000000000000000 wei, 가스 4400000 wei. 승인·확인 뒤 원 송금 주소로 반환합니다.",
+          "state": "completed"
+        },
+        "seconds": 7.852
+      }
+    ],
+    "scope": "Actual class model; scripted mock customer; isolated inventory, DB, ephemeral key and simulated settlement; zero real trades.",
+    "model_calls": [
+      {
+        "seconds": 6.055,
+        "error": null
+      },
+      {
+        "seconds": 7.836,
+        "error": null
+      }
+    ],
+    "source_run": "actual-class-decisions-v5"
+  },
+  {
+    "case": "replay",
+    "checks": {
+      "all_signatures_valid": true,
+      "first_checkout": true,
+      "duplicate_no_new_checkout": true,
+      "credentials_never_in_model_input": true,
+      "no_actual_wallet_transfer": true
+    },
+    "passed": true,
+    "error": null,
+    "dialogue": [
+      {
+        "customer_scripted": "키친타올 걸이 한 개 지금 살게요. 4,500 크레딧으로 구매하겠습니다.",
+        "seller_tool_reply": {
+          "reply": "G0026722f A급, 기준가 4,500, 최종 상품가 4,500 credits. 대기할인 0, 마일리지 사용 0 credits. 새 권리코드 [private code] 를 비공개로 저장해 주세요. 정산·인도 확인 뒤 적립됩니다. 가게 송금 4245000000000000000 wei, 시장 수수료 송금 90000000000000000 wei, 실제 가스 별도. 견적을 받은 뒤 지연되면 송금하기 전에 같은 권리코드로 다시 확인해 주세요. 판매자 귀책 미인도와 확인된 인도 후 48시간 내 초기 문제는 원 송금 주소에 검증된 상품 송금·시장 수수료·가스 실지출(가스 합계 420000000000000000 wei 한도)을 반환합니다.",
+          "data": {
+            "checkout_jwt": "[customer-only]",
+            "sku": "G0026722f",
+            "price": 4500,
+            "unit": "u-replay",
+            "grade": "A",
+            "warranty_hours": 48
+          },
+          "state": "completed"
+        },
+        "seconds": 8.434
+      },
+      {
+        "customer_scripted": "키친타올 걸이 한 개 지금 살게요. 4,500 크레딧으로 구매하겠습니다.",
+        "seller_tool_reply": {
+          "reply": "이 메시지의 결제권은 이미 발급되었습니다. 기존 응답을 확인해 주세요.",
+          "state": "completed"
+        },
+        "seconds": 8.598
+      }
+    ],
+    "scope": "Actual class model; scripted mock customer; isolated inventory, DB, ephemeral key and simulated settlement; zero real trades.",
+    "model_calls": [
+      {
+        "seconds": 8.299,
+        "error": null
+      },
+      {
+        "seconds": 8.595,
+        "error": null
+      }
+    ],
+    "source_run": "actual-class-decisions-v5"
+  },
+  {
+    "case": "sdk",
+    "checks": {
+      "sdk_matches_original_tool_jwt": true,
+      "sdk_signature_valid": true,
+      "sdk_mock_settlement_and_credit": true,
+      "credentials_never_in_model_input": true,
+      "no_actual_wallet_transfer": true
+    },
+    "passed": true,
+    "error": null,
+    "dialogue": [
+      {
+        "customer_scripted": "키친타올 걸이 한 개 지금 살게요. 4,500 크레딧으로 구매하겠습니다.",
+        "seller_tool_reply": {
+          "reply": "G0026722f A급, 기준가 4,500, 최종 상품가 4,500 credits. 대기할인 0, 마일리지 사용 0 credits. 새 권리코드 [private code] 를 비공개로 저장해 주세요. 정산·인도 확인 뒤 적립됩니다. 가게 송금 4245000000000000000 wei, 시장 수수료 송금 90000000000000000 wei, 실제 가스 별도. 견적을 받은 뒤 지연되면 송금하기 전에 같은 권리코드로 다시 확인해 주세요. 판매자 귀책 미인도와 확인된 인도 후 48시간 내 초기 문제는 원 송금 주소에 검증된 상품 송금·시장 수수료·가스 실지출(가스 합계 420000000000000000 wei 한도)을 반환합니다.",
+          "data": {
+            "checkout_jwt": "[customer-only]",
+            "sku": "G0026722f",
+            "price": 4500,
+            "unit": "u-actual-sdk",
+            "grade": "A",
+            "warranty_hours": 48
+          },
+          "state": "completed"
+        },
+        "seconds": 7.135
+      }
+    ],
+    "scope": "Actual class model; scripted mock customer; isolated inventory, DB, ephemeral key and simulated settlement; zero real trades.",
+    "model_calls": [
+      {
+        "seconds": 6.952,
+        "error": null
+      }
+    ],
+    "source_run": "actual-class-decisions-v6-sdk"
+  }
+]

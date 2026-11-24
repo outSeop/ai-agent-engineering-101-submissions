@@ -1,0 +1,30 @@
+05:18:34 [forge] loaded 8 tools: a2a_info, buy_stock, market_read, pay_confirm_stock, read_cards, rename_shop_card, serve_checkout, shop_info
+{"official_kit_files_verified": 7, "a2a": "a2a_info", "class_model": "market", "model_tools": ["shop_info"], "joined_or_started": false}
+
+
+05:18:35 [forge] loaded 3 tools: a2a_info, serve_checkout, shop_info
+05:18:35 [forge] loaded 4 tools: a2a_info, pay_confirm_stock, serve_checkout, shop_info
+05:18:35 [mind] shop_info | Boundary test
+05:18:35 [mind] sleeps 30 s: Boundary test
+05:18:35 [forge] loaded 4 tools: a2a_info, pay_confirm_stock, serve_checkout, shop_info
+05:18:35 [mind] a2a_info | Boundary test
+05:18:35 [mind] serve_checkout | Boundary test
+05:18:35 [mind] pay_confirm_stock | Boundary test
+05:18:35 [mind] forge_tool | Boundary test
+05:18:35 [mind] read_tool | Boundary test
+05:18:35 [mind] shop_info | Boundary test
+05:18:35 [mind] sleeps 30 s: Boundary test
+05:18:35 [forge] loaded 4 tools: a2a_info, pay_confirm_stock, serve_checkout, shop_info
+05:18:35 [forge] loaded 4 tools: a2a_info, pay_confirm_stock, serve_checkout, shop_info
+/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/round-4/codex-r4/e2e.py:13: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient
+.......................agent_card passed to DefaultRequestHandlerV2: AgentCard is not spec-compliant - REQUIRED fields missing or empty: skills. This is allowed and does not raise, but it may not verify or interoperate across SDKs and could be rejected in a future major release. See https://a2a-protocol.org/latest/specification/#57-field-presence-and-optionality
+...agent_card passed to DefaultRequestHandlerV2: AgentCard is not spec-compliant - REQUIRED fields missing or empty: skills. This is allowed and does not raise, but it may not verify or interoperate across SDKs and could be rejected in a future major release. See https://a2a-protocol.org/latest/specification/#57-field-presence-and-optionality
+agent_card passed to DefaultRequestHandlerV2: AgentCard is not spec-compliant - REQUIRED fields missing or empty: skills. This is allowed and does not raise, but it may not verify or interoperate across SDKs and could be rejected in a future major release. See https://a2a-protocol.org/latest/specification/#57-field-presence-and-optionality
+..agent_card passed to DefaultRequestHandlerV2: AgentCard is not spec-compliant - REQUIRED fields missing or empty: skills. This is allowed and does not raise, but it may not verify or interoperate across SDKs and could be rejected in a future major release. See https://a2a-protocol.org/latest/specification/#57-field-presence-and-optionality
+agent_card passed to DefaultRequestHandlerV2: AgentCard is not spec-compliant - REQUIRED fields missing or empty: skills. This is allowed and does not raise, but it may not verify or interoperate across SDKs and could be rejected in a future major release. See https://a2a-protocol.org/latest/specification/#57-field-presence-and-optionality
+........
+----------------------------------------------------------------------
+Ran 36 tests in 0.503s
+
+OK

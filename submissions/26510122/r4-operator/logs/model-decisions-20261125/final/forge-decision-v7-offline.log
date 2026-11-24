@@ -1,0 +1,4 @@
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000\    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+05:07:57 [forge] loaded 8 tools: a2a_info, buy_stock, market_read, pay_confirm_stock, read_cards, rename_shop_card, serve_checkout, shop_info
+05:07:59 [forge] a2a_info v7 passed its test and is ready (replaces v6)
+{"test": "passed", "tool": "a2a_info", "version": 7, "result": {"authorship": "OpenAI Codex GPT-6.2 Sol", "asserted": "single concurrent checkout; signed voucher/JWT; deadline; pinned cancellation; settlement; bearer authentication; next-sale mileage", "broker": "read context, reject below floor, nonbinding offer, accepted offer to signed checkout"}, "printed": null}

@@ -1,0 +1,12 @@
+{
+  "broker.py": {
+    "evaluated_sha256": "2e40323151c876783575a7124f2016c530fb7bffd0ea019b13b6693d0bce36b6",
+    "installed_sha256": "67566203311d6b38099c6f6b324c85e957af69533621195e1cfcd1d5898eeaa2",
+    "change": "Removed blank lines at EOF only; identical AST."
+  },
+  "test_broker.py": {
+    "evaluated_sha256": "fc9140c49771133deecd46c83dbe705f81617e31d48804ca3d844f25d0d72c99",
+    "installed_sha256": "11c0c1d781d99f91110bafabf1e2995bc3cf18292a848aa0930b7a49b6085c0a",
+    "change": "Removed blank lines at EOF only; identical AST."
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "at": 1795551434.036175,
+  "name": "outseop-r4",
+  "same_wallet": true,
+  "chain_balance_credits": 4996807.746,
+  "inventory_balance_credits": 4996807,
+  "units": [
+    {
+      "unit": "u-e1c258e7f987",
+      "sku": "G0026722f",
+      "grade": "A",
+      "cost": 2987,
+      "list_price": 4500
+    }
+  ],
+  "own_ledger_counts": {
+    "join": 3,
+    "grant": 1,
+    "supply": 1
+  },
+  "pre_promotion_preserved_files": 62,
+  "pre_promotion_changed": [],
+  "real_transactions_in_mock": 0
+}

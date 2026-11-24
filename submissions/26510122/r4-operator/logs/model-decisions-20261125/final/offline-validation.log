@@ -1,0 +1,98 @@
+{"command": ["/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/.venv/bin/python", "-m", "unittest", "test_contract", "test_profile", "test_broker", "test_managed_runtime", "test_worker_bootstrap", "-v"], "exit": 0}
+05:12:31 [forge] loaded 3 tools: a2a_info, serve_checkout, shop_info
+05:12:31 [forge] loaded 4 tools: a2a_info, pay_confirm_stock, serve_checkout, shop_info
+05:12:31 [mind] shop_info | Boundary test
+05:12:31 [mind] sleeps 30 s: Boundary test
+05:12:31 [forge] loaded 4 tools: a2a_info, pay_confirm_stock, serve_checkout, shop_info
+05:12:31 [mind] a2a_info | Boundary test
+05:12:31 [mind] serve_checkout | Boundary test
+05:12:31 [mind] pay_confirm_stock | Boundary test
+05:12:31 [mind] forge_tool | Boundary test
+05:12:31 [mind] read_tool | Boundary test
+05:12:31 [mind] shop_info | Boundary test
+05:12:31 [mind] sleeps 30 s: Boundary test
+05:12:31 [forge] loaded 4 tools: a2a_info, pay_confirm_stock, serve_checkout, shop_info
+05:12:31 [forge] loaded 4 tools: a2a_info, pay_confirm_stock, serve_checkout, shop_info
+/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/model-decisions-20261125-045027/agent-work/codex-r4/e2e.py:13: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient
+test_concurrent_refund_approval_claims_transfer_once (test_contract.Contract.test_concurrent_refund_approval_claims_transfer_once) ... ok
+test_expiry_releases_held_miles_but_timeout_and_cancel_alone_do_not (test_contract.Contract.test_expiry_releases_held_miles_but_timeout_and_cancel_alone_do_not) ... ok
+test_operator_permission_cannot_be_smuggled_over_a2a_and_wallet_is_pinned (test_contract.Contract.test_operator_permission_cannot_be_smuggled_over_a2a_and_wallet_is_pinned) ... ok
+test_order_of_source_and_usage_refund_never_creates_free_points (test_contract.Contract.test_order_of_source_and_usage_refund_never_creates_free_points) ... ok
+test_ordinary_settlement_and_48h_boundary (test_contract.Contract.test_ordinary_settlement_and_48h_boundary) ... ok
+test_payment_without_delivery_waits_for_proven_removal_and_checks_costs (test_contract.Contract.test_payment_without_delivery_waits_for_proven_removal_and_checks_costs) ... ok
+test_price_floor_and_invalid_numbers (test_contract.Contract.test_price_floor_and_invalid_numbers) ... ok
+test_tampered_hash_chain_and_wrong_payment_receipt_do_not_earn (test_contract.Contract.test_tampered_hash_chain_and_wrong_payment_receipt_do_not_earn) ... ok
+test_uncertain_transfer_survives_process_restart_without_second_send (test_contract.Contract.test_uncertain_transfer_survives_process_restart_without_second_send) ... ok
+test_30_minute_gap_and_duplicate_transport_do_not_inflate_visits (test_profile.CustomerProfile.test_30_minute_gap_and_duplicate_transport_do_not_inflate_visits) ... ok
+test_additive_backfill_assigns_profile_id_to_older_account_without_inventing_visits (test_profile.CustomerProfile.test_additive_backfill_assigns_profile_id_to_older_account_without_inventing_visits) ... ok
+test_family_income_preferences_and_tombstones_keep_structured_provenance (test_profile.CustomerProfile.test_family_income_preferences_and_tombstones_keep_structured_provenance) ... ok
+test_operator_intake_is_idempotent_strict_and_never_updates_ledger (test_profile.CustomerProfile.test_operator_intake_is_idempotent_strict_and_never_updates_ledger) ... ok
+test_purchase_preference_and_mileage_projection_tracks_real_state_changes (test_profile.CustomerProfile.test_purchase_preference_and_mileage_projection_tracks_real_state_changes) ... ok
+test_same_market_buyer_and_wallet_do_not_merge_rights_or_infer_income (test_profile.CustomerProfile.test_same_market_buyer_and_wallet_do_not_merge_rights_or_infer_income) ... ok
+test_actual_delay_and_existing_credit_apply_without_model_handling_secrets (test_broker.BrokerTests.test_actual_delay_and_existing_credit_apply_without_model_handling_secrets) ... ok
+test_bad_credential_prefetch_never_calls_model (test_broker.BrokerTests.test_bad_credential_prefetch_never_calls_model) ... ok
+test_class_context_uses_world_and_excludes_old_lifecycle_instructions (test_broker.BrokerTests.test_class_context_uses_world_and_excludes_old_lifecycle_instructions) ... ok
+test_known_offer_is_prefetched_before_first_model_decision (test_broker.BrokerTests.test_known_offer_is_prefetched_before_first_model_decision) ... ok
+test_model_alone_cannot_turn_inquiry_into_checkout (test_broker.BrokerTests.test_model_alone_cannot_turn_inquiry_into_checkout) ... ok
+test_negotiation_rejects_below_floor_and_offer_does_not_pin_stock (test_broker.BrokerTests.test_negotiation_rejects_below_floor_and_offer_does_not_pin_stock) ... ok
+test_quoted_or_negated_purchase_language_cannot_be_signed (test_broker.BrokerTests.test_quoted_or_negated_purchase_language_cannot_be_signed) ... ok
+test_refund_no_proof_and_other_account_cannot_apply_or_send (test_broker.BrokerTests.test_refund_no_proof_and_other_account_cannot_apply_or_send) ... ok
+test_sdk_uses_request_broker_and_returns_raw_valid_artifact (test_broker.BrokerTests.test_sdk_uses_request_broker_and_returns_raw_valid_artifact) ... agent_card passed to DefaultRequestHandlerV2: AgentCard is not spec-compliant - REQUIRED fields missing or empty: skills. This is allowed and does not raise, but it may not verify or interoperate across SDKs and could be rejected in a future major release. See https://a2a-protocol.org/latest/specification/#57-field-presence-and-optionality
+ok
+test_stale_inventory_after_settlement_cannot_mint_a_wait_voucher (test_broker.BrokerTests.test_stale_inventory_after_settlement_cannot_mint_a_wait_voucher) ... ok
+test_transport_replay_and_cross_request_reference_never_reveal_private_reply (test_broker.BrokerTests.test_transport_replay_and_cross_request_reference_never_reveal_private_reply) ... ok
+test_fallback_from_failed_dispatch_never_enters_mind_context_or_log (test_managed_runtime.ManagedRuntimeTests.test_fallback_from_failed_dispatch_never_enters_mind_context_or_log) ... agent_card passed to DefaultRequestHandlerV2: AgentCard is not spec-compliant - REQUIRED fields missing or empty: skills. This is allowed and does not raise, but it may not verify or interoperate across SDKs and could be rejected in a future major release. See https://a2a-protocol.org/latest/specification/#57-field-presence-and-optionality
+agent_card passed to DefaultRequestHandlerV2: AgentCard is not spec-compliant - REQUIRED fields missing or empty: skills. This is allowed and does not raise, but it may not verify or interoperate across SDKs and could be rejected in a future major release. See https://a2a-protocol.org/latest/specification/#57-field-presence-and-optionality
+ok
+test_mind_allowlisted_lookup_and_rejects_forgery_new_code_and_hidden_tools (test_managed_runtime.ManagedRuntimeTests.test_mind_allowlisted_lookup_and_rejects_forgery_new_code_and_hidden_tools) ... ok
+test_official_a2a_enters_one_shot_financial_dispatch_and_returns_valid_jwt (test_managed_runtime.ManagedRuntimeTests.test_official_a2a_enters_one_shot_financial_dispatch_and_returns_valid_jwt) ... agent_card passed to DefaultRequestHandlerV2: AgentCard is not spec-compliant - REQUIRED fields missing or empty: skills. This is allowed and does not raise, but it may not verify or interoperate across SDKs and could be rejected in a future major release. See https://a2a-protocol.org/latest/specification/#57-field-presence-and-optionality
+agent_card passed to DefaultRequestHandlerV2: AgentCard is not spec-compliant - REQUIRED fields missing or empty: skills. This is allowed and does not raise, but it may not verify or interoperate across SDKs and could be rejected in a future major release. See https://a2a-protocol.org/latest/specification/#57-field-presence-and-optionality
+ok
+test_validation_refuses_any_extra_handler_or_shop_info_wallet_permission (test_managed_runtime.ManagedRuntimeTests.test_validation_refuses_any_extra_handler_or_shop_info_wallet_permission) ... ok
+test_inactive_main_does_not_touch_network_or_credentials (test_worker_bootstrap.Bootstrap.test_inactive_main_does_not_touch_network_or_credentials) ... ok
+test_local_card_and_live_registry_and_authenticated_inventory_match (test_worker_bootstrap.Bootstrap.test_local_card_and_live_registry_and_authenticated_inventory_match) ... ok
+test_local_or_registry_mismatch_rejected_without_token_use (test_worker_bootstrap.Bootstrap.test_local_or_registry_mismatch_rejected_without_token_use) ... ok
+test_main_exports_exact_token_atomically_and_reuses_official_join (test_worker_bootstrap.Bootstrap.test_main_exports_exact_token_atomically_and_reuses_official_join) ... ok
+test_market_failure_has_bounded_retries_and_no_body_in_output (test_worker_bootstrap.Bootstrap.test_market_failure_has_bounded_retries_and_no_body_in_output) ... ok
+test_token_permissions_required_and_symlink_not_followed (test_worker_bootstrap.Bootstrap.test_token_permissions_required_and_symlink_not_followed) ... ok
+
+----------------------------------------------------------------------
+Ran 36 tests in 0.676s
+
+OK
+
+
+{"command": ["/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/.venv/bin/python", "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/deploy/test_internal_contract.py", "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/model-decisions-20261125-045027/agent-work/codex-r4"], "exit": 0}
+test_concurrent_orders_cannot_spend_same_points_twice (__main__.Contract.test_concurrent_orders_cannot_spend_same_points_twice) ... ok
+test_credit_expires_at_seven_days (__main__.Contract.test_credit_expires_at_seven_days) ... ok
+test_next_purchase_uses_previous_credit_only (__main__.Contract.test_next_purchase_uses_previous_credit_only) ... ok
+test_no_advance_credit_and_idempotent_settlement (__main__.Contract.test_no_advance_credit_and_idempotent_settlement) ... ok
+test_public_metadata_never_authorizes_account (__main__.Contract.test_public_metadata_never_authorizes_account) ... ok
+test_repeated_checkout_is_identical (__main__.Contract.test_repeated_checkout_is_identical) ... ok
+test_single_unit_cannot_be_sold_twice_or_released_by_timeout (__main__.Contract.test_single_unit_cannot_be_sold_twice_or_released_by_timeout) ... ok
+test_wait_discount_expires_at_120_seconds (__main__.Contract.test_wait_discount_expires_at_120_seconds) ... ok
+test_wait_discount_immediate_and_signed (__main__.Contract.test_wait_discount_immediate_and_signed) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.159s
+
+OK
+
+
+{"command": ["/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/.venv/bin/python", "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/deploy/test_profile_contract.py", "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/model-decisions-20261125-045027/agent-work/codex-r4", "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/model-decisions-20261125-045027/agent-work/tools/a2a_info/logic.py"], "exit": 0}
+test_expensive_purchase_does_not_infer_income_or_family (__main__.Profiles.test_expensive_purchase_does_not_infer_income_or_family) ... ok
+test_same_task_after_idle_is_new_contact_session (__main__.Profiles.test_same_task_after_idle_is_new_contact_session) ... ok
+test_structured_self_reports_do_not_change_finance_or_leak_codes (__main__.Profiles.test_structured_self_reports_do_not_change_finance_or_leak_codes) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.063s
+
+OK
+
+
+{"command": ["/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/.venv/bin/python", "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/model-decisions-20261125-045027/agent-work/codex-r4/e2e.py"], "exit": 0}
+{"first_price": 4500, "next_with_wait_and_mileage": 4410, "verified_mock_refunds": 1, "customer_method": "captured Visit.talk and Visit.buy", "a2a": "official ASGI 1.0", "live": false}
+/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/model-decisions-20261125-045027/agent-work/codex-r4/e2e.py:13: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient
+agent_card passed to DefaultRequestHandlerV2: AgentCard is not spec-compliant - REQUIRED fields missing or empty: skills. This is allowed and does not raise, but it may not verify or interoperate across SDKs and could be rejected in a future major release. See https://a2a-protocol.org/latest/specification/#57-field-presence-and-optionality
