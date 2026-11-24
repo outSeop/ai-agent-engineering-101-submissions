@@ -1,0 +1,5 @@
+Downloading cpython-3.12.16-linux-x86_64-gnu (download) (33.1MiB)
+ Downloaded cpython-3.12.16-linux-x86_64-gnu (download)
+Installed Python 3.12.16 in 4.19s
+ + cpython-3.12.16-linux-x86_64-gnu (python3.12)
+warning: `/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/bin` is not on your PATH. To use installed Python executables, run `export PATH="/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/bin:$PATH"` or `uv python update-shell`.

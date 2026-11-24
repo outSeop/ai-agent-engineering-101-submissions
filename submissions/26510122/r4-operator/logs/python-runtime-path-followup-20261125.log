@@ -1,0 +1,1 @@
+Initial environment step stopped on duplicate version alias paths after successful Python installation. Both paths resolve to the same binary; deduplicate by resolved path. No live environment changed.
