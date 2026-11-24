@@ -1,0 +1,11 @@
+{
+ "tool": "rename_shop_card",
+ "version": 1,
+ "forged_at": 1795544485,
+ "kit": "v5.1",
+ "sha256": {
+  "permission.yml": "3f6969a7708e2d3b29f35a2f1aaee6b0f96e5ad89facd921fc329d7f17738803",
+  "logic.py": "ceec9092a8ff260c681911bf3b61466ce2e78158bf535abfabc931ff46d6ee10",
+  "test.py": "26ca3823114947f97c0b72a517139e2ae0ace5331cef24068d83737a89cac9c0"
+ }
+}

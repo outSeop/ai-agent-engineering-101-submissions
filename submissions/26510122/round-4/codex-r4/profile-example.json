@@ -1,0 +1,25 @@
+{
+  "profile_id": "r4p-00000000000000000000000000000000",
+  "facts": [
+    {
+      "type": "family",
+      "relation": "child",
+      "count": 2
+    },
+    {
+      "type": "household_size",
+      "count": 4
+    },
+    {
+      "type": "income_bracket",
+      "scale": "quintile",
+      "band": 3
+    },
+    {
+      "type": "preference",
+      "kind": "category",
+      "value": "kitchen",
+      "sentiment": "likes"
+    }
+  ]
+}

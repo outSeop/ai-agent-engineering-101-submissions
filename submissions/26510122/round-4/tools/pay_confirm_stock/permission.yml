@@ -1,0 +1,11 @@
+name: pay_confirm_stock
+description: shop 지갑으로 도매 pay를 송금하고 quote를 확정한다. args: {quote,pay}
+permission:
+  network: [market.ourolabs.ai]
+  identity: [shop]
+  wallet: [pay]
+  pay_limit: 4000
+  timeout: 180
+logic: logic.py
+test: test.py
+version: 1

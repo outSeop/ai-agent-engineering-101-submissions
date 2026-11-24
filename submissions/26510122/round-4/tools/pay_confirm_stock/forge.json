@@ -1,0 +1,11 @@
+{
+ "tool": "pay_confirm_stock",
+ "version": 1,
+ "forged_at": 1795543556,
+ "kit": "v5.1",
+ "sha256": {
+  "permission.yml": "3dfbe461b5ebcc08d4dfb46e6d54f83a8093094cf46dcf0cd62a02e99d7c0486",
+  "logic.py": "519c8be0c4879813e09e6a4491c8276ef40fe655fad09e0ec2fcc4156efcea38",
+  "test.py": "87314b8bd69ce874e25f3a3b71b4f03098bf6e454c57a359f12797b24ded3ed3"
+ }
+}

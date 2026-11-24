@@ -1,0 +1,9 @@
+name: rename_shop_card
+description: 기존 가게의 card.json 공개 표시명(name)만 변경한다. 새 가입이나 지갑·재고·장부 변경은 하지 않는다.
+permission:
+  write: [card.json]
+  pay_limit: 0
+  timeout: 30
+logic: logic.py
+test: test.py
+version: 1

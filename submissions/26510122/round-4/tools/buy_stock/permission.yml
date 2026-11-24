@@ -1,0 +1,11 @@
+name: buy_stock
+description: 도매에서 SKU 수량을 조달한다. 먼저 quote_only=true로 견적을 받고, quote와 tx_hash를 주면 확정한다. args: sku, qty, quote_only, quote, tx_hash
+permission:
+  network: [market.ourolabs.ai]
+  identity: [shop]
+  wallet: [pay]
+  pay_limit: 5000000
+  timeout: 60
+logic: logic.py
+test: test.py
+version: 1

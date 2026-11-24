@@ -1,0 +1,7 @@
+name: serve_checkout
+description: Retired checkout v1, superseded by a2a_info. OpenAI Codex GPT-6.2 Sol.
+permission:
+logic: logic.py
+test: test.py
+version: 5
+replaces: serve_checkout@4

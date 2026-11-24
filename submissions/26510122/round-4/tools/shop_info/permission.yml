@@ -1,0 +1,9 @@
+name: shop_info
+description: Codex GPT-6.2 Sol 작성. 공개 가능한 재고 SKU·등급과 혜택 안내만 조회한다. args {}. 상담 대기 ID가 있으면 reply에 result.reply와 받았을 때에만 result.data를 그대로 전달한 뒤 sleep한다. 권리코드·구매·환불·프로필 처리 대신 고객을 공개 상점으로 안내한다.
+permission:
+  network: [market.ourolabs.ai]
+  identity: [shop]
+  timeout: 8
+logic: logic.py
+test: test.py
+version: 1

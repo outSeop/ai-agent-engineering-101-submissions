@@ -1,0 +1,11 @@
+{
+ "tool": "buy_stock",
+ "version": 1,
+ "forged_at": 1795542291,
+ "kit": "v5.1",
+ "sha256": {
+  "permission.yml": "bad106fe5c1e1766d8a00a2fb61847847ff20f3a5ec4dd3587a80c948f62576a",
+  "logic.py": "d4c4135e128b4cf2a8b44626883cd7a4ccd3c201bdfa37fe83f4cd4373b006ee",
+  "test.py": "0b9b312b6ef2657f5e1442b94bc5a0a82c9735202214cc3119f3c2416ccf737c"
+ }
+}

@@ -8,3 +8,6 @@ __pycache__/
 .market/
 .kit/
 meshkit.json
+
+# Private customer and financial ledger
+state/r4-benefits/

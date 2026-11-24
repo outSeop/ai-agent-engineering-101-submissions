@@ -1,0 +1,27 @@
+{
+ "read_cards": {
+  "uses": 15,
+  "fails": 0,
+  "last": 1795544383
+ },
+ "market_read": {
+  "uses": 14,
+  "fails": 0,
+  "last": 1795544412
+ },
+ "buy_stock": {
+  "uses": 1,
+  "fails": 0,
+  "last": 1795543524
+ },
+ "pay_confirm_stock": {
+  "uses": 1,
+  "fails": 0,
+  "last": 1795543571
+ },
+ "rename_shop_card": {
+  "uses": 2,
+  "fails": 0,
+  "last": 1795545100
+ }
+}
