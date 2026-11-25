@@ -1,0 +1,17 @@
+{
+  "record_type": "derived_development_cli_reply_timing",
+  "requested_model": "gpt-6.2-sol",
+  "upstream_reported_model": null,
+  "reasoning_effort": "high",
+  "cli_timeout_seconds": 300,
+  "adapter_timeout_seconds": 310,
+  "http_read_timeout_seconds": 315,
+  "cli_returncode": 0,
+  "tool_event_count": 0,
+  "elapsed_until_metadata_seconds": 173.388,
+  "response_chars": 19774,
+  "response_sha256": "fd0faa9e239696bfe6317250c216f5e544bab7963306cc3c70f36cde09e0dd6f",
+  "logic_sha256": "6d2c0f9a8237216ff2fa43b7f4bf45739a1779f13eee505115578e1715b0f0e6",
+  "raw_model_logs_preserved_privately": true,
+  "production_model_changed": false
+}

@@ -1,0 +1,26 @@
+{
+  "record_type": "post_aligned_equal_30m_observation",
+  "post_id": 793,
+  "post_at": 1795566986,
+  "windows": {
+    "before": {
+      "start": 1795565186,
+      "end": 1795566986,
+      "transport_requests": 0,
+      "settlements": 0
+    },
+    "after": {
+      "start": 1795566986,
+      "end": 1795568786,
+      "transport_requests": 1,
+      "settlements": 0
+    }
+  },
+  "separate_operator_probes": 0,
+  "distinct_buyers_verified": false,
+  "forum_attribution_verified": false,
+  "quoted_sku_equals_advertised_sku": false,
+  "concurrent_procurement_changed": true,
+  "causal_claim": false,
+  "no_financial_balances_or_customer_data": true
+}
