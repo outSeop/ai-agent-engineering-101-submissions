@@ -1,0 +1,10 @@
+name: first_purchase_bonus
+description: Offline background candidate. Accepts {} or one nonblank string sale_id from the trusted worker after settlement commits. Uses the fixed local policy and SQLite database in state/r4-benefits. Returns status and, on a grant, integer credits only.
+permission:
+  write: [state/r4-benefits]
+  pay_limit: 0
+  timeout: 30
+logic: logic.py
+test: test.py
+version: 3
+replaces: first_purchase_bonus@2
