@@ -1,0 +1,9 @@
+name: apply_staged_card
+description: outseop-r4의 카드 파일에 검증된 v1 변경안을 적용하거나 승인된 원본으로 롤백한다. args는 {op:'apply',record_id:<stage SHA256>} 또는 {op:'rollback',record_id:<적용 event SHA256>}. 호스트 계약은 logic.py 상단에 있다. 외부 검증과 호스트 인계 후 사용하는 도구다.
+permission:
+  write: [card.json, card_publication]
+  pay_limit: 0
+  timeout: 20
+logic: logic.py
+test: test.py
+version: 1
