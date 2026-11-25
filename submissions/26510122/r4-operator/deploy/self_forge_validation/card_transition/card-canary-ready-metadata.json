@@ -1,0 +1,59 @@
+{
+  "host_api": "card_apply_canary_host.py",
+  "entry": "card_native_canary_entry_host.py",
+  "sha256": {
+    "card_apply_canary_host.py": "c7087ed25f70aba6d2ba71f422e63390a33e9544503099510ab425bcd88e5f21",
+    "card_native_canary_entry_host.py": "16ff12459ef6d8a4c54ae4e62f39bbcde433bc4898dd1809e53e90d58f60a3bb",
+    "test_card_apply_canary_host.py": "1855fdf77de2f6fe658c55f6760f605a7497930b0c56ce3ab16dfa234774aec4",
+    "test_card_native_canary_entry_host.py": "8bc6898251eb08931fabb43c17d294e202376830d6135dd0d39fdcf06465df02"
+  },
+  "controller_sha256": "00e5b7e85d75fd8f682a49d5eacc293335bbb26d0b442766f1293d5aa0d56248",
+  "controller_interface": "main(argv=None, *, continuation=None); callback receives live origin/original_view_raw/fresh_view_raw/before_card_raw and returns safe native receipt.",
+  "core_synthetic_qa": {
+    "tests": 7,
+    "failures": 0,
+    "errors": 0,
+    "failed_tests": [],
+    "host_sha256": "c7087ed25f70aba6d2ba71f422e63390a33e9544503099510ab425bcd88e5f21",
+    "test_sha256": "1855fdf77de2f6fe658c55f6760f605a7497930b0c56ce3ab16dfa234774aec4",
+    "ordinary_toolbox_call": true,
+    "native_apply_handoff_guard_rollback_tested": true,
+    "manual_index_edits": false,
+    "forge_log_modified": false,
+    "production_root_used": false,
+    "production_keys_or_db_read": false,
+    "real_network_or_wallet_pay": false,
+    "manual_testing_flag": false,
+    "live_installed": false
+  },
+  "entry_synthetic_qa": {
+    "tests": 3,
+    "failures": 0,
+    "errors": 0,
+    "entry_sha256": "16ff12459ef6d8a4c54ae4e62f39bbcde433bc4898dd1809e53e90d58f60a3bb",
+    "synthetic_only": true,
+    "real_model_invoked": false,
+    "production_root_used": false,
+    "manual_testing_flag": false
+  },
+  "planned_process": [
+    "Root installs exact four original files for applyv2, archived dependencyv1, stagev1 and maintenance guard; keeps derived reuse provenance outside tool bundles.",
+    "Root completes reviewed legacy fence/quiescence; canary does not perform or claim that fence.",
+    "New actual class controller run creates a genuinely new stage and fresh independent source read; no expired-session JSON resume.",
+    "Continuation passes same live StageOrigin into host, authority is issued at most 30 seconds, ordinary Toolbox.call(apply,stageSHA) performs native publication.",
+    "Host verifies committed head/event/current card hash, atomically publishes handoff under same permanent lock, confirms ordinary guard call skipped.",
+    "Root separately verifies actually served public card bytes; host only verifies local card."
+  ],
+  "default_plan_command": "PY HOST/card_native_canary_entry_host.py --operator OP",
+  "future_root_reviewed_apply_command": "PY HOST/card_native_canary_entry_host.py --operator OP --session OP/runtime/card-offer-mind-FRESH --replace-text-file SPAN --policy-anchors ANCHORS --intent INTENT --run-controller --allow-apply",
+  "rollback_dry_command": "PY HOST/card_native_canary_entry_host.py --operator OP --rollback-event COMMITTED_APPLY_EVENT",
+  "future_root_reviewed_rollback_command": "PY HOST/card_native_canary_entry_host.py --operator OP --rollback-event COMMITTED_APPLY_EVENT --allow-rollback",
+  "metadata_contract": "Toolbox.load verifies matching original four files/forge manifest; no fabricated index or new forge event is required. Ordinary Toolbox.call updates its actual usage index naturally. No manual index/forge-log edits.",
+  "limits": [
+    "First-apply only, requires no committed head.",
+    "Rollback only to reviewed first apply original public Card.",
+    "Identical-offer keeper refresh is blocked by stagev1 unchanged/no StageOrigin; genuine stage revision + apply pin update required.",
+    "Host has no pricing/rendering/selection/refund/payment policy.",
+    "No production execution, source installation, service changes, key/DB reads or Model calls were performed in this task."
+  ]
+}

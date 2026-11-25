@@ -1,0 +1,35 @@
+{
+  "public_adapted_synthetic_tests": {
+    "host": {
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "failed_tests": [],
+      "host_sha256": "c7087ed25f70aba6d2ba71f422e63390a33e9544503099510ab425bcd88e5f21",
+      "test_sha256": "0f5b51436e9fa2dcf392ecacbba0947a03a1b233a5200795a270cc3a374a8585",
+      "ordinary_toolbox_call": true,
+      "native_apply_handoff_guard_rollback_tested": true,
+      "manual_index_edits": false,
+      "forge_log_modified": false,
+      "production_root_used": false,
+      "production_keys_or_db_read": false,
+      "real_network_or_wallet_pay": false,
+      "manual_testing_flag": false,
+      "live_installed": false,
+      "output_directory": "/tmp/r4-card-canary-public-host-ovbg2w0w"
+    },
+    "entry": {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "entry_sha256": "c57bf0fb4278ed80be41ab5964c2f3ea06857692cc5dd7cd7880b639ad00a1fd",
+      "synthetic_only": true,
+      "real_model_invoked": false,
+      "production_root_used": false,
+      "manual_testing_flag": false,
+      "output_directory": "/tmp/r4-card-canary-public-entry-__wtocjb"
+    }
+  },
+  "root_actual_apply_is_separate_receipt": true,
+  "first_import_error_preserved_privately": true
+}

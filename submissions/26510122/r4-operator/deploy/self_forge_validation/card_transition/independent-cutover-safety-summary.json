@@ -1,0 +1,28 @@
+{
+  "comparisons": [
+    {
+      "candidate": "frozen-original",
+      "source_sha256": "36df58ee9cc8c810a8a2759c1137332033773f7cac6eeb6e062950c270ebc90c",
+      "tests": 12,
+      "failures": 2,
+      "errors": 0,
+      "failed_tests": [
+        "test_same_uid_proc_read_error_must_not_claim_quiescence",
+        "test_unknown_runtime_after_failed_replace_keeps_guard"
+      ]
+    },
+    {
+      "candidate": "separate-host-safety-candidate",
+      "source_sha256": "425911c4c6b8bf6745c1536e4a806294cf508cf9dd1b44656433ef380b987de1",
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "failed_tests": []
+    }
+  ],
+  "synthetic_only": true,
+  "live_cutover": false,
+  "production_files_or_services_changed": false,
+  "database_wallet_network_model_calls": false,
+  "startup_legacy_compatibility_caveat": "Managed candidate intentionally still accepts unpinned write=[card.json] legacy metadata; it is not a strict new-guard-only startup policy."
+}

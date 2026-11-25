@@ -1,0 +1,62 @@
+{
+  "credential_sources": 4,
+  "exact_matches": 0,
+  "secret_pattern_matches": 0,
+  "private_originals_preserved": true,
+  "production_operations_by_qa_agent": false,
+  "scope": "External host/test sources and safe metadata only; root operation reference is separate.",
+  "adaptations": {
+    "card_apply_canary_host.py": {
+      "private_original_sha256": "c7087ed25f70aba6d2ba71f422e63390a33e9544503099510ab425bcd88e5f21",
+      "public_sha256": "c7087ed25f70aba6d2ba71f422e63390a33e9544503099510ab425bcd88e5f21",
+      "byte_identical": true,
+      "host_test_only_adaptations": []
+    },
+    "card_native_canary_entry_host.py": {
+      "private_original_sha256": "16ff12459ef6d8a4c54ae4e62f39bbcde433bc4898dd1809e53e90d58f60a3bb",
+      "public_sha256": "c57bf0fb4278ed80be41ab5964c2f3ea06857692cc5dd7cd7880b639ad00a1fd",
+      "byte_identical": false,
+      "host_test_only_adaptations": [
+        "Resolve existing sibling public helpers from this package directory.",
+        "Add the existing shared deploy/self_forge_validation directory to import search paths; first import error preserved privately."
+      ]
+    },
+    "test_card_apply_canary_host.py": {
+      "private_original_sha256": "1855fdf77de2f6fe658c55f6760f605a7497930b0c56ce3ab16dfa234774aec4",
+      "public_sha256": "0f5b51436e9fa2dcf392ecacbba0947a03a1b233a5200795a270cc3a374a8585",
+      "byte_identical": false,
+      "host_test_only_adaptations": [
+        "Resolve operator from existing official kit ancestor and use sibling public helpers.",
+        "Write regression logs to a fresh temporary directory, not the public package.",
+        "Add the existing shared deploy/self_forge_validation directory to import search paths; first import error preserved privately."
+      ]
+    },
+    "test_card_native_canary_entry_host.py": {
+      "private_original_sha256": "8bc6898251eb08931fabb43c17d294e202376830d6135dd0d39fdcf06465df02",
+      "public_sha256": "dde651d62d4ebf86396d49fba8909f760a2fb611d66d6b8c45773bfe2b1495fd",
+      "byte_identical": false,
+      "host_test_only_adaptations": [
+        "Write entry regression logs to a fresh temporary directory."
+      ]
+    }
+  },
+  "file_sha256": {
+    "CANARY_HOST_NOTES.md": "fd25b23934c13dae2c2c1c4b476a5b1f2287ba9d330b934df60eb90b2935195d",
+    "canary-root-operation-reference.json": "e03ba6d79867a7a432b13d7a7aba4a405dc151048d83d652535e2e9294fc9670",
+    "card-canary-ready-metadata.json": "5a9b4ade25fd6e222f75d7adb0187959a1b97c1e53c6aca234ffd8ac2a783c06",
+    "card_apply_canary_host.py": "c7087ed25f70aba6d2ba71f422e63390a33e9544503099510ab425bcd88e5f21",
+    "card_native_canary_entry_host.py": "c57bf0fb4278ed80be41ab5964c2f3ea06857692cc5dd7cd7880b639ad00a1fd",
+    "test_card_apply_canary_host.py": "0f5b51436e9fa2dcf392ecacbba0947a03a1b233a5200795a270cc3a374a8585",
+    "test_card_native_canary_entry_host.py": "dde651d62d4ebf86396d49fba8909f760a2fb611d66d6b8c45773bfe2b1495fd",
+    "canary-public-adapted-test-summary.json": "debfa8934e3794f4efecddc119700e7f4db84561b02d01e4a836223e623a35fb"
+  },
+  "copy_rehash_verified": true,
+  "post_copy_rescan": "passed after final public import adaptation",
+  "public_adapted_test_verification": {
+    "host_pass": 7,
+    "entry_pass": 3,
+    "failures": 0,
+    "errors": 0,
+    "production_used": false
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "record_type": "Separate root operating receipt; not an action performed by the QA/export agent.",
+  "source_receipt_sha256": "04ad7497a9f9accacc1a3be815c19469e91ff852bf8a0ad0428972ee6baa8f3f",
+  "source_receipt_path": "runtime/card-native-first-publication-20261125.json",
+  "root_recorded_status": "applied",
+  "event": "95489216c7b161908ac22dbec4dcd5931f2bb8af1c409d256b12cc36f57ddda5",
+  "card_sha256": "3ef295982846b3abf30975c6c2c2957f185e242f0af367e283172606b22ca1bc",
+  "guard": "skipped",
+  "wallet_loaded": false,
+  "served_publicly_verified_in_recorded_receipt": false,
+  "qa_agent_executed_production_apply": false,
+  "qa_agent_executed_synthetic_only": true,
+  "public_served_verification_not_claimed_by_exporter": true
+}
