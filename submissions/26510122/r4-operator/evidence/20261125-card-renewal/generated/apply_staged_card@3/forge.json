@@ -1,0 +1,11 @@
+{
+ "tool": "apply_staged_card",
+ "version": 3,
+ "forged_at": 1795577350,
+ "kit": "v5.1",
+ "sha256": {
+  "permission.yml": "6a8dce56a04be41e3211bcd244167caf2e218780125360bca34eaaa7b948faf0",
+  "logic.py": "ad0ff06f995277113448671149226c07c3b5e07b0bed8fb02f89882145d57fff",
+  "test.py": "11b376dfb58ab708409ea30a173f034bb433285e2fef6d1acfdd9ab6aa402750"
+ }
+}

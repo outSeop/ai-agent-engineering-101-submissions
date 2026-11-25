@@ -1,0 +1,10 @@
+name: apply_staged_card
+description: outseop-r4 카드의 최초 게시와 대표 상품 블록의 제자리 갱신을 적용하거나 원복한다. 인자 {op:'apply'|'rollback',record_id:<SHA256>}. 기존 호스트 권한, 공유 잠금, 원본·재조회 뷰 및 이벤트 계약을 사용한다.
+permission:
+  write: [card.json, card_publication]
+  pay_limit: 0
+  timeout: 45
+logic: logic.py
+test: test.py
+version: 3
+replaces: apply_staged_card@2
