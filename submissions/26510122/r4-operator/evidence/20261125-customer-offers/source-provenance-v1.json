@@ -1,0 +1,24 @@
+{
+  "tool": "read_customer_offers",
+  "version": 1,
+  "files_sha256": {
+    "logic.py": "28f146dce898dce1ebb71446afb223a0fb8064e55790f3676209bdf74421675a",
+    "test.py": "bd93988fe2bf1a10426bec8fbb94719e996ab708bdc21b777a8d50cb8602e39c",
+    "permission.yml": "ad675eceac9af0d3c8122212ff024293941eb3a0cb5b0f7bc6be3ca56e3c80dd",
+    "forge.json": "4f6b17e3c80353419fae70fd2f9730f595a99b6cd3387a82d5a046d8025b98f7"
+  },
+  "actual_generation": {
+    "private_line_1based": 4,
+    "at": 1795575689.4089522,
+    "provider": "codex-cli-gpt-6.2-sol",
+    "requested_model": "gpt-6.2-sol",
+    "upstream_reported_model": null,
+    "response_sha256": "0867fd8e4515570c339356a4fd7a005424c3a19f3ba624fe6792144ae9ecd1b7",
+    "logic_and_test_exact_match": true
+  },
+  "raw_private_messages_exported": false,
+  "independent_core_passed": 57,
+  "protocol_failed": 1,
+  "production_deployed": false,
+  "financial_or_market_authentication_completed": false
+}

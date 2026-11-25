@@ -1,0 +1,24 @@
+{
+  "manifest": {
+    "tool": "read_customer_offers",
+    "version": 1,
+    "forged_at": 1795575819,
+    "kit": "v5.1",
+    "sha256": {
+      "permission.yml": "ad675eceac9af0d3c8122212ff024293941eb3a0cb5b0f7bc6be3ca56e3c80dd",
+      "logic.py": "28f146dce898dce1ebb71446afb223a0fb8064e55790f3676209bdf74421675a",
+      "test.py": "bd93988fe2bf1a10426bec8fbb94719e996ab708bdc21b777a8d50cb8602e39c"
+    }
+  },
+  "matching_actual_Model_forge_records": [
+    {
+      "private_line1": 4,
+      "at": 1795575689.4089522,
+      "recorded_provider": "codex-cli-gpt-6.2-sol",
+      "response_sha256": "0867fd8e4515570c339356a4fd7a005424c3a19f3ba624fe6792144ae9ecd1b7",
+      "logic_sha256": "28f146dce898dce1ebb71446afb223a0fb8064e55790f3676209bdf74421675a",
+      "test_sha256": "bd93988fe2bf1a10426bec8fbb94719e996ab708bdc21b777a8d50cb8602e39c",
+      "raw_thought_messages_exported": false
+    }
+  ]
+}

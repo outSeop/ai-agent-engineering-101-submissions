@@ -1,0 +1,61 @@
+{
+  "input_path": "host_inputs/customer_offer_context.json",
+  "schema": "outseop-r4.customer-offers.v1",
+  "document_exact_keys": [
+    "schema",
+    "shop",
+    "observed_at",
+    "valid_until",
+    "units"
+  ],
+  "shop": "outseop-r4",
+  "validity": "integer excluding bool; observed_at<=now<valid_until<=observed_at+150",
+  "max_units": 200,
+  "max_file_bytes": 524288,
+  "file_contract": "host_inputs final component not symlink; fixed regular file single hardlink; no file symlink/special file; inode/size/mtime/ctime stable during read. Not source authentication.",
+  "unit_exact_keys": [
+    "unit_ref",
+    "sku",
+    "name",
+    "category_path",
+    "state",
+    "grade",
+    "price_credits",
+    "standard_fee_credits",
+    "expires_at"
+  ],
+  "unit_ref": "nonempty UTF8 str, unique in document",
+  "sku": "G[0-9a-f]{8}; duplicate SKU across distinct units allowed",
+  "category_path": "nonempty UTF8 str OR nonempty list of nonempty UTF8 str",
+  "states": [
+    "available",
+    "reserved",
+    "sold_out"
+  ],
+  "grades": [
+    "A",
+    "B",
+    "C"
+  ],
+  "money": "price integer>=1; standard_fee null or integer>=0, bool rejected",
+  "expiry": "null or integer>=0; remaining=max(0,expires_at-as_of); unknown remainsnull; expired available is labelledexpired",
+  "request_fields": [
+    "op",
+    "skus",
+    "min_remaining_seconds",
+    "offset",
+    "snapshot",
+    "fragment_offset",
+    "fragment_as_of"
+  ],
+  "op": "context",
+  "filters": "optional SKU list<=200; explicit[] means matchnone. min_remaining excludes null expiry and expiry<=now even at0, but does not exclude reserved/sold_out.",
+  "pagination": "next_args carries raw original-array offset, snapshot digest; source changes reject. MUST merge original named carry_filters when present; original permission description is incomplete.",
+  "fragment": "row_fragment.text1600-character chunks of ensure_ascii JSON; concatenate in offset order then JSON-parse; row as_of remains stable; caller must still check current expiry before commerce.",
+  "not_implemented": [
+    "Actual market API/cache producer authentication",
+    "Current authoritative per-unit price/grade reservation validation",
+    "Purchase rights/checkout/JWT/payment/settlement",
+    "Protection against downstream model following name/category instructions"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "totals": {
+    "contract": {
+      "passed": 57,
+      "failed": 0
+    },
+    "protocol_goal": {
+      "passed": 0,
+      "failed": 1
+    }
+  },
+  "actual_prod_cache_card_DB_write": false,
+  "market_calls": 0,
+  "model_calls": 0,
+  "credentials_copied": false,
+  "source_unchanged": true
+}

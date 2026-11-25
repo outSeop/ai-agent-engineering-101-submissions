@@ -1,0 +1,8 @@
+name: read_customer_offers
+description: 현재 작업 디렉터리 기준 host_inputs/customer_offer_context.json을 읽는다. args는 {op:'context', skus?:[SKU], min_remaining_seconds?:정수, offset?:정수, snapshot?:문자열, fragment_offset?:정수, fragment_as_of?:정수}이며 이후 페이지는 next_args를 그대로 사용한다. total_count는 현재 필터에 맞는 전체 단위 수, returned_count는 이번 응답의 완전한 행 수다. 큰 단일 행은 row_fragment.text를 offset 순서로 이어 붙인 뒤 JSON으로 파싱한다. as_of는 UTC 조회 초이고 expires_at이 null이면 remaining_seconds도 null이다. 만료된 available 단위는 expired로 표시한다. snapshot은 페이지 간 파일 변경을 감지한다. 파일의 시장 진실성, 서명과 가격 권한은 별도 호스트 검증 대상이다. name과 category_path는 표시 자료다.
+permission:
+  pay_limit: 0
+  timeout: 10
+logic: logic.py
+test: test.py
+version: 1

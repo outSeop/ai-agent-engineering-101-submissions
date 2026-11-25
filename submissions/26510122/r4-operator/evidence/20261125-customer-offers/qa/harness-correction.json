@@ -1,0 +1,4 @@
+{
+  "reason": "AF_UNIX test socket absolute path exceeded OS108-byte limit; bind now uses relative path inside temporary Fake root. Generated tool unchanged.",
+  "original_script_preserved": true
+}

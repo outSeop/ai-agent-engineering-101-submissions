@@ -1,0 +1,29 @@
+{
+  "reviewed_logic_sha256": "28f146dce898dce1ebb71446afb223a0fb8064e55790f3676209bdf74421675a",
+  "source_unchanged": true,
+  "official_selftest_passed": true,
+  "ordinary_official_Toolbox_call": true,
+  "manual_testing_flag": false,
+  "contract_passed": 57,
+  "pagination_protocol_goal_failed": 1,
+  "actual_prod_cache_card_DB_changed": false,
+  "keys_tokens_loaded_by_QA": false,
+  "market_calls": 0,
+  "model_calls": 0,
+  "files": {
+    "ordinary-toolbox-qa-results.json": "c3da4b063e002b426014b7aae26d57c1d6198d608a9e59fcb8c660a782f7ad02",
+    "filter-loss-reproduction.json": "690ca3b84a3a4314b81c4cc177310d662f58b14a8b3dd1cd283073911bce5ac1",
+    "ordinary_toolbox_qa.py": "c4c43584848383ec0820ee181303ee67e4212c75b0177ab4d7f2b401f34343d4",
+    "derived-origin.json": "ce2cfb17fee866a5fd1c9e595618276cf0f46a07ffad121d524c6da2599effcf",
+    "ordinary_toolbox_qa.before-harness-correction.py": "846918b94e8db43d4acb1b1abd7928334a5f30fd6fdda3435e12392dc163010d",
+    "input-and-pagination-contract.json": "20d4cb9b480f8ed2e7a8c29404251a47dd4523ed88f0cf5cac6d2e3baac3a2e5",
+    "run_portable.py": "e3bb6b2c72a7dc1a583fd6c2f840a567d6dc457cf89d52b2b1a576ce06a2bb4f",
+    "harness-correction.json": "9c1554373d8cb4acadbad4e2a6f9af5c8a866346285989589ed346ea9b8f9839",
+    "official-selftest-result.json": "d3fbda0d56a2c6879fc14fa9e32cdf76cbcaac11dcf4aeda1bd413ae2dbf868b",
+    "QA_REPORT.md": "81dd95e71431da6e1e3356fbcad5e3b73b73131a1df42f1567ec5ad36513db57",
+    "tools/read_customer_offers/test.py": "bd93988fe2bf1a10426bec8fbb94719e996ab708bdc21b777a8d50cb8602e39c",
+    "tools/read_customer_offers/forge.json": "4f6b17e3c80353419fae70fd2f9730f595a99b6cd3387a82d5a046d8025b98f7",
+    "tools/read_customer_offers/logic.py": "28f146dce898dce1ebb71446afb223a0fb8064e55790f3676209bdf74421675a",
+    "tools/read_customer_offers/permission.yml": "ad675eceac9af0d3c8122212ff024293941eb3a0cb5b0f7bc6be3ca56e3c80dd"
+  }
+}
