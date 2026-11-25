@@ -29,7 +29,7 @@ def verify_kit(operator):
             raise RuntimeError("official kit integrity mismatch: " + name)
 
 
-def install(official, *, enable_stock=False, stock_lines=10, native_factory=None, public_options=None, catalogue_options=None):
+def install(official, *, enable_stock=False, stock_lines=10, native_factory=None, public_options=None, catalogue_options=None,forum_operator=None):
     from managed_runtime import managed_classes
     if catalogue_options is not None:
         import broker_public_catalogue_host_candidate as catalogue_broker
@@ -48,6 +48,15 @@ def install(official, *, enable_stock=False, stock_lines=10, native_factory=None
     else:
         toolbox, mind, app = managed_classes(official,enable_stock=enable_stock,stock_lines=stock_lines,
                                              native_customer_context_factory=native_factory)
+    if forum_operator is not None:
+        from importlib.util import module_from_spec, spec_from_file_location
+        path=forum_operator/"deploy/forum_native_slate_runtime_v1_host3_20261126/r4_forum_slate_background.py"
+        if hashlib.sha256(protected_native(path)).hexdigest()!="da0ca20d1bf1e9b31008dec88cf370ec82f4f864c7cd2e97c8344945b4873c97":
+            raise RuntimeError("native forum slate background hook changed")
+        spec=spec_from_file_location("verified_background_forum_slate",path)
+        module=module_from_spec(spec)
+        spec.loader.exec_module(module)
+        mind=module.install_mind(official,mind,forum_operator)
     official.Toolbox = toolbox
     official.Mind = mind
     official.agent_app = app
@@ -183,6 +192,9 @@ def main():
     sys.path.insert(0, str(operator / "kit"))
     import agent_kit as official
 
+    forum_env=os.environ.get("R4_ENABLE_NATIVE_FORUM_SLATE","0")
+    if forum_env not in ("0","1") or forum_env=="1" and not args.enable_procurement:
+        parser.error("native forum slate requires the existing background lane")
     native_enabled=args.enable_native_customer_context or native_env=="1"
     public_enabled=args.enable_public_product_reply or public_env=="1"
     catalogue_enabled=args.enable_public_catalogue or catalogue_env=="1"
@@ -190,7 +202,8 @@ def main():
     public_options=load_public_options(operator,root,official,check=args.action=="check") if public_enabled and not catalogue_enabled else None
     native=load_native_factory(operator,root) if native_enabled and not public_enabled and not catalogue_enabled else None
     install(official,enable_stock=args.enable_procurement,stock_lines=args.procurement_lines,
-            native_factory=native,public_options=public_options,catalogue_options=catalogue_options)
+            native_factory=native,public_options=public_options,catalogue_options=catalogue_options,
+            forum_operator=operator if forum_env=='1' else None)
     if args.action == "check":
         # Loading and checking provenance does not construct a signer or join.
         toolbox = official.Toolbox(root, {"tokens": {}, "addresses": {}})

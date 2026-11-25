@@ -1,0 +1,15 @@
+{
+  "status": "applied",
+  "receipt_path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/card-keeper-native/run-0rls8cqz/receipt.json",
+  "new_refresh_event": "6471dd3282a472fab70a54e6c0ded566b5ce3c73a66126bf8f431ea40344d5ef",
+  "parent_is_actual_apply4_event": true,
+  "selected_SKUs_unchanged": true,
+  "original_production_apply_version": 3,
+  "original_apply3_logic_unchanged": true,
+  "non_description_fields_preserved": true,
+  "guard": "skipped",
+  "source_choice_unchanged": true,
+  "invoked_by_auditor": false,
+  "actual_Model_calls_by_auditor": 0,
+  "raw_card_customer_or_wallet_values_exported": false
+}

@@ -1,0 +1,31 @@
+{
+  "status": "applied",
+  "candidate_count": 169,
+  "card_written": true,
+  "model_calls": 2,
+  "comparison_sha256": "70ef1ed192c0582dc7344417190b71b5ff37da462f72ff828c686789f32700be",
+  "comparison_utf8_bytes": 60731,
+  "SDK_observation_may_truncate": true,
+  "full_comparison_in_user_context": true,
+  "class_model_injected_for_test": false,
+  "selected_skus": [
+    "G9cdcfa8f",
+    "Gc9fae81a",
+    "G1957829c"
+  ],
+  "shadow": {
+    "status": "applied",
+    "event": "f4d4ae4f9c28a5f214215f7be61c9d090cfa1385f12667721ebff41eca3a75f6",
+    "card_sha256": "fd69168ddec93c83403fd6f18323869f6f4a51e1ea22f076202d6745ff83bb0b",
+    "guard": "skipped"
+  },
+  "live": {
+    "status": "applied",
+    "event": "e8e51e2f64ff4d6591bca758cdb0b8a0bb0da068016cc7e2b15030cef8e51a68",
+    "card_sha256": "fd69168ddec93c83403fd6f18323869f6f4a51e1ea22f076202d6745ff83bb0b",
+    "guard": "skipped"
+  },
+  "wallets_and_DB_preserved": true,
+  "actual_class_model": true,
+  "no_wallet_signer": true
+}

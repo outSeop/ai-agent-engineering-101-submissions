@@ -1,0 +1,21 @@
+{
+  "schema": "outseop-r4.card-reselection-runtime.v1",
+  "base_keeper_manifest_sha256": "2634c1b9fed45b1126941354b0a433babcce3a5916d6968bee2b5bd502839e2a",
+  "default_dry": true,
+  "explicit_allow_flag": "--allow-maintenance",
+  "failure_cooldown_seconds": 600,
+  "existing_timer_seconds": 60,
+  "files": {
+    "README.md": "6b51dd814002496d75313c913d00dd169c56eaee96fb6761ce90ab36292befff",
+    "SOURCE-ORIGIN.json": "e9538d9cf1c39e284c406c119f63931acd674e2dbfb2948c1b847a6d430f36c1",
+    "card_class_reselection_host.py": "2f75961bc0f49fd1337aca0b2f54e36e44f8171ae4dc6b34ed4dc60d2769cd4c",
+    "card_maintenance.py": "37c7ab76184e5f31df9f387bdc26671667356f392ed4ae178df33cca4415f291",
+    "native/apply_staged_card/forge.json": "e3e82ad56459719f2ff47cb78cf294b2ead6a5fd9d2c62d5e8a281f24e45240c",
+    "native/apply_staged_card/logic.py": "6a0279d8de102fee972dddb4016b67d443731486cb0e5e569c2f681c677df5be",
+    "native/apply_staged_card/permission.yml": "8b6d5e24b12546a845518c01be811a630b88e075abdaecf3ea01320367f673db",
+    "native/apply_staged_card/test.py": "971ad2db7816f98cb11b34fe81dd47a26f24e7099b48151240802f1c50a54a76",
+    "qa/actual-legacy-keeper-compatibility.json": "e60a85ee85f12ee89d2e83ebc3aae63079a95c30a42867a9d99b070368697e81",
+    "qa/maintenance-results.json": "9114b4a55f7cc4ad1009f4a19932f3df3ca7ccd344bc947e8f96ff74b1eb956d",
+    "qa/test_maintenance.py": "8fc6625f72071e2f6780f44f1c2370f8b1bec31c597ae557bf04b32f6336a113"
+  }
+}

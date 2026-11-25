@@ -1,0 +1,37 @@
+{
+  "development_provider": "codex-cli-gpt-6.2-sol",
+  "official_forge_events": [
+    {
+      "at": 1795628368,
+      "error_type": "AssertionError",
+      "passed": false,
+      "version": 1
+    },
+    {
+      "at": 1795628487,
+      "error_type": null,
+      "passed": true,
+      "version": 1
+    }
+  ],
+  "official_mind": true,
+  "ordinary_sdk": {
+    "c_negation_filtered": true,
+    "grades": [
+      "A",
+      "B",
+      "C"
+    ],
+    "mode": "call",
+    "network_calls": 0,
+    "posts": 0,
+    "sampled_data": "synthetic",
+    "source_rows": 24,
+    "visible_rows": 16
+  },
+  "original_forge_log_sha256": "d98949efe833418caf3797b66ea194cfd00c53274a85909444f20501f633280b",
+  "original_response_sha256": "ce9ad8f34562c1f0360a8269773c1cc234c0f213f9613f75bd8b5d8f1ba7642b",
+  "private_capture_sha256": "d40ad2965567e761100b9fdc173cb5a76de449f0245ac6e9e59ece9dff9db576",
+  "production_touched": false,
+  "provider_reported_model": null
+}

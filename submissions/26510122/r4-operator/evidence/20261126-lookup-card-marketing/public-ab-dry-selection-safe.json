@@ -1,0 +1,190 @@
+{
+  "source": "current public candidate observation",
+  "selected": {
+    "action": "spotlight",
+    "sku": "G255acd28",
+    "grade": "B"
+  },
+  "items": [
+    {
+      "sku": "G298b3537",
+      "name": "베네베딩 웰슬립 진드기차단 침대매트리스 방수커버 S",
+      "grade": "A",
+      "category": "가구/침구>침구/홈데코>침구",
+      "price": 8900,
+      "expiry": null,
+      "pack_label": "unknown",
+      "pack_count": null,
+      "spotlight_eligible": true
+    },
+    {
+      "sku": "G229b7f38",
+      "name": "[직배송 생수] 웅진 가야G워터 무라벨 500mL X 40병 미네랄워터",
+      "grade": "B",
+      "category": "식품>음료>주스/코코아/생수",
+      "price": 4860,
+      "expiry": 1796844975.0,
+      "pack_label": "unknown",
+      "pack_count": null,
+      "spotlight_eligible": true
+    },
+    {
+      "sku": "G9e816d8b",
+      "name": "[동원xGS] 라이트스탠다드 참치 85g x12캔 /라이트/고추/콘참치",
+      "grade": "C",
+      "category": "식품>김치/반찬/즉석요리>즉석조리식품",
+      "price": 14877,
+      "expiry": 1795662133.0,
+      "pack_label": "unknown",
+      "pack_count": null,
+      "spotlight_eligible": true
+    },
+    {
+      "sku": "Geb9390fb",
+      "name": "[한일카페트] 마로니에 사계절 와이드용 소파패드 4인용 90x230",
+      "grade": "A",
+      "category": "가구/침구>침구/홈데코>커튼/러그/쿠션/덮개",
+      "price": 24900,
+      "expiry": null,
+      "pack_label": "unknown",
+      "pack_count": null,
+      "spotlight_eligible": true
+    },
+    {
+      "sku": "G779059f6",
+      "name": "티젠 콤부차 10스틱 x 모든 맛 16종 (총 160스틱)",
+      "grade": "B",
+      "category": "식품>음료>커피/차",
+      "price": 44910,
+      "expiry": 1796902138.0,
+      "pack_label": "unknown",
+      "pack_count": null,
+      "spotlight_eligible": true
+    },
+    {
+      "sku": "G8809f4cf",
+      "name": "롯데웰푸드 빼빼로 아몬드 37g x 10개",
+      "grade": "C",
+      "category": "식품>기타 가공식품>과자",
+      "price": 5692,
+      "expiry": 1796062348.0,
+      "pack_label": "unknown",
+      "pack_count": null,
+      "spotlight_eligible": true
+    },
+    {
+      "sku": "Gc9fae81a",
+      "name": "유씨엠 버니 원터치폴딩 철제 이동식 4단 접이식선반",
+      "grade": "A",
+      "category": "가구/침구>가구>수납/장식 가구",
+      "price": 43900,
+      "expiry": null,
+      "pack_label": "unknown",
+      "pack_count": null,
+      "spotlight_eligible": true
+    },
+    {
+      "sku": "G580976fc",
+      "name": "초코에몽 190ml x 12개+딸기에몽 190ml x 12개",
+      "grade": "B",
+      "category": "식품>계란/유제품>우유/두유",
+      "price": 18450,
+      "expiry": 1795821985.0,
+      "pack_label": "unknown",
+      "pack_count": null,
+      "spotlight_eligible": true
+    },
+    {
+      "sku": "G9d7be671",
+      "name": "곡물앤픽 26년 국산 찰흑미 2kg 흑찹쌀 검정쌀",
+      "grade": "C",
+      "category": "식품>시리얼/곡물/콩류>곡물",
+      "price": 3228,
+      "expiry": 1796369108.0,
+      "pack_label": "unknown",
+      "pack_count": null,
+      "spotlight_eligible": true
+    },
+    {
+      "sku": "G8bd8cae6",
+      "name": "G7 3in1 커피믹스 16g 100개입",
+      "grade": "A",
+      "category": "식품>음료>커피/차",
+      "price": 33900,
+      "expiry": 1798076212.0,
+      "pack_label": "explicit_multi",
+      "pack_count": 100,
+      "spotlight_eligible": true
+    },
+    {
+      "sku": "G255acd28",
+      "name": "모두의맛집 들깨 버섯탕 성동구 버섯집 2개입",
+      "grade": "B",
+      "category": "식품>기타 가공식품>기타 가공식품",
+      "price": 18900,
+      "expiry": 1797594151.0,
+      "pack_label": "explicit_small",
+      "pack_count": 2,
+      "spotlight_eligible": true
+    },
+    {
+      "sku": "G209a230d",
+      "name": "바자르 포근한 먼지없는 극세사 양면 겨울 차렵이불 (Q)",
+      "grade": "C",
+      "category": "가구/침구>침구/홈데코>침구",
+      "price": 22118,
+      "expiry": null,
+      "pack_label": "unknown",
+      "pack_count": null,
+      "spotlight_eligible": true
+    },
+    {
+      "sku": "G24836484",
+      "name": "캔들워머 할로겐 전구 25W GU10 3개",
+      "grade": "A",
+      "category": "가구/침구>인테리어소품>장식품",
+      "price": 5400,
+      "expiry": null,
+      "pack_label": "unknown",
+      "pack_count": null,
+      "spotlight_eligible": true
+    },
+    {
+      "sku": "Geaabf19e",
+      "name": "대형 고밀도 2겹 밍크담요 극세사담요 무릎담요 캠핑",
+      "grade": "B",
+      "category": "가구/침구>침구/홈데코>침구",
+      "price": 17910,
+      "expiry": null,
+      "pack_label": "unknown",
+      "pack_count": null,
+      "spotlight_eligible": true
+    },
+    {
+      "sku": "Gb1bd36be",
+      "name": "쫀득달콤 소문난 통팥가득 안흥찐빵 총20개입 500g * 2봉",
+      "grade": "C",
+      "category": "식품>빵/제과>빵",
+      "price": 8608,
+      "expiry": 1795700587.0,
+      "pack_label": "explicit_multi",
+      "pack_count": 20,
+      "spotlight_eligible": true
+    },
+    {
+      "sku": "Gaa4ff84c",
+      "name": "[대상] 청정원 맛선생 해물 국물내기 티백72G",
+      "grade": "A",
+      "category": "식품>기타 가공식품>국수/파스타/누들",
+      "price": 7970,
+      "expiry": 1797912768.0,
+      "pack_label": "unknown",
+      "pack_count": null,
+      "spotlight_eligible": true
+    }
+  ],
+  "actual_model": "official classroom market Mind",
+  "dry_selection": true,
+  "actual_post_calls": 0,
+  "write_capable_legacy_calls": 0
+}

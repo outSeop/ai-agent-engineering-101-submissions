@@ -1,0 +1,21 @@
+{
+  "total": 1,
+  "passed": 1,
+  "cases": [
+    {
+      "case": "poststage-selected-facts-changed-rejected",
+      "passed": true,
+      "status": "rejected"
+    }
+  ],
+  "genuine_apply4_logic_sha256": "6a0279d8de102fee972dddb4016b67d443731486cb0e5e569c2f681c677df5be",
+  "source_exact4_sha256": {
+    "logic.py": "6a0279d8de102fee972dddb4016b67d443731486cb0e5e569c2f681c677df5be",
+    "test.py": "971ad2db7816f98cb11b34fe81dd47a26f24e7099b48151240802f1c50a54a76",
+    "permission.yml": "8b6d5e24b12546a845518c01be811a630b88e075abdaecf3ea01320367f673db",
+    "forge.json": "e3e82ad56459719f2ff47cb78cf294b2ead6a5fd9d2c62d5e8a281f24e45240c"
+  },
+  "method": "ordinary official Toolbox.call using independent existing synthetic stage1/apply3 baseline, stage1 new origin, actual later fresh observation, authority+proof, apply4 and guard. Synthetic selection, not actual class Model.",
+  "actual_Model_network_production_changes": 0,
+  "manual_testing_flag": false
+}

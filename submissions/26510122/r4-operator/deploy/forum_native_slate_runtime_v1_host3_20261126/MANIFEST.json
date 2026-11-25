@@ -1,0 +1,13 @@
+{
+  "file_sha256": {
+    "SAFE_PROOF.json": "107b8fdd287af911ea6a135a6e5154175948fecec392e05443032587d4c5be2c",
+    "host/forum_campaign_native_slate_operator.py": "f3b71179393bdadfe13ad978fcd410f4f74d39d6d66058ed9ad63f61d93a8f50",
+    "host/r4_forum_slate_host.py": "86ad7d0673d424981138291cdda344b7c3ed9fc32cae7952de21d9a0c45f91f0",
+    "host/test_r4_forum_slate_host.py": "7130121f6f0f675f948b6483ec4aef3ccc6492e9567990723e7713f72e9a83cf",
+    "tools/prioritize_forum_candidates/forge.json": "3d8a668ba606da89259bdbd01bacc44508c528cd36d3c01ac56ff4cddf647389",
+    "tools/prioritize_forum_candidates/logic.py": "3f3a1184668346fb9f902e55f2066b551120f55cc0a5192c9476211a6f24562c",
+    "tools/prioritize_forum_candidates/permission.yml": "996994a1e802b07fc9d3211a52b0db8c0734a84c15ed544bf81663b28693d314",
+    "tools/prioritize_forum_candidates/test.py": "634e5076c7bd308111e4659019c34b9dbb1ef14fb1de9d34a4c3557780dcfccb"
+  },
+  "original_native_bundle_sha256": "c5a387749fed4e06eeeca16cb2e89950b9d6df5cfb87702185c39359c4ddac00"
+}

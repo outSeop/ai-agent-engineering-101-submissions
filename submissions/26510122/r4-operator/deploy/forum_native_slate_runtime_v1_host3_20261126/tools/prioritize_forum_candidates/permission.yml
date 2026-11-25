@@ -1,0 +1,8 @@
+name: prioritize_forum_candidates
+description: Accepts exactly {"mode":"context"}. Reads host_inputs/forum_candidates.json and returns a bounded public candidate view for downstream revalidation by the existing externally authored forum_marketing@5.
+permission:
+  pay_limit: 0
+  timeout: 15
+logic: logic.py
+test: test.py
+version: 1

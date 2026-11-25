@@ -1,0 +1,40 @@
+{
+  "passed": 8,
+  "failed": 0,
+  "checks": [
+    {
+      "case": "default_dry_no_calls",
+      "passed": true
+    },
+    {
+      "case": "same_choice_first_no_model",
+      "passed": true
+    },
+    {
+      "case": "foreground_defers_before_attempt",
+      "passed": true
+    },
+    {
+      "case": "failed_selection_sets_cooldown",
+      "passed": true
+    },
+    {
+      "case": "cooldown_no_model",
+      "passed": true
+    },
+    {
+      "case": "healthy_samechoice_still_refreshes_during_cooldown",
+      "passed": true
+    },
+    {
+      "case": "retry_success_clears_cooldown",
+      "passed": true
+    },
+    {
+      "case": "exception_cooldown_and_private_diagnostic",
+      "passed": true
+    }
+  ],
+  "all_legacy_Model_and_live_callbacks_mocked": true,
+  "actual_Model_service_market_wallet_DB_operations": 0
+}

@@ -1,0 +1,33 @@
+{
+  "at": 1795629724.7820303,
+  "status": "posted",
+  "live_post_enabled": true,
+  "publication_attempts": 1,
+  "official_kit_files_verified": 7,
+  "class_model": "market",
+  "tool_authorship": "genuine native read-only candidate slate + external legacy forum_marketing v5 publisher",
+  "entrypoint": "official Mind.run_once",
+  "tool_pins": {
+    "permission.yml": "da96a18919a24399b5b8eb549367f62a4bbcf4eed2015681898f95e160da08c1",
+    "logic.py": "c15424eacded61da86e9f27303b16a705287cecf81c5254a2da5360db3ee9b48",
+    "test.py": "22b2c0890e24a3b1871b7b95d29ba14276678ab36bdec7b11a3cfabc3d7c8c3b"
+  },
+  "wallet_transfer_allowed": false,
+  "model_calls": 2,
+  "original_view_sha256": "32f1c94b57b8a678fbca94faf756a005951e0676deeb5b1b426d10970ce89ece",
+  "original_view_utf8_bytes": 4982,
+  "sdk_observation_limit_chars": 6000,
+  "cached_context_observation_may_truncate": false,
+  "full_original_view_in_untrusted_user_context": true,
+  "post": 4560,
+  "public_post_verified": true,
+  "public_and_ledger_text_match": true,
+  "actual_sku": "G255acd28",
+  "actual_grade": "B",
+  "actual_price_credits": 11756,
+  "public_pack_text": "2\uac1c\uc785",
+  "post_timestamp": 1795629733,
+  "selected_price_is_publish_time_revalidated": true,
+  "preview_price_is_not_live_price": true,
+  "no_settlement_claimed": true
+}
