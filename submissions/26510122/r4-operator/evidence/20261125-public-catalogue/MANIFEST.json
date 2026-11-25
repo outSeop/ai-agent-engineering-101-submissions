@@ -1,0 +1,112 @@
+{
+  "files": {
+    "README.md": "c4596002e6d9a0ac675e5783fe2e2af24a7cda75ca6eaf5a13759eb5de8e75da",
+    "REPRODUCTION_NOTES.md": "c7f7b6e41f1cb325de55ea58d9e96ab03521eedd360fa76d894f07092d3b8141",
+    "V2_STATUS.md": "d86f9ed4173e1a40028816d21875bf31ca7c0b0227c4922a38e21194b44440f6",
+    "first-failed-proposal/derived-origin.json": "fa7616e4c33e9c05a859b76c6c13afb8995af09dfc7b857723d0de0adb63db41",
+    "first-failed-proposal/logic.py": "8df0930026b695f7de58343404bed53db0dc3d2d5dc562f3be04a16a91e9e982",
+    "first-failed-proposal/test.py": "7f023320cdbe5aadaab798dea8b57bd1e1b4ec24c21f50cee97ed2717fb48fcc",
+    "portable-reproduction-summary.json": "f6fecfff7d6f61a3e587867e66a018da0d6c8f18bce9032c7168197fd0c883ad",
+    "provenance/original-v1-forge-records.jsonl": "1300d3a04dcc401196526c7866aa076567f3f52aba2442d92c177410d666cc55",
+    "provenance/original-v2-forge-records.jsonl": "f82dffd89d8ded464846ba11951b4cb47a77918b4616aaf20bb496a4c107c936",
+    "provenance/v1-derived-origin.json": "226e91a2bdd60dca7b218175840b8d1fec9be638477573539547d6c2cfb070c1",
+    "provenance/v2-derived-origin.json": "adac41b11bc16b1da9f40f8c16d4bcf677b1078a9db11d09f6eafd047d1fcd83",
+    "publication-proof-v1.json": "dce681c78e72848dde07b14e43d6658529679f1c0f1dda147b9285686b260417",
+    "publication-proof-v2.json": "680632eef6948ddef9cdf7cda7d7e57b6ca6c3b47b0ca88ffc9d710021e3ced8",
+    "qa-adapter-initial-failure.json": "d9e1aea561556ca3602156daf08d47d3c5fb926b07f8ae1e446b8bff14faa568",
+    "qa-v1/QA_REPORT.md": "5527fcc1463e2f431326052947e364e4453d78bbd5161512d907fb7a1a95f4a9",
+    "qa-v1/independent-lifetime-results.json": "bf4abd460e724ccf119531b8ec7db6971383794e78ef82d8eb8969aff8bd3701",
+    "qa-v1/logic.py.diff": "a049e2e30f6fcd14e83e7249be115c475fc6a474f9f8ca0a57989175d5cb14ad",
+    "qa-v1/official-selftest-result.json": "d2b54cdfbd3f66db132758ff6d4e4bacfd3b7170fc83e31b49fddcf505e660c0",
+    "qa-v1/ordinary-toolbox-qa-results.json": "c2e65440fa3fa399aa103cf2f605a5f4d2e2f7fcbcdf7cc1bf57c293bf735fda",
+    "qa-v1/original/independent_lifetime_qa.py": "f5ed90345a52fbfdc182093de3f2cd119bac75fc9bfdedfb367ecd551e820163",
+    "qa-v1/original/ordinary_toolbox_qa.py": "6e7740e445cf9aa55ba74d00bdeaf05798f09254773d9a4f8c1f1cf1edf8b719",
+    "qa-v1/test.py.diff": "1e4a89e2edaf3e0748f750fa0d35e7c2a995451fe7b0d5d7e237e5782405f269",
+    "qa-v2/QA_REPORT.md": "3b8eaa9bd1d9613f35ea9c769b529508162e6ca0f61c27b639ede60dc6c5d1dc",
+    "qa-v2/logic.py.diff": "d3bb23e4a0f487f9f3f20f1c22f7e067b9dd7d0b577620527fed367e979c5cbd",
+    "qa-v2/official-selftest-result.json": "d2b54cdfbd3f66db132758ff6d4e4bacfd3b7170fc83e31b49fddcf505e660c0",
+    "qa-v2/original/targeted_v2_qa.py": "a2fe091b89e86a3b95165c036ae56fe79a01f19704408e888b38eb393e34e4f0",
+    "qa-v2/permission.yml.diff": "efcddb0e28332f4613abebf61fd14e17b7cbe2f524adecd5af78e54edea858ff",
+    "qa-v2/targeted-v2-results.json": "ca12fda519d676070a344ef23eab4f6ed8c36219d8b7ba4836cddb9087631172",
+    "qa-v2/test.py.diff": "3dd6aa8e9445e2a3fb05b45b74b3b6ff32f4f72d4eb625d2e0e9238b0dc602cc",
+    "reproduce_qa.py": "5565a87c51d35799f83728ffbd1c43ae3cfeae2ea52e562ac02a869e635e8dd8",
+    "reproduce_qa_v2.py": "c4f503248622a2b786f7d58fb7d1552d91bce68b33d7fc5715051a45c6388e09",
+    "sources-v1/tools/public_catalogue/forge.json": "61416d492e98a25f8324851f9d402b5957c752955a8c2d5251fc7c25c0a7c545",
+    "sources-v1/tools/public_catalogue/logic.py": "8862e9907f17ecd8fb019d1406a33b57268fd4566618e0757a4c8786160ff005",
+    "sources-v1/tools/public_catalogue/permission.yml": "3cb2261b6f32b2959decd9aaabae5e4a9eec5c4f370c377d757857df1537c323",
+    "sources-v1/tools/public_catalogue/test.py": "9ffb4bd145d0ff406987d70f39de67db2242ae1399c6fb17bcac27e5b7e436ba",
+    "sources-v2/tools/public_catalogue/forge.json": "5ab7ae4210c9f875c87371439d60b55c65005fde5ddf47fcfefc4c32d25cc2b2",
+    "sources-v2/tools/public_catalogue/logic.py": "6081da4b3f97f5be7ae216a66f98f6ab83dd7f22ea107e83da6c568f0557aef4",
+    "sources-v2/tools/public_catalogue/permission.yml": "a7f818fcdb703257801c5da18c067c40d04c73bdee942c57816489e1f1dd83bc",
+    "sources-v2/tools/public_catalogue/test.py": "f5f0075d74d4460a3a0aa95d408903503e4a8887558fbd4f6e7af71cb2f17126"
+  },
+  "file_count": 39,
+  "credential_files_compared": 4,
+  "actual_credential_hits": 0,
+  "unapproved_pattern_hits": 0,
+  "approved_dummy_occurrences": [
+    {
+      "file": "qa-v2/original/targeted_v2_qa.py",
+      "pattern": "JWT",
+      "byte_offset": 4889,
+      "artifact_sha256": "a2fe091b89e86a3b95165c036ae56fe79a01f19704408e888b38eb393e34e4f0",
+      "root_reviewed_synthetic_only": true
+    },
+    {
+      "file": "qa-v2/original/targeted_v2_qa.py",
+      "pattern": "API_key",
+      "byte_offset": 4906,
+      "artifact_sha256": "a2fe091b89e86a3b95165c036ae56fe79a01f19704408e888b38eb393e34e4f0",
+      "root_reviewed_synthetic_only": true
+    },
+    {
+      "file": "qa-v2/targeted-v2-results.json",
+      "pattern": "JWT",
+      "byte_offset": 6011,
+      "artifact_sha256": "ca12fda519d676070a344ef23eab4f6ed8c36219d8b7ba4836cddb9087631172",
+      "root_reviewed_synthetic_only": true
+    },
+    {
+      "file": "qa-v2/targeted-v2-results.json",
+      "pattern": "API_key",
+      "byte_offset": 6110,
+      "artifact_sha256": "ca12fda519d676070a344ef23eab4f6ed8c36219d8b7ba4836cddb9087631172",
+      "root_reviewed_synthetic_only": true
+    },
+    {
+      "file": "qa-v2/test.py.diff",
+      "pattern": "JWT",
+      "byte_offset": 2174,
+      "artifact_sha256": "3dd6aa8e9445e2a3fb05b45b74b3b6ff32f4f72d4eb625d2e0e9238b0dc602cc",
+      "root_reviewed_synthetic_only": true
+    },
+    {
+      "file": "qa-v2/test.py.diff",
+      "pattern": "API_key",
+      "byte_offset": 2192,
+      "artifact_sha256": "3dd6aa8e9445e2a3fb05b45b74b3b6ff32f4f72d4eb625d2e0e9238b0dc602cc",
+      "root_reviewed_synthetic_only": true
+    },
+    {
+      "file": "sources-v2/tools/public_catalogue/test.py",
+      "pattern": "JWT",
+      "byte_offset": 11455,
+      "artifact_sha256": "f5f0075d74d4460a3a0aa95d408903503e4a8887558fbd4f6e7af71cb2f17126",
+      "root_reviewed_synthetic_only": true
+    },
+    {
+      "file": "sources-v2/tools/public_catalogue/test.py",
+      "pattern": "API_key",
+      "byte_offset": 11473,
+      "artifact_sha256": "f5f0075d74d4460a3a0aa95d408903503e4a8887558fbd4f6e7af71cb2f17126",
+      "root_reviewed_synthetic_only": true
+    }
+  ],
+  "scoped_manifests_still_match": true,
+  "all_QA_inputs_synthetic": true,
+  "real_model_market_DB_wallet_calls": 0,
+  "generated_source_bytes_changed": false,
+  "production_activated": false,
+  "git_staged_or_committed": false,
+  "scope": "publication and independent synthetic QA only; activation and final HTTP behavior require separate evidence"
+}

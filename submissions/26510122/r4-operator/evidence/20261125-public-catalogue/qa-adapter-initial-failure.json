@@ -1,0 +1,9 @@
+{
+  "kind": "external_reproduction_adapter_precondition",
+  "case": "v1_lifetime_nonexistent_output_directory",
+  "status": "failed_before_tool_call",
+  "error": "FileNotFoundError: output directory did not exist",
+  "generated_source_changed": false,
+  "actual_model_market_DB_wallet_calls": 0,
+  "remedy": "new adapter creates output directory, original adapter and QA preserved"
+}

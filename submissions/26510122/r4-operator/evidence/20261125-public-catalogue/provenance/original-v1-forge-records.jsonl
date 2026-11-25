@@ -1,0 +1,2 @@
+{"ts": 1795596677, "tool": "public_catalogue", "version": 1, "passed": false, "error": "AssertionError: ('stale_snapshot', {'status': 'unavailable', 'reason': 'selection_unavailable'})", "permission": {"network": [], "write": [], "identity": [], "wallet": [], "pay_limit": 0, "timeout": 12, "handles": []}}
+{"ts": 1795596947, "tool": "public_catalogue", "version": 1, "passed": true, "error": null, "permission": {"network": [], "write": [], "identity": [], "wallet": [], "pay_limit": 0, "timeout": 12, "handles": []}}

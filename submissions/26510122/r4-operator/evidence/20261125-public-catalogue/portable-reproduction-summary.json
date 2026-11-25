@@ -1,0 +1,16 @@
+{
+  "v1_lifetime": {
+    "passed": 6,
+    "failed": 0,
+    "runner": "reproduce_qa_v2.py",
+    "raw_private_result_sha256": "bf4abd460e724ccf119531b8ec7db6971383794e78ef82d8eb8969aff8bd3701"
+  },
+  "v2_targeted": {
+    "passed": 77,
+    "failed": 0,
+    "runner": "reproduce_qa.py",
+    "raw_private_result_sha256": "ca12fda519d676070a344ef23eab4f6ed8c36219d8b7ba4836cddb9087631172"
+  },
+  "original_v1_full955_call_stress_repeated": false,
+  "actual_model_market_DB_wallet_calls": 0
+}

@@ -1,0 +1,207 @@
+--- v1/logic.py
++++ v2/logic.py
+@@ -31,10 +31,18 @@
+     r'|\b[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}\b|\d{2,4}[- ]\d{3,4}[- ]\d{4}'
+     r'|(?<![A-Za-z0-9])(?:bearer|password|secret|private|token|mnemonic|address|owner|unit_ref|wallet|api[_ -]?key|sk[-_][\w-]+)(?![A-Za-z0-9])'
+     r'|비밀|비밀번호|개인키|계좌번호|지갑주소|시드문구|[가-힣]+(?:로|길)\s*\d+|[가-힣]+(?:동|호)\s*\d+', re.I)
++QUERY_PRIVATE = re.compile(
++    r'(?<!\w)\.(?:env(?:\.[\w-]+)?|git(?:ignore)?|ssh|npmrc|netrc)(?!\w)'
++    r'|[\w-]+\.(?:json|ya?ml|toml|ini|conf|txt|csv|log|pem|key|p12|sqlite|db|py|sh|ps1)(?!\w)'
++    r'|\b\d{1,6}\s+(?:[\w-]+\s+){1,5}(?:street|st\.?|avenue|ave\.?|road|rd\.?|lane|ln\.?|drive|dr\.?|boulevard|blvd\.?)\b'
++    r'|\b(?:eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+|gh[pousr]_[A-Za-z0-9]+|xox[baprs]-[A-Za-z0-9-]+)\b', re.I)
+ MIXED = re.compile(
+     r'환불|반품|구매|결제|송금|입금|출금|취소|계약|권리|권한|견적|수락|동의|대기|마일리지|포인트|잔액|계좌|지갑|가스|수수료'
+     r'|흥정|협상|네고|할인|깎|최저|저렴|싸게|제외|빼고|빼줘|말고|싫|아닌|대안|대체|대신|비교|다른|보다|중에서|추천|주문|사겠|살게|사줘|살래|살까|사고 싶|보내|진행'
+     r'|\b(?:refund|return|buy|purchase|order|payment|pay|transfer|cancel|contract|rights?|accept|quote|balance|wallet|credit|cheaper|cheapest|discount|except|exclude|instead|alternative|compare|versus|vs)\b', re.I)
++NON_TARGET = re.compile(
++    r'제외|빼고|빼줘|빼\s*주세요|말고|싫|아닌|아니고|대안|대체|대신|비교|차이|다른|보다|중에서|중\s*어느| 또는 | 혹은 '
++    r'|\b(?:except|excluding|exclude|instead|alternative[s]?|compare|comparison|versus|vs|without|not|other than|rather than|or)\b', re.I)
+ FACT = re.compile(r'가격|상품가|등급|유통\s*기한|소비\s*기한|만료|기한|재고|남은\s*시간|\b(?:price|grade|expiry|expiration|stock)\b', re.I)
+ PLAIN = frozenset(('공개 상품 제품 정보 목록 문의 확인 조회 안내 알려줘 알려주세요 알려 주세요 줘 보여줘 보여주세요 '
+                    '부탁해 부탁합니다 부탁드립니다 부탁드려요 궁금해 궁금해요 궁금합니다 얼마 얼마야 얼마인가요 언제 언제까지 '
+@@ -174,7 +182,18 @@
+ def sku_list(value):
+     if type(value) is not list or len(value) > 20 or not all(valid_sku(sku) for sku in value):
+         return None
+-    return sorted({sku.upper() for sku in value})
++    return unique_skus(value, sort=True)
++
++
++def unique_skus(values, sort=False):
++    spellings = {}
++    for sku in values:
++        spellings.setdefault(sku.upper(), sku)
++    return [spellings[key] for key in sorted(spellings)] if sort else list(spellings.values())
++
++
++def source_skus(values, spellings):
++    return [spellings.get(sku.upper(), sku) for sku in values]
+ 
+ 
+ def search_args(args):
+@@ -226,6 +245,7 @@
+     excluded = dict(invalid_rows=0, ambiguous_pairs=sum(count > 1 for count in raw_pairs.values()),
+                     ambiguous_rows=0, unavailable_rows=0)
+     rows = []
++    spellings = {}
+     for unit, pair in zip(units, pairs):
+         if not valid_unit(unit, pair):
+             excluded['invalid_rows'] += 1
+@@ -233,6 +253,7 @@
+         if raw_pairs[pair] > 1:
+             excluded['ambiguous_rows'] += 1
+             continue
++        spellings.setdefault(pair[0], unit['sku'])
+         if unit['state'] != 'available':
+             excluded['unavailable_rows'] += 1
+             continue
+@@ -242,7 +263,7 @@
+         root = labels[0] if labels and safe_label(labels[0], 128, refs) else None
+         searchable = ' '.join([name or '', *(part for part in labels if safe_label(part, 128, refs))]).casefold()
+         rows.append((pair, unit, name, root, searchable))
+-    return raw_pairs, rows, excluded, refs
++    return raw_pairs, rows, excluded, refs, spellings
+ 
+ 
+ def current(row, instant):
+@@ -252,8 +273,8 @@
+ 
+ def matches(eligible, criteria, instant):
+     terms = criteria['q'].casefold().split()
+-    included = set(criteria['skus'])
+-    excluded = set(criteria['exclude_skus'])
++    included = {sku.upper() for sku in criteria['skus']}
++    excluded = {sku.upper() for sku in criteria['exclude_skus']}
+     category, grade = criteria['category'], criteria['grade']
+     minimum, maximum = criteria['min_remaining_seconds'], criteria['max_price']
+     found = []
+@@ -274,7 +295,7 @@
+ 
+ 
+ def literal_hints(text, rows):
+-    skus = list(dict.fromkeys(match.group().upper() for match in LITERAL_SKU.finditer(text)))
++    skus = unique_skus(match.group() for match in LITERAL_SKU.finditer(text))
+     root_hits = []
+     for root in dict.fromkeys(row[3] for row in rows if row[3] is not None):
+         pattern = r'(?<!\w)' + re.escape(root) + r'(?=(?:은|는|이|가|을|를|의|도)?(?!\w))'
+@@ -303,11 +324,11 @@
+     if not selected or any(not current(row, output_time) for row in selected):
+         return unavailable('selection_unavailable')
+     lines = ['현재 조회 목록 일부'] if fallback else []
+-    for (sku, grade), unit, *_ in selected:
++    for (_, grade), unit, *_ in selected:
+         expiry = unit['expires_at']
+         remaining = ('유통기한 미제공' if expiry is None
+                      else f'남은 시간 {max(0, expiry - math.ceil(output_time))}초')
+-        lines.append(f"{sku} {grade}등급 · {unit['price_credits']:,}크레딧 · {remaining}")
++        lines.append(f"{unit['sku']} {grade}등급 · {unit['price_credits']:,}크레딧 · {remaining}")
+     lines.append('상품가 기준, 시장 수수료·가스 별도. 결제 전 재고·조건 재확인')
+     reply = '\n'.join(lines)
+     if len(reply) > 450:
+@@ -320,13 +341,13 @@
+     return {'status': 'rendered', 'reply': reply, 'observed_at': context['observed_at'], 'valid_until': valid_until}
+ 
+ 
+-def page(context, eligible, found, criteria, cursor, excluded, hints, refs):
++def page(context, eligible, found, criteria, cursor, excluded, hints):
+     offset, snapshot, as_of, query_id = cursor
+     counts = Counter(row[3] for row in eligible if row[3] is not None)
+     summaries = list(counts.items())[:12]
+     eligible_skus = {row[0][0] for row in eligible}
+-    requested = criteria['skus'] if hints is None else hints['literal_skus']
+-    missing = [sku for sku in requested if sku not in eligible_skus]
++    requested = criteria['skus'] or (hints['literal_skus'] if hints is not None else [])
++    missing = [sku for sku in requested if sku.upper() not in eligible_skus]
+     source_count = len(context['units'])
+     expired = source_count - len(eligible) - sum(excluded[key] for key in ('invalid_rows', 'ambiguous_rows', 'unavailable_rows'))
+     excluded_counts = dict(excluded, expired_rows=expired, filter_rows=len(eligible) - len(found))
+@@ -340,16 +361,14 @@
+     omitted_categories = sum(row[3] is None for row in eligible)
+     while True:
+         rows = []
+-        for pair, unit, name, root, _ in selected:
++        for (_, grade), unit, name, root, _ in selected:
+             path = [root] if root is not None and type(unit['category_path']) is list else root
+             expiry = unit['expires_at']
+-            rows.append([*pair, name[:preview_limit] if name is not None and preview_limit else None,
++            rows.append([unit['sku'], grade, name[:preview_limit] if name is not None and preview_limit else None,
+                          unit['price_credits'], path, None if expiry is None else expiry - as_of])
+         next_offset = offset + len(rows)
+         next_args = None
+         if next_offset < len(found):
+-            if criteria['q'] and not safe_label(criteria['q'], 64, refs):
+-                return unavailable('unsafe_query_cursor')
+             next_args = dict(criteria, op='search', offset=next_offset, snapshot=snapshot, as_of=as_of, query_id=query_id)
+         coverage = (f'공개 검색 일치 {len(found)}행 중 {offset + 1}–{next_offset}행'
+                     if rows else '현재 공개 검색 조건에 일치하는 대표행 0개')
+@@ -392,6 +411,9 @@
+         if parsed is None:
+             return unavailable('invalid_args')
+         criteria, offset, continuing = parsed
++        query = criteria['q']
++        if query and (not safe_label(query, 64, ()) or QUERY_PRIVATE.search(unicodedata.normalize('NFKC', query))):
++            return unavailable('unsafe_query_cursor')
+         if continuing and not (DEFAULTS.keys() | {'offset'}) <= args.keys():
+             return unavailable('query_restart_required')
+     elif op == 'render':
+@@ -433,7 +455,7 @@
+     as_of = args['as_of'] if continuing else int(checked)
+     if continuing and not observed <= as_of <= int(checked):
+         return unavailable('query_restart_required')
+-    raw_pairs, rows, excluded, refs = index_units(context['units'])
++    raw_pairs, rows, excluded, refs, spellings = index_units(context['units'])
+     if op == 'render':
+         if any(raw_pairs[pair] > 1 for pair in requested):
+             return unavailable('selection_ambiguous')
+@@ -441,26 +463,38 @@
+         if any(pair not in by_pair for pair in requested):
+             return unavailable('selection_unavailable')
+         return render([by_pair[pair] for pair in requested], context, checked)
++    if criteria['q'] and not safe_label(criteria['q'], 64, refs):
++        return unavailable('unsafe_query_cursor')
+     eligible = [row for row in rows if current(row, as_of)]
+     if op in ('context', 'fallback'):
+         text = args['text']
+         literal, roots = literal_hints(text, eligible)
++        literal = source_skus(literal, spellings)
+         if op == 'fallback':
+             if len(literal) > 20 or not plain_request(text, literal, roots):
+                 return unavailable('fallback_not_applicable')
+-            criteria['skus'] = sorted(literal)
++            criteria['skus'] = unique_skus(literal, sort=True)
+             criteria['category'] = roots[0][0] if roots else ''
+             found = matches(eligible, criteria, as_of)
+-            if not set(literal) <= {row[0][0] for row in found}:
++            if not {sku.upper() for sku in literal} <= {row[0][0] for row in found}:
+                 return unavailable('selection_unavailable')
+             return render(found[:3], context, checked, fallback=True)
++        focus = source_skus(focus, spellings)
+         hints = {'literal_skus': literal[:20], 'literal_skus_partial': len(literal) > 20,
+                  'focus_skus': focus, 'root_hint_count': len(roots),
+                  'usage': '검색 참고값이며 선택이나 구매 의사를 뜻하지 않습니다.'}
+-        if len(roots) == 1 and not literal and not MIXED.search(text):
++        if (literal or focus) and not NON_TARGET.search(' '.join(text.split())):
++            if len(literal) > 20:
++                return unavailable('invalid_args')
++            criteria['skus'] = unique_skus(literal or focus, sort=True)
++        elif len(roots) == 1 and not literal and not MIXED.search(text) and not NON_TARGET.search(' '.join(text.split())):
+             criteria['category'] = roots[0][0]
++    for key in ('skus', 'exclude_skus'):
++        criteria[key] = source_skus(criteria[key], spellings)
++    canonical = dict(criteria, skus=[sku.upper() for sku in criteria['skus']],
++                     exclude_skus=[sku.upper() for sku in criteria['exclude_skus']])
+     try:
+-        query_id = digest([criteria, snapshot, as_of])
++        query_id = digest([canonical, snapshot, as_of])
+     except ValueError:
+         return unavailable('invalid_args')
+     if continuing and args['query_id'].lower() != query_id:
+@@ -469,7 +503,7 @@
+     if offset and offset >= len(found):
+         return unavailable('query_restart_required')
+     try:
+-        result = page(context, eligible, found, criteria, (offset, snapshot, as_of, query_id), excluded, hints, refs)
++        result = page(context, eligible, found, criteria, (offset, snapshot, as_of, query_id), excluded, hints)
+     except ValueError:
+         return unavailable('output_budget')
+     final_time = time.time()

@@ -1,0 +1,119 @@
+--- v1/test.py
++++ v2/test.py
+@@ -122,11 +122,13 @@
+         assert '사과' not in result['reply'] and 'ref-' not in result['reply']
+         return result['reply']
+ 
+-    result = invoke({'op': 'context', 'text': '식품 가격 알려주세요', 'focus_skus': [C]})
++    result = invoke({'op': 'context', 'text': '식품 가격 알려주세요'})
+     assert [row[0] for row in result['rows']] == [A, B]
+-    assert result['catalogue']['hints']['focus_skus'] == [C]
+     assert result['rows'][0] == [A, 'A', '신선한 빨간 사과', 101, ['식품'], 80]
+     assert result['rows'][1][-1] is None
++    focused = invoke({'op': 'context', 'text': '식품 가격 알려주세요', 'focus_skus': [C]})
++    assert [row[0] for row in focused['rows']] == [C]
++    assert focused['catalogue']['hints']['focus_skus'] == [C]
+     mixed = invoke({'op': 'context', 'text': f'{A} 말고 {B} 또는 다른 상품 비교'})
+     assert [row[0] for row in mixed['rows']] == [A, B, C]
+     assert mixed['catalogue']['hints']['literal_skus'] == [A, B] and '말고' not in str(mixed)
+@@ -173,14 +175,79 @@
+     assert expiry['rows'][0][0] == C
+     fails(expiry['catalogue']['next_args'], 'query_restart_required', at=NOW + 30)
+     assert [row[0] for row in invoke({'op': 'search', 'min_remaining_seconds': 1})['rows']] == [A, C]
+-    empty = invoke({'op': 'search', 'q': '../.*person@example.net', 'skus': ['GFFFFFFFF']})
++    unknown = 'GfffffffE'
++    empty = invoke({'op': 'search', 'q': '사과', 'skus': [unknown]})
+     assert empty['status'] == 'ready' and empty['rows'] == [] and empty['catalogue']['matched_count'] == 0
+-    assert empty['catalogue']['missing_skus'] == ['GFFFFFFFF'] and 'example.net' not in str(empty)
++    assert empty['catalogue']['missing_skus'] == [unknown] and empty['catalogue']['next_args'] is None
++    for query in ('../.*person@example.net', 'test@example.net', '판매자 0x1234567890', 'https://example.net',
++                  'example.net', 'ftp://internal.invalid/x', './local', '../folder', 'folder/item', '/etc/hosts',
++                  r'C:\Users\x', r'folder\item', '.env', 'config.json', 'Bearer abcd', 'api_key=abcd',
++                  'eyJabc.def.ghi', 'ghp_abcdef', '서울 테헤란로 123', '123 Main Street', 'test＠example.net', 'dir／file'):
++        fails({'op': 'search', 'q': query, 'skus': [unknown]}, 'unsafe_query_cursor', expect_open=False)
++        fails(dict(cursor, q=query), 'unsafe_query_cursor', context=changed, expect_open=False)
++    for args in ({'op': 'search', 'q': 'ref-2'}, dict(cursor, q='ref-2')):
++        fails(args, 'unsafe_query_cursor', context=changed)
++    regex_text = snapshot([offer(i, name='사과.*') for i in range(1, 3)])
++    literal_search = invoke({'op': 'search', 'q': '사과.*', 'limit': 1}, regex_text)
++    assert literal_search['catalogue']['matched_count'] == 2 and literal_search['catalogue']['next_args']['q'] == '사과.*'
+     assert not invoke({'op': 'search', 'q': '사과.*'})['rows']
++    assert [row[0] for row in invoke({'op': 'search', 'q': '사과 과일', 'category': '식품'})['rows']] == [A, B]
++
++    lower_one, lower_two = 'G0026722f', 'Gabcdefab'
++    casing = snapshot([offer(1, sku=lower_one), offer(2, sku=lower_two), offer(3)])
++    for unit in casing['units'][:2]:
++        original = unit['sku']
++        upper = original.upper()
++        direct = invoke({'op': 'context', 'text': f'{upper} 가격 알려주세요', 'focus_skus': [upper]}, casing)
++        assert [row[0] for row in direct['rows']] == [original]
++        assert direct['catalogue']['criteria']['skus'] == [original]
++        assert direct['catalogue']['hints']['literal_skus'] == direct['catalogue']['hints']['focus_skus'] == [original]
++        checkout_item = dict(zip(('sku', 'grade'), direct['rows'][0][:2]))
++        assert checkout_item == {'sku': unit['sku'], 'grade': unit['grade']}
++        from_upper = {'op': 'render', 'items': [{'sku': upper, 'grade': unit['grade']}]}
++        assert rendered(invoke(from_upper, casing)).split()[0] == original
++        fallback_reply = rendered(invoke({'op': 'fallback', 'text': f'{upper} 가격 알려주세요'}, casing))
++        assert fallback_reply.splitlines()[1].split()[0] == original
++    case_page = invoke({'op': 'search', 'skus': [lower_two.upper(), lower_one.upper(), C],
++                        'exclude_skus': [lower_two.upper()], 'limit': 1}, casing)
++    case_cursor = case_page['catalogue']['next_args']
++    assert case_cursor['skus'] == [C, lower_one, lower_two] and case_cursor['exclude_skus'] == [lower_two]
++    assert case_page['rows'][0][0] == lower_one
++    assert invoke(case_cursor, casing)['rows'][0][0] == C
++    assert invoke(dict(case_cursor, skus=[C, lower_one.upper(), lower_two.upper()]), casing)['query_id'] == case_page['query_id']
++    case_duplicate = snapshot([offer(1, sku=lower_one), offer(2, sku=lower_one.upper()), offer(3)])
++    ambiguous = invoke({'op': 'search', 'skus': [lower_one.upper()]}, case_duplicate)
++    assert ambiguous['rows'] == [] and ambiguous['catalogue']['excluded_counts']['ambiguous_pairs'] == 1
++    fails({'op': 'render', 'items': [{'sku': lower_one, 'grade': 'A'}]}, 'selection_ambiguous', context=case_duplicate)
++    fails({'op': 'fallback', 'text': f'{lower_one} 가격 알려주세요'}, 'selection_unavailable', context=case_duplicate)
+ 
+     for size in (117, 200, 500, 1000, 5000):
+         bulk = snapshot([offer(i, name='한글 상품 ' + '길' * 45, category_path=[f'공개 분류 {i % 17}', '세부 과일'])
+                          for i in range(1, size + 1)])
++        if size in (117, 500):
++            last = bulk['units'][-1]['sku']
++            for request in ({'text': f'{last} 가격 알려주세요'}, {'text': '가격 알려주세요', 'focus_skus': [last]},
++                            {'text': f'{last} 가격 알려주세요', 'focus_skus': [A, last]}):
++                exact = invoke({'op': 'context', **request}, bulk)
++                assert [row[0] for row in exact['rows']] == [last]
++                assert exact['catalogue']['criteria']['skus'] == [last] and exact['catalogue']['next_args'] is None
++            for text in (f'{last} 제외하고 가격 알려주세요', f'{last} 대안 가격', f'{last}와 {A} 비교'):
++                broad = invoke({'op': 'context', 'text': text, 'focus_skus': [last]}, bulk)
++                assert broad['catalogue']['criteria']['skus'] == [] and broad['catalogue']['matched_count'] == size
++                assert broad['catalogue']['next_args']['skus'] == []
++                assert invoke({'op': 'search', 'exclude_skus': [last], 'limit': 1}, bulk)['catalogue']['matched_count'] == size - 1
++            for wanted, expected in (([unknown], []), ([last, unknown], [last])):
++                missing = invoke({'op': 'context', 'text': ' '.join(wanted) + ' 가격'}, bulk)
++                assert [row[0] for row in missing['rows']] == expected
++                assert missing['catalogue']['missing_skus'] == [unknown]
++            ids = [unit['sku'] for unit in bulk['units'][-9:]]
++            initial = invoke({'op': 'context', 'text': ' '.join(ids) + ' 가격'}, bulk)
++            following = initial['catalogue']['next_args']
++            assert [row[0] for row in initial['rows']] == ids[:8] and following['skus'] == ids
++            continued = invoke(following, bulk, at=NOW + 1)
++            assert [row[0] for row in continued['rows']] == ids[8:]
++            assert continued['query_id'] == initial['query_id'] == following['query_id']
++            assert continued['catalogue']['criteria'] == initial['catalogue']['criteria']
+         args = {'op': 'search', 'q': '상품 과일', 'grade': 'A', 'sort': 'price_asc', 'limit': 8}
+         result = invoke(args, bulk)
+         assert result['catalogue']['source_count'] == size and result['catalogue']['matched_count'] == size
+@@ -204,10 +271,16 @@
+ 
+     crowded = snapshot([offer(i, category_path=[f'분류 {i:03} ' + '길' * 110], name='이름 ' + '가' * 160)
+                         for i in range(1, 35)])
+-    crowded_page = invoke({'op': 'context', 'text': ' '.join(f'G{i:08X}' for i in range(40, 60)),
+-                           'focus_skus': [f'G{i:08X}' for i in range(60, 80)]}, crowded)
++    many_literals = ' '.join(f'G{i:08X}' for i in range(40, 60))
++    crowded_args = {'op': 'context', 'text': many_literals + ' 제외',
++                    'focus_skus': [f'G{i:08X}' for i in range(60, 80)]}
++    crowded_page = invoke(crowded_args, crowded)
+     assert crowded_page['status'] == 'ready'
+     assert crowded_page['catalogue']['next_args']['offset'] == crowded_page['catalogue']['returned_count']
++    over_limit = many_literals + ' GFFFFFFFF'
++    fails({'op': 'context', 'text': over_limit}, 'invalid_args', context=crowded)
++    broad = invoke({'op': 'context', 'text': over_limit + ' 비교'}, crowded)
++    assert broad['catalogue']['hints']['literal_skus_partial'] and broad['catalogue']['matched_count'] == 34
+ 
+     for price in (-1, 0, True, 10**12 + 1):
+         invalid = snapshot([offer(1, price_credits=price), offer(2)])

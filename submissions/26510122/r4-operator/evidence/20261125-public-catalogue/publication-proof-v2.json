@@ -1,0 +1,86 @@
+{
+  "files": {
+    "sources-v2/tools/public_catalogue/logic.py": "6081da4b3f97f5be7ae216a66f98f6ab83dd7f22ea107e83da6c568f0557aef4",
+    "sources-v2/tools/public_catalogue/test.py": "f5f0075d74d4460a3a0aa95d408903503e4a8887558fbd4f6e7af71cb2f17126",
+    "sources-v2/tools/public_catalogue/permission.yml": "a7f818fcdb703257801c5da18c067c40d04c73bdee942c57816489e1f1dd83bc",
+    "sources-v2/tools/public_catalogue/forge.json": "5ab7ae4210c9f875c87371439d60b55c65005fde5ddf47fcfefc4c32d25cc2b2",
+    "qa-v2/original/targeted_v2_qa.py": "a2fe091b89e86a3b95165c036ae56fe79a01f19704408e888b38eb393e34e4f0",
+    "qa-v2/targeted-v2-results.json": "ca12fda519d676070a344ef23eab4f6ed8c36219d8b7ba4836cddb9087631172",
+    "qa-v2/official-selftest-result.json": "d2b54cdfbd3f66db132758ff6d4e4bacfd3b7170fc83e31b49fddcf505e660c0",
+    "qa-v2/logic.py.diff": "d3bb23e4a0f487f9f3f20f1c22f7e067b9dd7d0b577620527fed367e979c5cbd",
+    "qa-v2/test.py.diff": "3dd6aa8e9445e2a3fb05b45b74b3b6ff32f4f72d4eb625d2e0e9238b0dc602cc",
+    "qa-v2/permission.yml.diff": "efcddb0e28332f4613abebf61fd14e17b7cbe2f524adecd5af78e54edea858ff",
+    "provenance/v2-derived-origin.json": "adac41b11bc16b1da9f40f8c16d4bcf677b1078a9db11d09f6eafd047d1fcd83",
+    "provenance/original-v2-forge-records.jsonl": "f82dffd89d8ded464846ba11951b4cb47a77918b4616aaf20bb496a4c107c936",
+    "qa-v2/QA_REPORT.md": "3b8eaa9bd1d9613f35ea9c769b529508162e6ca0f61c27b639ede60dc6c5d1dc"
+  },
+  "file_count": 13,
+  "credential_files_compared": 4,
+  "actual_credential_hits": 0,
+  "unapproved_pattern_hits": 0,
+  "pre_copy_post_copy_scanned": true,
+  "exceptions": [
+    {
+      "file": "sources-v2/tools/public_catalogue/test.py",
+      "pattern": "JWT",
+      "byte_offset": 11455,
+      "artifact_sha256": "f5f0075d74d4460a3a0aa95d408903503e4a8887558fbd4f6e7af71cb2f17126",
+      "root_reviewed_synthetic_literal": true
+    },
+    {
+      "file": "sources-v2/tools/public_catalogue/test.py",
+      "pattern": "API_key",
+      "byte_offset": 11473,
+      "artifact_sha256": "f5f0075d74d4460a3a0aa95d408903503e4a8887558fbd4f6e7af71cb2f17126",
+      "root_reviewed_synthetic_literal": true
+    },
+    {
+      "file": "qa-v2/original/targeted_v2_qa.py",
+      "pattern": "JWT",
+      "byte_offset": 4889,
+      "artifact_sha256": "a2fe091b89e86a3b95165c036ae56fe79a01f19704408e888b38eb393e34e4f0",
+      "root_reviewed_synthetic_literal": true
+    },
+    {
+      "file": "qa-v2/original/targeted_v2_qa.py",
+      "pattern": "API_key",
+      "byte_offset": 4906,
+      "artifact_sha256": "a2fe091b89e86a3b95165c036ae56fe79a01f19704408e888b38eb393e34e4f0",
+      "root_reviewed_synthetic_literal": true
+    },
+    {
+      "file": "qa-v2/targeted-v2-results.json",
+      "pattern": "JWT",
+      "byte_offset": 6011,
+      "artifact_sha256": "ca12fda519d676070a344ef23eab4f6ed8c36219d8b7ba4836cddb9087631172",
+      "root_reviewed_synthetic_literal": true
+    },
+    {
+      "file": "qa-v2/targeted-v2-results.json",
+      "pattern": "API_key",
+      "byte_offset": 6110,
+      "artifact_sha256": "ca12fda519d676070a344ef23eab4f6ed8c36219d8b7ba4836cddb9087631172",
+      "root_reviewed_synthetic_literal": true
+    },
+    {
+      "file": "qa-v2/test.py.diff",
+      "pattern": "JWT",
+      "byte_offset": 2174,
+      "artifact_sha256": "3dd6aa8e9445e2a3fb05b45b74b3b6ff32f4f72d4eb625d2e0e9238b0dc602cc",
+      "root_reviewed_synthetic_literal": true
+    },
+    {
+      "file": "qa-v2/test.py.diff",
+      "pattern": "API_key",
+      "byte_offset": 2192,
+      "artifact_sha256": "3dd6aa8e9445e2a3fb05b45b74b3b6ff32f4f72d4eb625d2e0e9238b0dc602cc",
+      "root_reviewed_synthetic_literal": true
+    }
+  ],
+  "generated_source_general_approval": false,
+  "production_activated": false,
+  "real_buy_or_pay": false,
+  "model_messages_or_thoughts_exported": false,
+  "all_qa_inputs_synthetic": true,
+  "source_bytes_changed": false
+}

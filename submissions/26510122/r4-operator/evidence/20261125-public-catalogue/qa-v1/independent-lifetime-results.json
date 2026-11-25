@@ -1,0 +1,72 @@
+{
+  "source_logic_sha256": "8862e9907f17ecd8fb019d1406a33b57268fd4566618e0757a4c8786160ff005",
+  "checks": [
+    {
+      "case": "minimum_boundary_0",
+      "passed": true,
+      "observed": {
+        "expected": [
+          "G00000001",
+          "G00000002"
+        ],
+        "returned": [
+          "G00000001",
+          "G00000002"
+        ]
+      }
+    },
+    {
+      "case": "minimum_boundary_59",
+      "passed": true,
+      "observed": {
+        "expected": [
+          "G00000001"
+        ],
+        "returned": [
+          "G00000001"
+        ]
+      }
+    },
+    {
+      "case": "minimum_boundary_60",
+      "passed": true,
+      "observed": {
+        "expected": [
+          "G00000001"
+        ],
+        "returned": [
+          "G00000001"
+        ]
+      }
+    },
+    {
+      "case": "minimum_boundary_61",
+      "passed": true,
+      "observed": {
+        "expected": [],
+        "returned": []
+      }
+    },
+    {
+      "case": "cursor_eligibility_expired_since_first_page",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "sensitive_q_not_echoed",
+      "passed": true,
+      "observed": {
+        "status": "ready",
+        "reason": null,
+        "uniformly_rejected": false
+      }
+    }
+  ],
+  "passed": 6,
+  "failed": 0,
+  "all_inputs_synthetic": true,
+  "ordinary_SDK_call": true,
+  "source_changes": 0,
+  "clock_patched": false,
+  "model_market_DB_wallet_calls": 0
+}

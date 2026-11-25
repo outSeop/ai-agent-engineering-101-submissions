@@ -1,0 +1,427 @@
+{
+  "source_hashes": {
+    "logic.py": "6081da4b3f97f5be7ae216a66f98f6ab83dd7f22ea107e83da6c568f0557aef4",
+    "test.py": "f5f0075d74d4460a3a0aa95d408903503e4a8887558fbd4f6e7af71cb2f17126",
+    "permission.yml": "a7f818fcdb703257801c5da18c067c40d04c73bdee942c57816489e1f1dd83bc",
+    "forge.json": "5ab7ae4210c9f875c87371439d60b55c65005fde5ddf47fcfefc4c32d25cc2b2"
+  },
+  "checks": [
+    {
+      "case": "late_literal_117",
+      "passed": true,
+      "observed": {
+        "returned": [
+          "G00000075"
+        ]
+      }
+    },
+    {
+      "case": "legacy_exact_source_match_literal_117",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "late_focus_117",
+      "passed": true,
+      "observed": {
+        "returned": [
+          "G00000075"
+        ]
+      }
+    },
+    {
+      "case": "legacy_exact_source_match_focus_117",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "late_literal_priority_117",
+      "passed": true,
+      "observed": {
+        "returned": [
+          "G00000075"
+        ]
+      }
+    },
+    {
+      "case": "legacy_exact_source_match_literal_priority_117",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "neutral_말고 다른 상품_117",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "neutral_제외_117",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "neutral_대안_117",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "neutral_비교_117",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "neutral_대신_117",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "neutral_rather than_117",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "neutral_without_117",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "missing_literal_no_substitute_117",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "literal_nine_paging_117",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "late_literal_500",
+      "passed": true,
+      "observed": {
+        "returned": [
+          "G000001f4"
+        ]
+      }
+    },
+    {
+      "case": "legacy_exact_source_match_literal_500",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "late_focus_500",
+      "passed": true,
+      "observed": {
+        "returned": [
+          "G000001f4"
+        ]
+      }
+    },
+    {
+      "case": "legacy_exact_source_match_focus_500",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "late_literal_priority_500",
+      "passed": true,
+      "observed": {
+        "returned": [
+          "G000001f4"
+        ]
+      }
+    },
+    {
+      "case": "legacy_exact_source_match_literal_priority_500",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "neutral_말고 다른 상품_500",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "neutral_제외_500",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "neutral_대안_500",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "neutral_비교_500",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "neutral_대신_500",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "neutral_rather than_500",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "neutral_without_500",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "missing_literal_no_substitute_500",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "literal_nine_paging_500",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "source_spelling_render_Gabcdefab",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "source_spelling_fallback_Gabcdefab",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "source_spelling_render_G0026722f",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "source_spelling_fallback_G0026722f",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "cursor_casing_equivalent",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "cursor_changed_exclude_skus",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "cursor_changed_q",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "cursor_changed_max_price",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "cursor_changed_min_remaining_seconds",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "cursor_changed_grade",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "cursor_changed_category",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "cursor_changed_sort",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "cursor_changed_limit",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "cursor_changed_as_of",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "unsafe_q_test@example.net",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "unsafe_q_../folder",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "unsafe_q_/etc/hosts",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "unsafe_q_config.json",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "unsafe_q_Bearer abcd",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "unsafe_q_서울 테헤란로 123",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "unsafe_q_test＠example.net",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "unsafe_q_dir／file",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "unsafe_q_eyJabc.def.ghi",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "unsafe_q_ghp_abcdef",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fallback_block_구매",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fallback_block_결제",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fallback_block_환불",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fallback_block_마일리지",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fallback_block_대기권",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fallback_block_동의",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fallback_block_견적수락",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fallback_block_권리",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fallback_block_송금",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fallback_block_다른",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fallback_block_말고",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fallback_block_제외",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fallback_block_비교",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fallback_block_최저가",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fallback_block_추천",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fallback_block_pay",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fallback_block_buy",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fallback_block_refund",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fallback_block_instead",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "case_duplicate_ambiguous",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_untrusted_74",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_untrusted_75",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_untrusted_76",
+      "passed": true,
+      "observed": null
+    }
+  ],
+  "passed": 77,
+  "failed": 0,
+  "all_inputs_synthetic": true,
+  "ordinary_official_Toolbox_call": true,
+  "clock_patched": false,
+  "manual_testing_flag": false,
+  "generated_source_changed": false,
+  "actual_model_market_DB_wallet_calls": 0
+}

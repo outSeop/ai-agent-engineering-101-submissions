@@ -1,0 +1,3 @@
+The original reproduction adapter remains byte-identical to its v1 publication manifest. The v1 lifetime script expects its output directory to exist; an initial public replay with a nonexistent directory failed before any tool call. This is an external QA adapter precondition, not a generated tool failure. reproduce_qa_v2.py adds only output-directory creation and is the recommended entry point for either version. No original QA, generated business source or prior failure result was changed.
+
+Use the same arguments documented in README.md with reproduce_qa_v2.py. The v2 targeted replay through the original public adapter already reproduced77/77 passes. The v1 full955-call stress was not repeated during public packaging.

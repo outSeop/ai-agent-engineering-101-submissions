@@ -1,0 +1,9 @@
+--- v1/permission.yml
++++ v2/permission.yml
+@@ -5,4 +5,5 @@
+   timeout: 12
+ logic: logic.py
+ test: test.py
+-version: 1
++version: 2
++replaces: public_catalogue@1

@@ -1,0 +1,11 @@
+{
+  "status": "first-failed-proposal-not-forged",
+  "line": 6,
+  "response_sha256": "0e4a6fba4408944b9c4cbeb60c7298df1392f001cb9acdc20080da12717a62a4",
+  "provider": "codex-cli-gpt-6.2-sol",
+  "source_hashes": {
+    "logic": "8df0930026b695f7de58343404bed53db0dc3d2d5dc562f3be04a16a91e9e982",
+    "test": "7f023320cdbe5aadaab798dea8b57bd1e1b4ec24c21f50cee97ed2717fb48fcc"
+  },
+  "proposal_not_successful_forge": true
+}

@@ -1,0 +1,66 @@
+{
+  "successful_proposal": {
+    "line": 8,
+    "at": 1795597370.73891,
+    "provider": "codex-cli-gpt-6.2-sol",
+    "response_sha256": "dfcd978b9f00db6c2bbe457b8ace46163e2f7ba5772c7216e76a4aef17e0b808",
+    "source_hashes": {
+      "permission.yml": "a7f818fcdb703257801c5da18c067c40d04c73bdee942c57816489e1f1dd83bc",
+      "logic.py": "6081da4b3f97f5be7ae216a66f98f6ab83dd7f22ea107e83da6c568f0557aef4",
+      "test.py": "f5f0075d74d4460a3a0aa95d408903503e4a8887558fbd4f6e7af71cb2f17126"
+    },
+    "description_chars": 477
+  },
+  "forge_records": [
+    {
+      "ts": 1795596677,
+      "tool": "public_catalogue",
+      "version": 1,
+      "passed": false,
+      "error": "AssertionError: ('stale_snapshot', {'status': 'unavailable', 'reason': 'selection_unavailable'})",
+      "permission": {
+        "network": [],
+        "write": [],
+        "identity": [],
+        "wallet": [],
+        "pay_limit": 0,
+        "timeout": 12,
+        "handles": []
+      }
+    },
+    {
+      "ts": 1795596947,
+      "tool": "public_catalogue",
+      "version": 1,
+      "passed": true,
+      "error": null,
+      "permission": {
+        "network": [],
+        "write": [],
+        "identity": [],
+        "wallet": [],
+        "pay_limit": 0,
+        "timeout": 12,
+        "handles": []
+      }
+    },
+    {
+      "ts": 1795597694,
+      "tool": "public_catalogue",
+      "version": 2,
+      "passed": true,
+      "error": null,
+      "permission": {
+        "handles": [],
+        "identity": [],
+        "network": [],
+        "pay_limit": 0,
+        "timeout": 12,
+        "wallet": [],
+        "write": []
+      }
+    }
+  ],
+  "raw_model_messages_and_thoughts_exported": false,
+  "source_bytes_changed": false
+}
