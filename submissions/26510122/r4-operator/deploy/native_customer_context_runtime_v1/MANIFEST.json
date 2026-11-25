@@ -1,0 +1,21 @@
+{
+  "host_authorship": "external host infrastructure",
+  "builder_authorship": "official Mind development CLI forge v5",
+  "file_sha256": {
+    "native_context_worker.py": "2454b269d175add8f37095f6f8a28037686830c141eca4dc4d735d1d5d6848dc",
+    "native_context_runtime.py": "af7d092316e5fa81155742099eeb78cefacb8c9d6ca383a15e8b2e65821ae8c9",
+    "native_customer_context_adapter.py": "1afb8483a2d5754316a0ea7325bf95fba956c7b5a858d2e036d30bf43acacbc8",
+    "native_context_snapshot_entry.py": "658f0961b0752ba3058ec096a811c608caeb57ba192d4a5e3b12b9eefaed9ecd",
+    "card_source_read_lane.py": "86053315d2f31fb94979eeca7b230ae9f5ca2d581c8acc90bbc6c75b0148cec7",
+    "card_offer_producer_host.py": "b128c9d0851996900734b8a9bdda9256ea41e2f81746658bb01446d4508d6412",
+    "forum_official_mind_canary.py": "4b773bec4dc06eb4905cbb03eb9817960ad653a9e40fb0f37afeb5af35d2c67c",
+    "customer_offer_mind_canary.py": "9e4f758500787cc15a1f379b0c246bd732a635e42632f8901641fae9b75f9251",
+    "card_compact_view.py": "8698ee8fd070265bfed4985627d9707a1220095c65570af8820c5264d7ce1407",
+    "class_variant_support.py": "358d8c85b8162b87cd4ba0c012fc837456659d32194ee51c47ddd8bc33d1d64a",
+    "class_host_guards.py": "d3bdf98109feede8fcc3720125cfa2ebe4c6e641a703f08896d89662671a8623",
+    "builder/logic.py": "095dc600fe30958759a058b093ee1c210fb9b3f1f7c3157dcd034061e70dcf84",
+    "builder/test.py": "6714f113f4d19cf8d6f2253eb457dbf1547330c1c89a840b9cee846507bf6d23",
+    "builder/permission.yml": "d2d75d5530b61f08a198a7c62536d565d1c7a8bc298e8f4c061e901f8df4e3f6",
+    "builder/forge.json": "945ef6726a4025f81df847a46609beae5503aa1d782602e79110741adb5872ac"
+  }
+}

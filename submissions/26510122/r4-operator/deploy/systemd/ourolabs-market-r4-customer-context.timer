@@ -1,0 +1,12 @@
+[Unit]
+Description=Refresh R4 public customer offer snapshot every minute
+
+[Timer]
+OnBootSec=15
+OnUnitInactiveSec=60
+AccuracySec=1
+RandomizedDelaySec=2
+Unit=ourolabs-market-r4-customer-context.service
+
+[Install]
+WantedBy=timers.target

@@ -3,12 +3,12 @@ import argparse
 import hashlib
 import json
 import os
+import stat
 from pathlib import Path
 import sys
 
 import httpx
 
-from managed_runtime import managed_classes
 from worker_bootstrap import market_class, registered_party
 from dispatcher import Unavailable
 
@@ -29,11 +29,48 @@ def verify_kit(operator):
             raise RuntimeError("official kit integrity mismatch: " + name)
 
 
-def install(official, *, enable_stock=False, stock_lines=10):
-    toolbox, mind, app = managed_classes(official,enable_stock=enable_stock,stock_lines=stock_lines)
+def install(official, *, enable_stock=False, stock_lines=10, native_factory=None):
+    from managed_runtime import managed_classes
+    if native_factory is None:
+        toolbox, mind, app = managed_classes(official,enable_stock=enable_stock,stock_lines=stock_lines)
+    else:
+        toolbox, mind, app = managed_classes(official,enable_stock=enable_stock,stock_lines=stock_lines,
+                                             native_customer_context_factory=native_factory)
     official.Toolbox = toolbox
     official.Mind = mind
     official.agent_app = app
+
+
+NATIVE_MANIFEST_SHA="f4b12edb4f7ba76e9690c71a146a49651dd05105e9887393c52b9c700361af11"
+MANAGED_NATIVE_SHA="7504c9ed720d7b9a62bb36ddf34044bd0ce8b07625f15c04a94dc255284ff4d8"
+
+
+def protected_native(path):
+    info=path.lstat()
+    if (path.resolve()!=path or not stat.S_ISREG(info.st_mode) or info.st_uid!=os.getuid()
+        or info.st_nlink!=1 or info.st_mode & 0o022):
+        raise RuntimeError("unprotected native context artifact")
+    return path.read_bytes()
+
+
+def load_native_factory(operator,root):
+    if root!=operator.parent/"round-4":
+        raise RuntimeError("native customer context must use the registered shop root")
+    freeze=operator/"deploy/native_customer_context_runtime_v2"
+    meta=protected_native(freeze/"MANIFEST.json")
+    if hashlib.sha256(meta).hexdigest()!=NATIVE_MANIFEST_SHA:
+        raise RuntimeError("frozen native context manifest changed")
+    for name,digest in json.loads(meta)["file_sha256"].items():
+        relative=Path(name)
+        if relative.is_absolute() or ".." in relative.parts or hashlib.sha256(
+            protected_native(freeze/relative)).hexdigest()!=digest:
+            raise RuntimeError("frozen native context file changed")
+    managed=protected_native(root/"codex-r4/managed_runtime.py")
+    if hashlib.sha256(managed).hexdigest()!=MANAGED_NATIVE_SHA:
+        raise RuntimeError("installed runtime lacks the reviewed customer hook")
+    sys.path.insert(0,str(freeze))
+    import native_context_runtime
+    return native_context_runtime.factory(operator,freeze)
 
 
 def main():
@@ -48,7 +85,11 @@ def main():
     parser.add_argument("--owner-file", type=Path)
     parser.add_argument("--enable-procurement", action="store_true")
     parser.add_argument("--procurement-lines", type=int, choices=range(1,11), default=10)
+    parser.add_argument("--enable-native-customer-context", action="store_true")
     args = parser.parse_args()
+    native_env=os.environ.get("R4_ENABLE_NATIVE_CUSTOMER_CONTEXT","0")
+    if native_env not in ("0","1"):
+        parser.error("invalid native customer context opt-in")
     operator = args.operator_dir.resolve(strict=True)
     root = args.agent_root.resolve(strict=True)
     verify_kit(operator)
@@ -58,14 +99,16 @@ def main():
     sys.path.insert(0, str(operator / "kit"))
     import agent_kit as official
 
-    install(official,enable_stock=args.enable_procurement,stock_lines=args.procurement_lines)
+    native_enabled=args.enable_native_customer_context or native_env=="1"
+    native=load_native_factory(operator,root) if native_enabled else None
+    install(official,enable_stock=args.enable_procurement,stock_lines=args.procurement_lines,native_factory=native)
     if args.action == "check":
         # Loading and checking provenance does not construct a signer or join.
         toolbox = official.Toolbox(root, {"tokens": {}, "addresses": {}})
         toolbox.validate()
         print(json.dumps({"official_kit_files_verified": 7, "a2a": "a2a_info",
                           "class_model": "market", "model_tools": ["shop_info"], "background_procurement": args.enable_procurement,
-                          "joined_or_started": False}, ensure_ascii=False))
+                          "native_customer_context":native_enabled,"joined_or_started": False}, ensure_ascii=False))
         return
     if not args.owner_file or not (args.public_url or args.tunnel):
         parser.error("approved launch requires --owner-file and --public-url or --tunnel")

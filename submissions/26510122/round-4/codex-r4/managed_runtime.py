@@ -63,7 +63,7 @@ class RequestAuthority:
             return True
 
 
-def managed_classes(official, *, enable_stock=False, stock_lines=10):
+def managed_classes(official, *, enable_stock=False, stock_lines=10, native_customer_context_factory=None):
     """Inject an in-process Python capability. No request arg is trusted as origin."""
     request_scope = ContextVar("r4_a2a_scope", default=None)
     permit = ContextVar("r4_a2a_permit", default=None)
@@ -153,7 +153,10 @@ def managed_classes(official, *, enable_stock=False, stock_lines=10):
             if command in ("balance", "wait", "paid", "cancel", "profile"):
                 return super().call(PUBLIC_DISPATCH, {"text": text, "task_id": message_id.get()})
             trace = Trace(self.root / ".kit/decision-trace-private.jsonl", self.root / ".kit/decision-trace-review.jsonl")
-            request = Broker(self.decision_tool, self.decision_model, trace)
+            execute = self.decision_tool
+            if native_customer_context_factory is not None:
+                execute = native_customer_context_factory(execute)
+            request = Broker(execute, self.decision_model, trace)
             try:
                 answer = request.handle(text, transport_id=message_id.get())
                 return {"ok": True, "result": answer}

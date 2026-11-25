@@ -1,0 +1,25 @@
+{
+  "case": "actual self-shop A2A non-purchasing operator query, three public card SKUs",
+  "baseline_local_transport": {
+    "client_seconds": 17.9646,
+    "http_status": 200,
+    "specific_prices_delivered": false,
+    "specific_grades_delivered": false
+  },
+  "native_context_enabled_failure": {
+    "client_seconds": 85.1089,
+    "client_error": "ReadTimeout",
+    "server_seconds": 106.07,
+    "native_context_first_extra_seconds": 0.7025,
+    "invalid_public_reply_count": 3,
+    "cause": "Existing monetary-text guard rejected verified normal product prices; repeated model attempts exhausted the customer deadline."
+  },
+  "source_authority": "Pinned genuine v5 builder with external host adapter; existing external financial core retained. Full native method migration not complete.",
+  "actual_customer": false,
+  "purchase_consent": false,
+  "checkout_or_settlement_verified": false,
+  "raw_customer_or_model_reasoning_published": false,
+  "failure_logs_unchanged": true,
+  "rollout_held": true,
+  "next_validation": "Actual Broker and unmodified SDK final reply, classroom model, public A2A and per-phase deadlines; no payment."
+}

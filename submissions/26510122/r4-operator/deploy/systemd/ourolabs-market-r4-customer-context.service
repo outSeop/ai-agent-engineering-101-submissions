@@ -1,0 +1,13 @@
+[Unit]
+Description=R4 read-only public customer offer snapshot
+After=ourolabs-market-r4.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator
+ExecStart=/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/.venv/bin/python -I -B /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/deploy/native_customer_context_runtime_v2/native_context_snapshot_entry.py --operator /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator --manifest-sha256 f4b12edb4f7ba76e9690c71a146a49651dd05105e9887393c52b9c700361af11 --publish-cache
+TimeoutStartSec=30
+MemoryMax=256M
+CPUQuota=50%
+UMask=0077
+Nice=10
