@@ -1,0 +1,138 @@
+{
+  "status": "no_additional_blocker_in_host_only_diff",
+  "v1_manifest_sha256": "69df7f745a4a90b841aba1dcd2094c94216e0c9aa32690583034cbda5def5b11",
+  "v2_manifest_sha256": "e83ca0ac4493d7de4d50190f0bbadbb8f89fe89e74b82038dec30d82159e24db",
+  "v2_launcher_sha256": "51942f6842f5ef8999c0ed1a08e3e0598fe08486b6e13a650f15e4f450bab955",
+  "all_manifest_files_verified": 21,
+  "file_checks": [
+    {
+      "name": "bounded_public_catalogue_host.py",
+      "sha256": "af3eaf729062f764e3d92249b4c81d2698c2c2011c59a350312110389f35c9ce",
+      "unchanged_from_v1": true
+    },
+    {
+      "name": "broker_public_catalogue_host_candidate.py",
+      "sha256": "14909ce9cb02ce5714ec393b449716281d15861ed3668611cec5f0e279ea7840",
+      "unchanged_from_v1": false
+    },
+    {
+      "name": "card_compact_view.py",
+      "sha256": "8698ee8fd070265bfed4985627d9707a1220095c65570af8820c5264d7ce1407",
+      "unchanged_from_v1": true
+    },
+    {
+      "name": "card_offer_producer_host.py",
+      "sha256": "b128c9d0851996900734b8a9bdda9256ea41e2f81746658bb01446d4508d6412",
+      "unchanged_from_v1": true
+    },
+    {
+      "name": "card_source_read_lane.py",
+      "sha256": "86053315d2f31fb94979eeca7b230ae9f5ca2d581c8acc90bbc6c75b0148cec7",
+      "unchanged_from_v1": true
+    },
+    {
+      "name": "catalogue/forge.json",
+      "sha256": "5ab7ae4210c9f875c87371439d60b55c65005fde5ddf47fcfefc4c32d25cc2b2",
+      "unchanged_from_v1": true
+    },
+    {
+      "name": "catalogue/logic.py",
+      "sha256": "6081da4b3f97f5be7ae216a66f98f6ab83dd7f22ea107e83da6c568f0557aef4",
+      "unchanged_from_v1": true
+    },
+    {
+      "name": "catalogue/permission.yml",
+      "sha256": "a7f818fcdb703257801c5da18c067c40d04c73bdee942c57816489e1f1dd83bc",
+      "unchanged_from_v1": true
+    },
+    {
+      "name": "catalogue/test.py",
+      "sha256": "f5f0075d74d4460a3a0aa95d408903503e4a8887558fbd4f6e7af71cb2f17126",
+      "unchanged_from_v1": true
+    },
+    {
+      "name": "class_host_guards.py",
+      "sha256": "d3bdf98109feede8fcc3720125cfa2ebe4c6e641a703f08896d89662671a8623",
+      "unchanged_from_v1": true
+    },
+    {
+      "name": "class_variant_support.py",
+      "sha256": "358d8c85b8162b87cd4ba0c012fc837456659d32194ee51c47ddd8bc33d1d64a",
+      "unchanged_from_v1": true
+    },
+    {
+      "name": "forum_official_mind_canary.py",
+      "sha256": "4b773bec4dc06eb4905cbb03eb9817960ad653a9e40fb0f37afeb5af35d2c67c",
+      "unchanged_from_v1": true
+    },
+    {
+      "name": "managed_runtime_public_catalogue_host_candidate.py",
+      "sha256": "c28c538dc62d226221440a55dd7ea114c43c5ea316abe086b92052b81776ccff",
+      "unchanged_from_v1": true
+    },
+    {
+      "name": "model_catalogue_projection_candidate.py",
+      "sha256": "525ad9b6e1743881c3340ec7cc288ccca304205348fd0b511e46a48310f2905f",
+      "unchanged_from_v1": true
+    },
+    {
+      "name": "public_catalogue_composition_candidate.py",
+      "sha256": "259415768ce156836b7d5ccd654de1a45fb96e0146ce8b086e3f82fc84b3ff5e",
+      "unchanged_from_v1": true
+    },
+    {
+      "name": "public_catalogue_phase_metrics.py",
+      "sha256": "503e302d2fcd86bffd795325ac52e83647131abbea3ed89600dbaf475360a5d0",
+      "unchanged_from_v1": false
+    },
+    {
+      "name": "public_catalogue_protocol.py",
+      "sha256": "2c4c343bbee38c18f7f6ef378f68314fe209d1714ccab886d20b561630a54baa",
+      "unchanged_from_v1": true
+    },
+    {
+      "name": "public_catalogue_request_host.py",
+      "sha256": "27bf5acc5ed0044c49eab72470c49a0008c24a527a10656837d7ca9bca9d8e70",
+      "unchanged_from_v1": true
+    },
+    {
+      "name": "public_catalogue_snapshot_host.py",
+      "sha256": "0eeb289b1616aa945cc6cbbec87b0e18904113c0bd26ed3dad061f1cea4f567c",
+      "unchanged_from_v1": true
+    },
+    {
+      "name": "public_catalogue_snapshot_producer.py",
+      "sha256": "5ce3c4dab4cfb7825048174a03e726193736123b78ef5a1bceca921f9eee0bc7",
+      "unchanged_from_v1": true
+    },
+    {
+      "name": "public_catalogue_snapshot_producer_helper.py",
+      "sha256": "fe19d4a7cbc21b2900d85184d858bd3354b1a81295ba28492d95f05d7e9077b0",
+      "unchanged_from_v1": true
+    }
+  ],
+  "changed_files": [
+    "broker_public_catalogue_host_candidate.py",
+    "public_catalogue_phase_metrics.py"
+  ],
+  "genuine_catalogue_exact4_unchanged": true,
+  "sdk7_unchanged": true,
+  "legacy_dispatcher_matches_prior_recorded_baseline": true,
+  "legacy_dispatcher_sha256": "84e0eca3a0211e80772ed78f2ba3c166902ba0125577e7153b06cc5bb13de0cd",
+  "managed_runtime_matches_pinned_baseline": true,
+  "managed_runtime_sha256": "7504c9ed720d7b9a62bb36ddf34044bd0ce8b07625f15c04a94dc255284ff4d8",
+  "financial_action_code_not_changed_by_diff": true,
+  "arbitrary_respond_original_guard_unchanged": true,
+  "scope": "argument-contract text/example and fixed schema-repair guidance plus metrics enum only; this is not provider-enforced structured output and does not prove class-model success or latency",
+  "model_market_service_DB_write_wallet_calls": 0,
+  "unchanged_financial_AST_checks": [
+    "action in ('offer', 'quote_and_send') and set(args) != {'sku', 'proposed_price'}",
+    "action not in ('offer', 'quote_and_send') and args",
+    "action == 'quote_and_send' and ambiguous_price",
+    "action == 'quote_and_send' and (not consents(text, scoped, prices))",
+    "action == 'quote_and_send' and prices and (type(args['proposed_price']) is not int or args['proposed_price'] > min(prices))",
+    "action == 'review_refund' and (not REFUND.search(text))",
+    "action in ('offer', 'quote_and_send')",
+    "outcome is None and action == 'review_refund'"
+  ]
+}

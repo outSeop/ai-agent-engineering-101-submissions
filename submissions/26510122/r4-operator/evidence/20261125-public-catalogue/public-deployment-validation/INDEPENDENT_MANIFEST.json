@@ -1,0 +1,16 @@
+{
+  "schema": "catalogue-independent-public-validation-manifest.v1",
+  "files": {
+    "INDEPENDENT_README.md": "87457d94757628f1bf11721b7243025109372ced43e53be2c5ca67cd9bfcab5c",
+    "independent-class4-host-v2-safe.json": "6a0a8fd8b03cb03e1c0e66b82bdab50fe0ea24e890d60c99edeaea745f4622bb",
+    "independent-host-v1-filter-failure-safe.json": "da380beeec169f8965edf3032df39a497f1f1c7024a59de8d1a142e0139ae201",
+    "independent-host-v1-last-sku-safe.json": "dbf06e39830345a4aee5e2a0cb40e15cf218b96935a1e13f0ff36c01a2085691",
+    "independent-host-v2-filtered-food-safe.json": "571abf063782f097d40f012cddb81ebf59213eb701ac961dccd3e41ef06bf194",
+    "independent-host-v2-last-sku-safe.json": "10a218deefd59da8b5c074dbf71e2e489f425c63b9275c1d76482eebcdabbf3d",
+    "independent-ledger-preservation-safe.json": "5541236a31121a0ff7e4c49a5336f50ed5a93dcb199acbfdd5c23605adfa8e66",
+    "independent-scan-proof.json": "8ae73be7478798a0d5694d43215647137aa984c944dce732b3e6ebbaba59ae2e",
+    "independent-source-phase-authenticity-safe.json": "b3766de990dca8e95e04678e421e5aeec1920f47ac8b03d187f4f03108355f1d"
+  },
+  "manifest_excludes_itself": true,
+  "existing_originals_overwritten": false
+}

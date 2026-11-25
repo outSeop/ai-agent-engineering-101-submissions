@@ -1,0 +1,77 @@
+{
+  "schema": "single-catalogue-public-deployment-check.v1",
+  "label": "host-v1-filter-failure",
+  "transport_checks": {
+    "HTTP200": true,
+    "A2A_completed": true,
+    "operator_nonpurchase_noncustomer": true,
+    "SDK_final_equals_Broker_delivered": true,
+    "public_source_exact_sha": true,
+    "public_source_count_exact": true,
+    "source_unchanged_recorded": true,
+    "source_fresh_through_final": true,
+    "no_financial_actions": true,
+    "original_source_file_not_latest_cache": true
+  },
+  "all_transport_checks_pass": true,
+  "factual_checks": {
+    "product_rows_present": false,
+    "all_product_lines_well_formed": false,
+    "genuine_render_trace_confirmed": false,
+    "Model_selection_equals_final": false,
+    "all_prices_match_source": false,
+    "all_available": false,
+    "all_lifetimes_exact": false,
+    "no_unknown_expiry_inference": false,
+    "render_call_clock_correct": false,
+    "footer_exact": false,
+    "credit_currency_and_length": false,
+    "specific_query_condition": false
+  },
+  "factual_business_success": false,
+  "expected_outcome_matches": true,
+  "per_product": [],
+  "failure_diagnosis": {
+    "item_count": 3,
+    "item_keys": [
+      [
+        "grade",
+        "preferred_price",
+        "remaining_seconds",
+        "sku"
+      ],
+      [
+        "grade",
+        "preferred_price",
+        "remaining_seconds",
+        "sku"
+      ],
+      [
+        "grade",
+        "preferred_price",
+        "remaining_seconds",
+        "sku"
+      ]
+    ],
+    "extra_display_fields_present": true,
+    "native_render_never_accepted": true,
+    "model_timeout": true,
+    "fallback_not_applicable": true,
+    "claim": "Exact selector rejected copied display columns; later Model timeout and inapplicable conditional fallback returned generic text. This is not a successful product answer."
+  },
+  "source_count": 126,
+  "source_file": "public-probe-source.json",
+  "source_sha256": "8493c755130f074256331471b54b6091fe41e9746c1a4cbeb73545c4009a172c",
+  "reply_characters": 40,
+  "final_reply_sha256": "a3a3b16a7e49ad227f03732a69cc813c8b4abc2d6dcbe2257594e2afc7f224ae",
+  "public_elapsed_seconds": 60.7619,
+  "server_transport_seconds": 60.6839,
+  "actual_Model_action_sequence": [
+    "search_products",
+    "render_public_products"
+  ],
+  "public_probe_sha256": "780f8b71eee7a6c31a862437d9f2f404f7882d075fffbfa258fdd00739211eb9",
+  "matched_trace_group_sha256": "3023fe5b8ffd8150f8cb9c6f2e533348bb2b9548a7e3c3ae6ba043cb709d34e3",
+  "actual_Model_or_market_requests_by_verifier": 0,
+  "raw_reason_reply_question_customer_DB_keys_exported": false
+}

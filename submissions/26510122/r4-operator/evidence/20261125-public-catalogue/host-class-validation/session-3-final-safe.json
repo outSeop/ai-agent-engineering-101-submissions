@@ -1,0 +1,128 @@
+{
+  "schema": "single-catalogue-three-class-final-value-check.v1",
+  "session_number": 3,
+  "checks": {
+    "actual_root_class_flag": true,
+    "SDK_HTTP200": true,
+    "genuine_final_operation_render": true,
+    "SDK_final_equals_Broker_delivery": true,
+    "SDK_final_equals_genuine_returned_reply": true,
+    "final_hash_matches_host": true,
+    "1_to3_unique_product_rows": true,
+    "Model_selection_equals_final_rows": true,
+    "all_public_prices_match_source": true,
+    "all_grades_match_source": true,
+    "all_rows_available": true,
+    "known_or_unknown_lifetime_exact": true,
+    "unknown_lifetime_no_nonfood_inference": true,
+    "consistent_known_render_second": true,
+    "render_clock_inside_measured_call": true,
+    "product_fee_gas_recheck_disclaimer": true,
+    "credit_currency_no_won": true,
+    "within450": true,
+    "source_fresh_through_final": true,
+    "source_original_sha_matches_prepared": true,
+    "every_operation_same_full_source": true,
+    "source123_whole_retained": true,
+    "Model_page_rows_le8": true,
+    "Model_page_chars_le5500": true,
+    "legacy_context_and_source_supplier_once": true,
+    "no_old_builder": true,
+    "no_financial_attempts": true,
+    "empty_tool_auth_NoWallet": true,
+    "actual_Model_search_render_args_bound": true,
+    "specific_literal_SKU_condition": true,
+    "food_condition_when_requested": true,
+    "actual_search_filters_if_any": true
+  },
+  "all_checks_pass": true,
+  "per_product": [
+    {
+      "sku": "Gd2a9c8e9",
+      "grade": "B",
+      "public_price_credits": 6480,
+      "source_price_matches": true,
+      "source_grade_matches": true,
+      "available": true,
+      "expiry_provided": true,
+      "lifetime_exact_at_delivery": true,
+      "no_invented_nonfood_inference": true,
+      "render_clock_within_call": true,
+      "category_root_is_food": true
+    },
+    {
+      "sku": "Gbe60462b",
+      "grade": "B",
+      "public_price_credits": 9450,
+      "source_price_matches": true,
+      "source_grade_matches": true,
+      "available": true,
+      "expiry_provided": true,
+      "lifetime_exact_at_delivery": true,
+      "no_invented_nonfood_inference": true,
+      "render_clock_within_call": true,
+      "category_root_is_food": true
+    },
+    {
+      "sku": "G3e2cdb81",
+      "grade": "B",
+      "public_price_credits": 7830,
+      "source_price_matches": true,
+      "source_grade_matches": true,
+      "available": true,
+      "expiry_provided": true,
+      "lifetime_exact_at_delivery": true,
+      "no_invented_nonfood_inference": true,
+      "render_clock_within_call": true,
+      "category_root_is_food": true
+    }
+  ],
+  "actual_search_filter_checks": {
+    "category": true,
+    "grade": true,
+    "max_price": true
+  },
+  "source_count": 123,
+  "legacy_fixture_count": 30,
+  "catalogue_operation_sequence": [
+    "context",
+    "search",
+    "render"
+  ],
+  "Model_page_rows": [
+    [
+      8
+    ],
+    [
+      8,
+      8
+    ]
+  ],
+  "Model_prompt_characters": [
+    9272,
+    13444
+  ],
+  "latency_seconds": 28.41,
+  "phase_metrics": [
+    {
+      "prefetch_seconds": 0.0002,
+      "model_seconds": 26.35,
+      "render_seconds": 0.6675,
+      "legacy_action_seconds": 0.0,
+      "catalogue_seconds": 0.6694,
+      "search_seconds": 0.699,
+      "fallback_seconds": 0.0,
+      "total_seconds": 28.3911,
+      "retries": 1,
+      "outcome": "rendered_public",
+      "reason": "none",
+      "phase_reasons": {}
+    }
+  ],
+  "final_reply_characters": 157,
+  "final_reply_sha256": "e3e900756cdad7034c9ce0987897bb0d1547f9224a580d4fb055bc39c5c3fc51",
+  "actual_Model_called_by_root": true,
+  "QA_Model_or_market_calls": 0,
+  "public_endpoint_deployed_claimed": false,
+  "raw_Model_reason_reply_question_or_customer_exported": false
+}

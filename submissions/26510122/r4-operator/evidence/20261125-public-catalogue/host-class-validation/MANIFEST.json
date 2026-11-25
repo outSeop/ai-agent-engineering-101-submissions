@@ -1,0 +1,12 @@
+{
+  "files": {
+    "README.md": "09ad1cc835d91e132a7410313f4600f2635fccbadbd9dbc497a063a3ac41b4a6",
+    "scan-proof.json": "58ae27a58363137a21c97b009e66d6915a42fda4f6026550797965e895c1599d",
+    "session-1-final-safe.json": "217b4368bed0c67692581591c38342db0c426f87afd77b26274c41ab83f902ea",
+    "session-2-final-safe.json": "4ccbe085176e866694285c99e7dd9793d8a593884f46b182cbe71cb0a0e3b206",
+    "session-3-final-safe.json": "490cfce889ca5a60e8e54b04fff0ad1a1527c9284a509248a751fe031e577a91",
+    "source-authenticity-safe.json": "1446b187ba23a594b98c325fc478faa90df78c401ff8b0c28ac062088af02f91"
+  },
+  "manifest_excludes_itself": true,
+  "safe_summaries_only": true
+}

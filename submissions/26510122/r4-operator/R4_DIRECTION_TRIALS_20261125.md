@@ -1,3 +1,17 @@
+## 2026-11-25 18:39 KST — 공개 조회를 단일 도구로 전환
+
+- 현재 운영: `public_catalogue_runtime_v2`, manifest `e83ca0ac4493d7de4d50190f0bbadbb8f89fe89e74b82038dec30d82159e24db`; 설치 런처 SHA `51942f6842f5ef8999c0ed1a08e3e0598fe08486b6e13a650f15e4f450bab955`. 실제 운영 모델은 수업 market 모델이다. 기존 opt-in보다 `R4_ENABLE_PUBLIC_CATALOGUE=1`이 우선한다.
+- 조회 도구: 모델은 `search_products`로 검색·조건·페이지 이동을 요청하고 `render_public_products`에 상품 ID·등급만 전달한다. 내부에서는 공식 Mind가 `forge_tool`로 만든 `public_catalogue` v2 원본을 SDK로 실행한다. 생성 개발 CLI 요청 모델은 gpt-6.2-sol이며 upstream 실제 모델명은 보고되지 않았다. 외부 작성 코드는 호스트 연결·권한·시간 제한·검증용이며 금융 legacy 전체의 native 이관 완료를 주장하지 않는다.
+- 원인과 수정: 전체 재고를 6,000자 안에 먼저 넣는 경로를 제거했다. 최대 5,000행/2MiB를 도구에서 검색하고 모델에는 페이지당 최대 8행/5,500자만 전달한다. 요청 하나는 동일 원본 바이트 스냅샷을 유지하며 최종 가격·등급·유통시간을 도구가 재확인한다. 마지막 SKU 누락과 SKU 대소문자 변형도 공식 작성 모델이 수정했다.
+- 공개 v1 실패도 보존: 조건 검색 뒤 모델이 render 인자에 `preferred_price`, `remaining_seconds`를 덧붙여 엄격 검사가 거절했고 재시도 중 시간 초과됐다(60.7619초). 검사를 완화하지 않고 호스트 v2에 정확한 JSON 예제와 수정 가능한 오류 안내를 추가했다. 선행 schema 거절도 지표에 남는다.
+- 실검증: 원 도구 v2 독립 77/77, SDK/ASGI 모의 7/7, 호스트 연결 회귀 17/17 및 v2 변경 회귀 4/4 통과. 실제 수업 모델 격리 A2A는 이전 3건과 v2 조건 검색 1건이 최종 genuine 응답과 일치했다. v2 격리 조건 검색은 34.4292초였다.
+- 최종 공개 A2A: 같은 조건 검색(식품/B등급/20,000크레딧 이하) **11.2509초**, 뒤쪽 SKU 조회 **7.2345초**로 상품 응답 성공. 원본 재고 126행은 잘리지 않았고 두 요청 동안 원본 스냅샷도 동일했다. 두 번의 개별 관측이며 평균 속도·항상 성공을 보장하지 않는다. 구매·송금은 실행하지 않았다.
+- 보존: 기존 DB 파일·wallet SHA/device/inode 유지, 기존 완료 매입 intent 138행은 원본값 그대로 모두 보존했다. 새 매입·관측·진행 커서 변화는 정상 운영 변화로 따로 구분했다. DB quick_check=ok, dispatcher 기존 84e0eca3…0cd 및 managed runtime 7504c9ed…4d8 유지. 원가 하한·혜택·환불 금융 경로를 바꾸지 않았다.
+- 현재 관측: 순위 30, 재고 126개/126품목, 실제 판매·정산 0. 운영자 공개 점검 4건을 따로 등록했으며 최근 30분 미분류 문의는 0이다. 입고·도구 응답 성공은 매출이 아니다. 재시작을 포함하므로 같은 시간 성과 개선을 아직 주장하지 않는다.
+- 실행 상태: R4 main/worker, 단일 customer-context timer, card-keeper timer 재개. R3는 중지 유지. 새 공개 URL은 시장 등록과 카드가 일치하지만 quick tunnel 재시작 시 바뀔 수 있어 현재 등록을 다시 조회할 것. 추가 작업 자동화/goal을 재개하지 않았다.
+- 백업·사실 원문은 비공개 `/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/public-catalogue-cutover-1795598385`에 보존. 최초 v4b 런처/DB 온라인 백업과 v1 런처·생산기 drop-in을 별도로 보존했다. DB를 롤백하지 말 것. 기존 CUTOVER_RUNBOOK은 v1 당시 기록이며, 현재 런처에는 v2 release/pin을 적용해야 한다.
+- 공개 검증: `evidence/20261125-public-catalogue/` 아래 source/forge/실패 기록과 host-class-validation, host-v2-review, public-deployment-validation을 구분한다. 원문 고객·Model 추론·DB·키는 공개하지 않는다. 재현용 host 검증 코드는 `deploy/public_catalogue_validation/`에 있다.
+
 # R4 방향 수정과 비교 실험
 
 ## 2026-11-25 15:52 KST — 가격 안내 거절과 반복 추론 지연 수정 완료

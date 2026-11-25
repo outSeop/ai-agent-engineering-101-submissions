@@ -1,0 +1,232 @@
+{
+  "observed_at": 1795599183,
+  "sql_readonly": true,
+  "query_only": true,
+  "snapshot_transactions": true,
+  "schema_identical": true,
+  "identity_row_exactly_unchanged": true,
+  "table_comparisons": [
+    {
+      "table": "account",
+      "before_rows": 0,
+      "current_rows": 0,
+      "existing_missing": 0,
+      "existing_changed": 0,
+      "added_keys": 0
+    },
+    {
+      "table": "allocation",
+      "before_rows": 0,
+      "current_rows": 0,
+      "existing_missing": 0,
+      "existing_changed": 0,
+      "added_keys": 0
+    },
+    {
+      "table": "broker_commit",
+      "before_rows": 1,
+      "current_rows": 1,
+      "existing_missing": 0,
+      "existing_changed": 0,
+      "added_keys": 0
+    },
+    {
+      "table": "broker_offer",
+      "before_rows": 1,
+      "current_rows": 1,
+      "existing_missing": 0,
+      "existing_changed": 0,
+      "added_keys": 0
+    },
+    {
+      "table": "cursor",
+      "before_rows": 1,
+      "current_rows": 1,
+      "existing_missing": 0,
+      "existing_changed": 1,
+      "added_keys": 0
+    },
+    {
+      "table": "customer_profile",
+      "before_rows": 0,
+      "current_rows": 0,
+      "existing_missing": 0,
+      "existing_changed": 0,
+      "added_keys": 0
+    },
+    {
+      "table": "event",
+      "before_rows": 0,
+      "current_rows": 0,
+      "existing_missing": 0,
+      "existing_changed": 0,
+      "added_keys": 0
+    },
+    {
+      "table": "forum_publication",
+      "before_rows": 2,
+      "current_rows": 2,
+      "existing_missing": 0,
+      "existing_changed": 0,
+      "added_keys": 0
+    },
+    {
+      "table": "identity",
+      "before_rows": 1,
+      "current_rows": 1,
+      "existing_missing": 0,
+      "existing_changed": 0,
+      "added_keys": 0
+    },
+    {
+      "table": "lot",
+      "before_rows": 0,
+      "current_rows": 0,
+      "existing_missing": 0,
+      "existing_changed": 0,
+      "added_keys": 0
+    },
+    {
+      "table": "profile_fact",
+      "before_rows": 0,
+      "current_rows": 0,
+      "existing_missing": 0,
+      "existing_changed": 0,
+      "added_keys": 0
+    },
+    {
+      "table": "promotion_loss",
+      "before_rows": 0,
+      "current_rows": 0,
+      "existing_missing": 0,
+      "existing_changed": 0,
+      "added_keys": 0
+    },
+    {
+      "table": "refund",
+      "before_rows": 0,
+      "current_rows": 0,
+      "existing_missing": 0,
+      "existing_changed": 0,
+      "added_keys": 0
+    },
+    {
+      "table": "removal",
+      "before_rows": 0,
+      "current_rows": 0,
+      "existing_missing": 0,
+      "existing_changed": 0,
+      "added_keys": 0
+    },
+    {
+      "table": "sale",
+      "before_rows": 0,
+      "current_rows": 0,
+      "existing_missing": 0,
+      "existing_changed": 0,
+      "added_keys": 0
+    },
+    {
+      "table": "sale_buyer",
+      "before_rows": 0,
+      "current_rows": 0,
+      "existing_missing": 0,
+      "existing_changed": 0,
+      "added_keys": 0
+    },
+    {
+      "table": "sale_category",
+      "before_rows": 0,
+      "current_rows": 0,
+      "existing_missing": 0,
+      "existing_changed": 0,
+      "added_keys": 0
+    },
+    {
+      "table": "stock_audit",
+      "before_rows": 719,
+      "current_rows": 738,
+      "existing_missing": 0,
+      "existing_changed": 0,
+      "added_keys": 19
+    },
+    {
+      "table": "stock_intent",
+      "before_rows": 138,
+      "current_rows": 143,
+      "existing_missing": 0,
+      "existing_changed": 0,
+      "added_keys": 5
+    },
+    {
+      "table": "stock_observation",
+      "before_rows": 714,
+      "current_rows": 727,
+      "existing_missing": 0,
+      "existing_changed": 0,
+      "added_keys": 13
+    },
+    {
+      "table": "stock_plan",
+      "before_rows": 37,
+      "current_rows": 37,
+      "existing_missing": 0,
+      "existing_changed": 0,
+      "added_keys": 0
+    },
+    {
+      "table": "stock_signal",
+      "before_rows": 0,
+      "current_rows": 0,
+      "existing_missing": 0,
+      "existing_changed": 0,
+      "added_keys": 0
+    },
+    {
+      "table": "stockout_observation",
+      "before_rows": 0,
+      "current_rows": 0,
+      "existing_missing": 0,
+      "existing_changed": 0,
+      "added_keys": 0
+    },
+    {
+      "table": "ticket",
+      "before_rows": 0,
+      "current_rows": 0,
+      "existing_missing": 0,
+      "existing_changed": 0,
+      "added_keys": 0
+    },
+    {
+      "table": "visit",
+      "before_rows": 0,
+      "current_rows": 0,
+      "existing_missing": 0,
+      "existing_changed": 0,
+      "added_keys": 0
+    },
+    {
+      "table": "visit_session_transport",
+      "before_rows": 0,
+      "current_rows": 0,
+      "existing_missing": 0,
+      "existing_changed": 0,
+      "added_keys": 0
+    }
+  ],
+  "stock_intent_terminal": {
+    "existing_terminal_count": 123,
+    "terminal_missing": 0,
+    "terminal_changed": 0,
+    "before_state_counts": {
+      "arrived": 123,
+      "no_purchase": 15
+    },
+    "all_old_rows_identical_subset": true
+  },
+  "before_quick_check_ok": true,
+  "current_quick_check_ok": true,
+  "raw_rows_wallets_customers_exported": false,
+  "scope": "compares a read snapshot only; cannot independently prove external market/chain settlement or future preservation"
+}

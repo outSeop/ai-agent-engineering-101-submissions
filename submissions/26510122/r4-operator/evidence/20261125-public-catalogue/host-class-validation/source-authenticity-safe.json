@@ -1,0 +1,554 @@
+{
+  "schema": "single-catalogue-class-source-authenticity.v1",
+  "sessions": [
+    {
+      "session_number": 1,
+      "source_authenticity_scope": "runtime manifest and exact genuine forge record byte integrity plus original SDK path; no independent provider identity attestation inferred",
+      "runtime_manifest_sha256": "69df7f745a4a90b841aba1dcd2094c94216e0c9aa32690583034cbda5def5b11",
+      "reviewed_manifest_matches": true,
+      "genuine_version": 2,
+      "genuine_exact4": {
+        "logic.py": "6081da4b3f97f5be7ae216a66f98f6ab83dd7f22ea107e83da6c568f0557aef4",
+        "permission.yml": "a7f818fcdb703257801c5da18c067c40d04c73bdee942c57816489e1f1dd83bc",
+        "test.py": "f5f0075d74d4460a3a0aa95d408903503e4a8887558fbd4f6e7af71cb2f17126",
+        "forge.json": "5ab7ae4210c9f875c87371439d60b55c65005fde5ddf47fcfefc4c32d25cc2b2"
+      },
+      "frozen_source_files": {
+        "runtime/bounded_public_catalogue_host.py": {
+          "sha256": "af3eaf729062f764e3d92249b4c81d2698c2c2011c59a350312110389f35c9ce",
+          "matches_pin": true
+        },
+        "runtime/broker_public_catalogue_host_candidate.py": {
+          "sha256": "cae875337c87bd8cf79a1118c9f8e11539006a0f3a10c9cea1aa6a3896020606",
+          "matches_pin": true
+        },
+        "runtime/card_compact_view.py": {
+          "sha256": "8698ee8fd070265bfed4985627d9707a1220095c65570af8820c5264d7ce1407",
+          "matches_pin": true
+        },
+        "runtime/card_offer_producer_host.py": {
+          "sha256": "b128c9d0851996900734b8a9bdda9256ea41e2f81746658bb01446d4508d6412",
+          "matches_pin": true
+        },
+        "runtime/card_source_read_lane.py": {
+          "sha256": "86053315d2f31fb94979eeca7b230ae9f5ca2d581c8acc90bbc6c75b0148cec7",
+          "matches_pin": true
+        },
+        "runtime/catalogue/forge.json": {
+          "sha256": "5ab7ae4210c9f875c87371439d60b55c65005fde5ddf47fcfefc4c32d25cc2b2",
+          "matches_pin": true
+        },
+        "runtime/catalogue/logic.py": {
+          "sha256": "6081da4b3f97f5be7ae216a66f98f6ab83dd7f22ea107e83da6c568f0557aef4",
+          "matches_pin": true
+        },
+        "runtime/catalogue/permission.yml": {
+          "sha256": "a7f818fcdb703257801c5da18c067c40d04c73bdee942c57816489e1f1dd83bc",
+          "matches_pin": true
+        },
+        "runtime/catalogue/test.py": {
+          "sha256": "f5f0075d74d4460a3a0aa95d408903503e4a8887558fbd4f6e7af71cb2f17126",
+          "matches_pin": true
+        },
+        "runtime/class_host_guards.py": {
+          "sha256": "d3bdf98109feede8fcc3720125cfa2ebe4c6e641a703f08896d89662671a8623",
+          "matches_pin": true
+        },
+        "runtime/class_variant_support.py": {
+          "sha256": "358d8c85b8162b87cd4ba0c012fc837456659d32194ee51c47ddd8bc33d1d64a",
+          "matches_pin": true
+        },
+        "runtime/forum_official_mind_canary.py": {
+          "sha256": "4b773bec4dc06eb4905cbb03eb9817960ad653a9e40fb0f37afeb5af35d2c67c",
+          "matches_pin": true
+        },
+        "runtime/managed_runtime_public_catalogue_host_candidate.py": {
+          "sha256": "c28c538dc62d226221440a55dd7ea114c43c5ea316abe086b92052b81776ccff",
+          "matches_pin": true
+        },
+        "runtime/model_catalogue_projection_candidate.py": {
+          "sha256": "525ad9b6e1743881c3340ec7cc288ccca304205348fd0b511e46a48310f2905f",
+          "matches_pin": true
+        },
+        "runtime/public_catalogue_composition_candidate.py": {
+          "sha256": "259415768ce156836b7d5ccd654de1a45fb96e0146ce8b086e3f82fc84b3ff5e",
+          "matches_pin": true
+        },
+        "runtime/public_catalogue_phase_metrics.py": {
+          "sha256": "3dd1e22c132ff24a911e5244824ecb4121f1fec92765b72e872d06c9ec73ef74",
+          "matches_pin": true
+        },
+        "runtime/public_catalogue_protocol.py": {
+          "sha256": "2c4c343bbee38c18f7f6ef378f68314fe209d1714ccab886d20b561630a54baa",
+          "matches_pin": true
+        },
+        "runtime/public_catalogue_request_host.py": {
+          "sha256": "27bf5acc5ed0044c49eab72470c49a0008c24a527a10656837d7ca9bca9d8e70",
+          "matches_pin": true
+        },
+        "runtime/public_catalogue_snapshot_host.py": {
+          "sha256": "0eeb289b1616aa945cc6cbbec87b0e18904113c0bd26ed3dad061f1cea4f567c",
+          "matches_pin": true
+        },
+        "runtime/public_catalogue_snapshot_producer.py": {
+          "sha256": "5ce3c4dab4cfb7825048174a03e726193736123b78ef5a1bceca921f9eee0bc7",
+          "matches_pin": true
+        },
+        "runtime/public_catalogue_snapshot_producer_helper.py": {
+          "sha256": "fe19d4a7cbc21b2900d85184d858bd3354b1a81295ba28492d95f05d7e9077b0",
+          "matches_pin": true
+        },
+        "tools/a2a_info/logic.py": {
+          "sha256": "84e0eca3a0211e80772ed78f2ba3c166902ba0125577e7153b06cc5bb13de0cd",
+          "matches_pin": true
+        },
+        "tools/a2a_info/permission.yml": {
+          "sha256": "2a16ff743a2b5c2ba60bf02b6cd9afcdfd5ac19e2149f1bfeab2e25f5752605c",
+          "matches_pin": true
+        },
+        "tools/a2a_info/test.py": {
+          "sha256": "5e267fce4e18da3b3f16d118a79200fc394b5b58e4960049671fd4d5b6973e51",
+          "matches_pin": true
+        },
+        "tools/a2a_info/forge.json": {
+          "sha256": "fb21f3e26772d7b20189d811d42191084ad1a25bb1f45aadfbe64020ffbf20f6",
+          "matches_pin": true
+        },
+        "tools/shop_info/logic.py": {
+          "sha256": "ac1375060257be7f547a52ec681f7fd70bc002979d85915ee17bf4d776d38eed",
+          "matches_pin": true
+        },
+        "tools/shop_info/permission.yml": {
+          "sha256": "67f2b5e5ea8b1b6e0d983c5920663b288ac3adf7fda2aa1d3d5795acf889e926",
+          "matches_pin": true
+        },
+        "tools/shop_info/test.py": {
+          "sha256": "de6d9684e9eabe4b089bcb3d4c232f1761b58c42500d901a66d750cabaa9419d",
+          "matches_pin": true
+        },
+        "tools/shop_info/forge.json": {
+          "sha256": "7a04a8a08417117842559ee4e07a99fa1710b6d89283c5ecde21fe4b1770eb43",
+          "matches_pin": true
+        },
+        "driver-source.py": {
+          "sha256": "1dbc55541e7b253e9dd5c9891e45bfc0aa28e500048a58720970468bafc5ab30",
+          "matches_pin": true
+        }
+      },
+      "all_frozen_sources_match": true,
+      "official_SDK7": {
+        "LICENSE": {
+          "sha256": "1d3d88f12b97e582378489859b15d81221931930f2e20afc7de82aae416cdbc3",
+          "matches_prepared": true,
+          "upstream_blob_matches": true
+        },
+        "agent_kit.py": {
+          "sha256": "38fb94c22187db7b40e16a56a1fd2ffadbb94e15f2e28307d5ba04eeb4144f8a",
+          "matches_prepared": true,
+          "upstream_blob_matches": true
+        },
+        "cli_model.py": {
+          "sha256": "16de5e99404dd0513b83aa6797bf9b06b4fd5e959acde3654be281c2af4eb7a2",
+          "matches_prepared": true,
+          "upstream_blob_matches": true
+        },
+        "forge_runner.py": {
+          "sha256": "004aa4bc7ce08bc7ff940ff3e914ab8b9edb64b00ef23b309f8f4043707b99b7",
+          "matches_prepared": true,
+          "upstream_blob_matches": true
+        },
+        "market_kit.py": {
+          "sha256": "92adb4bf8c6f303f20306018c644552d8299a93fc066dad2a4f4fb3154a78f3f",
+          "matches_prepared": true,
+          "upstream_blob_matches": true
+        },
+        "maroo.py": {
+          "sha256": "973a1065d9f5b03d247b2b152424dd6d7f2ce18758ecf4603bf7bcde45862302",
+          "matches_prepared": true,
+          "upstream_blob_matches": true
+        },
+        "miniapp.py": {
+          "sha256": "7d0838a8dc647a201bb353a63658ecb0e268415d1d15ab1965c8835d0e3f6868",
+          "matches_prepared": true,
+          "upstream_blob_matches": true
+        }
+      },
+      "SDK_all_match": true,
+      "old_builder_dependency": false,
+      "private_artifact_sha256": {
+        "PREPARED.json": "fe580c4b90123101704e452c39c2b754fc14fb6a6ceb8e8f0be3ce27f7436da4",
+        "ROOT-RUN-SUMMARY.json": "861b57fc7e6b44dd48154230790139e9a94b8aac52f56cfc54269ad660b1d4cf",
+        "logs/asgi-response-private.json": "f796e452e32de1eb95228e8fca2feab87b844d2690e4d945016edbde250f7ae2",
+        "logs/catalogue-results-private.json": "87bfbf2255095e5fe8109f6382a78e43a0637d36d00981a6b8e13e42fdfd4bab",
+        ".kit/decision-trace-private.jsonl": "84f01bbc2e68ecaa065d67e111eddf98a001a8af4ca15ed5fa58b954477fdabb"
+      },
+      "raw_private_artifacts_exported": false
+    },
+    {
+      "session_number": 2,
+      "source_authenticity_scope": "runtime manifest and exact genuine forge record byte integrity plus original SDK path; no independent provider identity attestation inferred",
+      "runtime_manifest_sha256": "69df7f745a4a90b841aba1dcd2094c94216e0c9aa32690583034cbda5def5b11",
+      "reviewed_manifest_matches": true,
+      "genuine_version": 2,
+      "genuine_exact4": {
+        "logic.py": "6081da4b3f97f5be7ae216a66f98f6ab83dd7f22ea107e83da6c568f0557aef4",
+        "permission.yml": "a7f818fcdb703257801c5da18c067c40d04c73bdee942c57816489e1f1dd83bc",
+        "test.py": "f5f0075d74d4460a3a0aa95d408903503e4a8887558fbd4f6e7af71cb2f17126",
+        "forge.json": "5ab7ae4210c9f875c87371439d60b55c65005fde5ddf47fcfefc4c32d25cc2b2"
+      },
+      "frozen_source_files": {
+        "runtime/bounded_public_catalogue_host.py": {
+          "sha256": "af3eaf729062f764e3d92249b4c81d2698c2c2011c59a350312110389f35c9ce",
+          "matches_pin": true
+        },
+        "runtime/broker_public_catalogue_host_candidate.py": {
+          "sha256": "cae875337c87bd8cf79a1118c9f8e11539006a0f3a10c9cea1aa6a3896020606",
+          "matches_pin": true
+        },
+        "runtime/card_compact_view.py": {
+          "sha256": "8698ee8fd070265bfed4985627d9707a1220095c65570af8820c5264d7ce1407",
+          "matches_pin": true
+        },
+        "runtime/card_offer_producer_host.py": {
+          "sha256": "b128c9d0851996900734b8a9bdda9256ea41e2f81746658bb01446d4508d6412",
+          "matches_pin": true
+        },
+        "runtime/card_source_read_lane.py": {
+          "sha256": "86053315d2f31fb94979eeca7b230ae9f5ca2d581c8acc90bbc6c75b0148cec7",
+          "matches_pin": true
+        },
+        "runtime/catalogue/forge.json": {
+          "sha256": "5ab7ae4210c9f875c87371439d60b55c65005fde5ddf47fcfefc4c32d25cc2b2",
+          "matches_pin": true
+        },
+        "runtime/catalogue/logic.py": {
+          "sha256": "6081da4b3f97f5be7ae216a66f98f6ab83dd7f22ea107e83da6c568f0557aef4",
+          "matches_pin": true
+        },
+        "runtime/catalogue/permission.yml": {
+          "sha256": "a7f818fcdb703257801c5da18c067c40d04c73bdee942c57816489e1f1dd83bc",
+          "matches_pin": true
+        },
+        "runtime/catalogue/test.py": {
+          "sha256": "f5f0075d74d4460a3a0aa95d408903503e4a8887558fbd4f6e7af71cb2f17126",
+          "matches_pin": true
+        },
+        "runtime/class_host_guards.py": {
+          "sha256": "d3bdf98109feede8fcc3720125cfa2ebe4c6e641a703f08896d89662671a8623",
+          "matches_pin": true
+        },
+        "runtime/class_variant_support.py": {
+          "sha256": "358d8c85b8162b87cd4ba0c012fc837456659d32194ee51c47ddd8bc33d1d64a",
+          "matches_pin": true
+        },
+        "runtime/forum_official_mind_canary.py": {
+          "sha256": "4b773bec4dc06eb4905cbb03eb9817960ad653a9e40fb0f37afeb5af35d2c67c",
+          "matches_pin": true
+        },
+        "runtime/managed_runtime_public_catalogue_host_candidate.py": {
+          "sha256": "c28c538dc62d226221440a55dd7ea114c43c5ea316abe086b92052b81776ccff",
+          "matches_pin": true
+        },
+        "runtime/model_catalogue_projection_candidate.py": {
+          "sha256": "525ad9b6e1743881c3340ec7cc288ccca304205348fd0b511e46a48310f2905f",
+          "matches_pin": true
+        },
+        "runtime/public_catalogue_composition_candidate.py": {
+          "sha256": "259415768ce156836b7d5ccd654de1a45fb96e0146ce8b086e3f82fc84b3ff5e",
+          "matches_pin": true
+        },
+        "runtime/public_catalogue_phase_metrics.py": {
+          "sha256": "3dd1e22c132ff24a911e5244824ecb4121f1fec92765b72e872d06c9ec73ef74",
+          "matches_pin": true
+        },
+        "runtime/public_catalogue_protocol.py": {
+          "sha256": "2c4c343bbee38c18f7f6ef378f68314fe209d1714ccab886d20b561630a54baa",
+          "matches_pin": true
+        },
+        "runtime/public_catalogue_request_host.py": {
+          "sha256": "27bf5acc5ed0044c49eab72470c49a0008c24a527a10656837d7ca9bca9d8e70",
+          "matches_pin": true
+        },
+        "runtime/public_catalogue_snapshot_host.py": {
+          "sha256": "0eeb289b1616aa945cc6cbbec87b0e18904113c0bd26ed3dad061f1cea4f567c",
+          "matches_pin": true
+        },
+        "runtime/public_catalogue_snapshot_producer.py": {
+          "sha256": "5ce3c4dab4cfb7825048174a03e726193736123b78ef5a1bceca921f9eee0bc7",
+          "matches_pin": true
+        },
+        "runtime/public_catalogue_snapshot_producer_helper.py": {
+          "sha256": "fe19d4a7cbc21b2900d85184d858bd3354b1a81295ba28492d95f05d7e9077b0",
+          "matches_pin": true
+        },
+        "tools/a2a_info/logic.py": {
+          "sha256": "84e0eca3a0211e80772ed78f2ba3c166902ba0125577e7153b06cc5bb13de0cd",
+          "matches_pin": true
+        },
+        "tools/a2a_info/permission.yml": {
+          "sha256": "2a16ff743a2b5c2ba60bf02b6cd9afcdfd5ac19e2149f1bfeab2e25f5752605c",
+          "matches_pin": true
+        },
+        "tools/a2a_info/test.py": {
+          "sha256": "5e267fce4e18da3b3f16d118a79200fc394b5b58e4960049671fd4d5b6973e51",
+          "matches_pin": true
+        },
+        "tools/a2a_info/forge.json": {
+          "sha256": "fb21f3e26772d7b20189d811d42191084ad1a25bb1f45aadfbe64020ffbf20f6",
+          "matches_pin": true
+        },
+        "tools/shop_info/logic.py": {
+          "sha256": "ac1375060257be7f547a52ec681f7fd70bc002979d85915ee17bf4d776d38eed",
+          "matches_pin": true
+        },
+        "tools/shop_info/permission.yml": {
+          "sha256": "67f2b5e5ea8b1b6e0d983c5920663b288ac3adf7fda2aa1d3d5795acf889e926",
+          "matches_pin": true
+        },
+        "tools/shop_info/test.py": {
+          "sha256": "de6d9684e9eabe4b089bcb3d4c232f1761b58c42500d901a66d750cabaa9419d",
+          "matches_pin": true
+        },
+        "tools/shop_info/forge.json": {
+          "sha256": "7a04a8a08417117842559ee4e07a99fa1710b6d89283c5ecde21fe4b1770eb43",
+          "matches_pin": true
+        },
+        "driver-source.py": {
+          "sha256": "1dbc55541e7b253e9dd5c9891e45bfc0aa28e500048a58720970468bafc5ab30",
+          "matches_pin": true
+        }
+      },
+      "all_frozen_sources_match": true,
+      "official_SDK7": {
+        "LICENSE": {
+          "sha256": "1d3d88f12b97e582378489859b15d81221931930f2e20afc7de82aae416cdbc3",
+          "matches_prepared": true,
+          "upstream_blob_matches": true
+        },
+        "agent_kit.py": {
+          "sha256": "38fb94c22187db7b40e16a56a1fd2ffadbb94e15f2e28307d5ba04eeb4144f8a",
+          "matches_prepared": true,
+          "upstream_blob_matches": true
+        },
+        "cli_model.py": {
+          "sha256": "16de5e99404dd0513b83aa6797bf9b06b4fd5e959acde3654be281c2af4eb7a2",
+          "matches_prepared": true,
+          "upstream_blob_matches": true
+        },
+        "forge_runner.py": {
+          "sha256": "004aa4bc7ce08bc7ff940ff3e914ab8b9edb64b00ef23b309f8f4043707b99b7",
+          "matches_prepared": true,
+          "upstream_blob_matches": true
+        },
+        "market_kit.py": {
+          "sha256": "92adb4bf8c6f303f20306018c644552d8299a93fc066dad2a4f4fb3154a78f3f",
+          "matches_prepared": true,
+          "upstream_blob_matches": true
+        },
+        "maroo.py": {
+          "sha256": "973a1065d9f5b03d247b2b152424dd6d7f2ce18758ecf4603bf7bcde45862302",
+          "matches_prepared": true,
+          "upstream_blob_matches": true
+        },
+        "miniapp.py": {
+          "sha256": "7d0838a8dc647a201bb353a63658ecb0e268415d1d15ab1965c8835d0e3f6868",
+          "matches_prepared": true,
+          "upstream_blob_matches": true
+        }
+      },
+      "SDK_all_match": true,
+      "old_builder_dependency": false,
+      "private_artifact_sha256": {
+        "PREPARED.json": "d3ddd2466cf6f0d9aca7aa716bc0d70cc893435fa53b0bbc0eb86729f5af72e5",
+        "ROOT-RUN-SUMMARY.json": "e1f33d228192f60298cf61d8fce49c9b65ee9da5d4a49ff70b707492efdbb8d0",
+        "logs/asgi-response-private.json": "b969c11d20bfb75dfd52b46e6bd5ee7ad92dbe3a66fa38cecceb243dc1e636f7",
+        "logs/catalogue-results-private.json": "283d3cba6be9dc532d7a88ba634c4ff58fd8336f6530c7eaf1332ba460826b30",
+        ".kit/decision-trace-private.jsonl": "66af51e0239a1cef1fd129ede08075d762d9f81aa76913e90bbb7b032bc4f4bf"
+      },
+      "raw_private_artifacts_exported": false
+    },
+    {
+      "session_number": 3,
+      "source_authenticity_scope": "runtime manifest and exact genuine forge record byte integrity plus original SDK path; no independent provider identity attestation inferred",
+      "runtime_manifest_sha256": "69df7f745a4a90b841aba1dcd2094c94216e0c9aa32690583034cbda5def5b11",
+      "reviewed_manifest_matches": true,
+      "genuine_version": 2,
+      "genuine_exact4": {
+        "logic.py": "6081da4b3f97f5be7ae216a66f98f6ab83dd7f22ea107e83da6c568f0557aef4",
+        "permission.yml": "a7f818fcdb703257801c5da18c067c40d04c73bdee942c57816489e1f1dd83bc",
+        "test.py": "f5f0075d74d4460a3a0aa95d408903503e4a8887558fbd4f6e7af71cb2f17126",
+        "forge.json": "5ab7ae4210c9f875c87371439d60b55c65005fde5ddf47fcfefc4c32d25cc2b2"
+      },
+      "frozen_source_files": {
+        "runtime/bounded_public_catalogue_host.py": {
+          "sha256": "af3eaf729062f764e3d92249b4c81d2698c2c2011c59a350312110389f35c9ce",
+          "matches_pin": true
+        },
+        "runtime/broker_public_catalogue_host_candidate.py": {
+          "sha256": "cae875337c87bd8cf79a1118c9f8e11539006a0f3a10c9cea1aa6a3896020606",
+          "matches_pin": true
+        },
+        "runtime/card_compact_view.py": {
+          "sha256": "8698ee8fd070265bfed4985627d9707a1220095c65570af8820c5264d7ce1407",
+          "matches_pin": true
+        },
+        "runtime/card_offer_producer_host.py": {
+          "sha256": "b128c9d0851996900734b8a9bdda9256ea41e2f81746658bb01446d4508d6412",
+          "matches_pin": true
+        },
+        "runtime/card_source_read_lane.py": {
+          "sha256": "86053315d2f31fb94979eeca7b230ae9f5ca2d581c8acc90bbc6c75b0148cec7",
+          "matches_pin": true
+        },
+        "runtime/catalogue/forge.json": {
+          "sha256": "5ab7ae4210c9f875c87371439d60b55c65005fde5ddf47fcfefc4c32d25cc2b2",
+          "matches_pin": true
+        },
+        "runtime/catalogue/logic.py": {
+          "sha256": "6081da4b3f97f5be7ae216a66f98f6ab83dd7f22ea107e83da6c568f0557aef4",
+          "matches_pin": true
+        },
+        "runtime/catalogue/permission.yml": {
+          "sha256": "a7f818fcdb703257801c5da18c067c40d04c73bdee942c57816489e1f1dd83bc",
+          "matches_pin": true
+        },
+        "runtime/catalogue/test.py": {
+          "sha256": "f5f0075d74d4460a3a0aa95d408903503e4a8887558fbd4f6e7af71cb2f17126",
+          "matches_pin": true
+        },
+        "runtime/class_host_guards.py": {
+          "sha256": "d3bdf98109feede8fcc3720125cfa2ebe4c6e641a703f08896d89662671a8623",
+          "matches_pin": true
+        },
+        "runtime/class_variant_support.py": {
+          "sha256": "358d8c85b8162b87cd4ba0c012fc837456659d32194ee51c47ddd8bc33d1d64a",
+          "matches_pin": true
+        },
+        "runtime/forum_official_mind_canary.py": {
+          "sha256": "4b773bec4dc06eb4905cbb03eb9817960ad653a9e40fb0f37afeb5af35d2c67c",
+          "matches_pin": true
+        },
+        "runtime/managed_runtime_public_catalogue_host_candidate.py": {
+          "sha256": "c28c538dc62d226221440a55dd7ea114c43c5ea316abe086b92052b81776ccff",
+          "matches_pin": true
+        },
+        "runtime/model_catalogue_projection_candidate.py": {
+          "sha256": "525ad9b6e1743881c3340ec7cc288ccca304205348fd0b511e46a48310f2905f",
+          "matches_pin": true
+        },
+        "runtime/public_catalogue_composition_candidate.py": {
+          "sha256": "259415768ce156836b7d5ccd654de1a45fb96e0146ce8b086e3f82fc84b3ff5e",
+          "matches_pin": true
+        },
+        "runtime/public_catalogue_phase_metrics.py": {
+          "sha256": "3dd1e22c132ff24a911e5244824ecb4121f1fec92765b72e872d06c9ec73ef74",
+          "matches_pin": true
+        },
+        "runtime/public_catalogue_protocol.py": {
+          "sha256": "2c4c343bbee38c18f7f6ef378f68314fe209d1714ccab886d20b561630a54baa",
+          "matches_pin": true
+        },
+        "runtime/public_catalogue_request_host.py": {
+          "sha256": "27bf5acc5ed0044c49eab72470c49a0008c24a527a10656837d7ca9bca9d8e70",
+          "matches_pin": true
+        },
+        "runtime/public_catalogue_snapshot_host.py": {
+          "sha256": "0eeb289b1616aa945cc6cbbec87b0e18904113c0bd26ed3dad061f1cea4f567c",
+          "matches_pin": true
+        },
+        "runtime/public_catalogue_snapshot_producer.py": {
+          "sha256": "5ce3c4dab4cfb7825048174a03e726193736123b78ef5a1bceca921f9eee0bc7",
+          "matches_pin": true
+        },
+        "runtime/public_catalogue_snapshot_producer_helper.py": {
+          "sha256": "fe19d4a7cbc21b2900d85184d858bd3354b1a81295ba28492d95f05d7e9077b0",
+          "matches_pin": true
+        },
+        "tools/a2a_info/logic.py": {
+          "sha256": "84e0eca3a0211e80772ed78f2ba3c166902ba0125577e7153b06cc5bb13de0cd",
+          "matches_pin": true
+        },
+        "tools/a2a_info/permission.yml": {
+          "sha256": "2a16ff743a2b5c2ba60bf02b6cd9afcdfd5ac19e2149f1bfeab2e25f5752605c",
+          "matches_pin": true
+        },
+        "tools/a2a_info/test.py": {
+          "sha256": "5e267fce4e18da3b3f16d118a79200fc394b5b58e4960049671fd4d5b6973e51",
+          "matches_pin": true
+        },
+        "tools/a2a_info/forge.json": {
+          "sha256": "fb21f3e26772d7b20189d811d42191084ad1a25bb1f45aadfbe64020ffbf20f6",
+          "matches_pin": true
+        },
+        "tools/shop_info/logic.py": {
+          "sha256": "ac1375060257be7f547a52ec681f7fd70bc002979d85915ee17bf4d776d38eed",
+          "matches_pin": true
+        },
+        "tools/shop_info/permission.yml": {
+          "sha256": "67f2b5e5ea8b1b6e0d983c5920663b288ac3adf7fda2aa1d3d5795acf889e926",
+          "matches_pin": true
+        },
+        "tools/shop_info/test.py": {
+          "sha256": "de6d9684e9eabe4b089bcb3d4c232f1761b58c42500d901a66d750cabaa9419d",
+          "matches_pin": true
+        },
+        "tools/shop_info/forge.json": {
+          "sha256": "7a04a8a08417117842559ee4e07a99fa1710b6d89283c5ecde21fe4b1770eb43",
+          "matches_pin": true
+        },
+        "driver-source.py": {
+          "sha256": "1dbc55541e7b253e9dd5c9891e45bfc0aa28e500048a58720970468bafc5ab30",
+          "matches_pin": true
+        }
+      },
+      "all_frozen_sources_match": true,
+      "official_SDK7": {
+        "LICENSE": {
+          "sha256": "1d3d88f12b97e582378489859b15d81221931930f2e20afc7de82aae416cdbc3",
+          "matches_prepared": true,
+          "upstream_blob_matches": true
+        },
+        "agent_kit.py": {
+          "sha256": "38fb94c22187db7b40e16a56a1fd2ffadbb94e15f2e28307d5ba04eeb4144f8a",
+          "matches_prepared": true,
+          "upstream_blob_matches": true
+        },
+        "cli_model.py": {
+          "sha256": "16de5e99404dd0513b83aa6797bf9b06b4fd5e959acde3654be281c2af4eb7a2",
+          "matches_prepared": true,
+          "upstream_blob_matches": true
+        },
+        "forge_runner.py": {
+          "sha256": "004aa4bc7ce08bc7ff940ff3e914ab8b9edb64b00ef23b309f8f4043707b99b7",
+          "matches_prepared": true,
+          "upstream_blob_matches": true
+        },
+        "market_kit.py": {
+          "sha256": "92adb4bf8c6f303f20306018c644552d8299a93fc066dad2a4f4fb3154a78f3f",
+          "matches_prepared": true,
+          "upstream_blob_matches": true
+        },
+        "maroo.py": {
+          "sha256": "973a1065d9f5b03d247b2b152424dd6d7f2ce18758ecf4603bf7bcde45862302",
+          "matches_prepared": true,
+          "upstream_blob_matches": true
+        },
+        "miniapp.py": {
+          "sha256": "7d0838a8dc647a201bb353a63658ecb0e268415d1d15ab1965c8835d0e3f6868",
+          "matches_prepared": true,
+          "upstream_blob_matches": true
+        }
+      },
+      "SDK_all_match": true,
+      "old_builder_dependency": false,
+      "private_artifact_sha256": {
+        "PREPARED.json": "26a9f4121759bdc1b143504f85b1d460f42ad8d4a7f5e83740157e60fd71dbe5",
+        "ROOT-RUN-SUMMARY.json": "78a1d09f20ab54b209062313d0d7cd63cb73c1f5c94d0c4011df95dd064f25e7",
+        "logs/asgi-response-private.json": "b69332f8c4221358aee6a47fdd6e60c7b94c5dae1f1675004f33bbdaf1a1870f",
+        "logs/catalogue-results-private.json": "9ea8b34b6fd09036c88eea6f39864f2e5c6caa2397d458822d31839bd5982907",
+        ".kit/decision-trace-private.jsonl": "8769ee78da360c87c752d2e38414133480340f41c3c8d6df835cf19e90fa0999"
+      },
+      "raw_private_artifacts_exported": false
+    }
+  ]
+}

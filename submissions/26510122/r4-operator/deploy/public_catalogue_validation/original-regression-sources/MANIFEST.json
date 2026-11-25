@@ -1,0 +1,8 @@
+{
+  "purpose": "Original host v2 four-regression source archive; implementation agent execution output is original proof; no new run claimed",
+  "file_sha256": {
+    "test_public_catalogue_render_contract_v2.py": "1cb980b61d9005a73ebbc029f1008175c48840160f3b4a96f3e048701938a5fb",
+    "test_public_catalogue_launcher.py": "b6fde1cefbaa57d96d59032331fb9ed396c5ac15cb56f5b5c8e74c88441e8b70",
+    "test_genuine_public_catalogue_host.py": "3a46f0aeb4955794ba7a7612763db0519be50bec73a5a20af1379da27fc4b696"
+  }
+}

@@ -1,0 +1,11 @@
+--- host-v1/public_catalogue_phase_metrics.py
++++ host-v2/public_catalogue_phase_metrics.py
+@@ -17,7 +17,7 @@
+        "cursor_mismatch","fallback_not_applicable","no_match","invalid_query","stale_snapshot","output_limit",
+        "invalid_snapshot","invalid_args","selection_not_available","context_timeout",
+        "search_timeout","render_timeout","fallback_timeout","query_restart_required","selection_ambiguous",
+-       "selection_unavailable","source_unavailable","unsafe_query_cursor","output_budget"}
++       "selection_unavailable","source_unavailable","unsafe_query_cursor","output_budget","invalid_public_selection"}
+ 
+ 
+ class PhaseMetrics:

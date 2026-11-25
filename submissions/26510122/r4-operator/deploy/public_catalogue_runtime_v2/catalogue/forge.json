@@ -1,0 +1,11 @@
+{
+ "tool": "public_catalogue",
+ "version": 2,
+ "forged_at": 1795597694,
+ "kit": "v5.1",
+ "sha256": {
+  "permission.yml": "a7f818fcdb703257801c5da18c067c40d04c73bdee942c57816489e1f1dd83bc",
+  "logic.py": "6081da4b3f97f5be7ae216a66f98f6ab83dd7f22ea107e83da6c568f0557aef4",
+  "test.py": "f5f0075d74d4460a3a0aa95d408903503e4a8887558fbd4f6e7af71cb2f17126"
+ }
+}

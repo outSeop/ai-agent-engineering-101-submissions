@@ -1,0 +1,62 @@
+{
+  "schema": "single-catalogue-public-deployment-check.v1",
+  "label": "host-v1-last-sku",
+  "transport_checks": {
+    "HTTP200": true,
+    "A2A_completed": true,
+    "operator_nonpurchase_noncustomer": true,
+    "SDK_final_equals_Broker_delivered": true,
+    "public_source_exact_sha": true,
+    "public_source_count_exact": true,
+    "source_unchanged_recorded": true,
+    "source_fresh_through_final": true,
+    "no_financial_actions": true,
+    "original_source_file_not_latest_cache": true
+  },
+  "all_transport_checks_pass": true,
+  "factual_checks": {
+    "product_rows_present": true,
+    "all_product_lines_well_formed": true,
+    "genuine_render_trace_confirmed": true,
+    "Model_selection_equals_final": true,
+    "all_prices_match_source": true,
+    "all_available": true,
+    "all_lifetimes_exact": true,
+    "no_unknown_expiry_inference": true,
+    "render_call_clock_correct": true,
+    "footer_exact": true,
+    "credit_currency_and_length": true,
+    "specific_query_condition": true
+  },
+  "factual_business_success": true,
+  "expected_outcome_matches": true,
+  "per_product": [
+    {
+      "sku": "G85a1a856",
+      "grade": "A",
+      "public_price_credits": 921600,
+      "price_source_match": true,
+      "source_available": true,
+      "lifetime_exact_at_Broker_delivery": true,
+      "unknown_expiry_no_nonfood_inference": true,
+      "render_time_inside_call": true,
+      "food": false,
+      "B_under20000": false
+    }
+  ],
+  "failure_diagnosis": null,
+  "source_count": 126,
+  "source_file": "public-probe-source.json",
+  "source_sha256": "8493c755130f074256331471b54b6091fe41e9746c1a4cbeb73545c4009a172c",
+  "reply_characters": 74,
+  "final_reply_sha256": "8ea9d6736dcefd5f9e08c2d8a5d95367d23970c98f2fcfe93af5f48430e28a86",
+  "public_elapsed_seconds": 19.0531,
+  "server_transport_seconds": 18.9595,
+  "actual_Model_action_sequence": [
+    "render_public_products"
+  ],
+  "public_probe_sha256": "5ee55520ae6a2aa9e4ebb90d4c4dde62039678739d4238c8a795acc62d252cf3",
+  "matched_trace_group_sha256": "f6248c3968bce068ed8d89e7d3df28bd5bd8083a51f9c28f82ae2ff8d9d608d0",
+  "actual_Model_or_market_requests_by_verifier": 0,
+  "raw_reason_reply_question_customer_DB_keys_exported": false
+}

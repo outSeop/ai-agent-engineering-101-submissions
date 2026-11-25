@@ -1,0 +1,266 @@
+{
+  "schema": "read-only-wallet-and-ledger-comparison.v1",
+  "wallets": {
+    "shop": {
+      "same_inode": true,
+      "same_device": true,
+      "same_SHA256": true
+    },
+    "buyer": {
+      "same_inode": true,
+      "same_device": true,
+      "same_SHA256": true
+    }
+  },
+  "wallet_all_unchanged": true,
+  "database_identity": {
+    "same_inode": true,
+    "same_device": true
+  },
+  "database_tables": {
+    "account": {
+      "schema_same": true,
+      "row_count_same": true,
+      "content_same": true,
+      "before_rows": 0,
+      "current_rows": 0
+    },
+    "allocation": {
+      "schema_same": true,
+      "row_count_same": true,
+      "content_same": true,
+      "before_rows": 0,
+      "current_rows": 0
+    },
+    "broker_commit": {
+      "schema_same": true,
+      "row_count_same": true,
+      "content_same": true,
+      "before_rows": 1,
+      "current_rows": 1
+    },
+    "broker_offer": {
+      "schema_same": true,
+      "row_count_same": true,
+      "content_same": true,
+      "before_rows": 1,
+      "current_rows": 1
+    },
+    "cursor": {
+      "schema_same": true,
+      "row_count_same": true,
+      "content_same": false,
+      "before_rows": 1,
+      "current_rows": 1
+    },
+    "customer_profile": {
+      "schema_same": true,
+      "row_count_same": true,
+      "content_same": true,
+      "before_rows": 0,
+      "current_rows": 0
+    },
+    "event": {
+      "schema_same": true,
+      "row_count_same": true,
+      "content_same": true,
+      "before_rows": 0,
+      "current_rows": 0
+    },
+    "forum_publication": {
+      "schema_same": true,
+      "row_count_same": true,
+      "content_same": true,
+      "before_rows": 2,
+      "current_rows": 2
+    },
+    "identity": {
+      "schema_same": true,
+      "row_count_same": true,
+      "content_same": true,
+      "before_rows": 1,
+      "current_rows": 1
+    },
+    "lot": {
+      "schema_same": true,
+      "row_count_same": true,
+      "content_same": true,
+      "before_rows": 0,
+      "current_rows": 0
+    },
+    "profile_fact": {
+      "schema_same": true,
+      "row_count_same": true,
+      "content_same": true,
+      "before_rows": 0,
+      "current_rows": 0
+    },
+    "promotion_loss": {
+      "schema_same": true,
+      "row_count_same": true,
+      "content_same": true,
+      "before_rows": 0,
+      "current_rows": 0
+    },
+    "refund": {
+      "schema_same": true,
+      "row_count_same": true,
+      "content_same": true,
+      "before_rows": 0,
+      "current_rows": 0
+    },
+    "removal": {
+      "schema_same": true,
+      "row_count_same": true,
+      "content_same": true,
+      "before_rows": 0,
+      "current_rows": 0
+    },
+    "sale": {
+      "schema_same": true,
+      "row_count_same": true,
+      "content_same": true,
+      "before_rows": 0,
+      "current_rows": 0
+    },
+    "sale_buyer": {
+      "schema_same": true,
+      "row_count_same": true,
+      "content_same": true,
+      "before_rows": 0,
+      "current_rows": 0
+    },
+    "sale_category": {
+      "schema_same": true,
+      "row_count_same": true,
+      "content_same": true,
+      "before_rows": 0,
+      "current_rows": 0
+    },
+    "stock_audit": {
+      "schema_same": true,
+      "row_count_same": false,
+      "content_same": false,
+      "before_rows": 719,
+      "current_rows": 738
+    },
+    "stock_intent": {
+      "schema_same": true,
+      "row_count_same": false,
+      "content_same": false,
+      "before_rows": 138,
+      "current_rows": 143
+    },
+    "stock_observation": {
+      "schema_same": true,
+      "row_count_same": false,
+      "content_same": false,
+      "before_rows": 714,
+      "current_rows": 728
+    },
+    "stock_plan": {
+      "schema_same": true,
+      "row_count_same": true,
+      "content_same": true,
+      "before_rows": 37,
+      "current_rows": 37
+    },
+    "stock_signal": {
+      "schema_same": true,
+      "row_count_same": true,
+      "content_same": true,
+      "before_rows": 0,
+      "current_rows": 0
+    },
+    "stockout_observation": {
+      "schema_same": true,
+      "row_count_same": true,
+      "content_same": true,
+      "before_rows": 0,
+      "current_rows": 0
+    },
+    "ticket": {
+      "schema_same": true,
+      "row_count_same": true,
+      "content_same": true,
+      "before_rows": 0,
+      "current_rows": 0
+    },
+    "visit": {
+      "schema_same": true,
+      "row_count_same": true,
+      "content_same": true,
+      "before_rows": 0,
+      "current_rows": 0
+    },
+    "visit_session_transport": {
+      "schema_same": true,
+      "row_count_same": true,
+      "content_same": true,
+      "before_rows": 0,
+      "current_rows": 0
+    }
+  },
+  "all_table_contents_unchanged": false,
+  "changed_tables": [
+    "cursor",
+    "stock_audit",
+    "stock_intent",
+    "stock_observation"
+  ],
+  "method": "Root cutover SQLite backup vs one current mode=ro/query_only read transaction; canonical multiset row hashes computed locally without exporting row values. Wallet SHA/inode compared directly to root before record.",
+  "baseline_limit": "Baseline is cutover backup, not a dedicated per-probe snapshot; differences, if any, are not automatically attributed to probes.",
+  "keys_or_DB_copied": false,
+  "raw_private_values_output": false,
+  "DB_or_service_modified": false,
+  "stock_table_difference_metadata": {
+    "cursor": {
+      "before_rows": 1,
+      "current_rows": 1,
+      "timestamp_columns": [],
+      "known_timestamp_ranges": {}
+    },
+    "stock_audit": {
+      "before_rows": 719,
+      "current_rows": 738,
+      "timestamp_columns": [
+        "at"
+      ],
+      "known_timestamp_ranges": {
+        "at": {
+          "max_before_first_probe": true,
+          "minimum": 1795555205.971256,
+          "maximum": 1795598648.124778
+        }
+      }
+    },
+    "stock_intent": {
+      "before_rows": 138,
+      "current_rows": 143,
+      "timestamp_columns": [
+        "created"
+      ],
+      "known_timestamp_ranges": {
+        "created": {
+          "max_before_first_probe": true,
+          "minimum": 1795556684.7908244,
+          "maximum": 1795598648.124778
+        }
+      }
+    },
+    "stock_observation": {
+      "before_rows": 714,
+      "current_rows": 728,
+      "timestamp_columns": [
+        "at"
+      ],
+      "known_timestamp_ranges": {
+        "at": {
+          "max_before_first_probe": false,
+          "minimum": 1795555080,
+          "maximum": 1795599360
+        }
+      }
+    }
+  }
+}

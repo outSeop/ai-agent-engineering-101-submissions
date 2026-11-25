@@ -1,0 +1,41 @@
+--- host-v1/broker_public_catalogue_host_candidate.py
++++ host-v2/broker_public_catalogue_host_candidate.py
+@@ -42,6 +42,13 @@
+     "나머지 답변은 respond를 사용한다. " + json.dumps(TOOLS, ensure_ascii=False)
+ )
+ PUBLIC_RENDER_ACTION = "render_public_products"
++CATALOGUE_RENDER_SCHEMA = {"items":[{"sku":"G00000001","grade":"B"}]}
++CATALOGUE_RENDER_CONTRACT = (
++    "Use an args object with exactly one key, items. items is an array of 1 to 3 objects. "
++    "Each object must have exactly two keys: sku (the published product code) and grade (A, B, or C). "
++    "Do not copy price, preferred_price, name, remaining_seconds, or any other fields. "
++    "Example: "+json.dumps({"action":PUBLIC_RENDER_ACTION,"args":CATALOGUE_RENDER_SCHEMA},ensure_ascii=False)
++)
+ PUBLIC_SEARCH_ACTION = "search_products"
+ PUBLIC_RENDER_INSTRUCTION = (
+     "For a public product information reply with verified product prices, use render_public_products "
+@@ -326,7 +333,7 @@
+         native_context, active_tools, system = rendering_context(prefetched)
+         if catalogue is not None:
+             active_tools={**TOOLS,PUBLIC_SEARCH_ACTION:catalogue.instruction,
+-                          PUBLIC_RENDER_ACTION:"Send prices using items with exact sku and grade, one to three."}
++                          PUBLIC_RENDER_ACTION:CATALOGUE_RENDER_CONTRACT}
+             system=SYSTEM+" "+PUBLIC_RENDER_INSTRUCTION+" 공개 재고의 가격·등급·남은 시간만 문의하면 render_public_products를 사용하고, 별도 가격 제안이나 흥정에만 offer를 사용한다. Use search_products for catalogue paging and alternatives. " + json.dumps(active_tools,ensure_ascii=False)
+             try:
+                 prior=prefetched.get("prior_offer")
+@@ -411,6 +418,15 @@
+                 result=model_view(verified_context)
+             elif action == PUBLIC_RENDER_ACTION and not public_product_selection(args):
+                 result={"outcome":"invalid_public_selection"}
++                if catalogue is not None:
++                    fail_code="invalid_public_selection"
++                    codes["render"]=fail_code
++                    result.update(
++                        reason="args requires only items; each item allows only sku and grade, and rejects extra fields",
++                        expected_args=deepcopy(CATALOGUE_RENDER_SCHEMA),
++                        item_count={"min":1,"max":3},
++                        allowed_grades=["A","B","C"],
++                    )
+             elif catalogue is not None and action == PUBLIC_RENDER_ACTION:
+                 try:
+                     rendered=measure("render_seconds",lambda:catalogue.render(args,expires-monotonic()))

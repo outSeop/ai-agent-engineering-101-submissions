@@ -1,0 +1,39 @@
+{
+  "sdk_files": [
+    {
+      "name": "LICENSE",
+      "unchanged": true
+    },
+    {
+      "name": "agent_kit.py",
+      "unchanged": true
+    },
+    {
+      "name": "cli_model.py",
+      "unchanged": true
+    },
+    {
+      "name": "forge_runner.py",
+      "unchanged": true
+    },
+    {
+      "name": "market_kit.py",
+      "unchanged": true
+    },
+    {
+      "name": "maroo.py",
+      "unchanged": true
+    },
+    {
+      "name": "miniapp.py",
+      "unchanged": true
+    }
+  ],
+  "cursor": {
+    "cursor_identity_unchanged": true,
+    "sequence_non_decreasing": true,
+    "sequence_advanced": true,
+    "anchor_changed": true,
+    "raw_anchor_exported": false
+  }
+}

@@ -1,0 +1,382 @@
+{
+  "schema": "catalogue-public-source-and-phase-proof.v1",
+  "releases": {
+    "public_catalogue_runtime_v1": {
+      "manifest_sha256": "69df7f745a4a90b841aba1dcd2094c94216e0c9aa32690583034cbda5def5b11",
+      "reviewed_manifest_match": true,
+      "files": {
+        "bounded_public_catalogue_host.py": {
+          "sha256": "af3eaf729062f764e3d92249b4c81d2698c2c2011c59a350312110389f35c9ce",
+          "matches_pin": true
+        },
+        "broker_public_catalogue_host_candidate.py": {
+          "sha256": "cae875337c87bd8cf79a1118c9f8e11539006a0f3a10c9cea1aa6a3896020606",
+          "matches_pin": true
+        },
+        "card_compact_view.py": {
+          "sha256": "8698ee8fd070265bfed4985627d9707a1220095c65570af8820c5264d7ce1407",
+          "matches_pin": true
+        },
+        "card_offer_producer_host.py": {
+          "sha256": "b128c9d0851996900734b8a9bdda9256ea41e2f81746658bb01446d4508d6412",
+          "matches_pin": true
+        },
+        "card_source_read_lane.py": {
+          "sha256": "86053315d2f31fb94979eeca7b230ae9f5ca2d581c8acc90bbc6c75b0148cec7",
+          "matches_pin": true
+        },
+        "catalogue/forge.json": {
+          "sha256": "5ab7ae4210c9f875c87371439d60b55c65005fde5ddf47fcfefc4c32d25cc2b2",
+          "matches_pin": true
+        },
+        "catalogue/logic.py": {
+          "sha256": "6081da4b3f97f5be7ae216a66f98f6ab83dd7f22ea107e83da6c568f0557aef4",
+          "matches_pin": true
+        },
+        "catalogue/permission.yml": {
+          "sha256": "a7f818fcdb703257801c5da18c067c40d04c73bdee942c57816489e1f1dd83bc",
+          "matches_pin": true
+        },
+        "catalogue/test.py": {
+          "sha256": "f5f0075d74d4460a3a0aa95d408903503e4a8887558fbd4f6e7af71cb2f17126",
+          "matches_pin": true
+        },
+        "class_host_guards.py": {
+          "sha256": "d3bdf98109feede8fcc3720125cfa2ebe4c6e641a703f08896d89662671a8623",
+          "matches_pin": true
+        },
+        "class_variant_support.py": {
+          "sha256": "358d8c85b8162b87cd4ba0c012fc837456659d32194ee51c47ddd8bc33d1d64a",
+          "matches_pin": true
+        },
+        "forum_official_mind_canary.py": {
+          "sha256": "4b773bec4dc06eb4905cbb03eb9817960ad653a9e40fb0f37afeb5af35d2c67c",
+          "matches_pin": true
+        },
+        "managed_runtime_public_catalogue_host_candidate.py": {
+          "sha256": "c28c538dc62d226221440a55dd7ea114c43c5ea316abe086b92052b81776ccff",
+          "matches_pin": true
+        },
+        "model_catalogue_projection_candidate.py": {
+          "sha256": "525ad9b6e1743881c3340ec7cc288ccca304205348fd0b511e46a48310f2905f",
+          "matches_pin": true
+        },
+        "public_catalogue_composition_candidate.py": {
+          "sha256": "259415768ce156836b7d5ccd654de1a45fb96e0146ce8b086e3f82fc84b3ff5e",
+          "matches_pin": true
+        },
+        "public_catalogue_phase_metrics.py": {
+          "sha256": "3dd1e22c132ff24a911e5244824ecb4121f1fec92765b72e872d06c9ec73ef74",
+          "matches_pin": true
+        },
+        "public_catalogue_protocol.py": {
+          "sha256": "2c4c343bbee38c18f7f6ef378f68314fe209d1714ccab886d20b561630a54baa",
+          "matches_pin": true
+        },
+        "public_catalogue_request_host.py": {
+          "sha256": "27bf5acc5ed0044c49eab72470c49a0008c24a527a10656837d7ca9bca9d8e70",
+          "matches_pin": true
+        },
+        "public_catalogue_snapshot_host.py": {
+          "sha256": "0eeb289b1616aa945cc6cbbec87b0e18904113c0bd26ed3dad061f1cea4f567c",
+          "matches_pin": true
+        },
+        "public_catalogue_snapshot_producer.py": {
+          "sha256": "5ce3c4dab4cfb7825048174a03e726193736123b78ef5a1bceca921f9eee0bc7",
+          "matches_pin": true
+        },
+        "public_catalogue_snapshot_producer_helper.py": {
+          "sha256": "fe19d4a7cbc21b2900d85184d858bd3354b1a81295ba28492d95f05d7e9077b0",
+          "matches_pin": true
+        }
+      },
+      "all_files_match": true,
+      "old_builder_dependency": false,
+      "genuine_exact4": {
+        "logic.py": "6081da4b3f97f5be7ae216a66f98f6ab83dd7f22ea107e83da6c568f0557aef4",
+        "permission.yml": "a7f818fcdb703257801c5da18c067c40d04c73bdee942c57816489e1f1dd83bc",
+        "test.py": "f5f0075d74d4460a3a0aa95d408903503e4a8887558fbd4f6e7af71cb2f17126",
+        "forge.json": "5ab7ae4210c9f875c87371439d60b55c65005fde5ddf47fcfefc4c32d25cc2b2"
+      }
+    },
+    "public_catalogue_runtime_v2": {
+      "manifest_sha256": "e83ca0ac4493d7de4d50190f0bbadbb8f89fe89e74b82038dec30d82159e24db",
+      "reviewed_manifest_match": true,
+      "files": {
+        "bounded_public_catalogue_host.py": {
+          "sha256": "af3eaf729062f764e3d92249b4c81d2698c2c2011c59a350312110389f35c9ce",
+          "matches_pin": true
+        },
+        "broker_public_catalogue_host_candidate.py": {
+          "sha256": "14909ce9cb02ce5714ec393b449716281d15861ed3668611cec5f0e279ea7840",
+          "matches_pin": true
+        },
+        "card_compact_view.py": {
+          "sha256": "8698ee8fd070265bfed4985627d9707a1220095c65570af8820c5264d7ce1407",
+          "matches_pin": true
+        },
+        "card_offer_producer_host.py": {
+          "sha256": "b128c9d0851996900734b8a9bdda9256ea41e2f81746658bb01446d4508d6412",
+          "matches_pin": true
+        },
+        "card_source_read_lane.py": {
+          "sha256": "86053315d2f31fb94979eeca7b230ae9f5ca2d581c8acc90bbc6c75b0148cec7",
+          "matches_pin": true
+        },
+        "catalogue/forge.json": {
+          "sha256": "5ab7ae4210c9f875c87371439d60b55c65005fde5ddf47fcfefc4c32d25cc2b2",
+          "matches_pin": true
+        },
+        "catalogue/logic.py": {
+          "sha256": "6081da4b3f97f5be7ae216a66f98f6ab83dd7f22ea107e83da6c568f0557aef4",
+          "matches_pin": true
+        },
+        "catalogue/permission.yml": {
+          "sha256": "a7f818fcdb703257801c5da18c067c40d04c73bdee942c57816489e1f1dd83bc",
+          "matches_pin": true
+        },
+        "catalogue/test.py": {
+          "sha256": "f5f0075d74d4460a3a0aa95d408903503e4a8887558fbd4f6e7af71cb2f17126",
+          "matches_pin": true
+        },
+        "class_host_guards.py": {
+          "sha256": "d3bdf98109feede8fcc3720125cfa2ebe4c6e641a703f08896d89662671a8623",
+          "matches_pin": true
+        },
+        "class_variant_support.py": {
+          "sha256": "358d8c85b8162b87cd4ba0c012fc837456659d32194ee51c47ddd8bc33d1d64a",
+          "matches_pin": true
+        },
+        "forum_official_mind_canary.py": {
+          "sha256": "4b773bec4dc06eb4905cbb03eb9817960ad653a9e40fb0f37afeb5af35d2c67c",
+          "matches_pin": true
+        },
+        "managed_runtime_public_catalogue_host_candidate.py": {
+          "sha256": "c28c538dc62d226221440a55dd7ea114c43c5ea316abe086b92052b81776ccff",
+          "matches_pin": true
+        },
+        "model_catalogue_projection_candidate.py": {
+          "sha256": "525ad9b6e1743881c3340ec7cc288ccca304205348fd0b511e46a48310f2905f",
+          "matches_pin": true
+        },
+        "public_catalogue_composition_candidate.py": {
+          "sha256": "259415768ce156836b7d5ccd654de1a45fb96e0146ce8b086e3f82fc84b3ff5e",
+          "matches_pin": true
+        },
+        "public_catalogue_phase_metrics.py": {
+          "sha256": "503e302d2fcd86bffd795325ac52e83647131abbea3ed89600dbaf475360a5d0",
+          "matches_pin": true
+        },
+        "public_catalogue_protocol.py": {
+          "sha256": "2c4c343bbee38c18f7f6ef378f68314fe209d1714ccab886d20b561630a54baa",
+          "matches_pin": true
+        },
+        "public_catalogue_request_host.py": {
+          "sha256": "27bf5acc5ed0044c49eab72470c49a0008c24a527a10656837d7ca9bca9d8e70",
+          "matches_pin": true
+        },
+        "public_catalogue_snapshot_host.py": {
+          "sha256": "0eeb289b1616aa945cc6cbbec87b0e18904113c0bd26ed3dad061f1cea4f567c",
+          "matches_pin": true
+        },
+        "public_catalogue_snapshot_producer.py": {
+          "sha256": "5ce3c4dab4cfb7825048174a03e726193736123b78ef5a1bceca921f9eee0bc7",
+          "matches_pin": true
+        },
+        "public_catalogue_snapshot_producer_helper.py": {
+          "sha256": "fe19d4a7cbc21b2900d85184d858bd3354b1a81295ba28492d95f05d7e9077b0",
+          "matches_pin": true
+        }
+      },
+      "all_files_match": true,
+      "old_builder_dependency": false,
+      "genuine_exact4": {
+        "logic.py": "6081da4b3f97f5be7ae216a66f98f6ab83dd7f22ea107e83da6c568f0557aef4",
+        "permission.yml": "a7f818fcdb703257801c5da18c067c40d04c73bdee942c57816489e1f1dd83bc",
+        "test.py": "f5f0075d74d4460a3a0aa95d408903503e4a8887558fbd4f6e7af71cb2f17126",
+        "forge.json": "5ab7ae4210c9f875c87371439d60b55c65005fde5ddf47fcfefc4c32d25cc2b2"
+      }
+    }
+  },
+  "same_genuine_exact4_between_hosts": true,
+  "SDK7": {
+    "LICENSE": {
+      "sha256": "1d3d88f12b97e582378489859b15d81221931930f2e20afc7de82aae416cdbc3",
+      "upstream_blob_matches": true
+    },
+    "agent_kit.py": {
+      "sha256": "38fb94c22187db7b40e16a56a1fd2ffadbb94e15f2e28307d5ba04eeb4144f8a",
+      "upstream_blob_matches": true
+    },
+    "cli_model.py": {
+      "sha256": "16de5e99404dd0513b83aa6797bf9b06b4fd5e959acde3654be281c2af4eb7a2",
+      "upstream_blob_matches": true
+    },
+    "forge_runner.py": {
+      "sha256": "004aa4bc7ce08bc7ff940ff3e914ab8b9edb64b00ef23b309f8f4043707b99b7",
+      "upstream_blob_matches": true
+    },
+    "market_kit.py": {
+      "sha256": "92adb4bf8c6f303f20306018c644552d8299a93fc066dad2a4f4fb3154a78f3f",
+      "upstream_blob_matches": true
+    },
+    "maroo.py": {
+      "sha256": "973a1065d9f5b03d247b2b152424dd6d7f2ce18758ecf4603bf7bcde45862302",
+      "upstream_blob_matches": true
+    },
+    "miniapp.py": {
+      "sha256": "7d0838a8dc647a201bb353a63658ecb0e268415d1d15ab1965c8835d0e3f6868",
+      "upstream_blob_matches": true
+    }
+  },
+  "SDK_all_match": true,
+  "preserved_metrics": {
+    "public-metrics-after-probes.json": {
+      "observed_at": 1795598966,
+      "outcomes": {
+        "model_unavailable": {
+          "count": 1,
+          "phase_reasons": {
+            "fallback": {
+              "fallback_not_applicable": 1
+            },
+            "model": {
+              "model_timeout": 1
+            }
+          },
+          "reasons": {
+            "model_timeout": 1
+          },
+          "retries_sum": 2,
+          "seconds": {
+            "catalogue_seconds": {
+              "max": 0.6645,
+              "sum": 0.6645
+            },
+            "fallback_seconds": {
+              "max": 0.6786,
+              "sum": 0.6786
+            },
+            "legacy_action_seconds": {
+              "max": 0,
+              "sum": 0.0
+            },
+            "model_seconds": {
+              "max": 54.8297,
+              "sum": 54.8297
+            },
+            "prefetch_seconds": {
+              "max": 3.8116,
+              "sum": 3.8116
+            },
+            "render_seconds": {
+              "max": 0,
+              "sum": 0.0
+            },
+            "search_seconds": {
+              "max": 0.6911,
+              "sum": 0.6911
+            },
+            "total_seconds": {
+              "max": 60.68,
+              "sum": 60.68
+            }
+          }
+        },
+        "rendered_public": {
+          "count": 1,
+          "phase_reasons": {},
+          "reasons": {
+            "none": 1
+          },
+          "retries_sum": 0,
+          "seconds": {
+            "catalogue_seconds": {
+              "max": 0.7392,
+              "sum": 0.7392
+            },
+            "fallback_seconds": {
+              "max": 0,
+              "sum": 0.0
+            },
+            "legacy_action_seconds": {
+              "max": 0,
+              "sum": 0.0
+            },
+            "model_seconds": {
+              "max": 15.5745,
+              "sum": 15.5745
+            },
+            "prefetch_seconds": {
+              "max": 1.9434,
+              "sum": 1.9434
+            },
+            "render_seconds": {
+              "max": 0.6937,
+              "sum": 0.6937
+            },
+            "search_seconds": {
+              "max": 0,
+              "sum": 0.0
+            },
+            "total_seconds": {
+              "max": 18.9542,
+              "sum": 18.9542
+            }
+          }
+        }
+      }
+    },
+    "public-metrics-after-probes-host-v2.json": {
+      "observed_at": 1795599404,
+      "outcomes": {
+        "rendered_public": {
+          "count": 2,
+          "phase_reasons": {},
+          "reasons": {
+            "none": 2
+          },
+          "retries_sum": 1,
+          "seconds": {
+            "catalogue_seconds": {
+              "max": 0.7597,
+              "sum": 1.4325
+            },
+            "fallback_seconds": {
+              "max": 0,
+              "sum": 0.0
+            },
+            "legacy_action_seconds": {
+              "max": 0,
+              "sum": 0.0
+            },
+            "model_seconds": {
+              "max": 7.1847,
+              "sum": 10.5545
+            },
+            "prefetch_seconds": {
+              "max": 1.8898,
+              "sum": 3.7396
+            },
+            "render_seconds": {
+              "max": 0.7065,
+              "sum": 1.3736
+            },
+            "search_seconds": {
+              "max": 0.6995,
+              "sum": 0.6995
+            },
+            "total_seconds": {
+              "max": 11.1592,
+              "sum": 17.808
+            }
+          }
+        }
+      }
+    }
+  },
+  "original_source_files_unchanged": true,
+  "version_distinction": "Host runtime v1 failure and runtime v2 final successes; genuine public_catalogue remains v2 with identical exact4 bytes.",
+  "latency_limit": "Nonconcurrent single pairs only; no general speed or causal latency win inferred.",
+  "raw_source_or_probe_or_Model_artifacts_exported": false
+}

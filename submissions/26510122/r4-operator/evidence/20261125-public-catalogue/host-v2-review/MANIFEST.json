@@ -1,0 +1,21 @@
+{
+  "files": {
+    "db-preservation-aggregate.json": "b5ec68e1305e1d880cd4d47c79aee269f8c11f6765664f747624a6e9ea311bd3",
+    "sdk-and-cursor-check.json": "22a8ed859b07a1a1ea476948cd16903121fc1633cdd4de74d92e4d626f14a4c4",
+    "host-v2-diff-review.json": "32e59c2b8fc03cb3ce260b821ec57f411ab1e34b494f375643d64a4acdad3b04",
+    "broker_public_catalogue_host_candidate.py.diff": "f6bae791fb5fc3e65ce25a0cf9d1e8e003851d680e179a37348160caf0e164d8",
+    "public_catalogue_phase_metrics.py.diff": "ed44fdde6f64ccb0cea69300f198902e0164e28b56038ce424e58b95fea61d3d",
+    "README.md": "4fd6fc822d0f7c7cd086969f452ec1318f515089ff0c10fa15d02c34ec707372"
+  },
+  "file_count": 6,
+  "source_and_safe_aggregates_exact_private_copies": true,
+  "credential_files_compared": 4,
+  "actual_credential_hits": 0,
+  "pattern_hits": 0,
+  "exceptions": [],
+  "pre_copy_and_post_copy_scan": true,
+  "raw_ledger_or_identity_values_exported": false,
+  "services_models_market_wallet_DB_writes": 0,
+  "production_changed_by_auditor": false,
+  "git_staged_or_committed": false
+}
