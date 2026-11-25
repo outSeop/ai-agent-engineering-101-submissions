@@ -1,0 +1,27 @@
+{
+  "tool": "build_customer_context",
+  "version": 1,
+  "files_sha256": {
+    "logic.py": "3e956eb6dfaa7f06e08932951b978b0ab579c4d7ed1a23146f5afdea28d0d009",
+    "test.py": "97490036e25576c81c2c1702e1456026d66e9eb107e06a6686339a8966165504",
+    "permission.yml": "117310be76c1535291afb5d251b2e4c6c8fc397efc5875721475c55c764a90f9",
+    "forge.json": "6127db40b7aa3ae189608fd7a94815cafa137dcace33ff972f0bb298e3b2d129"
+  },
+  "actual_generation": {
+    "line_1based": 17,
+    "at": 1795579220.4795544,
+    "provider": "codex-cli-gpt-6.2-sol",
+    "requested_model": "gpt-6.2-sol",
+    "upstream_reported_model": null,
+    "response_sha256": "472df64746322deb27ea38ad1cb813aeca3a682b94ff26c14596ee5d5b10b821",
+    "logic_test_exact_match": true
+  },
+  "raw_private_messages_exported": false,
+  "official_selftest_passed": true,
+  "independent_v1": {
+    "core_passed": 56,
+    "capacity_failed": 1,
+    "privacy_failed": 4
+  },
+  "production_deployed": false
+}

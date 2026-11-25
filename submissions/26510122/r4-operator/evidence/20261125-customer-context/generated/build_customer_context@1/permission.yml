@@ -1,0 +1,8 @@
+name: build_customer_context
+description: 인자는 정확히 {"op":"context"}. 해시 고정 read_customer_offers v2의 모든 페이지와 fragment를 한 호출에서 조립한다. verified_context의 inventory 외 필드는 broker 원본 값이다. inventory는 common 객체와 columns 순서의 rows로 복원한다. 각 행에 common을 복사하고 columns와 행의 값을 짝지어 넣는다. available 행의 expires_at은 remaining_seconds가 null이면 null, 아니면 as_of + remaining_seconds다. reserved_pending/reconciling의 유통기간은 미확인이다. text_limit가 null이면 공개 상품 문자열 그대로이며, 정수면 name과 category_path 각 문자열의 앞부분이다. category는 확인 가능한 표준 분류 키다. 오류 시 부분 결과를 반환하지 않는다.
+permission:
+  pay_limit: 0
+  timeout: 180
+logic: logic.py
+test: test.py
+version: 1
