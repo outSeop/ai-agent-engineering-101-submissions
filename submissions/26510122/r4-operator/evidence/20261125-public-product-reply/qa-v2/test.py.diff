@@ -1,0 +1,27 @@
+--- v1/test.py
+
++++ v2/test.py
+
+@@ -129,10 +129,20 @@
+
+     assert result['reply'].splitlines() == [
+         f'{SKU_C} C등급 · 1,000,000,000,000크레딧 · 남은 시간 180초',
+         f'{SKU_A} A등급 · 43,900크레딧 · 남은 시간 97초',
+-        f'{SKU_B} B등급 · 2,500크레딧 · 유통기한 미제공(비식품)',
++        f'{SKU_B} B등급 · 2,500크레딧 · 유통기한 미제공',
+         '상품가 기준, 시장 수수료·가스 별도; 결제 전 재고·조건 재확인',
+     ]
+     assert len(result['reply']) <= 450
++    food_snapshot = copy.deepcopy(snapshot)
++    food_snapshot['units'][1]['category_path'] = ['food']
++    food_reply = invoke(without_expiry, context=food_snapshot)
++    assert food_reply == {
++        'status': 'rendered',
++        'reply': f'{SKU_B} B등급 · 2,500크레딧 · 유통기한 미제공\n'
++                 '상품가 기준, 시장 수수료·가스 별도; 결제 전 재고·조건 재확인',
++        'observed_at': NOW - 5,
++        'valid_until': NOW + 120,
++    }
+     assert '남은 시간 94초' in invoke(one, times=(NOW, NOW + 2, NOW + 2.5, NOW + 2.5))['reply']
+     for bad_args in (None, [], {'items': []}, {'items': True}, {'items': tuple(one['items'])},
+                      {'items': one['items'] * 4}, {'items': one['items'] * 2},

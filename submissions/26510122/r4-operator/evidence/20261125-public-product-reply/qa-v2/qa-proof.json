@@ -1,0 +1,25 @@
+{
+  "source_unchanged": true,
+  "official_selftest_passed": true,
+  "ordinary_contract_passed": 45,
+  "prior_null_food_semantic_failure_now_passed": 1,
+  "all_failed": 0,
+  "actual_Model_calls_by_QA": 0,
+  "actual_final_HTTP_E2E_as_v2_done_by_QA": false,
+  "v1_evidence_preserved": true,
+  "files": {
+    "ordinary-toolbox-qa-results.json": "8a3a086f07e3c8a708d2437f7fd259f271fff58c9cfff088879f5cef567638a1",
+    "ordinary_toolbox_qa.py": "2f77239b258fcac12dadbb707e70148a642bd0408ec9a40980b222b29e7f58c5",
+    "test.py.diff": "73c2faafb3e8b300e9e2e14e7762975861a1abb2a7132e5964b83fef02f67349",
+    "derived-origin.json": "ecb9d0e8482cd113f0fa5fd3a46e907fa703bb1c66fc65cd7980b6a3adde26ca",
+    "original-v2-forge-records.jsonl": "5e9497a7cf94b3f76552ddd1dd8414a313da013193aa446d8e18261bf53b4f64",
+    "logic.py.diff": "c426776ba3734a256b45667b2bd5ec9e2a8aa56926c75a17c05be88779629732",
+    "permission.yml.diff": "7393719a51a613438f5616ca419b26925aff0165bc3e8962ac1f67ab9877d449",
+    "official-selftest-result.json": "d3fbda0d56a2c6879fc14fa9e32cdf76cbcaac11dcf4aeda1bd413ae2dbf868b",
+    "QA_REPORT.md": "8690bf71d37b676a366d9fb2bbcad80f1c17f8aa2b0155a213fc9ef34e57117e",
+    "tools/render_public_product_reply/test.py": "eac885c0e91b0480be05bfcf6ef79c82e93e8b3f3447aaba542e9d9a10b31696",
+    "tools/render_public_product_reply/forge.json": "b304cf12a466b67c5ab1c9b0fffcfc689cceeaad6ca98f90f298f2d3b1b77b9c",
+    "tools/render_public_product_reply/logic.py": "d6c78d2ba0b9db6023c9657c7878a927dd919b41adaca9b912580b56693bda2b",
+    "tools/render_public_product_reply/permission.yml": "4e65cf13d7c57bdecaf9f729a3f99507c11dd3d44f1691ebd33c842603f72cb4"
+  }
+}

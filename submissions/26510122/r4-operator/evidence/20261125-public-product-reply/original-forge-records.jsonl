@@ -1,0 +1,2 @@
+{"ts": 1795586358, "tool": "render_public_product_reply", "version": 1, "passed": false, "error": "AssertionError: ", "permission": {"network": [], "write": [], "identity": [], "wallet": [], "pay_limit": 0, "timeout": 8, "handles": []}}
+{"ts": 1795586474, "tool": "render_public_product_reply", "version": 1, "passed": true, "error": null, "permission": {"network": [], "write": [], "identity": [], "wallet": [], "pay_limit": 0, "timeout": 8, "handles": []}}

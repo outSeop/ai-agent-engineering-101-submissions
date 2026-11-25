@@ -1,0 +1,28 @@
+{
+  "manifest": {
+    "tool": "render_public_product_reply",
+    "version": 2,
+    "forged_at": 1795587063,
+    "kit": "v5.1",
+    "sha256": {
+      "permission.yml": "4e65cf13d7c57bdecaf9f729a3f99507c11dd3d44f1691ebd33c842603f72cb4",
+      "logic.py": "d6c78d2ba0b9db6023c9657c7878a927dd919b41adaca9b912580b56693bda2b",
+      "test.py": "eac885c0e91b0480be05bfcf6ef79c82e93e8b3f3447aaba542e9d9a10b31696"
+    }
+  },
+  "actual_Model_forge_source_records": [
+    {
+      "private_line1": 4,
+      "at": 1795586948.485335,
+      "recorded_provider": "codex-cli-gpt-6.2-sol",
+      "actual_response_sha256": "765dea0a8c69309a8c568dfc202fe61465c028e51ccb9d8854a6f3a59d7203a2",
+      "logic_sha256": "d6c78d2ba0b9db6023c9657c7878a927dd919b41adaca9b912580b56693bda2b",
+      "test_sha256": "eac885c0e91b0480be05bfcf6ef79c82e93e8b3f3447aaba542e9d9a10b31696",
+      "permission_actual_args_sha256": "4e65cf13d7c57bdecaf9f729a3f99507c11dd3d44f1691ebd33c842603f72cb4",
+      "all_source_arg_hashes_match": true,
+      "raw_private_thought_messages_exported": false
+    }
+  ],
+  "original_v1_failed_and_passed_evidence_unchanged": true,
+  "v2_exactdiff": "Logic removes unsupported nonfood inference; test updates expected line and adds food/null regression; permission version/replaces only."
+}

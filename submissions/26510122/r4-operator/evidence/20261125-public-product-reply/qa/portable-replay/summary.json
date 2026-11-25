@@ -1,0 +1,16 @@
+{
+  "totals": {
+    "contract": {
+      "passed": 45,
+      "failed": 0
+    },
+    "semantic_goal": {
+      "passed": 0,
+      "failed": 1
+    }
+  },
+  "all_inputs_synthetic": true,
+  "actual_Broker_classModel_finalHTTP_E2E_done": false,
+  "actual_model_market_DB_wallet_calls": 0,
+  "generated_source_changed": false
+}

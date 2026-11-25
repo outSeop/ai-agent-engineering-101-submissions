@@ -1,0 +1,12 @@
+--- v1/permission.yml
+
++++ v2/permission.yml
+
+@@ -5,4 +5,5 @@
+
+   timeout: 8
+ logic: logic.py
+ test: test.py
+-version: 1
++version: 2
++replaces: render_public_product_reply@1

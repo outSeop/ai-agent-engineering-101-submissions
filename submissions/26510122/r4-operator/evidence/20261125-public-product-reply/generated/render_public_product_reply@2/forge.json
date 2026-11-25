@@ -1,0 +1,11 @@
+{
+ "tool": "render_public_product_reply",
+ "version": 2,
+ "forged_at": 1795587063,
+ "kit": "v5.1",
+ "sha256": {
+  "permission.yml": "4e65cf13d7c57bdecaf9f729a3f99507c11dd3d44f1691ebd33c842603f72cb4",
+  "logic.py": "d6c78d2ba0b9db6023c9657c7878a927dd919b41adaca9b912580b56693bda2b",
+  "test.py": "eac885c0e91b0480be05bfcf6ef79c82e93e8b3f3447aaba542e9d9a10b31696"
+ }
+}

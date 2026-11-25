@@ -1,0 +1,8 @@
+name: render_public_product_reply
+description: 입력은 {"items":[{"sku":"G 뒤에 16진수 8자리","grade":"A|B|C"}]} 형태입니다. SKU·등급 쌍은 서로 달라야 하며 1~3개만 허용합니다. 추가 키는 받지 않습니다. 고정 공개 스냅샷으로 전 항목을 확인해 성공 시 status=rendered, 한국어 reply, observed_at, valid_until을 반환합니다. 실패 시 status=unavailable과 고정 reason만 반환합니다.
+permission:
+  pay_limit: 0
+  timeout: 8
+logic: logic.py
+test: test.py
+version: 1

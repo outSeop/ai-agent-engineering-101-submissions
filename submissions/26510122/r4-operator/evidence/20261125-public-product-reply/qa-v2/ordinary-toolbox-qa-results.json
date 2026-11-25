@@ -1,0 +1,300 @@
+{
+  "reviewed_logic_sha256": "d6c78d2ba0b9db6023c9657c7878a927dd919b41adaca9b912580b56693bda2b",
+  "ordinary_official_Toolbox_call": true,
+  "manual_testing_flag": false,
+  "all_inputs_synthetic": true,
+  "checks": [
+    {
+      "case": "three_exact_selected_pairs_order",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "only_fixed_success_keys",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "source_prices_grades_only",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "no_private_name_ref_fee_or_financial_data",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "fees_separate_and_reconfirmation",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reply450_snapshot_times_exact",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "remaining_conservative",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "sameSKU_correct_grade_selected",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "invalid_args_no_items",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "invalid_args_empty",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "invalid_args_four",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "invalid_args_duplicate",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "invalid_args_extra_price",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "invalid_args_extra_jwt",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "invalid_args_extra_to",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "invalid_args_extra_approved",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "invalid_args_extra_text",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "invalid_args_grade_bool",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "invalid_args_sku_path",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "all_or_nothing_missing",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "all_or_nothing_wrong_grade",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "all_or_nothing_reserved",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "all_or_nothing_sold",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "all_or_nothing_expired",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "all_or_nothing_duplicate_available",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "all_or_nothing_duplicate_reserved",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "all_or_nothing_bool_price",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "all_or_nothing_bool_expiry",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "all_or_nothing_max_price_exceeded",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "all_or_nothing_future",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "all_or_nothing_expired_snapshot",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "all_or_nothing_overlong_TTL",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "all_or_nothing_wrong_schema",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "all_or_nothing_bool_observed",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "duplicateJSON_rejected",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "invalidUTF8_rejected",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "overlong_reply_no_partial",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "unknown_expiry_not_inferred_nonfood",
+      "passed": true,
+      "group": "semantic_goal",
+      "observed": {
+        "status": "rendered",
+        "inferred_nonfood": false
+      }
+    },
+    {
+      "case": "filesystem_symlink",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "filesystem_hardlink",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "filesystem_fifo",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "filesystem_directory",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "filesystem_socket",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "filesystem_mode600",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "writable_parent_rejected",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "existing_money_guard_would_still_block_rendered_text",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    }
+  ],
+  "totals": {
+    "contract": {
+      "passed": 45,
+      "failed": 0
+    },
+    "semantic_goal": {
+      "passed": 1,
+      "failed": 0
+    }
+  },
+  "actual_Broker_originalSDK_classModel_finalHTTP_E2E_done": false,
+  "actual_model_market_DB_wallet_calls": 0,
+  "generated_source_changed": false
+}

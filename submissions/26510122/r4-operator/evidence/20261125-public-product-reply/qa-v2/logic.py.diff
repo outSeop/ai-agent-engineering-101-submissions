@@ -1,0 +1,14 @@
+--- v1/logic.py
+
++++ v2/logic.py
+
+@@ -184,7 +184,7 @@
+
+         expires_at = row['expires_at']
+         if expires_at is not None and expires_at <= output_time:
+             return unavailable('selection_unavailable')
+-        remaining = ('유통기한 미제공(비식품)' if expires_at is None
++        remaining = ('유통기한 미제공' if expires_at is None
+                      else f'남은 시간 {max(0, expires_at - math.ceil(output_time))}초')
+         lines.append(f"{row['sku']} {row['grade']}등급 · {row['price_credits']:,}크레딧 · {remaining}")
+     lines.append('상품가 기준, 시장 수수료·가스 별도; 결제 전 재고·조건 재확인')
