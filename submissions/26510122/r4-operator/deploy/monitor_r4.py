@@ -3,8 +3,10 @@ import argparse
 from collections import Counter
 from datetime import datetime, timezone
 from decimal import Decimal
+from hashlib import sha256
 import json
 import os
+import re
 from pathlib import Path
 from zoneinfo import ZoneInfo
 import sqlite3
@@ -88,14 +90,90 @@ def ledger_metrics(path,now,credit):
         return out
 
 
+KEEPER_TIMER = "ourolabs-market-r4-card-keeper.timer"
+KEEPER_OK = {"applied","already_applied"}
+KEEPER_KNOWN = KEEPER_OK | {"requires_class_selection","refresh_not_staged","fresh_recheck_rejected",
+    "prepared_only","native_pending_or_rejected","read_or_recheck_unavailable","busy",
+    "source_or_publication_unavailable","dry"}
+
+
+def keeper_metrics(op, root, now, read_unit=unit_state):
+    result = {"timer_active":None,"latest_receipt_status":"unavailable","head_receipt_match":None,
+              "actual_card_match":None,"offer_until":None,"offer_remaining_seconds":None,"needs_attention":True}
+    try:
+        timer=read_unit(KEEPER_TIMER).get("ActiveState")
+        if timer:
+            result["timer_active"] = timer=="active"
+    except (OSError,subprocess.SubprocessError):
+        pass
+    receipt_path=op/"runtime/card-keeper-native/latest.json"
+    publication=root/"card_publication"
+    head_path=publication/"head.json"
+    try:
+        receipt=json.loads(receipt_path.read_bytes())
+        status=receipt.get("status")
+        if status in KEEPER_KNOWN:
+            result["latest_receipt_status"]=status
+    except (OSError,ValueError,TypeError,AttributeError):
+        receipt={}
+    try:
+        first=head_path.read_bytes()
+        head=json.loads(first)
+        event_id=head["event"]
+        if (head.get("pending") is not None or not isinstance(event_id,str)
+            or not re.fullmatch(r"[a-f0-9]{64}",event_id)):
+            return result
+        raw=(publication/(event_id+".json")).read_bytes()
+        event=json.loads(raw)
+        if sha256(raw).hexdigest()!=event_id or first!=head_path.read_bytes():
+            return result
+        if event.get("schema")!="outseop-r4.card-publication-event.v1" or event.get("shop")!=NAME:
+            return result
+        until=event.get("offer_until")
+        if type(until) is not int:
+            return result
+        result["offer_until"]=until
+        result["offer_remaining_seconds"]=max(0,int(until-now))
+        try:
+            result["actual_card_match"]=sha256((root/"card.json").read_bytes()).hexdigest()==event.get("after_sha256")
+        except OSError:
+            result["actual_card_match"]=False
+        result["head_receipt_match"]=(receipt.get("event")==event_id and
+                                       receipt.get("card_sha256")==event.get("after_sha256") and
+                                       receipt.get("offer_until")==until)
+        result["needs_attention"]=not (
+            first==head_path.read_bytes() and
+            result["timer_active"] is True and result["latest_receipt_status"] in KEEPER_OK
+            and result["head_receipt_match"] and result["actual_card_match"] and receipt.get("guard")=="skipped" and until>now
+        )
+    except (OSError,ValueError,TypeError,KeyError,AttributeError):
+        pass
+    return result
+
+
+def keeper_line(metrics):
+    timer={True:"가동",False:"중지",None:"미확인"}[metrics["timer_active"]]
+    remaining=metrics["offer_remaining_seconds"]
+    return (f"- 카드 갱신 타이머: {timer} · 최근 결과 {metrics['latest_receipt_status']} "
+            f"· 게시 기록 일치 {metrics['head_receipt_match']} "
+            f"· 로컬 카드 일치 {metrics['actual_card_match']} "
+            f"· 유효 잔여 {remaining if remaining is not None else '미확인'}초 "
+            f"· 확인 필요 {metrics['needs_attention']}")
+
+
 def main():
     p=argparse.ArgumentParser();p.add_argument('--operator',type=Path,required=True)
-    p.add_argument('--publish',type=Path);args=p.parse_args()
+    p.add_argument('--publish',type=Path);p.add_argument('--card-keeper-only',action='store_true');args=p.parse_args()
     os.umask(0o077)
-    op=args.operator.resolve();root=op.parent/'round-4';dest=op/'runtime/operations';dest.mkdir(mode=0o700,exist_ok=True)
+    op=args.operator.resolve();root=op.parent/'round-4'
+    if args.card_keeper_only:
+        print(json.dumps({"card_keeper":keeper_metrics(op,root,time.time())},ensure_ascii=False))
+        return
+    dest=op/'runtime/operations';dest.mkdir(mode=0o700,exist_ok=True)
     now=time.time();out={'at':now,'time_utc':datetime.fromtimestamp(now,timezone.utc).isoformat(),'errors':[],
         'scope':'Read-only actual operation. Quotes, approvals, supply acceptance and physical arrivals are separate; rank has no published score.'}
     out['services']={n:unit_state(n) for n in ['ourolabs-market-r4.service','ourolabs-market-r4-worker.service','outseop-r3-buyer.service','outseop-r3-seller.service']}
+    out['card_keeper']=keeper_metrics(op,root,now)
     main_service=out['services']['ourolabs-market-r4.service']
     entered=main_service.get('ActiveEnterTimestampMonotonic','0')
     uptime=max(0,time.monotonic()-int(entered)/1e6) if main_service.get('ActiveState')=='active' and entered.isdigit() and int(entered)>0 else None
@@ -176,6 +254,7 @@ def main():
           f"- 최근 30분 미분류 문의: {out.get('last_30m_unlabelled_requests','미확인')}건 · 별도 운영자 조회: {out.get('last_30m_known_operator_probes','미확인')}건",
           f"- 2시간 이내 만료 재고: {inv.get('expires_within_2h','미확인')}개 · 5분 넘은 서명 미정산: {led.get('signed_unsettled_over_5m','미확인')}건",
            f"- 최근30분 포럼 게시: {led.get('forum_posted_last_30m',0)}건 · 게시 확인 대기: {led.get('forum_unresolved',0)}건 · C등급 정산: {led.get('c_settlements_last_30m',0)}건",
+          keeper_line(out['card_keeper']),
           f"- 기존 지갑 일치: {out.get('card',{}).get('wallet_preserved','미확인')}",'',
           '같은 시간 비교: '+('연속 가동 1시간 이상인 두 30분 구간이다.' if out['equal_30m_windows_fully_live'] else '아직 연속 가동 1시간 미만이다. 이전 구간의 중지·기동 시간을 성과 개선으로 해석하지 않는다.'),'',
           '입고는 매출이 아니며, 미분류 문의도 확인된 신규 구매자 수는 아니다. 금액·원장 원문·고객 데이터는 이 화면에 공개하지 않고 비공개 WSL runtime에 보존한다.','']
@@ -183,6 +262,7 @@ def main():
     if args.publish:
         args.publish.parent.mkdir(parents=True,exist_ok=True);args.publish.write_text('\n'.join(text))
     public={k:out[k] for k in ('time_utc','shop_rank','listed_alive','main_uptime_seconds','equal_30m_windows_fully_live','errors') if k in out}
+    public['card_keeper']=out['card_keeper']
     public['village']=out.get('village',{})
     public['inventory']={k:inv[k] for k in ('units','skus','grades','expires_within_2h') if k in inv}
     public['ledger']={k:led[k] for k in ('quick_check','sale_states','procurement_states','procurement_unknown','confirmed_arrival_units','signed_unsettled_over_5m','forum_states','forum_posted_last_30m','forum_unresolved','c_settlements_last_30m','promotion_signed_exposures') if k in led}

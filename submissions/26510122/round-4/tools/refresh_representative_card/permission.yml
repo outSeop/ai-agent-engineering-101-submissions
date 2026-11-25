@@ -1,0 +1,10 @@
+name: refresh_representative_card
+description: 보호된 최신 게시 이벤트의 SKU와 순서로 대표 상품 카드 갱신안을 생성한다. args는 {view_sha256: 새 card_offer_context.json 원본의 SHA256}이다. 각 행의 valid_until이 해당 원본 컨텍스트의 valid_until과 일치하는 경우에만 새 캐시 유효기간을 사용한다. 상품 조건과 실제 expires_at을 그대로 대조하고 기존 상품 블록만 같은 위치에서 바꾼다. 운영 적용은 호스트의 별도 재조회와 apply 권한을 사용한다.
+permission:
+  write: [card_update_stage, refresh_card_selftest]
+  pay_limit: 0
+  timeout: 30
+logic: logic.py
+test: test.py
+version: 2
+replaces: refresh_representative_card@1

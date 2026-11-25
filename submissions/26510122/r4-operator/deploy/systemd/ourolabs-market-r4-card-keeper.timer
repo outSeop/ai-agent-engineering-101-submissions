@@ -1,0 +1,12 @@
+[Unit]
+Description=Refresh unchanged R4 card facts each minute
+
+[Timer]
+OnBootSec=15s
+OnUnitInactiveSec=60s
+AccuracySec=1s
+RandomizedDelaySec=2s
+Unit=ourolabs-market-r4-card-keeper.service
+
+[Install]
+WantedBy=timers.target

@@ -15,7 +15,7 @@
       }
     },
     {
-      "path": "apply_staged_card",
+      "path": ".deprecated/apply_staged_card@2",
       "version": 2,
       "files_sha256": {
         "logic.py": "4fecb5a59aba74173e10f88a3c79171daa8f729c6ac37b2f037aa7d4ced05c90",
@@ -33,8 +33,29 @@
         "permission.yml": "a856de475325229ff7e7745d5912c53dbf7e931ed8d7fa1909b751291901b673",
         "forge.json": "f11267a0efd3c9c995083c53515083f858ebdbe8daf222b0b3be3509c5b72e05"
       }
+    },
+    {
+      "path": "apply_staged_card",
+      "version": 3,
+      "files_sha256": {
+        "logic.py": "ad0ff06f995277113448671149226c07c3b5e07b0bed8fb02f89882145d57fff",
+        "test.py": "11b376dfb58ab708409ea30a173f034bb433285e2fef6d1acfdd9ab6aa402750",
+        "permission.yml": "6a8dce56a04be41e3211bcd244167caf2e218780125360bca34eaaa7b948faf0",
+        "forge.json": "9d9792bc60e31f5098b594073254af30e55b4535855246e2dc44dbf641f8ddd8"
+      }
+    },
+    {
+      "path": "refresh_representative_card",
+      "version": 2,
+      "files_sha256": {
+        "logic.py": "7199f31b471ac97275b94e167ba5ec2c7c7aa11bcc8c57a92e128426158dcd53",
+        "test.py": "f484dca623974d311733534fe61d2f2eaf054d15825e396f6340453e5aafb600",
+        "permission.yml": "e565fd689178e4ef0e46b89d36c6d2e0028704d15741a69a6174126a118a2b87",
+        "forge.json": "fca0551308abc66c42ea06893459e30b8f1fc9b3cf3800d957e8a340639f16a7"
+      }
     }
   ],
   "actual_first_publication": "../r4-operator/evidence/20261125-card-transition/actual-first-publication.json",
-  "external_host_role": "Install byte-identical own-agent forge outputs, bind actual model-selected stage and verify publication. No pricing or SKU decisions."
+  "external_host_role": "Install byte-identical own-agent forge outputs, bind actual model-selected stage and verify publication. No pricing or SKU decisions.",
+  "renewal_host": "Frozen deploy/native_card_keeper_v1 manifest 2634c1b9fed45b1126941354b0a433babcce3a5916d6968bee2b5bd502839e2a; actual genuine refresh2/apply3, no new forge record or index rewrite."
 }

@@ -1,0 +1,193 @@
+{
+  "bundle": "native_card_keeper_v1",
+  "format": 1,
+  "host_only": true,
+  "original_bytes_preserved": true,
+  "file_sha256": {
+    "ISOLATED-IMPORT.json": "1204142ee6c62874f3df027e6a9395fc7039864127a709c4017176dcb3bd6ce7",
+    "README.md": "7512cc3e526d05fea1b6cecfc48fc5ac2c33a81099bb2b2f9fe718a49332f29b",
+    "SYNTHETIC-QA.json": "d2074271b7049c86e04bab6a381a336daccfa34575eb8b7fc09f6b24187a431a",
+    "card_apply_authority_host.py": "b0f2a26a5b098c815dedb2896660358879c530e3a22fb9020b3985b91ed76666",
+    "card_apply_canary_host.py": "c7087ed25f70aba6d2ba71f422e63390a33e9544503099510ab425bcd88e5f21",
+    "card_apply_v2_inputs.py": "b88bd62f2b84c2bf9074bf755b9d5de4a39723478ea73a62efb9068d54b7b233",
+    "card_apply_v3_authority_host_candidate.py": "d1c5173feb84c39943614654c3f088c46596bca29ef5e6c3cf561bbf2cbb8988",
+    "card_compact_view.py": "8698ee8fd070265bfed4985627d9707a1220095c65570af8820c5264d7ce1407",
+    "card_keeper_native_pins.json": "4602ed931ad01c04b75fce0ea8e7507bbb1f3351a096339ca84b78d938e22cfd",
+    "card_keeper_same_choice_host_candidate.py": "121b1d6e057e87608bd9a983ae8a15f89c17bdabf8ec421f5bf7757accf28601",
+    "card_offer_producer_host.py": "b128c9d0851996900734b8a9bdda9256ea41e2f81746658bb01446d4508d6412",
+    "card_source_read_lane.py": "86053315d2f31fb94979eeca7b230ae9f5ca2d581c8acc90bbc6c75b0148cec7",
+    "class_host_guards.py": "d3bdf98109feede8fcc3720125cfa2ebe4c6e641a703f08896d89662671a8623",
+    "class_variant_support.py": "358d8c85b8162b87cd4ba0c012fc837456659d32194ee51c47ddd8bc33d1d64a",
+    "forum_official_mind_canary.py": "4b773bec4dc06eb4905cbb03eb9817960ad653a9e40fb0f37afeb5af35d2c67c"
+  },
+  "private_original_source_locations": {
+    "card_offer_producer_host.py": "runtime/r3-stock-20261124-204104/agent-work/codex-r4/card_offer_producer_host.py",
+    "card_apply_authority_host.py": "runtime/r3-stock-20261124-204104/agent-work/codex-r4/card_apply_authority_host.py",
+    "card_apply_canary_host.py": "runtime/r3-stock-20261124-204104/agent-work/host/card_apply_canary_host.py",
+    "card_apply_v3_authority_host_candidate.py": "runtime/r3-stock-20261124-204104/agent-work/host/card_apply_v3_authority_host_candidate.py",
+    "forum_official_mind_canary.py": "runtime/r3-stock-20261124-204104/agent-work/codex-r4/forum_official_mind_canary.py",
+    "class_variant_support.py": "runtime/r3-stock-20261124-204104/agent-work/codex-r4/class_variant_support.py",
+    "card_compact_view.py": "runtime/r3-stock-20261124-204104/agent-work/codex-r4/card_compact_view.py",
+    "card_apply_v2_inputs.py": "runtime/r3-stock-20261124-204104/agent-work/codex-r4/card_apply_v2_inputs.py",
+    "class_host_guards.py": "runtime/r3-stock-20261124-204104/agent-work/codex-r4/class_host_guards.py",
+    "card_source_read_lane.py": "runtime/r3-stock-20261124-204104/agent-work/codex-r4/card_source_read_lane.py",
+    "card_keeper_same_choice_host_candidate.py": "runtime/r3-stock-20261124-204104/agent-work/host/card_keeper_same_choice_host_candidate.py",
+    "card_keeper_native_pins.json": "runtime/r3-stock-20261124-204104/agent-work/host/card_keeper_native_pins.json"
+  },
+  "direct_helper_pins": {
+    "producer": {
+      "filename": "card_offer_producer_host.py",
+      "location": "helpers",
+      "sha256": "b128c9d0851996900734b8a9bdda9256ea41e2f81746658bb01446d4508d6412"
+    },
+    "binding": {
+      "filename": "card_apply_authority_host.py",
+      "location": "helpers",
+      "sha256": "b0f2a26a5b098c815dedb2896660358879c530e3a22fb9020b3985b91ed76666"
+    },
+    "infrastructure": {
+      "filename": "card_apply_canary_host.py",
+      "location": "host",
+      "sha256": "c7087ed25f70aba6d2ba71f422e63390a33e9544503099510ab425bcd88e5f21"
+    },
+    "authority": {
+      "filename": "card_apply_v3_authority_host_candidate.py",
+      "location": "host",
+      "sha256": "d1c5173feb84c39943614654c3f088c46596bca29ef5e6c3cf561bbf2cbb8988"
+    },
+    "forum_source_verifier": {
+      "filename": "forum_official_mind_canary.py",
+      "location": "helpers",
+      "sha256": "4b773bec4dc06eb4905cbb03eb9817960ad653a9e40fb0f37afeb5af35d2c67c"
+    },
+    "variant_input": {
+      "filename": "class_variant_support.py",
+      "location": "helpers",
+      "sha256": "358d8c85b8162b87cd4ba0c012fc837456659d32194ee51c47ddd8bc33d1d64a"
+    },
+    "compact_public_view": {
+      "filename": "card_compact_view.py",
+      "location": "helpers",
+      "sha256": "8698ee8fd070265bfed4985627d9707a1220095c65570af8820c5264d7ce1407"
+    },
+    "prior_authority_inputs": {
+      "filename": "card_apply_v2_inputs.py",
+      "location": "helpers",
+      "sha256": "b88bd62f2b84c2bf9074bf755b9d5de4a39723478ea73a62efb9068d54b7b233"
+    }
+  },
+  "native_bundle_pins": {
+    "tools/apply_staged_card": {
+      "snapshot": "apply_staged_card@3",
+      "sha256": {
+        "logic.py": "ad0ff06f995277113448671149226c07c3b5e07b0bed8fb02f89882145d57fff",
+        "test.py": "11b376dfb58ab708409ea30a173f034bb433285e2fef6d1acfdd9ab6aa402750",
+        "permission.yml": "6a8dce56a04be41e3211bcd244167caf2e218780125360bca34eaaa7b948faf0",
+        "forge.json": "9d9792bc60e31f5098b594073254af30e55b4535855246e2dc44dbf641f8ddd8"
+      }
+    },
+    "tools/refresh_representative_card": {
+      "snapshot": "refresh_representative_card@2",
+      "sha256": {
+        "logic.py": "7199f31b471ac97275b94e167ba5ec2c7c7aa11bcc8c57a92e128426158dcd53",
+        "test.py": "f484dca623974d311733534fe61d2f2eaf054d15825e396f6340453e5aafb600",
+        "permission.yml": "e565fd689178e4ef0e46b89d36c6d2e0028704d15741a69a6174126a118a2b87",
+        "forge.json": "fca0551308abc66c42ea06893459e30b8f1fc9b3cf3800d957e8a340639f16a7"
+      }
+    },
+    "tools/stage_representative_card": {
+      "snapshot": "stage_representative_card@1",
+      "sha256": {
+        "logic.py": "e883b594583e1abf8587a963154d58020a0f0e214451dee1fa3c771d11514fbb",
+        "test.py": "65f4378e3a301b871c1a54348d116800eb6aeaa74b86125f162b211a048b8b5e",
+        "permission.yml": "a607c48ed5f23a28a6402edcf1445ccc07e8af067888cae1d93803299659b20d",
+        "forge.json": "f4c5bffe5c1804910632a210ffa49187705273dc2485f2bfd057f8fad13b9e98"
+      }
+    },
+    "tools/publish_shop_info": {
+      "snapshot": "publish_shop_info@1",
+      "sha256": {
+        "logic.py": "cb3c5a6e5c6ca36fb329e4b2279c2b718a304386665707ecaf9a7e21eb887dc2",
+        "test.py": "bde98d730b945e0adc85c7802f36eb3155521ac79ff7c63f2d2b7234c536e60c",
+        "permission.yml": "599f987876a750c3349e57b754e2b5c2085a1a9b21e9f290f58ec5ab10e5821b",
+        "forge.json": "f31f1604abc3157116ecbd284688d04662694be694c787ab8b560918a5236004"
+      }
+    },
+    "tools/.deprecated/apply_staged_card@1": {
+      "snapshot": "apply_staged_card@1",
+      "sha256": {
+        "logic.py": "14143d58859493f56b3b736dab10fe384211d8c0c8b58a1b3db59a50a9d5500f",
+        "test.py": "c96e43d06d9d30a2548d35e59a2628d0552b2a36978fba2b8d67d715d5041e55",
+        "permission.yml": "a856de475325229ff7e7745d5912c53dbf7e931ed8d7fa1909b751291901b673",
+        "forge.json": "f11267a0efd3c9c995083c53515083f858ebdbe8daf222b0b3be3509c5b72e05"
+      }
+    }
+  },
+  "transitive_host_modules": {
+    "class_host_guards.py": "d3bdf98109feede8fcc3720125cfa2ebe4c6e641a703f08896d89662671a8623",
+    "card_source_read_lane.py": "86053315d2f31fb94979eeca7b230ae9f5ca2d581c8acc90bbc6c75b0148cec7"
+  },
+  "external_business_dependencies_not_copied": {
+    "dispatcher.py": "84e0eca3a0211e80772ed78f2ba3c166902ba0125577e7153b06cc5bb13de0cd",
+    "price_policy.py": "6e101702c38d47b3f2c68c860dc0198fd1d7557e311c2753dc4a71fed127118f",
+    "worker_bootstrap.py": "083e127a2e08aa17949aaa808e61b859cee988389afc2073a6aa1b39de612514",
+    "broker.py": "78e4f929e56b2083cd39e65e2f5ce0125e24f4fc20befb40632e284e01b9d27a",
+    "refund_admin.py": "d1d5026ceef7f5f9b2e63a81c3c56f459cd708e1d0fd75c560171614520ce80d"
+  },
+  "external_legacy_forum_tool_not_copied": {
+    "permission.yml": "da96a18919a24399b5b8eb549367f62a4bbcf4eed2015681898f95e160da08c1",
+    "logic.py": "c15424eacded61da86e9f27303b16a705287cecf81c5254a2da5360db3ee9b48",
+    "test.py": "22b2c0890e24a3b1871b7b95d29ba14276678ab36bdec7b11a3cfabc3d7c8c3b"
+  },
+  "isolated_import_verification": {
+    "isolated_python": true,
+    "helper_fallback": "HERE",
+    "all_host_modules_loaded_from_bundle": true,
+    "loaded_modules": {
+      "card_apply_canary_host": "card_apply_canary_host.py",
+      "card_apply_v2_inputs": "card_apply_v2_inputs.py",
+      "class_host_guards": "class_host_guards.py",
+      "card_offer_producer_host": "card_offer_producer_host.py",
+      "card_compact_view": "card_compact_view.py",
+      "class_variant_support": "class_variant_support.py",
+      "forum_official_mind_canary": "forum_official_mind_canary.py",
+      "card_source_read_lane": "card_source_read_lane.py",
+      "card_apply_v3_authority_host_candidate": "card_apply_v3_authority_host_candidate.py",
+      "card_keeper_same_choice_host_candidate": "card_keeper_same_choice_host_candidate.py",
+      "card_apply_authority_host": "card_apply_authority_host.py"
+    },
+    "production_db_or_credentials_read": false,
+    "network_calls": false,
+    "business_libraries_copied_or_eagerly_imported": false
+  },
+  "synthetic_qa": {
+    "tests": 7,
+    "failures": 0,
+    "errors": 0,
+    "failed_tests": [],
+    "frozen_keeper_source_sha256": "121b1d6e057e87608bd9a983ae8a15f89c17bdabf8ec421f5bf7757accf28601",
+    "direct_helper_pins_verified": 8,
+    "producer_mocked": true,
+    "same_frozen_modules_used": true,
+    "two_synthetic_cycles": true,
+    "actual_production_root_used": false,
+    "real_key_db_Model_calls": false,
+    "timer_installed": false
+  },
+  "secret_scan": {
+    "exact_credential_sources": 4,
+    "exact_matches": 0,
+    "pattern_matches": 0,
+    "values_emitted": false,
+    "postcopy_rehash_and_rescan": "passed"
+  },
+  "packaging_scope": {
+    "actual_root_dry_run_performed": false,
+    "operational_DB_or_sales_changes": false,
+    "wallet_loading_or_transfers": false,
+    "Model_API_calls": false,
+    "service_or_timer_installed": false,
+    "credential_files_read_only_for_authorized_exact_match_scan": true
+  },
+  "manifest_self_hash": "Excluded from internal map; external SHA256 reported to root."
+}

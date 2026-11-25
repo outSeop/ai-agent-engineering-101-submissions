@@ -1,0 +1,14 @@
+{
+  "tests": 7,
+  "failures": 0,
+  "errors": 0,
+  "failed_tests": [],
+  "frozen_keeper_source_sha256": "121b1d6e057e87608bd9a983ae8a15f89c17bdabf8ec421f5bf7757accf28601",
+  "direct_helper_pins_verified": 8,
+  "producer_mocked": true,
+  "same_frozen_modules_used": true,
+  "two_synthetic_cycles": true,
+  "actual_production_root_used": false,
+  "real_key_db_Model_calls": false,
+  "timer_installed": false
+}

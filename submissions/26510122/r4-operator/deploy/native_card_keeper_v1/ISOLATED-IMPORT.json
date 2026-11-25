@@ -1,0 +1,21 @@
+{
+  "isolated_python": true,
+  "helper_fallback": "HERE",
+  "all_host_modules_loaded_from_bundle": true,
+  "loaded_modules": {
+    "card_apply_canary_host": "card_apply_canary_host.py",
+    "card_apply_v2_inputs": "card_apply_v2_inputs.py",
+    "class_host_guards": "class_host_guards.py",
+    "card_offer_producer_host": "card_offer_producer_host.py",
+    "card_compact_view": "card_compact_view.py",
+    "class_variant_support": "class_variant_support.py",
+    "forum_official_mind_canary": "forum_official_mind_canary.py",
+    "card_source_read_lane": "card_source_read_lane.py",
+    "card_apply_v3_authority_host_candidate": "card_apply_v3_authority_host_candidate.py",
+    "card_keeper_same_choice_host_candidate": "card_keeper_same_choice_host_candidate.py",
+    "card_apply_authority_host": "card_apply_authority_host.py"
+  },
+  "production_db_or_credentials_read": false,
+  "network_calls": false,
+  "business_libraries_copied_or_eagerly_imported": false
+}

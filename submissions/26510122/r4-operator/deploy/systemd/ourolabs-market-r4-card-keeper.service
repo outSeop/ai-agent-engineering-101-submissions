@@ -1,0 +1,13 @@
+[Unit]
+Description=R4 native card cache maintenance
+After=ourolabs-market-r4.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator
+ExecStart=/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/.venv/bin/python -I -B /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/deploy/card_keeper_entry.py --operator /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator --allow-refresh
+UMask=0077
+TimeoutStartSec=300
+MemoryMax=384M
+StandardOutput=journal
+StandardError=journal
