@@ -1,0 +1,8 @@
+{
+  "failure": "optional forum hook expected ctx.shop_url before SDK populates it",
+  "code_rollback_at": 1795629601.0957167,
+  "previous_query_fix_preserved": true,
+  "database_wallet_inventory_not_restored_or_replaced": true,
+  "card_new_head_preserved": true,
+  "new_post_attempts": 0
+}

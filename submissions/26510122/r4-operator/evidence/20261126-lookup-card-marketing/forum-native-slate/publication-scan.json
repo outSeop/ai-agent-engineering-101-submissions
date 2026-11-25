@@ -1,0 +1,19 @@
+{
+  "exact_credential_files_checked": 3,
+  "exact_matches": 0,
+  "secret_pattern_matches": 0,
+  "raw_private_logs_included": false,
+  "file_sha256": {
+    "SAFE_PROOF.json": "107b8fdd287af911ea6a135a6e5154175948fecec392e05443032587d4c5be2c",
+    "tools/prioritize_forum_candidates/forge.json": "3d8a668ba606da89259bdbd01bacc44508c528cd36d3c01ac56ff4cddf647389",
+    "tools/prioritize_forum_candidates/logic.py": "3f3a1184668346fb9f902e55f2066b551120f55cc0a5192c9476211a6f24562c",
+    "tools/prioritize_forum_candidates/permission.yml": "996994a1e802b07fc9d3211a52b0db8c0734a84c15ed544bf81663b28693d314",
+    "tools/prioritize_forum_candidates/test.py": "634e5076c7bd308111e4659019c34b9dbb1ef14fb1de9d34a4c3557780dcfccb",
+    "MANIFEST.json": "c68e4460fc51c4bf239d9403766955b62c931ab77408ab0a61ff6347aadef8a5",
+    "BACKGROUND-PINS.json": "df687b6520fb93f51fe08991b1dbe07da6707bb1fef83be22e8f288ddccb2d59",
+    "public-ab-dry-selection-safe.json": "f6d1a76e4efee79296fde3d98a7d559f25c4ee30b62cc898654796cfe6146286",
+    "independent-test-result.json": "c4dc7082db005f0c7669cbcb220f0d784a1381b5be349f07509cc450365beb3c",
+    "host-test-result.json": "d4b3c2960a739cfec17db761d104a8278606693d1567c321e2e51c7c92ead249",
+    "README.md": "2ad83c95d0843ae8d2bfc4c77d27eb552c19670a7b296bcf50e564f23c076b01"
+  }
+}

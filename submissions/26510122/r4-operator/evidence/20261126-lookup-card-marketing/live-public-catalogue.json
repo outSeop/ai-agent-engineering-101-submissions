@@ -9,5 +9,9 @@
   "reply_characters": 211,
   "exact_product_name_present": true,
   "financial_consent_given": false,
-  "source_before_sha": "c01ecd05ca1adadfb373f21be0a1b796bd614b55289f4268258af3b8a8256dda"
+  "source_before_sha": "c01ecd05ca1adadfb373f21be0a1b796bd614b55289f4268258af3b8a8256dda",
+  "observation_source_hash_matches_saved_snapshot": true,
+  "actual_source_count": 170,
+  "one_model_action": "render_public_products",
+  "no_search_needed_requested_sku_in_initial_page": true
 }

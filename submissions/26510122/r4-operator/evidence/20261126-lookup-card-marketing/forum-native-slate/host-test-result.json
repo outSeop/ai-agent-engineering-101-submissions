@@ -1,0 +1,18 @@
+{
+  "ordinary_sdk_host_tests": {
+    "passed": 2,
+    "total": 2
+  },
+  "managed_tick_fixture": {
+    "passed": 1,
+    "total": 1,
+    "managed_mind": "original class",
+    "coordinator": "original class",
+    "model": "synthetic decision",
+    "native_sdk": "ordinary call",
+    "atomic_publisher": "recording stub",
+    "real_posts": 0,
+    "real_wallet_calls": 0,
+    "prior_public_grade_mix_observed": true
+  }
+}

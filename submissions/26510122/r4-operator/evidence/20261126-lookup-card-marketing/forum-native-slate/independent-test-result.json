@@ -1,0 +1,33 @@
+{
+  "total": 3,
+  "passed": 3,
+  "cases": [
+    {
+      "case": "balanced-ABC-preserved-bounded-no-new-eligibility",
+      "passed": true
+    },
+    {
+      "case": "explicit-small-pack-metadata-unknown-not-invented-original-fields-exact",
+      "passed": true
+    },
+    {
+      "case": "negated-C-excluded-from-reply-only-original-eligibility",
+      "passed": true
+    }
+  ],
+  "source_exact4_sha256": {
+    "logic.py": "3f3a1184668346fb9f902e55f2066b551120f55cc0a5192c9476211a6f24562c",
+    "test.py": "634e5076c7bd308111e4659019c34b9dbb1ef14fb1de9d34a4c3557780dcfccb",
+    "permission.yml": "996994a1e802b07fc9d3211a52b0db8c0734a84c15ed544bf81663b28693d314",
+    "forge.json": "3d8a668ba606da89259bdbd01bacc44508c528cd36d3c01ac56ff4cddf647389"
+  },
+  "method": "ordinary official Toolbox.run with synthetic public slate; no manual kit.testing flag",
+  "raw_rows": 30,
+  "visible_rows": 16,
+  "bounded_chars": 3104,
+  "Model_network_POST_prod_changes": 0,
+  "limitations": [
+    "Only candidate ranking/projection checked; final forum market revalidation and posting are separate.",
+    "Unsupported pack syntax stays unknown/null; not inferred from size, price, x12 or 40 eggs."
+  ]
+}
