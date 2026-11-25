@@ -1,0 +1,14 @@
+{
+  "file_sha256": {
+    "derived-provenance.json": "4fb8b00ff5964f13331d8b70d694d9224b59e6f94d3b9d31747ae54125d14fcc",
+    "host/check_notice_public_card_host.py": "af0b1d49952c631a340ffd58a5b4ae48128f8ce8da0b0624d3f080773f77742d",
+    "host/first_purchase_bonus_notice_approval_host.py": "44a29013d074d08477c23315d50f4e60c2b0bac3e63561bc226372b403f5b215",
+    "host/first_purchase_bonus_notice_operator_candidate.py": "0ebbc0b83666d93ca4569ac4e2fbae4361ada1b2bd3664779b88aaf36d84c76a",
+    "host/first_purchase_bonus_sdk_host.py": "20a00efd0dde245ca24382960265cd5e07ba28a4a2ea834357d04e5664e55390",
+    "host/smoke_notice_ordinary_sdk_preview.py": "4ee0e33f600ab6962b93480f13053eb2d43016c41eca4b1466267bd5b63de14b",
+    "tools/first_purchase_bonus_notice/forge.json": "ec1fe6ebff64cf15f0a10021a99884469997769ab4e07f62ab9e93f3940f3b6f",
+    "tools/first_purchase_bonus_notice/logic.py": "0586cfca63a5dfaa2b46d80fb82ac046bab28b59af611b17708d2c192c800dd6",
+    "tools/first_purchase_bonus_notice/permission.yml": "2ee7948b252f65d2cc420d010fda00952ce65a959e95287f15f4321cc86a508c",
+    "tools/first_purchase_bonus_notice/test.py": "1252f4026658567da3ff78d17b042ba584e8cfe343d13186eb4a7c4d87682e7b"
+  }
+}

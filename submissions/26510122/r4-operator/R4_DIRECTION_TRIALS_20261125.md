@@ -1,3 +1,23 @@
+## 2026-11-25 21:21 KST — 첫 구매 추가 5% 활성·실제 공지 확인
+
+현재 기준: 상점 ID/이름은 `outseop-r4`, 운영 모델은 수업 `market`이다. 기존 DB·두 지갑·재고·매입·주문·마일리지 장부를 유지했다. R3 서비스는 재가동하지 않았다.
+
+- 첫 정상 정산·인도 후 기본 1%에 추가 5% 적립. 확인된 실제 송금 지갑당 글로벌 1회, 추가분 최대 5,000 크레딧. 전체 발급 예산 50,000 크레딧. 2026-11-25 20:32:49 ~ 11-28 20:32:49 KST. 각 비율은 크레딧 정수 단위 절사. 최초 정상 정산부터 7일 동안 다음 구매에서 사용하며, 환불 회수·중복 방지·기존 사용 하한을 유지한다.
+- 실제 bonus 도구는 genuine `first_purchase_bonus@4`. 올바른 호스트는 `deploy/first_purchase_bonus_runtime_v4b` (manifest cadb6a3c67b778ed3836d5106e9309f817c1ec648a6099520a43fa0bfe7c82c7), 별도 `worker_bootstrap_first_purchase_bonus.py` 진입점이다. 원래 `worker_bootstrap.py`/`refund_admin.py`는 공유 producer의 기존 source pin과 정확히 일치한다. 이 원본을 다시 바꾸거나 pin을 완화하지 않는다. 아래 20:32 기록의 원본 교체 방식은 20:47 복구로 대체되었다.
+- 혜택 공지 도구 genuine `first_purchase_bonus_notice@5`: `deploy/first_purchase_bonus_notice_runtime_v5`, manifest e4ad821895846a818876ae080123fe66a866891ac4badc1ee2e8f1c5dc823b08. 실제 API의 `score:null` 및 실제 원장으로 ordinary SDK 미리보기 eligible. 그 후 원본 `Mind.run_once`/수업 모델 3회 호출이 dispatch를 선택했고 native는 정확히 한 번 게시했다. 공개 글 **2556**과 내부 `forum_publication`의 원문·지문 일치를 확인했다. SDK7·sourceexact4 pin, 무지갑/송금권한0. 임시 150초 승인 파일은 정확히 자체 생성한 바이트만 제거했다. 모의검증과 실제 게시를 분리한다.
+- 현재 상품조회 호스트는 `deploy/public_catalogue_runtime_v3c`, manifest b5a806122845d7df73a8c6cf84b00e2e805ca0aaa7c6cbb4462ba31c7a74c5fd. launcher SHA6f34021a49ddc792277eb2c2c7114c5006fb7555ecad7ad0cda54d51af3ba062. 상품명·원포장수량·전체 판매단위1·실제 구매 명령을 내보내는 genuine `public_catalogue@4` exact4를 사용한다. v3b의 Mock20/20 후 실제 수업 모델이 검색만 반복해 응답 실패한 기록을 보존했다. v3c는 검색 인자를 이력에 보존하고 동일 빈 검색 재호출을 막으며, 읽기 전용 5단계 중 마지막에는 답변을 종결하도록 남은 횟수를 알려준다. 상품 선택은 모델 판단이다. 금융·권리·환불 3단계 및 전체65/모델35/도구5초 예산은 유지했다.
+- v3c 실제 수업 모델 ASGI canary는 27.1298초에 genuine render와 최종 응답이 일치했다. 운영 공개 A2A에서도 22.010초에 두부300g1팩/C/1936크레딧/남은 시간/`구매 G5c96ee78`을 반환했고 공개 재고 원본과 상품명·가격·등급을 대조했다. 해당 요청은 health-probes에 운영자 조회로 별도 기록했다. 실제 고객이나 실제 checkout·정산 성공으로 세지 않는다.
+- 메인 계획 재시작 중 cloudflared가 첫 URL 발급에 실패해 자동 재시도 1회 후 회복했다. 현재 공개 주소는 https://reflection-newer-wellness-paintball.trycloudflare.com 이지만 고정하지 말고 `/api/shops`와 `/api/agents`에서 매번 확인한다. 최신 혜택 공지는 바뀌지 않는 시장 보드에서 outseop-r4를 찾도록 안내한다. 기존 이전 홍보 글의 quick tunnel URL은 재시작 후 오래된 주소일 수 있다.
+- 21:21 실제 상태: main·worker·두 타이머 정상, 공개 alive, 기존 지갑 일치, DB quick_check ok. 실제 재고150품목/150개(A63/B58/C29), 미확정 매입0(정상 paid1은 입고 대기), 포럼 게시6/미확정게시0. 실제 판매·정산·추가적립 모두0. 상점31위. 정상 연속 가동1시간 미만이므로 같은 시간 성과 회복을 주장하지 않는다.
+- 검증 범위: bonus core 독립13/13, catalogue45+62, host24/24, notice 최종 변경 독립5/5 및 호스트5/5. 실제 지급·대기 할인 사용·실제 환불 송금은 이번 게시/정보조회 검증으로 입증되지 않는다. 기존 금융 도구 전체를 agent-forged로 전환한 것으로 주장하지 않는다. raw Model/ReAct/거래 로그는 private runtime에 보존하고 공개 evidence에는 코드·출처·안전 집계만 넣었다.
+- 자동 점검 `r4-2`와 포럼 `r4-3`는 유지, 광범위 자동 개선 `r4`는 PAUSED. 후속 읽기 점검은 별도 bonus worker opt-in/정책창/최초 정산과 실제 추가 적립·중복0/총발급예산을 함께 확인한다. 한도 소진·기한 만료 시 새 지급은 닫히며, 한 번의 공지 성공을 반복 게시 허가로 해석하지 않는다.
+
+## 2026-11-25 20:47 KST — 공유 소스 의존성 복구
+
+추가적립첫연결에서원본worker_bootstrap/refund_admin을바꾼것이카드·재고producer의고정source해시검사를막았다. livecache stale/producer 실패를확인하고 main재시작없이원본두파일을privatebackup의정확한083e127a…/d1d5026c…로복구했다. 소스pin을완화하지않았다. 새추가적립은codex-r4/worker_bootstrap_first_purchase_bonus.py와refund_admin_first_purchase_bonus.py라는별도entrypoint로옮겼고기존worker unit drop-in의실행경로만바꿨다. genuine bonus4/정책/DB/지갑/기존적립은변경없다. worker의두번째의도적stop/start이며 mainURL/PID는유지했다. 재고producer·card-keeper oneshot을직접실행해둘다성공복구, 신선cache와새card receipt를확인했다. 해당실패와복구는first-bonus-cutover private기록에보존했다.
+
+현재올바른bonus호스트bundle은deploy/first_purchase_bonus_runtime_v4b, manifest cadb6a3c67b778ed3836d5106e9309f817c1ec648a6099520a43fa0bfe7c82c7다. 원v4bundle은첫배치의역사기록으로보존한다. 원본sharedworker파일은현재기존순정대로이며수정대상으로다시사용하지말것. 정책20:32~28일20:32 KST와추가5%조건은앞기록대로활성이다. 새상품명native4는독립107/107+SDK자체test통과, 실제수업Model격리canary검증중으로아직main은catalogue_runtime_v2다. 새혜택공지native개발/검증도진행중이다.
+
 ## 2026-11-25 20:32 KST — 첫 구매 추가 적립 활성화·홍보 재개
 
 - 사용자 승인: 포럼 적극 홍보, 이후 선택은 즉시할인 대신 첫 구매 정상 정산·인도 후 기존1%에 추가5% 적립. 검증된 송금 지갑당 글로벌1회, 1회최대5000, 평생총예산50000, 11월 25일 20:32:49~11월 28일 20:32:49 KST(72시간), 7일안 다음 거래 사용. 새 권리코드·정책 이름 변경·환불로 자격/예산을 초기화하지 않는다.

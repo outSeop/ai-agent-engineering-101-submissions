@@ -1,0 +1,6 @@
+{"failure_summary": null, "passed": true, "tool": "first_purchase_bonus_notice", "ts": 1795606317, "version": 1}
+{"failure_summary": "Synthetic path guard reported state_path_invalid where the fixture expected state_owner_invalid", "passed": false, "tool": "first_purchase_bonus_notice", "ts": 1795606727, "version": 2}
+{"failure_summary": null, "passed": true, "tool": "first_purchase_bonus_notice", "ts": 1795606923, "version": 2}
+{"failure_summary": null, "passed": true, "tool": "first_purchase_bonus_notice", "ts": 1795607735, "version": 3}
+{"failure_summary": null, "passed": true, "tool": "first_purchase_bonus_notice", "ts": 1795608477, "version": 4}
+{"failure_summary": null, "passed": true, "tool": "first_purchase_bonus_notice", "ts": 1795608972, "version": 5}

@@ -1,0 +1,11 @@
+{
+  "initial_failure": "Verifier fixture reuse expected manifest key files_sha256. Candidate v5 uses file_sha256, causing KeyError during setup before business tests.",
+  "correction": "Host verifier adapts the manifest key only; genuine business source unchanged.",
+  "initial_private_artifact_retained": "host/validation/first-purchase-bonus-notice-v5-narrow-20261125/original-qa.py",
+  "corrected_result": {
+    "passed": 5,
+    "total": 5
+  },
+  "prior_v3": "Original v3 7/7 known-case result retained separately, not rerun broadly.",
+  "raw_log_or_Model_reason_exported": false
+}

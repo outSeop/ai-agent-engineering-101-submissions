@@ -1,0 +1,78 @@
+{
+  "credential_files_screened": 4,
+  "development_provider": "codex-cli-gpt-6.2-sol",
+  "official_forge_log_sha256": "011e33cc8d4dff01a9a9e8a825e93857bf2642b93628cbed330d2ee82932e623",
+  "official_mind": true,
+  "official_toolbox_forge": true,
+  "private_model_capture_sha256": "6f299a72dc6039376c3fe3aa27f00547f671860e96473bee429d24f8755a360d",
+  "private_react_log_sha256": "b9f10aab6159e18216aaa17f8c8ef24c2e3d7e7a1c351ada1992f98283e5d249",
+  "provider_reported_model": null,
+  "raw_private_logs_copied": false,
+  "versions": [
+    {
+      "forged_at": 1795606317,
+      "official_selftest_passed": true,
+      "own_forge_response_sha256": "c081f60f70f4abdd110997f54c48233de7285878783b3f0410659f6453ab3945",
+      "source_sha256": {
+        "forge.json": "00ab54385e84e0e4f73ad80365b98b97ab6f2ac9a72838c1e30c23820732d7e4",
+        "logic.py": "dba1fc7efb6fce961347b31961584daa070cbeb59597536be23fb77550808086",
+        "permission.yml": "dd3488bbb5f45ec2b01fe7117cf484d6eeccf66cd7fe215a400521754d1d532c",
+        "test.py": "c0bdd44dff56090f70feef9f0a816abd157b37187bf9614654df5d5caaacc21b"
+      },
+      "tool": "first_purchase_bonus_notice",
+      "version": 1
+    },
+    {
+      "forged_at": 1795606923,
+      "official_selftest_passed": true,
+      "own_forge_response_sha256": "ff8674719d5135d77881f726c03e59ca1bead32086f461b730dda03b0fef7b46",
+      "source_sha256": {
+        "forge.json": "121e302e7efdd4929557700a676abe8d2a89f0ff042fdd1c4a13f489d39c76d1",
+        "logic.py": "dd537799eeb4419a1dc9ae84c677338e1351180e5b2578346dc9e517f6bffa7e",
+        "permission.yml": "01a515da8700818788ed015eb2d6ce954c2849b075ffc2b00866461993745f4f",
+        "test.py": "bf46a2fd94a0c871fb59dc7d523c9cd7cdf8e99a0361c31c4e0fd22798bdb767"
+      },
+      "tool": "first_purchase_bonus_notice",
+      "version": 2
+    },
+    {
+      "forged_at": 1795607735,
+      "official_selftest_passed": true,
+      "own_forge_response_sha256": "793a1fadf5865212097f4fcdaa896e28a8a6bfa5fa931f775189d80bd1beada4",
+      "source_sha256": {
+        "forge.json": "a51870eea3f76d27d634da1007e792857a51d0b07dde72fc3a4ed895206698f1",
+        "logic.py": "0da2f87328d3d9ea0cbfb70e293d0cc3e685a12ca47cdb2d13e694f06add9f78",
+        "permission.yml": "3f5badea8370e62bd76d8c1d051fcc6447b16a59d6347ee19a1fe0dc1b0d6063",
+        "test.py": "1be18715a09f8d4becb8f3d6c2b515683fb9803c5ebc6c519db12663b68531c8"
+      },
+      "tool": "first_purchase_bonus_notice",
+      "version": 3
+    },
+    {
+      "forged_at": 1795608477,
+      "official_selftest_passed": true,
+      "own_forge_response_sha256": "89b8022f6e8af918c435a514a8b96b0a9dd2c9129da1de713f682b61096b7531",
+      "source_sha256": {
+        "forge.json": "e8b62e2fe17dccbbe2ae39ecfff557806a648f96bc1be27441e77aa6c864385b",
+        "logic.py": "7932970c8d0b8cd6153afb102308865213c6c9f93bca0898ec15c761a48e0002",
+        "permission.yml": "9e2b8004b1c63333dbb8b025bc26f29a900145a33160f22c2258ed4b76417cc7",
+        "test.py": "138d97441a6618e46f9e30908410e7f43c4b7340382f90f60e98183b43194664"
+      },
+      "tool": "first_purchase_bonus_notice",
+      "version": 4
+    },
+    {
+      "forged_at": 1795608972,
+      "official_selftest_passed": true,
+      "own_forge_response_sha256": "74f99881c36bbdb930d8226d6f2fc580c243057f038879040eab083d13ca2760",
+      "source_sha256": {
+        "forge.json": "ec1fe6ebff64cf15f0a10021a99884469997769ab4e07f62ab9e93f3940f3b6f",
+        "logic.py": "0586cfca63a5dfaa2b46d80fb82ac046bab28b59af611b17708d2c192c800dd6",
+        "permission.yml": "2ee7948b252f65d2cc420d010fda00952ce65a959e95287f15f4321cc86a508c",
+        "test.py": "1252f4026658567da3ff78d17b042ba584e8cfe343d13186eb4a7c4d87682e7b"
+      },
+      "tool": "first_purchase_bonus_notice",
+      "version": 5
+    }
+  ]
+}

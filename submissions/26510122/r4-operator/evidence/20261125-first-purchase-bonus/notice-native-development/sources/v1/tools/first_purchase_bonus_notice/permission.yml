@@ -1,0 +1,10 @@
+name: first_purchase_bonus_notice
+description: 첫 구매 보너스 공지. 입력은 {mode: preview|dispatch|reconcile}만 허용한다. preview는 읽기 전용이다. dispatch는 검토된 운영 소스에 고정된 한 건의 승인만 사용한다. reconcile은 공유 원장의 공지 시도를 공개 포럼에서 확인한다. 격리 개발에서는 모든 실호출이 비활성화되어 있다.
+permission:
+  network: [market.ourolabs.ai]
+  write: [state/r4-benefits]
+  identity: [shop]
+  timeout: 40
+logic: logic.py
+test: test.py
+version: 1

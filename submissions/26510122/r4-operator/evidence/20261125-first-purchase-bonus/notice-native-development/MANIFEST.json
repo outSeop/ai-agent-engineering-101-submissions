@@ -1,0 +1,30 @@
+{
+  "file_sha256": {
+    "README.md": "e91a10893493cdb8ed1271a41f285c2d97bd76e2127f8fb373525524c3b12f0a",
+    "derived-provenance.json": "e09e53bf53ca21153de5349f52cac5e1558d5cb650e96fd1981e61db32095941",
+    "official-forge-events-safe.jsonl": "b4f4034772f5fa908dcc1bac8f31335e5540085e2954dfccd6c5272ffaeb6dde",
+    "official-forge-events.original.jsonl": "011e33cc8d4dff01a9a9e8a825e93857bf2642b93628cbed330d2ee82932e623",
+    "safe-test-summary.json": "001f9ca53074e4395d04f07eef3b52bc270cbf152c3d95179c82dbd8828e1fb1",
+    "sources/v1/tools/first_purchase_bonus_notice/forge.json": "00ab54385e84e0e4f73ad80365b98b97ab6f2ac9a72838c1e30c23820732d7e4",
+    "sources/v1/tools/first_purchase_bonus_notice/logic.py": "dba1fc7efb6fce961347b31961584daa070cbeb59597536be23fb77550808086",
+    "sources/v1/tools/first_purchase_bonus_notice/permission.yml": "dd3488bbb5f45ec2b01fe7117cf484d6eeccf66cd7fe215a400521754d1d532c",
+    "sources/v1/tools/first_purchase_bonus_notice/test.py": "c0bdd44dff56090f70feef9f0a816abd157b37187bf9614654df5d5caaacc21b",
+    "sources/v2/tools/first_purchase_bonus_notice/forge.json": "121e302e7efdd4929557700a676abe8d2a89f0ff042fdd1c4a13f489d39c76d1",
+    "sources/v2/tools/first_purchase_bonus_notice/logic.py": "dd537799eeb4419a1dc9ae84c677338e1351180e5b2578346dc9e517f6bffa7e",
+    "sources/v2/tools/first_purchase_bonus_notice/permission.yml": "01a515da8700818788ed015eb2d6ce954c2849b075ffc2b00866461993745f4f",
+    "sources/v2/tools/first_purchase_bonus_notice/test.py": "bf46a2fd94a0c871fb59dc7d523c9cd7cdf8e99a0361c31c4e0fd22798bdb767",
+    "sources/v3/tools/first_purchase_bonus_notice/forge.json": "a51870eea3f76d27d634da1007e792857a51d0b07dde72fc3a4ed895206698f1",
+    "sources/v3/tools/first_purchase_bonus_notice/logic.py": "0da2f87328d3d9ea0cbfb70e293d0cc3e685a12ca47cdb2d13e694f06add9f78",
+    "sources/v3/tools/first_purchase_bonus_notice/permission.yml": "3f5badea8370e62bd76d8c1d051fcc6447b16a59d6347ee19a1fe0dc1b0d6063",
+    "sources/v3/tools/first_purchase_bonus_notice/test.py": "1be18715a09f8d4becb8f3d6c2b515683fb9803c5ebc6c519db12663b68531c8",
+    "sources/v4/tools/first_purchase_bonus_notice/forge.json": "e8b62e2fe17dccbbe2ae39ecfff557806a648f96bc1be27441e77aa6c864385b",
+    "sources/v4/tools/first_purchase_bonus_notice/logic.py": "7932970c8d0b8cd6153afb102308865213c6c9f93bca0898ec15c761a48e0002",
+    "sources/v4/tools/first_purchase_bonus_notice/permission.yml": "9e2b8004b1c63333dbb8b025bc26f29a900145a33160f22c2258ed4b76417cc7",
+    "sources/v4/tools/first_purchase_bonus_notice/test.py": "138d97441a6618e46f9e30908410e7f43c4b7340382f90f60e98183b43194664",
+    "sources/v5/tools/first_purchase_bonus_notice/forge.json": "ec1fe6ebff64cf15f0a10021a99884469997769ab4e07f62ab9e93f3940f3b6f",
+    "sources/v5/tools/first_purchase_bonus_notice/logic.py": "0586cfca63a5dfaa2b46d80fb82ac046bab28b59af611b17708d2c192c800dd6",
+    "sources/v5/tools/first_purchase_bonus_notice/permission.yml": "2ee7948b252f65d2cc420d010fda00952ce65a959e95287f15f4321cc86a508c",
+    "sources/v5/tools/first_purchase_bonus_notice/test.py": "1252f4026658567da3ff78d17b042ba584e8cfe343d13186eb4a7c4d87682e7b"
+  },
+  "versions": 5
+}

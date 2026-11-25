@@ -1,0 +1,12 @@
+name: first_purchase_bonus_notice
+description: R4 첫 구매 보너스 공지. 입력은 {mode: preview|dispatch}만 허용한다. preview는 승인 제안 fingerprint, 공지 본문과 게시 가능 상태를 반환한다. dispatch는 운영자 승인 스냅샷과 공유 원장의 게시 조건을 검증한다. 불확실한 게시 시도는 기존 forum_reconcile로 확인한다.
+permission:
+  network: [market.ourolabs.ai]
+  write: [state/r4-benefits]
+  identity: [shop]
+  pay_limit: 0
+  timeout: 40
+logic: logic.py
+test: test.py
+version: 2
+replaces: first_purchase_bonus_notice@1

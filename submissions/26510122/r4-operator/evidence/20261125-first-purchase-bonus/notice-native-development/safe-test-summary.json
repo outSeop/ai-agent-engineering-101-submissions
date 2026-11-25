@@ -1,0 +1,21 @@
+{
+  "actual_production_publication_evidence_is_separate": true,
+  "development_observations": {
+    "v1": "Forum list and preserved shop identity did not match the prototype fixture.",
+    "v2": "Actual author/text and market rows and the full zero-settlement ledger were rejected.",
+    "v3": "Native protocol and shared-journal QA passed. The seven-day wording used issuance rather than settlement.",
+    "v4": "Expiry wording fixed. Ordinary SDK preview rejected public forum null score.",
+    "v5": "Allows null score without changing cooldown, approval, rendering or journal logic."
+  },
+  "host_boundary": {
+    "network_calls": 0,
+    "passed": 5,
+    "publication_attempts": 0,
+    "tests": 5,
+    "tests_scope": "public Card approval normalization and one-attempt operator guard"
+  },
+  "native_official_forge": {
+    "failed_attempts": 1,
+    "successful_versions": 5
+  }
+}

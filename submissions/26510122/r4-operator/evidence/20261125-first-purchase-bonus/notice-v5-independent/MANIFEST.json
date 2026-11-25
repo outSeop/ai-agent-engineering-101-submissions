@@ -1,0 +1,19 @@
+{
+  "sha256": {
+    "safe-result.json": "af2aadba082b61a1daea7a0252d9b22dc82ecf10b362707f35fa13c7082bdcbb",
+    "qa_first_purchase_bonus_notice_v5_narrow.py": "564b041c084b1443c14cb5d63c4b618997714cd3a90901cd0e86a6764fb4ddc3",
+    "qa_first_purchase_bonus_notice_v3.py": "35e74d4dc51febcabe5e98c992285592f88bd18564f9560c01c6497aa91b88d0",
+    "first_purchase_bonus_qa_support.py": "76872917b0f883fb0c6ea44ec629236bd88b154440868fef07d21b05c4cc5f16",
+    "initial-setup-summary.json": "f112e644c3e8e203ab65cf1b4c2763d1bdd0f505437144724ae080695b5b2c02",
+    "source-authenticity.json": "89e43a5f29804be029166b058294d34d434bdf6e7e87e5bbbb7e81ce884a97d6",
+    "README.md": "4602b98430e7e90cc50ed50b1a960eafc0b399b049c65dcbe8f37c5d01d0fb80"
+  },
+  "scan": {
+    "actual_credentials": 4,
+    "exact_matches": 0,
+    "PEM_API_JWT_matches": 0,
+    "exceptions": 0
+  },
+  "original_host_sources_byte_identical": true,
+  "private_raw_material_exported": false
+}
