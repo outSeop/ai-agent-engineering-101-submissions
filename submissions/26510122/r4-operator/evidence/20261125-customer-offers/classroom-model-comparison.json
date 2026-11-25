@@ -1,0 +1,226 @@
+{
+  "scope": "Actual classroom-model calls on synthetic local customer events; no real customer contact or checkout",
+  "question": "지금 살 수 있는 식품을 찾아 주세요. 등급, 상품가와 남은 유통시간을 같이 알려 주세요. 아직 구매하지 않을게요.",
+  "baseline": {
+    "representative_candidates": 67,
+    "observation_at": 1795576852,
+    "cache_lifetime_seconds": 150,
+    "status": "no_safe_public_reply",
+    "model_tool_calls": 5,
+    "tool_calls": [
+      {
+        "tool": "read_customer_offers",
+        "op": "context"
+      },
+      {
+        "tool": "read_customer_offers",
+        "op": "next"
+      },
+      {
+        "tool": "read_customer_offers",
+        "op": "next"
+      },
+      {
+        "tool": "read_customer_offers",
+        "op": "next"
+      },
+      {
+        "tool": "read_customer_offers",
+        "op": "next"
+      }
+    ],
+    "public_reply_completed": false,
+    "seconds_observation_to_reply": null,
+    "seconds_observation_to_run_end": 183.58,
+    "timeout_message_seen": true,
+    "actions": [
+      {
+        "action": "read_customer_offers",
+        "seconds_from_observation": 25
+      },
+      {
+        "action": "read_customer_offers",
+        "seconds_from_observation": 37
+      },
+      {
+        "action": "read_customer_offers",
+        "seconds_from_observation": 49
+      },
+      {
+        "action": "read_customer_offers",
+        "seconds_from_observation": 84
+      },
+      {
+        "action": "read_customer_offers",
+        "seconds_from_observation": 117
+      }
+    ],
+    "summary": {
+      "status": "no_safe_public_reply",
+      "question": "지금 살 수 있는 식품을 찾아 주세요. 등급, 상품가와 남은 유통시간을 같이 알려 주세요. 아직 구매하지 않을게요.",
+      "tool_calls": [
+        {
+          "tool": "read_customer_offers",
+          "op": "context"
+        },
+        {
+          "tool": "read_customer_offers",
+          "op": "next"
+        },
+        {
+          "tool": "read_customer_offers",
+          "op": "next"
+        },
+        {
+          "tool": "read_customer_offers",
+          "op": "next"
+        },
+        {
+          "tool": "read_customer_offers",
+          "op": "next"
+        }
+      ],
+      "coverage": "legacy representative SKU/grade offers, not physical stock census",
+      "pricing_source": "pinned externally authored legacy stock_offers",
+      "actual_customers_contacted": false,
+      "checkout_verified": false,
+      "official_market_model_called": true
+    }
+  },
+  "factored_automatic_pages": {
+    "representative_candidates": 70,
+    "observation_at": 1795577588,
+    "cache_lifetime_seconds": 150,
+    "status": "synthetic_dialogue_complete",
+    "model_tool_calls": 2,
+    "tool_calls": [
+      {
+        "tool": "read_customer_offers",
+        "op": "context",
+        "native_page_count": 7
+      },
+      {
+        "tool": "read_customer_offers",
+        "op": "details"
+      }
+    ],
+    "public_reply_completed": true,
+    "seconds_observation_to_reply": 77,
+    "seconds_observation_to_run_end": 120.165,
+    "timeout_message_seen": false,
+    "actions": [
+      {
+        "action": "read_customer_offers",
+        "seconds_from_observation": 31
+      },
+      {
+        "action": "read_customer_offers",
+        "seconds_from_observation": 55
+      },
+      {
+        "action": "reply",
+        "seconds_from_observation": 77
+      },
+      {
+        "action": "reply",
+        "seconds_from_observation": 93
+      },
+      {
+        "action": "sleep",
+        "seconds_from_observation": 120
+      }
+    ],
+    "summary": {
+      "status": "synthetic_dialogue_complete",
+      "question": "지금 살 수 있는 식품을 찾아 주세요. 등급, 상품가와 남은 유통시간을 같이 알려 주세요. 아직 구매하지 않을게요.",
+      "tool_calls": [
+        {
+          "tool": "read_customer_offers",
+          "op": "context",
+          "native_page_count": 7
+        },
+        {
+          "tool": "read_customer_offers",
+          "op": "details"
+        }
+      ],
+      "selected_public_products": [
+        {
+          "sku": "Gbea6b9f6",
+          "name": "천일식품 햄야채볶음밥 300g",
+          "category_path": [
+            "식품",
+            "김치/반찬/즉석요리",
+            "즉석조리식품"
+          ],
+          "state": "available",
+          "grade": "C",
+          "price_credits": 1062,
+          "expires_at": 1795592577,
+          "remaining_seconds": 14959,
+          "as_of": 1795577618
+        },
+        {
+          "sku": "G6c24c16f",
+          "name": "[해다원] 깔끔손질 제주산 고등어 필렛 10팩 특특대(200g이상)",
+          "category_path": [
+            "식품",
+            "해산물",
+            "신선생선"
+          ],
+          "state": "available",
+          "grade": "C",
+          "price_credits": 14920,
+          "expires_at": 1795610602,
+          "remaining_seconds": 32984,
+          "as_of": 1795577618
+        },
+        {
+          "sku": "G9d1f4ee4",
+          "name": "[다신샵] 저당 크림치즈 바스크 치즈케이크 2종 3팩 / 글루텐프리 초코케이크",
+          "category_path": [
+            "식품",
+            "빵/제과",
+            "케이크/파이"
+          ],
+          "state": "available",
+          "grade": "C",
+          "price_credits": 5279,
+          "expires_at": 1795635943,
+          "remaining_seconds": 58325,
+          "as_of": 1795577618
+        },
+        {
+          "sku": "G180066f2",
+          "name": "[마녀바스켓] 군산 엄마손 칼국수 3인세트(면3팩+소스동봉)",
+          "category_path": [
+            "식품",
+            "기타 가공식품",
+            "국수/파스타/누들"
+          ],
+          "state": "available",
+          "grade": "C",
+          "price_credits": 3473,
+          "expires_at": 1795978149,
+          "remaining_seconds": 400531,
+          "as_of": 1795577618
+        }
+      ],
+      "public_reply": "현재 공개 재고에서 확인된 식품은 다음과 같습니다(관측 시점 기준, 구매·예약 아님).\n\n- 천일식품 햄야채볶음밥 300g — C등급, 1,062크레딧, 남은 유통시간 약 4시간 9분\n- [해다원] 깔끔손질 제주산 고등어 필렛 10팩 특특대(200g이상) — C등급, 14,920크레딧, 약 9시간 9분\n- [다신샵] 저당 크림치즈 바스크 치즈케이크 2종 3팩 / 글루텐프리 초코케이크 — C등급, 5,279크레딧, 약 16시간 12분\n- [마녀바스켓] 군산 엄마손 칼국수 3인세트(면3팩+소스동봉) — C등급, 3,473크레딧, 약 111시간 15분\n\n구매나 계약은 진행하지 않았습니다.",
+      "coverage": "legacy representative SKU/grade offers, not physical stock census",
+      "pricing_source": "pinned externally authored legacy stock_offers",
+      "actual_customers_contacted": false,
+      "checkout_verified": false,
+      "experiment": "automatic native pages / factored compact table",
+      "official_market_model_called": true
+    }
+  },
+  "comparison_limits": [
+    "One run per method, not simultaneous or randomized",
+    "67 versus 70 representative offers; inventory changed between samples",
+    "Baseline ended without reply and a model timeout message; pagination alone is not proven the cause",
+    "No real sales, conversion uplift or completed checkout is established"
+  ],
+  "adopted_for_production_customer_endpoint": false,
+  "raw_model_thoughts_exported": false
+}

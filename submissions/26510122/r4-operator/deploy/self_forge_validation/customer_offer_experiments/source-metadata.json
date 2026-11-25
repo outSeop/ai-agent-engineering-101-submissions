@@ -1,0 +1,52 @@
+{
+  "host_authorship": "external Codex verification infrastructure",
+  "tool_forge_bundle_sha256": {
+    "forge.json": "382e5bdc47a90ea3928bf7019d07c9682bae87933d20ac08f6e9cdefa1aa9559",
+    "logic.py": "a122aed15c9462dfb6ed2c77665e6fbb82de7720633adb03ccf0ec7b1b4e45ff",
+    "permission.yml": "610de64698b425af551a44488d195d3e7b231ef193866adde446f6e0b9580055",
+    "test.py": "b35de2a9a624c7ac63f882584f7af35943c548fe1c77cbd5b8e366a4804a9518"
+  },
+  "adapter_copy_changes": {
+    "canary": "added explicit --sources, no behavioral defaults changed",
+    "tests": "use published exact source bundle; public capacity tests use synthetic rows"
+  },
+  "private_stage_host_original_sha256": {
+    "customer_offer_auto_pages.py": "d09ab901cec51248dc24d3aa6f065f305fecf05050455406b54b40452b290ad4",
+    "customer_offer_auto_pages_canary.py": "f061edea0b0f17957a7a637880b6c670d788c2cb8d5d65d6f5fb394f7e26c8d2",
+    "customer_offer_auto_pages_factored_canary.py": "46d3616e3523deffcb2bafbad21dad48449d2869b919b93c2c9b57a2364b9c5f",
+    "customer_offer_auto_pages_factored_candidate.py": "257816f6f6c98443eb2292d96fc228901d5b50f54c5ccded985867c968e0430d",
+    "customer_offer_auto_pages_indexed.py": "febf020958d56e77aa46b348e264871075fe8417e9cc0a7c019557a93a359c0d",
+    "customer_offer_auto_pages_indexed_canary.py": "fc397a5f4417b2b9d2649ce5cd93bfab69bed4c4fcfa48c869bbb107bafe3c68",
+    "customer_offer_auto_pages_indexed_candidate.py": "ee9a2a45a29a674bd1a8091652b35dca2de3579507a455cbc1749b4392e00df9",
+    "customer_offer_factored_table.py": "3219cf63d7fff5fb85d336157309f530e0260f19eb8f6f8002b5e06d66058708",
+    "customer_offer_mind_canary.py": "9e4f758500787cc15a1f379b0c246bd732a635e42632f8901641fae9b75f9251",
+    "test_customer_offer_auto_pages.py": "724c38c8f8f99b0d806dce97d0ee1f83cddfb44992824e3f943f15eaa45aec0a",
+    "test_customer_offer_factored_table.py": "0e2520f182f9d7066523ca4079c017eeeddab350499df57b342d26b9d6e31c67",
+    "test_customer_offer_indexed_table.py": "64c942b8a0501694ff071e30c3c9788418c44f5299ed29097d03037ffae9d5df",
+    "test_customer_offer_mind_canary.py": "c56c113e96524422159da68b6b1d58ac14a5a51c127862f0e41e8a591c800622"
+  },
+  "packaged_host_sha256": {
+    "customer_offer_auto_pages.py": "d09ab901cec51248dc24d3aa6f065f305fecf05050455406b54b40452b290ad4",
+    "customer_offer_auto_pages_canary.py": "10674b19d1c22952a585a72e198253f33563c269f2668787fc3fb145a3a7d572",
+    "customer_offer_auto_pages_factored_canary.py": "a58e61437592e995660b86b4dccec48bf9db30e67f49718d8e3b33812d2bd9e4",
+    "customer_offer_auto_pages_factored_candidate.py": "257816f6f6c98443eb2292d96fc228901d5b50f54c5ccded985867c968e0430d",
+    "customer_offer_auto_pages_indexed.py": "febf020958d56e77aa46b348e264871075fe8417e9cc0a7c019557a93a359c0d",
+    "customer_offer_auto_pages_indexed_canary.py": "31006b33291b42f0dc18df178c193e707c572310aab5399cffa866c3c0efdcce",
+    "customer_offer_auto_pages_indexed_candidate.py": "ee9a2a45a29a674bd1a8091652b35dca2de3579507a455cbc1749b4392e00df9",
+    "customer_offer_factored_table.py": "3219cf63d7fff5fb85d336157309f530e0260f19eb8f6f8002b5e06d66058708",
+    "customer_offer_mind_canary.py": "ade11341f9981e8a77d8bf7eb5cfb706e1069b377c3b0b9627e3a1b2739f1dd3",
+    "test_customer_offer_auto_pages.py": "8a1206b91abdffc137ade03cd29054ab312787e052c024cf674181284daffe86",
+    "test_customer_offer_factored_table.py": "4c25b42629b353af607ac15226617fc59dbb12976f24766df2c9f5898fc71c40",
+    "test_customer_offer_indexed_table.py": "d7eccbeea368b8ec5b3eeed33ca328208987f2d3d98da42fdf40e31ebf5e88e7",
+    "test_customer_offer_mind_canary.py": "34397bd4f04b12f10fa198b1a8f05645d823ec165c6c4c81e846b4219f5865aa"
+  },
+  "observations": {
+    "baseline": "five native page calls, inference timeout, no reply",
+    "initial_compact": "67 rows exceed budget",
+    "indexed_sample_chars": 5470,
+    "indexed_sample_rows": 67,
+    "factored_sample_chars": 5349,
+    "factored_sample_rows": 70,
+    "actual_factored": "one paired synthetic dialogue, 7 native pages / 1 context / 1 details"
+  }
+}

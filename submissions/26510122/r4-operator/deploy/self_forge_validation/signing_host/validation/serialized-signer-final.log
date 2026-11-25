@@ -1,0 +1,17 @@
+test_different_wallets_can_pay_concurrently (__main__.SerializedSignerQA.test_different_wallets_can_pay_concurrently) ... ok
+test_exception_releases_address_lock_and_original_sent_order (__main__.SerializedSignerQA.test_exception_releases_address_lock_and_original_sent_order) ... ok
+test_factory_does_not_modify_official_class_or_install_it (__main__.SerializedSignerQA.test_factory_does_not_modify_official_class_or_install_it) ... ok
+test_original_capability_role_operation_and_limit_checks_remain (__main__.SerializedSignerQA.test_original_capability_role_operation_and_limit_checks_remain) ... ok
+test_original_inflight_revoke_sent_timing_limit_is_preserved (__main__.SerializedSignerQA.test_original_inflight_revoke_sent_timing_limit_is_preserved) ... ok
+test_repeated_factory_selection_cannot_double_lock (__main__.SerializedSignerQA.test_repeated_factory_selection_cannot_double_lock) ... ok
+test_same_address_case_variants_share_lock (__main__.SerializedSignerQA.test_same_address_case_variants_share_lock) ... ok
+test_same_address_different_roles_share_lock (__main__.SerializedSignerQA.test_same_address_different_roles_share_lock) ... ok
+test_same_wallet_http_maximum_inflight_one (__main__.SerializedSignerQA.test_same_wallet_http_maximum_inflight_one) ... ok
+test_sign_and_sign_jwt_unchanged_and_not_blocked_by_pay (__main__.SerializedSignerQA.test_sign_and_sign_jwt_unchanged_and_not_blocked_by_pay) ... ok
+test_waiting_expired_capability_cannot_pay (__main__.SerializedSignerQA.test_waiting_expired_capability_cannot_pay) ... ok
+test_waiting_revoked_capability_cannot_pay (__main__.SerializedSignerQA.test_waiting_revoked_capability_cannot_pay) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 5.629s
+
+OK

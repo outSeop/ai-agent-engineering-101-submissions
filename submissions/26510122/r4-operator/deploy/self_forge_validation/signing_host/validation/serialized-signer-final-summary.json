@@ -1,0 +1,17 @@
+{
+  "tests": 12,
+  "failures": 0,
+  "errors": 0,
+  "failed_tests": [],
+  "module_sha256": "07d2eeb0f4e4d3f635035928135fc978120e93450695f27a4b94f2bfcc40e7f8",
+  "test_sha256": "e6ababe4a840c1552eba82e6751405f5ecb4fa719f291f0c8263b78a5b1f5e6e",
+  "ephemeral_keys_only": true,
+  "mocked_maroo_pay_only": true,
+  "localhost_http_only": true,
+  "manually_set_testing_flags": false,
+  "real_key_files_read": false,
+  "production_db_read": false,
+  "original_sdk_files_unchanged": true,
+  "installed_live": false,
+  "durable_send_recovery_implemented": false
+}

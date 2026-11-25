@@ -1,0 +1,42 @@
+{
+  "artifact_kind": "External host infrastructure and test publication, not active-agent business-tool generation",
+  "original_12_test_result_hash_bound": true,
+  "official_sdk_current_source_matches_recorded": [
+    {
+      "name": "LICENSE",
+      "current_bytes_match_recorded_sha256": true
+    },
+    {
+      "name": "agent_kit.py",
+      "current_bytes_match_recorded_sha256": true
+    },
+    {
+      "name": "cli_model.py",
+      "current_bytes_match_recorded_sha256": true
+    },
+    {
+      "name": "forge_runner.py",
+      "current_bytes_match_recorded_sha256": true
+    },
+    {
+      "name": "market_kit.py",
+      "current_bytes_match_recorded_sha256": true
+    },
+    {
+      "name": "maroo.py",
+      "current_bytes_match_recorded_sha256": true
+    },
+    {
+      "name": "miniapp.py",
+      "current_bytes_match_recorded_sha256": true
+    }
+  ],
+  "publication_task_reran_mock_wallet_operations": false,
+  "portable_adapter_prepared": true,
+  "portable_adapter_runtime_tested_this_task": false,
+  "live_launcher_installed": false,
+  "real_wallet_or_chain_calls": 0,
+  "production_DB_read_or_changed": false,
+  "credential_file_reads_only_for_separate_publication_scan": true,
+  "durable_intent_and_unknown_send_recovery_business_tools_completed": false
+}

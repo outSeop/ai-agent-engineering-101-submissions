@@ -1,0 +1,109 @@
+{
+  "artifact_kind": "host_security_infrastructure_only",
+  "module": "serialized_signer.py",
+  "factory": "serialized_signer_class(official.Signer)",
+  "module_sha256": "07d2eeb0f4e4d3f635035928135fc978120e93450695f27a4b94f2bfcc40e7f8",
+  "test_sha256": "e6ababe4a840c1552eba82e6751405f5ecb4fa719f291f0c8263b78a5b1f5e6e",
+  "final_test_summary": {
+    "tests": 12,
+    "failures": 0,
+    "errors": 0,
+    "failed_tests": [],
+    "module_sha256": "07d2eeb0f4e4d3f635035928135fc978120e93450695f27a4b94f2bfcc40e7f8",
+    "test_sha256": "e6ababe4a840c1552eba82e6751405f5ecb4fa719f291f0c8263b78a5b1f5e6e",
+    "ephemeral_keys_only": true,
+    "mocked_maroo_pay_only": true,
+    "localhost_http_only": true,
+    "manually_set_testing_flags": false,
+    "real_key_files_read": false,
+    "production_db_read": false,
+    "original_sdk_files_unchanged": true,
+    "installed_live": false,
+    "durable_send_recovery_implemented": false
+  },
+  "authority_contract": {
+    "key_material": "Never loads or serializes keys; reads existing wallet.address only. Official original Signer retains its existing keys.",
+    "lock_key": "Actual wallet address normalized lowercase, process-wide registry; role name is not the lock key.",
+    "scope": "Original do(pay) entire execution, including authorization, nonce/broadcast/receipt wait, sent append and logging.",
+    "validation_order": "Acquire address lock, then call unchanged super().do so capability validity/expiry/revocation, operation, role and amount limit are checked at execution time.",
+    "non_pay_operations": "sign and sign_jwt directly call original do without the pay lock.",
+    "payload_stability": "Copy primitive payment request fields before waiting; keep main role-wallet map stable.",
+    "exceptions": "Context manager releases lock for exceptions; original SDK exception/result semantics remain.",
+    "repeated_factory_selection": "Idempotent; already-adapted class is returned without nesting the same nonreentrant lock.",
+    "default": "Usable by a future real main signer; no test-only bypass or automatic installation."
+  },
+  "future_loader_injection": {
+    "file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/round-4/codex-r4/managed_launcher.py",
+    "source_sha256": "32cc7851a3c7e562ec016462063b09df63f101ba46983faab423756da0dbac6a",
+    "locations": {
+      "install": {
+        "line": 32,
+        "end": 36
+      },
+      "main": {
+        "line": 39,
+        "end": 91
+      },
+      "install_call_line": 61,
+      "official_cmd_run_call_line": 89
+    },
+    "location": "Pure host install(official) hook, after verify_kit and import of official agent_kit, before original official.cmd_run constructs the only shared Signer.",
+    "class_selection_only": "official.Signer = serialized_signer_class(official.Signer)",
+    "shared_instance": "Keep the one original cmd_run-created ctx[signer] instance for stock and future refund Toolbox calls; never create a second refund signer or load keys from this module.",
+    "model_context": "Inference-token-only context stays separate from tool context; this adapter does not expose or replace Model context.",
+    "installed_this_task": false
+  },
+  "preserved_limits": [
+    "Process-local locks do not coordinate another process or another non-adapted signer.",
+    "A capability revoked after original do has already authorized an in-flight payment cannot cancel that payment.",
+    "Original sent list is appended only after maroo.pay returns; revoke while in flight can return an empty sent list despite a later successful/mock broadcast.",
+    "Timeout/broadcast uncertainty is not resolved by this lock. Durable pre-send intent, nonce/chain anchor, unknown state and no-resend recovery still belong to business tools.",
+    "No refund policy, send tool, price logic or receipt publisher is implemented."
+  ],
+  "original_sdk_files": [
+    {
+      "name": "LICENSE",
+      "sha256": "1d3d88f12b97e582378489859b15d81221931930f2e20afc7de82aae416cdbc3",
+      "matches_original_upstream_blob": true
+    },
+    {
+      "name": "agent_kit.py",
+      "sha256": "38fb94c22187db7b40e16a56a1fd2ffadbb94e15f2e28307d5ba04eeb4144f8a",
+      "matches_original_upstream_blob": true
+    },
+    {
+      "name": "cli_model.py",
+      "sha256": "16de5e99404dd0513b83aa6797bf9b06b4fd5e959acde3654be281c2af4eb7a2",
+      "matches_original_upstream_blob": true
+    },
+    {
+      "name": "forge_runner.py",
+      "sha256": "004aa4bc7ce08bc7ff940ff3e914ab8b9edb64b00ef23b309f8f4043707b99b7",
+      "matches_original_upstream_blob": true
+    },
+    {
+      "name": "market_kit.py",
+      "sha256": "92adb4bf8c6f303f20306018c644552d8299a93fc066dad2a4f4fb3154a78f3f",
+      "matches_original_upstream_blob": true
+    },
+    {
+      "name": "maroo.py",
+      "sha256": "973a1065d9f5b03d247b2b152424dd6d7f2ce18758ecf4603bf7bcde45862302",
+      "matches_original_upstream_blob": true
+    },
+    {
+      "name": "miniapp.py",
+      "sha256": "7d0838a8dc647a201bb353a63658ecb0e268415d1d15ab1965c8835d0e3f6868",
+      "matches_original_upstream_blob": true
+    }
+  ],
+  "scope": {
+    "live_installed": false,
+    "main_launcher_changed": false,
+    "production_keys_read": false,
+    "production_db_read": false,
+    "real_wallet_transfers": 0,
+    "network": "localhost HTTP only in tests",
+    "manual_testing_flag_spoof": false
+  }
+}

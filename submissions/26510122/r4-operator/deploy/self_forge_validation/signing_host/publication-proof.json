@@ -1,0 +1,34 @@
+{
+  "artifact_kind": "external_host_security_infrastructure_only",
+  "generated_business_tool": false,
+  "original_module_and_tests_byte_identical": true,
+  "recorded_mock_tests": 12,
+  "recorded_failures": 0,
+  "recorded_errors": 0,
+  "publication_task_reran_wallet_mock_tests": false,
+  "portable_adapter_runtime_replay_claim": false,
+  "exact_credential_files_compared": 4,
+  "prefix_variants_checked": true,
+  "secret_values_or_hashes_exported": false,
+  "pattern_classes": [
+    "jwt",
+    "api_key",
+    "credential_assignment"
+  ],
+  "precopy_matches": 0,
+  "postcopy_matches": 0,
+  "production_launcher_installed": false,
+  "real_wallet_or_chain_calls": 0,
+  "production_DB_read_or_changed": false,
+  "durable_send_intent_and_unknown_send_recovery_business_tools_completed": false,
+  "files": {
+    "serialized_signer.py": "07d2eeb0f4e4d3f635035928135fc978120e93450695f27a4b94f2bfcc40e7f8",
+    "test_serialized_signer.py": "e6ababe4a840c1552eba82e6751405f5ecb4fa719f291f0c8263b78a5b1f5e6e",
+    "run_portable.py": "2dc5aff810a8bd916d0adbf3381f7a16e3ad133bb7b0b8e34187a95d2a661037",
+    "validation/serialized-signer-final.log": "805c860da103cdcf24932d40a7600d52844ddd69b66def533bd0c58a68fda182",
+    "validation/serialized-signer-final-summary.json": "10bf80259307d3fb58bd441a1dd5baf270774f37b1c0886f377407d466d7006a",
+    "validation/serialized-signer-loader-metadata.json": "996422bfc062b51e163fbb8e9c914818c8a49531f3255889d85e48e8522c015e",
+    "validation/signing-host-publication-audit.json": "06a32de81f08dad0f7411d35102b03876b45b250c6c9208f8f253c1eeffe3fab",
+    "README.md": "0b77c650385013d55860daa5054704cd6bb04eaa430a2f4a355deaf14edb8c8f"
+  }
+}
