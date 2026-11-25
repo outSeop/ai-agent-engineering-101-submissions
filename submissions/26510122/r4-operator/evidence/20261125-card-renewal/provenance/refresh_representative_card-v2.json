@@ -1,0 +1,22 @@
+{
+  "tool": "refresh_representative_card",
+  "version": 2,
+  "files_sha256": {
+    "logic.py": "7199f31b471ac97275b94e167ba5ec2c7c7aa11bcc8c57a92e128426158dcd53",
+    "test.py": "f484dca623974d311733534fe61d2f2eaf054d15825e396f6340453e5aafb600",
+    "permission.yml": "e565fd689178e4ef0e46b89d36c6d2e0028704d15741a69a6174126a118a2b87",
+    "forge.json": "fca0551308abc66c42ea06893459e30b8f1fc9b3cf3800d957e8a340639f16a7"
+  },
+  "actual_generation": {
+    "line_1based": 113,
+    "at": 1795576588.984455,
+    "provider": "codex-cli-gpt-6.2-sol",
+    "requested_model": "gpt-6.2-sol",
+    "upstream_reported_model": null,
+    "response_sha256": "908b2c171201e4c0df8e79f8d7525b684dbd29d059ba72ecbdc4d0b543d82453",
+    "logic_test_exact_matches": true
+  },
+  "official_selftest_passed": true,
+  "raw_private_messages_exported": false,
+  "author": "Actual official R4 Mind with requested development model; externally authored host adapters are separate."
+}
