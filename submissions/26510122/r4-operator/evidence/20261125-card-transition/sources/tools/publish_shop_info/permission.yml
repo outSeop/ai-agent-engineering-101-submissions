@@ -1,0 +1,9 @@
+name: publish_shop_info
+description: 기존 주기 유지보수 호출용 카드 게시 인계 가드. 인자는 판정에 사용하지 않는다. 호스트가 보호한 최신 소유권 파일과 완료된 native 게시 기록 및 현재 카드 바이트가 일치하면 status=skipped, 필수 파일·잠금·신선도가 충족되지 않으면 waiting, 해시나 소유권이 충돌하면 conflict를 반환한다. 운영 파일을 읽기만 하며 호스트는 실제 native 적용 이후 이 도구를 운영 경로에 연결한다.
+permission:
+  write: [card_handoff_selftest]
+  pay_limit: 0
+  timeout: 10
+logic: logic.py
+test: test.py
+version: 1
