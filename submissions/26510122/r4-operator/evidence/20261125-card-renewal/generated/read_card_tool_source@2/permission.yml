@@ -1,0 +1,9 @@
+name: read_card_tool_source
+description: 지정된 카드 도구의 logic.py 또는 test.py를 SHA256과 함께 최대 2,000문자씩 반환한다. args는 {name, file, offset}이다. 보관 버전은 apply_staged_card@1만 허용하며 두 파일의 고정 SHA256을 검사한다.
+permission:
+  pay_limit: 0
+  timeout: 15
+logic: logic.py
+test: test.py
+version: 2
+replaces: read_card_tool_source@1
