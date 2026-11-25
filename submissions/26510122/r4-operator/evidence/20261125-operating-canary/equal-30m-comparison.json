@@ -19,8 +19,14 @@
   "separate_operator_probes": 0,
   "distinct_buyers_verified": false,
   "forum_attribution_verified": false,
-  "quoted_sku_equals_advertised_sku": false,
+  "quoted_sku_equals_advertised_sku": null,
   "concurrent_procurement_changed": true,
   "causal_claim": false,
-  "no_financial_balances_or_customer_data": true
+  "no_financial_balances_or_customer_data": true,
+  "attribution_correction": {
+    "latest_request": "shop_context → respond → public_text_only",
+    "quote_belongs_to_earlier_request": true,
+    "latest_request_sku_known": false,
+    "earlier_quote_operator_verified": false
+  }
 }
