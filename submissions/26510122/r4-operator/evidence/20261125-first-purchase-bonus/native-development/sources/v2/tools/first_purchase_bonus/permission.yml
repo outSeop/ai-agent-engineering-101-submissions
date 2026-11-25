@@ -1,0 +1,10 @@
+name: first_purchase_bonus
+description: Background-only offline candidate. Accepts {} or a single nonempty string sale_id. The trusted worker submits sale IDs in committed settled_and_earned append order after finalize_sale commits. The future operator supplies state/r4-benefits/first-purchase-bonus-policy.json with exactly enabled, id, start, end, and lifetime_budget. Uses the existing fixed SQLite database. Returns a status and, on a grant, only the bonus credits. Never reads customer or model claims as evidence.
+permission:
+  write: [state/r4-benefits]
+  pay_limit: 0
+  timeout: 30
+logic: logic.py
+test: test.py
+version: 2
+replaces: first_purchase_bonus@1

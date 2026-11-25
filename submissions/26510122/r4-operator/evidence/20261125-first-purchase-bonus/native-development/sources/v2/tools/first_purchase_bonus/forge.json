@@ -1,0 +1,11 @@
+{
+ "tool": "first_purchase_bonus",
+ "version": 2,
+ "forged_at": 1795604389,
+ "kit": "v5.1",
+ "sha256": {
+  "permission.yml": "4a03122f04d864dd2cf6ffef3c7b113e9d4313eaa21d7db7ac9dee521dae9af5",
+  "logic.py": "6c00b7f04600dec2018d7480a29df251783e4fc2a4048787c00346e03f79a320",
+  "test.py": "711d5967314d7d5b76b2a8f097c4722315bf3bff6a5bfa81178cc18cc5daa749"
+ }
+}
