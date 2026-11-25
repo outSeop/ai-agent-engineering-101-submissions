@@ -1,5 +1,5 @@
 {
-  "captured_KST": "2026-11-26T04:43:52.345684+09:00",
+  "captured_KST": "2026-11-26T04:55:41.299980+09:00",
   "original_DB_device_inode_same": true,
   "original_two_wallet_bytes_and_inodes_same": true,
   "pricing_policy_file_unchanged": true,
@@ -18,16 +18,18 @@
   "forum_states": [
     [
       "posted",
-      28
+      29
     ]
   ],
-  "services": "Id=ourolabs-market-r4.service\nActiveState=active\nMainPID=1171183\nNRestarts=0\nMemoryCurrent=107315200\n\nId=ourolabs-market-r4-worker.service\nActiveState=active\nMainPID=1171237\nNRestarts=1\nMemoryCurrent=47108096\n",
+  "services": "Id=ourolabs-market-r4.service\nActiveState=active\nMainPID=1171183\nNRestarts=0\nMemoryCurrent=83341312\n\nId=ourolabs-market-r4-worker.service\nActiveState=active\nMainPID=1171237\nNRestarts=1\nMemoryCurrent=51863552\n",
   "public_card_http": 200,
   "public_name_and_description_match": true,
   "current_url": "https://between-action-saskatchewan-represent.trycloudflare.com",
   "public_registered_wallet_same": true,
-  "cache_ttl_remaining": 143,
   "timers_active": true,
   "active_launcher_sha256": "268f555088a7b8d9b8d05dae330dbbb2abac7ab4d8458b899a391fd3deccf352",
-  "all_Codex_schedules_remain_paused": true
+  "all_Codex_schedules_remain_paused": true,
+  "sale_count": 0,
+  "latest_own_verified_post": 5179,
+  "latest_catalogue_cache_age_seconds": 58.03
 }

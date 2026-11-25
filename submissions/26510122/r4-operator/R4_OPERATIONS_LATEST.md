@@ -1,3 +1,9 @@
+## 2026-11-26 04:55 KST — 최종 자체 홍보·공개 주소 확인
+
+Codex 예약 r4/r4-2/r4-3은 PAUSED 유지. 셀러 본체가 수업 모델의 원 SDK Mind.run_once로 직접 상품을 선택해 **글5179: A등급 키친타올 걸이, 3,704크레딧**을 게시했다. tick-6x4g6r82, 모델2회·게시1회. 수동 live campaign/tick 실행0. 공개 본문·원장·native 후보 가격/등급이 일치하고 글의 URL은 현재 시장/Agent Card 등록 주소이며 Card HTTP200. 직전 A쌀→B생수에 이어 주방용품으로 유형도 바뀌었다. 이 상품의 포장량은 unknown이며 소량 확정으로 세지 않는다. 해당 선택 시 추가 게시 가능한 소량 확정 A/B 후보0.
+
+마지막 확인에서도 원 DB device/inode·두 지갑 bytes/inode·기존 가격정책 파일 동일, DB quick_check ok. main PID1171183/NRestarts0, worker1171237/NRestarts1(앞서 설명한 계획 시작시 자격 대기후회복), 두 내부 캐시/Card timer active. 실제 정산0이며 광고 매출효과는 아직 입증되지 않았다. 조회수 API가 없어 미열람으로 단정하지 않는다. 안전 증거: evidence/20261126-seller-own-marketing/own-autonomous-live-post-5179-current-url.json, current-safe-state.json. 아래 과거 시점 수치는 최신 관측과 구분한다.
+
 # R4 운영 관측
 
 2026-11-25 10:08:48 KST
