@@ -1,0 +1,10 @@
+name: refund_receipt_proof
+description: 기존 장부의 미확정 환불에 저장된 송금 해시를 Maroo의 거래·성공 영수증·현재 정규 블록과 대조한다. args: {sale_id: 기존 판매 행 ID}. 검증 상태만 반환한다. 해시가 없는 사건은 보류한다. 개발 단계에서는 네트워크 권한 없이 가상 장부와 모의 RPC로 검증한다.
+permission:
+  write: [refund_receipt_fixture.sqlite3, refund_receipt_fixture.sqlite3-journal]
+  identity: [shop]
+  pay_limit: 0
+  timeout: 30
+logic: logic.py
+test: test.py
+version: 1

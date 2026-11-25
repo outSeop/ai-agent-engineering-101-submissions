@@ -1,0 +1,10 @@
+name: refund_payment_proof
+description: 기존 판매 장부의 상품대금·시장수수료 원송금을 Maroo 증빙과 대조한다. args: {sale_id: 기존 판매 행 ID}. 상태만 반환한다. 개발 중에는 네트워크 권한 없이 forge의 가상 장부와 모의 RPC로 검증한다.
+permission:
+  write: [refund_payment_fixture.sqlite3, refund_payment_fixture.sqlite3-journal]
+  identity: [shop]
+  pay_limit: 0
+  timeout: 30
+logic: logic.py
+test: test.py
+version: 1

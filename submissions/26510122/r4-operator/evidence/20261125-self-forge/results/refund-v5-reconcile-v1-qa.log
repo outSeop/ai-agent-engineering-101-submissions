@@ -1,0 +1,9 @@
+test_both_reconcile_exact_same_development_attempt (__main__.QA.test_both_reconcile_exact_same_development_attempt) ... ok
+test_legacy_state_refused_without_change (__main__.QA.test_legacy_state_refused_without_change) ... ok
+test_manifests_exact (__main__.QA.test_manifests_exact) ... ok
+test_unchanged_selftests (__main__.QA.test_unchanged_selftests) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.171s
+
+OK

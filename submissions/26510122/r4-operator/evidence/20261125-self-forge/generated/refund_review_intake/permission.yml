@@ -1,0 +1,10 @@
+name: refund_review_intake
+description: 기존 스키마의 requested 환불을 읽어 익명 사건 참조와 사유·기간·증빙 검토 상태만 반환한다. args: {}. 개발 중에는 forge 가상 테스트에서만 동작한다. 사건 참조는 승인 권한이 아니다.
+permission:
+  write: [refund_review_fixture.sqlite3, refund_review_fixture.sqlite3-journal]
+  identity: [shop]
+  pay_limit: 0
+  timeout: 30
+logic: logic.py
+test: test.py
+version: 1

@@ -1,0 +1,162 @@
+{
+  "production_ready": false,
+  "private_original_logs_preserved": true,
+  "provider_evidence": "Exact official model forge_tool.args.logic match, not upstream model identity attestation.",
+  "tool_origins": [
+    {
+      "tool": "read_market_cards",
+      "version": 1,
+      "session": "class-rebuild-20261125-0752",
+      "logic_sha256": "7ef1d976ce10bd8d1543a8329c0d575685652031608c540a006ed3b6b3a6b423",
+      "matches": [
+        {
+          "model_provider": "market-class",
+          "upstream_reported_model": null,
+          "raw_response_sha256": "4d642dab9be7cfee03b420840e405d7b715cbce18486504c960325b9c0b02573",
+          "official_system_prefix": true
+        }
+      ]
+    },
+    {
+      "tool": "refund_breakage_proof",
+      "version": 2,
+      "session": "class-rebuild-20261125-0752",
+      "logic_sha256": "90dda0d5b9acd00137696a3423b2f77fb94a76e5d1d76e8cfbef65ae3272cf08",
+      "matches": [
+        {
+          "model_provider": "codex-cli-gpt-6.2-sol",
+          "upstream_reported_model": null,
+          "raw_response_sha256": "ed89ba1e7dfb743d0001ca8be4ae405d74a7f7f2e52d099624a94068558b2ba4",
+          "official_system_prefix": true
+        }
+      ]
+    },
+    {
+      "tool": "refund_checkout_proof",
+      "version": 1,
+      "session": "class-rebuild-20261125-0752",
+      "logic_sha256": "29d2fa8b0d2183ba0c068704689b57bc3d605304d44fa7c39b901f8873e04d76",
+      "matches": [
+        {
+          "model_provider": "codex-cli-gpt-6.2-sol",
+          "upstream_reported_model": null,
+          "raw_response_sha256": "f720fb8f4aa3cc379956412c77038139d650e4645547798839a713ed33ceac9d",
+          "official_system_prefix": true
+        }
+      ]
+    },
+    {
+      "tool": "refund_payment_proof",
+      "version": 1,
+      "session": "class-rebuild-20261125-0752",
+      "logic_sha256": "3415a2cc253e5e2b68c899918f2635aab0c3d394f3a6cd624bb6156f12394151",
+      "matches": [
+        {
+          "model_provider": "codex-cli-gpt-6.2-sol",
+          "upstream_reported_model": null,
+          "raw_response_sha256": "563efa3d226190276605e8093282d660ccc529f54cfe9c4337a09c6e3918cddd",
+          "official_system_prefix": true
+        }
+      ]
+    },
+    {
+      "tool": "refund_receipt_proof",
+      "version": 1,
+      "session": "class-rebuild-20261125-0752",
+      "logic_sha256": "6a74973e823584118445b283cdae6b1fba99af5d11ed281f24ef433585664e4b",
+      "matches": [
+        {
+          "model_provider": "codex-cli-gpt-6.2-sol",
+          "upstream_reported_model": null,
+          "raw_response_sha256": "28342fe29e6d036b488cdb55ad1747d6602fe4bfa7d4ab8242ac095b8c5a5ee2",
+          "official_system_prefix": true
+        }
+      ]
+    },
+    {
+      "tool": "refund_reconcile",
+      "version": 1,
+      "session": "class-rebuild-20261125-0752",
+      "logic_sha256": "0d9739cffdda24c658e58345e21dcaa107ac0a8d905cbd7cb3e5ce857999ce3a",
+      "matches": [
+        {
+          "model_provider": "codex-cli-gpt-6.2-sol",
+          "upstream_reported_model": null,
+          "raw_response_sha256": "2ef9d31a4ec2ab411470d93b6b1a8274ec5dd9c76acd8803340660cb09104108",
+          "official_system_prefix": true
+        }
+      ]
+    },
+    {
+      "tool": "refund_review_binding",
+      "version": 1,
+      "session": "class-rebuild-20261125-0752",
+      "logic_sha256": "cc6784360a5b216f4022875ed3ef18e95fedb459a4d070ca9ed8c26be44f0952",
+      "matches": [
+        {
+          "model_provider": "codex-cli-gpt-6.2-sol",
+          "upstream_reported_model": null,
+          "raw_response_sha256": "7b0372391c3870a397a74e0e41abcd3465c14d2a1151e926352d4ed0e558e9ba",
+          "official_system_prefix": true
+        }
+      ]
+    },
+    {
+      "tool": "refund_review_intake",
+      "version": 1,
+      "session": "class-rebuild-20261125-0752",
+      "logic_sha256": "e73c626855539015b3a6bb8ede5bc8364c5fc63af655570d337714085264e991",
+      "matches": [
+        {
+          "model_provider": "codex-cli-gpt-6.2-sol",
+          "upstream_reported_model": null,
+          "raw_response_sha256": "8715c18a689f5dec01f18d60aca3fc627eff6f30c183ecfcacf626b37e2afe2c",
+          "official_system_prefix": true
+        }
+      ]
+    },
+    {
+      "tool": "refund_verified",
+      "version": 5,
+      "session": "class-rebuild-20261125-0752",
+      "logic_sha256": "8cb8fb7f7c4f70b53d0de18fcade056a5e36e2e9f64080de75d930ef918a59c3",
+      "matches": [
+        {
+          "model_provider": "codex-cli-gpt-6.2-sol",
+          "upstream_reported_model": null,
+          "raw_response_sha256": "1a560ce2d10c7a8b0c5d5bcb01c70357a05af038af127c2a1a63aa39769ac7fe",
+          "official_system_prefix": true
+        }
+      ]
+    },
+    {
+      "tool": "summarize_public_settlements",
+      "version": 2,
+      "session": "class-rebuild-reach-20261125",
+      "logic_sha256": "5f8641150e3cb9dfc27d6d8d78e791eb02d88ad60c39ba94a8416ba22cb50846",
+      "matches": [
+        {
+          "model_provider": "codex-cli-gpt-6.2-sol",
+          "upstream_reported_model": null,
+          "raw_response_sha256": "fed9bd08833b5eabbd7ed0123dfa5d72072c69baebbf454af33fcb5f7de2d11c",
+          "official_system_prefix": true
+        }
+      ]
+    }
+  ],
+  "sessions": {
+    "class-rebuild-20261125-0752": {
+      ".kit/model-calls-private.jsonl": "d196d93c57a187ce90c45bd6363d7593ad03cd95a14a7ea0401ca4efff6b0055",
+      "logs/react.jsonl": "485c3a4c9db2fa245a74ec79914f206f440f446902707bf5d7ba2901a046b821",
+      "logs/forge.jsonl": "7da438ab4ee79c59aff2cdd222f653bb30b9e183fba4f6be4ac729bc447df080",
+      "logs/console-private.log": "99cd794d2139def4ff4f9c9de6042127f270677b3ab2b9297a0c24037d4af6a0"
+    },
+    "class-rebuild-reach-20261125": {
+      ".kit/model-calls-private.jsonl": "1520e3f6b3b45d8e052cdc2865117320f657acde9ea0bf933ae319a31664753c",
+      "logs/react.jsonl": "8a1ac8b390d086b88b52202f044b4ed4071e5e92941847a8965f889a0022d61a",
+      "logs/forge.jsonl": "047d9f9e053c83191a08483a3ef9b67c57638de244dad6370cb094cb9b2dcbbb",
+      "logs/console-private.log": "b05d3a26dbc6238c4ae2b8abda92a3d00ec0a45bd4d933baca4f21c428b80da7"
+    }
+  },
+  "unmatched_candidates": {}
+}

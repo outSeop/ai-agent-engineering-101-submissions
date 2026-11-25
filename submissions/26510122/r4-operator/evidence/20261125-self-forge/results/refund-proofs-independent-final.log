@@ -1,0 +1,7 @@
+test_official_checkout_signer_and_encoding (__main__.Proofs.test_official_checkout_signer_and_encoding) ... ok
+test_payment_and_receipt_helpers_use_legacy_rows_without_disclosing_values (__main__.Proofs.test_payment_and_receipt_helpers_use_legacy_rows_without_disclosing_values) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.121s
+
+OK

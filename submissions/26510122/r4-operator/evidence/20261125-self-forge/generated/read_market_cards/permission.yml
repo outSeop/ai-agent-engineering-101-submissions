@@ -1,0 +1,9 @@
+name: read_market_cards
+description: 시장 디렉터리, 엔티티 카드 또는 ROUND4 문서를 조회한다. args: {"url": "전체 URL"}. 시장 호스트의 HTTP GET만 수행하며 쓰기나 지갑 작업은 하지 않는다.
+permission:
+  network: [market.ourolabs.ai]
+  pay_limit: 0
+  timeout: 30
+logic: logic.py
+test: test.py
+version: 1

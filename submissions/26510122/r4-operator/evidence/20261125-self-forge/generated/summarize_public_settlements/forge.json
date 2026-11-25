@@ -1,0 +1,11 @@
+{
+ "tool": "summarize_public_settlements",
+ "version": 2,
+ "forged_at": 1795564097,
+ "kit": "v5.1",
+ "sha256": {
+  "permission.yml": "8bd66751466e92515db06a7b58492e038f0bdde0342c8c7036f7c67f03c7ea14",
+  "logic.py": "5f8641150e3cb9dfc27d6d8d78e791eb02d88ad60c39ba94a8416ba22cb50846",
+  "test.py": "26612cafb34bed41d4e693bbb12ac4530bf71ecf39c441ee55d6e44206b84b84"
+ }
+}

@@ -1,0 +1,10 @@
+name: summarize_public_settlements
+description: 최근 공개 Round 4 정산을 SKU·공개 상품명과 카테고리별 건수로 집계한다. args: {window_seconds?: 60~86400 정수, 기본 3600}. 봉인 및 분류 불가 정산은 별도 익명 건수로 표시한다. 시간은 UTC Unix 초다. 요청 시작보다 이른 행부터 조회 시점의 원장 끝까지 연속 표본을 확인한 경우에만 boundaries_observed를 반환하며, 그 외에는 partial을 반환한다.
+permission:
+  network: [market.ourolabs.ai]
+  pay_limit: 0
+  timeout: 90
+logic: logic.py
+test: test.py
+version: 2
+replaces: summarize_public_settlements@1

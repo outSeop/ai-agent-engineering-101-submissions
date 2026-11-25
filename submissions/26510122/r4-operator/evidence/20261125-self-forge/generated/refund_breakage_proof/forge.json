@@ -1,0 +1,11 @@
+{
+ "tool": "refund_breakage_proof",
+ "version": 2,
+ "forged_at": 1795565648,
+ "kit": "v5.1",
+ "sha256": {
+  "permission.yml": "357fc4b5a63db256c6c8a5afbd1680df52760e9a6f9e39158395c6d7387a2543",
+  "logic.py": "90dda0d5b9acd00137696a3423b2f77fb94a76e5d1d76e8cfbef65ae3272cf08",
+  "test.py": "e6687e94e66341e3edf87adfa8570ef25fb15db796c0db8e61456a44024ad8de"
+ }
+}

@@ -1,0 +1,9 @@
+name: refund_verified
+description: 가상 기존 장부에서 환불 증빙·중복을 검증하고, 미확정 환불의 원래 영수증을 같은 장부에 대조한다. 환불 args: {original_tx}. 복구 args: {operation: 'reconcile', original_tx, refund_tx?: 후보 해시}. forge 가상 테스트 전용이다.
+permission:
+  write: [refund_dev_fixture.sqlite3, refund_dev_fixture.sqlite3-journal]
+  timeout: 60
+logic: logic.py
+test: test.py
+version: 5
+replaces: refund_verified@4

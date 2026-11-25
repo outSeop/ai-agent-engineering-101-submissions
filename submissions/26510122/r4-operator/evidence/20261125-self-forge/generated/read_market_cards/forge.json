@@ -1,0 +1,11 @@
+{
+ "tool": "read_market_cards",
+ "version": 1,
+ "forged_at": 1795560368,
+ "kit": "v5.1",
+ "sha256": {
+  "permission.yml": "6becdc063e5484b8a2fc8c96740eb47aa330e33661a742a2a268e1c087104f96",
+  "logic.py": "7ef1d976ce10bd8d1543a8329c0d575685652031608c540a006ed3b6b3a6b423",
+  "test.py": "b35f1a02d6845c87b4a9dcdadf587d162d58223c345909f8e26f09bcb6657361"
+ }
+}

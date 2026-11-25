@@ -1,0 +1,11 @@
+{
+ "tool": "refund_receipt_proof",
+ "version": 1,
+ "forged_at": 1795563980,
+ "kit": "v5.1",
+ "sha256": {
+  "permission.yml": "208255a8436caa84cb0d202ce0b322ca0db5c3c70c5807e799c0f6f4f0b05fa2",
+  "logic.py": "6a74973e823584118445b283cdae6b1fba99af5d11ed281f24ef433585664e4b",
+  "test.py": "79b69fad5e753e610ec169e56be04fd161ed15edf67948e245e18e1ce1081dd1"
+ }
+}

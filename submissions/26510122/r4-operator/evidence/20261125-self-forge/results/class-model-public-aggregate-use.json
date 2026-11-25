@@ -1,0 +1,14 @@
+{
+  "tool_observations": [
+    {
+      "provider": "market-class",
+      "tool": "summarize_public_settlements",
+      "action_response_sha256": "cee7354e16a0a5e4cccb10c35f9eb3c51032ea28b62d50dbd4c468a592b97c83",
+      "observation_sha256": "2bcc267f9087e008a7d2a20e7e2ac54459e38d1d6b8694fba70e51ced7cdb805",
+      "mode": "public_market_sample",
+      "coverage": "boundaries_observed",
+      "model_received_aggregate": true
+    }
+  ],
+  "upstream_reported_model": null
+}

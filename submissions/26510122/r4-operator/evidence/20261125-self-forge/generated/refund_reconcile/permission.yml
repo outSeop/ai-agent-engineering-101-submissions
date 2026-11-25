@@ -1,0 +1,8 @@
+name: refund_reconcile
+description: refund_verified v4 형식의 가상 장부에서 원래 송금 영수증을 대조해 미확정 환불을 복구한다. args: {original_tx: 원결제 해시, refund_tx: 후보 환불 해시(장부에 해시가 없을 때 필요)}. 가상 테스트에서만 실행한다.
+permission:
+  write: [refund_dev_fixture.sqlite3, refund_dev_fixture.sqlite3-journal]
+  timeout: 60
+logic: logic.py
+test: test.py
+version: 1

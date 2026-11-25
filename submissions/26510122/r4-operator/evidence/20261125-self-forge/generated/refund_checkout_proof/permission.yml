@@ -1,0 +1,10 @@
+name: refund_checkout_proof
+description: 기존 장부에서 결제권과 상점 지갑의 EIP-191 서명을 대조한다. args: {sale_id: 기존 주문 행 ID}. 결과에는 검증 상태만 담는다. 개발 단계에서는 forge 가상 테스트로만 검증한다.
+permission:
+  write: [refund_checkout_fixture.sqlite3, refund_checkout_fixture.sqlite3-journal]
+  identity: [shop]
+  pay_limit: 0
+  timeout: 30
+logic: logic.py
+test: test.py
+version: 1

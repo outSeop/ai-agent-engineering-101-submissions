@@ -1,0 +1,9 @@
+test_candidate_selftest_rerun_without_real_network (__main__.QA.test_candidate_selftest_rerun_without_real_network) ... ok
+test_legacy_requested_case_cannot_be_processed_by_candidate (__main__.QA.test_legacy_requested_case_cannot_be_processed_by_candidate) ... ok
+test_manifest_is_exact_official_v4 (__main__.QA.test_manifest_is_exact_official_v4) ... ok
+test_receipt_requires_exact_outgoing_broadcast_properties (__main__.QA.test_receipt_requires_exact_outgoing_broadcast_properties) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.067s
+
+OK
