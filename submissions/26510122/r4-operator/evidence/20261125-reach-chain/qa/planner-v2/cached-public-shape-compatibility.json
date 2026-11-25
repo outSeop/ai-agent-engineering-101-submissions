@@ -1,0 +1,102 @@
+{
+  "offline_cached_public_aggregate_only": true,
+  "new_API_calls": 0,
+  "source_summary_logic_sha256": "5f8641150e3cb9dfc27d6d8d78e791eb02d88ad60c39ba94a8416ba22cb50846",
+  "source_artifact_sha256": "ee7dc92dd2e2521802fdd606833c893ca2e2ba814111f7bce026f6b3cfc5867b",
+  "source_requested_time": {
+    "start": 1795560995,
+    "end": 1795564595
+  },
+  "source_public_settlement_count": 71,
+  "existing_skus_input": [],
+  "existing_filter_is_test_assumption_not_actual_stock": true,
+  "newness_for_outseop_r4_verified": false,
+  "plan": {
+    "mode": "public_market_sample",
+    "status": "planning_only",
+    "coverage": "boundaries_observed",
+    "provisional": false,
+    "requested_time": {
+      "start": 1795560995,
+      "end": 1795564595
+    },
+    "sample_time": {
+      "start": 1795533796.523,
+      "end": 1795564570.024
+    },
+    "candidates": [
+      {
+        "sku": "Gab7c8b3d",
+        "category": "식품>계란/유제품>계란",
+        "observed_count": 17,
+        "planned_units": 1
+      },
+      {
+        "sku": "G02f9f99c",
+        "category": "식품>김치/반찬/즉석요리>김치",
+        "observed_count": 7,
+        "planned_units": 1
+      },
+      {
+        "sku": "G159be1f8",
+        "category": "식품>김치/반찬/즉석요리>반찬/젓갈",
+        "observed_count": 7,
+        "planned_units": 1
+      },
+      {
+        "sku": "G045659e8",
+        "category": "식품>해산물>신선생선",
+        "observed_count": 6,
+        "planned_units": 1
+      },
+      {
+        "sku": "Gdd41552f",
+        "category": "식품>야채/과일>신선야채(부패주의)",
+        "observed_count": 5,
+        "planned_units": 1
+      },
+      {
+        "sku": "G36ca7485",
+        "category": "식품>야채/과일>신선과일(부패주의)",
+        "observed_count": 4,
+        "planned_units": 1
+      },
+      {
+        "sku": "G5c96ee78",
+        "category": "식품>김치/반찬/즉석요리>즉석조리식품",
+        "observed_count": 4,
+        "planned_units": 1
+      },
+      {
+        "sku": "G010b96aa",
+        "category": "식품>기타 가공식품>과자",
+        "observed_count": 3,
+        "planned_units": 1
+      },
+      {
+        "sku": "G700ccf38",
+        "category": "식품>계란/유제품>요거트",
+        "observed_count": 3,
+        "planned_units": 1
+      },
+      {
+        "sku": "G78043c87",
+        "category": "식품>빵/제과>빵",
+        "observed_count": 3,
+        "planned_units": 1
+      }
+    ],
+    "sealed_count": 0,
+    "unclassified_count": 0,
+    "basis": "공개 정산 요약에서 카탈로그에 연결된 정확한 SKU의 표본 관측 건수. 후보 제외는 입력된 기존 취급 목록에 따름.",
+    "limits": "입력 출처와 신규 여부는 별도 확인이 필요하다. 실제 고객 선호, 전환 효과, 수요 예측, 우리 매출·판매율, 최종 매입 판단은 미확인이다.",
+    "before_purchase": [
+      "공급가",
+      "수수료·가스",
+      "보관비·폐기 위험",
+      "유통기한",
+      "환불·혜택 비용",
+      "현금 하한"
+    ]
+  }
+}

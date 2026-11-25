@@ -1,0 +1,35 @@
+{
+  "synthetic_only": true,
+  "input": {
+    "summary": {
+      "mode": "synthetic_test",
+      "coverage": "boundaries_observed",
+      "requested_time": {
+        "start": 6400,
+        "end": 10000
+      },
+      "sample_time": {
+        "start": 6399,
+        "end": 9999
+      },
+      "by_sku": [
+        {
+          "sku": "G00000001",
+          "name": "가상 계란",
+          "category": "식품>합성분류>계란",
+          "count": 3
+        }
+      ],
+      "by_category": {
+        "식품>합성분류>계란": 3
+      },
+      "sealed_count": 0,
+      "unclassified_count": 0
+    },
+    "existing_skus": []
+  },
+  "result": {
+    "error": "invalid_sku_observation"
+  },
+  "expected_contract": "accept schema-compatible full catalog category path"
+}

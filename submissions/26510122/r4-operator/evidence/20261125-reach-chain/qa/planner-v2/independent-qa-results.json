@@ -1,0 +1,350 @@
+{
+  "version": 2,
+  "source_logic_sha256": "77449caeecd41b4a26e249a17b38946f7f4e62f4bc451d2956ec60951bf3f393",
+  "source_unchanged": true,
+  "checks": [
+    {
+      "case": "direct_v2_full_category_compatibility_and_trial_sort",
+      "passed": true,
+      "group": "compatibility",
+      "expected": [
+        [
+          "G00000004",
+          5,
+          1
+        ],
+        [
+          "G00000002",
+          4,
+          1
+        ],
+        [
+          "G00000005",
+          2,
+          1
+        ]
+      ],
+      "observed": [
+        [
+          "G00000004",
+          5,
+          1
+        ],
+        [
+          "G00000002",
+          4,
+          1
+        ],
+        [
+          "G00000005",
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "case": "planning_only_synthetic_provisional",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "coverage_and_times_preserved",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "one_unit_and_one_SKU_per_category",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "no_profit_forecast_or_purchase_approval",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "stable_tie_order_reversed",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "stable_tie_order_rotated",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "all_existing_excluded",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "duplicate_existing_filter_does_not_add_candidates",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "partial_provisional",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "inconsistent_start_boundary_rejected",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "invalid_count_0",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "invalid_count_True",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "invalid_count_-1",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "invalid_count_1.5",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "invalid_count_'5'",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "duplicate_SKU_rejected",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "bool_sealed_count_rejected",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "bool_unclassified_count_rejected",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "bool_requested_time_rejected",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "bool_sample_time_rejected",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "negative_sample_time_rejected",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "reversed_request_window_rejected",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "positive_counts_without_sample_rejected",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "positive_counts_outside_sample_rejected",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "empty_partial_has_no_candidates",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "untrusted_names_cash_rank_quantity_fields_not_forwarded",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "category_totals_mismatch_rejected",
+      "passed": true,
+      "group": "integrity_fix",
+      "expected": null,
+      "observed": {
+        "error": "inconsistent_category_totals"
+      }
+    },
+    {
+      "case": "invalid_category_totals_None",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "invalid_category_totals_{'식품>가상계란>계란': True}",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "invalid_category_totals_{'식품>가상계란>계란': 0}",
+      "passed": true,
+      "group": "contract",
+      "expected": null,
+      "observed": null
+    },
+    {
+      "case": "wallet_shaped_identifier_not_forwarded",
+      "passed": false,
+      "group": "privacy_goal",
+      "expected": "reject noncatalog identifiers",
+      "observed": "planning_only"
+    },
+    {
+      "case": "impossible_four_page_count_rejected",
+      "passed": false,
+      "group": "sample_integrity_goal",
+      "expected": "upstream maximum2000rows",
+      "observed": "planning_only"
+    },
+    {
+      "case": "sum_including_sealed_unknown_2000",
+      "passed": true,
+      "group": "sample_integrity_goal",
+      "expected": null,
+      "observed": "planning_only"
+    },
+    {
+      "case": "sum_including_sealed_unknown_2001",
+      "passed": false,
+      "group": "sample_integrity_goal",
+      "expected": null,
+      "observed": "planning_only"
+    },
+    {
+      "case": "cached_validated_v2_public_output_schema_accepts",
+      "passed": true,
+      "group": "cached_public_compatibility",
+      "expected": null,
+      "observed": "planning_only"
+    },
+    {
+      "case": "cached_plan_selects_one_unit_per_full_category",
+      "passed": true,
+      "group": "cached_public_compatibility",
+      "expected": null,
+      "observed": null
+    }
+  ],
+  "scope_probes": [
+    {
+      "probe": "historical_well_formed_public_summary",
+      "accepted": true,
+      "provisional": false,
+      "times": {
+        "start": 6400,
+        "end": 10000
+      },
+      "conclusion": "Preserves timestamps but has no now/max-age/source-auth gate. Historical plans are not current recommendations."
+    },
+    {
+      "probe": "internally_consistent_counterfeit_category",
+      "accepted": true,
+      "conclusion": "Self-consistent inputs are not authenticated catalog records. An immutable validated upstream result must be bound to input for trusted planning."
+    }
+  ],
+  "totals": {
+    "cached_public_compatibility": {
+      "passed": 2,
+      "failed": 0
+    },
+    "compatibility": {
+      "passed": 1,
+      "failed": 0
+    },
+    "contract": {
+      "passed": 29,
+      "failed": 0
+    },
+    "integrity_fix": {
+      "passed": 1,
+      "failed": 0
+    },
+    "privacy_goal": {
+      "passed": 0,
+      "failed": 1
+    },
+    "sample_integrity_goal": {
+      "passed": 1,
+      "failed": 2
+    }
+  },
+  "source_authenticity_verified_by_function": false,
+  "held_SKU_list_fetched_from_any_server": false,
+  "private_cash_or_customer_data_used": false,
+  "general_Toolbox_calls": 0,
+  "market_API_calls": 0,
+  "model_calls": 0,
+  "production_ready": false
+}

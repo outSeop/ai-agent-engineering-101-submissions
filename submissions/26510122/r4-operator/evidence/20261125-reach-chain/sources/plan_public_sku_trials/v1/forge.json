@@ -1,0 +1,11 @@
+{
+ "tool": "plan_public_sku_trials",
+ "version": 1,
+ "forged_at": 1795566347,
+ "kit": "v5.1",
+ "sha256": {
+  "permission.yml": "e7d28b0cad9ff16e02eb148a91291ad8b5a7aafa14a1934386f51d1175c80992",
+  "logic.py": "e2fe4e9549d4c640c8a45ded0b7d4025b95f50c1013afab70cc2cf913a348c28",
+  "test.py": "52aa0f11f7061cf4f61d6bf59b598fb78020696d1511e9eef099243e6aceb667"
+ }
+}

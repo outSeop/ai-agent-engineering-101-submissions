@@ -1,0 +1,4 @@
+{
+  "change": "Duplicate only baseline held-SKU filter, so expected candidates equal baseline; original test incorrectly expected no candidates. No tool source changed.",
+  "original_result_preserved": "independent-qa-results-before-harness-correction.json"
+}

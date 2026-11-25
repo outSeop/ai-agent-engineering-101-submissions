@@ -1,0 +1,99 @@
+{
+  "generation_records": [
+    {
+      "tool": "draft_sales_route",
+      "version": 2,
+      "source_files_sha256": {
+        "logic.py": "918c5d218d4ae133628230e3f3bfddfe0c50d6e62151ed1f0c383f7b8b342751",
+        "test.py": "a9ffafa21f25468d4b76b168d7cc5b0aa744f9fae1d2c4e5ea33312718258a2c",
+        "permission.yml": "a4cc12bb71dde33e0b39a063c75ddfd82a44fdb061a596d1738dca4ae89d03ba",
+        "forge.json": "9a4f6cf201a936569ef793c0f382d99604f824002a22b34224484e4548b19086"
+      },
+      "actual_model_forge_response": {
+        "private_record_line_1based": 25,
+        "at": 1795565481.535913,
+        "recorded_provider": "codex-cli-gpt-6.2-sol",
+        "requested_slug": "gpt-6.2-sol",
+        "requested_slug_basis": "Recorded development-provider label; private full response has no independent upstream model metadata.",
+        "upstream_model_metadata": null,
+        "response_sha256": "d32ba904ae800a0e9a732240292077ae1add715176bb0acbf94cb744f6bd02d5",
+        "logic_and_test_exact_matches": true,
+        "action": "forge_tool"
+      },
+      "raw_private_messages_response_and_thoughts_exported": false,
+      "author": "Active R4 agent using official Mind/forge with the recorded development model; not classroom-authored code."
+    },
+    {
+      "tool": "draft_sales_route",
+      "version": 3,
+      "source_files_sha256": {
+        "logic.py": "83494d3b3cc4c973678f813566ed367773c814808363c9e06ed7cc306b5d9b13",
+        "test.py": "f1a818718334553ed83bf1f2dae91ca2db789e43d970a2b683b22c25a2444ca0",
+        "permission.yml": "2914ec8d3f161d820b90e7a7446bb6958e230ec17735d04a586ef91f1f11f6b8",
+        "forge.json": "c5a32ba5ae231cd78bafc6c59aade8639f31109e1c15c7dd1121e5d7fa7c61d1"
+      },
+      "actual_model_forge_response": {
+        "private_record_line_1based": 39,
+        "at": 1795566347.4121628,
+        "recorded_provider": "codex-cli-gpt-6.2-sol",
+        "requested_slug": "gpt-6.2-sol",
+        "requested_slug_basis": "Recorded development-provider label; private full response has no independent upstream model metadata.",
+        "upstream_model_metadata": null,
+        "response_sha256": "3d6f4486d7cf97e0c1be415776d421f398d0bcf5143ab2a9353fe10a019c8297",
+        "logic_and_test_exact_matches": true,
+        "action": "forge_tool"
+      },
+      "raw_private_messages_response_and_thoughts_exported": false,
+      "author": "Active R4 agent using official Mind/forge with the recorded development model; not classroom-authored code."
+    },
+    {
+      "tool": "plan_public_sku_trials",
+      "version": 1,
+      "source_files_sha256": {
+        "logic.py": "e2fe4e9549d4c640c8a45ded0b7d4025b95f50c1013afab70cc2cf913a348c28",
+        "test.py": "52aa0f11f7061cf4f61d6bf59b598fb78020696d1511e9eef099243e6aceb667",
+        "permission.yml": "e7d28b0cad9ff16e02eb148a91291ad8b5a7aafa14a1934386f51d1175c80992",
+        "forge.json": "66685327334327d6da080118556c8184f420edca4a7ded783f19585a4348de51"
+      },
+      "actual_model_forge_response": {
+        "private_record_line_1based": 38,
+        "at": 1795566280.7911503,
+        "recorded_provider": "codex-cli-gpt-6.2-sol",
+        "requested_slug": "gpt-6.2-sol",
+        "requested_slug_basis": "Recorded development-provider label; private full response has no independent upstream model metadata.",
+        "upstream_model_metadata": null,
+        "response_sha256": "6aa0ba9e85913e6db185bb342715428979c1828583e998a876826f9afdd463b1",
+        "logic_and_test_exact_matches": true,
+        "action": "forge_tool"
+      },
+      "raw_private_messages_response_and_thoughts_exported": false,
+      "author": "Active R4 agent using official Mind/forge with the recorded development model; not classroom-authored code."
+    },
+    {
+      "tool": "plan_public_sku_trials",
+      "version": 2,
+      "source_files_sha256": {
+        "logic.py": "77449caeecd41b4a26e249a17b38946f7f4e62f4bc451d2956ec60951bf3f393",
+        "test.py": "8fbae23e9939946eeec58363d8062d68f989f344fd6f9c836ebe147c5f2a9099",
+        "permission.yml": "c15e2998e8afcf1d0dbafb38af330c3b41ca1805a6a93f090cc5d55540d4dcda",
+        "forge.json": "047749f2e179b30022c97951366d812a116155da50529aac857871c9d9d60bca"
+      },
+      "actual_model_forge_response": {
+        "private_record_line_1based": 44,
+        "at": 1795566948.9362793,
+        "recorded_provider": "codex-cli-gpt-6.2-sol",
+        "requested_slug": "gpt-6.2-sol",
+        "requested_slug_basis": "Recorded development-provider label; private full response has no independent upstream model metadata.",
+        "upstream_model_metadata": null,
+        "response_sha256": "2a4f17cabf600a0a32296028c13f002b64d2a2290fd3f07cf9fd7bf59a038f25",
+        "logic_and_test_exact_matches": true,
+        "action": "forge_tool"
+      },
+      "raw_private_messages_response_and_thoughts_exported": false,
+      "author": "Active R4 agent using official Mind/forge with the recorded development model; not classroom-authored code."
+    }
+  ],
+  "origin": "Private full Model response parsed only for forge action args logic/test; thought/messages never exported.",
+  "permissions_basis": "Manifest hashes, unchanged permission.yml source and official forge record; response hash is not provider attestation.",
+  "copied_forges_not_new_authorship": true
+}

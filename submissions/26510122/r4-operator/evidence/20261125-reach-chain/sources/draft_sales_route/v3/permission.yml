@@ -1,0 +1,9 @@
+name: draft_sales_route
+description: 익명 합성 판매 단위 1개의 첫 응대·재방문·포럼 초안을 작성한다. 기존 v2 fixture를 사용하며 첫 응대·재방문에는 fixture.intent(inquiry 기본값 또는 request_checkout)와 fixture.quantity(양의 정수, 결제권 요청에는 명시적으로 1)를 추가할 수 있다. text에는 요약, policy_details에는 확인 가능한 상세 조건을 반환한다. 시각은 Unix 초이고 valid_until은 배타적 상한이다. 입력은 개발자가 구성한 합성 조건이며 실제 거래나 발송에 연결되지 않는다.
+permission:
+  pay_limit: 0
+  timeout: 10
+logic: logic.py
+test: test.py
+version: 3
+replaces: draft_sales_route@2

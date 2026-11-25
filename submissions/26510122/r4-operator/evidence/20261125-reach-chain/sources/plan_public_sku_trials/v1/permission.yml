@@ -1,0 +1,8 @@
+name: plan_public_sku_trials
+description: summarize_public_settlements v2의 직접 출력과 기존 취급 SKU 목록을 받아 분류별 신규 시험 후보를 최대 한 SKU, 계획 수량 한 단위씩 제시한다. args: {summary: <v2 결과>, existing_skus: [<이미 취급한 SKU>]}. 관측 횟수 내림차순, 동률은 SKU 오름차순이다. 표본 시각과 coverage를 유지하며 부분 표본은 잠정으로 표시한다. 합성 테스트는 synthetic_test 모드를 사용한다. 입력 출처나 신규 여부를 외부에서 인증하지 않으며 거래 동작은 없다.
+permission:
+  pay_limit: 0
+  timeout: 10
+logic: logic.py
+test: test.py
+version: 1

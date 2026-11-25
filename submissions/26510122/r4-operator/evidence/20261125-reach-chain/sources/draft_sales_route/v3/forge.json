@@ -1,0 +1,11 @@
+{
+ "tool": "draft_sales_route",
+ "version": 3,
+ "forged_at": 1795566456,
+ "kit": "v5.1",
+ "sha256": {
+  "permission.yml": "2914ec8d3f161d820b90e7a7446bb6958e230ec17735d04a586ef91f1f11f6b8",
+  "logic.py": "83494d3b3cc4c973678f813566ed367773c814808363c9e06ed7cc306b5d9b13",
+  "test.py": "f1a818718334553ed83bf1f2dae91ca2db789e43d970a2b683b22c25a2444ca0"
+ }
+}

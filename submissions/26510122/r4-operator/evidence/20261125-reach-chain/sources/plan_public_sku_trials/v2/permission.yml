@@ -1,0 +1,9 @@
+name: plan_public_sku_trials
+description: summarize_public_settlements v2 응답의 전체 카탈로그 분류 경로와 SKU별 관측 건수를 검증해 경로마다 신규 시험 후보를 최대 한 SKU, 한 단위씩 제시한다. args: {summary: <정산 v2 응답>, existing_skus: [<기존 취급 SKU>]}. 후보는 관측 횟수 내림차순, 동률은 SKU 오름차순이다. 요청·표본 시각과 coverage를 유지하며 부분 표본과 합성 입력은 잠정으로 표시한다. 입력 출처와 신규 여부의 외부 확인 및 거래 실행은 별도다.
+permission:
+  pay_limit: 0
+  timeout: 10
+logic: logic.py
+test: test.py
+version: 2
+replaces: plan_public_sku_trials@1

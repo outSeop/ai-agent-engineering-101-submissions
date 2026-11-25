@@ -1,0 +1,70 @@
+{
+  "status": "audit_proposal_only_no_host_change_by_reviewer",
+  "general_untrusted_argument_call": "deny",
+  "approved_purchase": false,
+  "exact_reviewed_tool": {
+    "name": "plan_public_sku_trials",
+    "version": 2,
+    "logic_sha256": "77449caeecd41b4a26e249a17b38946f7f4e62f4bc451d2956ec60951bf3f393",
+    "permission_sha256": "c15e2998e8afcf1d0dbafb38af330c3b41ca1805a6a93f090cc5d55540d4dcda",
+    "test_sha256": "8fbae23e9939946eeec58363d8062d68f989f344fd6f9c836ebe147c5f2a9099",
+    "permission": {
+      "pay_limit": 0,
+      "timeout": 10
+    },
+    "other_capabilities": []
+  },
+  "bounded_existing_host_reviewed": {
+    "logic_sha256": "86aff2808f0ba8d5035bdad90cbc9434f3be71fc45a5fac2fd636c2d2aa4484f",
+    "guard_module_sha256": "a79df1dc04401d50b27a1fb14ea2e98aa6c140fccb161c152b30f475ae25e054",
+    "model_visible_args_exact": [
+      "observation_ref",
+      "max_trials"
+    ],
+    "max_trials_type": "integer excluding bool",
+    "max_trials_bounds": [
+      1,
+      8
+    ],
+    "observation_ref": "unpredictable 24-byte token_urlsafe, same process, one use; never authentication to market",
+    "ttl_seconds": 150,
+    "summary_source": "same process pinned summarize_public_settlements v2 run; no model-rebuilt summary",
+    "source_logic_sha256": "5f8641150e3cb9dfc27d6d8d78e791eb02d88ad60c39ba94a8416ba22cb50846",
+    "raw_planner_args_exact": [
+      "summary",
+      "existing_skus"
+    ],
+    "existing_skus": [],
+    "inventory_exclusions_applied": false,
+    "tokens": {},
+    "addresses": {},
+    "wallet_identity": "none",
+    "execution": "official Toolbox.run of pinned bundle; tool not granted arbitrary caller summary"
+  },
+  "required_output": {
+    "keys": [
+      "status",
+      "coverage",
+      "provisional",
+      "inventory_exclusions_applied",
+      "candidates"
+    ],
+    "status": "planning_only",
+    "inventory_exclusions_applied": false,
+    "candidate_keys": [
+      "sku",
+      "category",
+      "observed_count",
+      "planned_units"
+    ],
+    "candidate_constraint": "Each exact sku/category/count triple is in same reviewed source summary; planned_units is int1; prefix max_trials. Immutable planner enforces deterministic category selection/sort."
+  },
+  "required_interpretation": [
+    "Source/manifest hash confirms bytes and provenance linkage, not independent instructor authorship endorsement.",
+    "Partial means partial; public full-window provisional=false does not establish future demand, profit, stock newness or purchase readiness.",
+    "No private held inventory, cash, customer records or server were queried.",
+    "Only pinned upstream guarantees row sample bound; untrusted general caller input remains rejected at host boundary.",
+    "Communicate requested observation window when showing results, including later reuse. Cached compatibility artifact is historical, not fresh advice.",
+    "Every purchase still needs current supply price, fees/gas, life/storage/waste, refund/benefit costs, actual inventory and cash checks."
+  ]
+}

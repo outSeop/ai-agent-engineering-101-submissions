@@ -1,0 +1,244 @@
+{
+  "host_sha256": "86aff2808f0ba8d5035bdad90cbc9434f3be71fc45a5fac2fd636c2d2aa4484f",
+  "checks": [
+    {
+      "case": "fresh_pinned_summary_reference_ready",
+      "passed": true
+    },
+    {
+      "case": "reject_injected_summary",
+      "passed": true
+    },
+    {
+      "case": "reject_injected_existing_skus",
+      "passed": true
+    },
+    {
+      "case": "reject_injected_cash",
+      "passed": true
+    },
+    {
+      "case": "reject_injected_url",
+      "passed": true
+    },
+    {
+      "case": "reject_injected_path",
+      "passed": true
+    },
+    {
+      "case": "reject_max_trials_True",
+      "passed": true
+    },
+    {
+      "case": "reject_max_trials_0",
+      "passed": true
+    },
+    {
+      "case": "reject_max_trials_9",
+      "passed": true
+    },
+    {
+      "case": "reject_max_trials_1.5",
+      "passed": true
+    },
+    {
+      "case": "reject_max_trials_'3'",
+      "passed": true
+    },
+    {
+      "case": "wrong_reference_rejected",
+      "passed": true
+    },
+    {
+      "case": "bounded_pure_plan_and_explicit_no_stock_exclusion",
+      "passed": true
+    },
+    {
+      "case": "same_sample_resolved_host_side",
+      "passed": true
+    },
+    {
+      "case": "one_use_replay_rejected",
+      "passed": true
+    },
+    {
+      "case": "expired_mono_rejected",
+      "passed": true
+    },
+    {
+      "case": "expired_wall_rejected",
+      "passed": true
+    },
+    {
+      "case": "stale_or_future_summary_99894",
+      "passed": true
+    },
+    {
+      "case": "stale_or_future_summary_100151",
+      "passed": true
+    },
+    {
+      "case": "invalid_window_True",
+      "passed": true
+    },
+    {
+      "case": "invalid_window_59",
+      "passed": true
+    },
+    {
+      "case": "invalid_window_86401",
+      "passed": true
+    },
+    {
+      "case": "invalid_window_'3600'",
+      "passed": true
+    },
+    {
+      "case": "summary_url_injection_rejected",
+      "passed": true
+    },
+    {
+      "case": "unknown_tool_rejected",
+      "passed": true
+    },
+    {
+      "case": "no_wallet_wallet",
+      "passed": true
+    },
+    {
+      "case": "no_wallet_identity",
+      "passed": true
+    },
+    {
+      "case": "reject_output_sku",
+      "passed": true
+    },
+    {
+      "case": "reject_output_observed_count",
+      "passed": true
+    },
+    {
+      "case": "reject_output_planned_units",
+      "passed": true
+    },
+    {
+      "case": "reject_output_extra",
+      "passed": true
+    },
+    {
+      "case": "actual_copied_bundles_match_reviewed_v2_hashes",
+      "passed": true
+    },
+    {
+      "case": "actual_class_action_chain",
+      "passed": true
+    },
+    {
+      "case": "actual_preview_matches_logged_observation",
+      "passed": true
+    }
+  ],
+  "passed": 34,
+  "failed": 0,
+  "synthetic_host_tests_only": true,
+  "new_market_calls": 0,
+  "new_model_calls": 0,
+  "private_model_thoughts_exported": false,
+  "actual_existing_run": {
+    "summary": {
+      "provider": "market-class",
+      "formal_entrypoint": "official Mind.run_once",
+      "copied_forges_not_new_authorship": true,
+      "preview": {
+        "status": "planning_only",
+        "coverage": "boundaries_observed",
+        "provisional": false,
+        "inventory_exclusions_applied": false,
+        "candidates": [
+          {
+            "sku": "Gab7c8b3d",
+            "category": "식품>계란/유제품>계란",
+            "observed_count": 10,
+            "planned_units": 1
+          },
+          {
+            "sku": "G5c96ee78",
+            "category": "식품>김치/반찬/즉석요리>즉석조리식품",
+            "observed_count": 7,
+            "planned_units": 1
+          },
+          {
+            "sku": "G5e1cf31d",
+            "category": "식품>계란/유제품>요거트",
+            "observed_count": 6,
+            "planned_units": 1
+          }
+        ]
+      }
+    },
+    "actions_without_thoughts_or_reference": [
+      {
+        "action": "summarize_public_settlements",
+        "timestamp": 1795567753,
+        "argument_field_names": [
+          "window_seconds"
+        ]
+      },
+      {
+        "action": "plan_public_sku_trials",
+        "timestamp": 1795567758,
+        "argument_field_names": [
+          "observation_ref",
+          "max_trials"
+        ]
+      },
+      {
+        "action": "sleep",
+        "timestamp": 1795567776,
+        "argument_field_names": [
+          "seconds",
+          "why"
+        ]
+      }
+    ],
+    "public_observations_without_reference": [
+      {
+        "status": "observation_ready",
+        "coverage": "boundaries_observed",
+        "requested_time": {
+          "start": 1795564151,
+          "end": 1795567751
+        },
+        "sku_count": 27,
+        "category_count": 13
+      },
+      {
+        "status": "planning_only",
+        "coverage": "boundaries_observed",
+        "provisional": false,
+        "inventory_exclusions_applied": false,
+        "candidates": [
+          {
+            "sku": "Gab7c8b3d",
+            "category": "식품>계란/유제품>계란",
+            "observed_count": 10,
+            "planned_units": 1
+          },
+          {
+            "sku": "G5c96ee78",
+            "category": "식품>김치/반찬/즉석요리>즉석조리식품",
+            "observed_count": 7,
+            "planned_units": 1
+          },
+          {
+            "sku": "G5e1cf31d",
+            "category": "식품>계란/유제품>요거트",
+            "observed_count": 6,
+            "planned_units": 1
+          }
+        ]
+      }
+    ]
+  },
+  "scope": "Bounded source-pinned public preview only; general planner inputs remain unapproved; no stock lookup or purchase."
+}

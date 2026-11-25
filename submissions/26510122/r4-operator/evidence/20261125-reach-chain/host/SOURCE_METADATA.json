@@ -1,0 +1,8 @@
+{
+  "classification": "Externally written host, guard and independent QA infrastructure; not market tools and not classroom-authored code.",
+  "host_original_sha256": "86aff2808f0ba8d5035bdad90cbc9434f3be71fc45a5fac2fd636c2d2aa4484f",
+  "guard_original_sha256": "a79df1dc04401d50b27a1fb14ea2e98aa6c140fccb161c152b30f475ae25e054",
+  "original_test_sha256": "a335d04663605317ae80664b18227190b04344eef984a4d88a97388b8511ed46",
+  "adapter": "replay_preview_boundary.py changes paths to this evidence directory and omits private existing-run provenance checks. No host or market-tool source edits.",
+  "replay": "python host/replay_preview_boundary.py from this evidence directory. Standard Python only; no market/model/key calls. Host main must not be run as a test."
+}

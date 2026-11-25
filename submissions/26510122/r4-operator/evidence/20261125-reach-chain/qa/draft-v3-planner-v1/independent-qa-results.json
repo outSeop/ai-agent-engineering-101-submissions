@@ -1,0 +1,983 @@
+{
+  "source_hashes": {
+    "draft_sales_route": "83494d3b3cc4c973678f813566ed367773c814808363c9e06ed7cc306b5d9b13",
+    "plan_public_sku_trials": "e2fe4e9549d4c640c8a45ded0b7d4025b95f50c1013afab70cc2cf913a348c28"
+  },
+  "source_unchanged": true,
+  "checks": [
+    {
+      "group": "draft",
+      "case": "synthetic_preview_no_completed_trade_claim",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "first_product_grade_price_present",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "C_policy_only_for_C",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "stable_ID_and_discovery",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "signature_family_correct",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "refund_48h_in_accessible_details",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "refund_verified_original_payer_destination",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "approval_distinct_from_refund_receipt",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "inquiry_default_not_checkout",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "invalid_offer_available",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "invalid_offer_grade",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "invalid_offer_price",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "invalid_offer_sku",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "invalid_offer_name",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "invalid_offer_checked_at",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "invalid_offer_valid_until",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "invalid_offer_expires_at",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "invalid_fee_market_fee_bpsTrue",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "invalid_fee_market_fee_bps10001",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "invalid_fee_network_fee_credits419",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "real_mode_rejected",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "uncovered_seller_transfer_rejected",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "customer_text_cash_and_approval_not_echoed",
+      "passed": true,
+      "expected": "same preview without private fields",
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "exact_requested_sku",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "remaining_life_insufficient",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "remaining_life_equality_one_second_valid",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "remaining_life_after_equality_blocked",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "eligible_benefits_first_and_combined",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "benefits_display_does_not_claim_deducted",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "voucher_limits_draft_validity",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "invalid_voucher_issued_at1999880",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "invalid_voucher_issued_at2000001",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "invalid_voucher_confirmedFalse",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "invalid_voucher_unusedFalse",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "invalid_voucher_skusim-other",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "seven_day_expiry",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "invalid_mileage_next_trade",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "invalid_mileage_unused",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "invalid_mileage_delivered_at",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "unmatched_no_benefits",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "benefit_markup_rejected",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "no_C_claim_for_A",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "quantity_inquiry_never_grants_checkout",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "checkout_requires_quantity_one",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "checkout_requires_explicit_quantity",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "bool_quantity_rejected",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "explicit_single_checkout_request_only_preview",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "forum_at_300_seconds_is_inquiry",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "invalid_forum_kindreview",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "invalid_forum_kindcomplaint",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "invalid_forum_reviewedFalse",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "invalid_forum_last_post_at1999701",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "invalid_forum_last_post_at2000001",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "invalid_forum_thread_idTrue",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "invalid_forum_acceptable_skus['sim-other']",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "own_stock_first_post_preview",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "draft",
+      "case": "forum_2000_chars_cap",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "fees",
+      "case": "protocol_oracle_price10000_bps100",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "fees",
+      "case": "actual_gas_unknown_price10000_bps100",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "fees",
+      "case": "wallet_conservation_10000_100_gas0",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "fees",
+      "case": "wallet_conservation_10000_100_gas210",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "fees",
+      "case": "wallet_conservation_10000_100_gas420",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "fees",
+      "case": "wallet_conservation_10000_100_gas840",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "fees",
+      "case": "protocol_oracle_price9800_bps100",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "fees",
+      "case": "actual_gas_unknown_price9800_bps100",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "fees",
+      "case": "wallet_conservation_9800_100_gas0",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "fees",
+      "case": "wallet_conservation_9800_100_gas210",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "fees",
+      "case": "wallet_conservation_9800_100_gas420",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "fees",
+      "case": "wallet_conservation_9800_100_gas840",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "fees",
+      "case": "protocol_oracle_price12345_bps100",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "fees",
+      "case": "actual_gas_unknown_price12345_bps100",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "fees",
+      "case": "wallet_conservation_12345_100_gas0",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "fees",
+      "case": "wallet_conservation_12345_100_gas210",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "fees",
+      "case": "wallet_conservation_12345_100_gas420",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "fees",
+      "case": "wallet_conservation_12345_100_gas840",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "fees",
+      "case": "protocol_oracle_price10000_bps0",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "fees",
+      "case": "actual_gas_unknown_price10000_bps0",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "fees",
+      "case": "wallet_conservation_10000_0_gas0",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "fees",
+      "case": "wallet_conservation_10000_0_gas210",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "fees",
+      "case": "wallet_conservation_10000_0_gas420",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "fees",
+      "case": "wallet_conservation_10000_0_gas840",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "fees",
+      "case": "standard_total_difference_is_network_assumption_not_discount",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "fees",
+      "case": "discounted_price_recomputes_market_fee",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "planner",
+      "case": "one_unit_per_new_sku_per_category_and_sort",
+      "passed": true,
+      "expected": [
+        [
+          "G00000004",
+          5,
+          1
+        ],
+        [
+          "G00000002",
+          4,
+          1
+        ],
+        [
+          "G00000005",
+          2,
+          1
+        ]
+      ],
+      "observed": [
+        [
+          "G00000004",
+          5,
+          1
+        ],
+        [
+          "G00000002",
+          4,
+          1
+        ],
+        [
+          "G00000005",
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "group": "planner",
+      "case": "planning_only_no_profit_or_purchase_claim",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "planner",
+      "case": "time_coverage_and_anonymous_counts_preserved",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "planner",
+      "case": "input_permutations_do_not_change_ties",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "planner",
+      "case": "existing_skus_excluded",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "planner",
+      "case": "partial_is_provisional",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "planner",
+      "case": "start_not_earlier_coverage_rejected",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "planner",
+      "case": "invalid_count_0",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "planner",
+      "case": "invalid_count_True",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "planner",
+      "case": "invalid_count_-1",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "planner",
+      "case": "invalid_count_1.5",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "planner",
+      "case": "invalid_count_'5'",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "planner",
+      "case": "duplicate_sku_rejected",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "planner",
+      "case": "bool_sealed_count_rejected",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "planner",
+      "case": "bool_unclassified_count_rejected",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "planner",
+      "case": "bool_requested_time_rejected",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "planner",
+      "case": "bool_sample_time_rejected",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "planner",
+      "case": "negative_timestamp_rejected",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "planner",
+      "case": "reversed_window_rejected",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "planner",
+      "case": "positive_counts_require_sample",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "planner",
+      "case": "nonoverlap_positive_counts_rejected",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "planner",
+      "case": "empty_partial_yields_no_candidate",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "planner",
+      "case": "names_customer_cash_rank_and_quantity_override_not_forwarded",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "planner",
+      "case": "forged_aux_category_totals_cannot_change_ranking",
+      "passed": true,
+      "expected": null,
+      "observed": null
+    },
+    {
+      "group": "planner_integrity_goal",
+      "case": "category_totals_inconsistency_rejected",
+      "passed": false,
+      "expected": "reject mismatch",
+      "observed": "planning_only"
+    },
+    {
+      "group": "planner_compatibility",
+      "case": "direct_v2_full_catalog_paths_accepted",
+      "passed": false,
+      "expected": "accept genuine v2 category schema",
+      "observed": {
+        "error": "invalid_sku_observation"
+      }
+    },
+    {
+      "group": "planner_privacy_goal",
+      "case": "wallet_shaped_identifier_not_echoed",
+      "passed": false,
+      "expected": "reject or omit noncatalog identifier",
+      "observed": "planning_only"
+    },
+    {
+      "group": "planner_integrity_goal",
+      "case": "impossible_v2_four_page_count_rejected",
+      "passed": false,
+      "expected": "at most2000 underlying rows",
+      "observed": "planning_only"
+    }
+  ],
+  "scope_probes": [
+    {
+      "probe": "old_but_well_formed_public_summary",
+      "result_status": "planning_only",
+      "provisional": false,
+      "requested_time": {
+        "start": 6400,
+        "end": 10000
+      },
+      "interpretation": "The pure planner has no current-time/maximum-age input; it preserves old times but does not verify recency or source authenticity. Historical planning is valid; current trial use needs a separate freshness/source gate."
+    },
+    {
+      "probe": "counterfeit_but_syntactically_valid_category",
+      "result_status": "planning_only",
+      "interpretation": "It cannot independently compare categories with catalog; original validated summary must be bound to input, not reconstructed by an untrusted caller."
+    }
+  ],
+  "fee_oracles": [
+    {
+      "product_price": 10000,
+      "market_fee_bps": 100,
+      "standard_network_fee": 420,
+      "shop_transfer": 9690,
+      "market_transfer": 200,
+      "market_transfer_required": true,
+      "transfers_before_gas": 9890,
+      "standard_estimate": 10310,
+      "gas_scenarios": [
+        {
+          "actual_gas": 0,
+          "actual_wallet_outlay": 9890
+        },
+        {
+          "actual_gas": 210,
+          "actual_wallet_outlay": 10100
+        },
+        {
+          "actual_gas": 420,
+          "actual_wallet_outlay": 10310
+        },
+        {
+          "actual_gas": 840,
+          "actual_wallet_outlay": 10730
+        }
+      ]
+    },
+    {
+      "product_price": 9800,
+      "market_fee_bps": 100,
+      "standard_network_fee": 420,
+      "shop_transfer": 9492,
+      "market_transfer": 196,
+      "market_transfer_required": true,
+      "transfers_before_gas": 9688,
+      "standard_estimate": 10108,
+      "gas_scenarios": [
+        {
+          "actual_gas": 0,
+          "actual_wallet_outlay": 9688
+        },
+        {
+          "actual_gas": 210,
+          "actual_wallet_outlay": 9898
+        },
+        {
+          "actual_gas": 420,
+          "actual_wallet_outlay": 10108
+        },
+        {
+          "actual_gas": 840,
+          "actual_wallet_outlay": 10528
+        }
+      ]
+    },
+    {
+      "product_price": 12345,
+      "market_fee_bps": 100,
+      "standard_network_fee": 420,
+      "shop_transfer": 12012,
+      "market_transfer": 246,
+      "market_transfer_required": true,
+      "transfers_before_gas": 12258,
+      "standard_estimate": 12678,
+      "gas_scenarios": [
+        {
+          "actual_gas": 0,
+          "actual_wallet_outlay": 12258
+        },
+        {
+          "actual_gas": 210,
+          "actual_wallet_outlay": 12468
+        },
+        {
+          "actual_gas": 420,
+          "actual_wallet_outlay": 12678
+        },
+        {
+          "actual_gas": 840,
+          "actual_wallet_outlay": 13098
+        }
+      ]
+    },
+    {
+      "product_price": 10000,
+      "market_fee_bps": 0,
+      "standard_network_fee": 420,
+      "shop_transfer": 9790,
+      "market_transfer": 0,
+      "market_transfer_required": false,
+      "transfers_before_gas": 9790,
+      "standard_estimate": 10210,
+      "gas_scenarios": [
+        {
+          "actual_gas": 0,
+          "actual_wallet_outlay": 9790
+        },
+        {
+          "actual_gas": 210,
+          "actual_wallet_outlay": 10000
+        },
+        {
+          "actual_gas": 420,
+          "actual_wallet_outlay": 10210
+        },
+        {
+          "actual_gas": 840,
+          "actual_wallet_outlay": 10630
+        }
+      ]
+    }
+  ],
+  "fee_protocol_interpretation": "P10000,m100,n210 => shop9690 +market200 =9890 transfers; +actualgas420 =10310. Difference420 is a network assumption, not a coupon deduction. Atm0 the official protocol omits marketfee transfer; it is not the buyer's arbitrary choice.",
+  "source_document_GETs_for_reference": 2,
+  "ledger_inventory_or_business_API_calls": 0,
+  "model_calls": 0,
+  "general_toolbox_calls": 0,
+  "production_ready": false,
+  "totals": {
+    "draft": {
+      "passed": 57,
+      "failed": 0
+    },
+    "fees": {
+      "passed": 26,
+      "failed": 0
+    },
+    "planner": {
+      "passed": 24,
+      "failed": 0
+    },
+    "planner_compatibility": {
+      "passed": 0,
+      "failed": 1
+    },
+    "planner_integrity_goal": {
+      "passed": 0,
+      "failed": 2
+    },
+    "planner_privacy_goal": {
+      "passed": 0,
+      "failed": 1
+    }
+  }
+}

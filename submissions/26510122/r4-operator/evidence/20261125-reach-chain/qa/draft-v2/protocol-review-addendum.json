@@ -1,0 +1,6 @@
+{
+  "source": "https://market.ourolabs.ai/entities/clearing/.well-known/agent-card.json",
+  "correction": "The prior unconditional wording that R4 always requires both transfers was overbroad. Official clearing explicitly requires fee_tx_hash only if computed marketfee m>0. The exception is protocol-derived zero, not a customer choice.",
+  "superseded_file": "protocol-review-addendum-superseded.json",
+  "model_or_business_calls": 0
+}

@@ -1,0 +1,382 @@
+{
+  "version": 2,
+  "logic_sha256": "918c5d218d4ae133628230e3f3bfddfe0c50d6e62151ed1f0c383f7b8b342751",
+  "source_unchanged": true,
+  "independent_contract_checks": [
+    {
+      "case": "synthetic_scope_label_no_preference_claim",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "actual_fixture_grade_and_C_policy_shown",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "current_fixture_price_kept",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "standard_buyer_fee_arithmetic_correct",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "actual_gas_not_claimed_fixed",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "stable_discovery_not_ephemeral_tunnel",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "correct_signature_family",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "does_not_claim_verified_or_refunded",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_offer_available",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_offer_grade",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_offer_price",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_offer_sku",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_offer_name",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_offer_checked_at",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_offer_valid_until",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_offer_expires_at",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_fee_market_fee_bpsTrue",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_fee_market_fee_bps10001",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_fee_network_fee_credits419",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "real_mode_rejected",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "nonpositive_seller_inflow_rejected",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "unsupported_customer_text_not_echoed",
+      "category": "privacy",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "exact_requested_sku_respected",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "remaining_life_shortfall_rejected",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "remaining_life_equality_clips_validity",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "v2_fixes_v1_life_validity_overrun",
+      "category": "regression",
+      "passed": true,
+      "observed": {
+        "v1_valid_until": 1795568885,
+        "v2_valid_until": 1795565286
+      }
+    },
+    {
+      "case": "return_benefits_precede_products",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "eligible_benefits_combined",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "voucher_expiry_clips_draft_validity",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "same_gross_price_with_benefits",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "v2_fixes_v1_voucher_validity_overrun",
+      "category": "regression",
+      "passed": true,
+      "observed": {
+        "v1_valid_until": 1795568885,
+        "v2_valid_until": 1795565286
+      }
+    },
+    {
+      "case": "invalid_voucher_issued_at1795565165",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_voucher_issued_at1795565286",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_voucher_confirmedFalse",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_voucher_unusedFalse",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_voucher_skusim-rice",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "seven_day_expiry_exclusive",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_mileage_next_trade",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_mileage_unused",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_mileage_delivered_at",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "unmatched_rights_never_advertised",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "benefit_markup_rejected",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "C_claim_only_for_C_fixture",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "forum_allowed_at_300_seconds",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_forum_kindreview",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_forum_kindcomplaint",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_forum_reviewedFalse",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_forum_last_post_at1795564986",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_forum_last_post_at1795565286",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_forum_thread_idTrue",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "invalid_forum_acceptable_skus['sim-rice']",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "first_own_stock_top_level_allowed",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "forum_2000_character_limit_enforced",
+      "category": "contract",
+      "passed": true,
+      "observed": null
+    }
+  ],
+  "independent_contract_pass_count": 53,
+  "goal_feedback": [
+    {
+      "case": "refund_time_limit_available_in_this_output",
+      "observed": false,
+      "severity": "goal_feedback",
+      "detail": "The draft mentions reviewing initial problems but does not state48h or a separate detailed-policy field. This need not be inserted as long prose in every first reply, but must be unambiguous and accessible before reliance."
+    },
+    {
+      "case": "refund_original_payer_destination_available",
+      "observed": false,
+      "severity": "goal_feedback",
+      "detail": "Original-payment verification is named among evidence types, but the refund destination is not explicitly original payer in this draft. No refund completion is claimed."
+    },
+    {
+      "case": "inquiry_vs_explicit_purchase_assent_distinct",
+      "observed": false,
+      "severity": "goal_feedback",
+      "detail": "The phrase '구매하려면' conveys purchase intent, but the example only sends SKU/quantity; no separate explicit-acceptance step is shown. There is no issuance or payment function in this tool."
+    },
+    {
+      "case": "explicit_standard_total_product_plus_buyer_fee",
+      "observed": false,
+      "severity": "goal_feedback",
+      "detail": "Product10000 and standard buyerfee310 are arithmetically correct but shown separately. Actual cost with real gas is not a fixed10310; show the estimate and uncertainty clearly before payment."
+    },
+    {
+      "case": "benefit_notice_vs_real_redemption",
+      "observed": "notice_only",
+      "severity": "scope_limit",
+      "detail": "This tool validates fixture timestamps/flags and advertises eligibility; it does not calculate, reserve, spend or accrue a real balance."
+    },
+    {
+      "case": "authoritative_price_grade_margin_and_identity",
+      "observed": "fixture_only",
+      "severity": "scope_limit",
+      "detail": "mode synthetic, sim-SKU and synthetic-name prefix prevent direct real-offer use. They do not independently verify real inventory, current price, C margin, customer rights or revocations."
+    },
+    {
+      "case": "compact_first_reply",
+      "observed": "generic_benefits_not_repeated_in_every_first_or_forum_message",
+      "severity": "not_necessarily_failure",
+      "detail": "Do not force every policy into a long first reply. Core product/conditions first and an accessible full policy may be sufficient; no preference or conversion was measured."
+    }
+  ],
+  "synthetic_only": true,
+  "live_call_authorized_or_executed": false,
+  "market_calls": 0,
+  "model_calls": 0,
+  "production_ready": false,
+  "eligible_scope": "trusted synthetic draft preview only, subject to host approval"
+}

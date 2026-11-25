@@ -1,0 +1,141 @@
+{
+  "host_sha256": "86aff2808f0ba8d5035bdad90cbc9434f3be71fc45a5fac2fd636c2d2aa4484f",
+  "checks": [
+    {
+      "case": "fresh_pinned_summary_reference_ready",
+      "passed": true
+    },
+    {
+      "case": "reject_injected_summary",
+      "passed": true
+    },
+    {
+      "case": "reject_injected_existing_skus",
+      "passed": true
+    },
+    {
+      "case": "reject_injected_cash",
+      "passed": true
+    },
+    {
+      "case": "reject_injected_url",
+      "passed": true
+    },
+    {
+      "case": "reject_injected_path",
+      "passed": true
+    },
+    {
+      "case": "reject_max_trials_True",
+      "passed": true
+    },
+    {
+      "case": "reject_max_trials_0",
+      "passed": true
+    },
+    {
+      "case": "reject_max_trials_9",
+      "passed": true
+    },
+    {
+      "case": "reject_max_trials_1.5",
+      "passed": true
+    },
+    {
+      "case": "reject_max_trials_'3'",
+      "passed": true
+    },
+    {
+      "case": "wrong_reference_rejected",
+      "passed": true
+    },
+    {
+      "case": "bounded_pure_plan_and_explicit_no_stock_exclusion",
+      "passed": true
+    },
+    {
+      "case": "same_sample_resolved_host_side",
+      "passed": true
+    },
+    {
+      "case": "one_use_replay_rejected",
+      "passed": true
+    },
+    {
+      "case": "expired_mono_rejected",
+      "passed": true
+    },
+    {
+      "case": "expired_wall_rejected",
+      "passed": true
+    },
+    {
+      "case": "stale_or_future_summary_99894",
+      "passed": true
+    },
+    {
+      "case": "stale_or_future_summary_100151",
+      "passed": true
+    },
+    {
+      "case": "invalid_window_True",
+      "passed": true
+    },
+    {
+      "case": "invalid_window_59",
+      "passed": true
+    },
+    {
+      "case": "invalid_window_86401",
+      "passed": true
+    },
+    {
+      "case": "invalid_window_'3600'",
+      "passed": true
+    },
+    {
+      "case": "summary_url_injection_rejected",
+      "passed": true
+    },
+    {
+      "case": "unknown_tool_rejected",
+      "passed": true
+    },
+    {
+      "case": "no_wallet_wallet",
+      "passed": true
+    },
+    {
+      "case": "no_wallet_identity",
+      "passed": true
+    },
+    {
+      "case": "reject_output_sku",
+      "passed": true
+    },
+    {
+      "case": "reject_output_observed_count",
+      "passed": true
+    },
+    {
+      "case": "reject_output_planned_units",
+      "passed": true
+    },
+    {
+      "case": "reject_output_extra",
+      "passed": true
+    }
+  ],
+  "passed": 31,
+  "failed": 0,
+  "synthetic_host_tests_only": true,
+  "new_market_calls": 0,
+  "new_model_calls": 0,
+  "private_model_thoughts_exported": false,
+  "actual_existing_run": {
+    "summary": {},
+    "actions_without_thoughts_or_reference": [],
+    "public_observations_without_reference": []
+  },
+  "scope": "Bounded source-pinned public preview only; general planner inputs remain unapproved; no stock lookup or purchase."
+}
