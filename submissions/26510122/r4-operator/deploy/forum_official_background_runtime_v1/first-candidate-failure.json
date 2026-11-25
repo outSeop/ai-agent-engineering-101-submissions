@@ -1,0 +1,7 @@
+{
+  "tests_passed": 6,
+  "tests_failed": 2,
+  "cause": "SDK step_log requires session/logs; publication callback may complete before step_log raises FileNotFoundError",
+  "real_Model_or_market_operations": 0,
+  "source_preserved": "first-candidate-missing-sdk-logdir.py"
+}

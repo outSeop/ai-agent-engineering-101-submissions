@@ -1,0 +1,1 @@
+{"status": "fixture_incomplete", "cause": "mocked SDK time object only exposed sleep; original Mind.context needs time and strftime", "production_or_Model_operations": 0}

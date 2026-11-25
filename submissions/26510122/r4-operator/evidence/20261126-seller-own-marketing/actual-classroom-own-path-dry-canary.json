@@ -1,0 +1,32 @@
+{
+  "started_at": 1795633782.9135346,
+  "finished_at": 1795633791.2925174,
+  "status": "dry_selection",
+  "result": {
+    "started_at": 1795633782.9145339,
+    "status": "dry_selection",
+    "model_calls": 2,
+    "publication_attempts": 1,
+    "official_run_once_inherited": true,
+    "external_host_hook": true,
+    "original_view_sha256": "c176dd610bc07443cf26b3be5e2631028e926f571306f145d256241571618211",
+    "original_view_utf8_bytes": 5049,
+    "full_original_view_in_untrusted_user_context": true,
+    "finished_at": 1795633791.2923086
+  },
+  "entrypoint": "exact install_tick/coordinator.tick",
+  "class_model": "market",
+  "SDK7_verified": 7,
+  "native2_manifest_sha256": "7aef69c623416aad508ffb3875b6e8644aaa55b0e84ffb176e7581d67625cfa7",
+  "hook_sha256": "718366a40cabc9d6988d0fb8b3cf40a8320419254f0097d8ce44059a051619ad",
+  "actual_publication_calls": 0,
+  "legacy_publisher_is_stub": true,
+  "database_read_only": true,
+  "native_tool_tokens_empty": true,
+  "native_tool_NoWallet": true,
+  "model_authentication_only_in_private_inference_object": true,
+  "dry_selected_grade": "B",
+  "dry_selected_pack_text": "\ubc84\uc12f\ud0d5 2\uac1c\uc785",
+  "model_ctx_credentials_empty": true,
+  "marketing_total_model_budget_seconds": 25
+}

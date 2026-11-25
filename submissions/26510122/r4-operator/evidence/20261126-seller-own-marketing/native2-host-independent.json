@@ -1,0 +1,31 @@
+{
+  "total": 5,
+  "passed": 5,
+  "cases": [
+    {
+      "case": "own-journal-full-history-not-current-menu-and-CC-guard",
+      "passed": true
+    },
+    {
+      "case": "returned-price-mutation-scope-denied",
+      "passed": true
+    },
+    {
+      "case": "fresh-grade-revalidation-denied",
+      "passed": true
+    },
+    {
+      "case": "fresh-original-price-and-choice-once",
+      "passed": true
+    },
+    {
+      "case": "unchanged-offer-duplicate-after-cooldown",
+      "passed": true
+    }
+  ],
+  "manifest_sha256": "7aef69c623416aad508ffb3875b6e8644aaa55b0e84ffb176e7581d67625cfa7",
+  "host_source_sha256": "70a916d41c3b4e6bc84c5857286bac7af99196dbd92c591260e1ee35dfb0a39a",
+  "method": "Genuine native2 ordinary SDK; host2 acquisition reads original synthetic legacy DB; original forum publisher/Market use ForumFixture mocks.",
+  "clock_note": "SDK tests use actual wall clock; legacy duplicate-after-cooldown alone advances mock fixture time.",
+  "actual_Model_API_POST_DM_prod_changes": 0
+}

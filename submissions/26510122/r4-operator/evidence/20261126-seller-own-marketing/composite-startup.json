@@ -1,0 +1,18 @@
+{
+  "composite_launcher_sha256": "e1b328d5981f0187530ccd7a837a5d816cb57605ade1b48a68fb47e100719550",
+  "test_source_sha256": "37fb1642af749be0c1086b0e11eadf129a457ee85ce3b992b4bd448ddd45364e",
+  "original_cmd_run": true,
+  "actual_managed_constructor": true,
+  "initial_ctx_keys_exact": true,
+  "shop_url_absent_before_join": true,
+  "same_context_updated_after_join": true,
+  "original_Mind_run_once": true,
+  "genuine_native2_ordinary_call": true,
+  "mock_Model_calls": 2,
+  "mock_publish_calls": 1,
+  "actual_Model_calls": 0,
+  "actual_market_writes": 0,
+  "initial_fixture_failure_preserved": "first-composite-fixture-expects-legacy-context.py",
+  "initial_fixture_failure_cause": "legacy context expectation inconsistent with native2 context interception",
+  "business_source_modified": false
+}

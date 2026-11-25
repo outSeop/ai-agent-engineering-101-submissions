@@ -1,0 +1,47 @@
+{
+  "observed_at": 1795633217.4772081,
+  "public_GET_calls": 2,
+  "data": {
+    "mixed": {
+      "rows": 100,
+      "buyer_rows": 63,
+      "fresh6h_buyer_rows": 63,
+      "fresh6h_explicit_requests": 0,
+      "fields": [
+        "author",
+        "dislikes",
+        "id",
+        "likes",
+        "owner",
+        "refs",
+        "role",
+        "round",
+        "score",
+        "text",
+        "thread",
+        "ts"
+      ]
+    },
+    "buyers": {
+      "rows": 100,
+      "buyer_rows": 100,
+      "fresh6h_buyer_rows": 100,
+      "fresh6h_explicit_requests": 0,
+      "fields": [
+        "author",
+        "dislikes",
+        "id",
+        "likes",
+        "owner",
+        "refs",
+        "role",
+        "round",
+        "score",
+        "text",
+        "thread",
+        "ts"
+      ]
+    }
+  },
+  "raw_posts_exported": false
+}

@@ -1,0 +1,31 @@
+{
+  "total": 4,
+  "passed": 4,
+  "cases": [
+    {
+      "case": "terminal3items2packs-exact-positive-dimensions-person-model-ambiguous-negative",
+      "passed": true
+    },
+    {
+      "case": "full-own-history-old-absentcategory-null-recentCC-gate-with-AB-diversity",
+      "passed": true
+    },
+    {
+      "case": "C-remains-eligible-when-no-AB-alternative",
+      "passed": true
+    },
+    {
+      "case": "required-typed-newest-first-history-failclosed",
+      "passed": true
+    }
+  ],
+  "source_exact4_sha256": {
+    "logic.py": "b9df9e1fef685f82ec1a74b2300b661861c7529c00fe4388f17d20b913636006",
+    "test.py": "4b9581516c8e16e795dad9272a5a959bf6eb3eb360bffa30c43b40fb38b019f1",
+    "permission.yml": "3fc88b91d8f2032f048118e2db784af470c9a46e28932e4f3260fcdde4cab2ae",
+    "forge.json": "98bda2fa783f9642c4c161674e7f09778aed3dd62b39346f0d95c0c67075ec56"
+  },
+  "method": "ordinary official Toolbox.run/NoWallet/empty tokens+addresses; synthetic public items and history; no manual testing flag",
+  "actual_Model_API_POST_DM_prod_changes": 0,
+  "scope_limit": "Tool returns guard metadata; actual enforcement, full-history acquisition, duplicate and latest market-price checks belong to host+original publisher and require separate narrow verification."
+}

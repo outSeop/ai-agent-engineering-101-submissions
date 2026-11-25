@@ -1,0 +1,47 @@
+{
+  "development_provider": "codex-cli-gpt-6.2-sol",
+  "provider_reported_model": null,
+  "official_mind": true,
+  "model_response_sha256": "5e9e6527e12342d01fb53cfd50705d310948d163506e4524e433c99d6bf3a5d5",
+  "model_capture_record_sha256": "45a1b0f22e1d822eb5a0653821e729ada9e5832a6a694daf01c668a36de98e77",
+  "original_forge_log_sha256": "df17d68ebd149580e31accb8732cf4f340e1912a9a1de76b685342cd8680b2de",
+  "installed_logic_and_test_exact_match": true,
+  "forge_events": [
+    {
+      "ts": 1795628368,
+      "tool": "prioritize_forum_candidates",
+      "version": 1,
+      "passed": false
+    },
+    {
+      "ts": 1795628487,
+      "tool": "prioritize_forum_candidates",
+      "version": 1,
+      "passed": true
+    },
+    {
+      "ts": 1795633272,
+      "tool": "prioritize_forum_candidates",
+      "version": 2,
+      "passed": true
+    }
+  ],
+  "prior_v2_attempt": "official read_tool observation truncated; no forge attempt",
+  "host_tests": {
+    "read_only_journal_and_scope": {
+      "passed": 2,
+      "total": 2
+    },
+    "original_sdk_cmd_run_through_managed_coordinator": {
+      "passed": 1,
+      "total": 1,
+      "synthetic_C_C_history": true,
+      "C_spotlight_denied": true,
+      "retained_C_display": true,
+      "B_selected": true,
+      "mock_publisher_calls": 1,
+      "actual_posts": 0
+    }
+  },
+  "history_scope": "owned confirmed R4 single spotlights; unclassified legacy posts excluded, no historical categories reconstructed"
+}

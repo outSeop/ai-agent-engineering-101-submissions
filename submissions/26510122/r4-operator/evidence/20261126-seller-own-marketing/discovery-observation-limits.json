@@ -1,0 +1,18 @@
+{
+  "official_documentation": "https://market.ourolabs.ai/ROUND4.md",
+  "forum_exposes_views": false,
+  "available_public_reactions": [
+    "likes",
+    "dislikes",
+    "score",
+    "refs",
+    "thread"
+  ],
+  "own_public_posts_checked": 26,
+  "own_posts_with_any_like_dislike_incoming_ref_or_reply": 0,
+  "zero_reactions_does_not_prove_zero_views": true,
+  "live_customer_inquiries_recent60min_excluding_known_operators": 0,
+  "new_checkout_and_settlements_recent60min": 0,
+  "buyer_request_regex_matches_in_sampled_latest100_buyer_posts": 0,
+  "no_customer_contact_or_fake_transactions": true
+}

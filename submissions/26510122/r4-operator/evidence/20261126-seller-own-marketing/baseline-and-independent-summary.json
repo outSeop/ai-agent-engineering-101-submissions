@@ -1,0 +1,74 @@
+{
+  "native2_independent": {
+    "total": 4,
+    "passed": 4,
+    "cases": [
+      {
+        "case": "terminal3items2packs-exact-positive-dimensions-person-model-ambiguous-negative",
+        "passed": true
+      },
+      {
+        "case": "full-own-history-old-absentcategory-null-recentCC-gate-with-AB-diversity",
+        "passed": true
+      },
+      {
+        "case": "C-remains-eligible-when-no-AB-alternative",
+        "passed": true
+      },
+      {
+        "case": "required-typed-newest-first-history-failclosed",
+        "passed": true
+      }
+    ],
+    "source_exact4_sha256": {
+      "logic.py": "b9df9e1fef685f82ec1a74b2300b661861c7529c00fe4388f17d20b913636006",
+      "test.py": "4b9581516c8e16e795dad9272a5a959bf6eb3eb360bffa30c43b40fb38b019f1",
+      "permission.yml": "3fc88b91d8f2032f048118e2db784af470c9a46e28932e4f3260fcdde4cab2ae",
+      "forge.json": "98bda2fa783f9642c4c161674e7f09778aed3dd62b39346f0d95c0c67075ec56"
+    },
+    "method": "ordinary official Toolbox.run/NoWallet/empty tokens+addresses; synthetic public items and history; no manual testing flag",
+    "actual_Model_API_POST_DM_prod_changes": 0,
+    "scope_limit": "Tool returns guard metadata; actual enforcement, full-history acquisition, duplicate and latest market-price checks belong to host+original publisher and require separate narrow verification."
+  },
+  "host2_independent": {
+    "total": 5,
+    "passed": 5,
+    "cases": [
+      {
+        "case": "own-journal-full-history-not-current-menu-and-CC-guard",
+        "passed": true
+      },
+      {
+        "case": "returned-price-mutation-scope-denied",
+        "passed": true
+      },
+      {
+        "case": "fresh-grade-revalidation-denied",
+        "passed": true
+      },
+      {
+        "case": "fresh-original-price-and-choice-once",
+        "passed": true
+      },
+      {
+        "case": "unchanged-offer-duplicate-after-cooldown",
+        "passed": true
+      }
+    ],
+    "manifest_sha256": "7aef69c623416aad508ffb3875b6e8644aaa55b0e84ffb176e7581d67625cfa7",
+    "host_source_sha256": "70a916d41c3b4e6bc84c5857286bac7af99196dbd92c591260e1ee35dfb0a39a",
+    "method": "Genuine native2 ordinary SDK; host2 acquisition reads original synthetic legacy DB; original forum publisher/Market use ForumFixture mocks.",
+    "clock_note": "SDK tests use actual wall clock; legacy duplicate-after-cooldown alone advances mock fixture time.",
+    "actual_Model_API_POST_DM_prod_changes": 0
+  },
+  "baseline_reference": {
+    "recent30": "recent-1800-safe.json",
+    "recent60": "recent-3600-safe.json",
+    "own_public_forum_reactions": "forum-reactions-safe.json",
+    "cadence_and_interruption": "cadence-interruption-source-audit-safe.json"
+  },
+  "known_setup_correction": "Initial native2 verifier asserted fixed A-before-B order; actual history made B less represented. Corrected validator asserts both A/B ahead of C without forcing their relative order. Original source/log retained.",
+  "other_shop_reaction_comparison": "Unavailable from retained own-only aggregate; no full public page bodies retained and no existing forum cache found. Additional 43 GETs not issued.",
+  "interpretation": "No actual checkout/settlement; own zero reactions do not prove zero views or explain motivation. No marketing causal effect claimed.",
+  "actual_Model_POST_DM_prod_mutations": 0
+}

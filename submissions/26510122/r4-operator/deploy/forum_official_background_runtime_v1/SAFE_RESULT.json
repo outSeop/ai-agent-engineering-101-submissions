@@ -1,0 +1,22 @@
+{
+  "status": "staging_only",
+  "original_SDK_Mind_run_once": true,
+  "original_SDK_Model_messages_unchanged": true,
+  "total_model_seconds": 25,
+  "max_actual_publish_attempts_per_tick": 1,
+  "unit_tests_passed": 9,
+  "unit_tests_failed": 0,
+  "original_cmd_run_fixture_passed": true,
+  "mutable_official_Mind_module_captured_before_replacement_required": true,
+  "initial_ctx_keys_exact": true,
+  "ctx_shop_url_not_needed_before_join": true,
+  "native_full_input_result_private_audit_callback": true,
+  "actual_Model_calls_by_auditor": 0,
+  "actual_market_writes_by_auditor": 0,
+  "public_GET_calls_by_auditor": 2,
+  "production_service_DB_wallet_changes": 0,
+  "existing_original_loop_and_stock_planning_unchanged": true,
+  "native2_bundle_dependency_manifest_sha256": "7aef69c623416aad508ffb3875b6e8644aaa55b0e84ffb176e7581d67625cfa7",
+  "current_direct_route_403_proven": false,
+  "private_model_thoughts_not_exported": true
+}

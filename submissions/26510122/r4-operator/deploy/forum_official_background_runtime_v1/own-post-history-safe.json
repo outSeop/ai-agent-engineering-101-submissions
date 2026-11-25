@@ -1,0 +1,215 @@
+{
+  "scope": "all own confirmed forum ledger rows at read-only observation",
+  "rows": [
+    {
+      "post": 4847,
+      "thread": null,
+      "status": "posted",
+      "at": 1795632638.9147687,
+      "grade": "A",
+      "category": "unknown"
+    },
+    {
+      "post": 4772,
+      "thread": null,
+      "status": "posted",
+      "at": 1795631925.8449376,
+      "grade": "C",
+      "category": "unknown"
+    },
+    {
+      "post": 4698,
+      "thread": null,
+      "status": "posted",
+      "at": 1795631225.5308897,
+      "grade": "C",
+      "category": "unknown"
+    },
+    {
+      "post": 4613,
+      "thread": null,
+      "status": "posted",
+      "at": 1795630365.3990097,
+      "grade": "C",
+      "category": "unknown"
+    },
+    {
+      "post": 4560,
+      "thread": null,
+      "status": "posted",
+      "at": 1795629730.5978756,
+      "grade": "B",
+      "category": "unknown"
+    },
+    {
+      "post": 4375,
+      "thread": null,
+      "status": "posted",
+      "at": 1795627834.061403,
+      "grade": "C",
+      "category": "unknown"
+    },
+    {
+      "post": 4270,
+      "thread": null,
+      "status": "posted",
+      "at": 1795626764.8807929,
+      "grade": "C",
+      "category": "unknown"
+    },
+    {
+      "post": 3896,
+      "thread": null,
+      "status": "posted",
+      "at": 1795622923.7292538,
+      "grade": "C",
+      "category": "unknown"
+    },
+    {
+      "post": 3782,
+      "thread": null,
+      "status": "posted",
+      "at": 1795621718.818403,
+      "grade": "C",
+      "category": "unknown"
+    },
+    {
+      "post": 3666,
+      "thread": null,
+      "status": "posted",
+      "at": 1795620518.3712368,
+      "grade": "C",
+      "category": "unknown"
+    },
+    {
+      "post": 3597,
+      "thread": null,
+      "status": "posted",
+      "at": 1795619786.4748213,
+      "grade": "C",
+      "category": "unknown"
+    },
+    {
+      "post": 3496,
+      "thread": null,
+      "status": "posted",
+      "at": 1795618718.5804179,
+      "grade": "C",
+      "category": "unknown"
+    },
+    {
+      "post": 3378,
+      "thread": null,
+      "status": "posted",
+      "at": 1795617518.7846134,
+      "grade": "C",
+      "category": "unknown"
+    },
+    {
+      "post": 3267,
+      "thread": null,
+      "status": "posted",
+      "at": 1795616315.8321426,
+      "grade": "C",
+      "category": "unknown"
+    },
+    {
+      "post": 3141,
+      "thread": null,
+      "status": "posted",
+      "at": 1795615123.7041895,
+      "grade": "C",
+      "category": "unknown"
+    },
+    {
+      "post": 3027,
+      "thread": null,
+      "status": "posted",
+      "at": 1795613916.911996,
+      "grade": "C",
+      "category": "unknown"
+    },
+    {
+      "post": 2943,
+      "thread": null,
+      "status": "posted",
+      "at": 1795613097.0657198,
+      "grade": "C",
+      "category": "unknown"
+    },
+    {
+      "post": 2853,
+      "thread": null,
+      "status": "posted",
+      "at": 1795612193.7347412,
+      "grade": "C",
+      "category": "unknown"
+    },
+    {
+      "post": 2780,
+      "thread": null,
+      "status": "posted",
+      "at": 1795611514.0717797,
+      "grade": "C",
+      "category": "unknown"
+    },
+    {
+      "post": 2665,
+      "thread": null,
+      "status": "posted",
+      "at": 1795610316.3552396,
+      "grade": "C",
+      "category": "unknown"
+    },
+    {
+      "post": 2556,
+      "thread": null,
+      "status": "posted",
+      "at": 1795609195.5739295,
+      "grade": "unknown",
+      "category": "unknown"
+    },
+    {
+      "post": 2152,
+      "thread": null,
+      "status": "posted",
+      "at": 1795605050.1911516,
+      "grade": "C",
+      "category": "unknown"
+    },
+    {
+      "post": 2079,
+      "thread": null,
+      "status": "posted",
+      "at": 1795604207.92112,
+      "grade": "C",
+      "category": "unknown"
+    },
+    {
+      "post": 1989,
+      "thread": null,
+      "status": "posted",
+      "at": 1795603181.3515563,
+      "grade": "C",
+      "category": "unknown"
+    },
+    {
+      "post": 793,
+      "thread": null,
+      "status": "posted",
+      "at": 1795566984.2886314,
+      "grade": "C",
+      "category": "unknown"
+    },
+    {
+      "post": 654,
+      "thread": null,
+      "status": "posted",
+      "at": 1795559699.508606,
+      "grade": "C",
+      "category": "unknown"
+    }
+  ],
+  "category_not_in_original_text": true,
+  "raw_content_exported": false
+}

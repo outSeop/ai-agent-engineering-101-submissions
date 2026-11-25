@@ -1,0 +1,18 @@
+{
+  "schema": "outseop-r4.seller-own-background-host.v1",
+  "files": {
+    "README.md": "ff8a8650e0e1590fe40e705ee9c67c3e0880a51e5be3868f48691982ad95734b",
+    "SAFE_RESULT.json": "1aa0be4f8c402b5e1e760a97703ea6f0a15c52acdf94e973c7a4df9278b45cc9",
+    "first-candidate-failure.json": "15bf581f729106a8c0371eee67ba79e65bd5532ff35d51bff440d6c7e0d6b7b1",
+    "first-candidate-missing-sdk-logdir.py": "02781fbed4978cda4212fea9dd238d5fb048648eefe5f46786bf9c80d08a3a28",
+    "first-startup-fixture-failure.json": "7a92199e90b4b99a58b63ffbbab4ad4923667b39a935ca73ecc636424ea1aea3",
+    "first-startup-fixture-missing-clock.py": "68bfd4df2eadbccc5a70cd122cfb28f904eb35273ef24e04c827622117ab899c",
+    "own-post-history-safe.json": "a9d3490c647c8bbf431b1c846935a3042169e4dc237c2c1ad46ec2ee2878788d",
+    "public-page-safe-counts.json": "265a26de3c55d35a65cbd5e3fe3ebe0addd3ceba5ea843c0140b13b093adc6cf",
+    "r4_forum_official_background_host.py": "718366a40cabc9d6988d0fb8b3cf40a8320419254f0097d8ce44059a051619ad",
+    "test_official_background.py": "e54d05cef7ed5e827e4440f3c1b29b75bdafab19451d9afb6982f1680de7549b",
+    "test_original_cmd_run_startup.py": "d6047ef8fde83e5367e9425ce17ea7130811a7409ced780f032729dfba752da2"
+  },
+  "external_host_authorship": true,
+  "production_changed": false
+}

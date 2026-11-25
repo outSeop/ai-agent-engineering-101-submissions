@@ -1,0 +1,13 @@
+{
+  "status": "duplicate_content",
+  "actual_publication_calls": 0,
+  "selected_grade": "B",
+  "selected_sku": "G255acd28",
+  "candidate_price": 18900,
+  "existing_publisher_price": 11756,
+  "cause": "read-only observer used operator cwd for relative launch price policy; original publisher used registered shop cwd",
+  "existing_duplicate_guard_preserved": true,
+  "pricing_policy_or_DB_changed": false,
+  "fix": "bind exact existing price policy path in read-only host and observer entrypoints",
+  "original_live_tick_log_preserved_privately": true
+}

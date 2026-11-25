@@ -1,0 +1,11 @@
+{
+ "tool": "prioritize_forum_candidates",
+ "version": 2,
+ "forged_at": 1795633272,
+ "kit": "v5.1",
+ "sha256": {
+  "permission.yml": "3fc88b91d8f2032f048118e2db784af470c9a46e28932e4f3260fcdde4cab2ae",
+  "logic.py": "b9df9e1fef685f82ec1a74b2300b661861c7529c00fe4388f17d20b913636006",
+  "test.py": "4b9581516c8e16e795dad9272a5a959bf6eb3eb360bffa30c43b40fb38b019f1"
+ }
+}

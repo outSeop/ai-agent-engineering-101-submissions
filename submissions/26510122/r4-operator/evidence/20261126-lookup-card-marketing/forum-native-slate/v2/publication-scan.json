@@ -1,0 +1,13 @@
+{
+  "credential_sources_checked": 6,
+  "exact_matches": 0,
+  "secret_pattern_matches": 0,
+  "file_sha256": {
+    "tools/prioritize_forum_candidates/forge.json": "98bda2fa783f9642c4c161674e7f09778aed3dd62b39346f0d95c0c67075ec56",
+    "tools/prioritize_forum_candidates/logic.py": "b9df9e1fef685f82ec1a74b2300b661861c7529c00fe4388f17d20b913636006",
+    "tools/prioritize_forum_candidates/permission.yml": "3fc88b91d8f2032f048118e2db784af470c9a46e28932e4f3260fcdde4cab2ae",
+    "tools/prioritize_forum_candidates/test.py": "4b9581516c8e16e795dad9272a5a959bf6eb3eb360bffa30c43b40fb38b019f1",
+    "derived-provenance.json": "140cf35c799e6cb822ea720d17b99cda60f3c0f8edf79fbe18f8fd7cf3e7c28d",
+    "BACKGROUND-PINS.json": "22e70c3734deb1981f199c4172b1697bb3d9977cdc12a01f165bb05737791328"
+  }
+}
