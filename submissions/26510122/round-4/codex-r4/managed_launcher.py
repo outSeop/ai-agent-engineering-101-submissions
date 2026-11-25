@@ -50,13 +50,45 @@ def install(official, *, enable_stock=False, stock_lines=10, native_factory=None
                                              native_customer_context_factory=native_factory)
     if forum_operator is not None:
         from importlib.util import module_from_spec, spec_from_file_location
-        path=forum_operator/"deploy/forum_native_slate_runtime_v1_host3_20261126/r4_forum_slate_background.py"
-        if hashlib.sha256(protected_native(path)).hexdigest()!="da0ca20d1bf1e9b31008dec88cf370ec82f4f864c7cd2e97c8344945b4873c97":
+        from types import SimpleNamespace
+        # Capture the original SDK class before the launcher installs managed Mind.
+        native_sdk=SimpleNamespace(Mind=official.Mind)
+        path=forum_operator/"deploy/forum_native_slate_runtime_v2_host3_20261126/r4_forum_slate_background.py"
+        if hashlib.sha256(protected_native(path)).hexdigest()!="7552b87809756360b4d9ecce4ddfb796130bfab7dc1da6369af62620abf49790":
             raise RuntimeError("native forum slate background hook changed")
         spec=spec_from_file_location("verified_background_forum_slate",path)
         module=module_from_spec(spec)
         spec.loader.exec_module(module)
         mind=module.install_mind(official,mind,forum_operator)
+        release=forum_operator/"deploy/forum_official_background_runtime_v1"
+        manifest=protected_native(release/"MANIFEST.json")
+        if hashlib.sha256(manifest).hexdigest()!="49854da01419b4a49b88a5d7123375ef03f1f7a182cceb3fe7b301c4d2594f2d":
+            raise RuntimeError("official background host manifest changed")
+        for name,pin in json.loads(manifest)["files"].items():
+            relative=Path(name)
+            if relative.is_absolute() or ".." in relative.parts or hashlib.sha256(protected_native(release/relative)).hexdigest()!=pin:
+                raise RuntimeError("official background host source changed")
+        path=release/"r4_forum_official_background_host.py"
+        spec=spec_from_file_location("verified_official_background_tick",path)
+        background=module_from_spec(spec)
+        spec.loader.exec_module(background)
+        selected_mind=mind
+        class AutonomousForumMind(selected_mind):
+            def __init__(self,root,agent,model,toolbox,ctx,roles):
+                super().__init__(root,agent,model,toolbox,ctx,roles)
+                coordinator=self.marketing_coordinator
+                if coordinator is not None:
+                    hook=background.install_tick(native_sdk,coordinator,forum_operator,Path(root),agent,model,ctx,stock=self.stock_coordinator)
+                    coordinator.execute.audit=hook.audit
+                    original_native_context=coordinator.execute.native_context
+                    def audited_native_context(facts):
+                        hook.audit("native_input",facts)
+                        result=original_native_context(facts)
+                        hook.audit("native_result",result)
+                        return result
+                    coordinator.execute.native_context=audited_native_context
+                    self.official_forum_background=hook
+        mind=AutonomousForumMind
     official.Toolbox = toolbox
     official.Mind = mind
     official.agent_app = app

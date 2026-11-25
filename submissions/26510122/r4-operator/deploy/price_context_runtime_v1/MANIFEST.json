@@ -1,0 +1,11 @@
+{
+  "schema": "outseop-r4.price-context-bootstrap.v1",
+  "files": {
+    "README.md": "63531f6898ad3b8655213c6d010591d6da79d9c20abeb9ebc02858eedb7d8325",
+    "SAFE_RESULT.json": "c93b59eb9e3ee6f7cac3cda2ac2708dba6d7e6266bf10946154ed3033b472fd4",
+    "price_context_bootstrap.py": "df02738f0a92875e458a981138bd5bb289be296b40f7b3ed21fc9dec4b395c56",
+    "test_price_context_bootstrap.py": "d0832d4dc003c5d5273a07ea715c3214eda4b3eeea1ca675893d7c1a36e1262f"
+  },
+  "external_host_authorship": true,
+  "production_sources_modified": false
+}

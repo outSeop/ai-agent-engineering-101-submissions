@@ -1,0 +1,10 @@
+{
+  "file_sha256": {
+    "host/r4_forum_slate_host.py": "33dd233b0cb8a6ee58fe8fa26b01c287008bcf6e1bd29a4a60458448b3e4ec14",
+    "tools/prioritize_forum_candidates/forge.json": "98bda2fa783f9642c4c161674e7f09778aed3dd62b39346f0d95c0c67075ec56",
+    "tools/prioritize_forum_candidates/logic.py": "b9df9e1fef685f82ec1a74b2300b661861c7529c00fe4388f17d20b913636006",
+    "tools/prioritize_forum_candidates/permission.yml": "3fc88b91d8f2032f048118e2db784af470c9a46e28932e4f3260fcdde4cab2ae",
+    "tools/prioritize_forum_candidates/test.py": "4b9581516c8e16e795dad9272a5a959bf6eb3eb360bffa30c43b40fb38b019f1"
+  },
+  "prior_host_manifest_sha256": "c68e4460fc51c4bf239d9403766955b62c931ab77408ab0a61ff6347aadef8a5"
+}

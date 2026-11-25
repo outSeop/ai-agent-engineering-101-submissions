@@ -1,0 +1,20 @@
+{
+  "status": "staging_only",
+  "tests_passed": 8,
+  "tests_failed": 0,
+  "real_catalogue_manifest_verified": true,
+  "real_card_manifest_verified": true,
+  "actual_check_modes_both_passed": true,
+  "target_entrypoints_executed_by_author": 0,
+  "target_aliases": [
+    "catalogue",
+    "card"
+  ],
+  "price_module_sha256": "6e101702c38d47b3f2c68c860dc0198fd1d7557e311c2753dc4a71fed127118f",
+  "original_source_files_modified": 0,
+  "price_configuration_contents_copied_or_modified": false,
+  "global_cwd_changed_by_helper": false,
+  "DB_access_by_helper_or_tests": false,
+  "Model_or_market_calls": 0,
+  "service_changes": 0
+}
