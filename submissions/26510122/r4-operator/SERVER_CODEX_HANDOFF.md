@@ -1,5 +1,25 @@
 # 서버 Codex: 기존 outseop-r4 R4 가게를 운영한다
 
+## 최우선 현재 — 고객 동선 연결과 환불 완료 v3
+
+2026-11-25 10시 이후 갱신. 실제 서비스는 기존 지갑·장부·등록을 이어 가동 중이다. 10:08 KST는42SKU/42개·순위27·매입미확정0·실정산0·포럼총2다. 09:36:26 공식 Mind canary가 수업 모델로 C햄야채볶음밥 Gbea6b9f6/1062크레딧을 골라 #793에1회게시했다. 실제금융키/송금권한은없었다. 같은30분전후 A2A 비점검표시요청0→1,15.3901초응답/모델판단사용true,정산0→0. 구매확정아니고문의SKU가홍보SKU와달라포럼유입성과라고하지않는다. 유효한새구매자/실제첫정산확인은아직없다.
+
+**다음 최우선은 공개수요·보유재고·첫화면 상품 안내를 연결하는 것.** 09:55 실제공개Card의판매예시6개는모두비식품이었다. 문구잘림이아닌선택상품의문제다. 실제정산없는상태에서품목수증가를좋아졌다고하지않는다. reachroot goal을대표상품선택·카드갱신개발로바꿔 actual official Mind+개발Sol로진행중이다. 현재운영Card를이미고친것은아니다. 모델은대표SKU를판단하고도구가권위있는최신재고/현재등급/가격·기한·원래정책을검증해반영한다. 없는API/캐시를이미연결됐다고가정하지않고반드시독립검증한다. 기존정책은이전최신기록과같다.
+
+수요도구연결actualclass실행은 runtime/public-trial-preview-20261125-0950이다. official Mind가 summary v2→plan_public_sku_trials v2→sleep했고계란 Gab7c8b3d10건/즉석 G5c96ee787건/요거트 G5e1cf31d6건에서각1개시험후보를출력했다. 실제매입/보유재고제외false다. planner일반입력에는지갑모양SKU/2001초과건수/합계및출처·현재성문제가남아있다. 고정5f864 summary와77449 planner만사용하고150초일회참조→정확한원표본→출력결합의닫힌호스트미리보기만독립34checks통과했다. 호출자가표본/지갑/현금/held SKU/URL/path를주입할수없고도구ctx token/address/지갑권한없다. 공개검증재현31개는실제private실행증거3개를제외한검사다. source는 evidence/20261125-reach-chain에있다. 일반planner승인/실매입승인으로확대하지않는다.
+
+환불완료 genuine refund_complete_legacy v3 SHA6d2c0f9a8237216ff2fa43b7f4bf45739a1779f13eee505115578e1715b0f0e6는독립actual-schema19/19,tracked현재제출코드19/19,공개portable재현19/19로통과했다. official Toolbox 실제call completed/repeat already_completed,같은소유자부채상계/held할당·티켓해제/프로모션환불상태·소모보존/5단계rollback/동시호출/다른고객·매입보존을검증했다. 표준official test mode만썼고테스트플래그를직접속이지않았다. 자동검토의직접testing=True설정거부뒤공식Toolbox.test로대체했다. v1/v2실패와검증기기존잘못된no-mutation assertion실패도보존했다. **호스트확정기록을가상주입한단위성공이며실제모델승인→원거래검증→1회송금→정규영수증publisher→완료의통합은아직미완성이다.** 실제환불이나배포완료라고하지않는다. 실제원장행은개발에복사하지않았고tracked/staged source에서inmemory생성한25DDL/CHECK/FK/index가정확같음도확인했다. 새debt테이블은없고ticket PKkey/states waiting/held/used/released다. 각실패·성공은 evidence/20261125-refund-completion-v1,-v2,-v3에별도보존했다.
+
+개발추론host160초제한으로긴응답2회가끊겨원본7키트파일을바꾸지않고별도long wrapper를썼다. Windows CLI300초/공식cli_model 어댑터설정310초/HTTP315초,요청gpt-6.2-sol/high유지다. 실제173.388초/19774문자응답이완료되고도구사용event0이었다. 개발성능의시간제한개선이며실운영모델변경아니다. 현재backend는별도 serve_class_cli_long_candidate.py 프로세스(현재PID1096456,실제재확인)이고Windows r4_cli_mind_long_candidate.py를쓴다. CLIbackend의정확PID/명령과active개발run부재를확인한뒤에만교체한다. publicmain서비스는손대지않았다.
+
+재현용긴호스트파일은 deploy/self_forge_validation/{serve_class_cli_long_candidate.py,class_cli_transport_long_candidate.py,run_class_rebuild_provider_long_candidate.py,run_class_rebuild_variant_long_candidate.py},Windows bridge는 deploy/windows_cli/r4_cli_mind_long_candidate.py다. 실제현재backend는 runtime/r3-stock-20261124-204104/agent-work/codex-r4/serve_class_cli_long_candidate.py --kit <op>/kit --cmd '<Windows Python> <Windows long bridge>'이며포트19001/loopback만쓴다. 공식클래스분기는그대로다. 개발을short175provider로재개하면다시응답을유실할수있으므로long provider/variant를사용한다. --operator <op> --root <runtime/class-rebuild-...> --resume --development-cli,동시root금지. 현재reach개발session79902가있을수있으니pgrep/lock확인한다. 실행인증token은Modelctx에만,생성도구ctx에복사하지않는다.
+
+포럼실환경점검은 deploy/forum_official_mind_canary.py(공식Mind/기존외부v5재사용)로가능하다. --session <op>/runtime/forum-mind-canary-<unique>,dry가기본이며 --allow-one-post는한건실제게시다. 실제본문/재고검증·제한은원래도구가하고sourcehash변경시막힌다. 중복프로세스/미확정/최근게시를확인하고불분명결과무조건재게시하지않는다. 이것도기존외부영업도구를자율작성으로소급하지않는다. 수업모델직접호출에first-system-text가없으면not_the_kit403이다. 공식문서는kit own system text를요구하므로신규운영시험은실제Mind로한다. 과거실험의독립host Model호출과실운영Mind를구분한다.
+
+30분heartbeat r4와Windows reports/R4_DIRECTION_TRIALS_20261125.md/R4_OPERATIONS_LATEST.md에최신방향을이어쓴다. 기존R3는중지,새운영전환/genuine매입·판매경로/실제환불통합이남아있으므로활성goal완료처리하지않는다. 원문추론·Model/ReAct/private금융스냅샷/권리/키는공개하지않고공개copy전실제4자격증명+패턴scan과동일SHA검사를한다.
+
+이하 기록은 이전 시점의 작업과 실패이며 위 최신 방향이 우선한다.
+
 ## 최신 보완 — 실제 Mind 개발 모델과 수업 모델 운영 검증
 
 2026-11-25 09시 이후 확인. 아래의 “수업 모델 자체 생성”이라는 이전 표현은 모델별 출처를 더 세분해 읽는다. agent.md MODEL 3 / ROUND4.md는 기존 Codex 구독을 공식 cli_model.py로 모델에 연결하는 경로를 허용한다. 사용자 선택대로 **개발용 요청 gpt-6.2-sol을 실제 공식 Mind에 연결해 코드와 테스트를 직접 만들게 하고, 운영 판단은 수업 모델**로 검증했다. 이 개발/운영 조합은 문서에 근거한 해석이며 별도 강사 승인을 받았다는 뜻은 아니다. 외부 Sol 작업자가 영업 코드를 대신 작성·삽입하는 경로는 계속 금지한다. 개발 모델 소스를 수업 모델이 작성했다고 표시하지 않는다. CLI 응답은 실제 upstream 모델 ID를 노출하지 않아 요청 모델명과 별도 도구 사용이 없다는 실행 기록만 확인했다.
