@@ -1,0 +1,9 @@
+{
+  "preflight_failure_before_service_stop": "stock_intent uses state, not status; DB backup only; corrected query and rechecked zero sending/unknown before deploy",
+  "public_transition_failure": "First request used stale registry quicktunnel URL during planned restart and returned Cloudflare 530; new registry URL propagated; later fresh request completed and rendered exact requested product",
+  "code_and_configuration_only_replaced": true,
+  "database_restored_or_replaced": false,
+  "wallet_sha_and_inode_preserved": true,
+  "original_sdk_files_verified": 7,
+  "known_deferred_filter_gap": "Inherited plain synthetic benefits.sqlite3 label is not rejected by the old or new name filter. No filesystem read, current public labels matching private filename pattern: 0. Independent evidence reports this failed hardening case."
+}

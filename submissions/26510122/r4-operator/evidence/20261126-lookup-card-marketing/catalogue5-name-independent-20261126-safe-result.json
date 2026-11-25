@@ -1,0 +1,71 @@
+{
+  "cases": [
+    {
+      "case": "historical-public-option-slash",
+      "passed": true,
+      "search_returned_rows": 1,
+      "render_status": "rendered"
+    },
+    {
+      "case": "leading-brand-slash",
+      "passed": true,
+      "search_returned_rows": 1,
+      "render_status": "rendered"
+    },
+    {
+      "case": "quantity-pack-slash",
+      "passed": true,
+      "search_returned_rows": 1,
+      "render_status": "rendered"
+    },
+    {
+      "case": "dot-env",
+      "passed": true,
+      "search_returned_rows": 0,
+      "render_status": "unavailable"
+    },
+    {
+      "case": "URL",
+      "passed": true,
+      "search_returned_rows": 0,
+      "render_status": "unavailable"
+    },
+    {
+      "case": "private-path",
+      "passed": true,
+      "search_returned_rows": 0,
+      "render_status": "unavailable"
+    },
+    {
+      "case": "sqlite3-filename",
+      "passed": false,
+      "search_returned_rows": 1,
+      "render_status": "rendered"
+    },
+    {
+      "case": "secret-pattern",
+      "passed": true,
+      "search_returned_rows": 0,
+      "render_status": "unavailable"
+    },
+    {
+      "case": "actual-ref",
+      "passed": true,
+      "search_returned_rows": 0,
+      "render_status": "unavailable"
+    }
+  ],
+  "total": 9,
+  "passed": 8,
+  "source_exact4_sha256": {
+    "logic.py": "593ae2d23c264ea6c19a522d0e068b9d3b6d70b55924374a024f3aec12379ad3",
+    "test.py": "659919952aa0c1b0a0c778d937fecd623783b19678714f24c6aab0d31ca7724d",
+    "permission.yml": "28c3e03407c8c06a8fd5c19564108eb4706d4f14682e88d85857392bcd3ad91b",
+    "forge.json": "0edc12afc5a15a65dcd70f4119fdd0e0860823a9cad5b36a6c0593167f47563b"
+  },
+  "frozen_runtime_manifest_sha256": "818e94a3c7c845ed7b3b93afe41c0883e6eecda24b0b0bf960f5d87dc1efa094",
+  "method": "Ordinary official Toolbox.run with NoWallet, empty token/address context and fresh synthetic snapshot; original historical source/name evidence retained unchanged.",
+  "actual_Model_network_prod_changes": 0,
+  "known_gap": ".sqlite3 extension not covered by inherited private-filename regex. No actual file was read by tool; synthetic name marker only.",
+  "original_assert_failure_preserved": true
+}

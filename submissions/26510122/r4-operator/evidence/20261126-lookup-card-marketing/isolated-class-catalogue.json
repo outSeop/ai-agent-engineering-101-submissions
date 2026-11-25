@@ -1,0 +1,84 @@
+{
+  "status": "verified_catalogue_final_reply",
+  "http_status": 200,
+  "final_reply_matches_genuine": true,
+  "final_reply_sha256": "c480a5196cf8cbe41d6ae473372618e9eebee8e8a9d3efc2a644b56af4b5de63",
+  "final_reply_characters": 211,
+  "final_genuine_operation": "render",
+  "source_count": 170,
+  "source_bytes": 53986,
+  "source_snapshot_sha256": "8082301ef8096536c75fdac3135b8f23ec8100187c3ea43f7b2d23a14421e19d",
+  "catalogue_calls": [
+    {
+      "op": "context",
+      "seconds": 0.7624,
+      "snapshot_sha256": "8082301ef8096536c75fdac3135b8f23ec8100187c3ea43f7b2d23a14421e19d",
+      "status": "ready",
+      "fixed_reason": null,
+      "page_rows": 1,
+      "page_characters": 1592,
+      "source_count": 170,
+      "offset": 0,
+      "args_sha256": "268e53ebe81be3c7193a0a5a9d41ff33c2b8cf1529e7da09c346e9f32f62d8bf"
+    },
+    {
+      "op": "render",
+      "seconds": 0.7048,
+      "snapshot_sha256": "8082301ef8096536c75fdac3135b8f23ec8100187c3ea43f7b2d23a14421e19d",
+      "status": "rendered",
+      "fixed_reason": null,
+      "page_rows": null,
+      "page_characters": null,
+      "source_count": null,
+      "offset": null,
+      "args_sha256": "912e35cfe433b47058ebd2596d564d55ca5e1a2a9a3568c7a4997854b1588e17"
+    }
+  ],
+  "supplier_calls": 1,
+  "legacy_context_calls": 1,
+  "financial_executor_attempts": 0,
+  "legacy_fixture_unchanged": true,
+  "Model_page_bound_violations": 0,
+  "Model_metrics": [
+    {
+      "prompt_characters": 8833,
+      "page_count_in_history": 1,
+      "page_rows_in_history": [
+        1
+      ],
+      "page_characters_in_history": [
+        1592
+      ],
+      "timeout": 35,
+      "max_tokens": 700
+    }
+  ],
+  "phase_metrics": [
+    {
+      "prefetch_seconds": 0.0002,
+      "model_seconds": 2.5355,
+      "render_seconds": 0.705,
+      "legacy_action_seconds": 0.0,
+      "catalogue_seconds": 0.7638,
+      "search_seconds": 0.0,
+      "fallback_seconds": 0.0,
+      "total_seconds": 4.0079,
+      "retries": 0,
+      "outcome": "rendered_public",
+      "reason": "none",
+      "phase_reasons": {}
+    }
+  ],
+  "total_transport_seconds": 4.03,
+  "old_builder_invocations": 0,
+  "old_builder_source_present": false,
+  "tool_tokens_count": 0,
+  "tool_addresses_count": 0,
+  "wallet_loaded": false,
+  "actual_customers_contacted": false,
+  "actual_DB_opened": false,
+  "server_listener_started": false,
+  "production_installed": false,
+  "raw_reason_reply_exported": false,
+  "actual_class_called": true
+}

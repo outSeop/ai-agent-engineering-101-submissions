@@ -1,0 +1,13 @@
+{
+  "at": 1795629043.787147,
+  "operator": true,
+  "state": "TASK_STATE_COMPLETED",
+  "seconds": 6.655,
+  "url": "https://cadillac-others-paths-newton.trycloudflare.com",
+  "http": 200,
+  "reply_sha256": "51118527bb0441efd689e3d19cd241d42ee9277d7e31889e154c61b892ef6659",
+  "reply_characters": 211,
+  "exact_product_name_present": true,
+  "financial_consent_given": false,
+  "source_before_sha": "c01ecd05ca1adadfb373f21be0a1b796bd614b55289f4268258af3b8a8256dda"
+}

@@ -1,0 +1,65 @@
+{
+  "total": 6,
+  "passed": 6,
+  "cases": [
+    {
+      "case": "matching-visible-cannot-deny",
+      "passed": true,
+      "operations": [
+        "context",
+        "render"
+      ],
+      "financial_legacy_actions": 0
+    },
+    {
+      "case": "partial-missing-requires-exact-query",
+      "passed": true,
+      "operations": [
+        "context",
+        "search",
+        "render"
+      ],
+      "financial_legacy_actions": 0
+    },
+    {
+      "case": "clean-grade-filter-mismatch-can-explain",
+      "passed": true,
+      "operations": [
+        "context",
+        "search"
+      ],
+      "financial_legacy_actions": 0
+    },
+    {
+      "case": "filtered-target-cannot-claim-stockout",
+      "passed": true,
+      "operations": [
+        "context",
+        "search",
+        "fallback"
+      ],
+      "financial_legacy_actions": 0
+    },
+    {
+      "case": "financial-consent-unchanged",
+      "passed": true,
+      "operations": [
+        "context"
+      ],
+      "financial_legacy_actions": 1
+    },
+    {
+      "case": "no-purchase-consent-cannot-checkout",
+      "passed": true,
+      "operations": [
+        "context",
+        "render"
+      ],
+      "financial_legacy_actions": 0
+    }
+  ],
+  "host_broker_sha256": "1905bc24f2b9490cd89f2908339ebc6fb44b326fc8eb20583b78efd8b904fb43",
+  "candidate_source_unchanged_during_tests": true,
+  "method": "Actual candidate Broker+ScopedPublicCatalogue protocol, Mock Model/worker/legacy financial executor; no native source readiness claim.",
+  "actual_Model_network_production_changes": 0
+}
