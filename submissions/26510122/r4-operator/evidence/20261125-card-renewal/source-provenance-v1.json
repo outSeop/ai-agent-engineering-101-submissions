@@ -1,0 +1,28 @@
+{
+  "tool": "refresh_representative_card",
+  "version": 1,
+  "files_sha256": {
+    "logic.py": "e8697715a82ca962be7fef41cbcab744beceb37299c30e8599590c34d723b716",
+    "test.py": "c0ee2be49bdd9af93d7f24b61d825e2c4e5f461327ef4086072a3be19ae2736f",
+    "permission.yml": "035d1a9d1ec2d90b18410a166465bea98adf015a55af62b55be7f57c94630710",
+    "forge.json": "33810547a35f9add9fa8d5c85abd9bfe2e53cb8adf6a51cf4c8a1e23c451cc97"
+  },
+  "actual_generation": {
+    "line_1based": 110,
+    "at": 1795576125.6971893,
+    "provider": "codex-cli-gpt-6.2-sol",
+    "requested_model": "gpt-6.2-sol",
+    "upstream_reported_model": null,
+    "response_sha256": "842cc2a9fb91335fb7734cfeb3d67111e93d34e9b943980d85c0d20af252fc51",
+    "logic_test_exact_match": true
+  },
+  "raw_private_messages_exported": false,
+  "official_selftest_passed": true,
+  "independent_checks_passed": 4,
+  "independent_checks_failed": 2,
+  "production_deployed": false,
+  "known_defects": [
+    "cache row TTL cannot advance",
+    "description gains two newlines each cycle"
+  ]
+}

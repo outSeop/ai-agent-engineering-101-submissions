@@ -1,0 +1,11 @@
+{
+ "tool": "refresh_representative_card",
+ "version": 1,
+ "forged_at": 1795576258,
+ "kit": "v5.1",
+ "sha256": {
+  "permission.yml": "035d1a9d1ec2d90b18410a166465bea98adf015a55af62b55be7f57c94630710",
+  "logic.py": "e8697715a82ca962be7fef41cbcab744beceb37299c30e8599590c34d723b716",
+  "test.py": "c0ee2be49bdd9af93d7f24b61d825e2c4e5f461327ef4086072a3be19ae2736f"
+ }
+}

@@ -1,0 +1,9 @@
+name: refresh_representative_card
+description: 현재 게시된 대표 상품의 SKU와 순서를 유지하고, 호스트가 더 늦게 재조회한 동일 조건을 새 변경안에 담는다. args는 {view_sha256: <새 card_offer_context.json 원본 바이트의 SHA256>}이다. 기존 완료 게시 이벤트의 원본 뷰와 새 뷰에서 선택 행 전체를 대조한다. 뷰의 유효기간은 갱신할 수 있으며 각 상품 행의 유효기한과 만료 조건은 유지한다. 실제 적용에는 별도 producer 재조회와 apply 권한이 필요하다.
+permission:
+  write: [card_update_stage, refresh_card_selftest]
+  pay_limit: 0
+  timeout: 30
+logic: logic.py
+test: test.py
+version: 1
