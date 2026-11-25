@@ -1,0 +1,143 @@
+{
+  "schema": "actual-v2-full-fixed-source-proof.v1",
+  "session": "runtime/broker-public-render-v2-full-validated-canary-root-20261125-1",
+  "frozen_sources": {
+    "host/broker.py": {
+      "sha256": "9e203732eed16e0c6a8d86a1d8ce5f87de65d181f43c6144cb4ed009a6f43d1a",
+      "matches_prepared_pin": true
+    },
+    "host/managed.py": {
+      "sha256": "e3a7eab5df6fc20d6327725075ad5590c1ba3a7d3f785f536a84c62df14e8fed",
+      "matches_prepared_pin": true
+    },
+    "host/native_context.py": {
+      "sha256": "7607a8a1f81e0fe5dc922e40f1f42e1f30db24d9ee0e12066637a2fb4546223c",
+      "matches_prepared_pin": true
+    },
+    "host/request_bound_public_response_adapter.py": {
+      "sha256": "81a58c4acc13603ee1386280e64d5266299ba9bc1f9e070bab50215d94c98e2f",
+      "matches_prepared_pin": true
+    },
+    "host/bounded_public_renderer_host.py": {
+      "sha256": "c75cb434764ae7e51a9a41b32681b2d1e09e3384c7915396749db5719e3fa9db",
+      "matches_prepared_pin": true
+    },
+    "host/card_source_read_lane.py": {
+      "sha256": "86053315d2f31fb94979eeca7b230ae9f5ca2d581c8acc90bbc6c75b0148cec7",
+      "matches_prepared_pin": true
+    },
+    "native-source/build_customer_context/permission.yml": {
+      "sha256": "d2d75d5530b61f08a198a7c62536d565d1c7a8bc298e8f4c061e901f8df4e3f6",
+      "matches_prepared_pin": true
+    },
+    "native-source/build_customer_context/logic.py": {
+      "sha256": "095dc600fe30958759a058b093ee1c210fb9b3f1f7c3157dcd034061e70dcf84",
+      "matches_prepared_pin": true
+    },
+    "native-source/build_customer_context/test.py": {
+      "sha256": "6714f113f4d19cf8d6f2253eb457dbf1547330c1c89a840b9cee846507bf6d23",
+      "matches_prepared_pin": true
+    },
+    "native-source/build_customer_context/forge.json": {
+      "sha256": "945ef6726a4025f81df847a46609beae5503aa1d782602e79110741adb5872ac",
+      "matches_prepared_pin": true
+    },
+    "native-source/render_public_product_reply/permission.yml": {
+      "sha256": "4e65cf13d7c57bdecaf9f729a3f99507c11dd3d44f1691ebd33c842603f72cb4",
+      "matches_prepared_pin": true
+    },
+    "native-source/render_public_product_reply/logic.py": {
+      "sha256": "d6c78d2ba0b9db6023c9657c7878a927dd919b41adaca9b912580b56693bda2b",
+      "matches_prepared_pin": true
+    },
+    "native-source/render_public_product_reply/test.py": {
+      "sha256": "eac885c0e91b0480be05bfcf6ef79c82e93e8b3f3447aaba542e9d9a10b31696",
+      "matches_prepared_pin": true
+    },
+    "native-source/render_public_product_reply/forge.json": {
+      "sha256": "b304cf12a466b67c5ab1c9b0fffcfc689cceeaad6ca98f90f298f2d3b1b77b9c",
+      "matches_prepared_pin": true
+    },
+    "tools/a2a_info/permission.yml": {
+      "sha256": "2a16ff743a2b5c2ba60bf02b6cd9afcdfd5ac19e2149f1bfeab2e25f5752605c",
+      "matches_prepared_pin": true
+    },
+    "tools/a2a_info/logic.py": {
+      "sha256": "84e0eca3a0211e80772ed78f2ba3c166902ba0125577e7153b06cc5bb13de0cd",
+      "matches_prepared_pin": true
+    },
+    "tools/a2a_info/test.py": {
+      "sha256": "5e267fce4e18da3b3f16d118a79200fc394b5b58e4960049671fd4d5b6973e51",
+      "matches_prepared_pin": true
+    },
+    "tools/a2a_info/forge.json": {
+      "sha256": "fb21f3e26772d7b20189d811d42191084ad1a25bb1f45aadfbe64020ffbf20f6",
+      "matches_prepared_pin": true
+    },
+    "tools/shop_info/permission.yml": {
+      "sha256": "67f2b5e5ea8b1b6e0d983c5920663b288ac3adf7fda2aa1d3d5795acf889e926",
+      "matches_prepared_pin": true
+    },
+    "tools/shop_info/logic.py": {
+      "sha256": "ac1375060257be7f547a52ec681f7fd70bc002979d85915ee17bf4d776d38eed",
+      "matches_prepared_pin": true
+    },
+    "tools/shop_info/test.py": {
+      "sha256": "de6d9684e9eabe4b089bcb3d4c232f1761b58c42500d901a66d750cabaa9419d",
+      "matches_prepared_pin": true
+    },
+    "tools/shop_info/forge.json": {
+      "sha256": "7a04a8a08417117842559ee4e07a99fa1710b6d89283c5ecde21fe4b1770eb43",
+      "matches_prepared_pin": true
+    }
+  },
+  "frozen_source_count": 22,
+  "all_frozen_match": true,
+  "official_SDK_files": {
+    "LICENSE": {
+      "sha256": "1d3d88f12b97e582378489859b15d81221931930f2e20afc7de82aae416cdbc3",
+      "upstream_git_blob_matches": true
+    },
+    "agent_kit.py": {
+      "sha256": "38fb94c22187db7b40e16a56a1fd2ffadbb94e15f2e28307d5ba04eeb4144f8a",
+      "upstream_git_blob_matches": true
+    },
+    "cli_model.py": {
+      "sha256": "16de5e99404dd0513b83aa6797bf9b06b4fd5e959acde3654be281c2af4eb7a2",
+      "upstream_git_blob_matches": true
+    },
+    "forge_runner.py": {
+      "sha256": "004aa4bc7ce08bc7ff940ff3e914ab8b9edb64b00ef23b309f8f4043707b99b7",
+      "upstream_git_blob_matches": true
+    },
+    "market_kit.py": {
+      "sha256": "92adb4bf8c6f303f20306018c644552d8299a93fc066dad2a4f4fb3154a78f3f",
+      "upstream_git_blob_matches": true
+    },
+    "maroo.py": {
+      "sha256": "973a1065d9f5b03d247b2b152424dd6d7f2ce18758ecf4603bf7bcde45862302",
+      "upstream_git_blob_matches": true
+    },
+    "miniapp.py": {
+      "sha256": "7d0838a8dc647a201bb353a63658ecb0e268415d1d15ab1965c8835d0e3f6868",
+      "upstream_git_blob_matches": true
+    }
+  },
+  "SDK_all_upstream_matches": true,
+  "driver_sha256": "ca0e45dc6a73cab8af781147761057d3bcc9e52751e9d18236a4d3c1fe29430c",
+  "driver_mtime_precedes_preparation": true,
+  "driver_provenance_limit": "Driver not independently frozen in session; current SHA matches pre-run reviewed ca0e45dc source and mtime predates preparation. Session-frozen dependencies/tools checked independently.",
+  "existing_dispatcher_public_name_source_sha256": "84e0eca3a0211e80772ed78f2ba3c166902ba0125577e7153b06cc5bb13de0cd",
+  "existing_dispatcher_matches_base_validation": true,
+  "input_original_sha256": "38eda771a4a8e0ef09fcade5cbf3082261162b1db9b1e5fbdf96c3495345a618",
+  "native_input_sha256": "5bc66b07dbcc64a36e444d9ae37a46a5a7a94c5f00238fd209b8c3ca9dc14887",
+  "base_fixture_sha256": "5df6a9d36120e1d894d74dd1d3c747924521c429990909f2877389f198a28cc6",
+  "private_artifact_sha256": {
+    "PREPARED.json": "234e58361d2b957b6524942ae4af061a86f2d1f5404299d594cdee32e8449d50",
+    "BASE-VALIDATION.json": "75ca00153fc9c635a738303501e08d2e4d6139ca4c6fd062b474c72484c5d5cf",
+    "ROOT-RUN-SUMMARY.json": "a2d377b0f0afeb1d54572e9fa0c045d9b73969b08c74858dbb31269ed6e34a76",
+    "logs/asgi-response-private.json": "700e01e97f8e67d0741e95753998904f065a8733a905d7267e6754f5f368c4e6",
+    ".kit/decision-trace-private.jsonl": "d683bed41ecfdcda03319ebbaddb639be8786f715fa0e0aed75faf545ef26f81"
+  },
+  "private_raw_artifacts_exported": false
+}

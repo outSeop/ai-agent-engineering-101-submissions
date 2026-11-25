@@ -1,0 +1,103 @@
+{
+  "schema": "actual-v1-final-public-reply-independent-check.v1",
+  "checks": {
+    "SDK_HTTP200": true,
+    "SDK_final_reply_exists": true,
+    "exactly_three_product_lines_and_one_disclaimer": true,
+    "all_question_skus_ordered_once": true,
+    "all_requested_A_grades_correct": true,
+    "all_public_prices_correct_credits": true,
+    "all_remaining_seconds_correct_at_final_delivery": true,
+    "one_consistent_render_clock_for_all_products": true,
+    "render_clock_inside_Model_to_verified_render_interval": true,
+    "disclaimer_product_price_fee_gas_recheck_present": true,
+    "no_won_currency_label": true,
+    "reply_within_450_characters": true,
+    "final_reply_hash_matches_host": true,
+    "SDK_final_reply_equals_Broker_delivered_text": true,
+    "host_records_exact_genuine_renderer_match": true,
+    "actual_Model_chose_structured_render_action": true,
+    "actual_Model_selection_matches_final_products": true,
+    "fresh_snapshot_for_entire_request": true,
+    "snapshot_sha_matches_prepared": true,
+    "all_frozen_genuine_and_host_source_pins_match": true,
+    "zero_retries": true,
+    "zero_financial_executor_attempts": true,
+    "empty_tool_auth_and_NoWallet": true
+  },
+  "all_checks_pass": true,
+  "per_product": [
+    {
+      "sku": "G69567cbf",
+      "grade": "A",
+      "public_price_credits": 43900,
+      "sku_matches_requested_order": true,
+      "grade_matches_snapshot": true,
+      "price_matches_snapshot": true,
+      "unique_available_snapshot_row": true,
+      "actual_expiry_provided": true,
+      "remaining_nonnegative": true,
+      "remaining_matches_delivery_ceil": true,
+      "implied_render_clock_in_call_window": true
+    },
+    {
+      "sku": "G9cdcfa8f",
+      "grade": "A",
+      "public_price_credits": 29500,
+      "sku_matches_requested_order": true,
+      "grade_matches_snapshot": true,
+      "price_matches_snapshot": true,
+      "unique_available_snapshot_row": true,
+      "actual_expiry_provided": true,
+      "remaining_nonnegative": true,
+      "remaining_matches_delivery_ceil": true,
+      "implied_render_clock_in_call_window": true
+    },
+    {
+      "sku": "G56b67513",
+      "grade": "A",
+      "public_price_credits": 18900,
+      "sku_matches_requested_order": true,
+      "grade_matches_snapshot": true,
+      "price_matches_snapshot": true,
+      "unique_available_snapshot_row": true,
+      "actual_expiry_provided": true,
+      "remaining_nonnegative": true,
+      "remaining_matches_delivery_ceil": true,
+      "implied_render_clock_in_call_window": true
+    }
+  ],
+  "source_scope": {
+    "original_public_units": 99,
+    "question_scoped_units": 3,
+    "full_inventory_claimed": false,
+    "scope": "only question-explicit three SKUs; all selected rows A-grade foods with supplied future expiry",
+    "silent_truncation": false
+  },
+  "timing": {
+    "total_transport_seconds": 13.3661,
+    "phases": [
+      {
+        "prefetch_seconds": 0.063,
+        "model_seconds": 12.5768,
+        "render_seconds": 0.7033,
+        "legacy_action_seconds": 0.0,
+        "total_seconds": 13.3454,
+        "retries": 0,
+        "outcome": "rendered_public"
+      }
+    ]
+  },
+  "actual_class_called_by_root": true,
+  "QA_called_Model_API": false,
+  "renderer_version": 1,
+  "builder_version": 5,
+  "final_reply_sha256": "722d703daf487d9b8c49ce8c8e094a1d36045b8cc351cd6a6c9c16267a94677f",
+  "final_reply_characters": 163,
+  "scope_limit": "Only v1 + these three supplied-expiry food rows were verified. Expiry-null food semantic v1 bug remains outside this scope; final v2 deployed endpoint test is separate.",
+  "actual_customers_contacted": false,
+  "real_DB_opened_by_canary_or_verifier": false,
+  "database_files_copied": false,
+  "raw_Model_reason_or_original_customer_exported": false,
+  "final_reply_text_exported": false
+}

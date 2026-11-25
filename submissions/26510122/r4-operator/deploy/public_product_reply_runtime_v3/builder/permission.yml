@@ -1,0 +1,9 @@
+name: build_customer_context
+description: Call {"op":"context"}. In verified_context.inventory, copy common for each row and zip columns with its cells. Decode lookup columns via lookup[column][cell]. For full text, call op=details with the context's snapshot, detail_pin, and as_of, the zero-based row index as row, and its decoded sku. Omit offset initially. Follow next_args unchanged until null. Join fragment.text in offset order, then parse JSON.
+permission:
+  pay_limit: 0
+  timeout: 180
+logic: logic.py
+test: test.py
+version: 5
+replaces: build_customer_context@4

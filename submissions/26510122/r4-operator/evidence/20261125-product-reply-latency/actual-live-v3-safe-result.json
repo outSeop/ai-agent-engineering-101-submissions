@@ -1,0 +1,46 @@
+{
+  "actual_public_endpoint": true,
+  "non_purchasing_operator_probe": true,
+  "http_status": 200,
+  "task_state": "TASK_STATE_COMPLETED",
+  "client_seconds": 29.4805,
+  "first_observed_live_phases": {
+    "observed_at": 1795588174,
+    "outcomes": {
+      "rendered_public": {
+        "count": 1,
+        "retries_sum": 0,
+        "seconds": {
+          "legacy_action_seconds": {
+            "max": 0,
+            "sum": 0.0
+          },
+          "model_seconds": {
+            "max": 24.8811,
+            "sum": 24.8811
+          },
+          "prefetch_seconds": {
+            "max": 2.7984,
+            "sum": 2.7984
+          },
+          "render_seconds": {
+            "max": 0.6678,
+            "sum": 0.6678
+          },
+          "total_seconds": {
+            "max": 28.3527,
+            "sum": 28.3527
+          }
+        }
+      }
+    }
+  },
+  "delivered_three_requested_SKUs": true,
+  "delivered_verified_prices_and_grades": true,
+  "full_registered_route_tested": true,
+  "real_customer_or_settlement_effect_claimed": false,
+  "comparison_controlled": false,
+  "original_guard_unchanged": true,
+  "genuine_renderer_version": 2,
+  "raw_reply_reason_customer_keys_exported": false
+}

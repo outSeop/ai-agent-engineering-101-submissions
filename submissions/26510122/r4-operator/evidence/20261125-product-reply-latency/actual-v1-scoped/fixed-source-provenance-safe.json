@@ -1,0 +1,141 @@
+{
+  "schema": "actual-class-canary-fixed-source-proof.v1",
+  "session": "runtime/broker-public-render-canary-root-20261125-1",
+  "files": {
+    "host/broker.py": {
+      "sha256": "9e203732eed16e0c6a8d86a1d8ce5f87de65d181f43c6144cb4ed009a6f43d1a",
+      "matches_prepared_pin": true
+    },
+    "host/managed.py": {
+      "sha256": "e3a7eab5df6fc20d6327725075ad5590c1ba3a7d3f785f536a84c62df14e8fed",
+      "matches_prepared_pin": true
+    },
+    "host/native_context.py": {
+      "sha256": "7607a8a1f81e0fe5dc922e40f1f42e1f30db24d9ee0e12066637a2fb4546223c",
+      "matches_prepared_pin": true
+    },
+    "host/request_bound_public_response_adapter.py": {
+      "sha256": "81a58c4acc13603ee1386280e64d5266299ba9bc1f9e070bab50215d94c98e2f",
+      "matches_prepared_pin": true
+    },
+    "host/bounded_public_renderer_host.py": {
+      "sha256": "c75cb434764ae7e51a9a41b32681b2d1e09e3384c7915396749db5719e3fa9db",
+      "matches_prepared_pin": true
+    },
+    "host/card_source_read_lane.py": {
+      "sha256": "86053315d2f31fb94979eeca7b230ae9f5ca2d581c8acc90bbc6c75b0148cec7",
+      "matches_prepared_pin": true
+    },
+    "native-source/build_customer_context/permission.yml": {
+      "sha256": "d2d75d5530b61f08a198a7c62536d565d1c7a8bc298e8f4c061e901f8df4e3f6",
+      "matches_prepared_pin": true
+    },
+    "native-source/build_customer_context/logic.py": {
+      "sha256": "095dc600fe30958759a058b093ee1c210fb9b3f1f7c3157dcd034061e70dcf84",
+      "matches_prepared_pin": true
+    },
+    "native-source/build_customer_context/test.py": {
+      "sha256": "6714f113f4d19cf8d6f2253eb457dbf1547330c1c89a840b9cee846507bf6d23",
+      "matches_prepared_pin": true
+    },
+    "native-source/build_customer_context/forge.json": {
+      "sha256": "945ef6726a4025f81df847a46609beae5503aa1d782602e79110741adb5872ac",
+      "matches_prepared_pin": true
+    },
+    "native-source/render_public_product_reply/permission.yml": {
+      "sha256": "f87658e70c6553d49ae4fce4f56cc1bd9803ec6e8835b62fcdd268aa15f1c7d4",
+      "matches_prepared_pin": true
+    },
+    "native-source/render_public_product_reply/logic.py": {
+      "sha256": "dc7e34eb065da6661f74aa7b8ab8bf2f9f3ee3e292fa83fac11c0a567c115bd7",
+      "matches_prepared_pin": true
+    },
+    "native-source/render_public_product_reply/test.py": {
+      "sha256": "a2d62f7fdfb017a63ae29f0b94064e09b455f8f5357f6ff4dc5af718ea728c17",
+      "matches_prepared_pin": true
+    },
+    "native-source/render_public_product_reply/forge.json": {
+      "sha256": "0aa7756ebae1952651151497074971c9667395b9e5c3243c78f32f6e067c190d",
+      "matches_prepared_pin": true
+    },
+    "tools/a2a_info/permission.yml": {
+      "sha256": "2a16ff743a2b5c2ba60bf02b6cd9afcdfd5ac19e2149f1bfeab2e25f5752605c",
+      "matches_prepared_pin": true
+    },
+    "tools/a2a_info/logic.py": {
+      "sha256": "84e0eca3a0211e80772ed78f2ba3c166902ba0125577e7153b06cc5bb13de0cd",
+      "matches_prepared_pin": true
+    },
+    "tools/a2a_info/test.py": {
+      "sha256": "5e267fce4e18da3b3f16d118a79200fc394b5b58e4960049671fd4d5b6973e51",
+      "matches_prepared_pin": true
+    },
+    "tools/a2a_info/forge.json": {
+      "sha256": "fb21f3e26772d7b20189d811d42191084ad1a25bb1f45aadfbe64020ffbf20f6",
+      "matches_prepared_pin": true
+    },
+    "tools/shop_info/permission.yml": {
+      "sha256": "67f2b5e5ea8b1b6e0d983c5920663b288ac3adf7fda2aa1d3d5795acf889e926",
+      "matches_prepared_pin": true
+    },
+    "tools/shop_info/logic.py": {
+      "sha256": "ac1375060257be7f547a52ec681f7fd70bc002979d85915ee17bf4d776d38eed",
+      "matches_prepared_pin": true
+    },
+    "tools/shop_info/test.py": {
+      "sha256": "de6d9684e9eabe4b089bcb3d4c232f1761b58c42500d901a66d750cabaa9419d",
+      "matches_prepared_pin": true
+    },
+    "tools/shop_info/forge.json": {
+      "sha256": "7a04a8a08417117842559ee4e07a99fa1710b6d89283c5ecde21fe4b1770eb43",
+      "matches_prepared_pin": true
+    }
+  },
+  "source_pin_checks": 22,
+  "all_match": true,
+  "input_original_public_sha256": "92b0e5cfffcf2d0b3a31459dbdcec809c2bee7c551a939c2b031c4c29bf9a1fe",
+  "scoped_input_sha256": "60047ae6a633d52f1aa0ef2d04e792bca6bdb5d4f79edd1e3ce41905f843013b",
+  "base_fixture_sha256": "493c915dcd8dfbab5f7d6db274863261e56fe3823bb728e596eb563f15a81782",
+  "SDK_ASGI_response_file_sha256": "66f55f62708dff0a12cc8c24f439f88ce2c54050774d73c14a56c0ceee9e4778",
+  "private_decision_trace_file_sha256": "0bf9bfd237a700b82dd91014a294a683faa71283785035ee7eb798ad1f38b011",
+  "prepared_manifest_sha256": "c861574be559bf22121dfc14157afd4b53aff97688de41a9815f25f08f855467",
+  "root_run_summary_sha256": "331c0d224144e473400713f9045b192a6e1d619d6774de01100fb3593fcbae4f",
+  "host_driver_sha256": "c12f2d86f32faa5951dfdb45aba6989a30f2e2b851bd75dab3a7f8614b372b26",
+  "raw_private_artifacts_exported": false,
+  "source_bytes_unmodified": true,
+  "new_forge_or_index_invented": false,
+  "official_SDK_files": {
+    "LICENSE": {
+      "sha256": "1d3d88f12b97e582378489859b15d81221931930f2e20afc7de82aae416cdbc3",
+      "upstream_git_blob_matches": true
+    },
+    "agent_kit.py": {
+      "sha256": "38fb94c22187db7b40e16a56a1fd2ffadbb94e15f2e28307d5ba04eeb4144f8a",
+      "upstream_git_blob_matches": true
+    },
+    "cli_model.py": {
+      "sha256": "16de5e99404dd0513b83aa6797bf9b06b4fd5e959acde3654be281c2af4eb7a2",
+      "upstream_git_blob_matches": true
+    },
+    "forge_runner.py": {
+      "sha256": "004aa4bc7ce08bc7ff940ff3e914ab8b9edb64b00ef23b309f8f4043707b99b7",
+      "upstream_git_blob_matches": true
+    },
+    "market_kit.py": {
+      "sha256": "92adb4bf8c6f303f20306018c644552d8299a93fc066dad2a4f4fb3154a78f3f",
+      "upstream_git_blob_matches": true
+    },
+    "maroo.py": {
+      "sha256": "973a1065d9f5b03d247b2b152424dd6d7f2ce18758ecf4603bf7bcde45862302",
+      "upstream_git_blob_matches": true
+    },
+    "miniapp.py": {
+      "sha256": "7d0838a8dc647a201bb353a63658ecb0e268415d1d15ab1965c8835d0e3f6868",
+      "upstream_git_blob_matches": true
+    }
+  },
+  "official_SDK_all_upstream_matches": true,
+  "driver_matches_pre_run_READY_sha": true,
+  "driver_mtime_precedes_session_preparation": true,
+  "driver_provenance_limit": "Driver was not separately frozen inside the actual session; its current SHA matches the pre-run READY reviewed by root and its mtime precedes session preparation. Twenty-two pinned dependency/tool files are verified from session-frozen bytes."
+}

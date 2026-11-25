@@ -1,0 +1,114 @@
+{
+  "schema": "actual-v2-full-final-reply-independent-check.v1",
+  "checks": {
+    "SDK_HTTP200": true,
+    "SDK_final_reply_exists": true,
+    "exactly_three_product_lines_and_one_disclaimer": true,
+    "all_question_skus_ordered_once": true,
+    "all_requested_A_grades_correct": true,
+    "all_public_prices_correct_credits": true,
+    "all_remaining_seconds_correct_at_final_delivery": true,
+    "one_consistent_render_clock_for_all_products": true,
+    "render_clock_inside_Model_to_verified_render_interval": true,
+    "disclaimer_product_price_fee_gas_recheck_present": true,
+    "no_won_currency_label": true,
+    "reply_within_450_characters": true,
+    "final_reply_hash_matches_host": true,
+    "SDK_final_reply_equals_Broker_delivered_text": true,
+    "host_records_exact_genuine_renderer_match": true,
+    "actual_Model_chose_structured_render_action": true,
+    "actual_Model_selection_matches_final_products": true,
+    "fresh_snapshot_for_entire_request": true,
+    "snapshot_sha_matches_prepared": true,
+    "all_frozen_genuine_and_host_source_pins_match": true,
+    "zero_retries": true,
+    "zero_financial_executor_attempts": true,
+    "empty_tool_auth_and_NoWallet": true
+  },
+  "all_23_checks_pass": true,
+  "full_context_checks": {
+    "entire_canonical_snapshot_passed": true,
+    "legacy_fixture_first30": true,
+    "native_prompt_all_input_rows": true,
+    "legacy_prompt_30": true,
+    "no_scope_filter": true,
+    "base_validated_before_Model": true
+  },
+  "all_full_context_checks_pass": true,
+  "per_product": [
+    {
+      "sku": "G69567cbf",
+      "grade": "A",
+      "public_price_credits": 43900,
+      "sku_matches_requested_order": true,
+      "grade_matches_snapshot": true,
+      "price_matches_snapshot": true,
+      "unique_available_snapshot_row": true,
+      "actual_expiry_provided": true,
+      "remaining_nonnegative": true,
+      "remaining_matches_delivery_ceil": true,
+      "implied_render_clock_in_call_window": true
+    },
+    {
+      "sku": "G9cdcfa8f",
+      "grade": "A",
+      "public_price_credits": 29500,
+      "sku_matches_requested_order": true,
+      "grade_matches_snapshot": true,
+      "price_matches_snapshot": true,
+      "unique_available_snapshot_row": true,
+      "actual_expiry_provided": true,
+      "remaining_nonnegative": true,
+      "remaining_matches_delivery_ceil": true,
+      "implied_render_clock_in_call_window": true
+    },
+    {
+      "sku": "G56b67513",
+      "grade": "A",
+      "public_price_credits": 18900,
+      "sku_matches_requested_order": true,
+      "grade_matches_snapshot": true,
+      "price_matches_snapshot": true,
+      "unique_available_snapshot_row": true,
+      "actual_expiry_provided": true,
+      "remaining_nonnegative": true,
+      "remaining_matches_delivery_ceil": true,
+      "implied_render_clock_in_call_window": true
+    }
+  ],
+  "input_context": {
+    "canonical_rows": 103,
+    "native_Model_rows": 103,
+    "synthetic_legacy_rows": 30,
+    "prompt_characters": 17434,
+    "full_canonical_input": true,
+    "physical_inventory_census_claimed": false,
+    "category_policy": "synthetic legacy None; native category_path preserved",
+    "legacy_name_policy": "unchanged dispatcher public_product_name normalizer only; full native names preserved"
+  },
+  "timing": {
+    "total_transport_seconds": 16.2021,
+    "phases": [
+      {
+        "prefetch_seconds": 0.0855,
+        "model_seconds": 15.4174,
+        "render_seconds": 0.6771,
+        "legacy_action_seconds": 0.0,
+        "total_seconds": 16.1845,
+        "retries": 0,
+        "outcome": "rendered_public"
+      }
+    ]
+  },
+  "renderer_version": 2,
+  "builder_version": 5,
+  "final_reply_characters": 163,
+  "final_reply_sha256": "2ba7a795483f31d67e66b05c64a96572c80935fe2a759821fcda7136b12130c3",
+  "actual_class_called_by_root": true,
+  "QA_called_Model_API": false,
+  "actual_customers_contacted": false,
+  "actual_DB_opened_by_canary_or_verifier": false,
+  "raw_Model_reason_or_reply_exported": false,
+  "deployment_status": "local full-context actual-class canary only; separately pending actual registered endpoint probe",
+  "comparison_limit": "V1 scoped13.3661s and v2full16.2021s are nonsimultaneous runs with differing inputs; no causal scope/latency effect claimed."
+}

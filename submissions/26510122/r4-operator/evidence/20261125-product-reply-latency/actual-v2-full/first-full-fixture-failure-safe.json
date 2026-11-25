@@ -1,0 +1,21 @@
+{
+  "schema": "preserved-first-full-context-host-fixture-failure.v1",
+  "session": "runtime/broker-public-render-v2-full-canary-root-20261125-1",
+  "classification": "host synthetic legacy fixture contract failure; genuine builder correctly rejected invalid base; not a genuine business source defect",
+  "total_transport_seconds": 35.5216,
+  "model_seconds": 35.3765,
+  "retries": 2,
+  "renderer_calls": 0,
+  "native_base_error_occurrences": 2,
+  "validation_failure_counts": {
+    "base category": 29,
+    "base product name": 1
+  },
+  "correction": "category=None for unverified legacy codes; reuse existing dispatcher public name normalizer; validate all30 and factory base before Model; retain native full source unchanged",
+  "business_sources_modified": false,
+  "original_driver_sha256": "6507c50556b7e6582d9070e05e5cff5d1106542ec9f20033916fe851d7d9b9a3",
+  "original_driver_currently_matches": true,
+  "private_originals_preserved": true,
+  "raw_reply_or_inference_exported": false,
+  "summary_original_sha256": "6d5868c114d0b1c403cb755b27c9ca7e36a5ed6b99633f16e19b8cadf8b309ef"
+}
