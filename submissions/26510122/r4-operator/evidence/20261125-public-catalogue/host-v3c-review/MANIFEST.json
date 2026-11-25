@@ -1,0 +1,31 @@
+{
+  "files": {
+    "SAFE_SUMMARY.json": "97210207897192a3ce7bbba128874e5d211dd90324dcb55c1802bd23eec3e56f",
+    "verification.log": "02f55499460635059f10f888231eac01284fb3a94bd39dcda4108a2442552e3f",
+    "QA_REPORT.md": "3fa6f78d515f14d5cb9645264a1146947160485479e9783b0867d3a196f3ec7c",
+    "results.json": "7445a76473502ae91a8975a3ff47f1594e264ecb7092427685d0bf6e2d5b5cf9",
+    "remaining-guidance-results.json": "b6634fc3879ebfa93b400f244b37c6c75863d60bf0a6d6728dfe63654c3a70b3",
+    "test_control_flow.py": "9ca849dc5f9e52350b8243b403482e6c6fb4411d61dc5314ecb8095e2197150a",
+    "test_remaining_guidance.py": "2cab79f41bdd5e33a569862f1ea51083baedf8e867049a5208639e9e1ed2df08",
+    "broker-host-prompt-only.diff": "c2bda0ec96b9bb70f265863b012f3e7f1c9ba6fd927c38749eac5865f3cce348",
+    "failed-actual-v3b-safe-result.json": "517382848d05ec2fcd0916dd8bd4b7c779599670be4a9851abd1589112cb7bdb",
+    "failed-actual-v3b-root-summary.json": "409c129a0a79d97be0ccfa0a3fa7d0632dcfd7a711a79fa271f7832bc45f62a2",
+    "host-source/broker_public_catalogue_host_candidate.py": "9e2c3976e4e927e8c1fadd82e436cb4c9c2b4f282cd9f5ffd27d4d0d68262809",
+    "host-source/public_catalogue_phase_metrics.py": "896c3028e6c95e812be5d3b015e15a7eeb74913848dd7eaf3114212f0d62e229",
+    "host-source/MANIFEST.json": "b5a806122845d7df73a8c6cf84b00e2e805ca0aaa7c6cbb4462ba31c7a74c5fd",
+    "host-source/public_catalogue_runtime_v3c-launcher.py": "6f34021a49ddc792277eb2c2c7114c5006fb7555ecad7ad0cda54d51af3ba062",
+    "reproduce_guidance.py": "4300f18ba44888a636882ad7c3772e4b6cb04bd8e63f51e39d73c30255bd3a28",
+    "README.md": "31c8c603728e2210a707aba26d10dd765fae4a1558884e96898871bed2cb058e"
+  },
+  "file_count": 16,
+  "original_safe_QA_host_and_failed_actual_safe_result_bytes_unchanged": true,
+  "credential_files_compared": 4,
+  "actual_credential_hits": 0,
+  "pattern_hits": 0,
+  "exceptions": [],
+  "pre_copy_and_post_copy_scan": true,
+  "raw_customer_stock_Model_thought_exported": false,
+  "actual_Model_market_service_wallet_DB_calls_by_auditor": 0,
+  "production_promoted_by_auditor": false,
+  "git_staged_or_committed": false
+}

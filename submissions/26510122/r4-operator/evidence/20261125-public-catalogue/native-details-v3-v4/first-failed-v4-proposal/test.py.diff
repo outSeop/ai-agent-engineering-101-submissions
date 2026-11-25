@@ -1,0 +1,179 @@
+--- v3/test.py
++++ v4-failed-proposal/test.py
+@@ -7,7 +7,14 @@
+ 
+ NOW = 1795596402
+ A, B, C = 'G0026722f', 'Gabcdefab', 'G00000003'
+-NAME = '한빛 브랜드 (냉장 닭가슴살 300g/2팩)'
++NAME = '[한빛 브랜드] (냉장 닭가슴살 300g/2팩)'
++BRANDED = '[가상브랜드] 가상 두부 300g 2팩'
++BRANDED_OTHER = '[가상] 상품 300g 2팩'
++PAGE_KEYS = {'status', 'coverage', 'observed_at', 'as_of', 'valid_until', 'snapshot', 'query_id',
++             'columns', 'common', 'lookup', 'rows', 'text_limit', 'catalogue'}
++CATALOGUE_KEYS = {'source_count', 'eligible_count', 'matched_count', 'offset', 'returned_count', 'next_args',
++                  'category_counts', 'category_counts_partial', 'criteria', 'excluded_counts', 'missing_skus',
++                  'display_counts', 'name_preview_limit', 'coverage', 'search'}
+ 
+ 
+ class NoKitAccess:
+@@ -89,6 +96,8 @@
+         encoded = json.dumps(result, ensure_ascii=False)
+         assert len(encoded) <= 5500 and 'PRIVATE_TEST_MARKER' not in encoded
+         if result['status'] == 'ready':
++            assert set(result) == PAGE_KEYS
++            assert set(result['catalogue']) == CATALOGUE_KEYS | ({'hints'} if args['op'] == 'context' else set())
+             assert result['columns'] == ['sku', 'grade', 'name', 'preferred_price', 'category_path', 'remaining_seconds']
+             assert result['text_limit'] == result['catalogue']['name_preview_limit'] == 1024
+             assert result['catalogue']['display_counts']['page_names_shortened'] == 0
+@@ -100,15 +109,21 @@
+         result = invoke(args, **options)
+         assert result == {'status': 'unavailable', 'reason': reason}, (reason, result)
+ 
+-    def rendered(result):
++    def rendered(result, sku=None):
+         assert result['status'] == 'rendered', result
+         assert set(result) == {'status', 'reply', 'observed_at', 'valid_until'}
+         assert result['observed_at'] == NOW - 5 and result['valid_until'] == NOW + 120
+         reply = result['reply']
+         assert len(reply) <= 450 and 'ref-' not in reply and '91크레딧' not in reply
+-        assert '판매 단위는 표시된 구성 전체 1개(1份)' in reply
++        assert '시장 판매 단위는 표시된 구성 전체 1개' in reply
+         assert '상품가 기준' in reply and '시장 수수료·가스 별도' in reply and '결제 전 재고·조건 재확인' in reply
+-        assert '지금 구매' in reply and 'SKU와 등급을 A2A로 보내 결제권과 checkout 조건을 확인' in reply
++        assert '지금 구매하려면' in reply and '결제권과 checkout 조건을 확인하세요.' in reply
++        if sku is None:
++            assert "위 SKU 중 하나를 골라 A2A로 '구매 <원하는 SKU>' 형식으로 보내" in reply
++        else:
++            assert f"A2A로 '구매 {sku}'를 보내" in reply
++        for claim in ('자동결제', '예약확정', '서명 완료', '정산 완료'):
++            assert claim not in reply
+         return reply
+ 
+     render_a = {'op': 'render', 'items': [pick_a]}
+@@ -116,18 +131,32 @@
+     render_two = {'op': 'render', 'items': [pick_a, pick_b]}
+     render_three = {'op': 'render', 'items': [pick_a, pick_b, pick_c]}
+     fallback_a = {'op': 'fallback', 'text': f'{A.upper()} 상품명과 포장 수량 알려주세요'}
++    fallback_b = {'op': 'fallback', 'text': f'{B.upper()} 상품명과 포장 수량 알려주세요'}
+     fallback_food = {'op': 'fallback', 'text': '식품 가격과 유통기한 알려주세요'}
+-    assert f'{A} A등급 · {NAME} · 1,201크레딧 · 남은 시간 300초' in rendered(invoke(render_a))
+-    assert '남은 시간 297초' in rendered(invoke(render_a, times=(NOW, NOW, NOW + 2.1, NOW + 2.2)))
+-    assert '유통기한 미제공' in rendered(invoke(render_b))
+-    assert NAME in rendered(invoke(fallback_a))
++    assert f'{A} A등급 · {NAME} · 1,201크레딧 · 남은 시간 300초' in rendered(invoke(render_a), A)
++    assert '남은 시간 297초' in rendered(invoke(render_a, times=(NOW, NOW, NOW + 2.1, NOW + 2.2)), A)
++    assert '유통기한 미제공' in rendered(invoke(render_b), B)
++    assert NAME in rendered(invoke(fallback_a), A)
+     for args in (render_two, fallback_food):
+         reply = rendered(invoke(args))
+         assert f'{A} A등급 · {NAME}' in reply and f'{B} B등급 · {NAME.replace("2팩", "3팩")}' in reply
+-    for pick in (pick_a, pick_b, pick_c):
+-        assert pick['sku'].upper() in rendered(invoke(render_three)).upper()
++    triple = rendered(invoke(render_three))
++    for sku in (A, B, C):
++        assert sku in triple
++
++    branded = snapshot([offer(1, sku=A, name=BRANDED), offer(2, sku=B, grade='B', name=BRANDED_OTHER)])
++    for sku, grade, price, name, render_args, fallback_args in (
++            (A, 'A', '1,201', BRANDED, render_a, fallback_a), (B, 'B', '1,202', BRANDED_OTHER, render_b, fallback_b)):
++        for args in (render_args, fallback_args):
++            assert f'{sku} {grade}등급 · {name} · {price}크레딧 · 남은 시간 300초' in rendered(invoke(args, branded), sku)
++        result = invoke({'op': 'search', 'q': name}, branded)
++        assert [(row[0], row[2]) for row in result['rows']] == [(sku, name)]
++    bracket_page = invoke({'op': 'context', 'text': '식품 포장 규격 알려주세요'}, branded)
++    assert [(row[0], row[2]) for row in bracket_page['rows']] == [(A, BRANDED), (B, BRANDED_OTHER)]
++
+     for word in ('환불', '계약', '구매', '결제', '송금', '잔액', '대안', '비교', '제외', '또는', 'pay', 'accept quote'):
+         fails({'op': 'fallback', 'text': f'{A} 가격과 {word} 알려주세요'}, 'fallback_not_applicable')
++    fails({'op': 'fallback', 'text': f'구매 {B}'}, 'fallback_not_applicable')
+     fails({'op': 'fallback', 'text': '상품명 알려주세요'}, 'fallback_not_applicable')
+     fails({'op': 'fallback', 'text': f'{A} GFFFFFFFF 가격 알려주세요'}, 'selection_unavailable')
+     four = snapshot([offer(i) for i in range(1, 5)])
+@@ -137,19 +166,25 @@
+ 
+     exact120 = '가' * (120 - len(NAME) - 1) + ' ' + NAME
+     sized = snapshot([offer(1, sku=A, name=exact120)])
+-    assert len(exact120) == 120 and exact120 in rendered(invoke(render_a, sized))
+-    initial = rendered(invoke(render_a))
++    assert len(exact120) == 120 and exact120 in rendered(invoke(render_a, sized), A)
++    initial = rendered(invoke(render_a), A)
+     slack = 450 - len(initial)
+     exact = '가' * slack + NAME
+     exact_snapshot = snapshot([offer(1, sku=A, name=exact)])
+-    assert len(rendered(invoke(render_a, exact_snapshot))) == 450
++    assert len(rendered(invoke(render_a, exact_snapshot), A)) == 450
++    assert len(rendered(invoke(fallback_a, exact_snapshot), A)) == 450
+     over = snapshot([offer(1, sku=A, name='가' + exact)])
+     fails(render_a, 'output_budget', context=over)
+     fails(fallback_a, 'output_budget', context=over)
+     long_three = snapshot([offer(1, sku=A, name=exact120), offer(2, sku=B, grade='B', name=exact120), offer(3, name=exact120)])
+     fails(render_three, 'output_budget', context=long_three)
++    fails(fallback_food, 'output_budget', context=long_three)
+     for name in ('https://PRIVATE_TEST_MARKER.com', '메일 test@example.net', '0x1234567890', '표시 ref-1',
+-                 '제어\u202e문자', '파일 config.json', '경로 foo/bar', 'ghp_abcdef', '', '가' * 1025):
++                 '제어\u202e문자', '파일 config.json', '경로 foo/bar', 'ghp_abcdef', '', '가' * 1025,
++                 '[https://example.net] 상품', '[서울 테헤란로 123] 상품', '[123 Main Street] 상품',
++                 '[010-1234-5678] 상품', '[api_key] 상품', '[ghp_abcdef] 상품', '[Bearer abc] 상품',
++                 '[0x1234567890] 상품', '[결제권] 상품', '[정산권리] 상품', '[제어\u202e문자] 상품',
++                 '[ref-1] 상품', '[브랜드](300g/2팩)', '[미완성 상품'):
+         unsafe = snapshot([offer(1, sku=A, name=name), base['units'][1]])
+         fails(render_a, 'name_unavailable', context=unsafe)
+         fails(fallback_a, 'name_unavailable', context=unsafe)
+@@ -174,7 +209,7 @@
+     fails(render_a, 'stale_snapshot', at=NOW + 120)
+     assert [row[0] for row in invoke({'op': 'search', 'min_remaining_seconds': 1})['rows']] == [A, C]
+ 
+-    pack_prefix = '공개 한빛 상품 ' + '가' * 140
++    pack_prefix = '[한빛] 공개 상품 ' + '가' * 140
+     packs = snapshot([offer(1, sku=A, name=pack_prefix + ' (300g/2팩)'),
+                       offer(2, sku=B, name=pack_prefix + ' (300g/3팩)')])
+     context = invoke({'op': 'context', 'text': '식품 포장 규격 알려주세요'}, packs)
+@@ -196,26 +231,31 @@
+     for key in ('q', 'skus', 'exclude_skus', 'category', 'grade', 'max_price', 'min_remaining_seconds', 'sort', 'offset', 'limit'):
+         fails({k: v for k, v in cursor.items() if k != key}, 'query_restart_required', context=packs, expect_open=False)
+     for q in ('test@example.net', 'https://example.net', './local', '.env', 'config.json', 'Bearer abc', 'ghp_abcdef',
+-              '서울 테헤란로 123', '123 Main Street', 'dir／file'):
++              '서울 테헤란로 123', '123 Main Street', 'dir／file', '[.env]', '[010-1234-5678]', '[결제권]', '[ghp_abcdef]'):
+         fails({'op': 'search', 'q': q}, 'unsafe_query_cursor', expect_open=False)
+         fails(dict(cursor, q=q), 'unsafe_query_cursor', context=packs, expect_open=False)
+     fails({'op': 'search', 'q': 'ref-1'}, 'unsafe_query_cursor')
+-
+-    bulk = snapshot([offer(i, name='한빛 ' + '가' * 950 + f' ({300 + i}g/2팩)',
+-                          category_path=[f'분류 {i:03} ' + '길' * 110]) for i in range(1, 19)])
+-    args = {'op': 'context', 'text': '상품 목록'}
+-    seen = []
+-    for _ in range(len(bulk['units'])):
+-        result = invoke(args, bulk)
+-        assert result['status'] == 'ready', result
+-        assert result['catalogue']['offset'] == len(seen)
+-        assert 0 < len(result['rows']) < 8
+-        seen.extend((row[0], row[2]) for row in result['rows'])
+-        args = result['catalogue']['next_args']
+-        if args is None:
+-            break
+-        assert args['offset'] == len(seen) and args['as_of'] == NOW and args['query_id'] == result['query_id']
+-    assert args is None and seen == [(unit['sku'], unit['name']) for unit in bulk['units']]
++    fails({'op': 'search', 'q': '[ref-1]'}, 'unsafe_query_cursor')
++
++    bulk = snapshot([offer(i, name='[한빛] ' + '가' * 950 + f' ({300 + i}g/2팩)',
++                          category_path=[f'분류 {i:03} ' + '길' * 110]) for i in range(1, 118)])
++    for initial_args in ({'op': 'context', 'text': '상품 목록'}, {'op': 'search', 'q': '[한빛] 2팩'}):
++        args = initial_args
++        seen = []
++        for _ in range(117):
++            result = invoke(args, bulk)
++            assert result['status'] == 'ready', result
++            assert result['catalogue']['offset'] == len(seen)
++            assert result['catalogue']['matched_count'] == 117
++            assert 0 < len(result['rows']) < 8
++            seen.extend((row[0], row[2]) for row in result['rows'])
++            args = result['catalogue']['next_args']
++            if args is None:
++                break
++            assert args['offset'] == len(seen) and args['as_of'] == NOW and args['query_id'] == result['query_id']
++            assert args['q'] == initial_args.get('q', '') and args['snapshot'] == result['snapshot']
++        assert args is None and len(seen) == 117
++        assert seen == [(unit['sku'], unit['name']) for unit in bulk['units']]
+     maximum_rows = snapshot([offer(i, name='한빛 사과') for i in range(1, 5001)])
+     listing = invoke({'op': 'search', 'limit': 8}, maximum_rows)
+     assert listing['catalogue']['source_count'] == 5000 and len(listing['rows']) == 8

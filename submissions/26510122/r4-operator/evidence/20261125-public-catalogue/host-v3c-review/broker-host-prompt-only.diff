@@ -1,0 +1,27 @@
+--- host-v3b.py
++++ host-v3c.py
+@@ -338,7 +338,7 @@
+         if catalogue is not None:
+             active_tools={**TOOLS,PUBLIC_SEARCH_ACTION:catalogue.instruction,
+                           PUBLIC_RENDER_ACTION:CATALOGUE_RENDER_CONTRACT}
+-            system=SYSTEM+" "+PUBLIC_RENDER_INSTRUCTION+" 공개 재고의 가격·등급·남은 시간만 문의하면 render_public_products를 사용하고, 별도 가격 제안이나 흥정에만 offer를 사용한다. Use search_products for catalogue paging and alternatives. search_products q terms separated by spaces use AND semantics: every term must occur. If a search returns zero rows, do not repeat it: try different request terms or a narrower query, or use respond to explain that no matching product was found. Finish with render_public_products for selected verified items, or a factual no-match response. " + json.dumps(active_tools,ensure_ascii=False)
++            system=SYSTEM+" "+PUBLIC_RENDER_INSTRUCTION+" 공개 재고의 가격·등급·남은 시간만 문의하면 render_public_products를 사용하고, 별도 가격 제안이나 흥정에만 offer를 사용한다. Use search_products for catalogue paging and alternatives. search_products q terms separated by spaces use AND semantics: every term must occur. If a search returns zero rows, do not repeat it: try different request terms or a narrower query, or use respond to explain that no matching product was found. Finish with render_public_products for selected verified items, or a factual no-match response. q matches literal product-name/category text, not synonyms or inferred ingredients. Zero rows rules out only that literal expression, not all potentially relevant inventory. Review the already supplied initial inventory yourself for suitable partial matches to a multi-part request; do not mechanically search every alternative. Reserve the last decision for rendering verified selected items or a factual response, not another search. Do not claim that unsearched items or a complete meal quantity are verified. " + json.dumps(active_tools,ensure_ascii=False)
+             try:
+                 prior=prefetched.get("prior_offer")
+                 focus=[prefetched.get("wait"),prior.get("sku") if isinstance(prior,dict) else None]
+@@ -374,6 +374,15 @@
+                 break
+             if monotonic() >= expires:
+                 break
++            if readonly_catalogue:
++                remaining_steps=step_limit-step_index
++                messages.append({'role':'user','content':json.dumps({'host_readonly_flow':{
++                    'remaining_decisions_including_this_one':remaining_steps,
++                    'final_decision':remaining_steps==1,
++                    'allowed_final_actions':[PUBLIC_RENDER_ACTION,'respond'],
++                    'instruction':('This is the last read-only decision. Finish with render_public_products for selected verified items or respond with a factual answer; do not request another search.' if remaining_steps==1 else
++                                   'Use existing verified rows when relevant. Literal no-match is not semantic absence; leave one decision for the final answer.')
++                }},ensure_ascii=False)})
+             try:
+                 self.model_used = True
+                 if self.model_seconds is None:

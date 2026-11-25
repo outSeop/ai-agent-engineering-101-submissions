@@ -1,0 +1,159 @@
+{
+  "files": {
+    "sources-v3/tools/public_catalogue/logic.py": "e8d072852f8c75a548d38a62b3b59f86ea03d503b6fad56ae60f70eeed5f76c8",
+    "sources-v3/tools/public_catalogue/test.py": "e247474f58c9fb2a37264605f189c40122cdb37c67771868d8050dc0daf2c70b",
+    "sources-v3/tools/public_catalogue/permission.yml": "11288655026282913c58a371ecce4bbd59fe900bd7597cf33f430f697b9ef08b",
+    "sources-v3/tools/public_catalogue/forge.json": "675a21d11ace84375a7ed123a0e94a384c47cf7a34e669319d62eefca978abdd",
+    "qa-v3/independent-product-detail-results.json": "e4b17c8e8477d347b217cf220c734e0e32e81c1e823978c23c90c13443e6c964",
+    "qa-v3/official-selftest-result.json": "d2b54cdfbd3f66db132758ff6d4e4bacfd3b7170fc83e31b49fddcf505e660c0",
+    "qa-v3/derived-origin.json": "daa65e23042a18b647bf67f877d1e7cfee0cb5f5106bac00dbec655f99c1bf63",
+    "sources-v4/tools/public_catalogue/logic.py": "f868c4f2e3128ae25682f1ca6f3a475dc58d9011d30e3755eed7fd780671c55d",
+    "sources-v4/tools/public_catalogue/test.py": "59c62f95066961183099d5a3955b452f109c5df1ea81b6bae3ea8a6f9ad661cb",
+    "sources-v4/tools/public_catalogue/permission.yml": "3df782794df34e3259e0eebac0867439edf315e3278253b3d806bc767f438648",
+    "sources-v4/tools/public_catalogue/forge.json": "00f86e476b4f5b92d6d181d4373b4cc07828e4185cd673a0c8467595211e63cd",
+    "qa-v4/independent-product-detail-results.json": "6b99a25e84bec0a300bbe343b10ee8c7e3f3b053e7c76e589b45827585c182c8",
+    "qa-v4/official-selftest-result.json": "903adec7293eb2327dbc8533fa420345d91834cf091c696c41b737e8032ce6fc",
+    "qa-v4/derived-origin.json": "ce03a3572fe4b2278591b5c6fe0c2149d1ef4fa365195e868fa5f1e69280ec98",
+    "qa-v4/SAFE_SUMMARY.json": "2d1614e33ad728a9368f0f2eabfd0020779a49ab76b1c87da485a34ecd56278c",
+    "qa-v4/QA_REPORT.md": "9bc51d56858ff1dbc6de97f8c7fc9a4a461bfc77910622aac0dfd75b2a24422d",
+    "qa-v4/original-v4-forge-records.jsonl": "072086e4d11d3ee64bf128c057497e367f4e5b01fa5e816a1794a7cd9ebb7cfd",
+    "qa-v4/logic.py.diff": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "qa-v4/test.py.diff": "41a8ac6336ed7ab9a235ac01d49c893410c27c8d6d165f4fb76628cf9d096a0e",
+    "qa-v4/permission.yml.diff": "e2c25739d1785b6900eb4d59c975ae2b2c004d95d252fb302838005213a0d0ff",
+    "first-failed-v4-proposal/logic.py": "f868c4f2e3128ae25682f1ca6f3a475dc58d9011d30e3755eed7fd780671c55d",
+    "first-failed-v4-proposal/test.py": "f0b533c9f6e17b4437e7b0a953bd1556d08b9931a0ce443b111036d97ba5c28e",
+    "first-failed-v4-proposal/permission.yml": "a71d0f881aa270eb36e0d3ac4484e6a7d31858a150435db666b2ce463681623f",
+    "first-failed-v4-proposal/derived-origin.json": "d714678b23dafa5594ae3f61545c1158c49726c6e6d76ca772f91f135a10a58a",
+    "first-failed-v4-proposal/logic.py.diff": "bf3152ee898cc614805525bdc59f1d7e1656f70e0cc304033853b0a7e53c9af1",
+    "first-failed-v4-proposal/test.py.diff": "51180e0633d263b646417ac27587b2856490179d4daad95593a55b5e6523c958",
+    "qa/independent_product_detail_qa.py": "f97f7240b4dd5045ed592df8c503d533d91f0fd5e68c3615148ce405992c4115",
+    "qa/verification.log": "3880b1f938b85eba6335887efe23c674efbf2da2097b7704940654eaf016ea1e",
+    "README.md": "a65c28ba144a0c6976100ce0dffbe6f0a2b38e26ec4e4e97d282fd039d400cd4"
+  },
+  "file_count": 29,
+  "credential_files_compared": 4,
+  "actual_credential_hits": 0,
+  "unapproved_pattern_hits": 0,
+  "approved_synthetic_occurrences": [
+    {
+      "file": "sources-v3/tools/public_catalogue/test.py",
+      "pattern": "API_key",
+      "byte_offset": 8294,
+      "artifact_sha256": "e247474f58c9fb2a37264605f189c40122cdb37c67771868d8050dc0daf2c70b",
+      "root_reviewed_synthetic_rejection_literal_only": true
+    },
+    {
+      "file": "sources-v3/tools/public_catalogue/test.py",
+      "pattern": "API_key",
+      "byte_offset": 12235,
+      "artifact_sha256": "e247474f58c9fb2a37264605f189c40122cdb37c67771868d8050dc0daf2c70b",
+      "root_reviewed_synthetic_rejection_literal_only": true
+    },
+    {
+      "file": "sources-v4/tools/public_catalogue/test.py",
+      "pattern": "API_key",
+      "byte_offset": 10376,
+      "artifact_sha256": "59c62f95066961183099d5a3955b452f109c5df1ea81b6bae3ea8a6f9ad661cb",
+      "root_reviewed_synthetic_rejection_literal_only": true
+    },
+    {
+      "file": "sources-v4/tools/public_catalogue/test.py",
+      "pattern": "API_key",
+      "byte_offset": 10585,
+      "artifact_sha256": "59c62f95066961183099d5a3955b452f109c5df1ea81b6bae3ea8a6f9ad661cb",
+      "root_reviewed_synthetic_rejection_literal_only": true
+    },
+    {
+      "file": "sources-v4/tools/public_catalogue/test.py",
+      "pattern": "API_key",
+      "byte_offset": 14610,
+      "artifact_sha256": "59c62f95066961183099d5a3955b452f109c5df1ea81b6bae3ea8a6f9ad661cb",
+      "root_reviewed_synthetic_rejection_literal_only": true
+    },
+    {
+      "file": "sources-v4/tools/public_catalogue/test.py",
+      "pattern": "API_key",
+      "byte_offset": 14743,
+      "artifact_sha256": "59c62f95066961183099d5a3955b452f109c5df1ea81b6bae3ea8a6f9ad661cb",
+      "root_reviewed_synthetic_rejection_literal_only": true
+    },
+    {
+      "file": "qa-v4/test.py.diff",
+      "pattern": "API_key",
+      "byte_offset": 3646,
+      "artifact_sha256": "41a8ac6336ed7ab9a235ac01d49c893410c27c8d6d165f4fb76628cf9d096a0e",
+      "root_reviewed_synthetic_rejection_literal_only": true
+    },
+    {
+      "file": "first-failed-v4-proposal/test.py",
+      "pattern": "API_key",
+      "byte_offset": 10502,
+      "artifact_sha256": "f0b533c9f6e17b4437e7b0a953bd1556d08b9931a0ce443b111036d97ba5c28e",
+      "root_reviewed_synthetic_rejection_literal_only": true
+    },
+    {
+      "file": "first-failed-v4-proposal/test.py",
+      "pattern": "API_key",
+      "byte_offset": 10711,
+      "artifact_sha256": "f0b533c9f6e17b4437e7b0a953bd1556d08b9931a0ce443b111036d97ba5c28e",
+      "root_reviewed_synthetic_rejection_literal_only": true
+    },
+    {
+      "file": "first-failed-v4-proposal/test.py",
+      "pattern": "API_key",
+      "byte_offset": 14869,
+      "artifact_sha256": "f0b533c9f6e17b4437e7b0a953bd1556d08b9931a0ce443b111036d97ba5c28e",
+      "root_reviewed_synthetic_rejection_literal_only": true
+    },
+    {
+      "file": "first-failed-v4-proposal/test.py",
+      "pattern": "API_key",
+      "byte_offset": 15002,
+      "artifact_sha256": "f0b533c9f6e17b4437e7b0a953bd1556d08b9931a0ce443b111036d97ba5c28e",
+      "root_reviewed_synthetic_rejection_literal_only": true
+    },
+    {
+      "file": "first-failed-v4-proposal/test.py.diff",
+      "pattern": "API_key",
+      "byte_offset": 7359,
+      "artifact_sha256": "51180e0633d263b646417ac27587b2856490179d4daad95593a55b5e6523c958",
+      "root_reviewed_synthetic_rejection_literal_only": true
+    },
+    {
+      "file": "first-failed-v4-proposal/test.py.diff",
+      "pattern": "API_key",
+      "byte_offset": 7472,
+      "artifact_sha256": "51180e0633d263b646417ac27587b2856490179d4daad95593a55b5e6523c958",
+      "root_reviewed_synthetic_rejection_literal_only": true
+    },
+    {
+      "file": "first-failed-v4-proposal/test.py.diff",
+      "pattern": "API_key",
+      "byte_offset": 7683,
+      "artifact_sha256": "51180e0633d263b646417ac27587b2856490179d4daad95593a55b5e6523c958",
+      "root_reviewed_synthetic_rejection_literal_only": true
+    },
+    {
+      "file": "first-failed-v4-proposal/test.py.diff",
+      "pattern": "API_key",
+      "byte_offset": 9056,
+      "artifact_sha256": "51180e0633d263b646417ac27587b2856490179d4daad95593a55b5e6523c958",
+      "root_reviewed_synthetic_rejection_literal_only": true
+    },
+    {
+      "file": "first-failed-v4-proposal/test.py.diff",
+      "pattern": "API_key",
+      "byte_offset": 9266,
+      "artifact_sha256": "51180e0633d263b646417ac27587b2856490179d4daad95593a55b5e6523c958",
+      "root_reviewed_synthetic_rejection_literal_only": true
+    }
+  ],
+  "pre_copy_and_post_copy_scan": true,
+  "original_generated_source_bytes_changed": false,
+  "failed_proposal_has_no_fabricated_forge_manifest": true,
+  "raw_model_messages_thoughts_customer_inventory_ledger_exported": false,
+  "source_authorship": "R4 agent official Mind development CLI requested gpt-6.2-sol, not classroom-model-authored",
+  "independent_QA_Model_market_DB_wallet_calls": 0,
+  "production_deployed_by_this_package": false,
+  "git_staged_or_committed": false
+}

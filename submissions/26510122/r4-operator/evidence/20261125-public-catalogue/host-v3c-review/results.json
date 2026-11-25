@@ -1,0 +1,88 @@
+{
+  "checks": [
+    {
+      "case": "five_readonly_steps_complete",
+      "passed": true
+    },
+    {
+      "case": "duplicate_no_tool_requery",
+      "passed": true
+    },
+    {
+      "case": "history_first_search_q_preserved",
+      "passed": true
+    },
+    {
+      "case": "duplicate_explicit_previous_no_match",
+      "passed": true
+    },
+    {
+      "case": "q_AND_and_finish_system_instruction",
+      "passed": true
+    },
+    {
+      "case": "original_no_financial_executor_called",
+      "passed": true
+    },
+    {
+      "case": "history_all_success_args",
+      "passed": true
+    },
+    {
+      "case": "protected_three_buy",
+      "passed": true
+    },
+    {
+      "case": "protected_fallback_blocked_buy",
+      "passed": true
+    },
+    {
+      "case": "protected_three_consent",
+      "passed": true
+    },
+    {
+      "case": "protected_fallback_blocked_consent",
+      "passed": true
+    },
+    {
+      "case": "protected_three_refund",
+      "passed": true
+    },
+    {
+      "case": "protected_fallback_blocked_refund",
+      "passed": true
+    },
+    {
+      "case": "protected_three_rights",
+      "passed": true
+    },
+    {
+      "case": "protected_fallback_blocked_rights",
+      "passed": true
+    },
+    {
+      "case": "financial_action_reverts_to_three",
+      "passed": true
+    },
+    {
+      "case": "stale_cache_does_not_suppress_validation",
+      "passed": true
+    },
+    {
+      "case": "same_absolute_deadline_and_reserve",
+      "passed": true
+    },
+    {
+      "case": "metrics_accept_five",
+      "passed": true
+    },
+    {
+      "case": "metrics_reject_six",
+      "passed": true
+    }
+  ],
+  "passed": 20,
+  "failed": 0,
+  "all_Model_catalogue_legacy_service_calls_mocked": true,
+  "actual_model_market_wallet_DB_service_operations": 0
+}

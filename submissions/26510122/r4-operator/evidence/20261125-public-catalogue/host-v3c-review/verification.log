@@ -1,0 +1,5 @@
+2026-11-25T12:18:28.213061+00:00
+Host v3c source21 hashes verified, only broker prompt/user-step metadata differs fromv3b.
+Existing20 control-flow regressions and4 narrow remaining-step delivery assertions PASS.
+No actual Model/market/service/wallet/DB call by auditor.
+Actual v3b failed class canary safe-result copied byte-identically, raw traces excluded.

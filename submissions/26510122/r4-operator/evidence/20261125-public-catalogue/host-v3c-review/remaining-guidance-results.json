@@ -1,0 +1,25 @@
+{
+  "checks": [
+    {
+      "case": "remaining5to1_no_step_increase",
+      "passed": true
+    },
+    {
+      "case": "last_decision_final_render_or_respond",
+      "passed": true
+    },
+    {
+      "case": "literal_not_semantic_and_initial_inventory_guidance",
+      "passed": true
+    },
+    {
+      "case": "protected_financial_no_terminal_public_instruction",
+      "passed": true
+    }
+  ],
+  "passed": 4,
+  "failed": 0,
+  "source_control_regressions_passed": 20,
+  "actual_Model_market_service_wallet_DB_calls": 0,
+  "scope": "prompt metadata delivery only; mock does not prove that actual Model follows guidance"
+}

@@ -1,0 +1,32 @@
+{
+  "candidate_manifest_sha256": "b5a806122845d7df73a8c6cf84b00e2e805ca0aaa7c6cbb4462ba31c7a74c5fd",
+  "candidate_launcher_sha256": "6f34021a49ddc792277eb2c2c7114c5006fb7555ecad7ad0cda54d51af3ba062",
+  "broker_sha256": "9e2c3976e4e927e8c1fadd82e436cb4c9c2b4f282cd9f5ffd27d4d0d68262809",
+  "parent_v3b_manifest_sha256": "fa03d4a3eb640b382bf09b640aa01cbaa297f05a60fcec73a86e83fc2f3b633a",
+  "changed_files_from_v3b": [
+    "broker_public_catalogue_host_candidate.py"
+  ],
+  "all21_files_verified": true,
+  "genuine4_exact4_unchanged": true,
+  "readonly_steps_still5": true,
+  "protected_financial_steps_still3": true,
+  "total65_model35_fallback5_unchanged": true,
+  "base_controlflow_mock_pass": 20,
+  "new_guidance_mock_pass": 4,
+  "actual_v3c_Model_or_public_result_proven": false,
+  "actual_Model_market_service_wallet_DB_calls_by_auditor": 0,
+  "diagnosis": {
+    "failed_v3b_distinct_literal_searches": 5,
+    "extra_grade_category_price_filters": false,
+    "all_literal_names_absent_in_raw_snapshot": true,
+    "initial_related_ingredient_present": true,
+    "initial_related_ingredient_position": 2,
+    "initial_Model_prompt_chars": 10247,
+    "no_page_bound_violation": true,
+    "final_response_decision_not_reserved": true,
+    "closed_fallback_correctly_refused_mixed_financial_question": true,
+    "source": "safe actual classroom staging canary; no private thought interpretation",
+    "initial_page_default_json_chars": 2561,
+    "actual_Model_page_compact_chars": 2368
+  }
+}

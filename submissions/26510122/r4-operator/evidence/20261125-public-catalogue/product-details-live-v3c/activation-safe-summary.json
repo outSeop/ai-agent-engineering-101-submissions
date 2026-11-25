@@ -1,0 +1,16 @@
+{
+  "at": 1795609292.1642687,
+  "main_worker_timers_active": true,
+  "existing_db_inode_preserved": true,
+  "both_existing_wallets_unchanged": true,
+  "original_shared_source_pins_restored": true,
+  "bonus_worker_separate_optin": true,
+  "class_model": "market",
+  "active_manifest_sha256": "b5a806122845d7df73a8c6cf84b00e2e805ca0aaa7c6cbb4462ba31c7a74c5fd",
+  "planned_main_restart": true,
+  "quick_tunnel_startup_auto_retry": 1,
+  "public_registration_recovered": true,
+  "r3_services_restarted": false,
+  "real_settled_sales": 0,
+  "real_bonus_awards": 0
+}

@@ -1,0 +1,64 @@
+{
+  "actual_successful_forge_proposal": {
+    "line": 15,
+    "at": 1795606535.3281934,
+    "model_provider": "codex-cli-gpt-6.2-sol",
+    "response_sha256": "3ab3df825ca1c5146015eba07c0b43bd2c60796395758b9014d020528f0ae902",
+    "source_hashes": {
+      "permission.yml": "3df782794df34e3259e0eebac0867439edf315e3278253b3d806bc767f438648",
+      "logic.py": "f868c4f2e3128ae25682f1ca6f3a475dc58d9011d30e3755eed7fd780671c55d",
+      "test.py": "59c62f95066961183099d5a3955b452f109c5df1ea81b6bae3ea8a6f9ad661cb"
+    },
+    "description_chars": 545,
+    "permission": {
+      "network": [],
+      "write": [],
+      "identity": [],
+      "wallet": [],
+      "exec": [],
+      "handles": [],
+      "pay_limit": 0,
+      "timeout": 120
+    }
+  },
+  "original_forge_records": [
+    {
+      "ts": 1795606535,
+      "tool": "public_catalogue",
+      "version": 4,
+      "passed": false,
+      "error": "timed out after 12 s (permission.timeout raises the limit up to 180)",
+      "permission": {
+        "network": [],
+        "write": [],
+        "identity": [],
+        "wallet": [],
+        "exec": [],
+        "handles": [],
+        "pay_limit": 0,
+        "timeout": 12
+      }
+    },
+    {
+      "ts": 1795606825,
+      "tool": "public_catalogue",
+      "version": 4,
+      "passed": true,
+      "error": null,
+      "permission": {
+        "network": [],
+        "write": [],
+        "identity": [],
+        "wallet": [],
+        "exec": [],
+        "handles": [],
+        "pay_limit": 0,
+        "timeout": 120
+      }
+    }
+  ],
+  "source_bytes_changed": false,
+  "raw_model_messages_thoughts_exported": false,
+  "author": "R4 agent via official Mind development provider codex-cli-gpt-6.2-sol; not classroom-model-authored",
+  "original_permission_timeout12_final120": true
+}

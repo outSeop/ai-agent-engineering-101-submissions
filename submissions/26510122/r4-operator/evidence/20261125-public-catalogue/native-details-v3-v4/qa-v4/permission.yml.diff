@@ -1,0 +1,13 @@
+--- v4-first-failed/permission.yml
++++ v4-success/permission.yml
+@@ -1,8 +1,8 @@
+ name: public_catalogue
+-description: 고정 공개 목록. context {op,text,focus_skus?}, search {op,q?,skus?,exclude_skus?,category?,grade?,max_price?,min_remaining_seconds?,sort?,limit?}. 조회는 ready·rows·catalogue, 최대 8행 및 JSON 5500자. 안전한 이름과 포장은 원문 전체를 표시합니다. 다음 페이지는 catalogue.next_args 전체를 사용하세요. render {op,items:[{sku,grade}]}는 서로 다른 SKU·등급 쌍 1~3개를 표시합니다. fallback {op,text}는 명시적인 공개 정보 문의만 받으며 지정 SKU의 모든 일치 행을 최대 3행까지 표시합니다. 분류 문의는 첫 3행까지 표시하며 일부인지 밝힙니다. 성공 응답은 rendered·reply·observed_at·valid_until, reply 최대 450자. 응답은 A2A 구매 명령을 안내합니다. 이름이나 요청 항목을 온전히 담을 수 없으면 unavailable·reason.
++description: 고정 공개 목록. context {op,text,focus_skus?}, search {op,q?,skus?,exclude_skus?,category?,grade?,max_price?,min_remaining_seconds?,sort?,limit?}. 조회는 ready·rows·catalogue, 최대 8행 및 JSON 5500자. 안전한 이름과 포장은 원문 전체를 표시합니다. 다음 페이지는 catalogue.next_args 전체를 사용하세요. render {op,items:[{sku,grade}]}는 서로 다른 SKU·등급 쌍 1~3개를 모두 표시합니다. fallback {op,text}는 명시적인 공개 정보 문의만 받으며 지정 SKU의 모든 일치 행을 최대 3행까지 표시합니다. 분류 문의는 첫 3행까지 표시하며 일부인지 밝힙니다. 성공 응답은 rendered·reply·observed_at·valid_until, reply 최대 450자. 응답은 A2A 구매 명령을 안내합니다. 이름이나 요청 항목을 온전히 담을 수 없으면 unavailable·reason.
+ permission:
+   pay_limit: 0
+-  timeout: 12
++  timeout: 120
+ logic: logic.py
+ test: test.py
+ version: 4

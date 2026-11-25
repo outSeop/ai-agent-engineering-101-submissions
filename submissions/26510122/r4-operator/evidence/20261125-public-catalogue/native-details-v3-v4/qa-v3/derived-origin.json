@@ -1,0 +1,34 @@
+{
+  "actual_proposal": {
+    "line": 11,
+    "at": 1795605164.9190307,
+    "provider": "codex-cli-gpt-6.2-sol",
+    "response_sha256": "32fb3b322313c6b7a5ff6e3d2cea81dd14f5961d43ccd690d026c9213cd3b423",
+    "source_hashes": {
+      "permission.yml": "11288655026282913c58a371ecce4bbd59fe900bd7597cf33f430f697b9ef08b",
+      "logic.py": "e8d072852f8c75a548d38a62b3b59f86ea03d503b6fad56ae60f70eeed5f76c8",
+      "test.py": "e247474f58c9fb2a37264605f189c40122cdb37c67771868d8050dc0daf2c70b"
+    },
+    "description_chars": 593
+  },
+  "original_forge_records": [
+    {
+      "ts": 1795605428,
+      "tool": "public_catalogue",
+      "version": 3,
+      "passed": true,
+      "error": null,
+      "permission": {
+        "network": [],
+        "write": [],
+        "identity": [],
+        "wallet": [],
+        "pay_limit": 0,
+        "timeout": 12,
+        "handles": []
+      }
+    }
+  ],
+  "raw_model_messages_and_thoughts_exported": false,
+  "source_changed": false
+}

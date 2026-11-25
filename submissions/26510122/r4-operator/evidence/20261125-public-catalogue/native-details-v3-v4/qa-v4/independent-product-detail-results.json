@@ -1,0 +1,552 @@
+{
+  "source_hashes": {
+    "logic.py": "f868c4f2e3128ae25682f1ca6f3a475dc58d9011d30e3755eed7fd780671c55d",
+    "test.py": "59c62f95066961183099d5a3955b452f109c5df1ea81b6bae3ea8a6f9ad661cb",
+    "permission.yml": "3df782794df34e3259e0eebac0867439edf315e3278253b3d806bc767f438648",
+    "forge.json": "00f86e476b4f5b92d6d181d4373b4cc07828e4185cd673a0c8467595211e63cd"
+  },
+  "checks": [
+    {
+      "case": "output5500_1",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "reply450_1",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "single_source_name_complete",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "source_packaging_preserved",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "source_SKU_case_preserved",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "source_grade_price_unchanged",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "market_whole_unit_one",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "packaging_not_sold_as_split",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "purchase_next_step_CTA",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fees_gas_recheck",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fixed_success_schema",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "original_times",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_2",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "reply450_2",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "benign_name_and_packaging_1",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_3",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "reply450_3",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "benign_name_and_packaging_2",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_4",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "reply450_4",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "benign_name_and_packaging_3",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_5",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "reply450_5",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "benign_name_and_packaging_4",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_6",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "reply450_6",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "two_selected_names_units_present_or_explicit_budget_error",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_7",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "reply450_7",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "fallback_has_source_name_unit_CTA",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_8",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "fallback_financial_closed_구매",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_9",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "fallback_financial_closed_결제",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_10",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "fallback_financial_closed_환불",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_11",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "fallback_financial_closed_권리",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_12",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "fallback_financial_closed_마일리지",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_13",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "fallback_financial_closed_대기권",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_14",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "fallback_financial_closed_비교",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_15",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "fallback_financial_closed_제외",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_16",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "fallback_financial_closed_다른",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_17",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "fallback_financial_closed_최저가",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_18",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "fallback_financial_closed_pay",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_19",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "fallback_financial_closed_refund",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_20",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "reply450_20",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "three_never_silent_partial",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_21",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "reply450_21",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "long_name_no_hidden_packaging_loss",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_22",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "unsafe_name_no_disclosure_url",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_23",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "unsafe_name_no_disclosure_wallet",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_24",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "unsafe_name_no_disclosure_phone",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_25",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "unsafe_name_no_disclosure_bidi",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_26",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "unsafe_name_no_disclosure_newline",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_27",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "search_packaging_distinguishable",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "preview_metadata_consistent",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_28",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "caller_price_rejected",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_29",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "state_closed_reserved",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_30",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "state_closed_sold_out",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_31",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "state_closed_reconciling",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_32",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "duplicate_pair_closed",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_33",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "reply450_33",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "unknown_expiry_not_nonfood",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_34",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "output5500_35",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "output5500_36",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "output5500_37",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "output5500_38",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "output5500_39",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "output5500_40",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "output5500_41",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "output5500_42",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "output5500_43",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "output5500_44",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "output5500_45",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "output5500_46",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "output5500_47",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "output5500_48",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "new_name_paging_117",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "output5500_49",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "output5500_50",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "output5500_51",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "output5500_52",
+      "passed": true,
+      "observed": "output_budget"
+    },
+    {
+      "case": "new_name_paging_5000",
+      "passed": true,
+      "observed": null
+    }
+  ],
+  "passed": 45,
+  "failed": 0,
+  "ordinary_SDK_Toolbox_call": true,
+  "all_inputs_synthetic": true,
+  "manual_testing_flag": false,
+  "source_changes": false,
+  "actual_model_market_DB_wallet_calls": 0
+}

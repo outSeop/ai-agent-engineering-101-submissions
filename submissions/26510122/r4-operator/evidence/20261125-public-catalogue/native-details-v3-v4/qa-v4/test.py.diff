@@ -1,0 +1,92 @@
+--- v4-first-failed/test.py
++++ v4-success/test.py
+@@ -141,8 +141,7 @@
+         reply = rendered(invoke(args))
+         assert f'{A} A등급 · {NAME}' in reply and f'{B} B등급 · {NAME.replace("2팩", "3팩")}' in reply
+     triple = rendered(invoke(render_three))
+-    for sku in (A, B, C):
+-        assert sku in triple
++    assert all(sku in triple for sku in (A, B, C))
+ 
+     branded = snapshot([offer(1, sku=A, name=BRANDED), offer(2, sku=B, grade='B', name=BRANDED_OTHER)])
+     for sku, grade, price, name, render_args, fallback_args in (
+@@ -167,15 +166,12 @@
+     exact120 = '가' * (120 - len(NAME) - 1) + ' ' + NAME
+     sized = snapshot([offer(1, sku=A, name=exact120)])
+     assert len(exact120) == 120 and exact120 in rendered(invoke(render_a, sized), A)
+-    initial = rendered(invoke(render_a), A)
+-    slack = 450 - len(initial)
++    slack = 450 - len(rendered(invoke(render_a), A))
+     exact = '가' * slack + NAME
+     exact_snapshot = snapshot([offer(1, sku=A, name=exact)])
+-    assert len(rendered(invoke(render_a, exact_snapshot), A)) == 450
+-    assert len(rendered(invoke(fallback_a, exact_snapshot), A)) == 450
+-    over = snapshot([offer(1, sku=A, name='가' + exact)])
+-    fails(render_a, 'output_budget', context=over)
+-    fails(fallback_a, 'output_budget', context=over)
++    for args in (render_a, fallback_a):
++        assert len(rendered(invoke(args, exact_snapshot), A)) == 450
++        fails(args, 'output_budget', context=snapshot([offer(1, sku=A, name='가' + exact)]))
+     long_three = snapshot([offer(1, sku=A, name=exact120), offer(2, sku=B, grade='B', name=exact120), offer(3, name=exact120)])
+     fails(render_three, 'output_budget', context=long_three)
+     fails(fallback_food, 'output_budget', context=long_three)
+@@ -186,9 +182,8 @@
+                  '[0x1234567890] 상품', '[결제권] 상품', '[정산권리] 상품', '[제어\u202e문자] 상품',
+                  '[ref-1] 상품', '[브랜드](300g/2팩)', '[미완성 상품'):
+         unsafe = snapshot([offer(1, sku=A, name=name), base['units'][1]])
+-        fails(render_a, 'name_unavailable', context=unsafe)
+-        fails(fallback_a, 'name_unavailable', context=unsafe)
+-        fails(render_two, 'name_unavailable', context=unsafe)
++        for args in (render_a, fallback_a, render_two):
++            fails(args, 'name_unavailable', context=unsafe)
+         page = invoke({'op': 'search', 'skus': [A.upper()]}, unsafe)
+         assert page['rows'] == [] and page['catalogue']['missing_skus'] == [A]
+         assert page['catalogue']['excluded_counts']['name_unavailable_rows'] == 1 and '불완전' in page['coverage']
+@@ -202,8 +197,8 @@
+     fails(render_a, 'selection_unavailable', context=snapshot([offer(1, sku=A, state='reserved')]))
+     fails(render_a, 'selection_unavailable', context=snapshot([offer(1, sku=A, price_credits=True)]))
+     short_expiry = snapshot([offer(1, sku=A, expires_at=NOW + 9)])
+-    fails(render_a, 'selection_unavailable', context=short_expiry, times=(NOW, NOW, NOW + 8, NOW + 9))
+-    fails(fallback_a, 'selection_unavailable', context=short_expiry, times=(NOW, NOW, NOW + 8, NOW + 9))
++    for args in (render_a, fallback_a):
++        fails(args, 'selection_unavailable', context=short_expiry, times=(NOW, NOW, NOW + 8, NOW + 9))
+     fails(render_a, 'stale_snapshot', times=(NOW, NOW, NOW + 119, NOW + 120))
+     fails(render_a, 'stale_snapshot', context=dict(base, valid_until=NOW + 151))
+     fails(render_a, 'stale_snapshot', at=NOW + 120)
+@@ -234,16 +229,20 @@
+               '서울 테헤란로 123', '123 Main Street', 'dir／file', '[.env]', '[010-1234-5678]', '[결제권]', '[ghp_abcdef]'):
+         fails({'op': 'search', 'q': q}, 'unsafe_query_cursor', expect_open=False)
+         fails(dict(cursor, q=q), 'unsafe_query_cursor', context=packs, expect_open=False)
+-    fails({'op': 'search', 'q': 'ref-1'}, 'unsafe_query_cursor')
+-    fails({'op': 'search', 'q': '[ref-1]'}, 'unsafe_query_cursor')
+-
+-    bulk = snapshot([offer(i, name='[한빛] ' + '가' * 950 + f' ({300 + i}g/2팩)',
+-                          category_path=[f'분류 {i:03} ' + '길' * 110]) for i in range(1, 118)])
++    for q in ('ref-1', '[ref-1]'):
++        fails({'op': 'search', 'q': q}, 'unsafe_query_cursor')
++
++    name_words = '가나다라마바사아자 ' * 95
++    category_words = ('냉장 식품 ' * 18).strip()
++    bulk = snapshot([offer(i, name=f'[한빛] {name_words}({300 + i}g/2팩)',
++                          category_path=[f'분류 {i:03} {category_words}']) for i in range(1, 118)])
++    bulk_raw = json.dumps(bulk, ensure_ascii=False).encode('utf-8')
++    expected = [(unit['sku'], unit['name']) for unit in bulk['units']]
+     for initial_args in ({'op': 'context', 'text': '상품 목록'}, {'op': 'search', 'q': '[한빛] 2팩'}):
+         args = initial_args
+         seen = []
+         for _ in range(117):
+-            result = invoke(args, bulk)
++            result = invoke(args, bulk_raw)
+             assert result['status'] == 'ready', result
+             assert result['catalogue']['offset'] == len(seen)
+             assert result['catalogue']['matched_count'] == 117
+@@ -254,8 +253,7 @@
+                 break
+             assert args['offset'] == len(seen) and args['as_of'] == NOW and args['query_id'] == result['query_id']
+             assert args['q'] == initial_args.get('q', '') and args['snapshot'] == result['snapshot']
+-        assert args is None and len(seen) == 117
+-        assert seen == [(unit['sku'], unit['name']) for unit in bulk['units']]
++        assert args is None and len(seen) == 117 and seen == expected
+     maximum_rows = snapshot([offer(i, name='한빛 사과') for i in range(1, 5001)])
+     listing = invoke({'op': 'search', 'limit': 8}, maximum_rows)
+     assert listing['catalogue']['source_count'] == 5000 and len(listing['rows']) == 8

@@ -1,0 +1,12 @@
+{
+  "http_status": 200,
+  "elapsed_seconds": 22.01,
+  "at": 1795609109.8930101,
+  "own_probe": true,
+  "reply": "G5c96ee78 C등급 · 정식수입 사토노유키 실큰두부 300g 1팩 상온보관 멸균두부 연두부 순두부 단백질 식단관리 · 1,936크레딧 · 남은 시간 6418초\n각 상품의 시장 판매 단위는 표시된 구성 전체 1개입니다.\n상품가 기준, 시장 수수료·가스 별도. 결제 전 재고·조건 재확인.\n지금 구매하려면 A2A로 '구매 G5c96ee78'를 보내 결제권과 checkout 조건을 확인하세요.",
+  "has_product_name": true,
+  "has_packaging": true,
+  "has_actual_buy_command": true,
+  "public_snapshot_product_name_price_grade_match": true,
+  "purchase_or_settlement_tested": false
+}

@@ -1,0 +1,75 @@
+--- v3/logic.py
++++ v4-failed-proposal/logic.py
+@@ -39,6 +39,8 @@
+     r'|[\w-]+\.(?:json|ya?ml|toml|ini|conf|txt|csv|log|pem|key|p12|sqlite|db|py|sh|ps1)(?!\w)'
+     r'|\b\d{1,6}\s+(?:[\w-]+\s+){1,5}(?:street|st\.?|avenue|ave\.?|road|rd\.?|lane|ln\.?|drive|dr\.?|boulevard|blvd\.?)\b'
+     r'|\b(?:eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+|gh[pousr]_[A-Za-z0-9]+|xox[baprs]-[A-Za-z0-9-]+)\b', re.I)
++BRAND_BRACKETS = re.compile(r'\[[^\[\]]+\]')
++FINANCIAL_RIGHT = re.compile(r'결제\s*권|(?:환불|정산|출금|송금)\s*권리?|checkout\s+(?:token|right|entitlement)\b', re.I)
+ PACK_SLASH = re.compile(
+     r'(?<![A-Za-z0-9.])\d+(?:\.\d+)?\s*(?:kg|mg|g|ml|cl|l|oz|그램|킬로그램|리터|밀리리터)'
+     r' */ *\d+ *(?:팩|개입|개|봉지|봉|병|포|캔|입|세트|packs?|pcs?)(?![\w./-])', re.I)
+@@ -57,7 +59,6 @@
+                    '한 몇 개 몇개 몇개인가요 몇 팩 몇팩 몇팩인가요 몇 개인가요 팩인가요 '
+                    'price grade expiry expiration stock what is the of for and please show tell me available').split())
+ CONDITIONS = '상품가 기준, 시장 수수료·가스 별도. 결제 전 재고·조건 재확인.'
+-CTA = '지금 구매하려면 위 SKU와 등급을 A2A로 보내 결제권과 checkout 조건을 확인하세요.'
+ 
+ 
+ def unavailable(reason):
+@@ -238,13 +239,19 @@
+     return hashlib.sha256(encoded).hexdigest()
+ 
+ 
+-def safe_label(text, maximum, refs, *, product=False):
++def safe_label(text, maximum, refs, *, product=False, query=False):
+     if not text or len(text) > maximum or text != text.strip():
+         return False
+     normalized = unicodedata.normalize('NFKC', text)
+-    if (PRIVATE.search(normalized) or (product and QUERY_PRIVATE.search(normalized))
+-            or any(ch in ':<>={}[]' for ch in normalized)
++    if (PRIVATE.search(normalized) or ((product or query) and QUERY_PRIVATE.search(normalized))
++            or ((product or query) and FINANCIAL_RIGHT.search(normalized))
++            or any(ch in ':<>={}' for ch in normalized)
+             or any(unicodedata.category(ch)[0] == 'C' or unicodedata.category(ch) in ('Zl', 'Zp') for ch in text)):
++        return False
++    if (product or query) and '](' in normalized:
++        return False
++    bracket_check = BRAND_BRACKETS.sub(' ', normalized) if product or query else normalized
++    if '[' in bracket_check or ']' in bracket_check:
+         return False
+     slash_check = PACK_SLASH.sub(' ', normalized) if product else normalized
+     if '/' in slash_check:
+@@ -348,7 +355,13 @@
+         remaining = ('유통기한 미제공' if expiry is None
+                      else f'남은 시간 {max(0, expiry - math.ceil(output_time))}초')
+         lines.append(f"{unit['sku']} {grade}등급 · {name} · {unit['price_credits']:,}크레딧 · {remaining}")
+-    lines.extend(('각 상품의 판매 단위는 표시된 구성 전체 1개(1份)입니다.', CONDITIONS, CTA))
++    if len(selected) == 1:
++        sku = selected[0][1]['sku']
++        purchase = f"지금 구매하려면 A2A로 '구매 {sku}'를 보내"
++    else:
++        purchase = "지금 구매하려면 위 SKU 중 하나를 골라 A2A로 '구매 <원하는 SKU>' 형식으로 보내"
++    lines.extend(('각 상품의 시장 판매 단위는 표시된 구성 전체 1개입니다.', CONDITIONS,
++                  purchase + ' 결제권과 checkout 조건을 확인하세요.'))
+     reply = '\n'.join(lines)
+     if len(reply) > REPLY_LIMIT:
+         return unavailable('output_budget')
+@@ -424,7 +437,7 @@
+             return unavailable('invalid_args')
+         criteria, offset, continuing = parsed
+         query = criteria['q']
+-        if query and (not safe_label(query, 64, ()) or QUERY_PRIVATE.search(unicodedata.normalize('NFKC', query))):
++        if query and not safe_label(query, 64, (), query=True):
+             return unavailable('unsafe_query_cursor')
+         if continuing and not (DEFAULTS.keys() | {'offset'}) <= args.keys():
+             return unavailable('query_restart_required')
+@@ -475,7 +488,7 @@
+         if any(pair not in by_pair for pair in requested):
+             return unavailable('selection_unavailable')
+         return render([by_pair[pair] for pair in requested], context, checked)
+-    if criteria['q'] and not safe_label(criteria['q'], 64, refs):
++    if criteria['q'] and not safe_label(criteria['q'], 64, refs, query=True):
+         return unavailable('unsafe_query_cursor')
+     active = [row for row in rows if current(row, as_of)]
+     eligible = [row for row in active if row[2] is not None]

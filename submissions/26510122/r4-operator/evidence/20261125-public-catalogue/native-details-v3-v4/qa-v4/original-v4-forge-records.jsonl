@@ -1,0 +1,2 @@
+{"ts": 1795606535, "tool": "public_catalogue", "version": 4, "passed": false, "error": "timed out after 12 s (permission.timeout raises the limit up to 180)", "permission": {"network": [], "write": [], "identity": [], "wallet": [], "exec": [], "handles": [], "pay_limit": 0, "timeout": 12}}
+{"ts": 1795606825, "tool": "public_catalogue", "version": 4, "passed": true, "error": null, "permission": {"network": [], "write": [], "identity": [], "wallet": [], "exec": [], "handles": [], "pay_limit": 0, "timeout": 120}}

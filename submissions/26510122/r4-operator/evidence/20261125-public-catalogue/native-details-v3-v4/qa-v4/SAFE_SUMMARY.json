@@ -1,0 +1,19 @@
+{
+  "version": 4,
+  "logic_sha256": "f868c4f2e3128ae25682f1ca6f3a475dc58d9011d30e3755eed7fd780671c55d",
+  "independent_functional_pass": 45,
+  "independent_output_budget_pass": 62,
+  "independent_fail": 0,
+  "ordinary_official_Toolbox_call": true,
+  "original_sdk_selftest_pass": true,
+  "selftest_elapsed_seconds": 10.943912936141714,
+  "permission_timeout_changed_from12_to120_for_selftest": true,
+  "no_network_write_identity_wallet_exec_handles": true,
+  "pay_limit": 0,
+  "host_query_deadline_changed": false,
+  "description_chars": 545,
+  "source_writer": "actual official Mind development CLI requested gpt-6.2-sol",
+  "classroom_operation_or_conversion_proven": false,
+  "staging_only": true,
+  "production_service_and_real_market_actions": 0
+}
