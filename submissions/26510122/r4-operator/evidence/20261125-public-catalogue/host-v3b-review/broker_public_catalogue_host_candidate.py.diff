@@ -1,0 +1,82 @@
+--- host-v3/broker_public_catalogue_host_candidate.py
++++ host-v3b/broker_public_catalogue_host_candidate.py
+@@ -292,6 +292,10 @@
+                              or bool(REFUND.search(text)) or consents(text, scoped, prices)
+                              or core.parse(text)[0] in {"balance","wait","paid","cancel","profile"})
+         page=None
++        empty_searches={}
++        financial_step_limit=min(self.max_steps,3) if catalogue is not None else self.max_steps
++        readonly_catalogue=(catalogue is not None and not protected_request)
++        step_limit=5 if readonly_catalogue else financial_step_limit
+ 
+         def safe_public_result(answer, deadline):
+             if monotonic()>=deadline:
+@@ -334,7 +338,7 @@
+         if catalogue is not None:
+             active_tools={**TOOLS,PUBLIC_SEARCH_ACTION:catalogue.instruction,
+                           PUBLIC_RENDER_ACTION:CATALOGUE_RENDER_CONTRACT}
+-            system=SYSTEM+" "+PUBLIC_RENDER_INSTRUCTION+" 공개 재고의 가격·등급·남은 시간만 문의하면 render_public_products를 사용하고, 별도 가격 제안이나 흥정에만 offer를 사용한다. Use search_products for catalogue paging and alternatives. " + json.dumps(active_tools,ensure_ascii=False)
++            system=SYSTEM+" "+PUBLIC_RENDER_INSTRUCTION+" 공개 재고의 가격·등급·남은 시간만 문의하면 render_public_products를 사용하고, 별도 가격 제안이나 흥정에만 offer를 사용한다. Use search_products for catalogue paging and alternatives. search_products q terms separated by spaces use AND semantics: every term must occur. If a search returns zero rows, do not repeat it: try different request terms or a narrower query, or use respond to explain that no matching product was found. Finish with render_public_products for selected verified items, or a factual no-match response. " + json.dumps(active_tools,ensure_ascii=False)
+             try:
+                 prior=prefetched.get("prior_offer")
+                 focus=[prefetched.get("wait"),prior.get("sku") if isinstance(prior,dict) else None]
+@@ -365,7 +369,9 @@
+                                                             "verified_context": model_view(verified_context)}, ensure_ascii=False)}]
+         retries = {"market_busy", "price_out_of_bounds", "price_or_stock_unavailable", "invalid_sku",
+                    "invalid_amount", "invalid_offer", "tool_unavailable"}
+-        for _ in range(self.max_steps):
++        for step_index in range(step_limit):
++            if not readonly_catalogue and step_index>=financial_step_limit:
++                break
+             if monotonic() >= expires:
+                 break
+             try:
+@@ -394,6 +400,14 @@
+                 messages.append({"role": "user", "content": "Use the specified JSON object and only the documented tool arguments."})
+                 continue
+             action = move.get("action")
++            if catalogue is not None and action not in {PUBLIC_SEARCH_ACTION,PUBLIC_RENDER_ACTION,'shop_context','respond'}:
++                readonly_catalogue=False
++                if step_index>=financial_step_limit:
++                    fail_code='invalid_model_action';codes['model']=fail_code
++                    break
++                step_limit=financial_step_limit
++            if not readonly_catalogue and step_index>=financial_step_limit:
++                break
+             args = move.get("args")
+             reason = mask(move.get("reason", ""))[:130] if isinstance(move.get("reason"), str) else ""
+             safe_args = {k: args[k] for k in ("sku", "proposed_price", "text")
+@@ -407,9 +421,30 @@
+                 result = {"outcome": "invalid_scope_or_action"}
+             elif catalogue is not None and action == PUBLIC_SEARCH_ACTION:
+                 try:
+-                    page=measure("search_seconds",lambda:catalogue.search(args,expires-monotonic()))
+-                    result=model_view(verified_context)
+-                    fail_code="none"
++                    # Pure host protocol validation preserves exactly the forwarded public arguments.
++                    outgoing=catalogue.protocol.search(args,deepcopy(page))
++                    fingerprint=json.dumps(redact(outgoing),ensure_ascii=False,sort_keys=True,separators=(',',':'))
++                    snapshot=page.get('snapshot') if isinstance(page,dict) else None
++                    cache_key=(snapshot,fingerprint)
++                    cached=empty_searches.get(cache_key)
++                    if cached is not None and type(cached.get('valid_until')) is int and cached.get('observed_at',0)<=time()<cached['valid_until']:
++                        safe_args=redact(deepcopy(outgoing))
++                        fail_code='no_match';codes['search']=fail_code
++                        result={'outcome':'catalogue_search_already_performed','reason':'no_match',
++                                'already_executed':True,'validated_args':safe_args,
++                                'previous_result':redact(deepcopy(cached)),
++                                'guidance':'This exact search already returned zero rows on this snapshot. Do not repeat it. Try different request terms or finish with a factual no-match response.'}
++                    else:
++                        page=measure("search_seconds",lambda:catalogue.search(args,expires-monotonic()))
++                        safe_args=redact(deepcopy(outgoing))
++                        result=model_view(verified_context)
++                        fail_code="none"
++                        if page.get('catalogue',{}).get('matched_count')==0:
++                            empty_searches[(page.get('snapshot'),fingerprint)]=deepcopy(page)
++                            fail_code='no_match';codes['search']=fail_code
++                            result['search_observation']={'outcome':'no_match','validated_args':safe_args,
++                                'guidance':'q terms use AND semantics. Use different request terms, or finish with a factual no-match response; do not repeat this query.'}
++                    event('validated_search',{'action':action,'args':safe_args})
+                 except CatalogueError as exc:
+                     fail_code=exc.code
+                     codes["search"]=fail_code

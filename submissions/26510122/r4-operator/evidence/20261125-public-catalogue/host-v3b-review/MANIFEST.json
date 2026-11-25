@@ -1,0 +1,28 @@
+{
+  "files": {
+    "SAFE_SUMMARY.json": "e57cbca244d8a1adb7c36462b2ac3e568b154c96190479c3c2e686f8fa36757c",
+    "verification.log": "7c650cc01bdda03513ba206c9dfb668c6d4241e32f45ec6179419080d471156e",
+    "QA_REPORT.md": "95757e083195e1115b8bdc144d9c70eb03b4744544eef549c1a5fff152e641a5",
+    "results.json": "7445a76473502ae91a8975a3ff47f1594e264ecb7092427685d0bf6e2d5b5cf9",
+    "test_control_flow.py": "6d2a72451927d80b69d7d3dd11b5f6ce893744b8495dbe7cfc5a87ad1f1f5e20",
+    "broker_public_catalogue_host_candidate.py.diff": "f550b61ac8034f304b344c4fcc853073d262a48808c3f320de49f05008776a1b",
+    "public_catalogue_phase_metrics.py.diff": "142ffa7ecb4018b3b77a89e7cae77cf1069a75cfbaee95a9e88b91ad9a20f881",
+    "host-source/broker_public_catalogue_host_candidate.py": "e4af77cf752a134b9b399093dec72c581d31962365483313fe00aca3d5f7ef93",
+    "host-source/public_catalogue_phase_metrics.py": "896c3028e6c95e812be5d3b015e15a7eeb74913848dd7eaf3114212f0d62e229",
+    "host-source/MANIFEST.json": "fa03d4a3eb640b382bf09b640aa01cbaa297f05a60fcec73a86e83fc2f3b633a",
+    "host-source/public_catalogue_runtime_v3b-launcher.py": "d83aff0b0ff93dec243cc7f9e2cda12d58c1a17fc38b77b64dc60fd95a96527d",
+    "reproduce_control_flow.py": "b1fa12f6f82d92e659a8d7793bbe92ff2c403a2bca09c0a35ae86ab3b5d05ee8",
+    "README.md": "c5777ace9d01fbc527239781cb07c7ffd8ccf67335937269b01a51acdb21299f"
+  },
+  "file_count": 13,
+  "original_safe_QA_and_host_source_bytes_unchanged": true,
+  "credential_files_compared": 4,
+  "actual_credential_hits": 0,
+  "pattern_hits": 0,
+  "exceptions": [],
+  "pre_copy_and_post_copy_scan": true,
+  "raw_actual_customer_Model_trace_exported": false,
+  "actual_model_market_service_wallet_DB_calls_by_this_QA": 0,
+  "production_promoted_by_auditor": false,
+  "git_staged_or_committed": false
+}

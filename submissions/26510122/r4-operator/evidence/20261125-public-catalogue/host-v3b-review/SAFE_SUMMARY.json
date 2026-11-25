@@ -1,0 +1,23 @@
+{
+  "stage": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/r3-stock-20261124-204104/agent-work/validation/public_catalogue_runtime_v3b",
+  "manifest_sha256": "fa03d4a3eb640b382bf09b640aa01cbaa297f05a60fcec73a86e83fc2f3b633a",
+  "launcher_sha256": "d83aff0b0ff93dec243cc7f9e2cda12d58c1a17fc38b77b64dc60fd95a96527d",
+  "broker_sha256": "e4af77cf752a134b9b399093dec72c581d31962365483313fe00aca3d5f7ef93",
+  "metrics_sha256": "896c3028e6c95e812be5d3b015e15a7eeb74913848dd7eaf3114212f0d62e229",
+  "files_verified": 21,
+  "changed_files": [
+    "broker_public_catalogue_host_candidate.py",
+    "public_catalogue_phase_metrics.py"
+  ],
+  "genuine4_exact4_unchanged": true,
+  "official_SDK7_unchanged": true,
+  "readonly_max_steps": 5,
+  "protected_and_started_financial_max_steps": 3,
+  "total_seconds": 65,
+  "model_timeout_cap": 35,
+  "fallback_reserve_seconds": 5,
+  "mock_checks_passed": 20,
+  "actual_model_market_service_wallet_DB_operations": 0,
+  "production_files_changed": false,
+  "scope": "host control flow only; no product selection, native tool source, prices, consent or financial executor change; equivalent but differently expressed queries are not semantically normalized for dedup"
+}

@@ -1,0 +1,11 @@
+--- host-v3/public_catalogue_phase_metrics.py
++++ host-v3b/public_catalogue_phase_metrics.py
+@@ -28,7 +28,7 @@
+ 
+     def __call__(self,event):
+         if (set(event)!={*PHASES,"outcome","retries","reason","phase_reasons"}
+-                or type(event["retries"]) is not int or not 0<=event["retries"]<=3
++                or type(event["retries"]) is not int or not 0<=event["retries"]<=5
+                 or any(type(event[key]) not in (int,float) or not math.isfinite(event[key])
+                        or event[key]<0 for key in PHASES)):
+             return
