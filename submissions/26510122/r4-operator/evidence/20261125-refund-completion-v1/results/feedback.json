@@ -1,0 +1,87 @@
+{
+  "candidate": "refund_complete_legacy",
+  "version": 1,
+  "logic_sha256": "6b11e5e3cf16bdbf1e3a178669861017368d8169513de57098904dd35b3c3233",
+  "qa_script_sha256": "7c0fe0543f3c33f4c8eb26116b0bec04e94778634b75b35ac1e9372260e94d7a",
+  "test_summary": {
+    "source_sha256": "6b11e5e3cf16bdbf1e3a178669861017368d8169513de57098904dd35b3c3233",
+    "tests": 19,
+    "failures": 5,
+    "errors": 0,
+    "failed_tests": [
+      "test_consumed_earned_debt_immediately_offset",
+      "test_official_toolbox_call_host_confirmation_wired",
+      "test_paid_non_delivery_held_spend_accepted",
+      "test_paid_non_delivery_held_ticket_released",
+      "test_promotion_loss_state_refunded_amount_preserved"
+    ],
+    "error_tests": [],
+    "synthetic_only": true,
+    "real_payments": 0,
+    "network_allowed": false,
+    "kit_testing_bypass": false,
+    "operational_readiness": false
+  },
+  "official_selftest_ok": true,
+  "contract_gaps": [
+    {
+      "id": "host-confirmation-transport",
+      "observed": "Official Toolbox.call returns confirmation_required despite valid synthetic external host confirmation DB in parent environment.",
+      "cause": "agent_kit.Toolbox.run environment allowlist omits R4_REFUND_CONFIRMATION_DB.",
+      "required": "Design and implement a trusted immutable case-bound successful canonical receipt host handoff reachable by official tool calls; do not accept caller success/receipt flags; do not merely add testing bypass."
+    },
+    {
+      "id": "held-allocation",
+      "observed": "Actual old-schema paid_no_delivery with held allocation returns completion_blocked.",
+      "cause": "reverse_benefits recognizes reserved instead of legacy held.",
+      "required": "Support actual held/spent/released semantics and restore target allocations atomically."
+    },
+    {
+      "id": "debt-reallocation",
+      "observed": "Completion leaves spendable restored points before legacy reallocate_debt changes their availability.",
+      "cause": "No equivalent to existing refund_admin.reverse -> dispatcher.reallocate_debt.",
+      "required": "Reconcile already-consumed revoked-earned points as debt immediately against same-owner eligible lots; preserve unrelated customer rights and existing held/spent allocations."
+    },
+    {
+      "id": "held-ticket",
+      "observed": "Paid non-delivery completion leaves held ticket held.",
+      "cause": "Missing refund_admin.reverse held-ticket release semantics.",
+      "required": "Release only target held ticket while preserving used/unrelated tickets."
+    },
+    {
+      "id": "promotion-lifecycle",
+      "observed": "promotion_loss amount remains unchanged, but target state stays settled.",
+      "cause": "Missing price_policy.resolve(refunded) equivalent.",
+      "required": "Set target promotion_loss.state refunded without reducing reserved/amount or restoring budget."
+    }
+  ],
+  "verified_strengths": [
+    "manifest_sha_pins",
+    "generated_original_selftest",
+    "actual_old_schema_baseline",
+    "idempotence",
+    "caller_extra_fields_rejected",
+    "case_snapshot_tx_binding",
+    "identity_mismatch_rejected",
+    "external_confirmation_missing_fails_closed",
+    "internal_confirmation_path_rejected",
+    "five_write_stage_atomic_rollback",
+    "two_thread_once_only_completion",
+    "unrelated_customer_stock_rows_preserved"
+  ],
+  "integration_limitations": [
+    "Receipt proof v2 is read-only and returns status only; no demonstrated trusted confirmation persistence adapter for completion.",
+    "Completion requires known outgoing hash and cannot consume no-hash recovery receipt status directly."
+  ],
+  "scope": {
+    "synthetic_only": true,
+    "production_db_touched": false,
+    "business_source_written": false,
+    "real_payments": 0,
+    "network_calls": 0,
+    "kit_testing_bypass": false,
+    "operational_readiness": false
+  },
+  "original_failure_log": "attempt-1-unittest-original.log",
+  "fixture_setup_correction": "First attempt contained one stock_intent retry_at fixture setup error; corrected only test fixture and preserved attempt-1 evidence."
+}

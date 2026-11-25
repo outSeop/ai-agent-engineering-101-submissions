@@ -1,0 +1,19 @@
+{
+  "source_sha256": "6b11e5e3cf16bdbf1e3a178669861017368d8169513de57098904dd35b3c3233",
+  "tests": 19,
+  "failures": 5,
+  "errors": 0,
+  "failed_tests": [
+    "test_consumed_earned_debt_immediately_offset",
+    "test_official_toolbox_call_host_confirmation_wired",
+    "test_paid_non_delivery_held_spend_accepted",
+    "test_paid_non_delivery_held_ticket_released",
+    "test_promotion_loss_state_refunded_amount_preserved"
+  ],
+  "error_tests": [],
+  "synthetic_only": true,
+  "real_payments": 0,
+  "network_allowed": false,
+  "kit_testing_bypass": false,
+  "operational_readiness": false
+}

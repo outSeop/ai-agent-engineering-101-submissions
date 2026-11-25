@@ -1,0 +1,24 @@
+{
+  "production_ready": false,
+  "private_original_logs_preserved": true,
+  "raw_inference_excluded": true,
+  "provider_evidence": "Exact official model forge_tool.args.logic byte hash match; not upstream model identity attestation.",
+  "tool": "refund_complete_legacy",
+  "version": 1,
+  "logic_sha256": "6b11e5e3cf16bdbf1e3a178669861017368d8169513de57098904dd35b3c3233",
+  "session": "class-rebuild-20261125-0752",
+  "matches": [
+    {
+      "model_provider": "codex-cli-gpt-6.2-sol",
+      "upstream_reported_model": null,
+      "raw_response_sha256": "b181bb70a6b7ce69bf316ee13f1c9e356c625f159164add6ba4fb075ee3b5971",
+      "official_system_prefix": true
+    }
+  ],
+  "private_session_artifact_sha256": {
+    ".kit/model-calls-private.jsonl": "bffc29d8ce3600e9e38c2182b3feb56217c7fdcb9b9636e30f7418eb876c5715",
+    "logs/react.jsonl": "c529888b3a8574faf98428a22b5bcada757577500ee2315a296bf421c3d1750a",
+    "logs/forge.jsonl": "8ea60b5e1a804214fa0ba78b33bbfbeab17f8020b883cd324bc41b00ab8a4833",
+    "logs/console-private.log": "4a4c397fac04709951d641c41279a115bd58dec73239dd4e242c06ab4261d35f"
+  }
+}

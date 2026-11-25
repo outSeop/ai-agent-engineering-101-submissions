@@ -1,0 +1,1024 @@
+{
+  "database": "state/r4-benefits/benefits.sqlite3",
+  "source_sha256": {
+    "dispatcher.py": "8fe390ab5b8f68cbde3a06b942843aeaa2cdd592338932baa765460dda7e990b",
+    "price_policy.py": "6e101702c38d47b3f2c68c860dc0198fd1d7557e311c2753dc4a71fed127118f",
+    "procurement.py": "43e928c2f72cb8ec0f9c77d570f29936c5d9e0171324918b459819dd4b9f1db0"
+  },
+  "tables": {
+    "identity": {
+      "ddl": "CREATE TABLE identity (\n    singleton INTEGER PRIMARY KEY CHECK(singleton=1), shop TEXT NOT NULL, wallet TEXT NOT NULL\n)",
+      "columns": [
+        {
+          "cid": 0,
+          "name": "singleton",
+          "type": "INTEGER",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 1
+        },
+        {
+          "cid": 1,
+          "name": "shop",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 2,
+          "name": "wallet",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        }
+      ],
+      "foreign_keys": [],
+      "indexes": []
+    },
+    "sale": {
+      "ddl": "CREATE TABLE sale (\n    id TEXT PRIMARY KEY, owner TEXT NOT NULL REFERENCES account(key),\n    unit TEXT NOT NULL, sku TEXT NOT NULL, base INTEGER NOT NULL CHECK(base>0),\n    cost INTEGER NOT NULL CHECK(cost>=0), price INTEGER NOT NULL CHECK(price>0),\n    discount INTEGER NOT NULL CHECK(discount>=0), spent INTEGER NOT NULL CHECK(spent>=0),\n    ticket TEXT REFERENCES ticket(key), shop_url TEXT NOT NULL, wallet TEXT NOT NULL, created REAL NOT NULL,\n    digest TEXT UNIQUE NOT NULL, jwt TEXT NOT NULL, expected_wei TEXT NOT NULL,\n    fee_wei TEXT NOT NULL, gas_cap_wei TEXT NOT NULL, fee_wallet TEXT NOT NULL, grade TEXT NOT NULL,\n    status TEXT NOT NULL CHECK(status IN ('issued','cancel_requested','paid','missing','settled','refunded')),\n    market_order TEXT UNIQUE, payment TEXT UNIQUE, fee_payment TEXT UNIQUE, payer TEXT, settled REAL, broken REAL,\n    CHECK(price=base-discount-spent)\n)",
+      "columns": [
+        {
+          "cid": 0,
+          "name": "id",
+          "type": "TEXT",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 1
+        },
+        {
+          "cid": 1,
+          "name": "owner",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 2,
+          "name": "unit",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 3,
+          "name": "sku",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 4,
+          "name": "base",
+          "type": "INTEGER",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 5,
+          "name": "cost",
+          "type": "INTEGER",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 6,
+          "name": "price",
+          "type": "INTEGER",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 7,
+          "name": "discount",
+          "type": "INTEGER",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 8,
+          "name": "spent",
+          "type": "INTEGER",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 9,
+          "name": "ticket",
+          "type": "TEXT",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 10,
+          "name": "shop_url",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 11,
+          "name": "wallet",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 12,
+          "name": "created",
+          "type": "REAL",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 13,
+          "name": "digest",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 14,
+          "name": "jwt",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 15,
+          "name": "expected_wei",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 16,
+          "name": "fee_wei",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 17,
+          "name": "gas_cap_wei",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 18,
+          "name": "fee_wallet",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 19,
+          "name": "grade",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 20,
+          "name": "status",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 21,
+          "name": "market_order",
+          "type": "TEXT",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 22,
+          "name": "payment",
+          "type": "TEXT",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 23,
+          "name": "fee_payment",
+          "type": "TEXT",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 24,
+          "name": "payer",
+          "type": "TEXT",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 25,
+          "name": "settled",
+          "type": "REAL",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 26,
+          "name": "broken",
+          "type": "REAL",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 0
+        }
+      ],
+      "foreign_keys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "ticket",
+          "from": "ticket",
+          "to": "key",
+          "on_update": "NO ACTION",
+          "on_delete": "NO ACTION",
+          "match": "NONE"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "account",
+          "from": "owner",
+          "to": "key",
+          "on_update": "NO ACTION",
+          "on_delete": "NO ACTION",
+          "match": "NONE"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "one_unit",
+          "sql": "CREATE UNIQUE INDEX one_unit ON sale(unit)\n    WHERE status IN ('issued','cancel_requested','paid','missing')"
+        },
+        {
+          "name": "sqlite_autoindex_sale_1",
+          "sql": null
+        },
+        {
+          "name": "sqlite_autoindex_sale_2",
+          "sql": null
+        },
+        {
+          "name": "sqlite_autoindex_sale_3",
+          "sql": null
+        },
+        {
+          "name": "sqlite_autoindex_sale_4",
+          "sql": null
+        },
+        {
+          "name": "sqlite_autoindex_sale_5",
+          "sql": null
+        }
+      ]
+    },
+    "refund": {
+      "ddl": "CREATE TABLE refund (\n    sale_id TEXT PRIMARY KEY REFERENCES sale(id), incoming TEXT NOT NULL UNIQUE,\n    payer TEXT NOT NULL, wei TEXT NOT NULL, marker TEXT NOT NULL UNIQUE,\n    transfer_wei TEXT NOT NULL, fee_wei TEXT NOT NULL, gas_wei TEXT NOT NULL, fee_payment TEXT,\n    reason TEXT NOT NULL, status TEXT NOT NULL CHECK(status IN (\n        'requested','sending','pending_unknown','refunded')),\n    outgoing TEXT UNIQUE, requested REAL NOT NULL\n)",
+      "columns": [
+        {
+          "cid": 0,
+          "name": "sale_id",
+          "type": "TEXT",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 1
+        },
+        {
+          "cid": 1,
+          "name": "incoming",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 2,
+          "name": "payer",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 3,
+          "name": "wei",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 4,
+          "name": "marker",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 5,
+          "name": "transfer_wei",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 6,
+          "name": "fee_wei",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 7,
+          "name": "gas_wei",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 8,
+          "name": "fee_payment",
+          "type": "TEXT",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 9,
+          "name": "reason",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 10,
+          "name": "status",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 11,
+          "name": "outgoing",
+          "type": "TEXT",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 12,
+          "name": "requested",
+          "type": "REAL",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        }
+      ],
+      "foreign_keys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "sale",
+          "from": "sale_id",
+          "to": "id",
+          "on_update": "NO ACTION",
+          "on_delete": "NO ACTION",
+          "match": "NONE"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_refund_1",
+          "sql": null
+        },
+        {
+          "name": "sqlite_autoindex_refund_2",
+          "sql": null
+        },
+        {
+          "name": "sqlite_autoindex_refund_3",
+          "sql": null
+        },
+        {
+          "name": "sqlite_autoindex_refund_4",
+          "sql": null
+        }
+      ]
+    },
+    "lot": {
+      "ddl": "CREATE TABLE lot (\n    sale_id TEXT PRIMARY KEY REFERENCES sale(id), owner TEXT NOT NULL REFERENCES account(key),\n    amount INTEGER NOT NULL CHECK(amount>0), expires REAL NOT NULL, revoked REAL\n)",
+      "columns": [
+        {
+          "cid": 0,
+          "name": "sale_id",
+          "type": "TEXT",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 1
+        },
+        {
+          "cid": 1,
+          "name": "owner",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 2,
+          "name": "amount",
+          "type": "INTEGER",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 3,
+          "name": "expires",
+          "type": "REAL",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 4,
+          "name": "revoked",
+          "type": "REAL",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 0
+        }
+      ],
+      "foreign_keys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "account",
+          "from": "owner",
+          "to": "key",
+          "on_update": "NO ACTION",
+          "on_delete": "NO ACTION",
+          "match": "NONE"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "sale",
+          "from": "sale_id",
+          "to": "id",
+          "on_update": "NO ACTION",
+          "on_delete": "NO ACTION",
+          "match": "NONE"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_lot_1",
+          "sql": null
+        }
+      ]
+    },
+    "allocation": {
+      "ddl": "CREATE TABLE allocation (\n    id INTEGER PRIMARY KEY, sale_id TEXT REFERENCES sale(id), lot_id TEXT NOT NULL REFERENCES lot(sale_id),\n    amount INTEGER NOT NULL CHECK(amount>0),\n    status TEXT NOT NULL CHECK(status IN ('held','spent','offset','released')),\n    CHECK(sale_id IS NOT lot_id)\n)",
+      "columns": [
+        {
+          "cid": 0,
+          "name": "id",
+          "type": "INTEGER",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 1
+        },
+        {
+          "cid": 1,
+          "name": "sale_id",
+          "type": "TEXT",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 2,
+          "name": "lot_id",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 3,
+          "name": "amount",
+          "type": "INTEGER",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 4,
+          "name": "status",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        }
+      ],
+      "foreign_keys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "lot",
+          "from": "lot_id",
+          "to": "sale_id",
+          "on_update": "NO ACTION",
+          "on_delete": "NO ACTION",
+          "match": "NONE"
+        },
+        {
+          "id": 1,
+          "seq": 0,
+          "table": "sale",
+          "from": "sale_id",
+          "to": "id",
+          "on_update": "NO ACTION",
+          "on_delete": "NO ACTION",
+          "match": "NONE"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "allocation_lot",
+          "sql": "CREATE INDEX allocation_lot ON allocation(lot_id,status)"
+        },
+        {
+          "name": "allocation_sale",
+          "sql": "CREATE INDEX allocation_sale ON allocation(sale_id,status)"
+        }
+      ]
+    },
+    "promotion_loss": {
+      "ddl": "CREATE TABLE promotion_loss (\n    sale_id TEXT PRIMARY KEY REFERENCES sale(id), policy_id TEXT NOT NULL,\n    reserved INTEGER NOT NULL CHECK(reserved>0), amount INTEGER NOT NULL CHECK(amount>=0),\n    state TEXT NOT NULL CHECK(state IN ('reserved','settled','refunded')), at REAL NOT NULL\n)",
+      "columns": [
+        {
+          "cid": 0,
+          "name": "sale_id",
+          "type": "TEXT",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 1
+        },
+        {
+          "cid": 1,
+          "name": "policy_id",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 2,
+          "name": "reserved",
+          "type": "INTEGER",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 3,
+          "name": "amount",
+          "type": "INTEGER",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 4,
+          "name": "state",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 5,
+          "name": "at",
+          "type": "REAL",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        }
+      ],
+      "foreign_keys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "sale",
+          "from": "sale_id",
+          "to": "id",
+          "on_update": "NO ACTION",
+          "on_delete": "NO ACTION",
+          "match": "NONE"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_promotion_loss_1",
+          "sql": null
+        }
+      ]
+    },
+    "stock_intent": {
+      "ddl": "CREATE TABLE stock_intent (\n    id TEXT PRIMARY KEY, plan_id TEXT NOT NULL REFERENCES stock_plan(id), sku TEXT NOT NULL,\n    qty INTEGER NOT NULL, quote TEXT UNIQUE, total INTEGER NOT NULL, marker TEXT,\n    recipient TEXT, wei TEXT, units TEXT, tx TEXT UNIQUE, chain_anchor INTEGER, ledger_anchor INTEGER,\n    state TEXT NOT NULL CHECK(state IN (\n        'reserved','no_purchase','sending','unknown','paid','accepted','arrived')),\n    created REAL NOT NULL, retry_at REAL NOT NULL DEFAULT 0, delivered TEXT,\n    UNIQUE(plan_id,sku)\n)",
+      "columns": [
+        {
+          "cid": 0,
+          "name": "id",
+          "type": "TEXT",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 1
+        },
+        {
+          "cid": 1,
+          "name": "plan_id",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 2,
+          "name": "sku",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 3,
+          "name": "qty",
+          "type": "INTEGER",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 4,
+          "name": "quote",
+          "type": "TEXT",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 5,
+          "name": "total",
+          "type": "INTEGER",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 6,
+          "name": "marker",
+          "type": "TEXT",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 7,
+          "name": "recipient",
+          "type": "TEXT",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 8,
+          "name": "wei",
+          "type": "TEXT",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 9,
+          "name": "units",
+          "type": "TEXT",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 10,
+          "name": "tx",
+          "type": "TEXT",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 11,
+          "name": "chain_anchor",
+          "type": "INTEGER",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 12,
+          "name": "ledger_anchor",
+          "type": "INTEGER",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 13,
+          "name": "state",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 14,
+          "name": "created",
+          "type": "REAL",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 15,
+          "name": "retry_at",
+          "type": "REAL",
+          "notnull": 1,
+          "dflt_value": "0",
+          "pk": 0
+        },
+        {
+          "cid": 16,
+          "name": "delivered",
+          "type": "TEXT",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 0
+        }
+      ],
+      "foreign_keys": [
+        {
+          "id": 0,
+          "seq": 0,
+          "table": "stock_plan",
+          "from": "plan_id",
+          "to": "id",
+          "on_update": "NO ACTION",
+          "on_delete": "NO ACTION",
+          "match": "NONE"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_stock_intent_1",
+          "sql": null
+        },
+        {
+          "name": "sqlite_autoindex_stock_intent_2",
+          "sql": null
+        },
+        {
+          "name": "sqlite_autoindex_stock_intent_3",
+          "sql": null
+        },
+        {
+          "name": "sqlite_autoindex_stock_intent_4",
+          "sql": null
+        },
+        {
+          "name": "stock_intent_state",
+          "sql": "CREATE INDEX stock_intent_state ON stock_intent(state,retry_at)"
+        }
+      ]
+    },
+    "stock_plan": {
+      "ddl": "CREATE TABLE stock_plan (\n    window TEXT PRIMARY KEY, id TEXT NOT NULL UNIQUE, scope TEXT NOT NULL, planned REAL NOT NULL,\n    expires REAL NOT NULL, opens REAL NOT NULL, closes REAL NOT NULL,\n    choices TEXT NOT NULL, decision TEXT, status TEXT NOT NULL\n)",
+      "columns": [
+        {
+          "cid": 0,
+          "name": "window",
+          "type": "TEXT",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 1
+        },
+        {
+          "cid": 1,
+          "name": "id",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 2,
+          "name": "scope",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 3,
+          "name": "planned",
+          "type": "REAL",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 4,
+          "name": "expires",
+          "type": "REAL",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 5,
+          "name": "opens",
+          "type": "REAL",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 6,
+          "name": "closes",
+          "type": "REAL",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 7,
+          "name": "choices",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 8,
+          "name": "decision",
+          "type": "TEXT",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 9,
+          "name": "status",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        }
+      ],
+      "foreign_keys": [],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_stock_plan_1",
+          "sql": null
+        },
+        {
+          "name": "sqlite_autoindex_stock_plan_2",
+          "sql": null
+        }
+      ]
+    },
+    "event": {
+      "ddl": "CREATE TABLE event (\n    id INTEGER PRIMARY KEY, at REAL NOT NULL, kind TEXT NOT NULL, reference TEXT NOT NULL,\n    details TEXT NOT NULL\n)",
+      "columns": [
+        {
+          "cid": 0,
+          "name": "id",
+          "type": "INTEGER",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 1
+        },
+        {
+          "cid": 1,
+          "name": "at",
+          "type": "REAL",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 2,
+          "name": "kind",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 3,
+          "name": "reference",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 4,
+          "name": "details",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        }
+      ],
+      "foreign_keys": [],
+      "indexes": []
+    },
+    "removal": {
+      "ddl": "CREATE TABLE removal (\n    unit TEXT PRIMARY KEY, seq INTEGER NOT NULL, reason TEXT NOT NULL\n)",
+      "columns": [
+        {
+          "cid": 0,
+          "name": "unit",
+          "type": "TEXT",
+          "notnull": 0,
+          "dflt_value": null,
+          "pk": 1
+        },
+        {
+          "cid": 1,
+          "name": "seq",
+          "type": "INTEGER",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        },
+        {
+          "cid": 2,
+          "name": "reason",
+          "type": "TEXT",
+          "notnull": 1,
+          "dflt_value": null,
+          "pk": 0
+        }
+      ],
+      "foreign_keys": [],
+      "indexes": [
+        {
+          "name": "sqlite_autoindex_removal_1",
+          "sql": null
+        }
+      ]
+    }
+  }
+}

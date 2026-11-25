@@ -1,0 +1,10 @@
+name: refund_complete_legacy
+description: 기존 sale/refund의 알려진 환불 해시를 호스트의 읽기 전용 영수증 확정 기록과 대조해 완료하고 해당 판매의 적립과 사용 할당을 역분개한다. args: {case_id: 익명 사건 참조}. 호스트 전용 R4_REFUND_CONFIRMATION_DB 파일에는 refund_receipt_confirmation(case_id PRIMARY KEY, sale_id, tx, snapshot)이 필요하다. 호스트는 대조한 동일 스냅샷의 정확한 정규 체인 영수증을 검증한 뒤 기록한다. 자체 fixture의 할당 상태는 reserved/spent/released다. 운영 호스트 연결과 기존 부채 계산 호환은 미검증이다.
+permission:
+  write: [state/r4-benefits/benefits.sqlite3, state/r4-benefits/benefits.sqlite3-journal, state/r4-benefits/benefits.sqlite3-wal, state/r4-benefits/benefits.sqlite3-shm]
+  identity: [shop]
+  pay_limit: 0
+  timeout: 20
+logic: logic.py
+test: test.py
+version: 1

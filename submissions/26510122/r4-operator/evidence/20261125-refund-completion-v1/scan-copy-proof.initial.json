@@ -1,0 +1,43 @@
+{
+  "exact_credential_files_checked": 4,
+  "exact_matches": 0,
+  "secret_pattern_matches": 0,
+  "raw_inference_excluded": true,
+  "production_ready": false,
+  "log_content_review": "Unittest test status/traceback/assertions from synthetic fixtures only; no forecast, production values or raw inference.",
+  "original_candidate_sha256": {
+    "logic.py": "6b11e5e3cf16bdbf1e3a178669861017368d8169513de57098904dd35b3c3233",
+    "test.py": "5824d6bdf7249176cdde40f70e810c927150f02491edd06c17807cd2909d6b99",
+    "forge.json": "72f147e456201def8bc275af43b8a1c5f02b78c7ad08a70a44ab3f6559fdbb12",
+    "permission.yml": "2e73b6b06fa5360d1b7ab59e1e8a9aa2fb4397ebee1920be85f1ed4b452efbec"
+  },
+  "file_sha256": {
+    "README.md": "6ed6c4aa5743629de14acb0ea8031d25db24c27307a5f1ef896cf080207f69d6",
+    "derived-provenance.json": "f690534d9e1380beba14bd308447606c5cb1436161209d7a73583a66ffff1317",
+    "generated/refund_complete_legacy/forge.json": "72f147e456201def8bc275af43b8a1c5f02b78c7ad08a70a44ab3f6559fdbb12",
+    "generated/refund_complete_legacy/logic.py": "6b11e5e3cf16bdbf1e3a178669861017368d8169513de57098904dd35b3c3233",
+    "generated/refund_complete_legacy/permission.yml": "2e73b6b06fa5360d1b7ab59e1e8a9aa2fb4397ebee1920be85f1ed4b452efbec",
+    "generated/refund_complete_legacy/test.py": "5824d6bdf7249176cdde40f70e810c927150f02491edd06c17807cd2909d6b99",
+    "qa/dependency-sha256.json": "86aad2a7918724336b3311a3bee51f823eafbcbcd2916fef1349f0d1dc88af72",
+    "qa/qa_refund_complete_legacy_v1.py": "7c0fe0543f3c33f4c8eb26116b0bec04e94778634b75b35ac1e9372260e94d7a",
+    "results/attempt-1-summary.json": "b6f7fe9b1b088e5ecd5addf9594efa776c7e6313ee7d637b85ca0e7bb703e42f",
+    "results/attempt-1-unittest-original.log": "dda0a37257962d5b794a378db0623c55d8bccaae155a2c6247bae6637d63081d",
+    "results/feedback.json": "bd54aa2bcb5a5c6403aa0217be164c6b75ff489d2b5badf6d6b74ab383653b7c",
+    "results/legacy-schema-source-contract.json": "260ed12b325a74ecc8be58e1da134800ec5fb662465c9c6bbc1c45db2f330ae0",
+    "results/official-toolbox-call-result.json": "1c9651e801013b861c1369c69793d163a0a594bbeb29ae3033ddba4b82cb4784",
+    "results/official-toolbox-selftest-result.json": "d3fbda0d56a2c6879fc14fa9e32cdf76cbcaac11dcf4aeda1bd413ae2dbf868b",
+    "results/public-result.json": "d4e76297be2a67d025b15c2108140fdc592a8937e0c4f1ec4fc1fcb4c6991c31",
+    "results/snapshot-manifest.json": "63176376902a076d399f27a3276480fcf4a1d10d1bee67e5b2b00fbf146fc943",
+    "results/summary.json": "b091e5756dd75069841dedb2f7e4ef870bdf5aa9e45e1c21850a29d2f0c12686",
+    "results/unittest-original.log": "50b97ffddceb94c4822ffa15405b33b5333318a5d03f8ed98c0a01b3135d5da9"
+  },
+  "post_copy_rehash_and_rescan": true,
+  "final_counts": {
+    "test_methods": 19,
+    "passed_methods": 14,
+    "failed_methods": 5,
+    "harness_errors_final": 0,
+    "unittest_failure_entries": 5,
+    "production_ready": false
+  }
+}
