@@ -14,3 +14,9 @@ state/r4-benefits/
 
 # Deployment-local finite launch pricing configuration
 /codex-r4/launch-price-policy.json
+
+# Private native publication inputs, capabilities, journal and backups
+/card_publication/
+/card_update_stage/
+/host_inputs/
+/tools/.card-publisher-fence-*/

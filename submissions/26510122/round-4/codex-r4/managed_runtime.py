@@ -1,6 +1,7 @@
 """Round 4 operator boundary. Authored by OpenAI Codex GPT-6.2 Sol."""
 from contextvars import ContextVar
 import json
+from hashlib import sha256
 
 from broker import Broker, Trace, class_context
 import dispatcher as dispatcher
@@ -15,6 +16,35 @@ from stock_runtime import StockCoordinator, STOCK_TOOL
 PUBLIC_DISPATCH = "a2a_info"
 MODEL_INFO = "shop_info"
 PERMISSION_ERROR = "blocked by operator policy"
+CARD_HANDOFF_GUARD_FILES = {
+    "permission.yml":"599f987876a750c3349e57b754e2b5c2085a1a9b21e9f290f58ec5ab10e5821b",
+    "logic.py":"cb3c5a6e5c6ca36fb329e4b2279c2b718a304386665707ecaf9a7e21eb887dc2",
+    "test.py":"bde98d730b945e0adc85c7802f36eb3155521ac79ff7c63f2d2b7234c536e60c",
+}
+
+
+def card_publisher_allowed(tool):
+    perm = tool.get("perm",{})
+    if any(perm.get(k) for k in ("wallet","exec","handles","identity","network")):
+        return False
+    if perm.get("write")==["card.json"]:
+        return True
+    if perm.get("write")!=["card_handoff_selftest"] or perm.get("pay_limit",0)!=0:
+        return False
+    directory = tool.get("dir")
+    if directory is None:
+        return False
+    try:
+        manifest = json.loads((directory/"forge.json").read_bytes())
+        return (
+            (manifest.get("tool"),manifest.get("version"),manifest.get("sha256"))
+                == ("publish_shop_info",1,CARD_HANDOFF_GUARD_FILES)
+            and all(sha256((directory/file).read_bytes()).hexdigest()==digest
+                    for file,digest in CARD_HANDOFF_GUARD_FILES.items())
+        )
+    except (OSError,TypeError,ValueError,AttributeError):
+        return False
+
 FALLBACK = {"reply": "상점 자동 응답을 사용할 수 없습니다. 잠시 뒤 다시 문의해 주세요.",
             "state": "completed"}
 
@@ -163,8 +193,8 @@ def managed_classes(official, *, enable_stock=False, stock_lines=10):
                         or perm.get("write")!=["state/r4-benefits"]
                         or set(perm.get("network",[]))!={"market.ourolabs.ai"}):
                     raise RuntimeError("unexpected forum publication permissions")
-                publisher=self.tools.get("publish_shop_info",{}).get("perm",{})
-                if (publisher.get("write")!=["card.json"] or any(publisher.get(k) for k in ("wallet","exec","handles","identity","network"))):
+                publisher=self.tools.get("publish_shop_info",{})
+                if not card_publisher_allowed(publisher):
                     raise RuntimeError("unexpected card publication permissions")
 
         def listing(self):
