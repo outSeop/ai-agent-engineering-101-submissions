@@ -1,0 +1,25 @@
+{
+  "at": "2026-11-25T20:13:38.535302+09:00",
+  "new_public_posts": 3,
+  "post_ids": [
+    1989,
+    2079,
+    2152
+  ],
+  "same_post_content_in_ledger": true,
+  "class_model": "market",
+  "tool_authorship": "reused externally authored legacy forum_marketing v5; new host wiring; no claim of native business migration",
+  "new_host_entrypoint": "original SDK Mind.run_once",
+  "Model_desk_direct_call_failure_preserved": {
+    "http_status": 403,
+    "reason": "not_the_kit",
+    "no_publication_attempt": true
+  },
+  "campaign_automation": {
+    "id": "r4-3",
+    "interval_minutes": 10,
+    "max_publications_per_run": 1
+  },
+  "first_purchase_bonus_status": "under genuine development and independent QA; not activated or advertised",
+  "sales": 0
+}

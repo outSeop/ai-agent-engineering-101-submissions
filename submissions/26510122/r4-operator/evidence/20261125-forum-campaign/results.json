@@ -1,0 +1,270 @@
+{
+  "host_sha256": "65d4a1e390e2fcac0f424d459562673bd06097105eeefbfa28e8acba17a83c54",
+  "passed": 64,
+  "failed": 0,
+  "checks": [
+    {
+      "case": "syntax",
+      "passed": true
+    },
+    {
+      "case": "actual_sdk7_verified",
+      "passed": true
+    },
+    {
+      "case": "actual_legacy_v5_pins",
+      "passed": true
+    },
+    {
+      "case": "large_original_view_exceeds_SDK_observation",
+      "passed": true
+    },
+    {
+      "case": "context_full_unchanged_Falseposted",
+      "passed": true
+    },
+    {
+      "case": "listing_constant_no_untrusted_data_Falseposted",
+      "passed": true
+    },
+    {
+      "case": "spotlight_once_Falseposted",
+      "passed": true
+    },
+    {
+      "case": "duplicate_blocked_Falseposted",
+      "passed": true
+    },
+    {
+      "case": "context_full_unchanged_Trueposted",
+      "passed": true
+    },
+    {
+      "case": "listing_constant_no_untrusted_data_Trueposted",
+      "passed": true
+    },
+    {
+      "case": "spotlight_once_Trueposted",
+      "passed": true
+    },
+    {
+      "case": "duplicate_blocked_Trueposted",
+      "passed": true
+    },
+    {
+      "case": "context_full_unchanged_Trueunknown",
+      "passed": true
+    },
+    {
+      "case": "listing_constant_no_untrusted_data_Trueunknown",
+      "passed": true
+    },
+    {
+      "case": "spotlight_once_Trueunknown",
+      "passed": true
+    },
+    {
+      "case": "duplicate_blocked_Trueunknown",
+      "passed": true
+    },
+    {
+      "case": "forge_disabled",
+      "passed": true
+    },
+    {
+      "case": "read_disabled",
+      "passed": true
+    },
+    {
+      "case": "reject_message",
+      "passed": true
+    },
+    {
+      "case": "reject_reason",
+      "passed": true
+    },
+    {
+      "case": "reject_price",
+      "passed": true
+    },
+    {
+      "case": "reject_foreign_pair",
+      "passed": true
+    },
+    {
+      "case": "reject_bad_grade",
+      "passed": true
+    },
+    {
+      "case": "reject_false_thread",
+      "passed": true
+    },
+    {
+      "case": "reject_wrong_thread",
+      "passed": true
+    },
+    {
+      "case": "reply_exact_eligible",
+      "passed": true
+    },
+    {
+      "case": "other_actions_rejected_26",
+      "passed": true
+    },
+    {
+      "case": "other_actions_rejected_27",
+      "passed": true
+    },
+    {
+      "case": "other_actions_rejected_28",
+      "passed": true
+    },
+    {
+      "case": "other_actions_rejected_29",
+      "passed": true
+    },
+    {
+      "case": "active_customer_postponed",
+      "passed": true
+    },
+    {
+      "case": "official_run_once_identity_spotlight",
+      "passed": true
+    },
+    {
+      "case": "actual_official_Mind_one_publish_spotlight",
+      "passed": true
+    },
+    {
+      "case": "first_publication_result_preserved_spotlight",
+      "passed": true
+    },
+    {
+      "case": "original_system_unchanged_spotlight",
+      "passed": true
+    },
+    {
+      "case": "full_original_data_user_role_spotlight",
+      "passed": true
+    },
+    {
+      "case": "native_observation_6k_limit_honestly_retained_spotlight",
+      "passed": true
+    },
+    {
+      "case": "fixed_reply_disabled_spotlight",
+      "passed": true
+    },
+    {
+      "case": "notes_nonwritable_spotlight",
+      "passed": true
+    },
+    {
+      "case": "official_run_once_identity_reply",
+      "passed": true
+    },
+    {
+      "case": "actual_official_Mind_one_publish_reply",
+      "passed": true
+    },
+    {
+      "case": "first_publication_result_preserved_reply",
+      "passed": true
+    },
+    {
+      "case": "original_system_unchanged_reply",
+      "passed": true
+    },
+    {
+      "case": "full_original_data_user_role_reply",
+      "passed": true
+    },
+    {
+      "case": "native_observation_6k_limit_honestly_retained_reply",
+      "passed": true
+    },
+    {
+      "case": "fixed_reply_disabled_reply",
+      "passed": true
+    },
+    {
+      "case": "notes_nonwritable_reply",
+      "passed": true
+    },
+    {
+      "case": "official_run_once_identity_dry",
+      "passed": true
+    },
+    {
+      "case": "actual_official_Mind_one_publish_dry",
+      "passed": true
+    },
+    {
+      "case": "first_publication_result_preserved_dry",
+      "passed": true
+    },
+    {
+      "case": "original_system_unchanged_dry",
+      "passed": true
+    },
+    {
+      "case": "full_original_data_user_role_dry",
+      "passed": true
+    },
+    {
+      "case": "native_observation_6k_limit_honestly_retained_dry",
+      "passed": true
+    },
+    {
+      "case": "fixed_reply_disabled_dry",
+      "passed": true
+    },
+    {
+      "case": "notes_nonwritable_dry",
+      "passed": true
+    },
+    {
+      "case": "official_run_once_identity_unknown",
+      "passed": true
+    },
+    {
+      "case": "actual_official_Mind_one_publish_unknown",
+      "passed": true
+    },
+    {
+      "case": "first_publication_result_preserved_unknown",
+      "passed": true
+    },
+    {
+      "case": "original_system_unchanged_unknown",
+      "passed": true
+    },
+    {
+      "case": "full_original_data_user_role_unknown",
+      "passed": true
+    },
+    {
+      "case": "native_observation_6k_limit_honestly_retained_unknown",
+      "passed": true
+    },
+    {
+      "case": "fixed_reply_disabled_unknown",
+      "passed": true
+    },
+    {
+      "case": "notes_nonwritable_unknown",
+      "passed": true
+    },
+    {
+      "case": "oversize64KiB_rejected_without_truncation",
+      "passed": true
+    }
+  ],
+  "actual_official_Mind_run_once_with_mock_Model": true,
+  "SDK_source_changed": false,
+  "legacy_source_changed": false,
+  "actual_model_market_service_wallet_DB_calls": 0,
+  "all_view_data_synthetic": true,
+  "untrusted_original_view_delivered_only_in_user_context": true,
+  "real_tool_executor_stubbed": true
+}

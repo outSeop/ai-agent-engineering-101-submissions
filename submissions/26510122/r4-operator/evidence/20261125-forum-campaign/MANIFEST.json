@@ -1,0 +1,25 @@
+{
+  "schema": "r4-forum-campaign-host-evidence.v1",
+  "source_authorship": "external host only, pinned external legacy forum tool reused honestly",
+  "host_sha256": "65d4a1e390e2fcac0f424d459562673bd06097105eeefbfa28e8acba17a83c54",
+  "file_sha256": {
+    "public-posts.json": "bc7ccee95cb413835d00e9db8c10c7ca4fdebb84d00e05b21f8dccd7ae24715e",
+    "verification.log": "ee7b4b9a09530444cdd74a1e9a62f860bcff277f68cf2a0c666af805e908f62b",
+    "main-mock-results.json": "354a188571f03195c1cef4326522a6de9aedbb83931f41bd194f43c4bdac4bba",
+    "host-only.diff": "9b6139341152aac2c5c8c6eac3ba200e12daa0dfb8d6648a4a19846c1758cc31",
+    "results.json": "047ca0d65e5ac0502dd14e995f6a5c84f77a35df41fa7bb13be4251cee0f8096",
+    "safe-summary.json": "7b35dabdd6f1aa8100c00e66f3669b60a74e63601488613266d80f4bb5b56721",
+    "QA_REPORT.md": "2e7d429bfb5e1fdd8f13937ee17be1f92a5daaa08031fb6f46f3c3a031ece7cd",
+    "original-host-sources/forum_campaign_operator.direct-model.before.py": "6ad5a9fbf8d5518a9a1a2f08bcfe84608c36b721dafadcb6d4b76811ab579e79",
+    "original-host-sources/forum_campaign_operator.candidate.py": "65d4a1e390e2fcac0f424d459562673bd06097105eeefbfa28e8acba17a83c54",
+    "original-host-sources/test_official_mind_gate.py": "fe3361082762cd3ae82398ae6fba01f2103892bd5f61cee79c2bebf0771f5d78",
+    "original-host-sources/test_main_with_official_mind_mock.py": "4539f2bcc6b4f9d5420200d7e4d6515d01bcba914898248f8decb9153f980173"
+  },
+  "live_posts": [
+    1989,
+    2079,
+    2152
+  ],
+  "mock_checks": 98,
+  "actual_credentials_matches": 0
+}

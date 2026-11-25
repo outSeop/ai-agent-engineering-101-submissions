@@ -1,0 +1,148 @@
+{
+  "host_sha256": "65d4a1e390e2fcac0f424d459562673bd06097105eeefbfa28e8acba17a83c54",
+  "passed": 34,
+  "failed": 0,
+  "checks": [
+    {
+      "case": "dry_status_and_official_entry",
+      "passed": true
+    },
+    {
+      "case": "dry_publish_count",
+      "passed": true
+    },
+    {
+      "case": "dry_model_gate",
+      "passed": true
+    },
+    {
+      "case": "dry_JSON_and_output",
+      "passed": true
+    },
+    {
+      "case": "dry_complete_view_hash_and_bytes",
+      "passed": true
+    },
+    {
+      "case": "spotlight_status_and_official_entry",
+      "passed": true
+    },
+    {
+      "case": "spotlight_publish_count",
+      "passed": true
+    },
+    {
+      "case": "spotlight_model_gate",
+      "passed": true
+    },
+    {
+      "case": "spotlight_JSON_and_output",
+      "passed": true
+    },
+    {
+      "case": "spotlight_complete_view_hash_and_bytes",
+      "passed": true
+    },
+    {
+      "case": "spotlight_public_confirmation_stub_only",
+      "passed": true
+    },
+    {
+      "case": "reply_status_and_official_entry",
+      "passed": true
+    },
+    {
+      "case": "reply_publish_count",
+      "passed": true
+    },
+    {
+      "case": "reply_model_gate",
+      "passed": true
+    },
+    {
+      "case": "reply_JSON_and_output",
+      "passed": true
+    },
+    {
+      "case": "reply_complete_view_hash_and_bytes",
+      "passed": true
+    },
+    {
+      "case": "reply_public_confirmation_stub_only",
+      "passed": true
+    },
+    {
+      "case": "unknown_status_and_official_entry",
+      "passed": true
+    },
+    {
+      "case": "unknown_publish_count",
+      "passed": true
+    },
+    {
+      "case": "unknown_model_gate",
+      "passed": true
+    },
+    {
+      "case": "unknown_JSON_and_output",
+      "passed": true
+    },
+    {
+      "case": "unknown_complete_view_hash_and_bytes",
+      "passed": true
+    },
+    {
+      "case": "foreground_status_and_official_entry",
+      "passed": true
+    },
+    {
+      "case": "foreground_publish_count",
+      "passed": true
+    },
+    {
+      "case": "foreground_model_gate",
+      "passed": true
+    },
+    {
+      "case": "foreground_JSON_and_output",
+      "passed": true
+    },
+    {
+      "case": "reconcile_unknown_status_and_official_entry",
+      "passed": true
+    },
+    {
+      "case": "reconcile_unknown_publish_count",
+      "passed": true
+    },
+    {
+      "case": "reconcile_unknown_model_gate",
+      "passed": true
+    },
+    {
+      "case": "reconcile_unknown_JSON_and_output",
+      "passed": true
+    },
+    {
+      "case": "oversize_status_and_official_entry",
+      "passed": true
+    },
+    {
+      "case": "oversize_publish_count",
+      "passed": true
+    },
+    {
+      "case": "oversize_model_gate",
+      "passed": true
+    },
+    {
+      "case": "oversize_JSON_and_output",
+      "passed": true
+    }
+  ],
+  "actual_official_SDK_Mind_run_once": true,
+  "all_Model_Toolbox_HTTP_service_backend_calls_stubbed": true,
+  "all_contexts_synthetic": true,
+  "actual_Model_market_service_wallet_DB_operations": 0,
+  "source_SDK_and_legacy_changed": false
+}
