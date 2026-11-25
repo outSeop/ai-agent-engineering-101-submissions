@@ -1,0 +1,9 @@
+# Independent v3 QA with v3/v4 source provenance
+
+Functional80checks pass in original ordinary Toolbox.call QA:56base+4privacy+controlled70capacity+15details+2benign product strings+2anonymous86boundaries. Original results are aggregate only; no actual70 inventory/customer/ids/prices or model thoughts are copied. V1/v2 failures remain elsewhere unchanged. Static v3 description-fragment guidance is incomplete at the SDK600-character cap, separate from80functional passes. Actual Broker/model/financial integration is not claimed.
+
+v3 and v4 share exact logic095dc600... but have DIFFERENT tests, permission and manifests. V3 independent80QA is labelledv3; frozenv4 source and actual Model/forge hash provenance are separately recorded. Source copies are not new forges. Generation provider metadata is not classroom-authorship attestation. Current mutable execution files were not read.
+
+Reproduce using <operator>/.venv/bin/python run_portable.py --operator <operator> --sources ../generated/build_customer_context@3 --output /tmp/builder-v3-anon-NEW. Output must be new. Adapter uses original QA/tool bytes in temporary roots and ONLY anonymous synthetic shape fixture, never actual captured inventory or customers. It runs3 QA scripts with ordinary Toolbox.call, no manual testing flag. Anonymous86 is not actual current86 data; uncompressible input must error without partial context.
+
+The exact original test files have one identical27-character synthetic private-key HEADER fixture, no body/footer. Root explicitly reviewed exceptions for exact test SHA9e567a2d... and5fe2120e... only. Source bytes are unchanged. Actual4credential matches, any additional PEM body/footer/header or other API/JWT patterns remain blocked. Provenance and scans do not establish actual source authority, checkout, money transfer or production readiness.

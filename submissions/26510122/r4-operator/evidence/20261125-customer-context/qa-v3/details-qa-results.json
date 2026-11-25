@@ -1,0 +1,128 @@
+{
+  "ordinary_official_Toolbox_call": true,
+  "manual_testing_flag": false,
+  "synthetic_only": true,
+  "checks": [
+    {
+      "case": "lookup_codec_reconstructs_exact_numbers_grades",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "all_account_fields_exact_under_codec",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "details_exact_last70_name_path",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "detail_does_not_emit_account_or_private_ref",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "detail_reject_wrong_pin",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "detail_reject_wrong_snapshot",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "detail_reject_wrong_sku",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "detail_reject_bool_row",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "detail_reject_row200",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "detail_reject_bool_asof",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "detail_reject_offset0",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "detail_reject_offset1",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "details_reject_changed_source",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "large_details_all_fragments_exact",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "detail_calls": 10
+      }
+    },
+    {
+      "case": "preview_marked_and_category_root_preserved",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "benign_date_spec_does_not_hold_all",
+      "passed": true,
+      "group": "benign_text_goal",
+      "observed": {
+        "error": null
+      }
+    },
+    {
+      "case": "benign_numeric_dimensions_does_not_hold_all",
+      "passed": true,
+      "group": "benign_text_goal",
+      "observed": {
+        "error": null
+      }
+    }
+  ],
+  "totals": {
+    "benign_text_goal": {
+      "passed": 2,
+      "failed": 0
+    },
+    "contract": {
+      "passed": 15,
+      "failed": 0
+    }
+  },
+  "model_verified_codec_use": false,
+  "actual_model_or_market_calls": 0,
+  "production_integration_or_finance_claim": false
+}

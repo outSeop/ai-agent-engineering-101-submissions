@@ -1,0 +1,9 @@
+{
+  "baseline": "Unchanged v1 56contract+1capacity+4privacy goals retained.",
+  "external_QA_only_changes": [
+    "Expected source SHA updated.",
+    "Decoder follows explicit v2 lookup dictionary index cells.",
+    "Observation-size assertion follows explicit compact Unicode JSON codec; not ASCII reserialization."
+  ],
+  "generated_business_source_changed": false
+}

@@ -1,0 +1,46 @@
+{
+  "QA_authorship": "external independent infrastructure",
+  "genuine_tool_source_changed": false,
+  "contract_passed": 56,
+  "capacity_goal_failed": 1,
+  "privacy_goal_failed": 4,
+  "actual_capture_rows_names_SKUs_unitrefs_prices_exported": false,
+  "anonymous_shape_fixture_only": true,
+  "exact_credentials_compared": 4,
+  "prefix_variants_checked": true,
+  "secret_values_or_hashes_exported": false,
+  "pattern_classes": [
+    "jwt",
+    "api_key",
+    "credential_assignment"
+  ],
+  "precopy_matches": 0,
+  "postcopy_matches": 0,
+  "actual_model_market_calls": 0,
+  "production_DB_card_wallet_changed": false,
+  "files": {
+    "ordinary-toolbox-qa-results.json": "9612389a04ec79c5f47a63ef05e9677b9ee5e9774155eaba76caf25d854604a3",
+    "anonshape-fixture.json": "05c4bce3939297a9327eeaa5982e453170d16d6c830fd4f592c2eec2782569ce",
+    "derived-origin.json": "f58646ba55ce1fed3dfee11e5c7a83b64bccd49c6d2ec6efe6295cf5f3485c76",
+    "README.md": "02ce5a7f8fc81839b0182f58e18cb1da161a6dc2094d70d649f6f4096b9d5879",
+    "capacity-diagnosis.json": "c81cd59781f35ea1ce3431169eb02c724d83bd8c25e1fb6505999afeee492ce9",
+    "embedded-reader-pin-proof.json": "b1a946ab8e8fe7872a0a97af248d8a1e5e6c2ae0149c9426e15c1256a3fcb2a1",
+    "qa-proof.json": "e62b8e630927e54622d5c589d3b60e658a92484b7021aa81c0f9d47709938dba",
+    "run_portable.py": "323bfe14c1b665b6d6d9e09ad5c676426a4fc3905620ad33745845d4dea5f353",
+    "controlled-capture-capacity.json": "3ab7220a14618d7f41ecdf3c8db3dc222b4e2c56d2ba53ab68159aa7b2a25917",
+    "anonshape-fixture-metadata.json": "1d3cced7948924d727983159457c7a18b9b870d80c255e6139cc8b39696da48e",
+    "official-selftest-result.json": "d3fbda0d56a2c6879fc14fa9e32cdf76cbcaac11dcf4aeda1bd413ae2dbf868b",
+    "QA_REPORT.md": "bbefdb4e5275c976b0a30c1eb8bcad72a1e906984080481b69f0637971db2672",
+    "portable-anonymous/ordinary-toolbox-qa-results.json": "9612389a04ec79c5f47a63ef05e9677b9ee5e9774155eaba76caf25d854604a3",
+    "portable-anonymous/summary.json": "b7676596bbb5926366a7bbe3f770b7713bfd2d6a45a97b0b89e2313654f2b01d",
+    "originals/ordinary_toolbox_qa.py": "95a3819a8ef4a3a045d7e47280646181b86448b7b386f540123fb73a4e0b3911"
+  },
+  "anonymous_portable_replay_verified": {
+    "contract_passed": 56,
+    "capacity_goal_failed_preserved": 1,
+    "privacy_goal_failed_preserved": 4,
+    "actual_capture_read": false,
+    "actual_model_market_calls": 0
+  },
+  "post_replay_rescan_matches": 0
+}

@@ -1,0 +1,28 @@
+{
+  "codec": "common copied; columns zipped with row; lookup[column][cell] for dictionary-coded columns, otherwise literal",
+  "expires_at": "null if remaining null else as_of+remaining",
+  "name_preview": "non-null text_limit means prefix; min12; full details separately",
+  "path_preview": "array path reduced to exact first item when preview; string path unchanged",
+  "budget": "compact ensure_asciiFalse JSON<=6000 chars; downstream transport not verified",
+  "details_exact_required": [
+    "op",
+    "snapshot",
+    "detail_pin",
+    "as_of",
+    "row",
+    "sku"
+  ],
+  "details_op": "details",
+  "optional_offset": "positive integer multiple800; omit initially",
+  "long_detail": "concatenate fragment.text in offset order using exact next_args",
+  "hash_authority": "snapshot/detail_pin consistency only; no market or financial authorization",
+  "model_listing_incomplete": true,
+  "listing_cutoff": "detail_pin example ends before as_of/row/sku/offset rules",
+  "account_preservation_checked": true,
+  "actual_Broker_prefetch_model_use_verified": false,
+  "current_blockers": [
+    "Exact70 controlled historical input rejects unsafe_public_text",
+    "Benign public date/specification strings reject entire context",
+    "Model tool description lacks complete details protocol"
+  ]
+}

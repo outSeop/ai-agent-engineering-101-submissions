@@ -1,0 +1,97 @@
+{
+  "source_scope": "Immutable v3 deprecated archive and frozen readonly v4 canary copy, not mutable current tool",
+  "version_comparison": {
+    "logic_same": true,
+    "tests_different": true,
+    "permissions_different": true,
+    "manifests_different": true
+  },
+  "manifests": {
+    "3": {
+      "tool": "build_customer_context",
+      "version": 3,
+      "forged_at": 1795582976,
+      "kit": "v5.1",
+      "sha256": {
+        "permission.yml": "efbaaa8b16ad81e9317351227fc482d2c83ad08cad9c9ee2c6babadd9e898228",
+        "logic.py": "095dc600fe30958759a058b093ee1c210fb9b3f1f7c3157dcd034061e70dcf84",
+        "test.py": "9e567a2de03d8cfc7ce74b88c70a6b9d142bd42eb9558902c228bc54d2f22266"
+      }
+    },
+    "4": {
+      "tool": "build_customer_context",
+      "version": 4,
+      "forged_at": 1795583296,
+      "kit": "v5.1",
+      "sha256": {
+        "permission.yml": "80e35a7ea33fe6213cd654fca245305acd6fe8a254b1bb0fec5e569733b5daf0",
+        "logic.py": "095dc600fe30958759a058b093ee1c210fb9b3f1f7c3157dcd034061e70dcf84",
+        "test.py": "5fe2120e534a28ec360e7c4fcacd332d70beca25b6f703c2afaaa0aeb875efdd"
+      }
+    }
+  },
+  "actual_model_response_source_records": [
+    {
+      "version": 3,
+      "private_record_line1": 23,
+      "at": 1795582645.1829872,
+      "recorded_provider": "codex-cli-gpt-6.2-sol",
+      "response_sha256": "edfe38310b0ddd904f105efbf7df758ba221b8a4846655857dde7a07f4d8abc1",
+      "logic_sha256": "095dc600fe30958759a058b093ee1c210fb9b3f1f7c3157dcd034061e70dcf84",
+      "test_sha256": "9e567a2de03d8cfc7ce74b88c70a6b9d142bd42eb9558902c228bc54d2f22266",
+      "actual_response_source_match": true,
+      "private_raw_exported": false,
+      "permission_derived_from_actual_args_sha256": "efbaaa8b16ad81e9317351227fc482d2c83ad08cad9c9ee2c6babadd9e898228",
+      "permission_matches_exact_forge": true
+    },
+    {
+      "version": 4,
+      "private_record_line1": 25,
+      "at": 1795582987.7356606,
+      "recorded_provider": "codex-cli-gpt-6.2-sol",
+      "response_sha256": "d07aebb258167287a1bebd191f4c197126177aa0fa8b81ae4900e054c4d4a6d9",
+      "logic_sha256": "095dc600fe30958759a058b093ee1c210fb9b3f1f7c3157dcd034061e70dcf84",
+      "test_sha256": "5fe2120e534a28ec360e7c4fcacd332d70beca25b6f703c2afaaa0aeb875efdd",
+      "actual_response_source_match": true,
+      "private_raw_exported": false,
+      "permission_derived_from_actual_args_sha256": "80e35a7ea33fe6213cd654fca245305acd6fe8a254b1bb0fec5e569733b5daf0",
+      "permission_matches_exact_forge": true
+    }
+  ],
+  "actual_forge_records_sanitized": [
+    {
+      "tool": "build_customer_context",
+      "version": 3,
+      "ts": 1795582976
+    },
+    {
+      "tool": "build_customer_context",
+      "version": 4,
+      "ts": 1795583296
+    }
+  ],
+  "frozen_v4_origin_selected": {
+    "schema": "native-customer-context-canary.v1",
+    "native_version": 4,
+    "exact_native_files": {
+      "permission.yml": "80e35a7ea33fe6213cd654fca245305acd6fe8a254b1bb0fec5e569733b5daf0",
+      "logic.py": "095dc600fe30958759a058b093ee1c210fb9b3f1f7c3157dcd034061e70dcf84",
+      "test.py": "5fe2120e534a28ec360e7c4fcacd332d70beca25b6f703c2afaaa0aeb875efdd",
+      "forge.json": "b44e42586e1fb81558473c10ed8a8f66819bb8a99f225f9536400821f166f4bd"
+    },
+    "native_description_limit": "600 characters; fragment continuation sentence ends at next; normal details keys complete",
+    "production_installed": false,
+    "actual_customers_contacted": false,
+    "wallet_loaded": false
+  },
+  "excluded_fields": [
+    "requested_skus",
+    "raw_inventory",
+    "base_values",
+    "customer_data",
+    "private_model_thoughts",
+    "raw_model_messages"
+  ],
+  "copies_are_not_new_forges": true,
+  "generation_provider_not_classroom_authorship": true
+}

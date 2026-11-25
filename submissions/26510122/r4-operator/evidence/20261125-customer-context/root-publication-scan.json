@@ -1,0 +1,12 @@
+{
+  "actual_credential_matches": 0,
+  "pattern_matches": "reviewed exact synthetic fixtures only",
+  "exact_file_exceptions": {
+    "9e567a2de03d8cfc7ce74b88c70a6b9d142bd42eb9558902c228bc54d2f22266": "BEGIN PRIVATE KEY",
+    "5fe2120e534a28ec360e7c4fcacd332d70beca25b6f703c2afaaa0aeb875efdd": "BEGIN PRIVATE KEY",
+    "95a3819a8ef4a3a045d7e47280646181b86448b7b386f540123fb73a4e0b3911": "sk_fixture_secret_only",
+    "6f8df0dd525baa5df4c9154878d069b792c40a77c6160b9fd7ce922e89951ef6": "sk_fixture_secret_only",
+    "35509820ba8cba366ecb9224ca39f5fe3dd78ca7e51b4179d60efc0c2ef2e0b3": "sk_fixture_secret_only"
+  },
+  "source_bytes_modified": false
+}

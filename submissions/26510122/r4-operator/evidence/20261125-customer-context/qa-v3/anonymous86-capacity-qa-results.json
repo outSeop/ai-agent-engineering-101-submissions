@@ -1,0 +1,47 @@
+{
+  "checks": [
+    {
+      "case": "anonymous86_extension_all_exact_or_explicit_failure",
+      "passed": true,
+      "observed": {
+        "rows": 86,
+        "error": null,
+        "pages": 10,
+        "text_limit": 16,
+        "compact_chars": 5501
+      }
+    },
+    {
+      "case": "uncompressible86_no_partial_silent_drop",
+      "passed": true,
+      "observed": {
+        "error": "observation_capacity_exceeded",
+        "inventory_count": 86,
+        "partial_context_present": false
+      }
+    }
+  ],
+  "passed": 2,
+  "failed": 0,
+  "records": [
+    {
+      "case": "anonymous86_extension",
+      "output_rows": 86,
+      "error": null,
+      "actual86_inventory_claim": false
+    },
+    {
+      "case": "synthetic_wide_string_paths86",
+      "source_not_actual86": true,
+      "result": {
+        "error": "observation_capacity_exceeded",
+        "inventory_count": 86
+      }
+    }
+  ],
+  "all_inputs_anonymous_synthetic": true,
+  "actual86_capture_available": false,
+  "actual_model_market_calls": 0,
+  "production_changed": false,
+  "no_capacity_result_extrapolated_to_actual86": true
+}

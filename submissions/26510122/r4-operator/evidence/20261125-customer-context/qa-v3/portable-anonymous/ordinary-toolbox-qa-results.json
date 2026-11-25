@@ -1,0 +1,426 @@
+{
+  "source_sha256": "095dc600fe30958759a058b093ee1c210fb9b3f1f7c3157dcd034061e70dcf84",
+  "ordinary_official_Toolbox_call": true,
+  "manual_testing_flag": false,
+  "synthetic_or_explicit_controlled_expired_capture_only": true,
+  "checks": [
+    {
+      "case": "one_call_all70_no30_truncation",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "rows": 70,
+        "pages": 5,
+        "text_limit": null
+      }
+    },
+    {
+      "case": "base_noninventory_values_exact",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "inventory_exact_numeric_grade_expiry",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "no_false_cost_or_floor_from_available_source",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "observation_bounded6000_and_preview_marked",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "internal_unit_refs_not_exposed",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reserved_reconciling_rows_preserved",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "same_SKU_available_cancels_pending_wait",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "pending_unknown_expiry_and_no_fabricated_state",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "expired_reserved_soldout_counts_and_unknown_expiry",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "all_fragments_in_one_external_call",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "pages": 23,
+        "text_limit": null
+      }
+    },
+    {
+      "case": "controlled_expired70_capture_capacity",
+      "passed": true,
+      "group": "capacity_goal",
+      "observed": {
+        "source_rows": 70,
+        "source_expired_before_test": true,
+        "controlled_replay_only": true,
+        "model_calls": 0,
+        "result_row_count": 70,
+        "error": null,
+        "pages": 8,
+        "text_limit": 48
+      }
+    },
+    {
+      "case": "reject_base_wallet_secret_shape",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "no_cache_name_wallet_secret_shape_in_output",
+      "passed": true,
+      "group": "privacy_goal",
+      "observed": {
+        "error": "unsafe_public_text",
+        "value_exposed": false
+      }
+    },
+    {
+      "case": "reject_base_rights_code_shape",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "no_cache_name_rights_code_shape_in_output",
+      "passed": true,
+      "group": "privacy_goal",
+      "observed": {
+        "error": "unsafe_public_text",
+        "value_exposed": false
+      }
+    },
+    {
+      "case": "reject_base_phone_shape",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "no_cache_name_phone_shape_in_output",
+      "passed": true,
+      "group": "privacy_goal",
+      "observed": {
+        "error": "unsafe_public_text",
+        "value_exposed": false
+      }
+    },
+    {
+      "case": "no_cache_category_rights_shape_in_output",
+      "passed": true,
+      "group": "privacy_goal",
+      "observed": {
+        "error": "unsafe_public_text",
+        "value_exposed": false
+      }
+    },
+    {
+      "case": "private_unit_ref_discarded",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_base_top_rights_code",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_base_bool_mileage",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_base_bool_wait_discount",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_base_nonbool_verified",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_base_nonbool_transfer",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_base_wait_rights_notSKU",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_base_bool_priorprice",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_base_preference_privatefield",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_base_preference_PII",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_source_future",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_source_expired",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_source_bool_observed",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_source_bool_price",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_source_bool_expiry",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_source_wrong_schema",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_base_duplicateJSON",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_base_symlink",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_base_hardlink",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_base_fifo",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_base_directory",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_base_socket",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_base_group_writable",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_cache_duplicateJSON",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_cache_symlink",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_cache_hardlink",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_cache_fifo",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_cache_directory",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_cache_socket",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_cache_group_writable",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_writable_host_inputs",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_args_{}",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_args_[]",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_args_{'op': 'context', 'offset': 0}",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_args_{'op': 'context', 'approved': True}",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_args_{'op': 'buy'}",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "201_source_rejects_without_partial",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "combined201_capacity_no_partial",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "compact200_all_accessible",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "observation_overflow_no_partial",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "real_midcall_cache_replacement_no_partial",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "triggered": true,
+        "error": "snapshot_changed"
+      }
+    },
+    {
+      "case": "real_midcall_base_replacement_no_partial",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "triggered": true,
+        "error": "broker_base_changed"
+      }
+    }
+  ],
+  "totals": {
+    "capacity_goal": {
+      "passed": 1,
+      "failed": 0
+    },
+    "contract": {
+      "passed": 56,
+      "failed": 0
+    },
+    "privacy_goal": {
+      "passed": 4,
+      "failed": 0
+    }
+  },
+  "actual_production_data_read_except_explicit_expired_public_capture": false,
+  "actual_model_or_market_calls": 0,
+  "prod_keys_DB_card_wallet_changed": false,
+  "source_authority_or_finance_claim": false
+}

@@ -1,0 +1,12 @@
+{
+  "synthetic_anonymous_shape_only": true,
+  "actual_capture_read": false,
+  "input_rows": 70,
+  "output_rows": 70,
+  "error": null,
+  "pages": 8,
+  "text_limit": 48,
+  "compact_response_chars": 5793,
+  "actual_model_or_market_calls": 0,
+  "not_actual70_capture_goal_relabel": true
+}

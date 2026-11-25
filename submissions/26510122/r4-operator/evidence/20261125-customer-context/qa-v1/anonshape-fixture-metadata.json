@@ -1,0 +1,10 @@
+{
+  "synthetic_only": true,
+  "rows": 70,
+  "no_actual_names_SKUs_unitrefs_or_prices": true,
+  "source_shape_only": "Name character lengths, category path structure and repeated value cardinality, price digit widths. All identifying/text/numeric values replaced; grade and lifetime pattern are synthetic.",
+  "not_byte_exact_capture_or_market_truth": true,
+  "old_capture_hash_for_private_capacity_evidence": "1fd8a5855f61100d744a78dd34178771db2e388c3f7e2414c557b54082b53208",
+  "replay_policy": "Expired synthetic timeline; external harness shifts relative time ONLY inside temporary local capacity test. Never supplied to a model or live producer.",
+  "capacity_goal": "Show wide varied70-row observation budget failure in v1, without publishing actual inventory."
+}

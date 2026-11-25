@@ -1,0 +1,31 @@
+{
+  "baseline": {
+    "capacity_goal": {
+      "passed": 0,
+      "failed": 1
+    },
+    "contract": {
+      "passed": 56,
+      "failed": 0
+    },
+    "privacy_goal": {
+      "passed": 4,
+      "failed": 0
+    }
+  },
+  "details": {
+    "benign_text_goal": {
+      "passed": 0,
+      "failed": 2
+    },
+    "contract": {
+      "passed": 15,
+      "failed": 0
+    }
+  },
+  "all_inputs_synthetic_including_capacity_standin": true,
+  "actual_expired_capture_read": false,
+  "generated_source_changed": false,
+  "actual_model_market_calls": 0,
+  "production_DB_card_wallet_changed": false
+}

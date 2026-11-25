@@ -1,0 +1,15 @@
+# Independent QA — build_customer_context v3
+
+Fixed source SHA095dc600fe30958759a058b093ee1c210fb9b3f1f7c3157dcd034061e70dcf84. Original4files/manifest and actual full private Model forge response logic/test hash linkage preserved; no raw thoughts/messages exported. Complete diff against previously reviewed v2 has only secret/phone shape classification changes; embedded reader remains exact previously reviewed v2 bytes. Source was never patched by reviewer.
+
+Official selftest PASS. Ordinary official Toolbox.call tests80 PASS:56 original contracts,4 prior privacy goals, original70-row controlled historical capacity,15 details/codec contracts,2 benign date/specification cases and2 anonymous86 capacity boundary cases. Previous v1/v2 failure artifacts remain unchanged. No manual testing flag. Previous QA source is reused with expected SHA changed only; v2 lookup/compact codec interpretation remains explicit in harness adaptation.
+
+The old original70 captured artifact was already expired. Only a labelled local relative-time capacity replay used it, never actual fresh market facts or model input. V3 now returns70 rows in that controlled replay; underlying account flags/miles/preferences/wait/prior_offer/transfer fields remain exact. Normal date/spec strings that v2 rejected now pass, while the4 fake sensitive name/category sentinels still reject.
+
+Anonymous86 is a synthetic extension of the anonymous70 shape, not a new actual86 snapshot. It returns all86 exact SKU/price/grade/expiry tuples,10 internal pages,text_limit16,compact5501chars. An intentionally uncompressible86-row long string-path case explicitly rejects observation_capacity_exceeded with inventory_count86 and no partial verified_context. Never infer all real current86 items fit from this synthetic boundary test.
+
+## Model API documentation limitation
+
+Loaded tool description length is600, not800. Its6 details keys and offset800 rule are present, but it ends at a partial 'f' before fragment.text concatenation/JSON parsing guidance. The complete codec/details flow is therefore not fully documented in the actual listing. Official SDK kit/agent_kit.py write_permission line265 and tool registration line380 truncate descriptions to600. This source-level documentation limitation remains separate from80 successful operations; actual model use of the codec/details and live Broker prefetch are untested. Do not claim a complete model protocol solely from an800-character target.
+
+Source itself disclaims market facts/financial authority/exact checkout units. File/schema/hash consistency and synthetic account preservation do not authenticate upstream price/customer rights, create payment rights, or prove actual production integration. Character budget is compact Unicode JSON, not arbitrary transport formatting. Actual production keys/DB/card/service/wallet/model/market were not used or changed; only the explicitly permitted expired public capture was read for controlled local capacity. All other inputs and86cases are synthetic. Exact unit checkout/financial behavior remains a separate validation.

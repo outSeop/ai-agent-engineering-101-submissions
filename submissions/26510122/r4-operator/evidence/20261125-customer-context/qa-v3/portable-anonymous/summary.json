@@ -1,0 +1,35 @@
+{
+  "baseline": {
+    "capacity_goal": {
+      "passed": 1,
+      "failed": 0
+    },
+    "contract": {
+      "passed": 56,
+      "failed": 0
+    },
+    "privacy_goal": {
+      "passed": 4,
+      "failed": 0
+    }
+  },
+  "details": {
+    "benign_text_goal": {
+      "passed": 2,
+      "failed": 0
+    },
+    "contract": {
+      "passed": 15,
+      "failed": 0
+    }
+  },
+  "anonymous86": {
+    "passed": 2,
+    "failed": 0
+  },
+  "all_inputs_anonymous_synthetic": true,
+  "actual70_capture_read": false,
+  "actual_market_model_calls": 0,
+  "production_changed": false,
+  "actual86_claim": false
+}

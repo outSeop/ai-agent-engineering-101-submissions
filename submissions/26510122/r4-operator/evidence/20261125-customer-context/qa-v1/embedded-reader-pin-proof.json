@@ -1,0 +1,7 @@
+{
+  "embedded_reader_declared_sha256": "a122aed15c9462dfb6ed2c77665e6fbb82de7720633adb03ccf0ec7b1b4e45ff",
+  "embedded_reader_actual_sha256": "a122aed15c9462dfb6ed2c77665e6fbb82de7720633adb03ccf0ec7b1b4e45ff",
+  "exact_matches_independent_reviewed_reader_v2_bytes": true,
+  "exec_scope": "Pinned inline reader; os global replaced by host ownership/mode checking adapter.",
+  "builder_source_unchanged": true
+}

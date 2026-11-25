@@ -1,0 +1,34 @@
+{
+  "diagnosis": "Controlled historical public capture only; regex hit is not proof of actual PII",
+  "capture_sha256": "1fd8a5855f61100d744a78dd34178771db2e388c3f7e2414c557b54082b53208",
+  "rows": 70,
+  "matching_rows": 2,
+  "matches": [
+    {
+      "row_index": 50,
+      "field": "name",
+      "match_shape": "three_numeric_groups_phone_or_spec_shape",
+      "match_characters": 10,
+      "digit_count": 8,
+      "alpha_count": 0,
+      "separators": {
+        ".": 2
+      },
+      "raw_match_or_product_exported": false
+    },
+    {
+      "row_index": 57,
+      "field": "name",
+      "match_shape": "three_numeric_groups_phone_or_spec_shape",
+      "match_characters": 8,
+      "digit_count": 6,
+      "alpha_count": 0,
+      "separators": {
+        " ": 2
+      },
+      "raw_match_or_product_exported": false
+    }
+  ],
+  "actual_fresh_context_claim": false,
+  "model_calls": 0
+}

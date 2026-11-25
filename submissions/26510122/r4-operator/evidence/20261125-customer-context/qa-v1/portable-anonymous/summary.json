@@ -1,0 +1,22 @@
+{
+  "totals": {
+    "capacity_goal": {
+      "passed": 0,
+      "failed": 1
+    },
+    "contract": {
+      "passed": 56,
+      "failed": 0
+    },
+    "privacy_goal": {
+      "passed": 0,
+      "failed": 4
+    }
+  },
+  "all_inputs_synthetic_including_anonymous_capacity_shape": true,
+  "actual_expired_capture_read": false,
+  "original_goal_failures_preserved": true,
+  "generated_source_changed": false,
+  "actual_model_market_calls": 0,
+  "production_DB_card_or_wallet_change": false
+}

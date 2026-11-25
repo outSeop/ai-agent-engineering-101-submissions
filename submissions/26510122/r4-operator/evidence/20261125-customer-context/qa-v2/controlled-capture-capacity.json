@@ -1,0 +1,14 @@
+{
+  "source_artifact_sha256": "1fd8a5855f61100d744a78dd34178771db2e388c3f7e2414c557b54082b53208",
+  "source_observed_at": 1795577588,
+  "source_valid_until": 1795577738,
+  "source_already_expired": true,
+  "controlled_synthetic_clock_replay_only": true,
+  "fresh_market_observation_claim": false,
+  "offered_to_any_model": false,
+  "source_rows": 70,
+  "result_row_count": null,
+  "error": "unsafe_public_text",
+  "response_JSON_chars": 31,
+  "source_tool_changed": false
+}

@@ -1,0 +1,9 @@
+{
+  "characters": 600,
+  "within800": true,
+  "details_required_fields_present": true,
+  "offset_rule_present": true,
+  "fragment_reassembly_instruction_complete": false,
+  "trailing_partial_letter_f": true,
+  "actual_model_used_documentation": false
+}

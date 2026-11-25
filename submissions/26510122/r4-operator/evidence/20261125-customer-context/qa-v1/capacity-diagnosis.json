@@ -1,0 +1,19 @@
+{
+  "diagnosis_kind": "Pure unchanged helper capacity arithmetic, not an ordinary-call success or fresh source claim",
+  "controlled_historical_capture_only": true,
+  "source_rows": 70,
+  "combined_rows_at_capture_time": 70,
+  "packed_inventory_JSON_characters_only": {
+    "None": 18072,
+    "48": 17797,
+    "32": 17053,
+    "24": 15918,
+    "16": 14146,
+    "12": 13036,
+    "8": 11612
+  },
+  "full_response_budget": 6000,
+  "inventory_alone_at_smallest_preview_exceeds_full_budget": true,
+  "raw_names_or_rows_exported": false,
+  "market_or_model_calls": 0
+}

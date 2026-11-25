@@ -1,0 +1,31 @@
+{
+  "reviewed_logic_sha256": "3e956eb6dfaa7f06e08932951b978b0ab579c4d7ed1a23146f5afdea28d0d009",
+  "source_unchanged": true,
+  "full_source_lines_reviewed": 542,
+  "full_selftest_lines_reviewed": 233,
+  "embedded_reader_exact_v2_source_match": true,
+  "original_selftest_passed": true,
+  "ordinary_official_Toolbox_call": true,
+  "manual_testing_flag": false,
+  "contract_passed": 56,
+  "actual_shape_capacity_goal_failed": 1,
+  "secret_output_goal_failed": 4,
+  "actual_market_or_model_calls": 0,
+  "prod_keys_DB_card_wallet_changed": false,
+  "expired_capture_only_used_as_explicit_controlled_capacity_replay": true,
+  "source_auth_or_financial_success_claim": false,
+  "files": {
+    "ordinary-toolbox-qa-results.json": "9612389a04ec79c5f47a63ef05e9677b9ee5e9774155eaba76caf25d854604a3",
+    "ordinary_toolbox_qa.py": "95a3819a8ef4a3a045d7e47280646181b86448b7b386f540123fb73a4e0b3911",
+    "derived-origin.json": "f58646ba55ce1fed3dfee11e5c7a83b64bccd49c6d2ec6efe6295cf5f3485c76",
+    "capacity-diagnosis.json": "c81cd59781f35ea1ce3431169eb02c724d83bd8c25e1fb6505999afeee492ce9",
+    "embedded-reader-pin-proof.json": "b1a946ab8e8fe7872a0a97af248d8a1e5e6c2ae0149c9426e15c1256a3fcb2a1",
+    "controlled-capture-capacity.json": "3ab7220a14618d7f41ecdf3c8db3dc222b4e2c56d2ba53ab68159aa7b2a25917",
+    "official-selftest-result.json": "d3fbda0d56a2c6879fc14fa9e32cdf76cbcaac11dcf4aeda1bd413ae2dbf868b",
+    "QA_REPORT.md": "bbefdb4e5275c976b0a30c1eb8bcad72a1e906984080481b69f0637971db2672",
+    "tools/build_customer_context/test.py": "97490036e25576c81c2c1702e1456026d66e9eb107e06a6686339a8966165504",
+    "tools/build_customer_context/forge.json": "6127db40b7aa3ae189608fd7a94815cafa137dcace33ff972f0bb298e3b2d129",
+    "tools/build_customer_context/logic.py": "3e956eb6dfaa7f06e08932951b978b0ab579c4d7ed1a23146f5afdea28d0d009",
+    "tools/build_customer_context/permission.yml": "117310be76c1535291afb5d251b2e4c6c8fc397efc5875721475c55c764a90f9"
+  }
+}

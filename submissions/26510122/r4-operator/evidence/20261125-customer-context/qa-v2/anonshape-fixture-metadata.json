@@ -1,0 +1,9 @@
+{
+  "synthetic_only": true,
+  "actual_names_SKUs_unitrefs_prices_exported": false,
+  "shape": "Anonymous70-row fixture from v1; two deliberately fictional date/spec strings recreate v2 unsafe_public_text failure without real capture.",
+  "default_reproduction_is_not_original_capture": true,
+  "control_fixture": "anonshape-control-fixture.json has no synthetic date/spec probes and reproduces successful compression control.",
+  "privacy_probes_are_fake_sentinels_not_real_keys_or_people": true,
+  "model_calls": 0
+}

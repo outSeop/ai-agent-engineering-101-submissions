@@ -1,0 +1,9 @@
+name: build_customer_context
+description: Call {"op":"context"}. For each verified_context.inventory row, copy common and zip columns with row cells. Decode cells in lookup columns as zero-based indices into lookup[column]. expires_at is null if remaining_seconds is null, else as_of+remaining_seconds. text_limit=null means full text; otherwise name is a prefix and category_path gives the exact root, keeping its type. Full text: {"op":"details","snapshot":S,"detail_pin":P,"as_of":T,"row":I,"sku":K}. S/P/T come from the matching context fields; I is the zero-based row and K its decoded sku. Omit offset initially. For fragments, use next
+permission:
+  pay_limit: 0
+  timeout: 180
+logic: logic.py
+test: test.py
+version: 4
+replaces: build_customer_context@3
