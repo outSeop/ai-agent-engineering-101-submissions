@@ -1,0 +1,9 @@
+name: first_purchase_bonus
+description: Background-only SQLite candidate. Takes {} or {sale_id: nonempty string}. Empty input is a no-op, and extra keys are invalid. Returns status and, only on a new grant, the additional credits. Before installation the operator sets ROLLOUT_EPOCH to the approved Unix second. Invoke from the trusted background worker after the existing finalize_sale transaction commits. Legacy settlements count toward eligibility, with no backfill. No customer or model input is an approval source.
+permission:
+  write: [state/r4-benefits]
+  pay_limit: 0
+  timeout: 30
+logic: logic.py
+test: test.py
+version: 1
