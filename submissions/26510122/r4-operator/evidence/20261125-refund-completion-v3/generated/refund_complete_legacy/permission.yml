@@ -1,0 +1,11 @@
+name: refund_complete_legacy
+description: args: {case_id: refund_review_intake의 익명 사건 ID}. 기존 장부에 저장된 환불 해시와 호스트 확정 기록을 대조한 뒤 기존 장부 계약대로 한 트랜잭션에서 환불을 완료한다. 호스트는 선행 승인과 정확한 정규 영수증을 확인한 후 state/r4-benefits/refund-confirmations.sqlite3을 닫힌 독립 SQLite 파일로 원자 게시하고 쓰기 권한을 통제해야 한다. 계약은 refund_receipt_confirmation(case_id PRIMARY KEY,sale_id,tx,snapshot)이며 snapshot은 SHA256(kit.canon({sale: 전체행,refund: 전체행}))이다. 자체 테스트는 가상 확정 기록을 사용하며 실제 승인 및 영수증 검증 연결은 미완성이다.
+permission:
+  write: [state/r4-benefits/benefits.sqlite3, state/r4-benefits/benefits.sqlite3-journal, state/r4-benefits/benefits.sqlite3-wal, state/r4-benefits/benefits.sqlite3-shm]
+  identity: [shop]
+  pay_limit: 0
+  timeout: 30
+logic: logic.py
+test: test.py
+version: 3
+replaces: refund_complete_legacy@2

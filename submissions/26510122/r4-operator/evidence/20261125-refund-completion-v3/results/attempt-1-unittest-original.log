@@ -1,0 +1,33 @@
+test_actual_schema_baseline_and_idempotence (__main__.CompletionQA.test_actual_schema_baseline_and_idempotence) ... ok
+test_atomic_rollback_each_write_phase (__main__.CompletionQA.test_atomic_rollback_each_write_phase) ... ok
+test_case_binding (__main__.CompletionQA.test_case_binding) ... ok
+test_confirmation_absent (__main__.CompletionQA.test_confirmation_absent) ... ok
+test_consumed_earned_debt_immediately_offset (__main__.CompletionQA.test_consumed_earned_debt_immediately_offset) ... ok
+test_identity_mismatch (__main__.CompletionQA.test_identity_mismatch) ... ok
+test_invalid_allocation_owner_blocks_atomically (__main__.CompletionQA.test_invalid_allocation_owner_blocks_atomically) ... ok
+test_known_outgoing_required (__main__.CompletionQA.test_known_outgoing_required) ... ok
+test_manifest_and_original_selftest (__main__.CompletionQA.test_manifest_and_original_selftest) ... ok
+test_mismatched_confirmation_tx (__main__.CompletionQA.test_mismatched_confirmation_tx) ... ok
+test_official_toolbox_call_host_confirmation_wired (__main__.CompletionQA.test_official_toolbox_call_host_confirmation_wired) ... FAIL
+test_paid_non_delivery_held_spend_accepted (__main__.CompletionQA.test_paid_non_delivery_held_spend_accepted) ... ok
+test_paid_non_delivery_held_ticket_released (__main__.CompletionQA.test_paid_non_delivery_held_ticket_released) ... ok
+test_promotion_loss_state_refunded_amount_preserved (__main__.CompletionQA.test_promotion_loss_state_refunded_amount_preserved) ... ok
+test_rejects_caller_flags_without_mutation (__main__.CompletionQA.test_rejects_caller_flags_without_mutation) ... ok
+test_stale_snapshot_rejected (__main__.CompletionQA.test_stale_snapshot_rejected) ... ok
+test_symlink_host_db_rejected (__main__.CompletionQA.test_symlink_host_db_rejected) ... ok
+test_two_concurrent_calls_once (__main__.CompletionQA.test_two_concurrent_calls_once) ... ok
+test_unrelated_customer_and_stock_rows_preserved (__main__.CompletionQA.test_unrelated_customer_and_stock_rows_preserved) ... ok
+
+======================================================================
+FAIL: test_official_toolbox_call_host_confirmation_wired (__main__.CompletionQA.test_official_toolbox_call_host_confirmation_wired)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/r3-stock-20261124-204104/agent-work/codex-r4/qa_refund_complete_legacy_v3.py", line 244, in test_official_toolbox_call_host_confirmation_wired
+    self.assertEqual(state(s.f),before)
+AssertionError: 'BEGI[630 chars]45,\'released\');\nCREATE TABLE broker_commit [11921 chars]MIT;' != 'BEGI[630 chars]45,\'spent\');\nCREATE TABLE broker_commit (\n[11397 chars]MIT;'
+Diff is 18303 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.897s
+
+FAILED (failures=1)

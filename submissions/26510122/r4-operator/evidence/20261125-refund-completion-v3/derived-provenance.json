@@ -1,0 +1,22 @@
+{
+  "tool": "refund_complete_legacy",
+  "version": 3,
+  "logic_sha256": "6d2c0f9a8237216ff2fa43b7f4bf45739a1779f13eee505115578e1715b0f0e6",
+  "matches": [
+    {
+      "model_provider": "codex-cli-gpt-6.2-sol",
+      "upstream_reported_model": null,
+      "raw_response_sha256": "fd0faa9e239696bfe6317250c216f5e544bab7963306cc3c70f36cde09e0dd6f",
+      "official_system_prefix": true
+    }
+  ],
+  "private_session_artifact_sha256": {
+    ".kit/model-calls-private.jsonl": "795b1a16c746ce9f3e07f83c8fe2c8d9c6fbbe987dd6f84b76744bd2d5cf761c",
+    "logs/react.jsonl": "e467a90bb619d12c337fa838e917104c06bb73f120f3d04bbadabd45b027d59f",
+    "logs/forge.jsonl": "354f258a21e6bcce207beb4402c3d3b610e1cddef3dd56828c72e12d707885fb",
+    "logs/console-private.log": "45f5e3e82b987b4717fa0e2568fc3061b4821462d798893d98df7bc51b988716"
+  },
+  "provider_evidence": "Exact private official model forge_tool.args.logic hash match, not independent upstream model identity attestation.",
+  "raw_inference_private": true,
+  "production_ready": false
+}

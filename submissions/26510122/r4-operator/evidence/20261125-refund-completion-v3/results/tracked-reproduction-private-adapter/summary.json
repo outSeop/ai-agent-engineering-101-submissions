@@ -1,0 +1,23 @@
+{
+  "version": 3,
+  "test_methods": 19,
+  "passing_methods": 19,
+  "failing_methods": 0,
+  "unittest_failure_records": 0,
+  "harness_errors": 0,
+  "failed_test_records": [],
+  "candidate_logic_sha256": "6d2c0f9a8237216ff2fa43b7f4bf45739a1779f13eee505115578e1715b0f0e6",
+  "qa_original_sha256": "5e0061f559cd879d677d6a1d8989d4d5b3167f37b57c29c075488747113a32c2",
+  "adapter_sha256": "13241735d9b287001f7d78682b3196db0cc7c09a0ca5c4bfe956eec4fbf1fc12",
+  "tracked_dependency_sha256": {
+    "dispatcher.py": "84e0eca3a0211e80772ed78f2ba3c166902ba0125577e7153b06cc5bb13de0cd",
+    "price_policy.py": "6e101702c38d47b3f2c68c860dc0198fd1d7557e311c2753dc4a71fed127118f",
+    "procurement.py": "675bdaa2942f7bdf3d119d10c6e1176f790ae0bacbb22a32cf77ae82de0628c6",
+    "fixture.py": "3583926d5154ede9bbc6330103930967b452c04546a19a6078864abfe931b012"
+  },
+  "synthetic_only": true,
+  "schema_added_by_adapter": false,
+  "refund_policy_added_by_adapter": false,
+  "production_ready": false,
+  "output_directory": "/tmp/r4-refund-completion-public-qa-z4ouc2is"
+}

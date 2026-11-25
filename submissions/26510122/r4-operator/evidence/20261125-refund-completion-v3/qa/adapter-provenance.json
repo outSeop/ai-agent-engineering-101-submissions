@@ -1,0 +1,11 @@
+{
+  "external_host_test_adapter": true,
+  "original_qa_sha256": "5e0061f559cd879d677d6a1d8989d4d5b3167f37b57c29c075488747113a32c2",
+  "before_assertion_correction_sha256": "3cf65ecb08f5445b3c7ba395b089d38bd73002f6b825be5efa323439db96d86c",
+  "adapter_sha256": "835205d315242927f7004f748fa6af4ee3c8107ca43ff6095cdbe1a3c602dcef",
+  "candidate_source_changed": false,
+  "test_expectation_correction": "Official successful completion must mutate target rows; removed stale no-mutation assertion and checked refunded state/idempotence.",
+  "adapter_changes": "Import tracked dependencies and existing shared helper; select candidate/output paths only. No business policy or schema added.",
+  "manual_testing_flag_set": false,
+  "official_selftest_mode": "Unmodified kit standard test mode."
+}

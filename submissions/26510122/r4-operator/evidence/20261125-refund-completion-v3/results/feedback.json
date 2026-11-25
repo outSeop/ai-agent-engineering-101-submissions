@@ -1,0 +1,85 @@
+{
+  "candidate": "refund_complete_legacy",
+  "version": 3,
+  "logic_sha256": "6d2c0f9a8237216ff2fa43b7f4bf45739a1779f13eee505115578e1715b0f0e6",
+  "actual_staging_schema": {
+    "test_methods": 19,
+    "passed": 19,
+    "failed": 0,
+    "errors": 0
+  },
+  "tracked_reproduction": {
+    "test_methods": 19,
+    "passed": 19,
+    "failed": 0,
+    "errors": 0
+  },
+  "official_toolbox_call": "completed; repeated call already_completed",
+  "official_selftest": "passed through unmodified official standard test mode",
+  "manually_set_testing_flag": false,
+  "prior_five_candidate_gaps": "All five prior failures pass with synthetic host confirmation injection.",
+  "verified_contracts": [
+    "held allocations released",
+    "earned lot revoked",
+    "consumed earned held/spent rights retained and debt offset to eligible same-owner lots",
+    "held ticket released; used/unrelated tickets preserved",
+    "promotion state refunded without reducing reserved/amount",
+    "unrelated customer and stock rows preserved",
+    "five rollback write phases reached and rolled back",
+    "two concurrent calls once-only completion",
+    "known outgoing hash/snapshot/case identity binding"
+  ],
+  "gating_probes": {
+    "requested_not_yet_dispatched_even_with_host_row": {
+      "status": "completion_blocked",
+      "unchanged": true
+    },
+    "pending_without_host_confirmation": {
+      "status": "completion_blocked",
+      "unchanged": true
+    },
+    "different_payee_even_with_rebound_snapshot": {
+      "status": "completion_blocked",
+      "unchanged": true
+    },
+    "caller_flags": {
+      "statuses": {
+        "success": "invalid_arguments",
+        "receipt": "invalid_arguments",
+        "amount": "invalid_arguments",
+        "payee": "invalid_arguments",
+        "approved": "invalid_arguments",
+        "verified": "invalid_arguments"
+      },
+      "unchanged": true
+    },
+    "outgoing_reuses_original_incoming_hash": {
+      "status": "completion_blocked",
+      "unchanged": true
+    },
+    "confirmation_has_wal_sidecar": {
+      "status": "completion_blocked",
+      "unchanged": true
+    },
+    "durable_idempotence_without_host_file": {
+      "first_status": "completed",
+      "repeat_status": "already_completed",
+      "unchanged_after_repeat": true
+    }
+  },
+  "first_verifier_failure_preserved": true,
+  "verifier_correction": "Removed stale assertion that successful official completion leaves DB unchanged; replaced with refunded statuses, exactly one completion row and idempotent repeat. No candidate changes.",
+  "limits": [
+    "Trusted confirmation rows were synthetically injected by an external test host.",
+    "Integrated prior model approval, wallet send, successful canonical receipt verification and host confirmation publisher remain incomplete.",
+    "No production deployment or real chain readiness is established."
+  ],
+  "scope": {
+    "production_ready": false,
+    "production_db_read": false,
+    "business_source_changed": false,
+    "network_calls": 0,
+    "real_payments": 0,
+    "testing_flag_spoof": false
+  }
+}

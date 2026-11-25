@@ -1,0 +1,6 @@
+{
+  "original_sha256": "3cf65ecb08f5445b3c7ba395b089d38bd73002f6b825be5efa323439db96d86c",
+  "corrected_sha256": "5e0061f559cd879d677d6a1d8989d4d5b3167f37b57c29c075488747113a32c2",
+  "change": "Official call positive success path checks refunded statuses and once-only idempotence instead of stale blocked-path no-mutation assertion. Candidate bytes unchanged.",
+  "candidate_changed": false
+}

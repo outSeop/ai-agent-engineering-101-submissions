@@ -1,0 +1,15 @@
+{
+  "source_sha256": "6d2c0f9a8237216ff2fa43b7f4bf45739a1779f13eee505115578e1715b0f0e6",
+  "tests": 19,
+  "failures": 1,
+  "errors": 0,
+  "failed_tests": [
+    "test_official_toolbox_call_host_confirmation_wired"
+  ],
+  "error_tests": [],
+  "synthetic_only": true,
+  "real_payments": 0,
+  "network_allowed": false,
+  "kit_testing_bypass": false,
+  "operational_readiness": false
+}

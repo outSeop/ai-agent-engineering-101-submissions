@@ -1,0 +1,11 @@
+{
+ "tool": "refund_complete_legacy",
+ "version": 3,
+ "forged_at": 1795568440,
+ "kit": "v5.1",
+ "sha256": {
+  "permission.yml": "63460c3ac11e69cd77ee7d0a9e8d288c6a4645da656a6af3d96c811c1a17656b",
+  "logic.py": "6d2c0f9a8237216ff2fa43b7f4bf45739a1779f13eee505115578e1715b0f0e6",
+  "test.py": "dd5b9b12b3c28a8c4d8e56e00ac5b48f349e450d62ca676a63d6075dbb13e44b"
+ }
+}

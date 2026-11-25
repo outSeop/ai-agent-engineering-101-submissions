@@ -1,0 +1,68 @@
+{
+  "exact_credential_files_checked": 4,
+  "exact_matches": 0,
+  "secret_pattern_matches": 0,
+  "raw_inference_excluded": true,
+  "source_copy_rehash_verified": true,
+  "original_candidate_sha256": {
+    "logic.py": "6d2c0f9a8237216ff2fa43b7f4bf45739a1779f13eee505115578e1715b0f0e6",
+    "test.py": "dd5b9b12b3c28a8c4d8e56e00ac5b48f349e450d62ca676a63d6075dbb13e44b",
+    "forge.json": "cd47044194519f4728a2adb2439797c01645365f2219c6e4efcbd5aa2184c4db",
+    "permission.yml": "63460c3ac11e69cd77ee7d0a9e8d288c6a4645da656a6af3d96c811c1a17656b"
+  },
+  "file_sha256": {
+    "README.md": "d5ec97947d84fb8759c0990bd02ee0be2f5d0b4cca3cd4f4ef7a134d5982aaae",
+    "derived-provenance.json": "5a407a83ecf4b07eaec294b3da3e70818b72845c35ee6c35b4a2669f684b137e",
+    "generated/refund_complete_legacy/forge.json": "cd47044194519f4728a2adb2439797c01645365f2219c6e4efcbd5aa2184c4db",
+    "generated/refund_complete_legacy/logic.py": "6d2c0f9a8237216ff2fa43b7f4bf45739a1779f13eee505115578e1715b0f0e6",
+    "generated/refund_complete_legacy/permission.yml": "63460c3ac11e69cd77ee7d0a9e8d288c6a4645da656a6af3d96c811c1a17656b",
+    "generated/refund_complete_legacy/test.py": "dd5b9b12b3c28a8c4d8e56e00ac5b48f349e450d62ca676a63d6075dbb13e44b",
+    "qa/adapter-provenance.json": "13ef121d625a21845fbf33f584b5bc48a4d574c8c7026dd2549d4bf77815996c",
+    "qa/before-official-success-assertion-fix.py": "3cf65ecb08f5445b3c7ba395b089d38bd73002f6b825be5efa323439db96d86c",
+    "qa/dependency-sha256.json": "80dcdc492b4ac2042f42543fc3c09be1108aca0d1434d675d4a4d347463f35a8",
+    "qa/qa_refund_complete_legacy_v3.py": "5e0061f559cd879d677d6a1d8989d4d5b3167f37b57c29c075488747113a32c2",
+    "qa/reproduce.py": "835205d315242927f7004f748fa6af4ee3c8107ca43ff6095cdbe1a3c602dcef",
+    "qa/tested-private-tracked-adapter.py": "13241735d9b287001f7d78682b3196db0cc7c09a0ca5c4bfe956eec4fbf1fc12",
+    "results/actual-legacy-interface-metadata.json": "c3e85c3f1167ca7e8807b7b0701d15a702ec7098cdf0753b528246ba66fc38f6",
+    "results/attempt-1-summary.json": "4828d273ec08bfa4c02c10d483410dc0099404757f8a000def53e8864df956eb",
+    "results/attempt-1-unittest-original.log": "e23def40e64ab7a8df068af5d917e8d24a80879d682c3f38b7f7e3ba15175090",
+    "results/feedback.json": "218fb2b6e03b131a640d00b93c301edb824b1477db287ac674454f1326b1c028",
+    "results/gating-probes.json": "701c6d5a16d32d9fec253ba0dc0423dbebcb0a4f9424027f4b7047100c62440c",
+    "results/legacy-schema-source-contract.json": "260ed12b325a74ecc8be58e1da134800ec5fb662465c9c6bbc1c45db2f330ae0",
+    "results/official-toolbox-call-result.json": "749954267327cbf459cfeb9d7fdaf9f618e35463e4c4223fa4f35aec0d6d8732",
+    "results/official-toolbox-selftest-result.json": "d3fbda0d56a2c6879fc14fa9e32cdf76cbcaac11dcf4aeda1bd413ae2dbf868b",
+    "results/schema-staged-vs-tracked.json": "1aa2c38f04b062e645b6eacd56172bfff1f7e6b0bfe6f1c6db579c24679685b7",
+    "results/snapshot-manifest.json": "c20c7daa9aedc304447b1a1674831b39421374f31ea7ee8e009cbe6f5605de34",
+    "results/summary.json": "6ee4a292d3c4ac87b42a8c865eb6e972bd350fb1f55998c6625650956700d23f",
+    "results/tracked-reproduction-private-adapter/official-toolbox-call-result.json": "1606f9d3c7b4f80c94c3182cf1d131e6bc513a81e3affa94615f877a4b3ae2d2",
+    "results/tracked-reproduction-private-adapter/official-toolbox-selftest-result.json": "d3fbda0d56a2c6879fc14fa9e32cdf76cbcaac11dcf4aeda1bd413ae2dbf868b",
+    "results/tracked-reproduction-private-adapter/source-schema-metadata.json": "9bf26491868ff9e22a90397507672a679190a0d3e16ba7a93e81b4188aef450a",
+    "results/tracked-reproduction-private-adapter/summary.json": "bfdcbfa95caa907ec0128b39e4d5d68468f98810a16593110721bcd24e3be910",
+    "results/tracked-reproduction-private-adapter/unittest.log": "a35892b8b66ab5b322048c3cfdb20b0387a7b370a715450a1f923e7dd8d3f03a",
+    "results/tracked-reproduction-public-adapter/official-toolbox-call-result.json": "0b99491bd298fa3574bde4b79dee392d07233f1038e4d7bbb594dbf1c5ccdd73",
+    "results/tracked-reproduction-public-adapter/official-toolbox-selftest-result.json": "d3fbda0d56a2c6879fc14fa9e32cdf76cbcaac11dcf4aeda1bd413ae2dbf868b",
+    "results/tracked-reproduction-public-adapter/source-schema-metadata.json": "9bf26491868ff9e22a90397507672a679190a0d3e16ba7a93e81b4188aef450a",
+    "results/tracked-reproduction-public-adapter/summary.json": "dad4027ef5bb163db84aacc2cdcc8865c2f4af73036b384ec96a8b076956a722",
+    "results/tracked-reproduction-public-adapter/unittest.log": "80c0dbcf43be736a297486760bb38ea038008db893e92ff6740065b9e975cf3b",
+    "results/unittest-original.log": "9f90a2a6be87db47d1c6e2f55159d0401e4d028c72bf462d94acf10f2b92f91f",
+    "results/verifier-correction.json": "19012e7f4834d874907723760e651a8b6cdaac3b43dd286ade704343378931e7"
+  },
+  "staged_tests": {
+    "passed": 19,
+    "failed": 0,
+    "errors": 0
+  },
+  "tracked_tests": {
+    "passed": 19,
+    "failed": 0,
+    "errors": 0
+  },
+  "manual_testing_flag_spoof": false,
+  "production_ready": false,
+  "public_portable_adapter_tests": {
+    "passed": 19,
+    "failed": 0,
+    "errors": 0
+  },
+  "post_copy_complete_package_rescan": "passed"
+}
