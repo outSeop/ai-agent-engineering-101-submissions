@@ -118,8 +118,8 @@ def load_public_options(operator,root,official,*,check):
     return managed_options(operator,freeze,official,pins,check=check)
 
 
-CATALOGUE_RELEASE="public_catalogue_runtime_v2"
-CATALOGUE_MANIFEST_SHA="e83ca0ac4493d7de4d50190f0bbadbb8f89fe89e74b82038dec30d82159e24db"
+CATALOGUE_RELEASE="public_catalogue_runtime_v3"
+CATALOGUE_MANIFEST_SHA="4a09c478888d7c2e6b35795355ac6cf051c9e4d4b82ebbdc3d1fa9d4199d488e"
 
 
 def load_catalogue_options(operator,root,official,*,check):

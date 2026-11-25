@@ -1,0 +1,12 @@
+{
+  "sha256": {
+    "qa_checkout_sdk_envelope_host.py": "e38dc8faaa8f758dd3f8491b23e93eeb5e56e7a07d48f197b83e3d8659fa3885",
+    "safe-result.json": "d738bfbcda0bd1de38fe15867106d6b54aadd880478143730d255b4b3c43ad2c",
+    "README.md": "81ae61072960d6834d758222f734a0bed55f4c300771e302808420b40bb403d0"
+  },
+  "private_original_qa_sha256": "f77c3d005b3da58f5c0aee0b29b2cec8e13d5bc219abb09bc27203453c8b95ce",
+  "public_test_adaptation": "Fresh output environment path and existing published host import only.",
+  "actual4credential_matches": 0,
+  "pattern_matches": 0,
+  "raw_jwt_response_database_exported": false
+}

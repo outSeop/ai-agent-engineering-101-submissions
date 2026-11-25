@@ -1,7 +1,6 @@
 """Operator-only reconciliation and refunds. Authored by OpenAI Codex GPT-6.2 Sol."""
 import argparse
 import json
-import sqlite3
 from pathlib import Path
 import sys
 import time
@@ -156,18 +155,13 @@ def sync_once(db, market, now):
     return {"current": current, "queue_ready": shop.process_queue(db, market, now) if current else 0}
 
 
-def worker(db, kit, every, *, after_sync=None):
+def worker(db, kit, every):
     previous = None
     while True:
         try:
             result = sync_once(db, shop.Market(kit), time.time())
         except (shop.Unavailable, httpx.HTTPError, ValueError, KeyError, OSError):
             result = {"current": False, "queue_ready": 0}
-        if after_sync is not None and result["current"]:
-            try:
-                result["first_purchase_bonus"]=after_sync(db)
-            except (OSError, ValueError, sqlite3.Error):
-                result["first_purchase_bonus"]={"processed":0,"deferred":True}
         if result != previous:
             print(json.dumps(result), flush=True)
             previous = result

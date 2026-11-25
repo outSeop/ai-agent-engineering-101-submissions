@@ -141,18 +141,13 @@ def prepare(root, attempts=12, interval=4):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--agent-root", type=Path, required=True)
-    parser.add_argument("--first-purchase-bonus",type=Path,help="operator-pinned bonus bundle activation")
     args = parser.parse_args()
     try:
         root = args.agent_root.resolve(strict=True)
         kit = prepare(root)
         db = shop.open_db(root / shop.DB, EXPECTED_WALLET)
         try:
-            if args.first_purchase_bonus is None:
-                worker(db,kit,10)
-            else:
-                from first_purchase_bonus_activation_host import after_sync_for
-                worker(db,kit,10,after_sync=after_sync_for(root,args.first_purchase_bonus))
+            worker(db, kit, 10)
         finally:
             db.close()
     except KeyboardInterrupt:
