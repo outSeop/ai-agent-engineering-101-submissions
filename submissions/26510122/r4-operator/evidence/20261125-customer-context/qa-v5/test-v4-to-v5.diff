@@ -1,0 +1,23 @@
+--- frozen-v4-test
+
++++ v5-test
+
+@@ -298,8 +298,7 @@
+
+         assert invoke(base=invalid)[0] == bad_base
+     for file, fd, error in ((BASE, 12, bad_base), (CACHE, 11, bad_source)):
+         for defect in ({'st_mode': stat.S_IFLNK | 0o444}, {'st_mode': stat.S_IFIFO | 0o444},
+-                       {'st_nlink': 2}, {'st_size': 512 * 1024 + 1}, {'st_uid': os.geteuid() + 1},
+-                       {'st_mode': stat.S_IFREG | 0o664}):
++                       {'st_nlink': 2}, {'st_size': 512 * 1024 + 1}, {'st_uid': os.geteuid() + 1}, {'st_mode': stat.S_IFREG | 0o664}):
+             result, _, reads = virtual(lambda: run(request, mockkit), default_source, broker(), defects={file: defect})
+             assert result == error and fd not in reads
+     assert invoke(defects={'host_inputs': True})[0] == bad_base
+@@ -333,5 +332,5 @@
+
+     small = [unit(i, name='쌀', category_path='food', grade='A', price_credits=7, expires_at=NOW + 86400) for i in range(200)]
+     assert len(list(unpack(invoke(doc(small))[0]))) == 200
+     large = [unit(i, name=chr(44032 + i) + ' 다양한 모의 상품 이름', price_credits=10 ** 25 + i) for i in range(200)]
+-    assert invoke(doc(large))[0] == {'error': 'observation_capacity_exceeded', 'inventory_count': 200}
++    assert invoke(doc(large), shaped_base)[0] == {'error': 'observation_capacity_exceeded', 'inventory_count': 200}
+     assert invoke(base=broker(redeemable_mileage=10 ** 4000, wait_discount=10 ** 4000))[0]['error'] == 'observation_capacity_exceeded'

@@ -1,0 +1,7 @@
+# v5 source and bounded QA reuse
+
+Frozen original4files are under ../generated/build_customer_context@5. Exact same logic095dc600... asv3/v4; v5 test6714f113..., permissiond2d75d55..., manifest945ef672... differ. Actual response603f369f... logic/test and permission-args hashes plus sanitized forge record match. No raw model thoughts, customer or inventory are copied.
+
+v3's independent functional80 checks are REUSED because logic bytes are identical; not relabelled as80new v5 executions. V5 original standard selftest was independently run and passes. The test diff is one formatting line and one capacity fixture call supplied shaped_base. Source bytes are unchanged. Loaded description410 characters now includes complete lookup/common row decoding, six details arguments and cursor fragment.text concatenation/JSON parsing. It relies on unchanged next_args for offset; it does not repeat expiry reconstruction/text_limit preview semantics, so those semantic details must remain available separately. Actual operating-model/Broker/finance readiness is not established by this artifact.
+
+Root approved ONLY the exact6714test's one standalone27character synthetic private-key-header fixture (no footer/body). Other markers/body or actual credentials are blocked. Publication scans read four designated secret files only for in-memory comparison; values/hashes are never exported. Publication did not install any live launcher, alter DB/wallet/card or call market/model. V1/v2 failure evidence and v3 independent results remain intact.

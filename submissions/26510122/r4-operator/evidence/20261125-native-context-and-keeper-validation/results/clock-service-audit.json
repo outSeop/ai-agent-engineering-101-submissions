@@ -1,0 +1,80 @@
+{
+  "schema": "read-only-clock-service-audit.v1",
+  "sample_utc": "2026-11-25T05:28:37.866947+00:00",
+  "monotonic_seconds": 1293054.408392226,
+  "boottime_seconds": 1293054.408393226,
+  "proc_uptime_seconds": 1293054.4,
+  "clock_tick_hz": 100,
+  "services": [
+    {
+      "Id": "ourolabs-market-r4.service",
+      "ActiveState": "active",
+      "SubState": "running",
+      "UnitFileState": "enabled",
+      "MainPID": "1086091",
+      "ExecMainStartTimestamp": "Wed 2026-11-25 07:30:04 KST",
+      "ExecMainStartTimestampMonotonic": "1267941138799",
+      "elapsed_monotonic_seconds": 25113.27,
+      "start_from_current_wall_minus_elapsed_utc": "2026-11-24T22:30:04.597354+00:00",
+      "proc_start_ticks_since_boot": 126794113,
+      "proc_elapsed_seconds": 25113.278
+    },
+    {
+      "Id": "ourolabs-market-r4-worker.service",
+      "ActiveState": "active",
+      "SubState": "running",
+      "UnitFileState": "enabled",
+      "MainPID": "1086171",
+      "ExecMainStartTimestamp": "Wed 2026-11-25 07:31:23 KST",
+      "ExecMainStartTimestampMonotonic": "1268020415477",
+      "elapsed_monotonic_seconds": 25033.993,
+      "start_from_current_wall_minus_elapsed_utc": "2026-11-24T22:31:23.874032+00:00",
+      "proc_start_ticks_since_boot": 126802041,
+      "proc_elapsed_seconds": 25033.998
+    },
+    {
+      "Id": "ourolabs-market-r4-card-keeper.timer",
+      "ActiveState": "active",
+      "SubState": "waiting",
+      "UnitFileState": "enabled"
+    },
+    {
+      "Id": "outseop-r3-buyer.service",
+      "ActiveState": "inactive",
+      "SubState": "dead",
+      "UnitFileState": "disabled",
+      "MainPID": "0",
+      "ExecMainStartTimestamp": "",
+      "ExecMainStartTimestampMonotonic": "0"
+    },
+    {
+      "Id": "outseop-r3-seller.service",
+      "ActiveState": "inactive",
+      "SubState": "dead",
+      "UnitFileState": "disabled",
+      "MainPID": "0",
+      "ExecMainStartTimestamp": "",
+      "ExecMainStartTimestampMonotonic": "0"
+    },
+    {
+      "Id": "outseop-r3-buyer-logdb.service",
+      "ActiveState": "inactive",
+      "SubState": "dead",
+      "UnitFileState": "disabled",
+      "MainPID": "0",
+      "ExecMainStartTimestamp": "",
+      "ExecMainStartTimestampMonotonic": "0"
+    }
+  ],
+  "r3_operator_process_pattern_matches": 0,
+  "proc_transient_or_denied": 0,
+  "earlier_consecutive_clock_samples": {
+    "linux_utc": "2026-11-25T05:24:26.661042Z",
+    "windows_utc": "2026-11-25T05:24:26.729298Z",
+    "read_separation_included": true
+  },
+  "finding": "Current service wall timestamps, monotonic durations and proc start ticks agree. Current Windows/Linux consecutive samples agree within measurement separation. This does not establish uninterrupted activity, exclude historical clock jumps/host sleep, or identify a Windows power event.",
+  "system_configuration_changed": false,
+  "services_changed": false,
+  "business_or_wallet_data_read": false
+}

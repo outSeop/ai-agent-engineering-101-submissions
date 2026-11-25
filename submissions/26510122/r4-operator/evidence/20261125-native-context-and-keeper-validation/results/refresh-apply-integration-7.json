@@ -1,0 +1,61 @@
+{
+  "apply3_logic_sha256": "ad0ff06f995277113448671149226c07c3b5e07b0bed8fb02f89882145d57fff",
+  "refresh2_logic_sha256": "7199f31b471ac97275b94e167ba5ec2c7c7aa11bcc8c57a92e128426158dcd53",
+  "tests": 7,
+  "failures": 0,
+  "errors": 0,
+  "failed_tests": [],
+  "metrics": {
+    "actual_clock_end_to_end": {
+      "ordinary_toolbox_call": true,
+      "old_ttl_expired": true,
+      "new_origin": true,
+      "apply3_status": "applied",
+      "head_non_none": true,
+      "guard": "skipped",
+      "selection_order_preserved": true,
+      "outside_text_unchanged": true,
+      "deadline_extended": true
+    },
+    "changed_facts_rejection": {
+      "price_credits": "selected_offer_changed",
+      "grade": "selected_offer_changed",
+      "expires_at": "selected_offer_changed",
+      "state": "selected_sku_not_sellable",
+      "sku": "selected_sku_not_sellable"
+    },
+    "controlled_35_full_apply_cycles": {
+      "cycles": 35,
+      "length_unique_count": 1,
+      "outside_text_unchanged": true,
+      "guard_skipped_each_cycle": true,
+      "actual_expiry_never_extended": true,
+      "clock": "controlled exact-source stage+apply+guard, not live publications"
+    },
+    "authority_gates": [
+      "stale_or_future_authority",
+      "publication_authority_conflict"
+    ],
+    "reselection_limit": {
+      "status": "safe_rejection",
+      "reasons": [
+        "active_block_or_selection_changed",
+        "active_block_or_selection_changed"
+      ],
+      "data_corruption": false,
+      "fresh_class_reselection_apply_supported": false
+    },
+    "rollback": {
+      "status": "rolled_back",
+      "guard": "skipped",
+      "restored_exact_previous_card": true,
+      "idempotent": true
+    }
+  },
+  "actual_clock_vs_controlled_clock_explicit": true,
+  "business_source_modified": false,
+  "production_files_or_data_accessed": false,
+  "wallet_or_model_calls": false,
+  "manual_testing_flags": false,
+  "live_installed": false
+}

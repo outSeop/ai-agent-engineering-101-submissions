@@ -1,0 +1,7 @@
+{
+  "apply_staged_card@3": "evidence/20261125-card-renewal/generated/apply_staged_card@3",
+  "refresh_representative_card@2": "evidence/20261125-card-renewal/generated/refresh_representative_card@2",
+  "stage_representative_card@1": "evidence/20261125-card-transition/sources/tools/stage_representative_card",
+  "publish_shop_info@1": "evidence/20261125-card-transition/sources/tools/publish_shop_info",
+  "apply_staged_card@1": "evidence/20261125-card-transition/sources/tools/.deprecated/apply_staged_card@1"
+}

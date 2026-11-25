@@ -1,0 +1,11 @@
+{
+  "schema": "exact-publication-scan.v1",
+  "credential_sources_checked": 4,
+  "exact_and_pattern_hits": 0,
+  "precopy_and_postcopy_scans_passed": true,
+  "raw_private_logs_exported": false,
+  "copied_source_bytes_matched": true,
+  "public_21_reproduction_passed": true,
+  "PEM_exceptions_used_for_this_package": 0,
+  "source_v4_generated_directory_scanned_separately_by_method_audit": true
+}

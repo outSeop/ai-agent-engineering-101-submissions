@@ -1,0 +1,24 @@
+{
+  "scope": "host/test import and fixture source path adaptation only; no business source changes",
+  "private_original_sha256": {
+    "customer_native_context_canary_host.py": "337200e864fd923e49aee6b8f3e6fa654357982a11fc31d418cb64dbe9e6bb68",
+    "test_customer_native_context_canary_host.py": "3c679251b2964fe9d97c857481a08dca3d0ad98813deeaf8acff2fdbbea30a22",
+    "test_card_keeper_same_choice_host_candidate.py": "09a1153fd57a78d8671f3adbf0741b3eaf2102cc00eff83a45b5c7bc28646e19",
+    "qa_card_renewal_apply3_independent.py": "9cdadf0db61ac4805f58139f2f3422e6bc23caeaa33ab49baffcae38620fbcb1"
+  },
+  "adapted_sha256": {
+    "customer_native_context_canary_host.py": "02faffa64644110c63fa87d910bc76a0e111602c36b0b1eb176e898fa32f31ca",
+    "test_customer_native_context_canary_host.py": "54da960d061eaf74d354ac8e426682a44ea553aca8c13012f66ae71b0c828d49",
+    "test_card_keeper_same_choice_host_candidate.py": "09a1153fd57a78d8671f3adbf0741b3eaf2102cc00eff83a45b5c7bc28646e19",
+    "qa_card_renewal_apply3_independent.py": "cd349f0cce45daa70aeb382232cf97b3378634217a82fdfa6bcd75305a269342"
+  },
+  "reused_genuine_sources": {
+    "apply_staged_card@3": "evidence/20261125-card-renewal/generated/apply_staged_card@3",
+    "refresh_representative_card@2": "evidence/20261125-card-renewal/generated/refresh_representative_card@2",
+    "stage_representative_card@1": "evidence/20261125-card-transition/sources/tools/stage_representative_card",
+    "publish_shop_info@1": "evidence/20261125-card-transition/sources/tools/publish_shop_info",
+    "apply_staged_card@1": "evidence/20261125-card-transition/sources/tools/.deprecated/apply_staged_card@1"
+  },
+  "customer_context_v4_reference": "evidence/20261125-customer-context/generated/build_customer_context@4",
+  "private_originals_preserved": true
+}

@@ -1,0 +1,34 @@
+{
+  "exact_source_files": 4,
+  "source_unchanged": true,
+  "functional80_reused_not_rerun": true,
+  "own_v5_selftest_passed": true,
+  "actual_response_source_permission_derivation_matches": 1,
+  "loaded_description_chars": 410,
+  "exact_credentials_compared": 4,
+  "secret_values_or_hashes_exported": false,
+  "precopy_blocking_matches": 0,
+  "postcopy_blocking_matches": 0,
+  "narrow_header_exception": {
+    "exact_test_sha256": "6714f113f4d19cf8d6f2253eb457dbf1547330c1c89a840b9cee846507bf6d23",
+    "single_header_AST_constant": true,
+    "body_footer": false,
+    "root_reviewed": true
+  },
+  "additional_PEM_marker_or_body_allowed": false,
+  "actual_inventory_customer_thoughts_exported": false,
+  "git_stage_or_commit": false,
+  "production_install_change": false,
+  "files": {
+    "generated/build_customer_context@5/logic.py": "095dc600fe30958759a058b093ee1c210fb9b3f1f7c3157dcd034061e70dcf84",
+    "generated/build_customer_context@5/test.py": "6714f113f4d19cf8d6f2253eb457dbf1547330c1c89a840b9cee846507bf6d23",
+    "generated/build_customer_context@5/permission.yml": "d2d75d5530b61f08a198a7c62536d565d1c7a8bc298e8f4c061e901f8df4e3f6",
+    "generated/build_customer_context@5/forge.json": "945ef6726a4025f81df847a46609beae5503aa1d782602e79110741adb5872ac",
+    "qa-v5/official-selftest-result.json": "d3fbda0d56a2c6879fc14fa9e32cdf76cbcaac11dcf4aeda1bd413ae2dbf868b",
+    "qa-v5/model-description-contract.json": "c915085aa4e6c237a52b0e2df8274b6167dc98f32fb28b78aca33e2695070c46",
+    "qa-v5/test-v4-to-v5.diff": "8a992ec3ce935eae236795c5248b9e147a7990fd593394c3fe04fd1e4739b408",
+    "qa-v5/QA_REUSE_AND_SCOPE.json": "5ff8a5fc8c49074cc60269063805bae8a3a0ac08fcb08e9efe59147e7c8e8bd5",
+    "provenance-v5.json": "d6fa015f0ffdf7f7025f3728caaa2a46d7d7472465c3832dc20cecc30f87e5f1",
+    "qa-v5/README.md": "186c5770c8a6823b9ea9a407efffb3c2dca9f963888b0cc63d774bc86dccfeef"
+  }
+}

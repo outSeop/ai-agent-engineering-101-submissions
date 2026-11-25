@@ -1,0 +1,33 @@
+{
+  "schema": "validation-export-manifest.v1",
+  "recorded_at": 1795584952,
+  "files": {
+    "README.md": "768c2595ced9389dee109fc880fd9c2468c5eee4fb8de782ea56dee9fed23490",
+    "originals/customer_native_context_canary_host.py": "337200e864fd923e49aee6b8f3e6fa654357982a11fc31d418cb64dbe9e6bb68",
+    "originals/qa_card_renewal_apply3_independent.py": "9cdadf0db61ac4805f58139f2f3422e6bc23caeaa33ab49baffcae38620fbcb1",
+    "originals/test_card_keeper_same_choice_host_candidate.py": "09a1153fd57a78d8671f3adbf0741b3eaf2102cc00eff83a45b5c7bc28646e19",
+    "originals/test_customer_native_context_canary_host.py": "3c679251b2964fe9d97c857481a08dca3d0ad98813deeaf8acff2fdbbea30a22",
+    "publication-scan.json": "7ae784de95f258c0a6a5ccdc6af11f05edc8e9db284cfbfc285d87b1a9316f3d",
+    "qa/customer_native_context_canary_host.py": "02faffa64644110c63fa87d910bc76a0e111602c36b0b1eb176e898fa32f31ca",
+    "qa/fixtures/card-renewal-apply3-independent-20261125/snapshot-manifest.json": "d9ca98dca1baeae6e2373993b685ffa630acbbb289a89b0fa4ea0be2d0046a7b",
+    "qa/fixtures/card-renewal-apply3-independent-20261125/source-references.json": "98738723672cf9755fd1d72a5a57f03fd6e914cd50098d0eb7fc4341be931f13",
+    "qa/qa_card_renewal_apply3_independent.py": "cd349f0cce45daa70aeb382232cf97b3378634217a82fdfa6bcd75305a269342",
+    "qa/run_public_synthetic_checks.py": "60d383f669146cb15a878447c9f2ddcd13764438b75974f1c6559383a25333db",
+    "qa/test_card_keeper_same_choice_host_candidate.py": "09a1153fd57a78d8671f3adbf0741b3eaf2102cc00eff83a45b5c7bc28646e19",
+    "qa/test_customer_native_context_canary_host.py": "54da960d061eaf74d354ac8e426682a44ea553aca8c13012f66ae71b0c828d49",
+    "results/actual-class-canary-safe.json": "5687dd349ceb1be0a88359ba21ca1cad0951bbe0e96aac5fcc1951f4c25efaa9",
+    "results/clock-service-audit.json": "e9dff20715f4d5da8a019740b2c5b44967fb6505d63f8d9916815533ec4532f4",
+    "results/keeper-count-correction.json": "0831d2e23256f7847d4beb1dc3b599c9573155f8509a992d837cf8b624647308",
+    "results/keeper-synthetic-7.json": "660ea2d87ed0092bc2418bbd5a6349bb425a85f0b78c249ede5a5e4995d4ac36",
+    "results/native-context-canary-mock-7-ready.json": "92800e7adf96bf24fc74f822261941bbbcfb05c198d3cb6a1764ff6c0722dea3",
+    "results/public-21-synthetic-reproduction.json": "484965c90b0f1eb3f56f5d6a1cc076bcb65a5495085e028fbf69bf9365b6dbf1",
+    "results/public-adapted-14-preflight.json": "1a10c7dc3407a593adf34f3f545bb4bc2d6d545f0d6d1a02e31556b1b352e9f6",
+    "results/refresh-apply-integration-7.json": "3d34194f06d9c67866ee485ce91f41fc1566d6217eeb613cba755b61b78523bc",
+    "results/restart-url-head-source-audit.json": "b056ee879a595c08f3d2a948546352c92c8f71a495eac91917d887c1aa023b91",
+    "source-adaptation.json": "145dd24b8a9c43339422db123fa8f149844c70d9217e114aacb2e6d6f77bba29"
+  },
+  "manifest_excludes_itself": true,
+  "original_private_sources_and_logs_preserved": true,
+  "commit_or_push_performed": false,
+  "production_ready_claimed": false
+}

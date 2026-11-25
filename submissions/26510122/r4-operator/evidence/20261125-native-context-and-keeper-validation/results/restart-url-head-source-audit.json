@@ -1,0 +1,25 @@
+{
+  "schema": "restart-url-native-head-source-audit.v1",
+  "method": "read-only source audit; no restart/install or live card mutation",
+  "source_sha256": {
+    "r4-operator/run_r4.py": "ea82f78946d14beceaa55f71ee26411a070a0d7e6df37c1f3808c99ecf21907e",
+    "round-4/codex-r4/managed_launcher.py": "32cc7851a3c7e562ec016462063b09df63f101ba46983faab423756da0dbac6a",
+    "r4-operator/kit/agent_kit.py": "38fb94c22187db7b40e16a56a1fd2ffadbb94e15f2e28307d5ba04eeb4144f8a",
+    "round-4/tools/apply_staged_card/logic.py": "ad0ff06f995277113448671149226c07c3b5e07b0bed8fb02f89882145d57fff",
+    "round-4/tools/publish_shop_info/logic.py": "cb3c5a6e5c6ca36fb329e4b2279c2b718a304386665707ecaf9a7e21eb887dc2"
+  },
+  "functions": {
+    "launcher": "run_r4.py:107-121 -> managed_launcher.py:89 -> agent_kit.cmd_run",
+    "startup_url": "agent_kit.py:822-839 sets public[0], ctx.shop_url, registry join",
+    "retunnel": "agent_kit.py:883-888 updates public/ctx and registry join",
+    "served_card": "agent_kit.agent_app.current_card:679-698 reads card.json and overlays supportedInterfaces URL in a new in-memory dict; no disk write",
+    "native_apply": "apply_staged_card v3 _active_offer:47 requires exact disk card bytes and active event after bytes/hash",
+    "native_guard": "publish_shop_info guard:86 requires event/handoff/current disk card hash equality"
+  },
+  "current_path_expected_safe_for_url_change": true,
+  "reason": "served endpoint URL overlay and registry joining do not change the exact stored card bytes covered by head",
+  "required_followup": "new registry URL and served supportedInterfaces must agree before existing read-only producer validates access",
+  "if_new_host_persists_url_in_card": "fail closed: active_card_hash_conflict/current_card_hash_conflict; no host event rewriting or assumed rebind",
+  "restart_performed": false,
+  "operational_changes": false
+}

@@ -1,0 +1,6 @@
+{
+  "tests": 14,
+  "failures": 0,
+  "errors": 0,
+  "method": "public import/source-path adapted; unchanged genuine sources + mock producer + synthetic Card roots; no real Model/wallet/database calls"
+}

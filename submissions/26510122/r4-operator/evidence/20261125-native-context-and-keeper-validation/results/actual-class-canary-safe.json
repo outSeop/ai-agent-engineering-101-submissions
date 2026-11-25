@@ -1,0 +1,49 @@
+{
+  "schema": "actual-class-native-context-canary-safe.v1",
+  "root_executed": true,
+  "host_agent_executed_actual_class": false,
+  "source_summary_sha256": "23c948083d78a7ead10c3ec318ea1e983d46f423416fdb8727dac113546cfce9",
+  "summary_mtime_utc": "2026-11-25T05:24:31.694219+00:00",
+  "steps": [
+    {
+      "action": "build_customer_context",
+      "utc": "2026-11-25T05:23:47+00:00",
+      "reply_no_pending_message_error": false,
+      "reply_sent": false
+    },
+    {
+      "action": "reply",
+      "utc": "2026-11-25T05:24:08+00:00",
+      "reply_no_pending_message_error": true,
+      "reply_sent": false
+    },
+    {
+      "action": "reply",
+      "utc": "2026-11-25T05:24:22+00:00",
+      "reply_no_pending_message_error": false,
+      "reply_sent": true
+    },
+    {
+      "action": "sleep",
+      "utc": "2026-11-25T05:24:31+00:00",
+      "reply_no_pending_message_error": false,
+      "reply_sent": false
+    }
+  ],
+  "context_calls": 1,
+  "details_calls": 0,
+  "local_reply_complete": true,
+  "all_question_skus_mentioned": true,
+  "currency_word_won_present": true,
+  "currency_word_credit_present": false,
+  "currency_matches_credit_policy": false,
+  "grade_price_remaining_grounding": "root review reported exact numeric public facts; no raw values exported",
+  "fragment_continuation_exercised": false,
+  "v4_fragment_description_complete": false,
+  "actual_customers_contacted": false,
+  "tool_token_count": 0,
+  "wallet_loaded": false,
+  "limitation": "Correct public numeric facts do not resolve incorrect currency label. First reply used synthetic sender ID and failed; subsequent reply to pending Event ID succeeded. No claim of full deployed endpoint improvement.",
+  "private_logs_unchanged": true,
+  "raw_reply_thoughts_values_exported": false
+}

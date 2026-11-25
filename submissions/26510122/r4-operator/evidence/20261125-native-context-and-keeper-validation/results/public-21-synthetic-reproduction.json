@@ -1,0 +1,22 @@
+{
+  "schema": "public-21-synthetic-reproduction.v1",
+  "tests": 21,
+  "failures": 0,
+  "errors": 0,
+  "elapsed_seconds": 44.23,
+  "suites": {
+    "refresh2_apply3_integration": 7,
+    "keeper_mock_producer": 7,
+    "native_context_v4_mock_Model": 7
+  },
+  "import_root": "actual published qa directory",
+  "genuine_sources": "existing published exact-byte source pins; no business source duplicated or modified",
+  "clock_methods": "wall-clock expiry fixture and controlled 35-cycle branch explicitly separated",
+  "Model_API_calls": 0,
+  "real_wallet_loaded": false,
+  "actual_DB_acquisition": false,
+  "manual_testing_flag": false,
+  "private_console_preserved": true,
+  "console_exported": false,
+  "actual_class_canary_counted_as_unit_test": false
+}

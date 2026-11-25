@@ -1,0 +1,16 @@
+{
+  "tests": 7,
+  "failures": 0,
+  "errors": 0,
+  "failed_tests": [],
+  "keeper_sha256": "121b1d6e057e87608bd9a983ae8a15f89c17bdabf8ec421f5bf7757accf28601",
+  "authority_helper_sha256": "d1c5173feb84c39943614654c3f088c46596bca29ef5e6c3cf561bbf2cbb8988",
+  "pins_manifest_sha256": "4602ed931ad01c04b75fce0ea8e7507bbb1f3351a096339ca84b78d938e22cfd",
+  "producer_mocked": true,
+  "genuine_tool_calls_ordinary": true,
+  "two_successful_cycles_tested": true,
+  "actual_root_used": false,
+  "model_wallet_keys_db_calls": false,
+  "timer_installed": false,
+  "manual_testing_flag": false
+}

@@ -1,0 +1,16 @@
+{
+  "schema": "keeper-run-count-correction.v1",
+  "source_record": "runtime/card-native-scheduled-public-proof-20261125.json",
+  "source_record_sha256": "c54ec9ee9ba3311e5cad5a6d733253e84e873d1c1f89d24590208f7959d481b0",
+  "cutoff_utc": "2026-11-25T04:12:32+00:00",
+  "original_field": "scheduled_successful_runs",
+  "original_value": 8,
+  "corrected_applied_receipts_total": 8,
+  "manual_root_validation_applies": 2,
+  "nonmanual_applies": 6,
+  "timer_journal_matched_applies": 6,
+  "journal_read_success": true,
+  "classification": "manual events matched to first/second root renewal proofs; timer events independently matched to service journal",
+  "original_unchanged": true,
+  "no_customer_or_financial_rows_included": true
+}

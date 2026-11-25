@@ -1,0 +1,33 @@
+{
+  "manifest": {
+    "tool": "build_customer_context",
+    "version": 5,
+    "forged_at": 1795584741,
+    "kit": "v5.1",
+    "sha256": {
+      "permission.yml": "d2d75d5530b61f08a198a7c62536d565d1c7a8bc298e8f4c061e901f8df4e3f6",
+      "logic.py": "095dc600fe30958759a058b093ee1c210fb9b3f1f7c3157dcd034061e70dcf84",
+      "test.py": "6714f113f4d19cf8d6f2253eb457dbf1547330c1c89a840b9cee846507bf6d23"
+    }
+  },
+  "actual_Model_response_records": [
+    {
+      "private_record_line1": 29,
+      "at": 1795584441.9819348,
+      "recorded_provider": "codex-cli-gpt-6.2-sol",
+      "actual_response_sha256": "603f369f17164b0b7d7bd8b7886135793c8982405df393e310140f0885801f1f",
+      "logic_test_and_permission_actual_args_match": true,
+      "private_raw_exported": false
+    }
+  ],
+  "actual_forge_records_sanitized": [
+    {
+      "tool": "build_customer_context",
+      "version": 5,
+      "ts": 1795584741
+    }
+  ],
+  "source_copies_not_new_forgeries": true,
+  "raw_customer_inventory_or_model_thoughts_exported": false,
+  "v5_same_logic_but_test_permission_manifest_differ_from_v4": true
+}

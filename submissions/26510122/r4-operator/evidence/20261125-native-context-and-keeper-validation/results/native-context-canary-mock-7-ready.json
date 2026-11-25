@@ -1,0 +1,49 @@
+{
+  "schema": "native-customer-context-canary-ready.v1",
+  "status": "ready_for_root_review_only",
+  "native_version": 4,
+  "native_files": {
+    "test.py": "5fe2120e534a28ec360e7c4fcacd332d70beca25b6f703c2afaaa0aeb875efdd",
+    "forge.json": "b44e42586e1fb81558473c10ed8a8f66819bb8a99f225f9536400821f166f4bd",
+    "logic.py": "095dc600fe30958759a058b093ee1c210fb9b3f1f7c3157dcd034061e70dcf84",
+    "permission.yml": "80e35a7ea33fe6213cd654fca245305acd6fe8a254b1bb0fec5e569733b5daf0"
+  },
+  "host_and_existing_helper_sha256": {
+    "runtime/r3-stock-20261124-204104/agent-work/host/customer_native_context_canary_host.py": "337200e864fd923e49aee6b8f3e6fa654357982a11fc31d418cb64dbe9e6bb68",
+    "runtime/r3-stock-20261124-204104/agent-work/host/test_customer_native_context_canary_host.py": "3c679251b2964fe9d97c857481a08dca3d0ad98813deeaf8acff2fdbbea30a22",
+    "runtime/r3-stock-20261124-204104/agent-work/codex-r4/customer_offer_mind_canary.py": "9e4f758500787cc15a1f379b0c246bd732a635e42632f8901641fae9b75f9251",
+    "runtime/r3-stock-20261124-204104/agent-work/codex-r4/card_offer_producer_host.py": "b128c9d0851996900734b8a9bdda9256ea41e2f81746658bb01446d4508d6412",
+    "runtime/r3-stock-20261124-204104/agent-work/codex-r4/card_source_read_lane.py": "86053315d2f31fb94979eeca7b230ae9f5ca2d581c8acc90bbc6c75b0148cec7",
+    "runtime/r3-stock-20261124-204104/agent-work/codex-r4/forum_official_mind_canary.py": "4b773bec4dc06eb4905cbb03eb9817960ad653a9e40fb0f37afeb5af35d2c67c",
+    "kit/agent_kit.py": "38fb94c22187db7b40e16a56a1fd2ffadbb94e15f2e28307d5ba04eeb4144f8a",
+    "kit/forge_runner.py": "004aa4bc7ce08bc7ff940ff3e914ab8b9edb64b00ef23b309f8f4043707b99b7"
+  },
+  "test_result": {
+    "run": 7,
+    "passed": 7,
+    "failed": 0,
+    "method": "unchanged official Toolbox.call subprocess; official Mind with Mock Model; synthetic inputs only",
+    "testing_flag_spoofed": false
+  },
+  "scope": "Only question-explicit G69567cbf G9cdcfa8f G56b67513; legacy representative offers, not whole inventory",
+  "base": "Fixed synthetic guest; no actual customer account state",
+  "model_data": "Native metadata plus fixed scoped public facts and synthetic guest base; details result passes through unchanged",
+  "auth": {
+    "tool_tokens": 0,
+    "tool_addresses": 0,
+    "signer": "existing NoWallet",
+    "inference": "registered shop token supplied only to separate official.Model after explicit --run-class"
+  },
+  "description_limit": "v4 English description is exactly 600 characters, final fragment continuation sentence ends at next; context and normal details required keys complete; fragment continuation completeness not claimed",
+  "activity": {
+    "actual_model_called": false,
+    "actual_public_fact_acquisition_executed": false,
+    "actual_customers_contacted": false,
+    "production_installed": false,
+    "actual_DB_modified": false,
+    "wallet_loaded": false,
+    "transactions": 0
+  },
+  "preserved_private_log": "test-first-console-private.log",
+  "run_notes": "Root alone reviews and executes. --run-class acquires fresh read-only public facts and calls Model in the same run; default only prepares fixed files. Existing session reuse is refused. Current source must still match v4 exact four pins or preparation fails closed."
+}

@@ -1,0 +1,16 @@
+{
+  "exact_logic_same_as_v3_and_v4": true,
+  "logic_sha256": "095dc600fe30958759a058b093ee1c210fb9b3f1f7c3157dcd034061e70dcf84",
+  "test_sha256": "6714f113f4d19cf8d6f2253eb457dbf1547330c1c89a840b9cee846507bf6d23",
+  "permission_sha256": "d2d75d5530b61f08a198a7c62536d565d1c7a8bc298e8f4c061e901f8df4e3f6",
+  "loaded_description_characters": 410,
+  "loaded_details_API_complete": true,
+  "description_does_not_repeat_expiry_reconstruction_or_preview_semantics": true,
+  "independent_functional80_reused_from_exact_same_v3_logic_not_rerun_as_v5": true,
+  "v5_own_standard_selftest_passed_here": true,
+  "actual_model_consumer_test_claim": false,
+  "test_diff": "One format-only joined line; one largefixture invoke gets shaped_base. No business logic change.",
+  "source_version_frozen_at_private_QA_snapshot": true,
+  "publication_task_did_not_install_production": true,
+  "market_model_calls": 0
+}
