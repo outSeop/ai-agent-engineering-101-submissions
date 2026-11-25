@@ -1,0 +1,13 @@
+{
+  "plan_snapshot_at": 1795635658.531778,
+  "new_procurement_choices": 0,
+  "spend_room": 0,
+  "cash": 1312052,
+  "cash_reserve": 1358985,
+  "stock_cost": 3561562,
+  "holding_and_dues": 758985,
+  "inventory_target": 3167849,
+  "not_live_balance_guarantee": true,
+  "procurement_policy_changed": false,
+  "reserved_for_existing_costs_not_zero_wallet": true
+}

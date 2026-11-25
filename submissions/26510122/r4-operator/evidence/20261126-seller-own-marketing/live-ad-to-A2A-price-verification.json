@@ -1,0 +1,13 @@
+{
+  "at": 1795634976.1412542,
+  "operator": true,
+  "response_state": "TASK_STATE_COMPLETED",
+  "http": 200,
+  "seconds": 7.224,
+  "reply_sha256": "7f87415fbe1f36b75f40189533cca011c03d18f5b6645fe79e0cfa301442a502",
+  "snapshot_bound": true,
+  "ad_price_matches_verified_A2A_price": true,
+  "actual_price_credits": 21034,
+  "name_pack_grade_price_and_time_verified": true,
+  "real_buyer": false
+}

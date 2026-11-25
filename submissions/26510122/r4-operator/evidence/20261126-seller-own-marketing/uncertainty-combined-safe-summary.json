@@ -1,0 +1,34 @@
+{
+  "qa": {
+    "total": 3,
+    "passed": 3,
+    "cases": [
+      {
+        "case": "uncertain-queried-missing-row-truthful-one-Model-no-checkout",
+        "passed": true,
+        "mock_Model_calls": 1
+      },
+      {
+        "case": "visible-existing-row-still-requires-verified-render",
+        "passed": true,
+        "mock_Model_calls": 2
+      },
+      {
+        "case": "purchase-refund-rights-protected-branches-no-uncertainty-shortcut",
+        "passed": true,
+        "protected_subcases": 3
+      }
+    ],
+    "manifest_sha256": "1fe13ccee75fb2f86c3efdc2879d78bdbcb5fd6c94d5a30f88d04748eecf3a4a",
+    "broker_sha256": "99b5a71f65c0c031b1b18845eb1a01c3bc60467ae1c6ff50f3b372a548b1ed72",
+    "native5_unchanged_vs_v3d": true,
+    "method": "Actual v3e Broker/ScopedPublicCatalogue protocol; Mock Model, native worker and financial executor. No real call or production mutation.",
+    "actual_Model_API_POST_DM_prod_changes": 0
+  },
+  "historical_failure": "historical-failure-safe.json",
+  "verifier_setup_corrections": [
+    "Bare Korean currency word pattern matched normal sentence ending \uc6d0\ud558\uc2dc\uba74; restricted to numeric currency/credit patterns.",
+    "Mock model was checked via object.call_count instead of model.complete.call_count; corrected."
+  ],
+  "original_verifier_failures_preserved": true
+}

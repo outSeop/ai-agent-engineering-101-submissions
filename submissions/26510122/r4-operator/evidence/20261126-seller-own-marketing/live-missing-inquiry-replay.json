@@ -1,0 +1,14 @@
+{
+  "at": 1795635730.86107,
+  "operator": true,
+  "response_state": "TASK_STATE_COMPLETED",
+  "http": 200,
+  "seconds": 6.742,
+  "reply_sha256": "c8932cc9e648a5b0711ccbfe4042ea3eb3a97002c0f1c409cd69dcf5fc334c1b",
+  "clear_verification_unavailable": true,
+  "no_vague_rephrase_request": true,
+  "no_signed_checkout_data": true,
+  "model_calls": 1,
+  "typed_verification_failure_recorded": true,
+  "financial_tool_actions_in_trace": 0
+}

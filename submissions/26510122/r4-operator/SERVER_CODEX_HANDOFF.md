@@ -1,3 +1,34 @@
+## 2026-11-26 04:45 KST — 최종 조회 실패 안내·신규 문의 원인 확인
+
+**예약 r4/r4-2/r4-3 모두 PAUSED, 재활성화하지 않는다.** 셀러 자체 매입/홍보/판매와 정산 워커는 유지한다. 원 DB device/inode·두 지갑 원문/inode·기존 가격 정책 원문 동일, 금융/환불/매입 규칙 변경0.
+
+- 현재 main launcher SHA `268f555088a7b8d9b8d05dae330dbbb2abac7ab4d8458b899a391fd3deccf352`, main PID1171183/추가재시작0, worker1171237/시작자격 export 대기 중1회후회복. 계획 cutover 기록은 private deploy-*에 보존했다.
+- 응답 host만 **public_catalogue_runtime_v3e**, manifest `1fe13ccee75fb2f86c3efdc2879d78bdbcb5fd6c94d5a30f88d04748eecf3a4a`. genuine public_catalogue5 원문/권한/SDK7 unchanged. exact SKU 조회가 검증불확실하고 모델이 respond를 고르면, 검증불가와 이번 문의로 결제권 미발급을 명확히 안내한다. 품절/가짜가격을 만들지 않는다. 기존 상품은 genuine renderer, 구매/환불/기존 권리 경로는 새 shortcut 제외. 독립3/3.
+- 가격관측 producer는 원 v3d818e94...를 그대로 쓰며 price_context_runtime_v1 bootstrap을 거친다. Main응답 v3e와 스키마/genuine5가 같아 캐시 호환이다. Card도 같은bootstrap으로 기존 reselection1 target을 실행한다. 생산자 코드를 main release와 혼동해 임의 복제·수정하지 않는다.
+- 새 실제 고객성 문의1건(운영자 연결 없음)이 04:30경 들어왔다. 원하는 SKU G088496b0 닭가슴살 샐러드는 당시 원본167행에도0이었다. 다른19행의 이름검증 제외로 public_lookup_uncertain이 되고 respond4+search1을 반복,22.3122초 뒤 모호한 재문의 안내로 끝났다. actor/고유신규구매자/광고유입 귀속은 입증하지 않는다. 해당SKU의 품절과 다른행 이름제외를 혼동하지 않는다.
+- 같은 질문을 운영자 명시로 재현해 **모델1회/6.742초**에 정확한 확인불가 설명, 결제권/금융 Tool 호출0을 확인했다. 실고객이나 실정산으로 세지 않는다. 일반 stockout확정 메시지가 아니라 검증실패 메시지다. 원 이름필터에서 제외된 행을 모두 유효품목이라고 주장하거나 그 필터 전체를 고친 것으로 해석하지 않는다.
+- 자체 홍보는 수정 후 A쌀5kg 글5048/21034크레딧 다음 **B생수40병 글5121/3597크레딧**까지 실제 수행했다. 모두 원SDK Mind.run_once/수업2회·게시1회, 원장·공개원문 일치. 이 두 상품을 소량이라고 표시하지 않는다. 시점상 추가게시 가능한 explicit-small A/B는0개(기존광고/중복제외)였다. 새 소량재고를 확보해야 선택 폭이 더 넓어진다. 카드/등록명은outseop-r4 유지.
+- 앞선5048/5121의 quicktunnel URL은 최종 오류안내 배포 후 바뀌었다. 현재 주소는 /api/shops·/api/agents로 확인하며 과거 글 URL 유효성을 가정하지 않는다. 후속 자체게시가 신규 주소를 사용한다.
+- 최근 매입계획 snapshot: cash1312052, reserve1358985(holding/dues758985 포함), stock_cost3561562, inventory_target3167849, spend_room0/choices0. 실제지갑이0이라는뜻이아니며정확한현재balance약속도아니다. 추가매입 보호기준은 이번수정에서 바꾸지 않았다. 현재구성/보유비용도 소량 신규상품 보충을막는 제약이다.
+- 동등5분(04:18:44~23:44/04:26:30~31:30) 결과: 알려진운영자0/1, 비연결상품문의0/1, 신규checkout0/0, 실정산0/0, 광고0/1(A). 표본짧고중간계획재시작도있어유입인과·매출증가주장X. 실제순이익미측정.
+- 판매지갑·DB·기존매입174건·근거원문 유지, 원본SDK/금융소스 파일불변. raw Model/ReAct/고객/원장/키는Git에넣지않으며 evidence/20261126-seller-own-marketing에안전 집계·원본 코드·검증한계만 남겼다.
+
+## 2026-11-26 04:31 KST — 셀러 자체 홍보·가격 관측 경로 수정
+
+사용자 최신 지시: **Codex 예약 r4/r4-2/r4-3은 모두 PAUSED 유지**. 셀러 자체가 소량 A/B도 고르게 홍보한다. 기존 DB·두 지갑·재고·매입·정산·마일리지·대기할인·환불 정책 보존. 아래 이전 머리말의 ACTIVE 예약 상태는 더 이상 현재 상태가 아니다.
+
+- 운영 main은 기존서비스/지갑을 그대로 사용, 최신 launcher SHA `9e619112989fbbac0c7910cfa1f91c79e620cac5d80040ba69fb1d50804b179b`. 현재 PID1170373, worker1170441. main 추가 재시작0, worker1은 계획 시작 시 자격 export 전 시도 후 회복이며 이후 정상. 원 SDK7·공유 worker_bootstrap/refund_admin·실제 금융 executor 원본은 변경하지 않았다.
+- genuine `prioritize_forum_candidates@2`: 원 공식 Mind가 실제 forge_tool/SDK selftest로 작성. 신규 사업소스 logic `b9df9e1fef685f82ec1a74b2300b661861c7529c00fe4388f17d20b913636006`, forge `98bda2fa783f9642c4c161674e7f09778aed3dd62b39346f0d95c0c67075ec56`. 상품명 끝 명시3개/2팩을 소량으로 인식하고 치수·모델번호·추가구성은 추정하지 않는다. 실제 자체 확정 spotlight 전체원장에서 최근 최대512개를 읽어 등급 편중을 전달한다. 과거 분류가 없으면 category=null이며 현재 분류를 과거처럼 만들어 넣지 않는다. A/B가 게시 가능하고 최근 두 상품홍보가 C이면 해당 회차 C spotlight를 닫는다. C재고와 실제 조건이 맞는 buyer reply는 유지한다. 가격·재고를 새로 만들지 않는다.
+- 최종 후보 호스트는 **deploy/forum_native_slate_runtime_v2_host3_20261126**, primary manifest `f1a3296e4260ae9b452b6dacc9190e9733a6a28623774eba69baffb2256d285b`, 추가 launcher hook `7552b87809756360b4d9ecce4ddfb796130bfab7dc1da6369af62620abf49790`. native2가 결정한 C닫힘을 host가 좁은 eligibility로 집행한다. 최종 게시와 재검증은 기존 **externally authored forum_marketing@5**, 금융툴 전체의 genuine 전환 완료가 아니다.
+- 자체 판단 경로는 **deploy/forum_official_background_runtime_v1**, manifest `49854da01419b4a49b88a5d7123375ef03f1f7a182cceb3fe7b301c4d2594f2d`, hook `718366a40cabc9d6988d0fb8b3cf40a8320419254f0097d8ce44059a051619ad`. original SDK Mind class를 managed 교체 전에 캡처하여 실제 자체 coordinator.tick→원 Mind.run_once→genuine 후보→기존 원자적 게시로 연결한다. 총Model25초/게시시도1회, 고객 요청 우선·기존매입직렬화·공급창근처보류를 유지한다. 기존 direct complete가 현재403이었다고 입증한 것은 아니므로 그렇게 원인을 확정하지 않는다.
+- 자체 runtime/forum-background-official/tick-*에 원native 입력/출력·전체 후보 context·모델입출력(토큰차단 사본)·원SDK ReAct·결과를 비공개 보존한다. scheduler-observations-private.jsonl은 매입을 바꾸지 않고 원 stock status/공급창까지시간/홍보가 보류된 이유만 관측한다. SDK원로그는 편집하지 않는다.
+- 실제 첫 live tick은 B를18900 후보로 보고 duplicate_content에 막혔다. 조회 host cwd=OP, SDK 실제게시 cwd=PROD이어서 기존 상대 launch-price-policy.json을 달리 읽은 관측 결함이었다. 같은정책파일을 절대경로로 묶어 수정했다. 정책내용·계산식·중복방지·가격하한은 바꾸지 않았다. 실패원문·이전launchercode는 private/public-safe 증빙으로 별도 보존했다.
+- 가격관측 bootstrap: **deploy/price_context_runtime_v1**, manifest `cd34d6d2296f6e3043443eab82aee448fabac95072d6eb9115347eea4a9c1958`, helper `df02738f0a92875e458a981138bd5bb289be296b40f7b3ed21fc9dec4b395c56`. 원 price_policy.py SHA6e101702... 검증, 원본 POLICY_PATH만 등록root 절대경로로 선바인딩한다. 기존 catalogue818e94... 및 card296ed9... 고정된 두 entrypoint를 원 __file__/args로 실행, cwd·원본 파일 변경0. 두서비스 ExecStart가 이 helper의 catalogue/card alias를 거친다. 기존 60초타이머는 유지한다.
+- 실제 수정후 **셀러 자체 루프** tick-ufckew3_에서 수업2회/게시1회로 글 **5048**을 게시했다. 쌀5kg **A등급21034크레딧**, source후보=공개글=원장, 현재등록URL 일치. 예약·수동 live tick으로 게시한 것이 아니다. 이 A상품을 소량이라고 주장하지 않는다. 그때 추가홍보 가능한 explicit-small A/B는0개(이미게시한 후보제외)였으며 향후 새로운 소량A/B가 있어야 선택폭이 넓어진다. 모델이 원문에서 안 밝힌 수량은 추정하지 않는다.
+- 새광고→공개A2A 실조회1회는7.224초에 해당쌀 원상품명/5kg/A/21034/남은시간/구매방법을 정확히 반환, 같은 보존 snapshot SHA=observation SHA=render SHA 확인. 운영자테스트로 별도health기록, 실제고객/정산으로 세지 않는다.
+- 사용자 '보는지' 질문: 공개 own26글을 확인한 기준시점에 like/dislike/ref/reply0, 최근60분 문의3건은모두운영자·실고객성문의0/새checkout0/정산0. API에는 views/열람자/클릭수가 없어 '아무도 안 봤다'고 단정 불가. 조회수나 실구매 효과를 게시성공으로 부풀리지 않는다. 최신실정산은별도DB로확인한다.
+- 독립 검증 native4/4+scope5/5, ownSDKMock9/9+actualcmd_run lifecycle/composite PASS, pricecontext8/8+실가격/fingerprint cwd재현 및복구. 실제classcanary는별도2회 모두NoWallet·게시0; 각가격관측전후를분리한다. raw키·원장·고객·추론은Git금지. 안전증빙 evidence/20261126-seller-own-marketing, 기존실패기록보존.
+
 ## 2026-11-26 03:17 KST — 최종 정상 가동 확인
 
 최종 main PID1163962/worker1164045는 둘 다 active, 계획 cutover 후 NRestarts0. 원래 두 지갑의 바이트·inode 및 DB device/inode 일치, quick_check ok. 고객 조회 캐시·두 타이머 정상. 공개 Card의 이름·설명과 로컬 파일 일치. 현재 등록 URL은 https://skills-illustrated-stem-well.trycloudflare.com 이지만 고정하지 않는다. 실제 수업 모델로 일반 조건 ‘식품/B/20000 이하/최대2개’도 공개 A2A에서 10.202초에 search→genuine render로 완료, 두 상품의 원래 이름/포장·가격·등급을 동일 보존 원본 SHA에 대조했다. 운영자 조회로 분리했다.

@@ -1,0 +1,15 @@
+{
+  "observed_customer_like_inquiry": 1,
+  "known_operator_linked": false,
+  "verified_unique_buyer_identity": false,
+  "requested_sku": "G088496b0",
+  "requested_product": "닭가슴살볼 샐러드",
+  "requested_sku_in_current_saleable_snapshot": false,
+  "checkout_asked_conditionally": true,
+  "actual_signed_checkout_created": 0,
+  "actual_settlement_created": 0,
+  "original_response_seconds": 22.306,
+  "original_failure": "verification-uncertain guard repeated respond/search attempts and ended in vague rephrase request",
+  "new_host_fix": "on Model-selected response after exact lookup is uncertain, return bounded factual verification-unavailable explanation without stockout assertion or price/checkout invention",
+  "forum_attribution_proven": false
+}

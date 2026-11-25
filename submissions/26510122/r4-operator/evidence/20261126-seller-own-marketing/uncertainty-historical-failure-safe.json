@@ -1,0 +1,33 @@
+{
+  "original_request_started_at": 1795635018.3341243,
+  "original_reply_at": 1795635040.6401916,
+  "transport_seconds": 22.3122,
+  "registered_operator_probe_at_same_start": 0,
+  "attribution": "No matching recorded operator probe at the request start; no unique person or advertising-causality claim. The earlier operator source capture is a separate request.",
+  "requested_public_SKU": "G088496b0",
+  "original_snapshot_sha256": "f4992eb38867096d0618cc9ee9f8f5d0947a00535c06ba79641baccb69b6661f",
+  "original_observed_at": 1795634958,
+  "original_valid_until": 1795635108,
+  "original_source_count": 167,
+  "requested_rows_in_original_raw_source": 0,
+  "snapshot_matches_actual_trace_observation": true,
+  "native_exact_requested_SKU_search": true,
+  "search_matched_count": 0,
+  "global_excluded_name_rows": 19,
+  "model_action_counts": {
+    "respond": 4,
+    "search_products": 1
+  },
+  "fallback_rejected": true,
+  "final_generic_retry_request": true,
+  "checkout_envelope": false,
+  "fix_scope": "Bound repeated Model choices after verified exact-SKU lookup uncertainty; does not claim stockout or invent public product values.",
+  "source_input_hashes": {
+    "review_trace_at_read": "df6f61ca921449d723f5bf4e1bdbd5ea79533006e9d938e91293d46dc1333de3",
+    "transport_at_read": "984c9db0fd348bbd674dcb300921329b36a8c84d9b2219809a1bba95d1af18da",
+    "health_at_read": "2bb5e1c9acf25aa1f70972beb80cfd0e65fede4de48ab5eb1c2e5166d6420e45"
+  },
+  "raw_question_reply_actor_reference_Model_reason_exported": false,
+  "historical_time_not_rebased": true,
+  "actual_Model_API_POST_DM_prod_changes": 0
+}
