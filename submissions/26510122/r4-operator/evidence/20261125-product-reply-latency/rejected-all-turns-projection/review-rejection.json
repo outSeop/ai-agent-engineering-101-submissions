@@ -1,0 +1,7 @@
+{
+  "status": "rejected_during_review_before_deployment",
+  "reason": "Filtering every shop_context result prevents the model from discovering alternatives when the customer mentions an excluded SKU. Final v4b filters only the initial model copy and returns full data on shop_context.",
+  "actual_model_or_customer_called_with_this_version": false,
+  "business_tools_unchanged_from_v3": true,
+  "original_attempt_preserved": true
+}
