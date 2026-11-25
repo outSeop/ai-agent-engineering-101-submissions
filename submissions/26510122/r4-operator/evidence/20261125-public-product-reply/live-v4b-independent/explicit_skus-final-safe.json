@@ -1,0 +1,94 @@
+{
+  "schema": "final-live-v4b-public-probe-check.v1",
+  "label": "explicit_skus",
+  "checks": {
+    "public_HTTP200": true,
+    "public_transport_used": true,
+    "synthetic_nonpurchase_actor": true,
+    "A2A_task_completed": true,
+    "exactly3_product_lines_and_disclaimer": true,
+    "three_unique_SKU_grade_pairs": true,
+    "all_public_prices_match_original_trace": true,
+    "all_grades_match_original_trace": true,
+    "all_selected_rows_available": true,
+    "remaining_seconds_exact_at_delivery": true,
+    "one_consistent_render_second": true,
+    "render_clock_inside_Model_to_tool_interval": true,
+    "credit_currency_no_won": true,
+    "fee_gas_recheck_disclaimer": true,
+    "reply_within450": true,
+    "public_final_equals_Broker_delivered": true,
+    "actual_Model_structured_render_action": true,
+    "actual_Model_selection_equals_final_rows": true,
+    "trace_verified_public_renderer": true,
+    "trace_question_exact_and_time_bound": true,
+    "original_native_context_fresh_through_delivery": true,
+    "no_commercial_action_attempts": true,
+    "one_Model_turn_no_requery": true,
+    "specific_question_condition": true
+  },
+  "all_checks_pass": true,
+  "per_product": [
+    {
+      "sku": "G69567cbf",
+      "grade": "A",
+      "public_price_credits": 43900,
+      "price_matches_original_request_context": true,
+      "grade_matches_original_request_context": true,
+      "available_in_original_context": true,
+      "remaining_matches_reconstructed_expiry_at_delivery": true,
+      "render_clock_in_measured_call_interval": true,
+      "category_root_is_food": true
+    },
+    {
+      "sku": "G9cdcfa8f",
+      "grade": "A",
+      "public_price_credits": 29500,
+      "price_matches_original_request_context": true,
+      "grade_matches_original_request_context": true,
+      "available_in_original_context": true,
+      "remaining_matches_reconstructed_expiry_at_delivery": true,
+      "render_clock_in_measured_call_interval": true,
+      "category_root_is_food": true
+    },
+    {
+      "sku": "G56b67513",
+      "grade": "A",
+      "public_price_credits": 18900,
+      "price_matches_original_request_context": true,
+      "grade_matches_original_request_context": true,
+      "available_in_original_context": true,
+      "remaining_matches_reconstructed_expiry_at_delivery": true,
+      "render_clock_in_measured_call_interval": true,
+      "category_root_is_food": true
+    }
+  ],
+  "final_reply_characters": 163,
+  "final_reply_sha256": "f0f4d903b19ad190235ac83afdc860fe1f60f88e65b64f2a60197c2921d9d01b",
+  "source_context": {
+    "origin": "exact original matched request native descriptor, never mutable latest cache",
+    "native_rows": 104,
+    "legacy_rows": 30,
+    "expiry_reconstruction": "native as_of + decoded remaining_seconds",
+    "context_sha256": "2dc2d4ecc11b883b39ff6605228fbcaea6e3d2475944e6881c0de6f62643e21e"
+  },
+  "projection_evidence_limit": "Production actual Model messages are not persisted. Trace records unprojected full context; first-view projection behavior is established by pinned v4b source plus selected explicit scope, not claimed as directly observed Model input.",
+  "timing": {
+    "public_HTTP_seconds": 20.0459,
+    "server_transport_seconds": 19.9554,
+    "trace_boundary_intervals_seconds": {
+      "prefetch": 2.5499,
+      "Model": 16.7472,
+      "render": 0.6535,
+      "Broker_to_delivery_total": 19.9507
+    },
+    "boundary_interval_limit": "Trace timestamp intervals include event/serialization overhead; individual callback phase durations are not stored, only aggregate sum/max.",
+    "server_matches_trace_within0_1s": true,
+    "public_elapsed_at_least_server": true,
+    "server_Model_used": true
+  },
+  "matched_original_trace_group_sha256": "47ae45a1896961c83440323d116a5ddccfdbb2cfd849580554f5d3edbbf9fc1f",
+  "public_probe_file_sha256": "00185321a4a801950c0bbf4e345b8a143b56ae5098a1e870640e75e050a3cc31",
+  "QA_market_or_Model_calls": false,
+  "raw_reasons_reply_customer_keys_DB_exported": false
+}

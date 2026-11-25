@@ -1,0 +1,11 @@
+# Actual v4b first-view projection canary: final reply proof
+
+Root ran one actual official class Model turn in the isolated local SDK ASGI canary. All23 final-content/source checks and eight context/projection checks pass. Final163-character reply was parsed against the fixed canonical snapshot: requested A-grade SKUs, exact public credit prices and exact remaining seconds at final delivery match. SDK final text equals Broker delivery and the host's genuine renderer equality/hash check. This verifier made no Model/API/market calls.
+
+Full canonical103 rows and synthetic legacy30 rows remain fixed as input/authority. The native builder output also contains103 rows. Only the first Model view is projected to explicit question SKUs: its native3/legacy0 rows independently equal the intersection counts computed from the original103/30 rows. Prompt size was5607 characters. The actual Model chose rendering immediately; no actual shop_context requery happened. Subsequent full103/30 requery behavior was verified only in synthetic Mock Model tests, not claimed as actual-class exercise.
+
+Observed local transport14.4817s, Model13.6111s, render0.7622s, zero retries and financial attempts. Earlier full-context17434 characters and16.2021s describe a different nonsimultaneous input/run. View sizes are observed facts; no causal inference about latency improvement follows from those times alone.
+
+All23 frozen host/tool files match their exact prepared hashes and all seven official kit files match upstream blob records. Separate reviewed driver SHA matches, with its lack of an independent in-session driver snapshot disclosed. Base validation, full native source, renderer2/builder5 bytes and neutral guest rights remain intact. No production DB, wallet or real customer data is imported into this canary. It uses canonical public representatives, not a physical stock census.
+
+The actual registered v4b public endpoint probe is a separate pending proof and is not claimed by this local canary. Private replies, Model reasons, customer identifiers, keys and databases are not copied here. This is export-ready staging only. The earlier completed actual live v3 proof is separately public under evidence/20261125-public-product-reply/live-v3-independent.

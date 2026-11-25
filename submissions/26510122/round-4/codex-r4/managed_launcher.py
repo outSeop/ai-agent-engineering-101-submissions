@@ -79,8 +79,8 @@ def load_native_factory(operator,root):
     return native_context_runtime.factory(operator,freeze)
 
 
-PUBLIC_REPLY_MANIFEST_SHA="fdb8264961b3d432de2de3448eb03c023a93162255ae4a73036261ab0a336410"
-PUBLIC_REPLY_RELEASE="public_product_reply_runtime_v3"
+PUBLIC_REPLY_MANIFEST_SHA="9840b80ee4dcc2e6a02dca5142445e874c83d93d14f50f78e1fbb0b61c1188dc"
+PUBLIC_REPLY_RELEASE="public_product_reply_runtime_v4b"
 
 
 def load_public_options(operator,root,official,*,check):

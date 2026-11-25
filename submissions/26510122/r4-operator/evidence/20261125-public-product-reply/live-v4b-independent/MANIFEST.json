@@ -1,0 +1,11 @@
+{
+  "files": {
+    "README.md": "b12a6dab4206a8019c9f93b07767d0bea7db0ddef774dbbf6af5b1a4b1c068bb",
+    "explicit_skus-final-safe.json": "3eccc3ed34353330cd5ee26f0db010474620f9c1820932f9e21b894ae7a858f0",
+    "generic_food-final-safe.json": "ab2958a8658e6b0b03f03045ffbc02c9339aa327363942205f64de716a78acb3",
+    "phase-source-preservation-safe.json": "0c87381027b22e0841e49f4b219928fc299a548c997e056c784c9de42930905f",
+    "scan-proof.json": "229320afe8527917343f99d72fbfe15724b4ec72a8ef4e5b2e43bcc95daf933b"
+  },
+  "manifest_excludes_itself": true,
+  "raw_artifacts_exported": false
+}

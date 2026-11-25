@@ -1,5 +1,57 @@
 # R4 방향 수정과 비교 실험
 
+## 2026-11-25 15:52 KST — 가격 안내 거절과 반복 추론 지연 수정 완료
+
+사용자의 ‘검증한 것 아니었나, 서버 시도 latency도 줄이자’ 요청으로 단발 수정·검증을 수행했다. 이전 검증은 생성 도구·격리 모델까지였고 실제 Broker의 금액 응답 guard와 최종 A2A reply 사이 연결 검증이 부족했다. 정상43,900크레딧까지 DANGEROUS_REPLY가3회거절해 서버106.07초/클라이언트85.1089초timeout이났다. 실패원본은그대로보존했다.
+
+실제 official Mind/개발CLI가 render_public_product_reply를직접forge했다. 원SDKtest첫실패와v1성공, null기한식품을비식품으로단정하던독립실패를보존하고 같은작성모델이v2로고쳤다. v2는독립46/46·표준자체test통과다. 원금액guard는그대로이며 구조화된SKU/등급을모델이선택하면genuine도구가고정된150초공개관측에서가격·등급·잔여초를계산해별도trustedreply로전달한다. 고객별혜택후최종가나계약확정이아닌상품가기준으로수수료/가스별도·결제전재확인을명시한다. 금융source/동의/가격하한/서명/정산executor는바꾸지않았다. 외부호스트접착코드와genuine사업도구·기존legacy사업source를구분하며과제전체native전환완료라고하지않는다.
+
+초기modelview만명시SKU관련행으로좁혀prompt를canary에서17,434→5,607자로줄였다. 전체native103입력·검증과원권리/legacy30은유지한다. SKU없는문의는처음부터전체를보며모델이shop_context를호출해도전체재고를본다. 모든재조회까지계속필터하던v4후보는대안상품을못보는회귀를발견해미배포·별도보존했다. 최종v4b의fullrefresh·staledescriptor·금융불변경계를독립검토했다. 대안상품재조회는mock검증이며실제Model재조회성공으로확대하지않는다.
+
+최종 **실제 등록 공개endpoint** 두비구매운영자probe는 모두HTTP200/TASK_STATE_COMPLETED이고3개상품값이최종SDKreply까지전달됐다. 지정SKU20.0459초(client)/19.9554초(server), 일반식품21.0285초/20.9574초다. 각각Model1회/재시도0이며각24/24독립최종검사에서당시unprojected native104/legacy30의SKU·등급·가격·잔여초와일치했다. 일반추천3개모두식품분류다. 전체coreSDK7/최종frozen26파일해시·동일지갑/DBinode/원금융source불변도확인했다. 공개이전v3probe29.4805초(모델24.8811초)와최종20초대는별도시각관측이며통계적일반성능/인과효과로확대하지않는다. 실제고객·실정산이나매출효과로집계하지않는다.
+
+실제수업모델/원SDK/최종ASGI canary는v1질문3식품13.3661초,v2전체native103+legacy30 16.2021초,v4b원103검증+초기Model3행14.4817초로각각분리보존한다. 첫fullcanary35.5216초실패는합성legacy fixture에카테고리한글라벨/120자초과이름을넣은호스트검증기오류다. 실제dispatcher의기존public_product_name과categoryNone을재사용하고Model전에genuine validate_base로전체30/각행/factorybase를검증해고쳤다. 이실패역시원본보존했다.
+
+현재런처는deploy/public_product_reply_runtime_v4b MANIFEST9840b80ee4dcc2e6a02dca5142445e874c83d93d14f50f78e1fbb0b61c1188dc를검증한다. launcher be9cbf962ea4c5edd91eeea6d567411369de8e025d30112d5914f1cc2258c21f, Broker82af4fb9…이며genuinebuilder5/renderer2bytes는v3와같다. systemd main Environment R4_ENABLE_PUBLIC_PRODUCT_REPLY=1, nativecachetimer60초와기존cardkeeper가동을유지한다. Model개별timeout25초/최대2판단/모델스케줄전체55초예산과상세단계지표가있다. 이미시작한irreversible금융handler를이예산때문에중간취소하는구조는아니므로모든금융요청55초절대보장을주장하지않는다. phase집계는runtime/native-customer-context/public-response-metrics.json, 고객원문/신원은없다.
+
+마지막15:49 KST관측은서비스alive/DBquick_checkok/매입unknown0/재고105SKU·105개(A43/B43/C19)/실정산0/순위28이다. 카드head·receipt·localcard해시와TTL정상, 카드·상품캐시timer가동. 신규매입과테스트응답을실매출로세지않는다. 현재공개주소 https://demanding-counsel-words-bali.trycloudflare.com/ 와시장등록/outseop-r4/기존wallet일치를확인했다. 재시작으로임시URL이바뀌었지만DB·지갑·매입·주문·대기권·마일리지·환불장부는복구/초기화하지않았다. R3는중지유지. 이전30분자동개선heartbeat는사용자중지상태를유지했고이번요청만으로자동재개/새goal을만들지않았다.
+
+남은원래과제: 실제고객정산·이익상승관측, 정확unit/grade/최소기한checkoutbinding, 전체legacy영업도구의자가도구전환, 수업모델환불승인→한번송금→정규receipt→완료통합. 이번수정의검증범위와구분한다. 실제키/원장/고객/추론원문은공개하지않고private원본로그는편집하지않는다.
+
+
+### 최종 보류 — 실제 문의 시간초과와 사용자 중지 요청
+
+위 배포 직후 기록의 after 미완료 상태를 정정한다. 실제 같은 질문의 after 요청은85.1089초 ReadTimeout이었다. 따라서 새로운 상품캐시 timer를 disable/stop하고 latest.json을 같은private폴더의 held-after-endpoint-timeout 파일로보존했다. 연결코드와genuine도구는보존하지만신규native정보는현재 unavailable fallback이며 기존판매executor를유지한다. 기존main/worker·카드keeper는계속가동한다. DB/키복구나리셋은없고새매입/홍보실험도하지않는다. 자동개선heartbeat와goal은사용자요청으로paused다. root작업종료때추가응답실험은하지않는다. 다음재개는85초after의서버최종trace와모델/전체deadline병목부터읽어원인을확인한다. 설치가성공했다는것과고객응답효과가검증됐다는것을구분한다.
+
+
+## 2026-11-25 14:47 KST — 사용자 요청으로 작업 마무리
+
+사용자가 여기까지 하자고 요청해 새 실험·코드 변경을 중지한다. R4 운영은 계속 두고 R3서비스3개는 중지 상태를 유지한다. 자동 개선 heartbeat와 active goal은 일시중지한다.
+
+실제 고객 경로에 genuine build_customer_context v5 공개 사실을 추가하는 외부 호스트 어댑터를 적용했다. 원본 SDK7파일 검사는 통과했고, 기존 금융 도구·권리·DB·지갑·재고·마일리지·대기권·환불 장부는 그대로다. native는 로컬150초 공개 캐시만 읽고 도구 실행3초 제한/실패 시 기존 응대로 돌아간다. 60초 상품 캐시 timer와 기존 카드 keeper timer 둘 다 active다. 한글 UTF8 결과8192byte오거절 문제는 외부호스트v2 cap32768로 고쳤고73행한글 재현검사를 통과했다. build source logic095dc600…/v5원본4파일과개발모델실제응답·forge출처는evidence에보존했다. 외부호스트/기존legacy사업코드 잔여를 native전체전환이라고하지않는다.
+
+통제된 main 재시작 후 local/public Agent Card name outseop-r4와 기존shopwallet을확인했다. 지갑두파일 SHA 동일·DB inode 동일·quick_check ok·sale/refund0이며 main/worker active,NRestarts0이다. 새 공개URL은 https://snap-the-county-inch.trycloudflare.com/ 이다. 최초새URL POST는DNS전파중ConnectError였고원본실패를보존했다. 이후WSL의publiccard GET200/DNS정상·기존3skills를확인했다. 시장등록URL의독립최종대조와완전한고객응답효과검증은다음확인항목이다.
+
+실제A2A 전후 비구매 운영자 점검: before17.9646초/응답완료이나3SKU가격·등급미제공. after는실제Broker의native status ready1회/추가0.7025초를확인했지만전체응답검증은아직마무리하지못했다. private operational cutover폴더 endpoint-probe-after.json/health-probes를다음에먼저읽어완료나timeout을확인한다. 실제고객유입/판매로집계하지않는다. 새질문을중복발송하지않는다.
+
+실제정산은여전히0이며정보연결만으로정산개선이라하지않는다. 정확unit·등급·최소잔여기한checkout binding, native전체사업도구전환, 수업모델환불승인→한번송금→정규영수증→완료는아직미완성이다. 다음재개때는현재서비스/registry/publiccard/두timer/기존장부무결성과방금운영자probe결과부터확인한다. native adapter package=deploy/native_customer_context_runtime_v2 manifestf4b12edb4f7ba76e9690c71a146a49651dd05105e9887393c52b9c700361af11, installedlauncher b9390c9d…/managedruntime7504c9ed…. 원복이필요하면비공개before source만복구하고 live DB/지갑백업을덮어쓰지않는다.
+
+
+## 2026-11-25 14:26 KST — 실제 검증과 남은 연결 과제
+
+이전 계획보다 과제 방식과 실제 고객 응대를 우선한다. 개발은 official Mind → forge_tool → SDK test로 수행하고 운영 판단은 실제 수업 모델이 한다. 외부 호스트·독립 QA·기존 외부 금융 라이브러리 재사용은 자체 생성 사업 도구와 구분한다.
+
+카드는 genuine refresh_representative_card v2 / apply_staged_card v3로 같은 세 상품 조건을 재검증해 갱신하며 60초 systemd keeper가 실가동 중이다. 기존 publisher는 readonly guard로 막았고 main 재시작은 없었다. 최신 카드·영수증·head·TTL이 일치한다. SKU나 조건 변경 시 자동 재선택은 아직 미완성이며 requires_class_selection으로 멈춘다.
+
+read_customer_offers v2는 독립72검사, build_customer_context v3/v4의 동일 logic095dc600…(test는 v3 9e567a2d…, v4 5fe2120e…로 서로 다름)은 독립80동작검사를 통과했다(실제형70 재생·익명86 용량·권리 보존·개인정보·정상 날짜/규격). v1 용량/개인정보 문제, v2 정상 날짜·치수 오탐, 설명 잘림 실패를 보존했다. v4의 fragment 연속 설명은 SDK600자 제한에서 잘려 기능을 바꾸지 않는 설명 수정을 실제 Mind가 진행 중이다.
+
+실제 수업 모델의 모의 문의에서 native context를 한 번 호출해 세 SKU의 등급·가격·남은 초를 정확히 답했다. 실제 고객 연락·지갑·checkout은 없다. 단위가 크레딧 대신 원으로 나온 문제와 첫 reply 대상 오류 후 스스로 복구한 사실도 기록한다. 이전 자동 paging 비교는 baseline5회 조회 후 timeout/무답183.58초와 별도 시점70행 factored형77초 답변이라는 한 쌍의 공학 관측이며 판매 효과나 일반적 속도 개선으로 해석하지 않는다.
+
+14:25 KST 현황: main active/NRestarts0, 92SKU/92개(A39/B36/C17), 매입accepted1/arrived90/unknown0, DB정상, 실제 정산0, 최근30분 문의0·포럼0, 포럼누적2, 순위26다. 품목 수나 순위를 매출 개선으로 세지 않는다. R3서비스3개는 inactive/disabled다. main wall시작07:30:04와 monotonic이 일치하며 이번 읽기전용 검사는 WSL중지를 입증하지 않았다. Windows AC자동절전은0초이며 설정은 바꾸지 않았다.
+
+가장 큰 미완성은 실제 고객 endpoint가 여전히 legacy a2a_info13의 30행·유통기간 누락을 쓰는 점이다. 고객 전용 읽기정보 연결 후보를 검증 중이며 아직 실배포가 아니다. 기존 inventory리스트·권리·지갑·주문·대기할인·마일리지·환불장부는 보존한다. 실제 모델 승인→환불송금→영수증→완료 통합도 미완성이다. 과제 전체 전환이나 실제 정산 개선을 주장하지 않는다.
+
+
 ## 2026-11-25 12:09 KST — 실제 네이티브 카드 첫 적용
 
 기존 카드 작성기만 안전 후보로 atomic fence하고 10초 drain·읽기전용 guard 확인을 마쳤다. 판매/매입/URL을 재시작하지 않았다. 실제 수업 모델이 전체 62후보를 compact 관측으로 비교해 A두유 G69567cbf(43,900), A쌀 G9cdcfa8f(29,500), A장조림 G56b67513(18,900 크레딧)을 골랐다. 같은 실행의 genuine stage를 실제 더 늦은 시장 조회로 재검증하고 30초 이하 authority→ordinary Toolbox.call genuine apply v2→committed event→handoff/guard skipped까지 실제 성공했다. 시장 목록1개·공개 Agent Card의 새 설명·기존3skills·name/outseop-r4·동일지갑을 실제 확인했다. 공개 apply 주체는 외부 호스트의 검증된 실행 연결이고, 상품선택은 수업 모델, 사업도구 저자는 실제 Mind의 개발 모델이다.

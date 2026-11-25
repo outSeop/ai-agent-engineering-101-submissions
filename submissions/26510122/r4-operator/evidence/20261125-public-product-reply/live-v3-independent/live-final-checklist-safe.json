@@ -1,0 +1,113 @@
+{
+  "schema": "actual-live-v3-final-reply-independent.v1",
+  "checks": {
+    "public_HTTP200": true,
+    "public_transport_used": true,
+    "synthetic_nonpurchase_probe": true,
+    "SDK_task_completed": true,
+    "final_has_exact_three_products_and_disclaimer": true,
+    "requested_skus_once_in_order": true,
+    "A_grades_match_original_request_context": true,
+    "public_prices_match_original_request_context": true,
+    "remaining_seconds_match_reconstructed_expiry_at_delivery": true,
+    "consistent_render_second": true,
+    "render_second_inside_Model_to_verified_render_interval": true,
+    "credit_currency_no_won": true,
+    "fee_gas_recheck_disclaimer": true,
+    "within450": true,
+    "public_final_equals_Broker_delivered": true,
+    "actual_Model_structured_action": true,
+    "actual_Model_selected_final_products": true,
+    "trace_verifies_pinned_public_renderer": true,
+    "trace_customer_exactly_matches_probe_question": true,
+    "request_context_unexpired_at_final_delivery": true,
+    "zero_commercial_actions": true,
+    "single_rendered_phase_group_zero_retries": true,
+    "server_transport_used_Model": true
+  },
+  "all23pass": true,
+  "phase_checks": {
+    "single_aggregate_can_be_attributed": true,
+    "public_elapsed_at_least_server_elapsed": true,
+    "server_elapsed_matches_trace_within_0_1s": true,
+    "phase_total_matches_server_within0_1s": true,
+    "Model_phase_matches_trace_within0_1s": true
+  },
+  "all_phase_checks_pass": true,
+  "per_product": [
+    {
+      "sku": "G69567cbf",
+      "grade": "A",
+      "public_price_credits": 43900,
+      "sku_matches_requested_order": true,
+      "grade_matches_request_context": true,
+      "price_matches_request_context": true,
+      "request_context_available": true,
+      "expiry_reconstructed_from_request_asof_plus_remaining": true,
+      "remaining_matches_delivery_ceil": true,
+      "render_clock_inside_measured_interval": true
+    },
+    {
+      "sku": "G9cdcfa8f",
+      "grade": "A",
+      "public_price_credits": 29500,
+      "sku_matches_requested_order": true,
+      "grade_matches_request_context": true,
+      "price_matches_request_context": true,
+      "request_context_available": true,
+      "expiry_reconstructed_from_request_asof_plus_remaining": true,
+      "remaining_matches_delivery_ceil": true,
+      "render_clock_inside_measured_interval": true
+    },
+    {
+      "sku": "G56b67513",
+      "grade": "A",
+      "public_price_credits": 18900,
+      "sku_matches_requested_order": true,
+      "grade_matches_request_context": true,
+      "price_matches_request_context": true,
+      "request_context_available": true,
+      "expiry_reconstructed_from_request_asof_plus_remaining": true,
+      "remaining_matches_delivery_ceil": true,
+      "render_clock_inside_measured_interval": true
+    }
+  ],
+  "reply_characters": 163,
+  "final_reply_sha256": "b04207e1c2a2a78564b0b591564e1a58800e8af2c540ce375f842973b59f67d7",
+  "source_context": {
+    "origin": "exact matched original request trace native_customer_context; live latest cache not read",
+    "native_rows": 103,
+    "as_of_reconstructed_expiry": true,
+    "text_limit": 12,
+    "native_context_sha256": "0f3f1560882c65958003009260ca65b75716afcba277df3c65a6b37edbf12583"
+  },
+  "latency": {
+    "public_HTTP_seconds": 29.4805,
+    "server_transport_seconds": 28.357,
+    "broker_phases_if_single": {
+      "legacy_action_seconds": 0.0,
+      "model_seconds": 24.8811,
+      "prefetch_seconds": 2.7984,
+      "render_seconds": 0.6678,
+      "total_seconds": 28.3527
+    },
+    "aggregation_count": 1
+  },
+  "recorded_preservation_checks": {
+    "registry_url_matches": true,
+    "registry_wallet_matches": true,
+    "card_wallet_matches": true,
+    "wallet_files_unchanged": true,
+    "database_same_inode": true
+  },
+  "preservation_evidence_limit": "Existing root verification record read; verifier did not read wallet keys or database. Same DB inode is not a content-unchanged assertion.",
+  "root_called_actual_registered_endpoint": true,
+  "QA_called_market_or_Model": false,
+  "raw_reason_reply_customer_or_DB_exported": false,
+  "comparison_limit": "Nonconcurrent local full canary16.2021s and live29.4805s have different conditions; no causal scope or projection speed effect claimed.",
+  "wire_state": {
+    "actual": "TASK_STATE_COMPLETED",
+    "expected_from_installed_official_A2A_enum": "TASK_STATE_COMPLETED",
+    "checker_correction": "initial checker assumed legacy completed string; actual A2A1.0 TASK_STATE_COMPLETED verified using official enum; initial check preserved, no service/result changes"
+  }
+}

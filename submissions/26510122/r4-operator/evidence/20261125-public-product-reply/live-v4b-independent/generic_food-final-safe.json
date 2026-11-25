@@ -1,0 +1,94 @@
+{
+  "schema": "final-live-v4b-public-probe-check.v1",
+  "label": "generic_food",
+  "checks": {
+    "public_HTTP200": true,
+    "public_transport_used": true,
+    "synthetic_nonpurchase_actor": true,
+    "A2A_task_completed": true,
+    "exactly3_product_lines_and_disclaimer": true,
+    "three_unique_SKU_grade_pairs": true,
+    "all_public_prices_match_original_trace": true,
+    "all_grades_match_original_trace": true,
+    "all_selected_rows_available": true,
+    "remaining_seconds_exact_at_delivery": true,
+    "one_consistent_render_second": true,
+    "render_clock_inside_Model_to_tool_interval": true,
+    "credit_currency_no_won": true,
+    "fee_gas_recheck_disclaimer": true,
+    "reply_within450": true,
+    "public_final_equals_Broker_delivered": true,
+    "actual_Model_structured_render_action": true,
+    "actual_Model_selection_equals_final_rows": true,
+    "trace_verified_public_renderer": true,
+    "trace_question_exact_and_time_bound": true,
+    "original_native_context_fresh_through_delivery": true,
+    "no_commercial_action_attempts": true,
+    "one_Model_turn_no_requery": true,
+    "specific_question_condition": true
+  },
+  "all_checks_pass": true,
+  "per_product": [
+    {
+      "sku": "Gbea6b9f6",
+      "grade": "C",
+      "public_price_credits": 1062,
+      "price_matches_original_request_context": true,
+      "grade_matches_original_request_context": true,
+      "available_in_original_context": true,
+      "remaining_matches_reconstructed_expiry_at_delivery": true,
+      "render_clock_in_measured_call_interval": true,
+      "category_root_is_food": true
+    },
+    {
+      "sku": "G6c24c16f",
+      "grade": "C",
+      "public_price_credits": 14920,
+      "price_matches_original_request_context": true,
+      "grade_matches_original_request_context": true,
+      "available_in_original_context": true,
+      "remaining_matches_reconstructed_expiry_at_delivery": true,
+      "render_clock_in_measured_call_interval": true,
+      "category_root_is_food": true
+    },
+    {
+      "sku": "G0e96fe9e",
+      "grade": "C",
+      "public_price_credits": 8198,
+      "price_matches_original_request_context": true,
+      "grade_matches_original_request_context": true,
+      "available_in_original_context": true,
+      "remaining_matches_reconstructed_expiry_at_delivery": true,
+      "render_clock_in_measured_call_interval": true,
+      "category_root_is_food": true
+    }
+  ],
+  "final_reply_characters": 156,
+  "final_reply_sha256": "94a9577428da1fe42df60047ab1e5ec7a8a02e05ebdcfbe13d6f3e946f63fc0c",
+  "source_context": {
+    "origin": "exact original matched request native descriptor, never mutable latest cache",
+    "native_rows": 104,
+    "legacy_rows": 30,
+    "expiry_reconstruction": "native as_of + decoded remaining_seconds",
+    "context_sha256": "a62f81e7c3d83361f42af921529aa9747ffb2f303a2e5189421e2c75c5c1648c"
+  },
+  "projection_evidence_limit": "Production actual Model messages are not persisted. Trace records unprojected full context; first-view projection behavior is established by pinned v4b source plus selected explicit scope, not claimed as directly observed Model input.",
+  "timing": {
+    "public_HTTP_seconds": 21.0285,
+    "server_transport_seconds": 20.9574,
+    "trace_boundary_intervals_seconds": {
+      "prefetch": 2.6266,
+      "Model": 17.6599,
+      "render": 0.665,
+      "Broker_to_delivery_total": 20.9518
+    },
+    "boundary_interval_limit": "Trace timestamp intervals include event/serialization overhead; individual callback phase durations are not stored, only aggregate sum/max.",
+    "server_matches_trace_within0_1s": true,
+    "public_elapsed_at_least_server": true,
+    "server_Model_used": true
+  },
+  "matched_original_trace_group_sha256": "fb546ee2b3288fb5d91aba7b9cbaa0a26ce45a30af02a3b5b487b49b9bb30c8f",
+  "public_probe_file_sha256": "15e1a4e811cec318f0c8817d55c393078cbe076df2ebe16aac83e2c694e69b1d",
+  "QA_market_or_Model_calls": false,
+  "raw_reasons_reply_customer_keys_DB_exported": false
+}

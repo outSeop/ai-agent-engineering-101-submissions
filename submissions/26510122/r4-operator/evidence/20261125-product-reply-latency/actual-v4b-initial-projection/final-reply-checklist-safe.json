@@ -1,0 +1,104 @@
+{
+  "schema": "actual-v4b-first-view-canary-final-check.v1",
+  "checks": {
+    "SDK_HTTP200": true,
+    "SDK_final_reply_exists": true,
+    "three_product_lines_and_disclaimer": true,
+    "question_SKUs_once_in_order": true,
+    "all_A_grades_match": true,
+    "all_public_prices_match": true,
+    "remaining_seconds_exact_at_delivery": true,
+    "one_render_second": true,
+    "render_clock_inside_measured_interval": true,
+    "credit_currency_no_won": true,
+    "fee_gas_recheck_disclaimer": true,
+    "reply_within450": true,
+    "final_reply_hash_matches_host": true,
+    "SDK_final_equals_Broker_delivery": true,
+    "host_genuine_renderer_exact_match": true,
+    "actual_Model_structured_action": true,
+    "actual_Model_selection_matches_final": true,
+    "source_fresh_through_delivery": true,
+    "source_snapshot_sha_matches_prepared": true,
+    "frozen_sources_all_match": true,
+    "zero_retries": true,
+    "zero_financial_attempts": true,
+    "zero_tool_auth_NoWallet": true
+  },
+  "all23pass": true,
+  "projection_checks": {
+    "full_native_source_and_output_retained": true,
+    "all30_legacy_fixture_retained": true,
+    "first_Model_native_equals_explicit_SKU_intersection": true,
+    "first_Model_legacy_equals_explicit_SKU_intersection": true,
+    "source_snapshot_exact_to_renderer": true,
+    "pre_Model_all30_factory_validated": true,
+    "actual_no_shop_context_requery": true,
+    "one_actual_Model_turn": true
+  },
+  "all_projection_checks_pass": true,
+  "per_product": [
+    {
+      "sku": "G69567cbf",
+      "grade": "A",
+      "public_price_credits": 43900,
+      "grade_matches_snapshot": true,
+      "price_matches_snapshot": true,
+      "available": true,
+      "remaining_matches_delivery_ceil": true,
+      "implied_clock_in_renderer_call_window": true
+    },
+    {
+      "sku": "G9cdcfa8f",
+      "grade": "A",
+      "public_price_credits": 29500,
+      "grade_matches_snapshot": true,
+      "price_matches_snapshot": true,
+      "available": true,
+      "remaining_matches_delivery_ceil": true,
+      "implied_clock_in_renderer_call_window": true
+    },
+    {
+      "sku": "G56b67513",
+      "grade": "A",
+      "public_price_credits": 18900,
+      "grade_matches_snapshot": true,
+      "price_matches_snapshot": true,
+      "available": true,
+      "remaining_matches_delivery_ceil": true,
+      "implied_clock_in_renderer_call_window": true
+    }
+  ],
+  "context_counts": {
+    "native_input": 103,
+    "legacy_fixture": 30,
+    "first_Model_native": 3,
+    "first_Model_legacy": 0,
+    "expected_explicit_intersection_native": 3,
+    "expected_explicit_intersection_legacy": 0,
+    "prompt_characters": 5607
+  },
+  "latency": {
+    "total_transport_seconds": 14.4817,
+    "phases": [
+      {
+        "prefetch_seconds": 0.0839,
+        "model_seconds": 13.6111,
+        "render_seconds": 0.7622,
+        "legacy_action_seconds": 0.0,
+        "total_seconds": 14.4629,
+        "retries": 0,
+        "outcome": "rendered_public"
+      }
+    ]
+  },
+  "reply_characters": 163,
+  "reply_sha256": "a55c5fd34f22131a3d4502ffae76f9d702e0f6d6b01136a2fb93dc94bd1a22a1",
+  "actual_requery_exercised": false,
+  "refresh_full_source_rule_verified_only_in_mock_test": true,
+  "actual_class_root_only": true,
+  "QA_Model_or_market_calls": false,
+  "actual_registered_endpoint": "separate pending final v4b live probe; not claimed by this local canary",
+  "comparison_limit": "Previous full17434 and projected5607 characters describe observed view sizes; nonsimultaneous16.2021s/14.4817s do not establish a causal latency improvement.",
+  "raw_reasons_reply_customers_DB_or_keys_exported": false
+}

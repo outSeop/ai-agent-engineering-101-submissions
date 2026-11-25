@@ -1,0 +1,154 @@
+{
+  "schema": "actual-live-v3-immutable-source-proof.v1",
+  "immutable_package": "deploy/public_product_reply_runtime_v3",
+  "manifest_sha256": "fdb8264961b3d432de2de3448eb03c023a93162255ae4a73036261ab0a336410",
+  "manifested_files": {
+    "bounded_public_renderer_host.py": {
+      "sha256": "c75cb434764ae7e51a9a41b32681b2d1e09e3384c7915396749db5719e3fa9db",
+      "matches_manifest": true
+    },
+    "broker_public_response_host_candidate.py": {
+      "sha256": "9e203732eed16e0c6a8d86a1d8ce5f87de65d181f43c6144cb4ed009a6f43d1a",
+      "matches_manifest": true
+    },
+    "builder/forge.json": {
+      "sha256": "945ef6726a4025f81df847a46609beae5503aa1d782602e79110741adb5872ac",
+      "matches_manifest": true
+    },
+    "builder/logic.py": {
+      "sha256": "095dc600fe30958759a058b093ee1c210fb9b3f1f7c3157dcd034061e70dcf84",
+      "matches_manifest": true
+    },
+    "builder/permission.yml": {
+      "sha256": "d2d75d5530b61f08a198a7c62536d565d1c7a8bc298e8f4c061e901f8df4e3f6",
+      "matches_manifest": true
+    },
+    "builder/test.py": {
+      "sha256": "6714f113f4d19cf8d6f2253eb457dbf1547330c1c89a840b9cee846507bf6d23",
+      "matches_manifest": true
+    },
+    "card_compact_view.py": {
+      "sha256": "8698ee8fd070265bfed4985627d9707a1220095c65570af8820c5264d7ce1407",
+      "matches_manifest": true
+    },
+    "card_offer_producer_host.py": {
+      "sha256": "b128c9d0851996900734b8a9bdda9256ea41e2f81746658bb01446d4508d6412",
+      "matches_manifest": true
+    },
+    "card_source_read_lane.py": {
+      "sha256": "86053315d2f31fb94979eeca7b230ae9f5ca2d581c8acc90bbc6c75b0148cec7",
+      "matches_manifest": true
+    },
+    "class_host_guards.py": {
+      "sha256": "d3bdf98109feede8fcc3720125cfa2ebe4c6e641a703f08896d89662671a8623",
+      "matches_manifest": true
+    },
+    "class_variant_support.py": {
+      "sha256": "358d8c85b8162b87cd4ba0c012fc837456659d32194ee51c47ddd8bc33d1d64a",
+      "matches_manifest": true
+    },
+    "customer_offer_mind_canary.py": {
+      "sha256": "9e4f758500787cc15a1f379b0c246bd732a635e42632f8901641fae9b75f9251",
+      "matches_manifest": true
+    },
+    "forum_official_mind_canary.py": {
+      "sha256": "4b773bec4dc06eb4905cbb03eb9817960ad653a9e40fb0f37afeb5af35d2c67c",
+      "matches_manifest": true
+    },
+    "managed_runtime_public_response_host_candidate.py": {
+      "sha256": "e3a7eab5df6fc20d6327725075ad5590c1ba3a7d3f785f536a84c62df14e8fed",
+      "matches_manifest": true
+    },
+    "native_context_runtime.py": {
+      "sha256": "01a0cc1d1c5ee1718333b7eca2af9dcbbd4d835d6800266cc440c403b9610874",
+      "matches_manifest": true
+    },
+    "native_context_snapshot_entry.py": {
+      "sha256": "658f0961b0752ba3058ec096a811c608caeb57ba192d4a5e3b12b9eefaed9ecd",
+      "matches_manifest": true
+    },
+    "native_context_worker.py": {
+      "sha256": "2454b269d175add8f37095f6f8a28037686830c141eca4dc4d735d1d5d6848dc",
+      "matches_manifest": true
+    },
+    "native_customer_context_adapter.py": {
+      "sha256": "7607a8a1f81e0fe5dc922e40f1f42e1f30db24d9ee0e12066637a2fb4546223c",
+      "matches_manifest": true
+    },
+    "public_response_composition_candidate.py": {
+      "sha256": "fe9bc7ccd03fc6f7377a9520da1a7700446d78212165c8d47a0fe6721f9585e5",
+      "matches_manifest": true
+    },
+    "renderer/forge.json": {
+      "sha256": "b304cf12a466b67c5ab1c9b0fffcfc689cceeaad6ca98f90f298f2d3b1b77b9c",
+      "matches_manifest": true
+    },
+    "renderer/logic.py": {
+      "sha256": "d6c78d2ba0b9db6023c9657c7878a927dd919b41adaca9b912580b56693bda2b",
+      "matches_manifest": true
+    },
+    "renderer/permission.yml": {
+      "sha256": "4e65cf13d7c57bdecaf9f729a3f99507c11dd3d44f1691ebd33c842603f72cb4",
+      "matches_manifest": true
+    },
+    "renderer/test.py": {
+      "sha256": "eac885c0e91b0480be05bfcf6ef79c82e93e8b3f3447aaba542e9d9a10b31696",
+      "matches_manifest": true
+    },
+    "request_bound_public_response_adapter.py": {
+      "sha256": "81a58c4acc13603ee1386280e64d5266299ba9bc1f9e070bab50215d94c98e2f",
+      "matches_manifest": true
+    }
+  },
+  "manifested_file_count": 24,
+  "total_package_with_manifest": 25,
+  "all_manifested_bytes_match": true,
+  "official_SDK_files": {
+    "LICENSE": {
+      "sha256": "1d3d88f12b97e582378489859b15d81221931930f2e20afc7de82aae416cdbc3",
+      "upstream_git_blob_matches": true
+    },
+    "agent_kit.py": {
+      "sha256": "38fb94c22187db7b40e16a56a1fd2ffadbb94e15f2e28307d5ba04eeb4144f8a",
+      "upstream_git_blob_matches": true
+    },
+    "cli_model.py": {
+      "sha256": "16de5e99404dd0513b83aa6797bf9b06b4fd5e959acde3654be281c2af4eb7a2",
+      "upstream_git_blob_matches": true
+    },
+    "forge_runner.py": {
+      "sha256": "004aa4bc7ce08bc7ff940ff3e914ab8b9edb64b00ef23b309f8f4043707b99b7",
+      "upstream_git_blob_matches": true
+    },
+    "market_kit.py": {
+      "sha256": "92adb4bf8c6f303f20306018c644552d8299a93fc066dad2a4f4fb3154a78f3f",
+      "upstream_git_blob_matches": true
+    },
+    "maroo.py": {
+      "sha256": "973a1065d9f5b03d247b2b152424dd6d7f2ce18758ecf4603bf7bcde45862302",
+      "upstream_git_blob_matches": true
+    },
+    "miniapp.py": {
+      "sha256": "7d0838a8dc647a201bb353a63658ecb0e268415d1d15ab1965c8835d0e3f6868",
+      "upstream_git_blob_matches": true
+    }
+  },
+  "official_SDK_all_upstream_match": true,
+  "A2A_library_version": "1.3.1",
+  "actual_launcher_sha256": "42eefbb275f816b5f0ad78229bc4bef76f148acf86faeccf3f46b9b175289e9d",
+  "cutover_records_sha256": {
+    "public-endpoint-probe.json": "ce3310b4220219cf71c31d89c38b3621f3e21bb017a17039a907f951ffeaa323",
+    "local-registry-verification.json": "f52725d454f7c2f2c236daaf5b84393444ce0762d8ace00af089c63b6654ceb1",
+    "launcher-check.json": "2bd8cac850203d7c6dec23fafa51da22cc6b65931cafa07dd3b8e8b865af6f8f"
+  },
+  "original_trace_sha256": "3e992bf6b84c23c1d5e0652ff431cd9f1f9540053acf9c49ddabcd1f519278c7",
+  "original_trace_hash_is_capture_time_only": "Trace remains live/append-only; this digest is the verifier capture, not an immutable future digest. Matched-group evidence derived locally, no full trace exported.",
+  "latest_cache_read_for_verification": false,
+  "actual_wallet_keys_or_DB_read_for_verification": false,
+  "DB_or_wallet_copied": false,
+  "raw_original_reason_customer_or_reply_exported": false,
+  "source_runtime_change_performed": false,
+  "matched_original_trace_group_sha256": "41f8d9e638d8688546410e8c35569eae07189cae4fcc79b354a912c8a49d1de7",
+  "matched_group_records": 5,
+  "match_method": "Exact synthetic probe question plus customer timestamp inside recorded public HTTP request interval; opaque reference stays private"
+}
