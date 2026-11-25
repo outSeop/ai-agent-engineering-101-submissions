@@ -1,0 +1,10 @@
+name: apply_staged_card
+description: 검증된 outseop-r4 카드 변경안을 적용하거나 승인된 원본으로 롤백한다. args는 {op:'apply'|'rollback',record_id:<SHA256>}이다. v1의 호스트 권한, 원본·재조회 뷰, 이벤트, 인계 계약을 유지한다. stage v1의 선두 상품 블록, 기존 소개와 구매 안내의 원문, 공개 정책 skills를 검증한다.
+permission:
+  write: [card.json, card_publication]
+  pay_limit: 0
+  timeout: 30
+logic: logic.py
+test: test.py
+version: 2
+replaces: apply_staged_card@1
