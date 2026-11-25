@@ -1,0 +1,105 @@
+{
+  "candidate": "refund_complete_legacy",
+  "version": 2,
+  "logic_sha256": "0a320efd65304809d55c1e6e1c787e2209f3afac63628520d13405f750005f7d",
+  "summary": {
+    "source_sha256": "0a320efd65304809d55c1e6e1c787e2209f3afac63628520d13405f750005f7d",
+    "tests": 19,
+    "failures": 11,
+    "errors": 0,
+    "failed_tests": [
+      "test_actual_schema_baseline_and_idempotence",
+      "test_atomic_rollback_each_write_phase (table='refund')",
+      "test_atomic_rollback_each_write_phase (table='sale')",
+      "test_atomic_rollback_each_write_phase (table='refund_completion')",
+      "test_consumed_earned_debt_immediately_offset",
+      "test_official_toolbox_call_host_confirmation_wired",
+      "test_paid_non_delivery_held_spend_accepted",
+      "test_paid_non_delivery_held_ticket_released",
+      "test_promotion_loss_state_refunded_amount_preserved",
+      "test_two_concurrent_calls_once",
+      "test_unrelated_customer_and_stock_rows_preserved"
+    ],
+    "error_tests": [],
+    "synthetic_only": true,
+    "real_payments": 0,
+    "network_allowed": false,
+    "kit_testing_bypass": false,
+    "operational_readiness": false
+  },
+  "counts_interpretation": {
+    "test_methods": 19,
+    "passing_methods": 10,
+    "failing_methods": 9,
+    "unittest_failure_entries": 11,
+    "harness_errors": 0,
+    "rollback_failing_subcases": 3
+  },
+  "official_toolbox_selftest_ok": true,
+  "v1_gap_resolution": [
+    {
+      "gap": "official Toolbox confirmation transport",
+      "status": "transport changed to fixed path; complete call still fails on unchanged legacy schema",
+      "official_result": "completion_blocked"
+    },
+    {
+      "gap": "held allocations",
+      "status": "held recognized in source but actual fixture still blocked by absent debt table; end-to-end fix unproven"
+    },
+    {
+      "gap": "consumed earned-point debt",
+      "status": "not resolved; requires nonexistent debt table and models independent debt balance instead of actual derived debt/offset contract"
+    },
+    {
+      "gap": "held ticket release",
+      "status": "not resolved; SELECT ticket WHERE id fails because actual key is key; source also assumes missing held reference and unsupported available/open release states"
+    },
+    {
+      "gap": "promotion loss state",
+      "status": "source includes target refunded transition with amount preservation; normal actual-schema completion cannot reach it because debt failure; end-to-end fix unproven"
+    }
+  ],
+  "confirmed_unchanged_schema_errors": [
+    "no such table: debt",
+    "no such column: id"
+  ],
+  "write_stage_rollback": {
+    "allocation": "injected write phase reached; rollback verified",
+    "lot": "injected write phase reached; rollback verified",
+    "refund": "not reached due earlier debt-table failure",
+    "sale": "not reached due earlier debt-table failure",
+    "refund_completion": "not reached due earlier debt-table failure"
+  },
+  "gating_probes": {
+    "requested_with_host_row": {
+      "status": "evidence_mismatch",
+      "unchanged": true
+    },
+    "pending_without_host_confirmation": {
+      "status": "confirmation_required",
+      "unchanged": true
+    },
+    "payee_mismatch_even_with_bound_snapshot": {
+      "status": "evidence_mismatch",
+      "unchanged": true
+    }
+  },
+  "trust_limitations": [
+    "Completion trusts host confirmation file; successful canonical receipt verifier and prior model approval publication flow remain outside this candidate and were not supplied as an integrated host adapter.",
+    "No claim that a synthetic confirmation row demonstrates real chain success or operational readiness.",
+    "No successful v2 actual-schema completion means successful-state unrelated-rights preservation, idempotence and concurrency remain unverified; blocked calls roll back."
+  ],
+  "model_repair_metadata": "actual-legacy-interface-metadata.json",
+  "scope": {
+    "production_db_read": false,
+    "production_writes": false,
+    "business_source_changed": false,
+    "network_calls": 0,
+    "real_payments": 0,
+    "new_debt_table_added": false,
+    "kit_testing_bypass": false,
+    "operational_readiness": false
+  },
+  "first_attempt_preserved": true,
+  "harness_correction": "First v2 direct selftest fakeKit lacked address/name; added those standard identity methods only. Later rollback tests explicitly require their injected write phase to be reached."
+}

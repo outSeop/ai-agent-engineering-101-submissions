@@ -1,0 +1,25 @@
+{
+  "source_sha256": "0a320efd65304809d55c1e6e1c787e2209f3afac63628520d13405f750005f7d",
+  "tests": 19,
+  "failures": 11,
+  "errors": 0,
+  "failed_tests": [
+    "test_actual_schema_baseline_and_idempotence",
+    "test_atomic_rollback_each_write_phase (table='refund')",
+    "test_atomic_rollback_each_write_phase (table='sale')",
+    "test_atomic_rollback_each_write_phase (table='refund_completion')",
+    "test_consumed_earned_debt_immediately_offset",
+    "test_official_toolbox_call_host_confirmation_wired",
+    "test_paid_non_delivery_held_spend_accepted",
+    "test_paid_non_delivery_held_ticket_released",
+    "test_promotion_loss_state_refunded_amount_preserved",
+    "test_two_concurrent_calls_once",
+    "test_unrelated_customer_and_stock_rows_preserved"
+  ],
+  "error_tests": [],
+  "synthetic_only": true,
+  "real_payments": 0,
+  "network_allowed": false,
+  "kit_testing_bypass": false,
+  "operational_readiness": false
+}

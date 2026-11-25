@@ -1,0 +1,29 @@
+{
+  "historical_fixture_dependencies": {
+    "legacy_refund_fixture.py": "3f765fc9201b325accbc1a7ed92d9b2fc71cfb6df4183c0f2238a015ba7be386",
+    "fixture.py": "3583926d5154ede9bbc6330103930967b452c04546a19a6078864abfe931b012",
+    "dispatcher.py": "8fe390ab5b8f68cbde3a06b942843aeaa2cdd592338932baa765460dda7e990b",
+    "price_policy.py": "6e101702c38d47b3f2c68c860dc0198fd1d7557e311c2753dc4a71fed127118f",
+    "procurement.py": "43e928c2f72cb8ec0f9c77d570f29936c5d9e0171324918b459819dd4b9f1db0"
+  },
+  "official_host_files": {
+    "agent_kit.py": "38fb94c22187db7b40e16a56a1fd2ffadbb94e15f2e28307d5ba04eeb4144f8a",
+    "forge_runner.py": "004aa4bc7ce08bc7ff940ff3e914ab8b9edb64b00ef23b309f8f4043707b99b7"
+  },
+  "dependency_sources_included": false,
+  "reason": "Dependencies are already tracked elsewhere in this submission. Historical staging source bytes differ for dispatcher/procurement, while all 25 table/column/CHECK/FK/index contracts are identical.",
+  "tracked_dependency_paths": {
+    "dispatcher.py": "submissions/26510122/round-4/codex-r4/dispatcher.py",
+    "price_policy.py": "submissions/26510122/round-4/codex-r4/price_policy.py",
+    "procurement.py": "submissions/26510122/round-4/codex-r4/procurement.py",
+    "fixture.py": "submissions/26510122/round-4/codex-r4/fixture.py"
+  },
+  "tracked_dependency_sha256": {
+    "dispatcher.py": "84e0eca3a0211e80772ed78f2ba3c166902ba0125577e7153b06cc5bb13de0cd",
+    "price_policy.py": "6e101702c38d47b3f2c68c860dc0198fd1d7557e311c2753dc4a71fed127118f",
+    "procurement.py": "675bdaa2942f7bdf3d119d10c6e1176f790ae0bacbb22a32cf77ae82de0628c6",
+    "fixture.py": "3583926d5154ede9bbc6330103930967b452c04546a19a6078864abfe931b012"
+  },
+  "shared_fixture_helper_path": "submissions/26510122/r4-operator/evidence/20261125-self-forge/qa/legacy_refund_fixture.py",
+  "shared_fixture_helper_sha256": "3f765fc9201b325accbc1a7ed92d9b2fc71cfb6df4183c0f2238a015ba7be386"
+}

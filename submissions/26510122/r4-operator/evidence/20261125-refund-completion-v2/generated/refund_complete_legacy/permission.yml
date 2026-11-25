@@ -1,0 +1,11 @@
+name: refund_complete_legacy
+description: args: {case_id: 익명 사건 참조}. 기존 장부에 저장된 환불 해시의 호스트 확정 증빙을 대조해 원자적으로 완료하고 혜택을 역분개한다. 호스트는 정확한 정규 영수증을 확인한 뒤 state/r4-benefits/refund-confirmations.sqlite3을 저널 없는 독립 SQLite 파일로 닫고 원자 게시한다. 도구는 고정 경로를 읽기 전용으로 열며 호스트가 이 파일의 쓰기 주체를 통제해야 한다. 계약은 refund_receipt_confirmation(case_id PRIMARY KEY,sale_id,tx,snapshot), snapshot은 SHA256(kit.canon({sale: 전체행,refund: 전체행}))이다. 가상 테스트의 채무 계약은 debt(owner PRIMARY KEY,amount)이고 대기권 계약은 ticket(id,owner,held,used) 또는 코드가 명시한 상태형 변형이다. 공식 Toolbox.call과 운영 스키마의 독립 대조가 남아 있다.
+permission:
+  write: [state/r4-benefits/benefits.sqlite3, state/r4-benefits/benefits.sqlite3-journal, state/r4-benefits/benefits.sqlite3-wal, state/r4-benefits/benefits.sqlite3-shm]
+  identity: [shop]
+  pay_limit: 0
+  timeout: 30
+logic: logic.py
+test: test.py
+version: 2
+replaces: refund_complete_legacy@1

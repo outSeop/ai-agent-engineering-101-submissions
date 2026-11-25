@@ -1,0 +1,25 @@
+{
+  "table_count_staged": 25,
+  "table_count_tracked": 25,
+  "all_table_ddl_check_columns_foreign_keys_indices_identical": true,
+  "different_table_names": [],
+  "staged_source_sha256": {
+    "dispatcher.py": "8fe390ab5b8f68cbde3a06b942843aeaa2cdd592338932baa765460dda7e990b",
+    "price_policy.py": "6e101702c38d47b3f2c68c860dc0198fd1d7557e311c2753dc4a71fed127118f",
+    "procurement.py": "43e928c2f72cb8ec0f9c77d570f29936c5d9e0171324918b459819dd4b9f1db0"
+  },
+  "tracked_source_sha256": {
+    "dispatcher.py": "84e0eca3a0211e80772ed78f2ba3c166902ba0125577e7153b06cc5bb13de0cd",
+    "price_policy.py": "6e101702c38d47b3f2c68c860dc0198fd1d7557e311c2753dc4a71fed127118f",
+    "procurement.py": "675bdaa2942f7bdf3d119d10c6e1176f790ae0bacbb22a32cf77ae82de0628c6"
+  },
+  "source_bytes_identical": {
+    "dispatcher.py": false,
+    "price_policy.py": true,
+    "procurement.py": false
+  },
+  "staged_metadata_sha256": "47b4764b8d95be89a6a1db550cc7ae9a402627e9120901c9c10bea25bc45e1b4",
+  "tracked_metadata_sha256": "47b4764b8d95be89a6a1db550cc7ae9a402627e9120901c9c10bea25bc45e1b4",
+  "production_rows_read": false,
+  "only_in_memory_schema_creation": true
+}

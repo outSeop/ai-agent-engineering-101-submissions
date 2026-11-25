@@ -1,0 +1,146 @@
+test_actual_schema_baseline_and_idempotence (independent_qa_original.CompletionQA.test_actual_schema_baseline_and_idempotence) ... FAIL
+test_atomic_rollback_each_write_phase (independent_qa_original.CompletionQA.test_atomic_rollback_each_write_phase) ... 
+  test_atomic_rollback_each_write_phase (independent_qa_original.CompletionQA.test_atomic_rollback_each_write_phase) (table='refund') ... FAIL
+  test_atomic_rollback_each_write_phase (independent_qa_original.CompletionQA.test_atomic_rollback_each_write_phase) (table='sale') ... FAIL
+  test_atomic_rollback_each_write_phase (independent_qa_original.CompletionQA.test_atomic_rollback_each_write_phase) (table='refund_completion') ... FAIL
+test_case_binding (independent_qa_original.CompletionQA.test_case_binding) ... ok
+test_confirmation_absent (independent_qa_original.CompletionQA.test_confirmation_absent) ... ok
+test_consumed_earned_debt_immediately_offset (independent_qa_original.CompletionQA.test_consumed_earned_debt_immediately_offset) ... FAIL
+test_identity_mismatch (independent_qa_original.CompletionQA.test_identity_mismatch) ... ok
+test_invalid_allocation_owner_blocks_atomically (independent_qa_original.CompletionQA.test_invalid_allocation_owner_blocks_atomically) ... ok
+test_known_outgoing_required (independent_qa_original.CompletionQA.test_known_outgoing_required) ... ok
+test_manifest_and_original_selftest (independent_qa_original.CompletionQA.test_manifest_and_original_selftest) ... ok
+test_mismatched_confirmation_tx (independent_qa_original.CompletionQA.test_mismatched_confirmation_tx) ... ok
+test_official_toolbox_call_host_confirmation_wired (independent_qa_original.CompletionQA.test_official_toolbox_call_host_confirmation_wired) ... 09:53:31 [forge] loaded 1 tools: refund_complete_legacy
+FAIL
+test_paid_non_delivery_held_spend_accepted (independent_qa_original.CompletionQA.test_paid_non_delivery_held_spend_accepted) ... FAIL
+test_paid_non_delivery_held_ticket_released (independent_qa_original.CompletionQA.test_paid_non_delivery_held_ticket_released) ... FAIL
+test_promotion_loss_state_refunded_amount_preserved (independent_qa_original.CompletionQA.test_promotion_loss_state_refunded_amount_preserved) ... FAIL
+test_rejects_caller_flags_without_mutation (independent_qa_original.CompletionQA.test_rejects_caller_flags_without_mutation) ... ok
+test_stale_snapshot_rejected (independent_qa_original.CompletionQA.test_stale_snapshot_rejected) ... ok
+test_symlink_host_db_rejected (independent_qa_original.CompletionQA.test_symlink_host_db_rejected) ... ok
+test_two_concurrent_calls_once (independent_qa_original.CompletionQA.test_two_concurrent_calls_once) ... FAIL
+test_unrelated_customer_and_stock_rows_preserved (independent_qa_original.CompletionQA.test_unrelated_customer_and_stock_rows_preserved) ... FAIL
+
+======================================================================
+FAIL: test_actual_schema_baseline_and_idempotence (independent_qa_original.CompletionQA.test_actual_schema_baseline_and_idempotence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/evidence/20261125-refund-completion-v2/qa/qa_refund_complete_legacy_v2.py", line 85, in test_actual_schema_baseline_and_idempotence
+    self.assertEqual(s.run({'case_id':CASE},s.f.kit),{'status':'completed'})
+AssertionError: {'status': 'completion_blocked'} != {'status': 'completed'}
+- {'status': 'completion_blocked'}
+?                    ---------
+
++ {'status': 'completed'}
+
+======================================================================
+FAIL: test_atomic_rollback_each_write_phase (independent_qa_original.CompletionQA.test_atomic_rollback_each_write_phase) (table='refund')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/evidence/20261125-refund-completion-v2/qa/qa_refund_complete_legacy_v2.py", line 162, in test_atomic_rollback_each_write_phase
+    self.assertTrue(any(sql.upper().startswith(intended.upper()) for sql in traced),'EXPECTED_WRITE_PHASE_NOT_REACHED_'+table)
+AssertionError: False is not true : EXPECTED_WRITE_PHASE_NOT_REACHED_refund
+
+======================================================================
+FAIL: test_atomic_rollback_each_write_phase (independent_qa_original.CompletionQA.test_atomic_rollback_each_write_phase) (table='sale')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/evidence/20261125-refund-completion-v2/qa/qa_refund_complete_legacy_v2.py", line 162, in test_atomic_rollback_each_write_phase
+    self.assertTrue(any(sql.upper().startswith(intended.upper()) for sql in traced),'EXPECTED_WRITE_PHASE_NOT_REACHED_'+table)
+AssertionError: False is not true : EXPECTED_WRITE_PHASE_NOT_REACHED_sale
+
+======================================================================
+FAIL: test_atomic_rollback_each_write_phase (independent_qa_original.CompletionQA.test_atomic_rollback_each_write_phase) (table='refund_completion')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/evidence/20261125-refund-completion-v2/qa/qa_refund_complete_legacy_v2.py", line 162, in test_atomic_rollback_each_write_phase
+    self.assertTrue(any(sql.upper().startswith(intended.upper()) for sql in traced),'EXPECTED_WRITE_PHASE_NOT_REACHED_'+table)
+AssertionError: False is not true : EXPECTED_WRITE_PHASE_NOT_REACHED_refund_completion
+
+======================================================================
+FAIL: test_consumed_earned_debt_immediately_offset (independent_qa_original.CompletionQA.test_consumed_earned_debt_immediately_offset)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/evidence/20261125-refund-completion-v2/qa/qa_refund_complete_legacy_v2.py", line 187, in test_consumed_earned_debt_immediately_offset
+    self.assertEqual(s.run({'case_id':CASE},s.f.kit)['status'],'completed')
+AssertionError: 'completion_blocked' != 'completed'
+- completion_blocked
++ completed
+
+
+======================================================================
+FAIL: test_official_toolbox_call_host_confirmation_wired (independent_qa_original.CompletionQA.test_official_toolbox_call_host_confirmation_wired)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/evidence/20261125-refund-completion-v2/qa/qa_refund_complete_legacy_v2.py", line 232, in test_official_toolbox_call_host_confirmation_wired
+    self.assertEqual(result,{'ok':True,'result':{'status':'completed'}},'OFFICIAL_TOOLBOX_MUST_COMPLETE_ACTUAL_LEGACY_SCHEMA')
+AssertionError: {'ok': True, 'result': {'status': 'completion_blocked'}} != {'ok': True, 'result': {'status': 'completed'}}
+- {'ok': True, 'result': {'status': 'completion_blocked'}}
+?                                           ---------
+
++ {'ok': True, 'result': {'status': 'completed'}} : OFFICIAL_TOOLBOX_MUST_COMPLETE_ACTUAL_LEGACY_SCHEMA
+
+======================================================================
+FAIL: test_paid_non_delivery_held_spend_accepted (independent_qa_original.CompletionQA.test_paid_non_delivery_held_spend_accepted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/evidence/20261125-refund-completion-v2/qa/qa_refund_complete_legacy_v2.py", line 178, in test_paid_non_delivery_held_spend_accepted
+    self.assertEqual(s.run({'case_id':CASE},s.f.kit)['status'],'completed','OLD_SCHEMA_HELD_ALLOCATION_MUST_COMPLETE')
+AssertionError: 'completion_blocked' != 'completed'
+- completion_blocked
++ completed
+ : OLD_SCHEMA_HELD_ALLOCATION_MUST_COMPLETE
+
+======================================================================
+FAIL: test_paid_non_delivery_held_ticket_released (independent_qa_original.CompletionQA.test_paid_non_delivery_held_ticket_released)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/evidence/20261125-refund-completion-v2/qa/qa_refund_complete_legacy_v2.py", line 242, in test_paid_non_delivery_held_ticket_released
+    self.assertEqual(s.run({'case_id':CASE},s.f.kit)['status'],'completed')
+AssertionError: 'completion_blocked' != 'completed'
+- completion_blocked
++ completed
+
+
+======================================================================
+FAIL: test_promotion_loss_state_refunded_amount_preserved (independent_qa_original.CompletionQA.test_promotion_loss_state_refunded_amount_preserved)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/evidence/20261125-refund-completion-v2/qa/qa_refund_complete_legacy_v2.py", line 199, in test_promotion_loss_state_refunded_amount_preserved
+    self.assertEqual(s.run({'case_id':CASE},s.f.kit)['status'],'completed')
+AssertionError: 'completion_blocked' != 'completed'
+- completion_blocked
++ completed
+
+
+======================================================================
+FAIL: test_two_concurrent_calls_once (independent_qa_original.CompletionQA.test_two_concurrent_calls_once)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/evidence/20261125-refund-completion-v2/qa/qa_refund_complete_legacy_v2.py", line 170, in test_two_concurrent_calls_once
+    self.assertEqual(sorted(x.result()['status'] for x in futures),['already_completed','completed'])
+AssertionError: Lists differ: ['completion_blocked', 'completion_blocked'] != ['already_completed', 'completed']
+
+First differing element 0:
+'completion_blocked'
+'already_completed'
+
+- ['completion_blocked', 'completion_blocked']
++ ['already_completed', 'completed']
+
+======================================================================
+FAIL: test_unrelated_customer_and_stock_rows_preserved (independent_qa_original.CompletionQA.test_unrelated_customer_and_stock_rows_preserved)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/evidence/20261125-refund-completion-v2/qa/qa_refund_complete_legacy_v2.py", line 213, in test_unrelated_customer_and_stock_rows_preserved
+    self.assertEqual(s.run({'case_id':CASE},s.f.kit)['status'],'completed')
+AssertionError: 'completion_blocked' != 'completed'
+- completion_blocked
++ completed
+
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.830s
+
+FAILED (failures=11)

@@ -1,0 +1,14 @@
+{
+  "requested_with_host_row": {
+    "status": "evidence_mismatch",
+    "unchanged": true
+  },
+  "pending_without_host_confirmation": {
+    "status": "confirmation_required",
+    "unchanged": true
+  },
+  "payee_mismatch_even_with_bound_snapshot": {
+    "status": "evidence_mismatch",
+    "unchanged": true
+  }
+}
