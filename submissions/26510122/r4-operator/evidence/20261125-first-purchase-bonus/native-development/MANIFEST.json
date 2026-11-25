@@ -1,0 +1,23 @@
+{
+  "file_sha256": {
+    "derived-provenance.json": "315dc831dde7745dd574ed208e6e9b22536492b3a548266ae66475ebf4523f1d",
+    "official-forge-events-safe.jsonl": "608f82fd6a2af1f01399471a7e7fe0de3bde1203f7461a003bf203f267e43787",
+    "sources/v1/tools/first_purchase_bonus/forge.json": "867f2a0bbd78cbc807df0519e1735ad0b3d1cf4c9e771742e8030d6ebb39e6bb",
+    "sources/v1/tools/first_purchase_bonus/logic.py": "287150a7bbbcc2999ba170a949c0285f87e19c3ee3ab3c76410a976e4d7b1b2e",
+    "sources/v1/tools/first_purchase_bonus/permission.yml": "403ecaec8914232d453de37c45041c5b6870fef0dfca6dfdd674319080441a4a",
+    "sources/v1/tools/first_purchase_bonus/test.py": "52d8f6f8d12eb68790191a529ff7a0382b8f7c763195741d5e714fc12ac07ac7",
+    "sources/v2/tools/first_purchase_bonus/forge.json": "6128e16824e72fda733f7caf61db78a05cac8210329b8bab4a94978999b1f111",
+    "sources/v2/tools/first_purchase_bonus/logic.py": "6c00b7f04600dec2018d7480a29df251783e4fc2a4048787c00346e03f79a320",
+    "sources/v2/tools/first_purchase_bonus/permission.yml": "4a03122f04d864dd2cf6ffef3c7b113e9d4313eaa21d7db7ac9dee521dae9af5",
+    "sources/v2/tools/first_purchase_bonus/test.py": "711d5967314d7d5b76b2a8f097c4722315bf3bff6a5bfa81178cc18cc5daa749",
+    "sources/v3/tools/first_purchase_bonus/forge.json": "cd096db0577b5b367ca1471b8b034aec76891bd359cf63181ec78969e0445765",
+    "sources/v3/tools/first_purchase_bonus/logic.py": "fe069650a6feb115d957a423b6b0f3816b1b70f3a4bb44953a4f1a73280f21d4",
+    "sources/v3/tools/first_purchase_bonus/permission.yml": "6342f284e9a17b52d51e6d6562ecff8e9e2c8b6f054f8bca81a5b88f04b96120",
+    "sources/v3/tools/first_purchase_bonus/test.py": "fb41fb06575ac81bc379c176780664905982094841b9bf52995cb825023bf651",
+    "sources/v4/tools/first_purchase_bonus/forge.json": "7610eff7384e7cf09ac1497c185de8b5471df3c2a596cd4632e339a660e19a6e",
+    "sources/v4/tools/first_purchase_bonus/logic.py": "0ac466eb47f8a237829ae034dab949b964c372dc4327591ce92a07b965902887",
+    "sources/v4/tools/first_purchase_bonus/permission.yml": "cfd251fd481d8705400fda25e115f846de6bd0f024af469793451f54e8c0cf3f",
+    "sources/v4/tools/first_purchase_bonus/test.py": "4e96436705fb98cde7a812f2981d0e131a6abcf02b6f2ed464e864bf2c632102"
+  },
+  "source_count": 4
+}

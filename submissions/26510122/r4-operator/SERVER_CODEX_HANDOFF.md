@@ -1,3 +1,15 @@
+## 2026-11-25 20:32 KST — 첫 구매 추가 적립 활성화·홍보 재개
+
+- 사용자 승인: 포럼 적극 홍보, 이후 선택은 즉시할인 대신 첫 구매 정상 정산·인도 후 기존1%에 추가5% 적립. 검증된 송금 지갑당 글로벌1회, 1회최대5000, 평생총예산50000, 11월 25일 20:32:49~11월 28일 20:32:49 KST(72시간), 7일안 다음 거래 사용. 새 권리코드·정책 이름 변경·환불로 자격/예산을 초기화하지 않는다.
+- 활성 native tool: first_purchase_bonus genuine4, logic0ac466eb47f8a237829ae034dab949b964c372dc4327591ce92a07b965902887, forge7610eff7384e7cf09ac1497c185de8b5471df3c2a596cd4632e339a660e19a6e. official Mind/development CLI actualforge/SDK selftest + independent13/13. 외부host 연결만작성. 이전v1/v2/v3와실패본은private生成/QA로그에보존해제출증거별도정리중이다.
+- 배포: deploy/first_purchase_bonus_runtime_v4 manifest d4a44bcbdbde0db5540b00c32734b66575de9ee1eac82823a3c3bc08c2ab89d1은동결빌드기록(production_activated=false필드는빌드당시정보,실제활성여부는아래설정/영수증을볼것). 원genuine4파일은round-4/tools/first_purchase_bonus. worker_bootstrap/refund_admin은사업코드불변 optional after_sync만연결, 새3host파일은codex-r4내에있다.
+- 기존 worker 서비스 drop-in 90-first-purchase-bonus.conf가 --first-purchase-bonus <round-4>/.kit/first-purchase-bonus-activation.json을사용. initial_event_cursor=0/tool_version4. policy파일 state/r4-benefits/first-purchase-bonus-policy.json enabled=true. main은재시작하지않았고 worker만의도적으로1회 stop/start했다. 추가고객권한/키/송금권한없다.
+- 운영무지갑SDK 빈호출 idle, 실제빈 committed-event feed processed0/deferredfalse 확인. 기존DBinode/지갑해시/메인URL/장부유지, 실제sale0/lot0이라 실고객지급성공을주장하지않는다. 보너스는기존lot에더하고원기한을유지하며환불시원래whole-lot revoke/debt기구를사용한다. 환불QA는합성확정행을이용한장부호환성증거이며실제환불승인/송금통합완료는아니다.
+- 포럼 새게시1989(두부300g C1936),2079(유정란40구 C8198),2152은public/원장확인완료. 홍보host deploy/forum_campaign_operator.py SHA65d4a1e390e2fcac0f424d459562673bd06097105eeefbfa28e8acba17a83c54, 실제수업SDK Mind.run_once 경로다. 직접 Model.complete 이전실패403 not_the_kit를보존했다. legacy forum_marketing@5는외부작성원본재사용임을정직하게기록한다.
+- 새 heartbeat r4-3는10분간격포럼홍보(회당1최대, 원330/600초+중복/unknown제한). r4-2는15분간격읽기전용상태점검이며기존r4자동개선은PAUSED다. 홍보직후19:45/46 구매문의+후속질문한대화가있었고정산0, 광고인과/고객2명으로세지않는다.
+- 아직진행중: native 첫구매혜택공지도구(검증전공개0), 상품명/원포장수량/실동작구매CTA가빠진 public_catalogue@2를같은actualMind가수정중. 현재main release는아직public_catalogue_runtime_v2다. native3에서브랜드대괄호이름제외버그와CTA부족을찾아미배포로보존하고native4생성중. 새업데이트를조회전체/결제전체정상으로과장하지말것.
+- 비공개복구원본: /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/first-bonus-cutover-1795606293. DB를rollback하지말고코드/설정만복구할것. 지급된lot/welcome_award/커서/판매JWT를삭제하지않는다.
+
 ## 2026-11-25 18:39 KST — 공개 조회를 단일 도구로 전환
 
 - 현재 운영: `public_catalogue_runtime_v2`, manifest `e83ca0ac4493d7de4d50190f0bbadbb8f89fe89e74b82038dec30d82159e24db`; 설치 런처 SHA `51942f6842f5ef8999c0ed1a08e3e0598fe08486b6e13a650f15e4f450bab955`. 실제 운영 모델은 수업 market 모델이다. 기존 opt-in보다 `R4_ENABLE_PUBLIC_CATALOGUE=1`이 우선한다.

@@ -1,0 +1,14 @@
+{
+  "initial_v4_run": {
+    "core_passed": 12,
+    "total": 13,
+    "refund_case": "Verifier setup KeyError: missing synthetic shop address before refund business execution."
+  },
+  "correction": "Refund-only context supplies original fixture synthetic shop address; tokens empty, signer denies wallet/network/exec/handles. Business source unchanged.",
+  "refund_retest": {
+    "passed": 1,
+    "total": 1
+  },
+  "earlier_attempts": "Earlier NoWallet identity-grant verifier setup failure remains in private original log; no business failure claimed.",
+  "raw_logs_databases_customer_data_exported": false
+}

@@ -1,0 +1,22 @@
+{
+  "sha256": {
+    "source/logic.py": "0ac466eb47f8a237829ae034dab949b964c372dc4327591ce92a07b965902887",
+    "source/test.py": "4e96436705fb98cde7a812f2981d0e131a6abcf02b6f2ed464e864bf2c632102",
+    "source/permission.yml": "cfd251fd481d8705400fda25e115f846de6bd0f024af469793451f54e8c0cf3f",
+    "source/forge.json": "7610eff7384e7cf09ac1497c185de8b5471df3c2a596cd4632e339a660e19a6e",
+    "safe-results.json": "7e0b29fabfb11d41e0ba764f4b2e99ce0c383202b651e52d84a35fe1cb6b2a90",
+    "qa_first_purchase_bonus_v4.py": "83affc36e5f5e57da6af1f056b076b354c873cf94ee5196033f858e79ea39b25",
+    "first_purchase_bonus_qa_support.py": "cac784c6e1a6bdda7ad096e31168a536e17cc81958d10a2de65248c79fd1f21a",
+    "initial-setup-summary.json": "13b62634e16bedde0e3195af1b41fe5affaac58e9cdba26f44b30ad17109b248",
+    "source-authenticity.json": "bc565084628916d9c0b919b099ffd3864a512a8d0a608cb5de47344211c17305",
+    "README.md": "d0ca6dfb22f82143515cc88b20f8df39169e3813f7aab267b8a8e455e5286def"
+  },
+  "scan": {
+    "actual_credential_needles": 4,
+    "exact_matches": 0,
+    "pem_api_jwt_pattern_matches": 0,
+    "exceptions": 0
+  },
+  "genuine_exact4_byte_identity": true,
+  "raw_private_logs_exported": false
+}

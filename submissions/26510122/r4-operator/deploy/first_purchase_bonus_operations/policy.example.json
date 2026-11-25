@@ -1,0 +1,7 @@
+{
+  "enabled": false,
+  "id": "reviewed-first-purchase-extra5",
+  "start": 0,
+  "end": 259200,
+  "lifetime_budget": 50000
+}

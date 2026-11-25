@@ -1,0 +1,18 @@
+{
+  "file_sha256": {
+    "host/first_purchase_bonus_activation_host.py": "0263b84858e5ba3a07139bee4294fbd843ae4927512357e3c5a9634476160b77",
+    "host/first_purchase_bonus_feed_host.py": "894977bbd72a0b70b8c1a0f5119bee132120c1a778dde82c93853334c6d584e5",
+    "host/first_purchase_bonus_sdk_host.py": "20a00efd0dde245ca24382960265cd5e07ba28a4a2ea834357d04e5664e55390",
+    "host/refund_admin_first_purchase_bonus_hook_candidate.py": "d46e407fd51b1fc93d5abcee082e96ceb7391d9cde2af280644b1737934a6d81",
+    "host/worker_bootstrap_first_purchase_bonus_hook_candidate.py": "92cb6766146c8935a949db7851578f510b3d25006c81c7b685c06bf5c60a433e",
+    "tools/first_purchase_bonus/forge.json": "7610eff7384e7cf09ac1497c185de8b5471df3c2a596cd4632e339a660e19a6e",
+    "tools/first_purchase_bonus/logic.py": "0ac466eb47f8a237829ae034dab949b964c372dc4327591ce92a07b965902887",
+    "tools/first_purchase_bonus/permission.yml": "cfd251fd481d8705400fda25e115f846de6bd0f024af469793451f54e8c0cf3f",
+    "tools/first_purchase_bonus/test.py": "4e96436705fb98cde7a812f2981d0e131a6abcf02b6f2ed464e864bf2c632102"
+  },
+  "host_authorship": "external integration host only",
+  "production_activated": false,
+  "source_authorship": "genuine official Mind / development CLI GPT-6.2 Sol",
+  "tool": "first_purchase_bonus",
+  "tool_version": 4
+}

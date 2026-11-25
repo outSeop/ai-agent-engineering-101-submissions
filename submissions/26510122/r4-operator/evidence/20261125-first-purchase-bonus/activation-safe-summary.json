@@ -1,0 +1,21 @@
+{
+  "enabled": true,
+  "core_version": 4,
+  "policy": {
+    "enabled": true,
+    "id": "first-purchase-extra5-20261125",
+    "start": 1795606369,
+    "end": 1795865569,
+    "lifetime_budget": 50000
+  },
+  "live_keyless_empty_call": "idle",
+  "committed_event_feed_smoke": {
+    "processed": 0,
+    "deferred": false
+  },
+  "original_database_inode_preserved": true,
+  "wallet_hashes_preserved": true,
+  "new_customer_permission": false,
+  "main_restarted": false,
+  "actual_customer_awards": 0
+}

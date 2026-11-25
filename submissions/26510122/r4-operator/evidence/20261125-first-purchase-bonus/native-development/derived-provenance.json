@@ -1,0 +1,64 @@
+{
+  "development_provider": "codex-cli-gpt-6.2-sol",
+  "existing_keys_loaded": false,
+  "existing_ledger_copied": false,
+  "official_mind": true,
+  "official_toolbox_native_forge": true,
+  "operator_runtime_provenance_separate": true,
+  "pattern_scan": "passed for exact frozen source bytes",
+  "private_original_forge_sha256": "adc72ff935e4d69cae8fa93ac0c2832a154f10ed013698a6b9e94b3e3bde3779",
+  "private_original_model_capture_sha256": "a1dd6c03a274b61d0c753fdd974481671b3dae21f6e2794d36ff32fb48dcdff4",
+  "private_original_react_sha256": "cb75e14dec2358257c0d590869f2637038b0ab6e88a2223c0aa42418f1fbd44f",
+  "provider_reported_model": null,
+  "real_tool_token_present": false,
+  "sources": [
+    {
+      "file_sha256": {
+        "forge.json": "867f2a0bbd78cbc807df0519e1735ad0b3d1cf4c9e771742e8030d6ebb39e6bb",
+        "logic.py": "287150a7bbbcc2999ba170a949c0285f87e19c3ee3ab3c76410a976e4d7b1b2e",
+        "permission.yml": "403ecaec8914232d453de37c45041c5b6870fef0dfca6dfdd674319080441a4a",
+        "test.py": "52d8f6f8d12eb68790191a529ff7a0382b8f7c763195741d5e714fc12ac07ac7"
+      },
+      "forged_at": 1795604096,
+      "official_selftest_passed": true,
+      "private_own_response_sha256": "01f79e1df3da2a442525c49bfcbded9654c5e58c97895cb05f66d6d6663879f8",
+      "version": 1
+    },
+    {
+      "file_sha256": {
+        "forge.json": "6128e16824e72fda733f7caf61db78a05cac8210329b8bab4a94978999b1f111",
+        "logic.py": "6c00b7f04600dec2018d7480a29df251783e4fc2a4048787c00346e03f79a320",
+        "permission.yml": "4a03122f04d864dd2cf6ffef3c7b113e9d4313eaa21d7db7ac9dee521dae9af5",
+        "test.py": "711d5967314d7d5b76b2a8f097c4722315bf3bff6a5bfa81178cc18cc5daa749"
+      },
+      "forged_at": 1795604389,
+      "official_selftest_passed": true,
+      "private_own_response_sha256": "57af8daa718b8633be4e6db530f3ee77ff805d0c90d87d9e1d6b2e0c5b829ada",
+      "version": 2
+    },
+    {
+      "file_sha256": {
+        "forge.json": "cd096db0577b5b367ca1471b8b034aec76891bd359cf63181ec78969e0445765",
+        "logic.py": "fe069650a6feb115d957a423b6b0f3816b1b70f3a4bb44953a4f1a73280f21d4",
+        "permission.yml": "6342f284e9a17b52d51e6d6562ecff8e9e2c8b6f054f8bca81a5b88f04b96120",
+        "test.py": "fb41fb06575ac81bc379c176780664905982094841b9bf52995cb825023bf651"
+      },
+      "forged_at": 1795604821,
+      "official_selftest_passed": true,
+      "private_own_response_sha256": "4874e1bb40d2b7b252800f83fdeef11203b2951df9ea8e5b7557295fb5aed842",
+      "version": 3
+    },
+    {
+      "file_sha256": {
+        "forge.json": "7610eff7384e7cf09ac1497c185de8b5471df3c2a596cd4632e339a660e19a6e",
+        "logic.py": "0ac466eb47f8a237829ae034dab949b964c372dc4327591ce92a07b965902887",
+        "permission.yml": "cfd251fd481d8705400fda25e115f846de6bd0f024af469793451f54e8c0cf3f",
+        "test.py": "4e96436705fb98cde7a812f2981d0e131a6abcf02b6f2ed464e864bf2c632102"
+      },
+      "forged_at": 1795605700,
+      "official_selftest_passed": true,
+      "private_own_response_sha256": "6cc4086a8986aeb5a83a8e3bf26a1d67eb3b858e2ce95b4e7cc812e1707e804c",
+      "version": 4
+    }
+  ]
+}

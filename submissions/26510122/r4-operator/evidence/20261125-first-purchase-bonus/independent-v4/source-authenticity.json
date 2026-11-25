@@ -1,0 +1,21 @@
+{
+  "source_exact4_original": true,
+  "source_sha256": {
+    "logic.py": "0ac466eb47f8a237829ae034dab949b964c372dc4327591ce92a07b965902887",
+    "test.py": "4e96436705fb98cde7a812f2981d0e131a6abcf02b6f2ed464e864bf2c632102",
+    "permission.yml": "cfd251fd481d8705400fda25e115f846de6bd0f024af469793451f54e8c0cf3f",
+    "forge.json": "7610eff7384e7cf09ac1497c185de8b5471df3c2a596cd4632e339a660e19a6e"
+  },
+  "forge_record_hash_map_verified": true,
+  "derived_origin": "Public business source is byte-for-byte immutable genuine official Mind forge output. Raw inference, ReAct and console remain private. Independent tests are external host validators.",
+  "qa_private_original_sha256": {
+    "qa_first_purchase_bonus_v4.py": "5fa4e5d2b5988dacd54c0fc92d8db5da4d276acf199869c69badfb439ed868ee",
+    "first_purchase_bonus_qa_support.py": "76872917b0f883fb0c6ea44ec629236bd88b154440868fef07d21b05c4cc5f16"
+  },
+  "qa_public_adaptations": [
+    "Explicit BONUS_QA_ROOT required, creates a fresh directory; source pinned to sibling source/.",
+    "Host support resolves existing operator and public refund-v3 source path; business source bytes unchanged."
+  ],
+  "production_ready_claim": false,
+  "qa_activity": "No Model call, real transaction, production DB/key/stock/service write, policy activation, deploy or commit by this verifier. Root activation was separate and is not QA proof."
+}

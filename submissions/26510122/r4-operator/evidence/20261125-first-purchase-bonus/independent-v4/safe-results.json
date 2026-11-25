@@ -1,0 +1,105 @@
+{
+  "method": "ordinary official Toolbox.run; original tracked dispatcher/Fixture; synthetic only",
+  "source_pins": {
+    "logic.py": "0ac466eb47f8a237829ae034dab949b964c372dc4327591ce92a07b965902887",
+    "test.py": "4e96436705fb98cde7a812f2981d0e131a6abcf02b6f2ed464e864bf2c632102",
+    "permission.yml": "cfd251fd481d8705400fda25e115f846de6bd0f024af469793451f54e8c0cf3f",
+    "forge.json": "7610eff7384e7cf09ac1497c185de8b5471df3c2a596cd4632e339a660e19a6e"
+  },
+  "total": 13,
+  "passed": 13,
+  "cases": [
+    {
+      "case": "first-real-expiry-idempotence",
+      "pass": true
+    },
+    {
+      "case": "missing-prior-proof",
+      "pass": true
+    },
+    {
+      "case": "contradictory-prior-proof",
+      "pass": true
+    },
+    {
+      "case": "prepolicy-returner",
+      "pass": true
+    },
+    {
+      "case": "never-settled-refund",
+      "pass": true
+    },
+    {
+      "case": "inactive-expired-policy-lot",
+      "pass": true
+    },
+    {
+      "case": "no-base-lot-floor",
+      "pass": true
+    },
+    {
+      "case": "event-order",
+      "pass": true
+    },
+    {
+      "case": "global-budget-concurrency-cap",
+      "pass": true
+    },
+    {
+      "case": "duplicate-concurrency",
+      "pass": true
+    },
+    {
+      "case": "afterlock-policy-revoke",
+      "pass": true
+    },
+    {
+      "case": "atomic-rollback",
+      "pass": true
+    },
+    {
+      "case": "full-lot-refund-debt-unrelated-owner",
+      "pass": true,
+      "retest": "refund-second-private.log; fixture synthetic shop address supplied; no tokens/key"
+    }
+  ],
+  "financial_real_calls": 0,
+  "model_calls": 0,
+  "production_modified": false,
+  "manual_testing_flag": false,
+  "refund_proof": "synthetic closed host confirmation; bookkeeping only, not operational receipt authority",
+  "initial_run": {
+    "passed": 12,
+    "total": 13,
+    "remaining": "verifier setup KeyError shop before refund business execution; original safe-results.json and log preserved"
+  },
+  "corrected_retest": {
+    "passed": 1,
+    "total": 1,
+    "scope": "refund bookkeeping only"
+  },
+  "limitations": [
+    "Refund receipt-confirmation row is synthetic host injection: tests bookkeeping, not real payment receipt or approval integration.",
+    "No actual worker deployment or policy activation occurred.",
+    "No manual kit.testing flags: ordinary official Toolbox.run."
+  ],
+  "sdk_source_sha256": {
+    "agent_kit.py": "38fb94c22187db7b40e16a56a1fd2ffadbb94e15f2e28307d5ba04eeb4144f8a",
+    "cli_model.py": "16de5e99404dd0513b83aa6797bf9b06b4fd5e959acde3654be281c2af4eb7a2",
+    "forge_runner.py": "004aa4bc7ce08bc7ff940ff3e914ab8b9edb64b00ef23b309f8f4043707b99b7",
+    "market_kit.py": "92adb4bf8c6f303f20306018c644552d8299a93fc066dad2a4f4fb3154a78f3f",
+    "maroo.py": "973a1065d9f5b03d247b2b152424dd6d7f2ce18758ecf4603bf7bcde45862302",
+    "miniapp.py": "7d0838a8dc647a201bb353a63658ecb0e268415d1d15ab1965c8835d0e3f6868"
+  },
+  "baseline_source_sha256": {
+    "dispatcher.py": "84e0eca3a0211e80772ed78f2ba3c166902ba0125577e7153b06cc5bb13de0cd",
+    "procurement.py": "675bdaa2942f7bdf3d119d10c6e1176f790ae0bacbb22a32cf77ae82de0628c6",
+    "fixture.py": "3583926d5154ede9bbc6330103930967b452c04546a19a6078864abfe931b012",
+    "price_policy.py": "6e101702c38d47b3f2c68c860dc0198fd1d7557e311c2753dc4a71fed127118f"
+  },
+  "genuine_origin": {
+    "forge_record_preserved": true,
+    "forge_hash_map_matches_exact3": true,
+    "generation": "official Mind forge; independent host verifier did not write business source"
+  }
+}

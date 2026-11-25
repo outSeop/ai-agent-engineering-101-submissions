@@ -1,0 +1,6 @@
+{"failure_summary": null, "passed": true, "tool": "first_purchase_bonus", "ts": 1795604096, "version": 1}
+{"failure_summary": null, "passed": true, "tool": "first_purchase_bonus", "ts": 1795604389, "version": 2}
+{"failure_summary": "synthetic temporary policy path outside permitted write scope", "passed": false, "tool": "first_purchase_bonus", "ts": 1795604680, "version": 3}
+{"failure_summary": null, "passed": true, "tool": "first_purchase_bonus", "ts": 1795604821, "version": 3}
+{"failure_summary": "expired synthetic purchase returned defer instead of ineligible", "passed": false, "tool": "first_purchase_bonus", "ts": 1795605538, "version": 4}
+{"failure_summary": null, "passed": true, "tool": "first_purchase_bonus", "ts": 1795605700, "version": 4}
