@@ -1,0 +1,38 @@
+{
+  "captured_KST": "2026-11-26T03:17:53.959131+09:00",
+  "original_wallet_key_bytes_and_inodes_same": true,
+  "original_DB_device_inode_same": true,
+  "database_quick_check": "ok",
+  "shop_name": "outseop-r4",
+  "registry_wallet_preserved": true,
+  "current_public_url": "https://skills-illustrated-stem-well.trycloudflare.com",
+  "public_card_http": 200,
+  "public_card_name_and_description_match_live_file": true,
+  "services_show": "Id=ourolabs-market-r4.service\nActiveState=active\nMainPID=1163962\nNRestarts=0\nMemoryCurrent=78503936\n\nId=ourolabs-market-r4-worker.service\nActiveState=active\nMainPID=1164045\nNRestarts=0\nMemoryCurrent=51261440\n",
+  "both_timers_active": true,
+  "cache_age_seconds": 64.96,
+  "cache_ttl_remaining_seconds": 85.04,
+  "procurement_states": [
+    [
+      "arrived",
+      174
+    ],
+    [
+      "no_purchase",
+      50
+    ]
+  ],
+  "sales_states": [],
+  "forum_states": [
+    [
+      "posted",
+      23
+    ]
+  ],
+  "actual_settlements_total": 0,
+  "broad_auto_improvement_remains_paused": true,
+  "readonly_monitor_and_bounded_forum_automations_active": true,
+  "development_proxy_closed": true,
+  "financial_and_refund_policy_changed": false,
+  "performance_improvement_claimed": false
+}

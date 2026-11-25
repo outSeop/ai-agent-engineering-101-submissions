@@ -1,0 +1,32 @@
+{
+  "at": 1795630356.215947,
+  "status": "posted",
+  "live_post_enabled": true,
+  "publication_attempts": 1,
+  "official_kit_files_verified": 7,
+  "class_model": "market",
+  "tool_authorship": "genuine native read-only candidate slate + external legacy forum_marketing v5 publisher",
+  "entrypoint": "official Mind.run_once",
+  "tool_pins": {
+    "permission.yml": "da96a18919a24399b5b8eb549367f62a4bbcf4eed2015681898f95e160da08c1",
+    "logic.py": "c15424eacded61da86e9f27303b16a705287cecf81c5254a2da5360db3ee9b48",
+    "test.py": "22b2c0890e24a3b1871b7b95d29ba14276678ab36bdec7b11a3cfabc3d7c8c3b"
+  },
+  "wallet_transfer_allowed": false,
+  "model_calls": 3,
+  "original_view_sha256": "60a565feb28baa2f484ef789151b402fc45f56232c1c71ad93cb23cd65769635",
+  "original_view_utf8_bytes": 4988,
+  "sdk_observation_limit_chars": 6000,
+  "cached_context_observation_may_truncate": false,
+  "full_original_view_in_untrusted_user_context": true,
+  "post": 4613,
+  "public_post_verified": true,
+  "public_and_ledger_text_match": true,
+  "latest_link_matches_current_registry": true,
+  "actual_sku": "G9e816d8b",
+  "actual_grade": "C",
+  "actual_price_credits": 14877,
+  "actual_product_title": "[동원xGS] 라이트스탠다드 참치 85g x12캔 /라이트/고추/콘참치 (G9e816d8b) · C등급 · 상품가 14,877 크레딧",
+  "post_timestamp": 1795630368,
+  "actual_post_link_alive_at": 1795630389.2914963
+}

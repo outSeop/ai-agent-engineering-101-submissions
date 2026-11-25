@@ -14,6 +14,7 @@
     "public-ab-dry-selection-safe.json": "f6d1a76e4efee79296fde3d98a7d559f25c4ee30b62cc898654796cfe6146286",
     "independent-test-result.json": "c4dc7082db005f0c7669cbcb220f0d784a1381b5be349f07509cc450365beb3c",
     "host-test-result.json": "d4b3c2960a739cfec17db761d104a8278606693d1567c321e2e51c7c92ead249",
-    "README.md": "2ad83c95d0843ae8d2bfc4c77d27eb552c19670a7b296bcf50e564f23c076b01"
+    "README.md": "2ad83c95d0843ae8d2bfc4c77d27eb552c19670a7b296bcf50e564f23c076b01",
+    "startup-regression.json": "ce88e19693972f5026d5af893992a854a1f9166de6411e8452441c3df7be928c"
   }
 }

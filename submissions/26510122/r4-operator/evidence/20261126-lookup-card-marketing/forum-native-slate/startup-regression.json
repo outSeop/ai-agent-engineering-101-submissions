@@ -1,0 +1,20 @@
+{
+  "scope": "original SDK cmd_run with isolated mock network, registration and wallet boundaries, actual ManagedMind and MarketingCoordinator",
+  "host2": {
+    "startup": "failed",
+    "failure_type": "KeyError",
+    "missing_sdk_context_field": "shop_url"
+  },
+  "host3": {
+    "original_cmd_run": true,
+    "actual_managed_mind": true,
+    "actual_marketing_coordinator_tick": true,
+    "ordinary_genuine_slate": true,
+    "legacy_publish_stub_calls": 1,
+    "actual_post_calls": 0,
+    "selected_grade": "B",
+    "model_input_has_public_post_mix": true
+  },
+  "change": "Read shop_url from the shared SDK context at use time. Original SDK initializes it after constructing Mind.",
+  "published_tunnel_scope": "Legacy body embeds time-specific tunnel addresses, which can become stale after restart."
+}

@@ -1,0 +1,22 @@
+{
+  "at": 1795630515.0917492,
+  "operator": true,
+  "state": "TASK_STATE_COMPLETED",
+  "seconds": 10.202,
+  "http": 200,
+  "reply_sha256": "c62c2e900e83c6e58be29e9a4abb87a3cc5577893a42b20173550f2a95877600",
+  "selected_skus": [
+    "G580976fc",
+    "G0950fda4"
+  ],
+  "financial_consent_given": false,
+  "source_hash_bound_to_observation_and_renderer": true,
+  "source_count": 169,
+  "all_selected_names_grades_prices_match_saved_snapshot": true,
+  "selected_count": 2,
+  "operator_probe": true,
+  "model_actions": [
+    "search_products",
+    "render_public_products"
+  ]
+}
