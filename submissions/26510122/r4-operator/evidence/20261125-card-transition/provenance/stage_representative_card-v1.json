@@ -1,0 +1,39 @@
+{
+  "tool": "stage_representative_card",
+  "version": 1,
+  "files_sha256": {
+    "logic.py": "e883b594583e1abf8587a963154d58020a0f0e214451dee1fa3c771d11514fbb",
+    "test.py": "65f4378e3a301b871c1a54348d116800eb6aeaa74b86125f162b211a048b8b5e",
+    "permission.yml": "a607c48ed5f23a28a6402edcf1445ccc07e8af067888cae1d93803299659b20d",
+    "forge.json": "f4c5bffe5c1804910632a210ffa49187705273dc2485f2bfd057f8fad13b9e98"
+  },
+  "actual_model_response": {
+    "private_record_line_1based": 48,
+    "at": 1795569525.7931473,
+    "recorded_provider": "codex-cli-gpt-6.2-sol",
+    "requested_model": "gpt-6.2-sol",
+    "upstream_reported_model": null,
+    "response_sha256": "fdc5cda9564d91d0f316a53b0eed62f7b377a66240540eab3f89b92743101f05",
+    "logic_and_test_exact_matches": true
+  },
+  "official_forge_observation": {
+    "ts": 1795569680,
+    "tool": "stage_representative_card",
+    "version": 1,
+    "passed": true,
+    "error": null,
+    "permission": {
+      "network": [],
+      "write": [
+        "card_update_stage"
+      ],
+      "identity": [],
+      "wallet": [],
+      "pay_limit": 0,
+      "timeout": 10,
+      "handles": []
+    }
+  },
+  "raw_private_messages_and_thoughts_exported": false,
+  "author": "Actual official R4 Mind development model; externally authored host adapters are separate."
+}

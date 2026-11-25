@@ -1,0 +1,9 @@
+name: stage_representative_card
+description: outseop-r4의 대표 상품을 비교하고 카드 변경안을 보존한다. args는 {op: 'compare'} 또는 {op: 'stage', skus: [선택한 정확한 SKU], view_sha256: compare 반환값}이다. compare는 현재 판매 가능한 후보의 공개 분류 경로·등급·상품가·표준 수수료·만료와 선택적 공개 정산 표본을 반환한다. 공개 정산 건수는 시장 관측이며 운영 수업 모델이 SKU와 순서를 고른다. 호스트 입력 계약은 card.json, 읽기 전용 host_inputs/card_offer_context.json, 호스트가 마련한 비공개 card_update_stage 디렉터리다. 호스트는 입력 및 상위 경로를 모델·고객·다른 도구의 변경에서 보호하고, 실제 재고·예약·등급·가격과 공식 카탈로그의 공개 명칭·분류를 확인한 후 컨텍스트를 만든다. observed_at은 뷰 확인 Unix 초이며 valid_until은 배타적 상한이고 최대 180초다. replace_text는 호스트가 카드 원본 해시와 함께 검토한 판매 예시 전용 구간이다. 기존 정책이 그 구간에 들어 있거나 다른 곳에 폐기할 판매 예시가 남으면 호스트가 적용 전에 구간을
+permission:
+  write: [card_update_stage]
+  pay_limit: 0
+  timeout: 10
+logic: logic.py
+test: test.py
+version: 1
