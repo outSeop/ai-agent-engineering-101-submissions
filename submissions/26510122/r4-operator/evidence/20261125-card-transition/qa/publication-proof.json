@@ -1,0 +1,53 @@
+{
+  "exact_credentials_compared": 4,
+  "secret_prefix_variants_checked": true,
+  "credential_values_or_hashes_exported": false,
+  "pattern_classes": [
+    "jwt",
+    "api_key",
+    "credential_assignment"
+  ],
+  "before_copy_matches": 0,
+  "after_copy_matches": 0,
+  "actual_prod_card_write": false,
+  "actual_prod_service_or_DB_change": false,
+  "market_calls": 0,
+  "model_calls": 0,
+  "sources_unchanged": true,
+  "QA_infrastructure_authorship": "external independent audit",
+  "files": {
+    "README.md": "f47b5f42bc7ad5a8cd39b7972e5ababd32d689f434ab37483416db3b82b8179b",
+    "run_portable.py": "47578c83cd5e201b34fbd542c9eee795527c1bfc546d47261e509782b1013b86",
+    "portable-replay/ordinary-toolbox-qa-results.json": "2e29bb64c0566a97c6f2f0c81b6c5448766425ade9f78bfad13636fd21a1f292",
+    "portable-replay/lifecycle-qa-results.json": "d566da38cb68f4d77a275a11ed28c4cc07362b0502f79f4032ba10f5ce7f21ec",
+    "portable-replay/summary.json": "fe03aa84f2f6a0a029e1ae24885a0cbf0363eaa7a4cd356b88f3af8f3973b2b7",
+    "v2/ordinary-toolbox-qa-results.json": "3bd4fa2b59ca347931d8310be4b57afd303f32f7ee8a72e6c181192111a9a0aa",
+    "v2/derived-origin.json": "915f4969e91d5282e15989df35ad59c70bfed6ce91d9b8321bcaf49585ab28c2",
+    "v2/authority-delta-and-dependencies.json": "82123a715fe9c4ce5837ed0b2642a3aea152859f4098c51b59663bdcf6d4f17b",
+    "v2/lifecycle-qa-results.json": "f233ecb2313a90e36c1b0516132afb65ba9d07684bc46d52fdf56b5de6b3d651",
+    "v2/qa-proof.json": "f3905f5016f7eb5aab1fdcf51f8f3072f762b0da1271c462f30593776248b889",
+    "v2/harness-correction.json": "baf4e67e3bf87359f2bd9135f5ac8585c2d6c3581fde18f93e068fddc513cc8d",
+    "v2/official-selftest-result.json": "d3fbda0d56a2c6879fc14fa9e32cdf76cbcaac11dcf4aeda1bd413ae2dbf868b",
+    "v2/QA_REPORT.md": "6dfa2f99fdef4f926ad4bd0fd9d06dffe14b87857f0aaac46323877a00247c40",
+    "originals/ordinary_toolbox_qa.py": "44bd9c7c4660a2aee51137eccc99348701b761e14d0c3fb25c606004ebf9ad69",
+    "originals/lifecycle_qa.before-harness-correction.py": "54151dff7cbc938651e0f69716a1878261d95422afdcd012633c74aa38dc9062",
+    "originals/lifecycle_qa.py": "4321bbd09eddfe70678921d8f89fb35cdb4264395ea3d8a2902abc187019b127",
+    "v1/ordinary-toolbox-qa-results.json": "311e17ad288b4d3deaa9ba92a72e60b4dae24c17b94d1cbdd94d0aa9f763652a",
+    "v1/derived-origin.json": "e39c752e2a4f38c48999a7a714bea538bc7bf8f4cfe0fbf8b05edaf0c112f211",
+    "v1/supplemental-authority-scope.json": "6c5475ee877389923902ea91a3e433f5792ca52b7a24e63f3b5b1ebafb710594",
+    "v1/exact-host-contract.json": "454dc4958ff7cb194e5a6052e2a36a3f2f64df6f3a3c393205c4d46b72e4cc60",
+    "v1/QA_REPORT.md": "1bc083f0cc0029c34b72f12220ee24b5c2eaf8ba79f07f8298276edd84a298bd",
+    "v1/originals/ordinary_toolbox_qa.py": "87c6f508b1c40f2b2c6d50630adab19c679c092270703cf472c78be062923005",
+    "v1/originals/supplemental_authority_qa.py": "60357c424cac70992fbc5b5cc335ea79da867779a2375efee07d520cd50cd5d5"
+  },
+  "portable_replay_verified": {
+    "regression_passed": 28,
+    "lifecycle_contract_passed": 23,
+    "issuer_limit_failed_preserved": 1,
+    "actual_prod_card_write": false,
+    "market_calls": 0,
+    "model_calls": 0,
+    "source_bundle": "Exact pinned QA snapshot bytes; same required manifest hashes as planned public sources."
+  },
+  "post_replay_rescan_matches": 0
+}

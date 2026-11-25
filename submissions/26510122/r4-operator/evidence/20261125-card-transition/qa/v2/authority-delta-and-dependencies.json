@@ -1,0 +1,29 @@
+{
+  "native_issuer_delta": {
+    "replacement_sha256": "SHA256 exact stage.render(selected original rows, old_view.observed_at) UTF8; separator blank lines excluded",
+    "policy_skill_ids": {
+      "mileage": "repeat-benefits",
+      "wait": "repeat-benefits",
+      "refund": "refund-review"
+    },
+    "native_first_apply": "If clause absent from old description, exactly one matching skill id must contain original verbatim clause. Existing skill fields all preserved.",
+    "repeat_refresh": "Use stable approved original skill clauses if absent from description; choosing newly rendered description clauses inside prior whole block rejects. Exact pinned stage render preserves new native policy statements.",
+    "old_block": "Use exact prior committed event.block.text and range as new replace_text; it includes native policy paragraphs.",
+    "observed_two_refresh": "Initial + second different SKU apply/guard succeeded; rollback to prior native succeeds.",
+    "unresolved_issuer_case": "Native description policy anchors in old replace block rejected protected_policy_overlap_or_change."
+  },
+  "runtime_dependencies": {
+    "apply_v1_logic_sha256": "14143d58859493f56b3b736dab10fe384211d8c0c8b58a1b3db59a50a9d5500f",
+    "apply_v1_test_sha256": "c96e43d06d9d30a2548d35e59a2628d0552b2a36978fba2b8d67d715d5041e55",
+    "stage_logic_sha256": "e883b594583e1abf8587a963154d58020a0f0e214451dee1fa3c771d11514fbb",
+    "guard_logic_sha256": "cb3c5a6e5c6ca36fb329e4b2279c2b718a304386665707ecaf9a7e21eb887dc2",
+    "archive_paths": [
+      ".deprecated/apply_staged_card@1",
+      "tools/.deprecated/apply_staged_card@1"
+    ],
+    "loaded_code": "V2 hash-pins and transforms deprecated v1 source at runtime; native branch also pins stage renderer. Source bundle must retain all referenced versions."
+  },
+  "actual_authority_producer_verified": false,
+  "actual_production_cutover_verified": false,
+  "public_host_tests_are_external_infrastructure": true
+}

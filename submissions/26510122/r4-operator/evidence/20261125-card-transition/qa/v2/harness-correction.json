@@ -1,0 +1,4 @@
+{
+  "reason": "policy_moved test appended text outside JSON; fixed fixture to edit decoded description then canonical-encode. No generated tool changed.",
+  "failed_harness_preserved": "lifecycle_qa.before-harness-correction.py"
+}

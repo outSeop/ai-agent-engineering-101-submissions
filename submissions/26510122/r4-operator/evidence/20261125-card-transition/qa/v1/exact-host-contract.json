@@ -1,0 +1,103 @@
+{
+  "scope": "Documentation of unchanged generated source; host producer/apply approval code not implemented by auditor.",
+  "fresh_snapshot": {
+    "original_archive": "host_inputs/card_offer_original/<stage.view_sha256>.json",
+    "fresh_archive": "host_inputs/card_offer_fresh/<authority.details.fresh_view_sha256>.json",
+    "schema": "outseop-r4.card-offers.v1 same exact key/row schema as stage v1",
+    "constraints": [
+      "Different original/fresh SHA IDs; both exact bytes hash match path.",
+      "Same original card_sha256 and replace_text; both observed_at<=now<valid_until<=observed_at+180.",
+      "original.observed_at < fresh.observed_at <= authority.issued_at.",
+      "fresh.observed_at*1e9 >= stagefile.st_mtime_ns; complete real source reread after that whole-second boundary, not invented future timestamp.",
+      "Every selected row field equals original row (canonical JSON); available, grade ABC, positive integer price, valid fee and unexpired quote/offer.",
+      "Preserve still-source-backed original quote validity or restage; recomputing valid_until alone causes selected_offer_terms_changed."
+    ]
+  },
+  "authority": {
+    "path": "host_inputs/card_publication_authority.json",
+    "exact_keys": [
+      "schema",
+      "shop",
+      "owner",
+      "op",
+      "record_id",
+      "head",
+      "before_sha256",
+      "after_sha256",
+      "issued_at",
+      "valid_until",
+      "details"
+    ],
+    "schema": "outseop-r4.card-publication-authority.v1",
+    "shop": "outseop-r4",
+    "owner": "native",
+    "op": [
+      "apply",
+      "rollback"
+    ],
+    "head": "exact prior committed event SHA or null",
+    "time": "issued_at<=now<valid_until<=issued_at+30; int excluding bool",
+    "apply_details_exact": {
+      "fresh_view_sha256": "independent archive hash",
+      "replacement_sha256": "SHA256 exact newly substituted description substring UTF8",
+      "policies": {
+        "mileage": "complete original description clause",
+        "wait": "complete original description clause",
+        "refund": "complete original description clause"
+      }
+    },
+    "policy_constraints": "Each nonblank clause exactly once in old and new descriptions, outside old replacement block. Anchors in skills alone do not satisfy.",
+    "rollback_details": {},
+    "rollback_record_id": "current active apply event SHA; authorized original backup restore; current hash must match"
+  },
+  "ownership_API": {
+    "lock": "card_publication/lock permanent regular file, shared same inode POSIX flock for every writer and guard",
+    "legacy_fence": "Mandatory before authority installation; existing legacy publisher locks card.json inode, not this lock. Atomic replacement makes those different ownership protocols.",
+    "head_path": "card_publication/head.json",
+    "head_exact_keys": [
+      "event",
+      "pending"
+    ],
+    "head_values": "SHA256 or null",
+    "journal_path": "card_publication/<eventSHA>.json",
+    "event_schema": "outseop-r4.card-publication-event.v1",
+    "event_fields": [
+      "schema",
+      "shop",
+      "op",
+      "record_id",
+      "parent",
+      "previous_active",
+      "recorded_at",
+      "authority_valid_until",
+      "before_sha256",
+      "after_sha256",
+      "before_card_json",
+      "after_card_json",
+      "skus",
+      "view_sha256",
+      "fresh_view_sha256",
+      "offer_until",
+      "block",
+      "prior_block"
+    ],
+    "guard_checks": [
+      "Acquire same lock; busy means wait.",
+      "Validate SHA filename against event bytes, shop/schema, committed head and exact current card SHA.",
+      "Pending publication, expired offer_until or conflicting/partial state means wait/conflict.",
+      "Do not fall back to old unguarded legacy writer on missing/expired/conflict state.",
+      "Active block start/end/text must match prior apply; rollback can restore previous_active.",
+      "Local apply success does not prove remote serving path shows same bytes; host must verify."
+    ]
+  },
+  "remaining_host_review": [
+    "Protected trusted snapshot producer with authenticated current source; caller source strings and bool approvals are not authority.",
+    "No private unit cost, wallet, customer rights, token or raw financial rows in public card/context.",
+    "Review actual staged block meaning and pinned generation provenance before authority; apply alone does not validate product prose SKU/price/refund truth.",
+    "Before original baseline rollback, host must review restored offers; no previous_active offer_until exists for initial legacy baseline."
+  ],
+  "initial_live_blockers": [
+    "Stage v1 prepends new block instead of preserving a nonempty old prefix; apply refuses text_outside_offer_block_changed.",
+    "Existing real card description has no mileage/wait/refund policy words and policies live in skills; apply requires original description anchors, rejecting protected_policy_overlap_or_change."
+  ]
+}

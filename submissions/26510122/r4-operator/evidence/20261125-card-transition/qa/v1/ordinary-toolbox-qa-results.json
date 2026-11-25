@@ -1,0 +1,236 @@
+{
+  "ordinary_real_Toolbox_call_used": true,
+  "kit_testing_flag_set_manually": false,
+  "synthetic_Fake_source_only": true,
+  "checks": [
+    {
+      "case": "stage_not_live_apply",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "missing_authority_waits",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "genuine_stage_to_ordinary_apply_success",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "status": "applied",
+        "event": "cc94fa500919e2c97b4f46b017aac8e15ce5c34d7ba3ea86ac1ae13d68a526ac",
+        "card_sha256": "1af018ca7d04a5436058b91811b95151894237d912a17994af343d5224c579f2"
+      }
+    },
+    {
+      "case": "apply_hash_name_skills_preserved",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "immutable_original_backup_and_event_hash",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "guard_metadata_available",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "idempotent_apply",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "recover_after_replace_before_head_commit",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "recover_before_replace_keeps_backup",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "rollback_conflict_preserves_intervening_card",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "rollback_restores_exact_original",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "idempotent_rollback",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_fresh_price",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "status": "rejected",
+        "reason": "selected_offer_terms_changed"
+      }
+    },
+    {
+      "case": "reject_fresh_grade",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "status": "rejected",
+        "reason": "selected_offer_terms_changed"
+      }
+    },
+    {
+      "case": "reject_fresh_reserved",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "status": "rejected",
+        "reason": "selected_offer_unavailable"
+      }
+    },
+    {
+      "case": "reject_fresh_sold_out",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "status": "rejected",
+        "reason": "selected_offer_unavailable"
+      }
+    },
+    {
+      "case": "reject_fresh_expired",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "status": "rejected",
+        "reason": "selected_offer_expired"
+      }
+    },
+    {
+      "case": "reject_fresh_different_name_same_sku",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "status": "rejected",
+        "reason": "selected_offer_terms_changed"
+      }
+    },
+    {
+      "case": "reject_fresh_deadline_changed",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "status": "rejected",
+        "reason": "selected_offer_terms_changed"
+      }
+    },
+    {
+      "case": "reject_fresh_stale",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "status": "rejected",
+        "reason": "stale_or_future_view"
+      }
+    },
+    {
+      "case": "original_is_not_fresh",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "expired_authority_rejected",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "caller_price_approval_extra_rejected",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "arbitrary_record_not_authorized",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "concurrent_writer_waits",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "concurrent_wait_preserved_card",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "max_three_enforced",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "description_max_1000_enforced",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "stage_apply_nonzero_prefix_compatible",
+      "passed": false,
+      "group": "integration_goal",
+      "observed": {
+        "status": "rejected",
+        "reason": "text_outside_offer_block_changed"
+      }
+    },
+    {
+      "case": "legacy_policies_only_in_skills_compatible",
+      "passed": false,
+      "group": "integration_goal",
+      "observed": {
+        "status": "rejected",
+        "reason": "protected_policy_overlap_or_change"
+      }
+    }
+  ],
+  "totals": {
+    "contract": {
+      "passed": 28,
+      "failed": 0
+    },
+    "integration_goal": {
+      "passed": 0,
+      "failed": 2
+    }
+  },
+  "live_card_write": false,
+  "market_calls": 0,
+  "model_calls": 0,
+  "keys_tokens_or_customer_data_loaded": false,
+  "partial_IO_scope": "Exact pending-before/after-card persisted checkpoints are replayed; not a universal real filesystem fault-injection proof."
+}

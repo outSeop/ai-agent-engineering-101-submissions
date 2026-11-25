@@ -1,0 +1,26 @@
+{
+  "ordinary_Toolbox_call": true,
+  "synthetic_only": true,
+  "findings": [
+    {
+      "probe": "incorrect_price",
+      "host_fake_deliberately_authorized_wrong_replacement": true,
+      "status": "applied",
+      "interpretation": "Apply trusts protected host authority semantic review. It does not itself prove generated stage provenance or compare rendered SKU/price/refund prose to selected source rows. No real authority or market data used."
+    },
+    {
+      "probe": "different_SKU",
+      "host_fake_deliberately_authorized_wrong_replacement": true,
+      "status": "applied",
+      "interpretation": "Apply trusts protected host authority semantic review. It does not itself prove generated stage provenance or compare rendered SKU/price/refund prose to selected source rows. No real authority or market data used."
+    },
+    {
+      "probe": "exaggerated_refund",
+      "host_fake_deliberately_authorized_wrong_replacement": true,
+      "status": "applied",
+      "interpretation": "Apply trusts protected host authority semantic review. It does not itself prove generated stage provenance or compare rendered SKU/price/refund prose to selected source rows. No real authority or market data used."
+    }
+  ],
+  "market_calls": 0,
+  "model_calls": 0
+}

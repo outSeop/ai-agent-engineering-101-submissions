@@ -1,0 +1,14 @@
+{
+  "reviewed_generation": [
+    {
+      "private_record_line1": 101,
+      "at": 1795574891.798331,
+      "recorded_provider": "codex-cli-gpt-6.2-sol",
+      "response_sha256": "d36f6b4720a08d6171e24d43087bdc3bef2e41b1da9e1e69f8463b567ae5f820",
+      "logic_sha256": "4fecb5a59aba74173e10f88a3c79171daa8f729c6ac37b2f037aa7d4ced05c90",
+      "test_sha256": "306e81b3f42c1afe924cb61e16e58e0f91e4bf0affa9f62e44400199e9a426dc",
+      "private_thoughts_messages_exported": false
+    }
+  ],
+  "source_unchanged": true
+}

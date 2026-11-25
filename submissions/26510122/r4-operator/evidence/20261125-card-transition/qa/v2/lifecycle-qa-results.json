@@ -1,0 +1,242 @@
+{
+  "ordinary_official_Toolbox_call": true,
+  "manual_testing_flag": false,
+  "synthetic_Fake_only": true,
+  "checks": [
+    {
+      "case": "initial_legacy_intro_skills_only_native_apply",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "status": "applied",
+        "event": "db0828fb13b75b4e304125b99ee3374c304f90da9bd7d4972ddda5a6273874cd",
+        "card_sha256": "99478936c2ee2946a091c8be30b15e01bba7f03f9079a3495bda7550ba8e7486"
+      }
+    },
+    {
+      "case": "initial_nonoffer_prose_exact_preserved",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "first_native_keeps_exact_three_skills",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "event_block_includes_native_policy_paragraphs",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "first_guard_owns_and_writes_nothing",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "status": "skipped",
+        "reason": "native_publisher_owns_current_card",
+        "event": "db0828fb13b75b4e304125b99ee3374c304f90da9bd7d4972ddda5a6273874cd",
+        "card_sha256": "99478936c2ee2946a091c8be30b15e01bba7f03f9079a3495bda7550ba8e7486",
+        "valid_until": 1795575345
+      }
+    },
+    {
+      "case": "description_policy_anchors_support_second_refresh",
+      "passed": false,
+      "group": "issuer_limit",
+      "observed": {
+        "status": "rejected",
+        "reason": "protected_policy_overlap_or_change"
+      }
+    },
+    {
+      "case": "failed_anchor_does_not_modify_first_card",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "second_native_refresh_with_preserved_skill_anchors",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "status": "applied",
+        "event": "4909e93b80ecbec5b3c73af569e68094ec7eb6823ec00d4bf0aaf00287a1fbeb",
+        "card_sha256": "76b4a53e35e02b1251ed747d3324f3271e102b3ad084f1386ef5dbf54ff1275c"
+      }
+    },
+    {
+      "case": "second_refresh_real_merch_changed",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "second_native_exact_skills_and_other_fields",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "rendered_policy_clauses_unchanged_once",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "second_nonoffer_intro_suffix_preserved",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "event2_links_active1_and_exact_prior_block",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "second_guard_bound_to_new_head",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "status": "skipped",
+        "reason": "native_publisher_owns_current_card",
+        "event": "4909e93b80ecbec5b3c73af569e68094ec7eb6823ec00d4bf0aaf00287a1fbeb",
+        "card_sha256": "76b4a53e35e02b1251ed747d3324f3271e102b3ad084f1386ef5dbf54ff1275c",
+        "valid_until": 1795575346
+      }
+    },
+    {
+      "case": "past_record_rejected_after_refresh",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "status": "rejected",
+        "reason": "publication_authority_conflict"
+      }
+    },
+    {
+      "case": "rollback_refresh_restores_prior_native_exact",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "status": "rolled_back",
+        "event": "d30b8451f2757b0ffa2c47ce69ca71090f49a2d4d67306370cf5026101420b4e",
+        "card_sha256": "99478936c2ee2946a091c8be30b15e01bba7f03f9079a3495bda7550ba8e7486"
+      }
+    },
+    {
+      "case": "guard_accepts_rollback_active_prior",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_nonrendered_lower_price",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "status": "rejected",
+        "reason": "text_outside_offer_block_changed"
+      }
+    },
+    {
+      "case": "reject_nonrendered_lookalike_price",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "status": "rejected",
+        "reason": "text_outside_offer_block_changed"
+      }
+    },
+    {
+      "case": "reject_nonrendered_different_SKU",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "status": "rejected",
+        "reason": "text_outside_offer_block_changed"
+      }
+    },
+    {
+      "case": "reject_nonrendered_refund_completed",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "status": "rejected",
+        "reason": "text_outside_offer_block_changed"
+      }
+    },
+    {
+      "case": "reject_nonrendered_policy_omitted",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "status": "rejected",
+        "reason": "text_outside_offer_block_changed"
+      }
+    },
+    {
+      "case": "reject_nonrendered_policy_moved",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "status": "rejected",
+        "reason": "text_outside_offer_block_changed"
+      }
+    },
+    {
+      "case": "reject_nonrendered_intro_removed",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "status": "rejected",
+        "reason": "text_outside_offer_block_changed"
+      }
+    }
+  ],
+  "totals": {
+    "contract": {
+      "passed": 23,
+      "failed": 0
+    },
+    "issuer_limit": {
+      "passed": 0,
+      "failed": 1
+    }
+  },
+  "lifecycle_observations": [
+    {
+      "initial": {
+        "status": "applied",
+        "event": "db0828fb13b75b4e304125b99ee3374c304f90da9bd7d4972ddda5a6273874cd",
+        "card_sha256": "99478936c2ee2946a091c8be30b15e01bba7f03f9079a3495bda7550ba8e7486"
+      },
+      "round2": {
+        "status": "applied",
+        "event": "4909e93b80ecbec5b3c73af569e68094ec7eb6823ec00d4bf0aaf00287a1fbeb",
+        "card_sha256": "76b4a53e35e02b1251ed747d3324f3271e102b3ad084f1386ef5dbf54ff1275c"
+      },
+      "rollback": {
+        "status": "rolled_back",
+        "event": "d30b8451f2757b0ffa2c47ce69ca71090f49a2d4d67306370cf5026101420b4e",
+        "card_sha256": "99478936c2ee2946a091c8be30b15e01bba7f03f9079a3495bda7550ba8e7486"
+      },
+      "original_skills_preserved": true,
+      "two_stage_records_real_tool_calls": true,
+      "description_policy_anchor_failure": {
+        "status": "rejected",
+        "reason": "protected_policy_overlap_or_change"
+      },
+      "skill_policy_anchors_allowed": true
+    }
+  ],
+  "actual_prod_card_write": false,
+  "market_calls": 0,
+  "model_calls": 0,
+  "tokens_wallet_customer_data_loaded": false
+}

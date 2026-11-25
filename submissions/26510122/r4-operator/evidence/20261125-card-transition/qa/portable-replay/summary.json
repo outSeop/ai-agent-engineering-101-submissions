@@ -1,0 +1,23 @@
+{
+  "regression": {
+    "contract": {
+      "passed": 28,
+      "failed": 0
+    }
+  },
+  "lifecycle": {
+    "contract": {
+      "passed": 23,
+      "failed": 0
+    },
+    "issuer_limit": {
+      "passed": 0,
+      "failed": 1
+    }
+  },
+  "actual_prod_card_write": false,
+  "actual_market_calls": 0,
+  "actual_model_calls": 0,
+  "credentials_copied": false,
+  "root": "Temporary Fake-only directories; op/kit is linked read-only by convention; original generated sources copied unchanged."
+}
