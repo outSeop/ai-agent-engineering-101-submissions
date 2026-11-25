@@ -11,7 +11,8 @@ from pathlib import Path
 import sys
 import time
 
-from class_cli_transport_long_candidate import CLI_ENDPOINT, CLI_READ_TIMEOUT, complete_cli
+from class_cli_transport_long_candidate import CLI_ENDPOINT, CLI_READ_TIMEOUT, CLI_EXTENDED_TIMEOUT, complete_cli
+from card_source_read_lane import READER, checked_read, credentials
 from class_host_guards import OfflineForgeSubprocess, load_reviewed_reads, reviewed_call, safe_reviewed_result
 
 
@@ -83,7 +84,10 @@ def main():
     parser.add_argument('--root',type=Path,required=True)
     parser.add_argument('--resume', action='store_true')
     parser.add_argument('--development-cli', action='store_true')
+    parser.add_argument("--extended-cli-timeout", action="store_true")
     args=parser.parse_args()
+    if args.extended_cli_timeout and not args.development_cli:
+        parser.error("extended timeout requires local development CLI mode")
     op=args.operator.resolve(strict=True)
     os.umask(0o077)
     for key in ('AGENT_LLM_BASE','AGENT_LLM_MODEL','AGENT_LLM_KEY'):os.environ.pop(key,None)
@@ -101,6 +105,7 @@ def main():
         parser.error(str(error))
     try:
         approved_reads = load_reviewed_reads(root / ".kit" / "reviewed-public-reads.json")
+        card_source_needles = credentials(op) if READER in approved_reads else None
     except (ValueError, OSError, TypeError) as error:
         parser.error(str(error))
     official.subprocess = OfflineForgeSubprocess
@@ -128,6 +133,9 @@ def main():
                 return {'error':'development boundary rejects extra hosts, exec, or excessive wallet ceiling'}
             return super().forge(request)
         def call(self,name,request):
+            if name == READER and card_source_needles is not None:
+                return checked_read(root,self.tools,request,card_source_needles,
+                                    lambda: official.Toolbox.call(self,name,request))
             if not reviewed_call(self.tools, approved_reads, name, request):
                 return {"ok": False, "error": "development only: execution restricted to reviewed public reads"}
             return safe_reviewed_result(name, super().call(name,request))
@@ -139,8 +147,9 @@ def main():
                 if class_provider:
                     reply = super().complete(messages,max_tokens,timeout)
                 else:
-                    record["cli_read_timeout_seconds"] = CLI_READ_TIMEOUT
-                    reply = complete_cli(messages,max_tokens,CLI_READ_TIMEOUT)
+                    deadline = CLI_EXTENDED_TIMEOUT if args.extended_cli_timeout else CLI_READ_TIMEOUT
+                    record["cli_read_timeout_seconds"] = deadline
+                    reply = complete_cli(messages,max_tokens,deadline)
                 record["response"] = reply
                 return reply
             except Exception as error:

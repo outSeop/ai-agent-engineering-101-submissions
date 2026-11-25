@@ -7,6 +7,8 @@ from pathlib import Path
 import stat
 import subprocess
 
+from card_source_read_lane import READER as CARD_SOURCE_READER, PIN as CARD_SOURCE_PIN
+
 
 SUMMARY_TOOL = "summarize_public_settlements"
 SUMMARY_PIN = "5f8641150e3cb9dfc27d6d8d78e791eb02d88ad60c39ba94a8416ba22cb50846"
@@ -33,7 +35,7 @@ def load_reviewed_reads(path):
     if not stat.S_ISREG(info.st_mode) or info.st_mode & 0o077:
         raise ValueError("reviewed-read manifest must be a private regular file")
     metadata = json.loads(path.read_text())
-    if not isinstance(metadata, dict) or not set(metadata) <= {"read_market_cards", SUMMARY_TOOL}:
+    if not isinstance(metadata, dict) or not set(metadata) <= {"read_market_cards", SUMMARY_TOOL, CARD_SOURCE_READER}:
         raise ValueError("unknown reviewed tool")
     if "read_market_cards" in metadata:
         record = metadata["read_market_cards"]
@@ -41,6 +43,8 @@ def load_reviewed_reads(path):
             raise ValueError("unsafe reviewed URL list")
     if SUMMARY_TOOL in metadata and metadata[SUMMARY_TOOL] != {"sha256": SUMMARY_PIN}:
         raise ValueError("public summary does not match approved SHA")
+    if CARD_SOURCE_READER in metadata and metadata[CARD_SOURCE_READER] != {"sha256": CARD_SOURCE_PIN}:
+        raise ValueError("card source reader does not match approved SHA")
     return metadata
 
 

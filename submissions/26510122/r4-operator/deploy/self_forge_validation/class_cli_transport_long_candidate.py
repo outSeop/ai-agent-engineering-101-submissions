@@ -3,10 +3,11 @@ import httpx
 
 CLI_ENDPOINT = "http://127.0.0.1:19001/v1"
 CLI_READ_TIMEOUT = 315
+CLI_EXTENDED_TIMEOUT = 615
 
 
 def complete_cli(messages, max_tokens=4000, timeout=315):
-    limit = min(CLI_READ_TIMEOUT, timeout)
+    limit = min(CLI_EXTENDED_TIMEOUT, timeout)
     with httpx.Client(
         trust_env=False, follow_redirects=False,
         timeout=httpx.Timeout(limit, connect=min(4, limit)),
