@@ -1,0 +1,28 @@
+{
+  "source_version": 2,
+  "document_schema_unchanged": "outseop-r4.customer-offers.v1",
+  "next_args": "Use exact entire object; full original filters retained, no carry_filters merge needed",
+  "new_cursor_fields": [
+    "query_as_of",
+    "filter_digest"
+  ],
+  "filter_digest": "SHA256 ensure_ascii JSON of [normalized sorted SKU set or null, minimum or null]; deterministic consistency check, not authorization",
+  "query_as_of": "First-page UTC second; source bounds observed_at<=query_as_of<=now; all originally qualifying rows must still satisfy minimum now or explicit filter_results_changed",
+  "fragment_size": 800,
+  "page_budget_JSON_characters": 5400,
+  "explicit_continuation_errors": [
+    "cursor_filters_changed",
+    "filter_results_changed",
+    "snapshot_changed",
+    "fragment_unit_expired",
+    "fragment_no_longer_matches",
+    "continuation_exceeds_response_budget",
+    "invalid_args"
+  ],
+  "ordinary_regression_passed": 57,
+  "previous_protocol_failure_now_passed": 1,
+  "additional_continuation_checks_passed": 14,
+  "market_authentication_verified": false,
+  "actual_production_integration_verified": false,
+  "checkout_financial_effect_verified": false
+}

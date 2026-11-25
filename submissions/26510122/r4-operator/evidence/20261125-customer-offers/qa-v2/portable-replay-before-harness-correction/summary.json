@@ -1,0 +1,23 @@
+{
+  "regression": {
+    "contract": {
+      "passed": 57,
+      "failed": 0
+    },
+    "protocol_goal": {
+      "passed": 1,
+      "failed": 0
+    }
+  },
+  "continuation": {
+    "passed": 13,
+    "failed": 1
+  },
+  "actual_prod_cache_card_DB_write": false,
+  "market_calls": 0,
+  "model_calls": 0,
+  "credentials_copied": false,
+  "source_unchanged": true,
+  "actual_class_model_multi_turn_latency_or_TTL_test": false,
+  "source_auth_or_checkout_complete_claim": false
+}

@@ -1,0 +1,94 @@
+{
+  "source_version": 2,
+  "ordinary_official_Toolbox_call": true,
+  "manual_testing_flag": false,
+  "synthetic_Fake_only": true,
+  "checks": [
+    {
+      "case": "large_filtered_first_is_fragment",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fragment_minimum_substitution_rejected",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fragment_SKU_substitution_rejected",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fragment_filter_removal_rejected",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fragment_bool_digest_rejected",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fragment_future_query_rejected",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fragment_wrong_snapshot_rejected",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fragment_next_args_alone_preserves_filter_every_page",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "fragment_full_100_no_missing_duplicate_or_other_SKU",
+      "passed": true,
+      "observed": {
+        "pages": 35,
+        "units": 100,
+        "complete_fragmented_rows": 1
+      }
+    },
+    {
+      "case": "fragment_name_exact_after_reassembly",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "all_combined_pages_within5400",
+      "passed": true,
+      "observed": {
+        "max_json_chars": 5213
+      }
+    },
+    {
+      "case": "fragment_file_swap_rejected",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "case": "unit_expiring_during_fragment_explicit_error",
+      "passed": true,
+      "observed": {
+        "error": "fragment_unit_expired"
+      }
+    },
+    {
+      "case": "filter_eligibility_time_change_explicit_error",
+      "passed": true,
+      "observed": {
+        "error": "filter_results_changed"
+      }
+    }
+  ],
+  "passed": 14,
+  "failed": 0,
+  "production_cache_card_DB_changed": false,
+  "actual_market_model_calls": 0,
+  "source_authentication_claim": false,
+  "checkout_or_finance_fixed_claim": false
+}

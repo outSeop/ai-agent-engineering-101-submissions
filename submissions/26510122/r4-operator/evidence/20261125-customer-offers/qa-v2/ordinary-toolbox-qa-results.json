@@ -1,0 +1,410 @@
+{
+  "reviewed_logic_sha256": "a122aed15c9462dfb6ed2c77665e6fbb82de7720633adb03ccf0ec7b1b4e45ff",
+  "ordinary_official_Toolbox_call": true,
+  "manual_testing_flag": false,
+  "synthetic_Fake_host_only": true,
+  "checks": [
+    {
+      "case": "missing_cache_unavailable",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "same_SKU_distinct_units_all_present",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "remaining_matches_response_asof",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "unknown_expiry_explicit_null",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "expired_available_changes_state",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reservation_sold_states_retained",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "minimum0_excludes_unknown_and_expired",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "explicit_empty_SKU_filter_empty",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "exact_minimum_boundary_0",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "request_min": 0,
+        "expiry_minus_asof": 0,
+        "refs": [
+          "above"
+        ]
+      }
+    },
+    {
+      "case": "exact_minimum_boundary_60",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "request_min": 60,
+        "expiry_minus_asof": 60,
+        "refs": [
+          "boundary",
+          "above"
+        ]
+      }
+    },
+    {
+      "case": "reject_cache_wrong_schema",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_cache_wrong_shop",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_cache_future",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_cache_expired",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_cache_bool_observed",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_cache_bool_until",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_cache_too_long_validity",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_cache_extra_doc",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_cache_unit_extra",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_cache_bool_price",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_cache_zero_price",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_cache_bool_fee",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_cache_bool_expiry",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_cache_negative_expiry",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_cache_uppercase_SKU",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_cache_duplicate_unit_ref",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_cache_bad_grade",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_cache_bad_state",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_cache_empty_category",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_duplicate_json_key",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_NaN",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_bad_UTF8",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_malformed",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_args_unknown_op",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_args_caller_path",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_args_offset_bool",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_args_offset201",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_args_minimum_bool",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_args_min_negative",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_args_bad_snapshot",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_args_fragment_missing_snapshot",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_args_SKU_string",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_real_symlink",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_real_hardlink",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_real_fifo",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_real_directory",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_real_socket",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_symlink_host_inputs_directory",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "accept_exact_512KiB",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "reject_512KiB_plus1",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "all_200_accessible_beyond30",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "pages": 12,
+        "rows": 200
+      }
+    },
+    {
+      "case": "per_page_count_matches_complete_rows",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "201_units_rejected",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "snapshot_change_between_pages_rejects",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "malicious_text_data_preserved_not_executed",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    },
+    {
+      "case": "fragmented_row_exact_reassembly_then_next",
+      "passed": true,
+      "group": "contract",
+      "observed": {
+        "fragments": 22
+      }
+    },
+    {
+      "case": "next_args_alone_preserves_filters",
+      "passed": true,
+      "group": "protocol_goal",
+      "observed": {
+        "carry_filters": null,
+        "next_args_keys": [
+          "skus",
+          "min_remaining_seconds",
+          "op",
+          "snapshot",
+          "query_as_of",
+          "filter_digest",
+          "offset"
+        ],
+        "naive_total": 100
+      }
+    },
+    {
+      "case": "v2_next_args_all_selected_rows_exact_without_control",
+      "passed": true,
+      "group": "contract",
+      "observed": null
+    }
+  ],
+  "totals": {
+    "contract": {
+      "passed": 57,
+      "failed": 0
+    },
+    "protocol_goal": {
+      "passed": 1,
+      "failed": 0
+    }
+  },
+  "scope_notes": [
+    {
+      "protocol": "V2 continuation preserves filters; next_args as-is retrieves exactly100 selected units. The old conditional carry_filters control is no longer needed."
+    },
+    {
+      "authority": "Well-shaped Fake host price1 is returned. No market signature/API/catalogue/price authority is authenticated here.",
+      "returned_price": 1,
+      "checkout": "No purchase rights or settlement are created."
+    }
+  ],
+  "maximum_response_json_characters": 5315,
+  "actual_prod_keys_DB_card_accessed_or_changed": false,
+  "market_calls": 0,
+  "model_calls": 0
+}

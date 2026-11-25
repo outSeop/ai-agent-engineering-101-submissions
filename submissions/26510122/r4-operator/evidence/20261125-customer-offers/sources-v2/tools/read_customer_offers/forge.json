@@ -1,0 +1,11 @@
+{
+ "tool": "read_customer_offers",
+ "version": 2,
+ "forged_at": 1795576522,
+ "kit": "v5.1",
+ "sha256": {
+  "permission.yml": "610de64698b425af551a44488d195d3e7b231ef193866adde446f6e0b9580055",
+  "logic.py": "a122aed15c9462dfb6ed2c77665e6fbb82de7720633adb03ccf0ec7b1b4e45ff",
+  "test.py": "b35de2a9a624c7ac63f882584f7af35943c548fe1c77cbd5b8e366a4804a9518"
+ }
+}

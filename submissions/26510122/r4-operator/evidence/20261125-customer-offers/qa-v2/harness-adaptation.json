@@ -1,0 +1,14 @@
+{
+  "source_baseline": "v1 independent57+protocol1 tests preserved in v1 folder",
+  "changes": [
+    "Expected reviewed SHA updated only",
+    "Obsolete requirement that carry_filters must occur replaced by exact100 ordered refs using next_args without manual repair; all other original contract checks retained."
+  ],
+  "generated_business_source_changed": false,
+  "query_clock_correction": {
+    "reason": "An exploratory query and subsequent independent full query can start in different seconds. The harness incorrectly compared their query_as_of; now compares only each full query own first continuation clock.",
+    "generated_source_changed": false,
+    "old_script_and_initial_result_preserved": true,
+    "portable_failure_result_preserved": true
+  }
+}
