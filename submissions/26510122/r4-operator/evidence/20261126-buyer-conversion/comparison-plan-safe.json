@@ -1,0 +1,12 @@
+{
+  "baseline_pre_start_KST": "2026-11-26T13:52:39.676492+09:00",
+  "baseline_pre_end_KST": "2026-11-26T14:22:39.676492+09:00",
+  "post_start_KST": "2026-11-26T14:32:54.617234+09:00",
+  "post_end_KST": "2026-11-26T15:02:54.617234+09:00",
+  "each_window_seconds": 1800,
+  "post_completed": false,
+  "gap_reason": "Two planned code cutovers and six labelled read-only operator checks; preliminary v4c post window discarded after live multi-page memory bug.",
+  "operator_checks_are_not_customers_or_sales": true,
+  "all_Codex_r4_schedules_paused": true,
+  "business_total_profit_not_computed": true
+}

@@ -1,0 +1,72 @@
+{
+  "passed": 16,
+  "failed": 0,
+  "cases": [
+    {
+      "case": "crosspage_A_B",
+      "pass": true
+    },
+    {
+      "case": "selection_order",
+      "pass": true
+    },
+    {
+      "case": "selected_only_no_private",
+      "pass": true
+    },
+    {
+      "case": "input_unchanged",
+      "pass": true
+    },
+    {
+      "case": "SHA_conflict",
+      "pass": true
+    },
+    {
+      "case": "price_conflict",
+      "pass": true
+    },
+    {
+      "case": "same_pair_same_price_across_pages",
+      "pass": true
+    },
+    {
+      "case": "same_pair_duplicate_within_page",
+      "pass": true
+    },
+    {
+      "case": "missing_selected_all_or_none",
+      "pass": true
+    },
+    {
+      "case": "more_than_six_pages",
+      "pass": true
+    },
+    {
+      "case": "nine_rows_even_unselected_rejected",
+      "pass": true
+    },
+    {
+      "case": "bool_price",
+      "pass": true
+    },
+    {
+      "case": "zero_price",
+      "pass": true
+    },
+    {
+      "case": "different_query_asof_accepted",
+      "pass": true
+    },
+    {
+      "case": "six_pages_bound_accepted",
+      "pass": true
+    },
+    {
+      "case": "duplicate_selection_closed_before_helper",
+      "pass": true
+    }
+  ],
+  "helper_precondition": "pages already protocol/SHA-verified by one ScopedPublicCatalogue, selections protocol-validated",
+  "actual_Model_DB_wallet_market_calls": 0
+}

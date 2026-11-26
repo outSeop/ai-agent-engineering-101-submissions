@@ -4,7 +4,9 @@ import sys
 from types import SimpleNamespace
 import unittest
 
-release=Path(__file__).parent/"public_catalogue_runtime_v4d_candidate"
+operator=Path(__file__).resolve().parents[2]
+sys.path.insert(0,str(operator.parent/"round-4/codex-r4"))
+release=operator/"deploy/public_catalogue_runtime_v4d"
 sys.path.insert(0,str(release))
 import broker_public_catalogue_host_candidate as broker
 from public_product_continuity import PublicContinuity, page_facts

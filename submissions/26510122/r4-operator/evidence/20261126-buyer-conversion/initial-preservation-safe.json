@@ -1,0 +1,23 @@
+{
+  "at": 1795671258.9501145,
+  "original_DB_device_inode_same": true,
+  "original_wallet_bytes_and_inodes_same": true,
+  "original_pricing_policy_unchanged": true,
+  "original_dispatcher_worker_refund_sources_unchanged": true,
+  "active_launcher_sha256": "f59942c24252f341c23a7bf71f1a124b3864bee80c8290958f696d20d20a7d20",
+  "portable_test_results": {
+    "test_public_product_continuity_v4c.py": {
+      "returncode": 0,
+      "output_tail": ".............\n----------------------------------------------------------------------\nRan 13 tests in 0.011s\n\nOK\n"
+    },
+    "test_public_product_continuity_v4d.py": {
+      "returncode": 0,
+      "output_tail": "...............\n----------------------------------------------------------------------\nRan 15 tests in 0.012s\n\nOK\n"
+    },
+    "test_crosspage_facts.py": {
+      "returncode": 0,
+      "output_tail": " true}, {\"case\": \"different_query_asof_accepted\", \"pass\": true}, {\"case\": \"six_pages_bound_accepted\", \"pass\": true}, {\"case\": \"duplicate_selection_closed_before_helper\", \"pass\": true}], \"helper_precondition\": \"pages already protocol/SHA-verified by one ScopedPublicCatalogue, selections protocol-validated\", \"actual_Model_DB_wallet_market_calls\": 0}\n"
+    }
+  },
+  "original_sdk_seven_unchanged": true
+}

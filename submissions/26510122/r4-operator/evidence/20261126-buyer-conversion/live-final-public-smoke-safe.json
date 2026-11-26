@@ -1,0 +1,20 @@
+{
+  "at": 1795671174.6170168,
+  "operator_probes": 3,
+  "same_task_followup": true,
+  "alternative_verified_and_distinguished": true,
+  "multiple_selected_products_keep_task": true,
+  "no_checkout_data": true,
+  "timings": [
+    6.6692,
+    6.4475,
+    19.116
+  ],
+  "states": [
+    "TASK_STATE_INPUT_REQUIRED",
+    "TASK_STATE_INPUT_REQUIRED",
+    "TASK_STATE_INPUT_REQUIRED"
+  ],
+  "current_url": "https://impacts-residential-slip-eggs.trycloudflare.com",
+  "count_as_customers_or_settlements": false
+}

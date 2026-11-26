@@ -1,7 +1,7 @@
 from pathlib import Path
 from copy import deepcopy
 import importlib.util,json,sys
-OP=Path('/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator');B=OP/'runtime/buyer-conversion-20261126-implementation/public_catalogue_runtime_v4d_candidate'
+OP=Path(__file__).resolve().parents[3];B=OP/'deploy/public_catalogue_runtime_v4d'
 sys.path.insert(0,str(B));spec=importlib.util.spec_from_file_location('continuity_audit',B/'public_product_continuity.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
 def page(rows,snapshot='a'*64,asof=100):return {'snapshot':snapshot,'as_of':asof,'observed_at':100,'valid_until':250,'common':{},'columns':['sku','grade','preferred_price','private_injected'],'lookup':{},'rows':[[sku,grade,price,'SYNTHETIC_NOT_A_REAL_RIGHT'] for sku,grade,price in rows]}
 A={'sku':'G00000001','grade':'A'};BB={'sku':'G00000002','grade':'B'};factsA={**A,'preferred_price':1000};factsB={**BB,'preferred_price':2000}
