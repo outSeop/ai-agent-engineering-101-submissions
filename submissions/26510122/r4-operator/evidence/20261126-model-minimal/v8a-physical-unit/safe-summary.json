@@ -1,0 +1,11 @@
+{
+  "v8_live_compatibility_issue": "The public SKU validator was applied to canonical physical-unit IDs. Available catalogue rows existed but the stock state sidecar was empty.",
+  "scope": "Read-only producer bridge. Existing business logic, original dispatcher and genuine v8 source remain byte-identical.",
+  "candidate_manifest": "ffa36c8557ecea6f53a7e9ac7271fa598565fd898f1f5d966444bc34a3f808cc",
+  "synthetic_tests": {
+    "passed": 3,
+    "total": 3
+  },
+  "real_physical_ids_exported": false,
+  "actual_live_changes_by_developer": 0
+}

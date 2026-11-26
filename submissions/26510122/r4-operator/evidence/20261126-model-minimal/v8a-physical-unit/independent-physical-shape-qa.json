@@ -1,0 +1,31 @@
+{
+  "passed": 4,
+  "total": 4,
+  "cases": [
+    {
+      "case": "original-v8-bug-reproduced-and-preserved",
+      "passed": true
+    },
+    {
+      "case": "452-u14-original-issuedB-currentC-index73-423-two-batches-pair-preserved",
+      "passed": true
+    },
+    {
+      "case": "repaired-nonzero-sidecar-source-SHA-bound-no-privateIDs",
+      "passed": true
+    },
+    {
+      "case": "nonempty-projection-failclosed-and-internal-ID-contract",
+      "passed": true
+    }
+  ],
+  "manifest_sha256": "ffa36c8557ecea6f53a7e9ac7271fa598565fd898f1f5d966444bc34a3f808cc",
+  "sidecar_sha256": "df0b4114952fb0da12c954d15e4e0d82fa4bd257c2dc73c5a0b25a62f058b82a",
+  "genuine8_source4_unchanged": true,
+  "synthetic_physical_units": 452,
+  "synthetic_stock_state_rows": 451,
+  "query_batches": 2,
+  "actual_DB_unit_values_exported": false,
+  "actual_Model_API_financial_forum_or_production_changes": 0,
+  "prior_QA_gap_explicitly_preserved": true
+}

@@ -1,0 +1,9 @@
+{
+  "changed_host_files": [
+    "card_offer_producer_host.py",
+    "public_reservation_sidecar.py"
+  ],
+  "genuine_exact4_same": true,
+  "Broker_and_managed_source_same": true,
+  "classroom_test_evidence_scope": "native8 and identical Model execution components; physical state producer verified independently and live publication reported separately"
+}

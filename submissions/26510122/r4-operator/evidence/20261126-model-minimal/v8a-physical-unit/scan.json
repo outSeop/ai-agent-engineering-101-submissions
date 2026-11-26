@@ -1,0 +1,9 @@
+{
+  "credentials_checked": 6,
+  "exact_hits": 0,
+  "pattern_hits": 0,
+  "file_sha256": {
+    "test_v8a_physical_id.py": "d2eeb2bc216ddf12b77e85c6b18d1fa03966580edf36285e19e5f79485a2db09",
+    "safe-summary.json": "3fc6e1c7838025f5e6ce6be79d0da914e2f9b1d26686781a17dbfee084c56d77"
+  }
+}
