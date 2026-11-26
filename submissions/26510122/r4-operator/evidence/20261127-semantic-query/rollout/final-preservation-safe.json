@@ -1,0 +1,85 @@
+{
+  "at": 1795711737.2085552,
+  "new_runtime": "public_catalogue_runtime_semantic_v2",
+  "native_tools": {
+    "public_catalogue": 8,
+    "semantic_candidates": 2
+  },
+  "original_DB_device_inode_same": true,
+  "DB_quick_check_ok": true,
+  "both_original_wallet_bytes_inodes_same": true,
+  "original_price_policy_same": true,
+  "original_financial_worker_refund_sources_same": true,
+  "SDK7_same": true,
+  "existing_catalogue8_exact4_same": true,
+  "runtime_sources_valid": {
+    "public_catalogue_runtime_semantic_v2": true,
+    "front_semantic_edge_runtime_v2": true
+  },
+  "existing_three_service_PID_restart_state_same": true,
+  "services": {
+    "ourolabs-market-r4.service": "ActiveState=active\nMainPID=1192914\nNRestarts=0",
+    "ourolabs-market-r4-worker.service": "ActiveState=active\nMainPID=1192976\nNRestarts=1",
+    "ourolabs-market-r4-front-edge.service": "ActiveState=active\nMainPID=1213796\nNRestarts=0",
+    "ourolabs-market-r4-semantic-front.service": "ActiveState=active\nMainPID=1218994\nNRestarts=0"
+  },
+  "pending_rows_all_fields_same": true,
+  "sale_counts": [
+    [
+      "issued",
+      1
+    ],
+    [
+      "settled",
+      2
+    ]
+  ],
+  "mileage_lots": [
+    2,
+    1165
+  ],
+  "welcome_awards": 2,
+  "refunds": 0,
+  "allocations": 0,
+  "duplicate_active_unit_count": 0,
+  "one_shop_one_agent": true,
+  "original_wallet_in_registry_card": true,
+  "same_registered_URL": true,
+  "semantic_public_marker_verified": true,
+  "cache_state_source_binding_valid": true,
+  "existing_timers_active": true,
+  "semantic_metrics_separate_file_exists": true,
+  "old_task": {
+    "http": 200,
+    "semantic_marker": true,
+    "old_task_body_SHA_same": true,
+    "old_task_read_error_present": false,
+    "Model_calls": 0,
+    "financial_actions": 0
+  },
+  "public_semantic_probe": {
+    "at": 1795711487.245029,
+    "http": 200,
+    "semantic_marker": true,
+    "seconds": 9.8627,
+    "Model_call_counts": [
+      1
+    ],
+    "single_edge_request_finish": true,
+    "actual_model_queries": [
+      "\uc18c\uc774\ubc00\ud06c",
+      "\ub450\uc720"
+    ],
+    "verified_semantic_tool_events": 1,
+    "candidate_rows": 3,
+    "all_SKU_name_grade_price_match_snapshot": true,
+    "candidate_label_present": true,
+    "not_full_match_claim": true,
+    "SKU_followup_advice": true,
+    "signed_financial_data_present": false,
+    "operator_registered": true,
+    "financial_actions": 0
+  },
+  "new_wallets_market_joins_quote_sign_pay_in_this_task": 0,
+  "raw_keys_tokens_private_JWT_customer_traces_exported": false
+}

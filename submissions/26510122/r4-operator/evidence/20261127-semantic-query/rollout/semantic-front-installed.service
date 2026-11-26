@@ -1,0 +1,16 @@
+[Unit]
+Description=Reviewed listener-only R4 semantic front edge (old edge retained)
+After=ourolabs-market-r4.service
+
+[Service]
+Type=simple
+WorkingDirectory=/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator
+ExecStart=/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/.venv/bin/python -I -B /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/deploy/front_semantic_edge_runtime_v2/run_front_edge.py --operator /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator --runtime-bundle /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/deploy/public_catalogue_runtime_semantic_v2 --runtime-manifest-sha e9e67778916da50d67978d6ecd3670e51faf7b7069f52fbbc1b5ac358d493c0f --edge-manifest-sha a7879bd7d9eeb1ecd0fc1e97c0d8652a88e542ee1b3f7dae9309e52bed1ab18e --port 18807 --serve
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=180
+KillMode=control-group
+Environment=PYTHONDONTWRITEBYTECODE=1
+
+[Install]
+WantedBy=default.target

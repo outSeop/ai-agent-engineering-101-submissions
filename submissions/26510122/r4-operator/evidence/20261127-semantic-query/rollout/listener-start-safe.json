@@ -1,0 +1,14 @@
+{
+  "at": 1795711284.9920008,
+  "status": "started_new18807_without_route_change",
+  "runtime": "public_catalogue_runtime_semantic_v2",
+  "runtime_pin": "e9e67778916da50d67978d6ecd3670e51faf7b7069f52fbbc1b5ac358d493c0f",
+  "front_pin": "a7879bd7d9eeb1ecd0fc1e97c0d8652a88e542ee1b3f7dae9309e52bed1ab18e",
+  "preserved_three_services_same": true,
+  "new_service": "ActiveState=active\nMainPID=1218994\nNRestarts=0",
+  "new_card_verified": true,
+  "wallets_created": 0,
+  "market_joins": 0,
+  "Model_calls": 0,
+  "financial_actions": 0
+}

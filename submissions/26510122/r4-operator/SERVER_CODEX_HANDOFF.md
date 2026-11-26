@@ -1,3 +1,23 @@
+## 2026-11-27 01:48:57 KST — 결정 모델의 유사어 계획 + genuine semantic2 적용
+
+현재 신규 task는 **public_catalogue_runtime_semantic_v2** manifest `e9e67778916da50d67978d6ecd3670e51faf7b7069f52fbbc1b5ac358d493c0f`와 **front_semantic_edge_runtime_v2** manifest `a7879bd7d9eeb1ecd0fc1e97c0d8652a88e542ee1b3f7dae9309e52bed1ab18e`를 쓴다. 실제 business 도구는 기존 public_catalogue8 exact4 + 별도 semantic_candidates2이며, public_catalogue9는 생성 시간초과/forge0으로 폐기됐다. 수업 market 운영, 개발용CLI 프록시 종료. 예약3개 PAUSED·기존DB/두지갑/매입/가격/혜택/환불/원SDK7/원금융 및 미정산1건 불변.
+
+모델1회가 검색어최대2개를 판단하고 도구가 원문 제한을 재검사해 비구속 후보를 안내한다. 실제 공개 소이밀크 문의에서 모델이 소이밀크·두유를 선택했고 native semantic1호출/9.8627초/3개SKU·이름·등급·가격 일치/금융0을 확인했다. 격리 실제 class는10.11초/genuine344자일치, 독립SDK6/6이다. 유사어 결과는 동일상품/전체조건확정이 아니며 SKU로 구매조건을 다시 문의한다. semantic은 memory0/completed; 원 정형SKU0회와 일반렌더 기억은 보존. 복합 원문 미해석·건강/호환·권리/결제·대안거부는 보류한다. 신규 정산 증가 주장은 없다(누적2/미정산1/lot2합1165/환불0 유지).
+
+프로세스: 원main1192914, worker1192976, 기존18806프런트1213796 모두 유지했고, **ourolabs-market-r4-semantic-front.service** PID1218994가127.0.0.1:18807에 추가됐다. source.1/UID1000/dport18805의 단일 own NAT rule은 **18807**을 향한다. 새→old18806→main18805의 task fallback chain은source127.0.0.2를 써 loop를 피한다. 기존operator GetTask의 원문SHA가 전환 전과 동일함을 실제 공개주소에서 확인했다. source별 지표는 runtime/native-customer-context/public-catalogue-semantic-metrics.json이며 기존 지표파일과 분리했다. 기존8a cacheproducer는 수정하지 않았다.
+
+**아래 이전 root_route_v1의 규칙 삭제를 현재 상태에 바로 적용하지 않는다.** 현재 전환·복구는 root에서 deploy/front_semantic_edge_runtime_v2/transition_guard.py를 사용한다. ownpin위a787…와 실제 main/old-edge PID 및 현재 registry URL을 넘기고, 기본 읽기점검, --apply는18806→18807, --rollback은18807→18806의 같은 단일 own rule을-R한다. rule comment/UID/address/portselector가 완전일치하고 두기존PID·카드·지갑·URL·미정산·10초idle을 확인한 뒤 동작한다. 원root user bus 오류는 실제 runuser -u seop PID읽기로 수정했다. v1transition은 보존된 실패 시도이며 실행하지 않는다. 비협력 firewall writer와의 inspect/replace CAS는 완전원자적 보장이 아니므로 별도규칙 writer와 동시에 실행하지 않는다.
+
+```text
+.venv/bin/python -B deploy/front_semantic_edge_runtime_v2/transition_guard.py --package-manifest-sha a7879bd7d9eeb1ecd0fc1e97c0d8652a88e542ee1b3f7dae9309e52bed1ab18e --expected-main-pid <actual-main-PID> --expected-old-edge-pid <actual-18806-PID> --expected-public-url <current-registry-URL> --rollback
+```
+
+새18807의 memory task store도 재시작하지 않는다. 되돌려도 데이터/프로세스는 남지만18807에서 새로 만든 active task의 후속 경로까지 자동보존하는 것은 아니므로 신규 active task를 점검하고 계획한다. 이번 전환은 기존→신규 방향의 이전 task 보존을 검증했다. NAT 영속화/부팅enable을 추가하지 않았으므로 WSL재가동 시 이전18806부터기동하고18807을 시작한뒤 현재지갑/URL/미정산조건으로 guarded rule을 적용한다. 오래된JWT/예약/URL을 강제수정하지 않는다. 등록/포럼/매입 루프를 두번 시작하지 않는다.
+
+[R4_SEMANTIC_QUERY_20261127.md](R4_SEMANTIC_QUERY_20261127.md)와 evidence/20261127-semantic-query/rollout/final-preservation-safe.json이 최신근거다. 공개운영자조회1건은 기존 health-probes.jsonl에 등록했고 GetTask읽기는 문의/판매가 아니다. 수업Model canary는임시Box root/운영ref0이다. 아래 예전17개NoWallet혼입의 exact-ref 제외조건은 계속유효하며 원로그삭제/개인토큰·원모델추론게시금지는 유지한다.
+
+아래는 이전 시각의 기록이다.
+
 ## 2026-11-27 01:00:04 KST — 최소 모델 경로 v8a/front3 운영 적용
 
 현재 신규 task는 **public_catalogue_runtime_v8a** manifest `ffa36c8557ecea6f53a7e9ac7271fa598565fd898f1f5d966444bc34a3f808cc`, **front_edge_runtime_v3** manifest `c2232e5e8a3ef7ced3e4475a009a519232393c309633c219d05ff3859e9385f2`다. 기존 main v4f/PID1192914, 기존 quick tunnel·URL·worker/PID1192976은 보존했다. 새 front user service/PID1213796이127.0.0.1:18806에 있으며 등록·자율 매입/포럼 루프는 추가하지 않았다. 원래 unit root·DB·두 지갑·정책·SDK7·금융 원본·기존 미정산1건이 동일하다. Codex r4/r4-2/r4-3은 PAUSED 유지.

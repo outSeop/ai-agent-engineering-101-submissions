@@ -1,0 +1,23 @@
+{
+  "at": 1795711487.245029,
+  "http": 200,
+  "semantic_marker": true,
+  "seconds": 9.8627,
+  "Model_call_counts": [
+    1
+  ],
+  "single_edge_request_finish": true,
+  "actual_model_queries": [
+    "소이밀크",
+    "두유"
+  ],
+  "verified_semantic_tool_events": 1,
+  "candidate_rows": 3,
+  "all_SKU_name_grade_price_match_snapshot": true,
+  "candidate_label_present": true,
+  "not_full_match_claim": true,
+  "SKU_followup_advice": true,
+  "signed_financial_data_present": false,
+  "operator_registered": true,
+  "financial_actions": 0
+}
