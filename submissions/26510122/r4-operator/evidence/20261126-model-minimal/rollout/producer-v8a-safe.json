@@ -1,0 +1,12 @@
+{
+  "status": "installed_readonly_producer_v8a",
+  "at": 1795707875.5214334,
+  "cache_rows": 150,
+  "public_status_rows": 152,
+  "reserved_status_rows": 1,
+  "source_binding_ok": true,
+  "original_main_worker_PID_restarts_same": true,
+  "timer_active": true,
+  "model_calls": 0,
+  "financial_actions": 0
+}

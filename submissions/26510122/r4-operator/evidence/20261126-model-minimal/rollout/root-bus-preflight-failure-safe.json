@@ -1,0 +1,7 @@
+{
+  "status": "preserved_preflight_failure",
+  "failure": "root caller could not read seop user service PID through the user bus directly",
+  "rules_changed": 0,
+  "resolution": "pinned external runuser binding reads actual owner service PID; frozen guard remains unchanged",
+  "actual_preflight_and_guard_apply": "passed"
+}

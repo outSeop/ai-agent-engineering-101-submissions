@@ -1,0 +1,40 @@
+{
+  "results": [
+    {
+      "case": "structured-v1",
+      "at": 1795708370.6990874,
+      "http": 200,
+      "seconds": 10.0184,
+      "edge_marker": "r4-front-v1",
+      "edge_observed_Model_call_counts": [
+        1
+      ],
+      "single_edge_request_finish": true,
+      "factual_public_SKU_grade_price_match": true,
+      "signed_financial_data_present": false,
+      "states": [
+        "TASK_STATE_COMPLETED"
+      ],
+      "error_type": null,
+      "operator_registered": true
+    },
+    {
+      "case": "followup-v1",
+      "at": 1795708380.719115,
+      "http": 200,
+      "seconds": 0.0431,
+      "edge_marker": "r4-front-v1",
+      "edge_observed_Model_call_counts": [
+        0
+      ],
+      "single_edge_request_finish": true,
+      "factual_public_SKU_grade_price_match": false,
+      "signed_financial_data_present": false,
+      "states": [],
+      "error_type": null,
+      "operator_registered": true
+    }
+  ],
+  "public_information_only": true,
+  "financial_actions": 0
+}

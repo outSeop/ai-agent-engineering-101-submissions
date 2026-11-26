@@ -1,0 +1,13 @@
+{
+  "exact_operator_synthetic_decision_count": 17,
+  "unique_matched_transport_count": 17,
+  "unresolved_count": 0,
+  "first_at": 1795704383.4396217,
+  "last_at": 1795706221.119208,
+  "proof": "exact tool canary_only + exact synthetic response + exact synthetic request; unique short enclosing transport span",
+  "actual_sign_or_pay": false,
+  "DB_affected": false,
+  "production_logs_modified_or_deleted": false,
+  "broad_customer_time_window_excluded": false,
+  "decision_and_transport_refs_are_private": true
+}

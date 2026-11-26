@@ -1,0 +1,14 @@
+{
+  "status": "front_only_listener_started_routing_unchanged",
+  "at": 1795707939.537692,
+  "runtime": "public_catalogue_runtime_v8a",
+  "runtime_pin": "ffa36c8557ecea6f53a7e9ac7271fa598565fd898f1f5d966444bc34a3f808cc",
+  "edge_pin": "c2232e5e8a3ef7ced3e4475a009a519232393c309633c219d05ff3859e9385f2",
+  "service": "ourolabs-market-r4-front-edge.service",
+  "service_status": "ActiveState=active\nMainPID=1213796\nNRestarts=0",
+  "edge_card_HTTP_200": true,
+  "edge_marker_verified": true,
+  "market_join": false,
+  "financial_actions": 0,
+  "enabled_at_boot": false
+}

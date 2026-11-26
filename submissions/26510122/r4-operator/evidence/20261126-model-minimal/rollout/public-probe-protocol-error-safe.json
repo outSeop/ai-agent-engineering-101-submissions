@@ -1,0 +1,22 @@
+{
+  "results": [
+    {
+      "case": "structured",
+      "at": 1795708299.568848,
+      "http": 200,
+      "seconds": 0.0786,
+      "edge_marker": "r4-front-v1",
+      "edge_observed_Model_call_counts": [
+        0
+      ],
+      "single_edge_request_finish": true,
+      "factual_public_SKU_grade_price_match": false,
+      "signed_financial_data_present": false,
+      "states": [],
+      "error_type": null,
+      "operator_registered": true
+    }
+  ],
+  "public_information_only": true,
+  "financial_actions": 0
+}

@@ -1,0 +1,10 @@
+{
+  "status": "applied_exact_rule_public_marker_verified",
+  "origin_idle_samples": 21,
+  "old_main_PID_unchanged": true,
+  "one_exact_rule_present": true,
+  "process_registry_DB_wallet_changes": 0,
+  "at": 1795708148.6363854,
+  "public_url": "https://stable-leu-below-the.trycloudflare.com",
+  "root_binding": "runuser seop reads real original service PID"
+}

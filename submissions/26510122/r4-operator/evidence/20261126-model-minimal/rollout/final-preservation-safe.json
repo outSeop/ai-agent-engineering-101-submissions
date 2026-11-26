@@ -1,0 +1,116 @@
+{
+  "captured_at": 1795708804.8553019,
+  "active_new_customer_runtime": "public_catalogue_runtime_v8a via front_edge_runtime_v3",
+  "original_main_runtime": "public_catalogue_runtime_v4f preserved",
+  "original_DB_device_inode_same": true,
+  "database_quick_check_ok": true,
+  "original_wallet_files_bytes_and_inodes_same": true,
+  "original_price_policy_same": true,
+  "original_financial_worker_refund_sources_same": true,
+  "original_main_launcher_v4f_same": true,
+  "official_SDK7_same": true,
+  "runtime_frozen_sources_valid": {
+    "public_catalogue_runtime_v8a": true,
+    "front_edge_runtime_v3": true
+  },
+  "preexisting_pending_checkout_rows_exactly_same": true,
+  "sale_counts": [
+    [
+      "issued",
+      1
+    ],
+    [
+      "settled",
+      2
+    ]
+  ],
+  "mileage_lots": [
+    2,
+    1165
+  ],
+  "welcome_awards": 2,
+  "refunds": 0,
+  "allocations": 0,
+  "duplicate_active_unit_count": 0,
+  "unique_active_unit_index_present": true,
+  "services": {
+    "ourolabs-market-r4.service": {
+      "ActiveState": "active",
+      "MainPID": "1192914",
+      "NRestarts": "0",
+      "MemoryCurrent": "112246784"
+    },
+    "ourolabs-market-r4-worker.service": {
+      "ActiveState": "active",
+      "MainPID": "1192976",
+      "NRestarts": "1",
+      "MemoryCurrent": "60059648"
+    },
+    "ourolabs-market-r4-front-edge.service": {
+      "ActiveState": "active",
+      "MainPID": "1213796",
+      "NRestarts": "0",
+      "MemoryCurrent": "62566400"
+    }
+  },
+  "old_main_worker_PID_restart_state_same": true,
+  "unique_shop_registered": true,
+  "unique_agent_registered": true,
+  "registered_shop_original_wallet_same": true,
+  "public_card_original_wallet_same": true,
+  "public_card_name_same": true,
+  "registered_public_URL_unchanged": true,
+  "public_edge_marker_verified": true,
+  "cache_rows": 150,
+  "stock_state_rows": 151,
+  "reserved_state_rows": 1,
+  "reserved_current_C_visible": true,
+  "source_SHA_TTL_binding_valid": true,
+  "cache_refreshed_since_first_v8a_publish": true,
+  "internal_cache_card_timers_active": true,
+  "new_metrics_file_exists": true,
+  "public_probes": {
+    "results": [
+      {
+        "case": "structured-prefix-v1",
+        "at": 1795708636.761969,
+        "http": 200,
+        "seconds": 1.5276,
+        "edge_marker": "r4-front-v1",
+        "edge_observed_Model_call_counts": [
+          0
+        ],
+        "single_edge_request_finish": true,
+        "factual_public_SKU_grade_price_match": true,
+        "signed_financial_data_present": false,
+        "states": [
+          "TASK_STATE_INPUT_REQUIRED"
+        ],
+        "error_type": null,
+        "operator_registered": true
+      },
+      {
+        "case": "followup-display-v1",
+        "at": 1795708638.2911246,
+        "http": 200,
+        "seconds": 9.325,
+        "edge_marker": "r4-front-v1",
+        "edge_observed_Model_call_counts": [
+          1
+        ],
+        "single_edge_request_finish": true,
+        "factual_public_SKU_grade_price_match": true,
+        "signed_financial_data_present": false,
+        "states": [
+          "TASK_STATE_INPUT_REQUIRED"
+        ],
+        "error_type": null,
+        "operator_registered": true
+      }
+    ],
+    "public_information_only": true,
+    "financial_actions": 0
+  },
+  "Model_sign_pay_join_calls_during_this_audit": 0,
+  "key_tokens_or_JWT_values_exported": false
+}

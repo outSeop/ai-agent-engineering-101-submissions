@@ -1,0 +1,42 @@
+{
+  "results": [
+    {
+      "case": "structured-prefix-v1",
+      "at": 1795708636.761969,
+      "http": 200,
+      "seconds": 1.5276,
+      "edge_marker": "r4-front-v1",
+      "edge_observed_Model_call_counts": [
+        0
+      ],
+      "single_edge_request_finish": true,
+      "factual_public_SKU_grade_price_match": true,
+      "signed_financial_data_present": false,
+      "states": [
+        "TASK_STATE_INPUT_REQUIRED"
+      ],
+      "error_type": null,
+      "operator_registered": true
+    },
+    {
+      "case": "followup-display-v1",
+      "at": 1795708638.2911246,
+      "http": 200,
+      "seconds": 9.325,
+      "edge_marker": "r4-front-v1",
+      "edge_observed_Model_call_counts": [
+        1
+      ],
+      "single_edge_request_finish": true,
+      "factual_public_SKU_grade_price_match": true,
+      "signed_financial_data_present": false,
+      "states": [
+        "TASK_STATE_INPUT_REQUIRED"
+      ],
+      "error_type": null,
+      "operator_registered": true
+    }
+  ],
+  "public_information_only": true,
+  "financial_actions": 0
+}

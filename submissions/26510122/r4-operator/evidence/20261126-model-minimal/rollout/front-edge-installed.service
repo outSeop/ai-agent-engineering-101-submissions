@@ -1,0 +1,16 @@
+[Unit]
+Description=Reviewed listener-only R4 front edge (no join or background loop)
+After=ourolabs-market-r4.service
+
+[Service]
+Type=simple
+WorkingDirectory=/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator
+ExecStart=/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/.venv/bin/python -I -B /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/deploy/front_edge_runtime_v3/run_front_edge.py --operator /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator --runtime-bundle /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/deploy/public_catalogue_runtime_v8a --runtime-manifest-sha ffa36c8557ecea6f53a7e9ac7271fa598565fd898f1f5d966444bc34a3f808cc --edge-manifest-sha c2232e5e8a3ef7ced3e4475a009a519232393c309633c219d05ff3859e9385f2 --port 18806 --serve
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=180
+KillMode=control-group
+Environment=PYTHONDONTWRITEBYTECODE=1
+
+[Install]
+WantedBy=default.target

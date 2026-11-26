@@ -1,3 +1,29 @@
+## 2026-11-27 01:00:04 KST — 최소 모델 경로 v8a/front3 운영 적용
+
+현재 신규 task는 **public_catalogue_runtime_v8a** manifest `ffa36c8557ecea6f53a7e9ac7271fa598565fd898f1f5d966444bc34a3f808cc`, **front_edge_runtime_v3** manifest `c2232e5e8a3ef7ced3e4475a009a519232393c309633c219d05ff3859e9385f2`다. 기존 main v4f/PID1192914, 기존 quick tunnel·URL·worker/PID1192976은 보존했다. 새 front user service/PID1213796이127.0.0.1:18806에 있으며 등록·자율 매입/포럼 루프는 추가하지 않았다. 원래 unit root·DB·두 지갑·정책·SDK7·금융 원본·기존 미정산1건이 동일하다. Codex r4/r4-2/r4-3은 PAUSED 유지.
+
+공개 A2A1.0 `가격 G9cdcfa8f`: Model0/1.5276초/현재 facts일치/input_required. 같은 task의 “그 상품을 다시 보여 주세요”: Model1/9.325초/같은 facts/input_required. 격리 실제 수업모델 쌀+견과: Model1/17.54초/genuine371자. 보호된 서명 선택 canary는30초 TimeoutError/quote stub0·실금융0이므로 성공으로 세지 않는다. 기존 정산2/미정산1/lot2합1165/welcome2/할당0/환불0이며 신규 실거래 개선 주장은 없다. 자세한 기록은 [R4_MODEL_MINIMAL_20261127.md](R4_MODEL_MINIMAL_20261127.md), evidence/20261126-model-minimal/rollout/final-preservation-safe.json을 본다.
+
+새 조회는 실제 API 재고+원 SQLite의 모든 물리 unit 상태를 읽기 전용으로 준비한다. v8의 잘못된 physical ID 검증0행을 실제 publish에서 발견해 v8a로 수정했고, 실제 상태151행·예약C1행을 최종 확인했다. 원래 issuedB JWT는 고치지 않았다. 공개 representative150행과 실제 물리 unit 수를 혼동하지 않는다. 정책 절대 경로는 price_context_runtime_v8a로 묶었으며 기존 캐시 schema는 유지한다. 새 phase 지표는 runtime/native-customer-context/public-catalogue-model-minimal-metrics.json으로 원 main 지표와 분리했다.
+
+0회는 키워드+단일SKU의 엄격한 공개 명령에 한정한다. 일반·보호 요청은 Model최대1/formatrepair0/최대3선택/30초 로컬대기/800token이고, 첫프레임final=true다. 원 SDK의 로컬 timeout은 제공자 취소가 아니다. 공개 fallback으로 task가 completed되면 새 task로 문의하며, 완료 task 후속 오류를 서비스 장애로 세지 않는다. 일반 공개 렌더의 input_required/기억은 실접속으로 확인했다. 복잡한 국소 제약은 미지원으로 남을 수 있다.
+
+현재 연결은 exact OUTPUT nat 규칙1개: uid1000·source/dest127.0.0.1·dport18805→18806. 원 taskId는 프런트가 source127.0.0.2로 구 main에 그대로 넘긴다. 기존 task는 v4f 경로라 Model1회 보장 대상이 아니다. 원본 main의 process-local customer_active는 새 front를 보지 않으므로 모델 호출의 교차 프로세스 우선순위는 보장하지 않는다. 금융 원자적 잠금/고유 unit 인덱스는 보존한다.
+
+**운영 유지·되돌리기:** 원 main/CF를 재시작하거나 미정산의 JWT/URL/재고 예약을 수정하지 않는다. 새 front 중지 전에는 먼저 아래 exact rule rollback을 수행한다. root 직호출로 seop user bus를 읽지 못한 preflight가 있어, frozen guard를 바꾸지 않고 `front_edge_root_route_v1/root_user_route_guard.py`가 runuser로 실제 seop PID를 읽는다. wrapper manifest `e0acae63896f660c862304b6dfd48338ccd0b8d7b88659a6cb890045bc3902bc`. preflight/apply/rollback은 root에서 실행하고 mainPID·현재 registry URL을 다시 확인해 인자를 넣는다. 명령 예시는 다음과 같으며, rollback은 정확히 이 규칙만 삭제한다. 체인 flush·conntrack 삭제·기존프로세스 kill은 하지 않는다.
+
+```text
+.venv/bin/python -B deploy/front_edge_root_route_v1/root_user_route_guard.py --binding-manifest-sha e0acae63896f660c862304b6dfd48338ccd0b8d7b88659a6cb890045bc3902bc --package-manifest-sha c2232e5e8a3ef7ced3e4475a009a519232393c309633c219d05ff3859e9385f2 --expected-main-pid <actual-main-PID> --expected-public-url <current-registry-URL> --rollback
+```
+
+같은 검증 인자에서 mode를 생략하면 읽기 전용 점검, --apply는10초 원 연결 idle+card/wallet/pendingURL검증 후 exact rule만 삽입한다. 공개 card의 x-r4-edge:r4-front-v1과 실제 POST 응답을 확인한다. 원 v3 route_guard.py 단독 root 호출은 user bus 문제로 사용하지 않는다. root binding은 운영 PID 조회 컨텍스트만 바꾸며 SDK·금융·규칙 조건을 바꾸지 않는다.
+
+프런트 task store는 메모리이므로 무심코 재시작하지 않는다. WSL 재시작에 대한 NAT 영속화/프런트 부팅 enable은 이번 변경에 없다. 재가동 시 원 URI·미정산 상태를 점검하고 front service 시작 및 guarded rule 적용이 별도로 필요하다. 기존 main의 quick URL이 달라졌으면 강제로 옛 예약을 풀거나 URL을 재작성하지 않는다.
+
+**집계 정정:** 초기 NoWallet 테스트17decision/17transport가 운영 로그에 섞였다. 원본 삭제 없이 runtime/model-minimal-20261126-method/operator-test-exclusions-private.json의 정확한 ref를 제외한다. 근거는 동 폴더 operator-test-contamination-safe.json. 그 시간 전체를 제외하거나 실제 고객을 숨기지 않는다. 이후 테스트는 session root이며 class8의 PROD ref 교집합0이다. 공개 운영자5호출은 runtime/r3-stock-latest-path.txt가 가리키는 health-probes.jsonl에 등록됐다. 아래 v1/v2 mock 결과의 “운영영향0” 표현은 이 정정을 함께 읽는다. 새 테스트에는 격리된 front3만 사용한다. raw logs·JWT·지갑·Model reasoning을 Git에 올리지 않는다.
+
+아래는 이전 시각의 기록이다.
+
 ## 2026-11-26 15:27 KST — 최종 v4f 적용·전후 비교 완료
 
 현재 운영 host **public_catalogue_runtime_v4f** manifest7f542904fc84e44d92b2558e72146aa7863fdd8d9208ce45c98e5e5b397b24d6, launcher831fa941b826ff0bd06b373ed05a2e48732bf9238d62ce38f5996e3de093445d. 예약 r4/r4-2/r4-3 모두 PAUSED 유지. 셀러 자체 운영과 정산 워커는 유지한다.
