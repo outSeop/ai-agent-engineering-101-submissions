@@ -1,0 +1,21 @@
+{
+  "correction": "The control labeled primary_only_control_retained in v6/v7 fixed-nuts results was a separately written generic synthetic nuts query, not the actual customer question with only the secondary clause removed. It cannot establish that the original primary-only query succeeded.",
+  "exact_original_full_question_retained_v7": false,
+  "exact_original_primary_first_clause_retained_v7": false,
+  "whole_composite_noun_generic_rewrite_retained_v7": true,
+  "rewrite_constraints_unverified": true,
+  "original_records_unchanged": [
+    "native6-fixed-nuts/safe-result.json",
+    "native7-fixed-nuts/safe-result.json",
+    "native7-fixed-nuts-variants/safe-result.json"
+  ],
+  "decisive_first_adapter_original_preserved": "native7-fixed-nuts-decisive/first-adapter-result-preserved.json",
+  "decisive_first_adapter_sha256": "decc0c7e71f0c67b8dee905371cfeea8ca95245e1e297e55eaf7cd037df89e94",
+  "safe_diagnostics": [
+    "native7-fixed-nuts/safe-diagnostic.json",
+    "native7-fixed-nuts/safe-predicate-variants.json",
+    "native7-fixed-nuts/safe-primary-predicate-assessment.json",
+    "native7-fixed-nuts/safe-title-literal-assessment.json"
+  ],
+  "no_customer_rawtext_or_refs_in_this_correction": true
+}

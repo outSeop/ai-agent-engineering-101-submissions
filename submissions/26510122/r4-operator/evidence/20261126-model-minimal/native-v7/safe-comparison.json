@@ -1,0 +1,16 @@
+{
+  "baseline_v6_original_commit": "da94f70",
+  "synthetic_sdk_verification": "v6 did not surface both groups",
+  "original_private_synthetic_failure_log_sha256": "57794a43cfcb14dc52dfd9599832b0c240520e8af9b4989624cec94b91ee8e5c",
+  "official_v7": {
+    "forge_passed": true,
+    "release_manifest": "54162bc30066242f3e419971dc7679da78dbc6d7e3246e4b3b6d30f5f1d362f4"
+  },
+  "limits": [
+    "Compound prepared results are verified facts, not a guarantee of all requested attributes.",
+    "Unsupported secondary products are not asserted absent.",
+    "Generic requests without a recognized query group do not yet have a prepare result.",
+    "Condition parsing remains conservative and can omit otherwise relevant rows."
+  ],
+  "actual_production_actions_in_this_validation": 0
+}

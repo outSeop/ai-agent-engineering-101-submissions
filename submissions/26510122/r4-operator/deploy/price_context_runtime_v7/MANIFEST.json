@@ -1,0 +1,9 @@
+{
+  "catalogue_manifest_sha256": "54162bc30066242f3e419971dc7679da78dbc6d7e3246e4b3b6d30f5f1d362f4",
+  "file_sha256": {
+    "90-public-catalogue.conf.candidate": "2d5548452e659efd2e53d25d223956fa3693941b41afcd041af8c4b87f11e697",
+    "price_context_bootstrap.py": "1053a222f063c0a1151104dceeccadd6fa280aa89e69b9d84ac638b11826871c"
+  },
+  "live_installed": false,
+  "previous_bootstrap_sha256": "d7595b18fdb6209c9eb8b1181ced620f1d932812cb149966f777fce9b249908c"
+}

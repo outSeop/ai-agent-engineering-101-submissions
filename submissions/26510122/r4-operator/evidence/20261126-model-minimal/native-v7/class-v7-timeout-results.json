@@ -1,0 +1,88 @@
+{
+  "source_same_for_all_cases": true,
+  "source_timestamps_not_rebased": true,
+  "source_count": 151,
+  "v7_manifest_sha256": "54162bc30066242f3e419971dc7679da78dbc6d7e3246e4b3b6d30f5f1d362f4",
+  "cases": [
+    {
+      "case": "rice-nuts",
+      "session": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/public-catalogue-class-canary-model-minimal-v7-1795705779-rice-nuts",
+      "exit_code": 0,
+      "status": "no_verified_catalogue_final_reply",
+      "Model_calls": 1,
+      "Model_timeouts": [
+        18
+      ],
+      "total_seconds": 19.4847,
+      "operations": [
+        "prepare",
+        "prepared_fallback"
+      ],
+      "page_rows": [
+        6,
+        null
+      ],
+      "financial_stub_selections": 0,
+      "actual_financial_execution": 0,
+      "model_errors": [
+        {
+          "error_type": "TimeoutError"
+        }
+      ],
+      "final_genuine_suffix": false
+    },
+    {
+      "case": "nuts-lamp",
+      "session": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/public-catalogue-class-canary-model-minimal-v7-1795705779-nuts-lamp",
+      "exit_code": 0,
+      "status": "no_verified_catalogue_final_reply",
+      "Model_calls": 1,
+      "Model_timeouts": [
+        18
+      ],
+      "total_seconds": 19.5128,
+      "operations": [
+        "prepare",
+        "prepared_fallback"
+      ],
+      "page_rows": [
+        4,
+        null
+      ],
+      "financial_stub_selections": 0,
+      "actual_financial_execution": 0,
+      "model_errors": [
+        {
+          "error_type": "TimeoutError"
+        }
+      ],
+      "final_genuine_suffix": false
+    },
+    {
+      "case": "protected-quote",
+      "session": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/public-catalogue-class-canary-model-minimal-v7-1795705779-protected-quote",
+      "exit_code": 0,
+      "status": "no_verified_quote_action_stub",
+      "Model_calls": 1,
+      "Model_timeouts": [
+        18
+      ],
+      "total_seconds": 18.7325,
+      "operations": [
+        "prepare"
+      ],
+      "page_rows": [
+        0
+      ],
+      "financial_stub_selections": 0,
+      "actual_financial_execution": 0,
+      "model_errors": [
+        {
+          "error_type": "TimeoutError"
+        }
+      ],
+      "final_genuine_suffix": false
+    }
+  ],
+  "production_operations": 0
+}

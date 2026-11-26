@@ -1,0 +1,26 @@
+{
+  "status": "failed_relevant_candidate_coverage",
+  "actual_classroom_Model_called": true,
+  "requested_public_text": "지금 실제로 파는 쌀과 견과류가 있나요? 있으면 상품명, 등급, 가격과 소비기한을 보여 주세요.",
+  "source_count": 151,
+  "source_literal_term_match_counts": {
+    "rice_terms": 10,
+    "nuts_terms": 4
+  },
+  "prepared_mode_enabled": true,
+  "prepared_page_rows": 0,
+  "constraints_unverified": true,
+  "fits_count": 0,
+  "actual_Model_calls": 1,
+  "local_Model_timeout_seconds": 18,
+  "total_transport_seconds": 12.0389,
+  "Model_seconds": 11.2086,
+  "provider_HTTP_error_metadata": [],
+  "verified_product_render_returned": false,
+  "actual_financial_execution_count": 0,
+  "legacy_context_calls": 0,
+  "raw_Model_messages_or_thought_exported": false,
+  "session_path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/public-catalogue-class-canary-model-minimal-1795704920-rice-nuts",
+  "genuine6_source_unchanged": true,
+  "not_a_production_buyer_or_settlement_result": true
+}

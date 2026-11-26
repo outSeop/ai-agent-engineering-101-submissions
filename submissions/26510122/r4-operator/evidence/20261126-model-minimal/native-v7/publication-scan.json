@@ -1,0 +1,11 @@
+{
+  "exact_matches": 0,
+  "pattern_hits": 0,
+  "credential_sources_checked": 6,
+  "files": {
+    "safe-v7-provenance.json": "0d4c58dcec37e9814d4aa91e8fec07520d9a9954279dc3cbe487680bf3483eea",
+    "test_multi_intent_v7_sdk.py": "d344ff26d197171c96269b5a5bb02aee3e055da66732fd15e9bd89673b72a7c3",
+    "v7-sdk-pass.json": "b416d738edaa44e4c332ec0d175e0ccdbd5c0a766d13b933ce5cb2f2fc3f2c1d",
+    "safe-comparison.json": "0de9798cc847a762102582b2733edc6b6aea1560ee1880da4d8fbc9db5cf0a23"
+  }
+}

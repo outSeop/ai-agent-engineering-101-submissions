@@ -1,0 +1,14 @@
+{
+  "case": "original-nuts-compound-primary-retention",
+  "passed": false,
+  "retained_verified_nuts_B8010": false,
+  "returned_count": 0,
+  "status": "ready",
+  "constraints_unverified": true,
+  "primary_only_control_retained": true,
+  "historical_source_first_page_rows": 1,
+  "historical_clock_not_rebased": true,
+  "method": "Exact masked historical question read privately; ordinary SDK with fresh synthetic cache built from historical verified first-page public facts, retaining original actual expiry reconstructed as historical as_of+remaining. No historical snapshot freshness claim. Secondary absence never asserted.",
+  "genuine_logic_sha256": "20820ffd9d395289d2a6f1a53d01b48f3307c41405cf37e56685f79e1a63d66f",
+  "actual_Model_API_financial_forum_or_production_changes": 0
+}

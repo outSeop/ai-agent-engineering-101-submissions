@@ -1,0 +1,47 @@
+{
+  "schema": "outseop-r4.independent-native7-assessment.v1",
+  "manifest_sha256": "54162bc30066242f3e419971dc7679da78dbc6d7e3246e4b3b6d30f5f1d362f4",
+  "genuine4_sha256": {
+    "forge.json": "788006412544bcb7ce65416791afece204cd5a0d1ebca8957bb88552239671ae",
+    "logic.py": "20820ffd9d395289d2a6f1a53d01b48f3307c41405cf37e56685f79e1a63d66f",
+    "permission.yml": "0d69ee6c1c98469eb0bd94e405d9b1f11b5e341a3108b9a0533c5e64373fe652",
+    "test.py": "f2f82fd799ebb905470653352bc04e6eedc831f7e336d5f9580387431a74b5f1"
+  },
+  "forge_source_exact_and_ordinary_sdk": true,
+  "host_non_catalogue_bytes_changed_from_v6": [],
+  "ordinary_synthetic_tests": {
+    "passed": 10,
+    "total": 11,
+    "false_negative": "Mixed per-intent grades/packages suppress all candidates with constraints_unverified=true; safe clarification limitation, not false facts."
+  },
+  "actual_historical_compound": {
+    "candidate_retained": false,
+    "primary_clause_retained": false,
+    "public_title_composite_noun_present": true,
+    "requested_package_evidence_matches_title": true,
+    "typed_grade_price_life_thresholds": 0,
+    "allergen_or_ingredient_unknown_fact": false,
+    "direct_predicate": "Unrecognized composite noun ending in nuts marker fails native whole-word selector. Groups zero before row matching.",
+    "generic_whole_noun_rewrite_only": {
+      "retained": true,
+      "constraints_unverified": true,
+      "fit_kind": "named_pack"
+    },
+    "expectation": "May retain a verified partial public-title/package candidate, but exact original request is not solved and full condition satisfaction or consent is not established."
+  },
+  "verified_safety": {
+    "union_page8_diversity": true,
+    "strict_grade_price_pack_life_single_intent": true,
+    "negations": true,
+    "unknown_hard_conditions_do_not_enable_fallback": true,
+    "protected_rights_context_preserved": true,
+    "same_SKU_grade_available_reserved_both_preserved": true,
+    "reserved_NULL_price_not_replaced_with_old_price": true,
+    "source_stale_fails_closed": true,
+    "observed_financial_or_false_fact_violation": false
+  },
+  "tests_have_no_actual_Model_API_financial_forum_or_production_changes": true,
+  "v6_original_failures_preserved": true,
+  "first_setup_failure_preserved": true,
+  "source_change_by_QA": false
+}
