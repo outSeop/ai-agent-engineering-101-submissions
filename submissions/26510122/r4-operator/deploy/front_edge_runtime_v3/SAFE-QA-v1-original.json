@@ -1,0 +1,32 @@
+{
+  "status": "staging_only",
+  "tests": [
+    {
+      "script": "test_front_edge_nowallet.py",
+      "exit_code": 0,
+      "expected_test_count": 10,
+      "passed": true
+    },
+    {
+      "script": "test_route_guard_mock.py",
+      "exit_code": 0,
+      "expected_test_count": 5,
+      "passed": true
+    }
+  ],
+  "NoWallet_original_SDK_ASGI_tests": 10,
+  "mock_only_route_tests": 5,
+  "actual_source_127_0_0_2_to_old_card_GET_200": true,
+  "installed_Uvicorn_keepalive_default_seconds": 5,
+  "strict_newrequest_Model_limit": 1,
+  "local_Model_wait_cap_seconds": 18,
+  "upstream_HTTP_job_cancelled": false,
+  "late_Model_result_can_trigger_financial_action": false,
+  "global_transaction_harddeadline_claimed": false,
+  "edge_listener_started_by_author": false,
+  "original_main_tunnel_registration_unchanged": true,
+  "iptables_installed_or_rules_changed_by_author": false,
+  "actual_Model_or_financial_actions_in_edge_tests": 0,
+  "oldtask_POST_test": "original bytes preserved with stub upstream; real old backend only GET tested",
+  "first_scope_failure_preserved": true
+}

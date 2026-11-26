@@ -1,0 +1,39 @@
+{
+  "status": "staged_waiting_genuine8",
+  "tests": [
+    {
+      "script": "test_front_edge_nowallet.py",
+      "tests": 10,
+      "exit_code": 0,
+      "summary": [
+        "----------------------------------------------------------------------",
+        "Ran 10 tests in 0.460s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "script": "test_route_guard_mock.py",
+      "tests": 5,
+      "exit_code": 0,
+      "summary": [
+        "----------------------------------------------------------------------",
+        "Ran 5 tests in 0.007s",
+        "",
+        "OK"
+      ]
+    }
+  ],
+  "v2_production_sources_byte_identical": {
+    "front_edge_app.py": true,
+    "run_front_edge.py": true,
+    "route_guard.py": true,
+    "front-edge.service.template": true
+  },
+  "FakeToolbox_root_isolated": true,
+  "each_test_new_refs_PROD_intersection_zero": true,
+  "past_operator_synthetic_decision_count": 17,
+  "past_unique_transport_exclusion_count": 17,
+  "past_logs_deleted_or_broadly_filtered": false,
+  "actual_Model_DB_sign_pay_or_service_rule_actions": 0
+}
