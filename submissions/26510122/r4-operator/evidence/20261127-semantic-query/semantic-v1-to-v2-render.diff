@@ -1,0 +1,27 @@
+--- semantic_candidates@1/logic.py
++++ semantic_candidates@2/logic.py
+@@ -7,6 +7,7 @@
+ DEPENDENCY = 'tools/public_catalogue/logic.py'
+ PIN = '01a4a0dc912e02679091a3f6c98df3f0450ca2581b920d1d650e2fa0fa2a4c89'
+ PREFIX = '유사어로 찾은 참고 후보입니다. 정확한 상품 일치와 요청 조건 전체의 충족 여부는 확인되지 않았습니다. 표시 가격은 공개 상품가입니다.'
++ADVICE = '원하는 SKU로 구매 조건을 다시 문의해 주세요.'
+ SKU = re.compile(r'G[0-9a-f]{8}', re.I)
+ RESTRICTED = re.compile(
+     r'결제|송금|입금|출금|환불|반품|정산|인출|지갑|계좌|거래|주문|구매|계약|권리|권한|견적|청구|서명|인증|잔액|할인|흥정|예약|본인|개인정보|이메일|연락처|전화번호|고객\s*(?:번호|정보)|내부|비공개|이벤트|로그|'
+@@ -173,8 +174,8 @@
+         if visible in seen or not c['current'](row, display):
+             continue
+         lifetime = '유통기한 미제공' if expiry is None else f'남은 시간 {max(0, expiry - math.ceil(display))}초'
+-        line = f'{name} · {grade}등급 · {price:,}크레딧 · {lifetime}'
+-        if sum(map(len, lines)) + len(lines) + len(line) > c['REPLY_LIMIT']:
++        line = f"{name} · SKU {unit['sku']} · {grade}등급 · {price:,}크레딧 · {lifetime}"
++        if len('\n'.join([*lines, line, ADVICE])) > c['REPLY_LIMIT']:
+             continue
+         lines.append(line)
+         selected.append(row)
+@@ -191,4 +192,4 @@
+     if any(not c['at_limit'](row[1]['expires_at'] - final, value, bound)
+            for row in selected for value, bound in remaining):
+         return unavailable('selection_unavailable')
+-    return {'status': 'rendered', 'reply': '\n'.join(lines), 'observed_at': observed, 'valid_until': until}
++    return {'status': 'rendered', 'reply': '\n'.join([*lines, ADVICE]), 'observed_at': observed, 'valid_until': until}

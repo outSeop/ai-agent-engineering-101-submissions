@@ -1,0 +1,54 @@
+{
+  "baseline_manifest": "ffa36c8557ecea6f53a7e9ac7271fa598565fd898f1f5d966444bc34a3f808cc",
+  "forge_events": [
+    {
+      "passed": false,
+      "tool": "semantic_candidates",
+      "ts": 1795710619,
+      "version": 1
+    },
+    {
+      "passed": true,
+      "tool": "semantic_candidates",
+      "ts": 1795710755,
+      "version": 1
+    },
+    {
+      "passed": true,
+      "tool": "semantic_candidates",
+      "ts": 1795711055,
+      "version": 2
+    }
+  ],
+  "large_monolithic_attempt": {
+    "catalogue_requested_version": 9,
+    "cli_timeout_seconds": 600,
+    "currently_installed_native_version": 8,
+    "error_type": "TimeoutExpired",
+    "forge_submissions_this_attempt": 0,
+    "host_http_status": 502,
+    "private_cli_metadata_sha256": "2cb8b6bab048dccfab60e6b7f8ab853fa42bc59c79a7a1fb027fb5856a917af8",
+    "provider": "codex-cli-gpt-6.2-sol",
+    "upstream_reported_model": null,
+    "usable_response_bytes": 0
+  },
+  "model_provider": "codex-cli-gpt-6.2-sol",
+  "native_v1_limitation": "Rendered verified product facts without a public SKU. V2 only changes displayed public SKU/advice/output sizing.",
+  "official_mind": true,
+  "official_sdk_forge": true,
+  "original_forge_log_sha256": "68ee2830c2be32211ce75a7c9bcee0c7dcbd4572cffdd8dfbf59c86a867637f2",
+  "production_actions": 0,
+  "provider_reported_model": null,
+  "release_manifest_sha256": "e9e67778916da50d67978d6ecd3670e51faf7b7069f52fbbc1b5ac358d493c0f",
+  "safe_tests": {
+    "host_mocks": 11,
+    "ordinary_sdk_acceptance": 3,
+    "ordinary_sdk_denials": 7
+  },
+  "same_source_response": {
+    "capture_record_sha256": "113375cd98637f690fe352538d8e081ceea52122d480ef87dbe28ef09a7ccbfa",
+    "response_sha256": "d2315ef2c2364d5f3fdddbd79c1715e5851189e346f055e8deb0dadd0532ad8e"
+  },
+  "semantic_reply_includes_actual_public_sku": true,
+  "semantic_response_conversation_memory": false
+}
