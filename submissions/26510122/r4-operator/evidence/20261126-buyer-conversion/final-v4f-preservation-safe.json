@@ -1,0 +1,83 @@
+{
+  "captured_at": 1795674438.2305372,
+  "active_release": "public_catalogue_runtime_v4f",
+  "original_DB_device_inode_same": true,
+  "original_two_wallet_bytes_inodes_same": true,
+  "original_price_policy_file_same": true,
+  "original_financial_worker_refund_sources_same": true,
+  "official_sdk_seven_same": true,
+  "expected_v4f_manifest_same": true,
+  "v4f_manifest_all_sources_same": true,
+  "expected_v4f_launcher_same": true,
+  "database_quick_check_ok": true,
+  "cumulative_sale_states": [
+    [
+      "settled",
+      2
+    ]
+  ],
+  "procurement_states": [
+    [
+      "arrived",
+      174
+    ],
+    [
+      "no_purchase",
+      50
+    ]
+  ],
+  "refund_count": 0,
+  "broken_sale_count": 0,
+  "mileage_lot_total": 1165,
+  "welcome_award_count": 2,
+  "current_services": {
+    "ourolabs-market-r4.service": {
+      "active": true,
+      "MainPID": 1192914,
+      "NRestarts": 0,
+      "memory_MiB": 79.1
+    },
+    "ourolabs-market-r4-worker.service": {
+      "active": true,
+      "MainPID": 1192976,
+      "NRestarts": 1,
+      "memory_MiB": 48.09
+    }
+  },
+  "internal_cache_and_card_timers_active": true,
+  "latest_catalogue_cache_valid": true,
+  "cache_age_seconds": 15.253,
+  "cache_remaining_seconds": 134.747,
+  "unique_registered_shop": true,
+  "registered_original_wallet_same": true,
+  "public_card_HTTP_200": true,
+  "public_card_name_and_description_match_local": true,
+  "public_card_original_wallet_same": true,
+  "registry_url_matches_shop_record": true,
+  "additional_observation_window_end": 1795674325.9701245,
+  "additional_observation_window_elapsed_at_measurement": true,
+  "additional_observation_sample_count": 29,
+  "additional_observation_first_at": 1795673775.4357312,
+  "additional_observation_last_at": 1795674325.9796832,
+  "additional_sampled_service_observations": {
+    "ourolabs-market-r4.service": {
+      "same_PID_whole_sample": true,
+      "same_restart_count_whole_sample": true,
+      "all_samples_active": true,
+      "min_MiB": 77.9,
+      "max_MiB": 112.11,
+      "current_PID_matches_samples": true
+    },
+    "ourolabs-market-r4-worker.service": {
+      "same_PID_whole_sample": true,
+      "same_restart_count_whole_sample": true,
+      "all_samples_active": true,
+      "min_MiB": 41.21,
+      "max_MiB": 48.64,
+      "current_PID_matches_samples": true
+    }
+  },
+  "preservation_audit_read_only": true,
+  "extra_Model_tests_operator_requests_or_financial_actions": 0,
+  "key_address_or_credential_hashes_exported": false
+}

@@ -1,0 +1,94 @@
+{
+  "schema": "quote-terms-v4f-fixed10-equal-window.v1",
+  "captured_at": 1795674411.4730263,
+  "stage": "v4f",
+  "PRE10": {
+    "start": 1795673010.670007,
+    "end": 1795673610.670007,
+    "seconds": 600.0,
+    "transport_requests": 1,
+    "operator_linked_trace_groups": 0,
+    "non_operator_linked_messages": 1,
+    "unique_people": null,
+    "funnel": {
+      "requested_product_not_verified_clear_reply": 1
+    },
+    "new_checkout_rows": 0,
+    "new_settlements": 0,
+    "checkout_per_message": 0.0,
+    "settlement_per_checkout": null,
+    "trade_contribution_after_full_new_lot_credits_exact": "0",
+    "receipt_evidence_complete": true,
+    "earned_lot_count": 0,
+    "full_new_lot_burden_credits": 0,
+    "spent_mileage_credits": 0,
+    "actual_fully_allocated_profit": null
+  },
+  "POST10": {
+    "start": 1795673725.9701245,
+    "end": 1795674325.9701245,
+    "seconds": 600.0,
+    "transport_requests": 0,
+    "operator_linked_trace_groups": 0,
+    "non_operator_linked_messages": 0,
+    "unique_people": null,
+    "funnel": {},
+    "new_checkout_rows": 0,
+    "new_settlements": 0,
+    "checkout_per_message": null,
+    "settlement_per_checkout": null,
+    "trade_contribution_after_full_new_lot_credits_exact": "0",
+    "receipt_evidence_complete": true,
+    "earned_lot_count": 0,
+    "full_new_lot_burden_credits": 0,
+    "spent_mileage_credits": 0,
+    "actual_fully_allocated_profit": null
+  },
+  "window_selection": "Only whole_span and the single bucket are used; both asserted exactly 600 seconds. baseline30m fields deliberately excluded.",
+  "deployment_gap_excluded": {
+    "start": 1795673610.670007,
+    "end": 1795673725.9701245,
+    "seconds": 115.30011749267578,
+    "registered_operator_probe_rows": 1,
+    "trace_groups": 1,
+    "operator_linked_trace_groups": 1
+  },
+  "post_boundary": {
+    "started_in_window": 0,
+    "without_completion_by_window_end": 0,
+    "still_without_completion_at_capture": 0,
+    "unfinished_buyer_counted_as_settled": false
+  },
+  "refund_broken_pending_mileage_check": {
+    "cumulative_refund_rows": 0,
+    "cumulative_refunded_sales": 0,
+    "cumulative_broken_sales": 0,
+    "post_refund_requests": 0,
+    "post_broken_observations": 0,
+    "pending_signed_sales_now": 0,
+    "pending_refunds_now": 0,
+    "lot_count": 2,
+    "full_lot_burden_credits": 1165,
+    "welcome_awards": 2
+  },
+  "cumulative_separate": {
+    "settled": 2,
+    "RPC_verified_original_unit_contributions": 2,
+    "trade_contribution_after_full_lot_credits_exact": "1753373/250",
+    "trade_contribution_after_full_lot_credits_decimal": "7013.492",
+    "fully_allocated_profit": null
+  },
+  "v4d_fixed30_preserved": {
+    "path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/buyer-conversion-20261126-qa/final-equal-window-safe-summary.json",
+    "sha256": "50646bcc72b102d040901dfa482375e699f6966de980f6007afc08dcec843476",
+    "byte_identical_to_its_manifest": true
+  },
+  "interpretation": [
+    "PRE has one inquiry and POST has none; this short pair does not establish conversion improvement.",
+    "Any zero-denominator rate is null. Verified unique people remain unknown.",
+    "Cumulative settled results and the v4d 30-minute stage are distinct from these v4f ten-minute windows.",
+    "Contribution is actual seller receipt less unique original-unit procurement transfer/gas and full earned-lot burden, excluding unallocated holding/operating expenses; no cached unit-cost field used.",
+    "No raw customer text, rights, actor/task/transaction/wallet identifiers or Model reasoning exported."
+  ],
+  "actual_Model_transaction_sends_forum_posts_operational_changes": 0
+}

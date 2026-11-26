@@ -1,3 +1,5 @@
+최종 전후 비교는 [COMPARISON_RESULTS.md](COMPARISON_RESULTS.md)를 본다. v4d 각30분과 마지막 v4f 각10분을 모두 완료했으며 신규 매출 개선은 입증하지 않는다.
+
 현재 최종 운영 릴리스는 **public_catalogue_runtime_v4f**다. 아래 v4d 설명은 대화/대안 기능의 도입 과정이며 그 기능은 유지한다. 추가 v4f에서는 명시 서명 요청에 포함된 단순 ‘현재 총 결제 조건 안내’를 허용하되, 수수료·가스 포함 상한/보장은 계속 차단한다. 실제 구매 요청을 NoWallet로 재현해 수업 모델2회→견적 stub1회/금융0을 확인했다. 최종 host17/17; independent terms의 보수적 미지원 긍정2개는 성공으로 세지 않는다. 초기 v4e 분리총액cap 우회는 배포하지 않았고 source와 실패를 attempts/v4e에 보존했다.
 
 완료된 전후30분(v4d)과 별도 전후10분(v4f)을 구분한다. stage-v4d-30m-comparison-safe.json은 완료된 30분 결과, terms-v4f-*는 최종 보완의 별도 600초 결과다. 10분 집계에는 원 분석기의 baseline30m 이름 필드를 쓰지 않고 whole_span의 start/end/seconds를 검증한다.

@@ -1,3 +1,11 @@
+## 2026-11-26 15:27 KST — 최종 v4f 적용·전후 비교 완료
+
+현재 운영 host **public_catalogue_runtime_v4f** manifest7f542904fc84e44d92b2558e72146aa7863fdd8d9208ce45c98e5e5b397b24d6, launcher831fa941b826ff0bd06b373ed05a2e48732bf9238d62ce38f5996e3de093445d. 예약 r4/r4-2/r4-3 모두 PAUSED 유지. 셀러 자체 운영과 정산 워커는 유지한다.
+
+완료한 같은시간 비교: v4d 각30분 문의0→0/결제권0→0/정산0→0/신규거래기여이익0→0. 별도 v4f 각10분 문의1→0/결제권0→0/정산0→0/기여이익0→0. 신규 표본이 없어 최종 버전의 매출 개선을 입증하지 않는다. 누적 실제정산2/영수증 기준 거래기여이익7,013.492는 별도 보존, 보유·운영비 완전배분 순이익은 미산출. 사후 pending/미완료/환불/고장0, lot2합1165/welcome2. 두 기간을 섞거나 배포gap의 문의2메시지 및 운영자7개를 고객성과로 넣지 않는다.
+
+실제 요청 재현에서 단순 '총 결제 조건 확인+명시 서명요청'을 과도차단하던 경계를 수정했고, 실제 수업 Model2회→quote stub1회/실제금융0을 확인했다. 공개 상품의 task기억/검증 대안과 기존 원자적 중복판매 방어는 유지한다. 확인되지 않은 총액 보장은 계속 차단한다. 최종 안전 증거는 evidence/20261126-buyer-conversion/COMPARISON_RESULTS.md, final-v4f-10m-comparison-safe.json을 본다. 아래 관찰 중 기록은 과거 상태다.
+
 ## 2026-11-26 15:18 KST — 최종 v4f 결제 조건 안내 보완·추가10분 관찰
 
 예약 r4/r4-2/r4-3은 PAUSED 유지. 현재 host는 **public_catalogue_runtime_v4f**, manifest `7f542904fc84e44d92b2558e72146aa7863fdd8d9208ce45c98e5e5b397b24d6`, launcher SHA `831fa941b826ff0bd06b373ed05a2e48732bf9238d62ce38f5996e3de093445d`. v4d의 같은task/검증대안/기억 결합은 유지한다. 원 SDK·genuine catalogue5·금융/예약/원가/예산/혜택/환불/매입·DB·두 지갑은 바꾸지 않는다.

@@ -5,7 +5,7 @@
   "post_start": 1795673725.9701245,
   "post_end": 1795674325.9701245,
   "seconds_each": 600,
-  "post_complete": false,
+  "post_complete": true,
   "prior_v4d_30m_result_retained": true,
   "recorded_purchase_inquiry_is_outside_v4d_fixed_comparison_windows": true,
   "operator_live_smoke_count": 1,
