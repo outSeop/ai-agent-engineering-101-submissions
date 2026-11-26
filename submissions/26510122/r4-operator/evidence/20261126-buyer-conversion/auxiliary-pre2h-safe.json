@@ -1,0 +1,152 @@
+{
+  "cutoff": 1795670559.6764917,
+  "span_seconds": 7200,
+  "baseline30m": {
+    "start": 1795668759.6764917,
+    "end": 1795670559.6764917,
+    "seconds": 1800.0,
+    "transport_started": 0,
+    "transport_ended": 0,
+    "server_p50_seconds": null,
+    "trace_message_count": 0,
+    "trace_request_groups": 0,
+    "registered_operator_groups": 0,
+    "non_operator_linked_request_groups": 0,
+    "verified_unique_people": null,
+    "person_count_note": "Trace groups/messages and settled wallets do not establish distinct persons.",
+    "non_operator_linked_funnel": {},
+    "explicit_SKU_message_groups": 0,
+    "followup_reference_no_explicitSKU_groups": 0,
+    "checkout_guard_outcome_counts": {},
+    "new_checkout_rows": 0,
+    "new_settlements": 0,
+    "trade_margin_after_full_new_lot_credits_exact": "0",
+    "trade_margin_receipt_evidence_complete": true,
+    "actual_fully_allocated_profit": null,
+    "profit_note": "Zero settled trades means zero recognized trade margin; cumulative settled trades are reported separately. Holding/operating/unattributed costs are not fully allocated.",
+    "earned_lot_count": 0,
+    "full_earned_lot_burden_credits": 0,
+    "spent_mileage_allocation_count": 0,
+    "spent_mileage_credits": 0
+  },
+  "whole_span": {
+    "start": 1795663359.6764917,
+    "end": 1795670559.6764917,
+    "seconds": 7200.0,
+    "transport_started": 4,
+    "transport_ended": 4,
+    "server_p50_seconds": 7.1978,
+    "trace_message_count": 4,
+    "trace_request_groups": 4,
+    "registered_operator_groups": 0,
+    "non_operator_linked_request_groups": 4,
+    "verified_unique_people": null,
+    "person_count_note": "Trace groups/messages and settled wallets do not establish distinct persons.",
+    "non_operator_linked_funnel": {
+      "verified_product_information": 1,
+      "checkout_delivered": 1,
+      "requested_product_not_verified_clear_reply": 2
+    },
+    "explicit_SKU_message_groups": 4,
+    "followup_reference_no_explicitSKU_groups": 0,
+    "checkout_guard_outcome_counts": {},
+    "new_checkout_rows": 1,
+    "new_settlements": 1,
+    "trade_margin_after_full_new_lot_credits_exact": "665873/500",
+    "trade_margin_receipt_evidence_complete": true,
+    "actual_fully_allocated_profit": null,
+    "profit_note": "Zero settled trades means zero recognized trade margin; cumulative settled trades are reported separately. Holding/operating/unattributed costs are not fully allocated.",
+    "earned_lot_count": 1,
+    "full_earned_lot_burden_credits": 307,
+    "spent_mileage_allocation_count": 0,
+    "spent_mileage_credits": 0
+  },
+  "buckets": [
+    {
+      "start": 1795663359.6764917,
+      "end": 1795670559.6764917,
+      "seconds": 7200.0,
+      "transport_started": 4,
+      "transport_ended": 4,
+      "server_p50_seconds": 7.1978,
+      "trace_message_count": 4,
+      "trace_request_groups": 4,
+      "registered_operator_groups": 0,
+      "non_operator_linked_request_groups": 4,
+      "verified_unique_people": null,
+      "person_count_note": "Trace groups/messages and settled wallets do not establish distinct persons.",
+      "non_operator_linked_funnel": {
+        "verified_product_information": 1,
+        "checkout_delivered": 1,
+        "requested_product_not_verified_clear_reply": 2
+      },
+      "explicit_SKU_message_groups": 4,
+      "followup_reference_no_explicitSKU_groups": 0,
+      "checkout_guard_outcome_counts": {},
+      "new_checkout_rows": 1,
+      "new_settlements": 1,
+      "trade_margin_after_full_new_lot_credits_exact": "665873/500",
+      "trade_margin_receipt_evidence_complete": true,
+      "actual_fully_allocated_profit": null,
+      "profit_note": "Zero settled trades means zero recognized trade margin; cumulative settled trades are reported separately. Holding/operating/unattributed costs are not fully allocated.",
+      "earned_lot_count": 1,
+      "full_earned_lot_burden_credits": 307,
+      "spent_mileage_allocation_count": 0,
+      "spent_mileage_credits": 0
+    }
+  ],
+  "cumulative_actual_settlements": 2,
+  "cumulative_verified_original_unit_contribution_count": 2,
+  "cumulative_trade_margin_after_full_lot_credits_exact": "1753373/250",
+  "cumulative_full_profit": null,
+  "contribution_method": [
+    "Original physical unit maps uniquely into one arrived procurement intent; actual transfer value plus actual receipt gas, allocated equally only if batch has multiple units.",
+    "Actual seller receipt cash is already net of redeemed mileage; prior mileage spending is not subtracted again.",
+    "Full newly earned lot amount including the extra bonus is charged conservatively at issuance; future redemption/refund accounting is separate.",
+    "This is verified transaction contribution, not fully allocated final profit. Holding/operating costs not separately attributable are not allocated; bundled procurement payments may already include charges.",
+    "No cached accounting unit-price field is queried or used."
+  ],
+  "raw_input_cutoffs": {
+    "transport": [
+      {
+        "path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/round-4/.kit/transport-metrics.jsonl",
+        "bytes_at_read": 20905,
+        "sha256_at_read": "917c4c1f8620f64c76d048cc8243ebfdd0bc2b8a44c802f0b31e5c4cafda73ea",
+        "unique_rows_added": 157,
+        "invalid_lines": 0,
+        "full_file": true
+      }
+    ],
+    "review_trace": [
+      {
+        "path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/round-4/.kit/decision-trace-review.jsonl",
+        "bytes_at_read": 979766,
+        "sha256_at_read": "5297eda7e72c2aa4f0eda42278623edebb579e0eb7f8333dc7852bf47f1247f3",
+        "unique_rows_added": 563,
+        "invalid_lines": 0,
+        "full_file": true
+      }
+    ],
+    "health": [
+      {
+        "path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/r3-stock-20261124-204104/health-probes.jsonl",
+        "bytes_at_read": 13264,
+        "sha256_at_read": "d52ade8ced40400809ea788566efa68b9c582ee3947ba1336182547e9d5b7743",
+        "unique_rows_added": 39,
+        "invalid_lines": 0,
+        "full_file": true
+      }
+    ],
+    "operator_link_methods_whole_log": {
+      "unique_probe_reply_or_hash_and_timing": 24
+    }
+  },
+  "actual_transaction_sends_Model_or_forum_calls": 0,
+  "receipt_readRPC_optin": true,
+  "limitations": [
+    "No exposure/conversion causality from a simple before/after window.",
+    "PRE must end at actual stop/cutoff; POST starts at verified readiness, excluding deployment downtime.",
+    "Two-hour buckets compare equal duration; a final short bucket is explicitly labelled by its seconds.",
+    "Raw customer text, rights, wallet identifiers, transaction hashes and Model reasoning are excluded."
+  ]
+}

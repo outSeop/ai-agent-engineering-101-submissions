@@ -1,0 +1,38 @@
+{
+  "total": 6,
+  "passed": 6,
+  "cases": [
+    {
+      "case": "same-physical-unit-concurrent-two-buyers",
+      "passed": true
+    },
+    {
+      "case": "same-transport-commit-idempotent-no-new-rows",
+      "passed": true
+    },
+    {
+      "case": "same-owner-checkout-JWT-reuse-price-change-rejected",
+      "passed": true
+    },
+    {
+      "case": "different-right-public-persona-no-mileage-transfer",
+      "passed": true
+    },
+    {
+      "case": "mileage-two-SKU-concurrency-and-ticket-single-consumption",
+      "passed": true
+    },
+    {
+      "case": "actual-SDK-final-checkout-data-byte-identical",
+      "passed": true
+    }
+  ],
+  "source_sha256": {
+    "dispatcher.py": "84e0eca3a0211e80772ed78f2ba3c166902ba0125577e7153b06cc5bb13de0cd",
+    "fixture.py": "3583926d5154ede9bbc6330103930967b452c04546a19a6078864abfe931b012",
+    "price_policy.py": "6e101702c38d47b3f2c68c860dc0198fd1d7557e311c2753dc4a71fed127118f",
+    "managed_runtime.py": "7504c9ed720d7b9a62bb36ddf34044bd0ce8b07625f15c04a94dc255284ff4d8"
+  },
+  "method": "Original dispatcher checkout and actual SQLite constraints, forced overlapping inventory reads, mocked market/signature/settlement only; original official SDK ASGI envelope.",
+  "actual_Model_transactions_posts_prod_changes": 0
+}

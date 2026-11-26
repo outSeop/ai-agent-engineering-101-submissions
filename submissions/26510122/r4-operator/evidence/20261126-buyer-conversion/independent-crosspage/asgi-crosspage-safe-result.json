@@ -1,0 +1,46 @@
+{
+  "per_turn_safe": [
+    {
+      "index": 0,
+      "http_status": 200,
+      "has_error": false,
+      "task_state": "TASK_STATE_INPUT_REQUIRED",
+      "genuine_final_reply_match": true,
+      "genuine_reply_exact_suffix": true,
+      "model_memory_counts": [
+        0,
+        0,
+        0
+      ],
+      "legacy_action_selections": []
+    },
+    {
+      "index": 1,
+      "http_status": 200,
+      "has_error": false,
+      "task_state": "TASK_STATE_INPUT_REQUIRED",
+      "genuine_final_reply_match": true,
+      "genuine_reply_exact_suffix": true,
+      "model_memory_counts": [
+        2
+      ],
+      "legacy_action_selections": []
+    },
+    {
+      "index": 2,
+      "http_status": 200,
+      "has_error": false,
+      "task_state": "TASK_STATE_COMPLETED",
+      "genuine_final_reply_match": false,
+      "genuine_reply_exact_suffix": false,
+      "model_memory_counts": [
+        0
+      ],
+      "legacy_action_selections": []
+    }
+  ],
+  "raw_history_marker_forwarded": false,
+  "actual_financial_execution_count": 0,
+  "same_task_continuation_accepted": true,
+  "cross_task_id_is_different": true
+}

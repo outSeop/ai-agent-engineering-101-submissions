@@ -1,0 +1,15 @@
+{
+  "checks": {
+    "baseline_closes_and_blocks_same_task": true,
+    "candidate_keeps_same_task": true,
+    "candidate_first_two_genuine": true,
+    "candidate_memory_isolated": true,
+    "alternative_is_genuine_with_explicit_prefix": true,
+    "checkout_current_request_one_stub": true,
+    "no_model_errors": true
+  },
+  "all_pass": true,
+  "same_source_snapshot": true,
+  "no_actual_financial_actions": true,
+  "status_note": "Driver final response is cross-task negative-control, so do not label its overall no_verified_catalogue_final_reply as follow-up failure."
+}

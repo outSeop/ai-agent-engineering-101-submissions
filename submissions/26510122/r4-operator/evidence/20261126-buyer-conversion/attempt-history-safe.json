@@ -1,0 +1,19 @@
+{
+  "attempts": [
+    {
+      "label": "v4",
+      "status": "synthetic review found SYSTEM/consent mismatch and withdrawal boundary; revised before production"
+    },
+    {
+      "label": "v4b",
+      "status": "no-target signing request boundary added in v4c"
+    },
+    {
+      "label": "v4c",
+      "status": "same-task single selection works live; multi-page selections render correctly but lose public-memory task continuity; corrected in v4d before final observation"
+    }
+  ],
+  "parallel_actual_class_call_note": "Two initial concurrent canaries saw model_unavailable. HTTP cause was not captured, so rate limiting is not established. Sequential final v4c calls had no model errors.",
+  "test_setup_note": "Root first standalone unit run omitted PROD/codex-r4 import path; preserved private output, corrected runner passed13/13. This is not a production failure.",
+  "raw_customer_private_model_and_credentials_exported": false
+}

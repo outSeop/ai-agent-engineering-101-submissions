@@ -1,0 +1,50 @@
+{
+  "cases": [
+    {
+      "case": "no_target",
+      "expected_stub_quote_calls": 0,
+      "actual_stub_quote_calls": 0,
+      "pass": true
+    },
+    {
+      "case": "explicit_target",
+      "expected_stub_quote_calls": 1,
+      "actual_stub_quote_calls": 1,
+      "pass": true
+    },
+    {
+      "case": "explicit_target_mismatch",
+      "expected_stub_quote_calls": 0,
+      "actual_stub_quote_calls": 0,
+      "pass": true
+    },
+    {
+      "case": "withdraw_after_request",
+      "expected_stub_quote_calls": 0,
+      "actual_stub_quote_calls": 0,
+      "pass": true
+    },
+    {
+      "case": "all_in_cap",
+      "expected_stub_quote_calls": 0,
+      "actual_stub_quote_calls": 0,
+      "pass": true
+    },
+    {
+      "case": "grade_condition",
+      "expected_stub_quote_calls": 0,
+      "actual_stub_quote_calls": 0,
+      "pass": true
+    },
+    {
+      "case": "stale_remembered_price",
+      "expected_stub_quote_calls": 0,
+      "actual_stub_quote_calls": 0,
+      "pass": true
+    }
+  ],
+  "passed": 7,
+  "failed": 0,
+  "actual_Model_DB_sign_wallet_calls": 0,
+  "financial_executor_is_stub": true
+}

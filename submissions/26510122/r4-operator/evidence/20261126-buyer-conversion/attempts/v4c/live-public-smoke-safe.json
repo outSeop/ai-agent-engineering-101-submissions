@@ -1,0 +1,21 @@
+{
+  "at": 1795670735.6207182,
+  "all_three_operator_labeled": true,
+  "same_task_preserved": true,
+  "followup_correct_sku": true,
+  "alternative_explicitly_distinguished": true,
+  "C_exclusion_respected": true,
+  "no_checkout_data": true,
+  "timings": [
+    7.2288,
+    6.3656,
+    18.0006
+  ],
+  "states": [
+    "TASK_STATE_INPUT_REQUIRED",
+    "TASK_STATE_INPUT_REQUIRED",
+    "TASK_STATE_COMPLETED"
+  ],
+  "current_url": "https://entrepreneurs-noon-berry-cad.trycloudflare.com",
+  "actual_customer_or_settlement": false
+}
