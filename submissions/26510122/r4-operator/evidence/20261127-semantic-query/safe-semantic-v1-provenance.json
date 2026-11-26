@@ -1,0 +1,47 @@
+{
+  "forge_events": [
+    {
+      "passed": false,
+      "tool": "semantic_candidates",
+      "ts": 1795710619,
+      "version": 1
+    },
+    {
+      "passed": true,
+      "tool": "semantic_candidates",
+      "ts": 1795710755,
+      "version": 1
+    }
+  ],
+  "large_monolithic_attempt": {
+    "catalogue_requested_version": 9,
+    "cli_timeout_seconds": 600,
+    "currently_installed_native_version": 8,
+    "error_type": "TimeoutExpired",
+    "forge_submissions_this_attempt": 0,
+    "host_http_status": 502,
+    "private_cli_metadata_sha256": "2cb8b6bab048dccfab60e6b7f8ab853fa42bc59c79a7a1fb027fb5856a917af8",
+    "provider": "codex-cli-gpt-6.2-sol",
+    "upstream_reported_model": null,
+    "usable_response_bytes": 0
+  },
+  "model_provider": "codex-cli-gpt-6.2-sol",
+  "official_mind": true,
+  "official_sdk_forge": true,
+  "original_forge_log_sha256": "3fe51b82547bbfc296e59128f291080bae88ba1e1db4a020c6be392899da4ddb",
+  "previous_base_manifest": "ffa36c8557ecea6f53a7e9ac7271fa598565fd898f1f5d966444bc34a3f808cc",
+  "production_actions": 0,
+  "provider_reported_model": null,
+  "release_manifest_sha256": "709803407228b69f9be0330c106aaa3b57c86c8f9f1c601d3ae0ec8bfeb84d99",
+  "safe_tests": {
+    "host_mocks": 11,
+    "ordinary_sdk_acceptance": 3,
+    "ordinary_sdk_denials": 7
+  },
+  "same_source_response": {
+    "capture_record_sha256": "b523e2aa842dc3c7d77df3a2c14206c63f4ea1b5f4596f79be846f928ea85bc5",
+    "response_sha256": "ce74e2e9bb06fab26855762841d7fb0719fcf4c1d7e1646653217b1bbe90511e"
+  },
+  "semantic_reply_includes_sku": false,
+  "semantic_response_conversation_memory": false
+}

@@ -1,0 +1,55 @@
+{
+  "total": 6,
+  "passed": 5,
+  "cases": [
+    {
+      "case": "base8-unknown-gap-semantic-source-bound-nonexact-recovery",
+      "passed": true
+    },
+    {
+      "case": "known-pack-grade-price-life-filter-preserved",
+      "passed": true
+    },
+    {
+      "case": "negative-and-noalternative-no-widening",
+      "passed": true
+    },
+    {
+      "case": "private-right-financial-exact-unknown-and-query-shape-denied",
+      "passed": true
+    },
+    {
+      "case": "nohit-and-stale-no-invented-facts",
+      "passed": true
+    },
+    {
+      "case": "final-public-SKU-required-for-buyer-continuation",
+      "passed": false,
+      "error_type": "AssertionError"
+    }
+  ],
+  "manifest_sha256": "709803407228b69f9be0330c106aaa3b57c86c8f9f1c601d3ae0ec8bfeb84d99",
+  "source4": {
+    "catalogue": {
+      "logic.py": "01a4a0dc912e02679091a3f6c98df3f0450ca2581b920d1d650e2fa0fa2a4c89",
+      "test.py": "1da5431683f6515799dbb769660187d467f4ac9a0a1a1bd280bfdca683a19e5a",
+      "permission.yml": "f69e6c375d5586dea1bb8ff701f977a07d475e9d88033e5dce4acf123ababcc4",
+      "forge.json": "5e19ba19f264b231d12e1570188f189cc5b7f770e2cbea810b343fc2b364f6bb"
+    },
+    "semantic": {
+      "logic.py": "2b8e30696569cdd1c8dd55c282de7ee27e5ff3e09ebd2ef012b03379a553f8b6",
+      "test.py": "6d6da9a1b32ada20f3242150042aff75c88e8df41d38cbd6de4c071babe3a27d",
+      "permission.yml": "a15567655b92f89f2a2d0b2b7607769d610e630be2d4e91613f6ae47e2dd03f2",
+      "forge.json": "fcf1046e910d19fd6e023933fde120bd7369537f5b400e8785c36a09d6b4121e"
+    }
+  },
+  "ordinary_official_Toolbox_run": true,
+  "testing_flag_manually_set": false,
+  "synthetic_units": 35,
+  "semantic_calls": 34,
+  "source_facts_and_lifetime_independently_checked": true,
+  "rendered_nonexact_disclaimer_required": true,
+  "actual_Model_API_DB_financial_forum_or_production_changes": 0,
+  "no_QA_handcoded_synonym_business_mapping": true,
+  "scope": "Model-proposed queries are explicit synthetic test args; original question remains native input. Base8 unknown gap and semantic reply are ordinary SDK subprocess calls."
+}

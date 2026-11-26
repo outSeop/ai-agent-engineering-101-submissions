@@ -1,0 +1,12 @@
+{
+  "catalogue_requested_version": 9,
+  "provider": "codex-cli-gpt-6.2-sol",
+  "upstream_reported_model": null,
+  "cli_timeout_seconds": 600,
+  "error_type": "TimeoutExpired",
+  "host_http_status": 502,
+  "usable_response_bytes": 0,
+  "forge_submissions_this_attempt": 0,
+  "currently_installed_native_version": 8,
+  "private_cli_metadata_sha256": "2cb8b6bab048dccfab60e6b7f8ab853fa42bc59c79a7a1fb027fb5856a917af8"
+}
