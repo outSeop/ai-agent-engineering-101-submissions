@@ -1,0 +1,12 @@
+{
+  "parent_release": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/deploy/front_edge_runtime_v3",
+  "parent_manifest_sha256": "c2232e5e8a3ef7ced3e4475a009a519232393c309633c219d05ff3859e9385f2",
+  "authorship": "external host transport/lifecycle adaptation; no genuine business source authored",
+  "changes": [
+    "fixed new listener18807",
+    "fixed old task/card fallback18806 (which retains own fallback to original18805)",
+    "distinct semantic marker and private state directory",
+    "all financial/SDK/business sources unchanged",
+    "one model30s/800 within40s unchanged"
+  ]
+}

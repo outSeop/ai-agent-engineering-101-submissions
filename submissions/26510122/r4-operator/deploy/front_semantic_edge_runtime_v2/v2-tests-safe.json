@@ -1,0 +1,24 @@
+[
+  {
+    "script": "test_front_edge_nowallet.py",
+    "tests": 10,
+    "exit_code": 0,
+    "summary": [
+      "----------------------------------------------------------------------",
+      "Ran 10 tests in 0.481s",
+      "",
+      "OK"
+    ]
+  },
+  {
+    "script": "test_transition_guard_mock.py",
+    "tests": 7,
+    "exit_code": 0,
+    "summary": [
+      "----------------------------------------------------------------------",
+      "Ran 7 tests in 0.002s",
+      "",
+      "OK"
+    ]
+  }
+]

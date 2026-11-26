@@ -1,0 +1,39 @@
+{
+  "at": 1795709882.198897,
+  "final_tests": [
+    {
+      "script": "test_front_edge_nowallet.py",
+      "tests": 10,
+      "exit_code": 0,
+      "summary": [
+        "----------------------------------------------------------------------",
+        "Ran 10 tests in 0.464s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "script": "test_transition_guard_mock.py",
+      "tests": 6,
+      "exit_code": 0,
+      "summary": [
+        "----------------------------------------------------------------------",
+        "Ran 6 tests in 0.002s",
+        "",
+        "OK"
+      ]
+    }
+  ],
+  "initial_failure_preserved": "FIRST-FAILURE.json",
+  "actual_Model_calls": 0,
+  "financial_DB_wallet_service_rule_changes": 0,
+  "new_listener_started": false,
+  "old_main_CF_edge18806_restarted": false,
+  "runtime_genuine9_status": "pending_separately_pinned",
+  "original_SDK7_and_shared_financial_source_changes": 0,
+  "new_fixed_listener": 18807,
+  "fallback_fixed_previous_edge": 18806,
+  "old_rule_comment_UID_selectors_preserved": true,
+  "one_model_wait30_tokens800_flow40": true,
+  "test_Box_roots_isolated": true
+}

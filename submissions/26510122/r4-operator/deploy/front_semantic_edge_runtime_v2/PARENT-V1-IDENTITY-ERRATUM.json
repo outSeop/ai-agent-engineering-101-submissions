@@ -1,0 +1,7 @@
+{
+  "parent_manifest_sha256": "0c92706a4b37e0c2229e519278ebd536b202bd2b86dc6c5a532a2781b8804d7a",
+  "root_readonly_defect_reproduced_by_parent": true,
+  "fix": "/usr/sbin/runuser -u seop -- env XDG_RUNTIME_DIR=/run/user/1000 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus systemctl --user show ourolabs-market-r4.service -p MainPID --value",
+  "after_actual_root_readonly_PID": 1192914,
+  "runtime_changes": 0
+}

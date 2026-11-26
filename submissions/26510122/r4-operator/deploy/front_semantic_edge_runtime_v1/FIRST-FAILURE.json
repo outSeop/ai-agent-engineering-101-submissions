@@ -1,0 +1,12 @@
+{
+  "test": "test_card_GET_old_proxy_and_marker",
+  "initial_expected_marker": "r4-front-v1",
+  "actual_marker": "r4-semantic-front-v1",
+  "initial_unique_checks": 10,
+  "initial_pass": 9,
+  "initial_fail": 1,
+  "cause": "Copied parent test expectation still referenced old marker; staged routing correctly used new distinct marker.",
+  "fix": "Test expected marker only. Runtime source unchanged after this failure.",
+  "model_calls": 0,
+  "operations_changed": false
+}

@@ -1,0 +1,43 @@
+{
+  "at": 1795710113.9564676,
+  "final_tests": [
+    {
+      "script": "test_front_edge_nowallet.py",
+      "tests": 10,
+      "exit_code": 0,
+      "summary": [
+        "----------------------------------------------------------------------",
+        "Ran 10 tests in 0.481s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "script": "test_transition_guard_mock.py",
+      "tests": 7,
+      "exit_code": 0,
+      "summary": [
+        "----------------------------------------------------------------------",
+        "Ran 7 tests in 0.002s",
+        "",
+        "OK"
+      ]
+    }
+  ],
+  "actual_readonly_root_service_pid": 1192914,
+  "actual_root_read_used_fixed_runuser_identity": true,
+  "v1_defect": "Querying seop user manager as root with environment only; root review required true user switch.",
+  "v1_package_preserved": true,
+  "runtime_sources_byte_identical_to_v1": {
+    "front_edge_app.py": true,
+    "run_front_edge.py": true,
+    "front-edge.service.template": true
+  },
+  "actual_Model_calls": 0,
+  "financial_DB_wallet_service_rule_changes": 0,
+  "new_listener_started": false,
+  "existing_main_CF_edge_restarted": false,
+  "original_SDK7_and_shared_financial_source_changes": 0,
+  "runtime_genuine_source_separately_pinned": true,
+  "test_Box_roots_isolated": true
+}
