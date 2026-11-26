@@ -1,0 +1,6 @@
+{
+  "passed": 4,
+  "errors": 3,
+  "cause": "native TaskStore.get requires ServerCallContext with native anonymous User; None is invalid",
+  "actual_Model_financial_service_calls": 0
+}
