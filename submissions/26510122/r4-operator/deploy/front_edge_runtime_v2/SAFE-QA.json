@@ -1,0 +1,18 @@
+{
+  "status": "staging_only_pending_genuine8_realclass_acceptance",
+  "NoWallet_original_SDK_ASGI_tests": 10,
+  "mock_route_tests": 5,
+  "tests_failed": 0,
+  "strict_newrequest_Model_limit": 1,
+  "local_Model_wait_cap_seconds": 30,
+  "host_request_budget_seconds": 40,
+  "max_tokens": 800,
+  "format_repair_or_provider_retries": 0,
+  "provider_job_cancellation_claimed": false,
+  "original_SDK_sources_modified": false,
+  "original_financial_sources_modified": false,
+  "frozen_v1_modified": false,
+  "actual_Model_calls_in_v2_tests": 0,
+  "actual_Signer_listener_service_rule_actions": 0,
+  "calibration_evidence": "one JSON response at14.45s but4items violated1..3; not validaction success"
+}

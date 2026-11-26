@@ -1,0 +1,20 @@
+{
+  "schema": "outseop-r4.front-edge-host.v2",
+  "files": {
+    "README.md": "f29b26faf7bd621c2dfc781a935ee3e30c483e23c00749471facd1c306bccd4c",
+    "SAFE-QA-v1-original.json": "616beb2a6b80e74d873382f986bbcc101623dc2071e37611261819c70fcd5322",
+    "SAFE-QA.json": "215c558b2da8ae7a96628ef5bda3efb40e1161aceeb4f04a76bc61d118dbeae6",
+    "first_scope_failure.json": "6ba6d49cbfaca31a43af9863f9eb25c6faf5506f191946a217fb1cb720d301a6",
+    "first_scope_none_failure.py": "6fa49a18476920da15a75cf219795bf91adc3b9f66d4066c9f22000cf0a83ddf",
+    "front-edge.service.template": "a85d7f6caf24ab8bc4161eed19eb0cfa2e2d1b1eb2f8df92d51b197d64630d53",
+    "front_edge_app.py": "d2e978d7db9d49ab736313284cf98af17205edf1bb0b174d328bffa6172bc2a1",
+    "route_guard.py": "00817caa0be2824841606d8a72148b20e5eb7ba618cb6f21411635586f23ac36",
+    "run_front_edge.py": "c786f3fab8ff05d7ed1921e16a8c68788c287f5760815c63634871493cd0c26c",
+    "test_front_edge_nowallet.py": "467af8cc2796b12734e46b7070030415e8daefce2d471fe5b729fd08015a360d",
+    "test_route_guard_mock.py": "1c3b7c0ec7f09a5ed997ad04cb2b4ce787d21640d3be04f354a95250441181e1"
+  },
+  "external_host_infrastructure": true,
+  "original_financial_SDK_sources_modified": false,
+  "production_or_rules_changed": false,
+  "requires_separate_genuine8_or_later_runtime_acceptance": true
+}
