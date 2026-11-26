@@ -1,0 +1,112 @@
+{
+  "passed": 11,
+  "failed": 2,
+  "cases": [
+    {
+      "case": "actual_request_shape",
+      "expected_stub_quotes": 1,
+      "actual_stub_quotes": 1,
+      "supported_conditions": true,
+      "consents": true,
+      "pass": true
+    },
+    {
+      "case": "fees_gas_information",
+      "expected_stub_quotes": 1,
+      "actual_stub_quotes": 1,
+      "supported_conditions": true,
+      "consents": true,
+      "pass": true
+    },
+    {
+      "case": "variable_gas_acknowledged",
+      "expected_stub_quotes": 1,
+      "actual_stub_quotes": 0,
+      "supported_conditions": false,
+      "consents": false,
+      "pass": false
+    },
+    {
+      "case": "item_cap_plus_terms_info",
+      "expected_stub_quotes": 1,
+      "actual_stub_quotes": 0,
+      "supported_conditions": false,
+      "consents": false,
+      "pass": false
+    },
+    {
+      "case": "all_in_cap",
+      "expected_stub_quotes": 0,
+      "actual_stub_quotes": 0,
+      "supported_conditions": false,
+      "consents": false,
+      "pass": true
+    },
+    {
+      "case": "fixed_gas_total",
+      "expected_stub_quotes": 0,
+      "actual_stub_quotes": 0,
+      "supported_conditions": false,
+      "consents": false,
+      "pass": true
+    },
+    {
+      "case": "free_delivery_guarantee",
+      "expected_stub_quotes": 0,
+      "actual_stub_quotes": 0,
+      "supported_conditions": false,
+      "consents": false,
+      "pass": true
+    },
+    {
+      "case": "grade_guarantee",
+      "expected_stub_quotes": 0,
+      "actual_stub_quotes": 0,
+      "supported_conditions": false,
+      "consents": false,
+      "pass": true
+    },
+    {
+      "case": "life_guarantee",
+      "expected_stub_quotes": 0,
+      "actual_stub_quotes": 0,
+      "supported_conditions": false,
+      "consents": false,
+      "pass": true
+    },
+    {
+      "case": "negative_issue",
+      "expected_stub_quotes": 0,
+      "actual_stub_quotes": 0,
+      "supported_conditions": false,
+      "consents": false,
+      "pass": true
+    },
+    {
+      "case": "withdraw_after_request",
+      "expected_stub_quotes": 0,
+      "actual_stub_quotes": 0,
+      "supported_conditions": true,
+      "consents": false,
+      "pass": true
+    },
+    {
+      "case": "example_only",
+      "expected_stub_quotes": 0,
+      "actual_stub_quotes": 0,
+      "supported_conditions": true,
+      "consents": false,
+      "pass": true
+    },
+    {
+      "case": "question_only",
+      "expected_stub_quotes": 0,
+      "actual_stub_quotes": 0,
+      "supported_conditions": true,
+      "consents": false,
+      "pass": true
+    }
+  ],
+  "actual_Model_DB_signature_wallet_calls": 0,
+  "financial_executor_is_stub": true
+}

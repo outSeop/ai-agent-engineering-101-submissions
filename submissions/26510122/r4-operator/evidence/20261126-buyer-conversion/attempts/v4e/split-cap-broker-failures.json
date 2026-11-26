@@ -1,0 +1,32 @@
+{
+  "passed": 0,
+  "failed": 3,
+  "cases": [
+    {
+      "case": "split_total_cap_1",
+      "expected_stub_quotes": 0,
+      "actual_stub_quotes": 1,
+      "supported_conditions": true,
+      "consents": true,
+      "pass": false
+    },
+    {
+      "case": "split_total_cap_2",
+      "expected_stub_quotes": 0,
+      "actual_stub_quotes": 1,
+      "supported_conditions": true,
+      "consents": true,
+      "pass": false
+    },
+    {
+      "case": "split_total_cap_3",
+      "expected_stub_quotes": 0,
+      "actual_stub_quotes": 1,
+      "supported_conditions": true,
+      "consents": true,
+      "pass": false
+    }
+  ],
+  "actual_Model_DB_signature_wallet_calls": 0,
+  "financial_executor_is_stub": true
+}

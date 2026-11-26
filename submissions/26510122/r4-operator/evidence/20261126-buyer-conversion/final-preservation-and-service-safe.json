@@ -1,0 +1,58 @@
+{
+  "captured_at": 1795673038.5522234,
+  "full_post_window_complete": true,
+  "window_seconds": 1800,
+  "original_DB_device_inode_same": true,
+  "original_two_wallet_bytes_inodes_same": true,
+  "original_price_policy_file_same": true,
+  "original_financial_worker_refund_sources_same": true,
+  "official_sdk_seven_same": true,
+  "database_quick_check": "ok",
+  "service_state": "Id=ourolabs-market-r4.service\nActiveState=active\nMainPID=1190247\nNRestarts=0\nMemoryCurrent=86114304\n\nId=ourolabs-market-r4-worker.service\nActiveState=active\nMainPID=1190341\nNRestarts=1\nMemoryCurrent=53805056\n",
+  "post_window_service_observations": {
+    "ourolabs-market-r4.service": {
+      "same_PID_whole_sample": true,
+      "same_restart_count_whole_sample": true,
+      "all_samples_active": true,
+      "min_MiB": 77.69,
+      "max_MiB": 114.33
+    },
+    "ourolabs-market-r4-worker.service": {
+      "same_PID_whole_sample": true,
+      "same_restart_count_whole_sample": true,
+      "all_samples_active": true,
+      "min_MiB": 41.52,
+      "max_MiB": 51.67
+    }
+  },
+  "cumulative_sale_states": [
+    [
+      "settled",
+      2
+    ]
+  ],
+  "procurement_states": [
+    [
+      "arrived",
+      174
+    ],
+    [
+      "no_purchase",
+      50
+    ]
+  ],
+  "refund_count": 0,
+  "broken_sale_count": 0,
+  "mileage_lot_total": 1165,
+  "welcome_award_count": 2,
+  "registered_original_wallet_same": true,
+  "current_url": "https://impacts-residential-slip-eggs.trycloudflare.com",
+  "public_card_HTTP": 200,
+  "public_card_name_and_description_match_local": true,
+  "latest_catalogue_cache_valid": true,
+  "internal_cache_and_card_timers_active": true,
+  "active_release": "public_catalogue_runtime_v4d",
+  "manifest_sha256": "08e84c793cc4f25bce93798dec135864337df33ce627adb1644db7c531ac8360",
+  "launcher_sha256": "f59942c24252f341c23a7bf71f1a124b3864bee80c8290958f696d20d20a7d20",
+  "extra_tests_or_live_operator_questions_during_post_window": 0
+}

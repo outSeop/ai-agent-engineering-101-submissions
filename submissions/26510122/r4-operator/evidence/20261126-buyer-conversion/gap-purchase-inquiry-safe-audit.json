@@ -1,0 +1,88 @@
+{
+  "schema": "gap-two-product-inquiries-safe-audit.v1",
+  "fixed_gap": [
+    1795670559.6764917,
+    1795671174.6172345
+  ],
+  "flows": [
+    {
+      "request_at": 1795670755.6584082,
+      "actions": [
+        "search_products",
+        "render_public_products"
+      ],
+      "public_continuity": [
+        {
+          "memory_saved": true,
+          "public_hint_count": 1
+        }
+      ],
+      "explicit_SKU_count": 0,
+      "explicit_signed_checkout_request": false,
+      "total_payment_conditions_wording_detected": false,
+      "unsupported_contract_regex_matches": false,
+      "supported_checkout_conditions": true,
+      "checkout_tool_selected": false
+    },
+    {
+      "request_at": 1795670771.284037,
+      "actions": [
+        "search_products",
+        "render_public_products"
+      ],
+      "public_continuity": [
+        {
+          "public_hint_count": 1,
+          "used_as_focus": false,
+          "current_explicit_target": true
+        },
+        {
+          "memory_saved": true,
+          "public_hint_count": 1
+        }
+      ],
+      "explicit_SKU_count": 1,
+      "explicit_signed_checkout_request": true,
+      "total_payment_conditions_wording_detected": true,
+      "unsupported_contract_regex_matches": true,
+      "supported_checkout_conditions": false,
+      "checkout_tool_selected": false
+    }
+  ],
+  "first_render_selection_matches_second_explicit_SKU": true,
+  "continuity_evidence_boundary": {
+    "source_key": "sha256(SDK task_id + colon + context_id); public facts only; 300s TTL",
+    "exact_same_task_proven_from_review_metadata": false,
+    "same_customer_or_advertising_causality_proven": false,
+    "supported_claim": "A public fact was saved, a later request had one remembered public fact, and an explicit matching SKU was used; consistent with followup but no task key recorded.",
+    "financial_or_rights_authority_from_memory": false
+  },
+  "original_checkout_response_contract": {
+    "source": "dispatcher.py:744",
+    "fields_displayed": [
+      "base/final product credits",
+      "wait discount and spent mileage",
+      "seller transfer wei",
+      "market fee transfer wei",
+      "actual gas separately"
+    ],
+    "data_contains_signed_checkout": true,
+    "function_performs_wallet_pay": false,
+    "reason": "Checkout signs JWT and writes reservation; buyer payment is a separate action. This does not promise a fixed all-in amount including future actual gas."
+  },
+  "proposed_narrow_fixtures": [
+    "Explicit single-SKU purchase and signed-checkout request asking total payment conditions/breakdown reaches original checkout without another render/reconfirmation; latest fees and gas-separate wording preserved.",
+    "Fixed all-in fee/gas guarantee or unsupported delivery/warranty condition remains blocked even with a signed-checkout request.",
+    "Payment breakdown question without purchase consent or signed-checkout request does not auto-issue a checkout; remembered public facts alone confer no financial authority."
+  ],
+  "existing_duplicate_core_6_cases_retained": true,
+  "v4d_PRE30_POST30_preserved": true,
+  "source_sha256": {
+    "review_trace_at_read": "3f6c769a4ec165f04b55d30a7dd31fd02cdb3921c025e3b4bbe111ec7ae1b950",
+    "broker_v4d": "112bd157f3f812fcb8ec445a2b5a87e836ba8edec5c8e1318d554468281428f8",
+    "public_continuity": "7d24ae8559948908600e8856bf1efc2aa0928ea16d5811fc90a1240432baa5b1",
+    "dispatcher": "84e0eca3a0211e80772ed78f2ba3c166902ba0125577e7153b06cc5bb13de0cd"
+  },
+  "raw_question_reply_actor_task_reference_Model_reason_exported": false,
+  "actual_Model_API_POST_financial_or_production_changes": 0
+}

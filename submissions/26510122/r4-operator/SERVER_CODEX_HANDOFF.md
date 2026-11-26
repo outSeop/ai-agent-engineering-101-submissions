@@ -1,3 +1,13 @@
+## 2026-11-26 15:18 KST — 최종 v4f 결제 조건 안내 보완·추가10분 관찰
+
+예약 r4/r4-2/r4-3은 PAUSED 유지. 현재 host는 **public_catalogue_runtime_v4f**, manifest `7f542904fc84e44d92b2558e72146aa7863fdd8d9208ce45c98e5e5b397b24d6`, launcher SHA `831fa941b826ff0bd06b373ed05a2e48732bf9238d62ce38f5996e3de093445d`. v4d의 같은task/검증대안/기억 결합은 유지한다. 원 SDK·genuine catalogue5·금융/예약/원가/예산/혜택/환불/매입·DB·두 지갑은 바꾸지 않는다.
+
+완료된 v4d 전후30분은 문의/checkout/정산/거래기여이익 모두0으로 보존한다. 배포gap에 운영자와 연결되지 않은 치즈샌드 관련 두 문의 메시지가 따로 있었다. 공개기억1과 같은SKU로 후속상황에 부합하지만 task/context/고객ID를 입증한 것은 아니다. 둘째 명시 서명요청이 ‘총 결제 조건’ 단어로 과도하게 차단됐음을 추가 대조에서 확인했다. 단순 비용구성 안내와 고정 all-in 금액 보장을 구분했다. 실제 수업 모델로 해당 요청을 격리 재현해 2회 판단→quote_and_send stub1회, 실제서명/송금0을 확인했다. 운영 공개 읽기는6.3002초/정확SKU/input_required/checkout0으로 표시했고 고객 집계에서 제외한다.
+
+최종 host17/17, 원실패 긍정과hard/부정/철회 독립검증, 분리된all-in상한3개차단. 추가 자연어 긍정2개는 보수적 미지원으로 남으며 통과로 세지 않는다. v4e의 총액 안내 문맥 삭제 우회는 배포 전 발견해 원 source/실패를 보존하고 v4f로 고쳤다. 현재 단일SKU와 명시 서명요청, 검증된 비용 안내만 지원하며 자동송금하지 않는다.
+
+추가 비교는 전15:03:30~15:13:30/후15:15:25~15:25:25 각600초. 사후 창 완료 전 개선을 주장하지 않는다. 기존 v4d30분 결과와 혼합하지 않는다. private 근거: runtime/buyer-conversion-root-1795669594/quote-terms-v4f, safe 근거: evidence/20261126-buyer-conversion.
+
 ## 2026-11-26 14:35 KST — 셀러 대화 개선 v4d 운영 적용·30분 관찰 중
 
 예약 r4/r4-2/r4-3은 모두 PAUSED. 현재 host는 **public_catalogue_runtime_v4d**, manifest `08e84c793cc4f25bce93798dec135864337df33ce627adb1644db7c531ac8360`, main launcher SHA `f59942c24252f341c23a7bf71f1a124b3864bee80c8290958f696d20d20a7d20`다. same-task 공개 SKU/등급/가격 힌트5분·fresh 조회, 실제 재고 대안, 현재 단일 대상의 명시 결제서 요청을 지원한다. 기존 금융·예약·DB·지갑·매입·원가/혜택/환불 정책과 SDK7은 보존했다. 신원/권리/과거 동의는 기억으로 대체하지 않는다.

@@ -1,0 +1,14 @@
+{
+  "at": 1795673719.669409,
+  "ended_at": 1795673725.9695833,
+  "operator": true,
+  "response_state": "TASK_STATE_INPUT_REQUIRED",
+  "http": 200,
+  "seconds": 6.3002,
+  "reply_sha256": "fe34520b9843da8ebf36174eb10f9d77af48efe2a000bc82099167180fba19c5",
+  "method": "live-public-readonly-v4f-source-check",
+  "requested_SKU_returned": true,
+  "no_checkout_data": true,
+  "current_url": "https://stable-leu-below-the.trycloudflare.com",
+  "not_actual_customer": true
+}
