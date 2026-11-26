@@ -1,0 +1,16 @@
+{
+  "credentials_checked": 6,
+  "exact_match_count": 0,
+  "pattern_hit_count": 0,
+  "file_sha256": {
+    "safe-v6-provenance.json": "81d6e5a3052dadb1db86417b3f61ec519e655d726e39307a7660b2e0d636c0bc",
+    "test_prepared_host.py": "d849074e12f234693b81c8255b670869ef6df4960c4de2261baa2778f893f0b9",
+    "test_prepared_official_sdk.py": "d75544354fb1b895e56f580a95e8c8175012a32a7d1df1f912b551e3cc344c30",
+    "test_prior_continuity_compatibility.py": "f4f2b14180b114f97760fc13a9dd99d1add42d1ee959a5aac391456efd097c5e",
+    "host-pass.log": "21c7e48d0b1ec908feef784bbce1fa55f2c9a7acf76382fa7578754a78bd1ed8",
+    "compatibility-pass.log": "cfbf420dfa812dd11816971275feeff5daaf6cdb0fc605949e0a40a76d19da92",
+    "sdk-pass.json": "37977d76eb4b88e1d12d0b50c8bbdef48986cc43a267dfb4e03f6532fdf1c32c",
+    "managed_launcher.v6-pins.diff": "45dd6a6f093418a3ce4c8a42ae2527baedd3ccd84443cb9c1964f2190c5f6333",
+    "README.md": "96eed8c26accab2fba4fa7f5e672790bbec396e50e80ba8a8ee98cdde8f7aa7c"
+  }
+}

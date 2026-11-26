@@ -1,0 +1,13 @@
+--- a/managed_launcher.py
++++ b/managed_launcher.py
+@@ -159,8 +159,8 @@
+     return managed_options(operator,freeze,official,pins,check=check)
+ 
+ 
+-CATALOGUE_RELEASE="public_catalogue_runtime_v4f"
+-CATALOGUE_MANIFEST_SHA="7f542904fc84e44d92b2558e72146aa7863fdd8d9208ce45c98e5e5b397b24d6"
++CATALOGUE_RELEASE="public_catalogue_runtime_v6"
++CATALOGUE_MANIFEST_SHA="ac9cab8b35f7f1f053858c4ead63e0bbaabc745a9cfb862b09d2206da245fdad"
+ 
+ 
+ def load_catalogue_options(operator,root,official,*,check):

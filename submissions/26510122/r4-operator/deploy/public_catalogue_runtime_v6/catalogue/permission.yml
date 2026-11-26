@@ -1,0 +1,9 @@
+name: public_catalogue
+description: 고정 공개 목록. context {op,text,focus_skus?}, search {op,q?,skus?,exclude_skus?,category?,grade?,max_price?,min_remaining_seconds?,sort?,limit?}, render {op,items:[{sku,grade}]}, fallback {op,text}. prepare {op,text,focus_skus?}는 확인된 후보를 최대 8행으로 반환하고 catalogue.hints.preparation에 행별 근거와 확인 불가 여부를 표시합니다. prepared_fallback {op,text}는 명확한 공개 정보 문의에만 공식 응답을 씁니다. 조회는 JSON 5500자, 응답은 최대 450자입니다. 검색을 이어 보려면 catalogue.next_args 전체를 사용하세요.
+permission:
+  pay_limit: 0
+  timeout: 120
+logic: logic.py
+test: test.py
+version: 6
+replaces: public_catalogue@5
