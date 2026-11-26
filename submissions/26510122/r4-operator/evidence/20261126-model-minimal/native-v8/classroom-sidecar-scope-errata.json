@@ -1,0 +1,12 @@
+{
+  "at": 1795707741.4901645,
+  "class_canary_report": "genuine8-front3-final-class-safe.json",
+  "tested_runtime_manifest_sha256": "01a4aceaab2fa8fa93161cc9e7921c0782fd08064b2559d524f16b2557514e4f",
+  "tested_front_manifest_sha256": "c2232e5e8a3ef7ced3e4475a009a519232393c309633c219d05ff3859e9385f2",
+  "scope_correction": "The actual-class canary injected a controlled public stock-state supplier through options_override. It did not exercise the production sidecar stock-state producer or validate production physical unit ID syntax.",
+  "reported_production_boundary_issue": "The stock-state sidecar used a public SKU pattern for internal physical unit IDs, causing zero stock rows. The parent is reviewing a host-only 8a producer correction against the original core physical ID grammar.",
+  "class_proof_reuse_rule": "Compare exact hashes. Reuse only unchanged genuinely forged tool, Broker, managed host and front components. Producer deployment readiness requires separate real read-only publish/physical-ID evidence; do not infer from class canary success.",
+  "additional_actual_model_calls": 0,
+  "actual_financial_execution_count": 0,
+  "operations_changed": false
+}

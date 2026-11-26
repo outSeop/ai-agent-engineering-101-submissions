@@ -1,0 +1,1 @@
+{"sdk_mode": "ordinary_tool_call", "both_groups_under_cap": true, "partial_primary_retained": true, "strict_primary_grade_price_preserved": true, "exact_sku_and_no_alternatives": true, "mixed_fallback_denied": true, "compound_pack_exact": true, "wrong_pack_rejected": true, "bounded_generic": true, "unknown_specific_empty": true, "actual_model_apis_wallet_posts": 0}

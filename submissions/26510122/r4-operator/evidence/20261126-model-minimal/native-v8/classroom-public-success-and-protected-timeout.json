@@ -1,0 +1,289 @@
+{
+  "at": 1795707618.123891,
+  "actual_operating_model": "market through unchanged official SDK Model",
+  "actual_class_calls": 2,
+  "front_release": "front_edge_runtime_v3",
+  "front_manifest_sha256": "c2232e5e8a3ef7ced3e4475a009a519232393c309633c219d05ff3859e9385f2",
+  "runtime_manifest_sha256": "01a4aceaab2fa8fa93161cc9e7921c0782fd08064b2559d524f16b2557514e4f",
+  "cases": [
+    {
+      "status": "verified_catalogue_final_reply",
+      "http_status": 200,
+      "final_reply_matches_genuine": true,
+      "final_reply_sha256": "b84ca82e5037315632ad7e7cb31402e365170d18e1844eba04381e6a5bbbcb62",
+      "final_reply_characters": 371,
+      "final_genuine_operation": "render",
+      "source_count": 150,
+      "source_bytes": 47784,
+      "source_snapshot_sha256": "f32dc44cc044da9114f813caf6a80552c330d47914ba26b7dc699ec07a3cb6ea",
+      "catalogue_calls": [
+        {
+          "op": "prepare",
+          "seconds": 0.7169,
+          "snapshot_sha256": "f32dc44cc044da9114f813caf6a80552c330d47914ba26b7dc699ec07a3cb6ea",
+          "status": "ready",
+          "fixed_reason": null,
+          "page_rows": 7,
+          "page_characters": 2460,
+          "source_count": 150,
+          "offset": 0,
+          "args_sha256": "9026fc16bf253d5c45f4ed452ae03dbfc04a2bb7b6c9d9b10f876832d16b18b8"
+        },
+        {
+          "op": "render",
+          "seconds": 0.733,
+          "snapshot_sha256": "f32dc44cc044da9114f813caf6a80552c330d47914ba26b7dc699ec07a3cb6ea",
+          "status": "rendered",
+          "fixed_reason": null,
+          "page_rows": null,
+          "page_characters": null,
+          "source_count": null,
+          "offset": null,
+          "args_sha256": "4b87f7d3335fb3f9297a4e1c32c2f7aafb1d203dbfc5d023c97d326e23fb27fd"
+        }
+      ],
+      "supplier_calls": 1,
+      "legacy_context_calls": 0,
+      "financial_executor_attempts": 0,
+      "actual_financial_execution_count": 0,
+      "financial_executor_is_stub": true,
+      "scenario": "alternatives",
+      "raw_history_marker_forwarded": false,
+      "transport_turn_count": 1,
+      "per_turn_safe": [
+        {
+          "index": 0,
+          "http_status": 200,
+          "has_error": false,
+          "task_state": "TASK_STATE_INPUT_REQUIRED",
+          "genuine_final_reply_match": true,
+          "genuine_reply_exact_suffix": true,
+          "model_memory_counts": [
+            0
+          ],
+          "legacy_action_selections": []
+        }
+      ],
+      "same_task_continuation_accepted": false,
+      "cross_task_id_is_different": false,
+      "legacy_fixture_unchanged": true,
+      "Model_page_bound_violations": 0,
+      "model_error_metadata": [],
+      "Model_metrics": [
+        {
+          "host_readonly_flow": [
+            {
+              "remaining_decisions_including_this_one": 1,
+              "final_decision": true,
+              "allowed_final_actions": [
+                "render_public_products",
+                "respond"
+              ],
+              "max_render_items": 3,
+              "instruction": "This is the last read-only decision. Finish with render_public_products for selected verified items or respond with a factual answer; do not request another search."
+            }
+          ],
+          "remembered_public_count": 0,
+          "remembered_public_skus": [],
+          "prompt_characters": 5803,
+          "page_count_in_history": 1,
+          "page_rows_in_history": [
+            7
+          ],
+          "page_characters_in_history": [
+            2460
+          ],
+          "timeout": 30,
+          "max_tokens": 800
+        }
+      ],
+      "phase_metrics": [
+        {
+          "prefetch_seconds": 0.0,
+          "model_seconds": 16.0612,
+          "render_seconds": 0.7332,
+          "legacy_action_seconds": 0.0,
+          "catalogue_seconds": 0.7185,
+          "search_seconds": 0.0,
+          "fallback_seconds": 0.0,
+          "total_seconds": 17.5171,
+          "retries": 0,
+          "outcome": "rendered_public",
+          "reason": "none",
+          "phase_reasons": {}
+        }
+      ],
+      "total_transport_seconds": 17.5364,
+      "old_builder_invocations": 0,
+      "old_builder_source_present": false,
+      "actual_frozen_front_wrapper": true,
+      "front_edge_manifest_sha256": "c2232e5e8a3ef7ced3e4475a009a519232393c309633c219d05ff3859e9385f2",
+      "toolbox_root_isolated_session": true,
+      "production_trace_writes_expected": 0,
+      "prepared_mode_enabled": true,
+      "strict_Model_decision_limit": 1,
+      "calibrated_local_Model_wait_seconds": 30,
+      "calibrated_request_budget_seconds": 40,
+      "calibration_max_tokens": 800,
+      "stock_state_source": "controlled public snapshot metadata fixture, not production reservation join",
+      "tool_tokens_count": 0,
+      "tool_addresses_count": 0,
+      "wallet_loaded": false,
+      "actual_customers_contacted": false,
+      "actual_DB_opened": false,
+      "server_listener_started": false,
+      "production_installed": false,
+      "raw_reason_reply_exported": false,
+      "session": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/public-catalogue-class-canary-front-v3-genuine8-1795707468211065436-rice-nuts",
+      "render_contains_rice": true,
+      "render_contains_nuts": true
+    },
+    {
+      "status": "no_verified_quote_action_stub",
+      "http_status": 200,
+      "final_reply_matches_genuine": false,
+      "final_reply_sha256": "a3a3b16a7e49ad227f03732a69cc813c8b4abc2d6dcbe2257594e2afc7f224ae",
+      "final_reply_characters": 40,
+      "final_genuine_operation": null,
+      "source_count": 150,
+      "source_bytes": 47784,
+      "source_snapshot_sha256": "efc921a0e7c68ca26f3bc3cc56d9f1edb5e50385778e99eae1ac72eae8c66dd8",
+      "catalogue_calls": [
+        {
+          "op": "prepare",
+          "seconds": 0.7122,
+          "snapshot_sha256": "efc921a0e7c68ca26f3bc3cc56d9f1edb5e50385778e99eae1ac72eae8c66dd8",
+          "status": "ready",
+          "fixed_reason": null,
+          "page_rows": 0,
+          "page_characters": 1589,
+          "source_count": 150,
+          "offset": 0,
+          "args_sha256": "8531b92f67495d1d26797b5fba606605e19a9e8b01793bf1afe5b4cc32ecdd94"
+        }
+      ],
+      "supplier_calls": 1,
+      "legacy_context_calls": 1,
+      "financial_executor_attempts": 0,
+      "actual_financial_execution_count": 0,
+      "financial_executor_is_stub": true,
+      "scenario": "checkout",
+      "raw_history_marker_forwarded": false,
+      "transport_turn_count": 1,
+      "per_turn_safe": [
+        {
+          "index": 0,
+          "http_status": 200,
+          "has_error": false,
+          "task_state": "TASK_STATE_COMPLETED",
+          "genuine_final_reply_match": false,
+          "genuine_reply_exact_suffix": false,
+          "model_memory_counts": [
+            0
+          ],
+          "legacy_action_selections": []
+        }
+      ],
+      "same_task_continuation_accepted": false,
+      "cross_task_id_is_different": false,
+      "legacy_fixture_unchanged": true,
+      "Model_page_bound_violations": 0,
+      "model_error_metadata": [
+        {
+          "error_type": "TimeoutError"
+        }
+      ],
+      "Model_metrics": [
+        {
+          "host_readonly_flow": [],
+          "remembered_public_count": 0,
+          "remembered_public_skus": [],
+          "prompt_characters": 6000,
+          "page_count_in_history": 1,
+          "page_rows_in_history": [
+            0
+          ],
+          "page_characters_in_history": [
+            1589
+          ],
+          "timeout": 30,
+          "max_tokens": 800,
+          "model_error": {
+            "error_type": "TimeoutError"
+          }
+        }
+      ],
+      "phase_metrics": [
+        {
+          "prefetch_seconds": 0.0002,
+          "model_seconds": 30.0014,
+          "render_seconds": 0.0,
+          "legacy_action_seconds": 0.0,
+          "catalogue_seconds": 0.7136,
+          "search_seconds": 0.0,
+          "fallback_seconds": 0.0,
+          "total_seconds": 30.7186,
+          "retries": 0,
+          "outcome": "model_unavailable",
+          "reason": "model_timeout",
+          "phase_reasons": {
+            "model": "model_timeout"
+          }
+        }
+      ],
+      "total_transport_seconds": 30.7375,
+      "old_builder_invocations": 0,
+      "old_builder_source_present": false,
+      "actual_frozen_front_wrapper": true,
+      "front_edge_manifest_sha256": "c2232e5e8a3ef7ced3e4475a009a519232393c309633c219d05ff3859e9385f2",
+      "toolbox_root_isolated_session": true,
+      "production_trace_writes_expected": 0,
+      "prepared_mode_enabled": true,
+      "strict_Model_decision_limit": 1,
+      "calibrated_local_Model_wait_seconds": 30,
+      "calibrated_request_budget_seconds": 40,
+      "calibration_max_tokens": 800,
+      "stock_state_source": "controlled public snapshot metadata fixture, not production reservation join",
+      "tool_tokens_count": 0,
+      "tool_addresses_count": 0,
+      "wallet_loaded": false,
+      "actual_customers_contacted": false,
+      "actual_DB_opened": false,
+      "server_listener_started": false,
+      "production_installed": false,
+      "raw_reason_reply_exported": false,
+      "quote_action_count": 0,
+      "quote_target_matches_current_request": false,
+      "signed_checkout_issued": false,
+      "session": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/public-catalogue-class-canary-front-v3-genuine8-1795707515915914801-protected"
+    }
+  ],
+  "isolation": {
+    "at": 1795707585.3529887,
+    "sessions": [
+      {
+        "session": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/public-catalogue-class-canary-front-v3-genuine8-1795707468211065436-rice-nuts",
+        "decision_refs": 1,
+        "transport_refs": 1,
+        "decision_refs_in_PROD": 0,
+        "transport_refs_in_PROD": 0
+      },
+      {
+        "session": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/public-catalogue-class-canary-front-v3-genuine8-1795707515915914801-protected",
+        "decision_refs": 1,
+        "transport_refs": 1,
+        "decision_refs_in_PROD": 0,
+        "transport_refs_in_PROD": 0
+      }
+    ],
+    "production_trace_intersection_zero": true,
+    "original_logs_deleted": false,
+    "actual_financial_execution_count": 0
+  },
+  "limitations": [
+    "Protected case local30s timeout; quote selection not demonstrated.",
+    "Local timeout does not prove upstream provider cancellation.",
+    "Controlled public stock-state fixture; not production reservation/financial integration proof.",
+    "No real buyer behavior or settlement evidence."
+  ]
+}

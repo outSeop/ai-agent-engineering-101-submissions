@@ -1,0 +1,49 @@
+{
+  "schema": "outseop-r4.independent-native8-assessment.v1",
+  "frozen_manifest_sha256": "01a4aceaab2fa8fa93161cc9e7921c0782fd08064b2559d524f16b2557514e4f",
+  "genuine4_sha256": {
+    "forge.json": "5e19ba19f264b231d12e1570188f189cc5b7f770e2cbea810b343fc2b364f6bb",
+    "logic.py": "01a4a0dc912e02679091a3f6c98df3f0450ca2581b920d1d650e2fa0fa2a4c89",
+    "permission.yml": "f69e6c375d5586dea1bb8ff701f977a07d475e9d88033e5dce4acf123ababcc4",
+    "test.py": "1da5431683f6515799dbb769660187d467f4ac9a0a1a1bd280bfdca683a19e5a"
+  },
+  "source_forge_sha_exact": true,
+  "ordinary_official_Toolbox_run": true,
+  "kit_testing_flag_manually_set": false,
+  "no_wallet_empty_tokens_addresses_and_rejecting_capability_signer": true,
+  "narrow_synthetic_host_groups": {
+    "passed": 6,
+    "total": 6,
+    "official_calls": 27
+  },
+  "historical_compound": {
+    "passed": true,
+    "returned_rows": 1,
+    "fit_kind": "named_pack",
+    "constraints_unverified": true,
+    "partial_candidate_only_not_full_condition_or_consent": "Exact historical masked question; source title and packaging evidence retained, unknown secondary remains unverified.",
+    "replay_method": "Fresh isolated synthetic cache from historical verified first-page public facts, original public expiry reconstructed with historical as_of+remaining. Does not claim the historical cache was still fresh.",
+    "generic_control_label": "Separate generic synthetic query, not primary-only original."
+  },
+  "verified_host_boundaries": {
+    "exactly_one_MockModel_call_on_malformed_wrongaction_timeout": true,
+    "public_fallback_uses_genuine_tool_reply_exact": true,
+    "protected_signed_and_right_context_preserved_fallback_calls_zero": true,
+    "same_SKU_grade_available_and_reserved_both_visible": true,
+    "reserved_NULL_price_not_replaced": true,
+    "metrics_path": "public-catalogue-model-minimal-metrics.json",
+    "producer_sidecar_bytes_unchanged_from_v7": true
+  },
+  "negative_boundaries": [
+    "wrong packaging",
+    "explicit product exclusion",
+    "no alternatives with missing compound",
+    "unknown compound without broad fallback",
+    "unverified hard conditions",
+    "financial prepared_fallback rejected"
+  ],
+  "stage_source_recheck_after_test": true,
+  "no_actual_Model_API_financial_forum_or_production_changes": true,
+  "old_v6_v7_failures_and_control_label_correction_preserved": true,
+  "scope": "Independent synthetic SDK and host Broker tests. Parent actual-class/ASGI run and deployment are separate evidence."
+}

@@ -1,0 +1,22 @@
+{
+  "at": 1795707585.3529887,
+  "sessions": [
+    {
+      "session": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/public-catalogue-class-canary-front-v3-genuine8-1795707468211065436-rice-nuts",
+      "decision_refs": 1,
+      "transport_refs": 1,
+      "decision_refs_in_PROD": 0,
+      "transport_refs_in_PROD": 0
+    },
+    {
+      "session": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/public-catalogue-class-canary-front-v3-genuine8-1795707515915914801-protected",
+      "decision_refs": 1,
+      "transport_refs": 1,
+      "decision_refs_in_PROD": 0,
+      "transport_refs_in_PROD": 0
+    }
+  ],
+  "production_trace_intersection_zero": true,
+  "original_logs_deleted": false,
+  "actual_financial_execution_count": 0
+}

@@ -1,0 +1,3 @@
+[Service]
+ExecStart=
+ExecStart=/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/.venv/bin/python -I -B /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/deploy/price_context_runtime_v8/price_context_bootstrap.py catalogue -- --operator /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator --manifest-sha256 01a4aceaab2fa8fa93161cc9e7921c0782fd08064b2559d524f16b2557514e4f --publish-cache

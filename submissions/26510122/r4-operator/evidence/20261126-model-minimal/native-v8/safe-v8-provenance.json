@@ -1,0 +1,26 @@
+{
+  "manifest_sha256": "01a4aceaab2fa8fa93161cc9e7921c0782fd08064b2559d524f16b2557514e4f",
+  "model_provider": "codex-cli-gpt-6.2-sol",
+  "official_mind": true,
+  "official_sdk_forge": true,
+  "original_forge_log_sha256": "3b7db3b88e2a2c12b9b4b95e4518a4ccab5d48ee0adc8c8fe022f98a3ecc2244",
+  "production_actions_by_developer": 0,
+  "provider_reported_model": null,
+  "source": {
+    "capture_record_sha256": "aa45d44ff39571d2583a49c7e83f3e012169535258e319bfd3521674736f9fff",
+    "response_sha256": "6cf5900ccc842096d59909e99940929b32a4409eed06d698d797dd8b2b5e96df"
+  },
+  "source_matches_successful_model_output": true,
+  "v8_attempts": [
+    {
+      "passed": false,
+      "ts": 1795706732,
+      "version": 8
+    },
+    {
+      "passed": true,
+      "ts": 1795707383,
+      "version": 8
+    }
+  ]
+}

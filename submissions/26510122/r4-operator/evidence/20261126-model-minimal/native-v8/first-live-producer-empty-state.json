@@ -1,0 +1,16 @@
+{
+  "observation": {
+    "status": "installed_readonly_producer_v8",
+    "at": 1795707610.2238739,
+    "cache_rows": 150,
+    "public_status_rows": 0,
+    "reserved_status_rows": 0,
+    "source_binding_ok": true,
+    "original_main_worker_PID_restarts_same": true,
+    "timer_active": true,
+    "model_calls": 0,
+    "financial_actions": 0
+  },
+  "assessment": "physical unit IDs incorrectly checked with public SKU format; zero status rows rejected by root before edge/routing; original public cache stayed compatible; host fix staged as v8a",
+  "financial_actions": 0
+}
