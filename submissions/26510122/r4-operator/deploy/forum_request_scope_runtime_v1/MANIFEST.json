@@ -1,0 +1,24 @@
+{
+  "files": {
+    "marketing_request_glue.py": "12718b48e18e90ff5c4ea83b685db8a8f9b64b998207dc56208ab7dc122853f2",
+    "test_marketing_request_glue.py": "62ff99ce57a027d58b08d851933d87931b5bf9734c2fc5e70cc4042a27fad2b2",
+    "verify_new_tool.py": "451ffa4aa97ac8ca993ed8c624871cac5e6f7a6ed30f74154e3538192ac9f38d",
+    "README.md": "7ae1a03ffc6883f5fea64d88cb22ecec552dc71b2e52e033d7bfdcfd9438c7c9",
+    "ABI.json": "5dd9f461bf0569cc7be03c5d551ff4571d45f4b5512042f71e3a3996989d229a",
+    "SAFE-QA.json": "ce650d20e6352247976318f3c6ebfb2a3c507e67c4823a8bc49951d038d7a8fa",
+    "READONLY-PRESERVATION-SAFE.json": "c113a8e94d56c94f5cda8618d2b84fd972bb81a984eb562cb407a1b23c7d83be",
+    "FIRST-ATTEMPT-SAFE.json": "01da33ad13e7dcf2e0db37b219eff12076e1c3032bdfef1a7602aaf2f9df46cc"
+  },
+  "authorship": "External host/test infrastructure only; genuine business sources unchanged",
+  "connected_to_cached_production_loop": false,
+  "live_install_or_service_changes": 0,
+  "new_loop_or_daemon_created": false,
+  "host_AST_While_nodes": 0,
+  "new_business_tool_admission": "pending final genuine6+ freeze and QA; attempt2 not admitted or installed",
+  "actual_class_model_calls": 0,
+  "actual_market_POSTs": 0,
+  "actual_financial_actions": 0,
+  "source_actual4_credentials_checked": 4,
+  "exact_credential_or_sensitive_pattern_matches": 0,
+  "private_failure_archives_not_in_public_manifest": true
+}

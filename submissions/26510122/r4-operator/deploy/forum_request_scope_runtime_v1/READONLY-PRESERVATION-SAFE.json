@@ -1,0 +1,18 @@
+{
+  "at": 1795780857.060235,
+  "main_active": true,
+  "same_main_PID_as_readonly_baseline": true,
+  "main_NRestarts": 0,
+  "original_quicktunnel_PID_still_present": true,
+  "original_shared_sources_match_readonly_baseline": {
+    "dispatcher.py": true,
+    "price_policy.py": true,
+    "forum.py": true
+  },
+  "original_tool5_still_installed": true,
+  "SDK7_hashes_match": true,
+  "writes_by_this_task": "new runtime/marketing-request-20261127-method files and synthetic TemporaryDirectory roots only",
+  "service_or_url_or_taskstore_mutations": 0,
+  "actual_Model_or_market_API_or_POST_calls": 0,
+  "financial_operations": 0
+}

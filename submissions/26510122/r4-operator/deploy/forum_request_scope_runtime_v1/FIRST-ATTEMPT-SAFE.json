@@ -1,0 +1,8 @@
+{
+  "tests": 17,
+  "failures": 0,
+  "errors": 16,
+  "cause": "Reviewed campaign import dependency was absent from isolated sys.path; fixed by exact-SHA dependency preload in host only",
+  "actual_Model_API_POSTs": 0,
+  "failed_source_private_preserved": true
+}

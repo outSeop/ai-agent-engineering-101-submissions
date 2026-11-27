@@ -1,0 +1,29 @@
+{
+  "factory": "build_stage(native_sdk, coordinator, operator, root, agent, model, ctx, *, execute, runtime_operator=None, stock=None, clock=time.time)",
+  "business_source_action": {
+    "action": "slate_context"
+  },
+  "options_envelope_keys": [
+    "status",
+    "source"
+  ],
+  "public_source_keys": [
+    "items",
+    "observed_at",
+    "own_spotlight_history",
+    "reply_options",
+    "schema",
+    "spotlight_allowed",
+    "valid_until"
+  ],
+  "blocked_source": "status-only projection; no model call",
+  "business_transport": "same exact source+toolbox ctx for slate_context/reconcile/publish",
+  "business_version_min": 6,
+  "genuine_native_selection_version": 2,
+  "background_original": true,
+  "cached_production_loop_connected": false,
+  "new_loop_created": false,
+  "actual_class_model_called": false,
+  "actual_market_posts": 0,
+  "financial_operations": 0
+}

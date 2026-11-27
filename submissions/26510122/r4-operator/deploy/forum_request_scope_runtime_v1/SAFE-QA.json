@@ -1,0 +1,13 @@
+{
+  "tests": 20,
+  "failures": 0,
+  "errors": 0,
+  "genuine_native2_ordinary_SDK_used": true,
+  "business_source_transport": "synthetic fixture; new genuine tool admission tested separately when frozen",
+  "Model": "Mock via original SDK Mind.run_once, no actual model API",
+  "HTTP_POSTs": 0,
+  "actual_Model_calls": 0,
+  "production_root_or_service_changes": 0,
+  "runtime_sessions_temporary_only": true,
+  "connected_to_running_main": false
+}
