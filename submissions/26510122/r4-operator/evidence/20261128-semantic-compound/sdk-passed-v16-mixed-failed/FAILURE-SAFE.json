@@ -1,0 +1,13 @@
+{
+  "sdk_old_cases_all_passed": true,
+  "ordinary_total_passed": 25,
+  "ordinary_total": 28,
+  "actual_partial": "failed",
+  "known_issues": [
+    "raw pattern whitespace double escaped",
+    "visit predicate required on both sides of noun",
+    "duplicated factual text still used with v4 unique noun guard",
+    "unreachable hold status condition"
+  ],
+  "production_modified": false
+}
