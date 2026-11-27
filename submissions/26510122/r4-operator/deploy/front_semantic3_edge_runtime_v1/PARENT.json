@@ -1,0 +1,12 @@
+{
+  "parent": "deploy/front_semantic_edge_runtime_v2",
+  "manifest_sha256": "a7879bd7d9eeb1ecd0fc1e97c0d8652a88e542ee1b3f7dae9309e52bed1ab18e",
+  "authorship": "external host transport only",
+  "changes": [
+    "fixed18808 listener",
+    "fixed18807 fallback",
+    "semantic3 marker/state",
+    "guard preserves both previous edge PIDs and all cards",
+    "same1/30/800/40 budgets"
+  ]
+}

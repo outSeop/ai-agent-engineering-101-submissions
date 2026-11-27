@@ -1,0 +1,41 @@
+{
+  "at": 1795753400.2683868,
+  "tests": [
+    {
+      "script": "test_front_edge_nowallet.py",
+      "count": 10,
+      "exit_code": 0,
+      "summary": [
+        "----------------------------------------------------------------------",
+        "Ran 10 tests in 0.466s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "script": "test_transition_guard_mock.py",
+      "count": 9,
+      "exit_code": 0,
+      "summary": [
+        "----------------------------------------------------------------------",
+        "Ran 9 tests in 0.003s",
+        "",
+        "OK"
+      ]
+    }
+  ],
+  "actual_Model_calls": 0,
+  "listener_rule_process_changes": 0,
+  "all_test_writes_isolated": true,
+  "old_18805_18806_18807_services_unchanged": true,
+  "original_SDK_financial_business_source_changes": 0,
+  "new_port": 18808,
+  "fixed_fallback": 18807,
+  "preserve_prior_task_stores": [
+    18805,
+    18806,
+    18807
+  ],
+  "root_service_owner_query": "fixed runuser -u seop, inherited from actual verified v2",
+  "native_runtime_separately_pinned": true
+}
