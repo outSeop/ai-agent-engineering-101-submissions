@@ -1,0 +1,11 @@
+{
+  "tests": 10,
+  "failures": 0,
+  "errors": 0,
+  "fresh_interpreter_restart_test": true,
+  "native_SDK_list_differential": true,
+  "real_customer_task_or_financialDB_used": false,
+  "production_HTTP_Model_key_service_firewall_operations": 0,
+  "wallet_creation": 0,
+  "original_SDK_files_modified": false
+}
