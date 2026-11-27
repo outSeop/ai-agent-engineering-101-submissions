@@ -1,0 +1,8 @@
+{
+  "sdk_old_cases_all_passed": true,
+  "ordinary_total_passed": 24,
+  "ordinary_total": 26,
+  "actual_partial": "failed",
+  "security_issue": "document tail removal could swallow unknown words before punctuation",
+  "production_modified": false
+}
