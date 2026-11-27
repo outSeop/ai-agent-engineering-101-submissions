@@ -43,6 +43,17 @@ class ReleaseTests(unittest.TestCase):
         self.assertEqual(config['runtime_manifest_sha256'],first['runtime_manifest_sha256'])
         self.assertEqual(config['runtime_path'],first['runtime_path'])
         self.assertEqual(json.loads((target/'MANIFEST.json').read_bytes())['semantic_original_forge_sha256'],b.digest(blobs['forge.json']))
+    def test_same_spec_builds_under_two_distinct_operator_roots(self):
+        left,lp,ld,lb=self.fixture();right,rp,rd,rb=self.fixture()
+        self.assertNotEqual(left,right);self.assertEqual(lp.read_bytes(),rp.read_bytes())
+        a=b.build(left,lp,b.digest(lp.read_bytes()));z=b.build(right,rp,b.digest(rp.read_bytes()))
+        self.assertEqual(a['release_id'],z['release_id'])
+        for root,receipt in ((left,a),(right,z)):
+            runtime=Path(receipt['runtime_path']);context=json.loads((runtime/'HOST-CONTEXT.json').read_bytes())
+            self.assertEqual(context['operator_root'],str(root));self.assertEqual(context['base_protocol'],'deploy/base/public_catalogue_protocol.py')
+            self.assertEqual((runtime/'semantic/logic.py').read_bytes(),lb['logic.py'])
+        # Local absolute bindings are intentionally materialized, not source identity.
+        self.assertNotEqual(a['runtime_manifest_sha256'],z['runtime_manifest_sha256'])
     def test_source_or_existing_release_tamper_is_rejected(self):
         root,path,data,blobs=self.fixture();pin=b.digest(path.read_bytes());receipt=b.build(root,path,pin)
         override=root/'src/protocol.py';write(override,b'UNREVIEWED = True\n')

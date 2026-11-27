@@ -14,7 +14,7 @@
 - `config.py`: manifest가 보증하는 설정. `--operator`를 기준으로 상대 artifact 경로를 해석한다.
 - `admission_gate.py`, `transition_guard.py`: 과거 전환 방식과의 호환. 새 engine은 별도 HOST DB maintenance를 쓴다.
 
-materializer는 공통 소스와 원본 forge 자산을 `runtime/releases/<명세 SHA>/`에 복사한다. 생성물은 불변이다. Git 명세의 artifact 경로는 operator 상대경로이며, 실제 절대경로는 생성한 private RUNTIME-BINDING/HOST-CONTEXT에만 들어간다. 이식 시 `--operator`를 새 위치로 지정해 다시 빌드한다. 과거 증거와 배포 자산의 절대경로는 역사 기록으로 남아 있으며, 이 변경이 기존 금융 장부와 과거 프로세스를 다른 머신으로 자동 이식하지는 않는다.
+materializer는 공통 소스와 원본 forge 자산을 `runtime/releases/<명세 SHA>/`에 복사한다. 생성물은 불변이다. Git 명세의 artifact 경로는 operator 상대경로이며, 실제 절대경로는 생성한 private RUNTIME-BINDING/HOST-CONTEXT에만 들어간다. 이식 시 `--operator`를 새 위치로 지정해 다시 빌드한다. 같은 소스 명세의 SHA는 유지되지만 runtime/front manifest는 생성한 절대경로를 포함하므로 머신마다 달라질 수 있다. 해당 위치에서 생성한 BUILD의 SHA로 검증한다. 과거 증거와 배포 자산의 절대경로는 역사 기록으로 남아 있으며, 이 변경이 기존 금융 장부와 과거 프로세스를 다른 머신으로 자동 이식하지는 않는다.
 
 ## 권한과 실패 처리
 
