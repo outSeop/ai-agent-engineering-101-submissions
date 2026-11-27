@@ -1,0 +1,156 @@
+{
+  "builder_sha256": "9910ab962b48f8d61145117e1e6ce540cb71cfc84c1392ca78a773c14484dd0f",
+  "front_binding": {
+    "cf_pid_hint": 1192922,
+    "main": {
+      "pid_hint": 1192914,
+      "service": "ourolabs-market-r4.service"
+    },
+    "marker": "r4-persistent-engine-v1",
+    "new_port": 18812,
+    "old_proxy_port": 18810,
+    "preserved_edges": [
+      {
+        "launcher": "deploy/front_edge_runtime_v3/run_front_edge.py",
+        "manifest_path": "deploy/front_edge_runtime_v3/MANIFEST.json",
+        "manifest_sha256": "c2232e5e8a3ef7ced3e4475a009a519232393c309633c219d05ff3859e9385f2",
+        "marker": "r4-front-v1",
+        "pid_hint": 1213796,
+        "port": 18806,
+        "service": "ourolabs-market-r4-front-edge.service",
+        "state_dir": "runtime/front-edge"
+      },
+      {
+        "launcher": "deploy/front_semantic_edge_runtime_v2/run_front_edge.py",
+        "manifest_path": "deploy/front_semantic_edge_runtime_v2/MANIFEST.json",
+        "manifest_sha256": "a7879bd7d9eeb1ecd0fc1e97c0d8652a88e542ee1b3f7dae9309e52bed1ab18e",
+        "marker": "r4-semantic-front-v1",
+        "pid_hint": 1218994,
+        "port": 18807,
+        "service": "ourolabs-market-r4-semantic-front.service",
+        "state_dir": "runtime/front-semantic-edge"
+      },
+      {
+        "launcher": "deploy/front_semantic3_edge_runtime_v1/run_front_edge.py",
+        "manifest_path": "deploy/front_semantic3_edge_runtime_v1/MANIFEST.json",
+        "manifest_sha256": "25d099830f88215ffebc37c41fd9cef8c3a28d0206f411ab9488c646a62980d9",
+        "marker": "r4-semantic3-front-v1",
+        "pid_hint": 1240765,
+        "port": 18808,
+        "service": "ourolabs-market-r4-semantic3-front.service",
+        "state_dir": "runtime/front-semantic3-edge"
+      },
+      {
+        "launcher": "deploy/front_compound_edge_runtime_v1/run_front_edge.py",
+        "manifest_path": "deploy/front_compound_edge_runtime_v1/MANIFEST.json",
+        "manifest_sha256": "860307caea9d15033f9baacd5f8768ea48a3890880bbdce2bbfc13fb58a67fbd",
+        "marker": "r4-compound-front-v1",
+        "pid_hint": 1277750,
+        "port": 18809,
+        "service": "ourolabs-market-r4-compound-front.service",
+        "state_dir": "runtime/front-compound-edge"
+      },
+      {
+        "launcher": "runtime/releases/4602965de6150eb00d8947f3cf432a87443847bea1dbdcc44bdfdd7931ba7213/front/run_front_edge.py",
+        "manifest_path": "runtime/releases/4602965de6150eb00d8947f3cf432a87443847bea1dbdcc44bdfdd7931ba7213/front/MANIFEST.json",
+        "manifest_sha256": "05198370b8449a132db5df758d6ada3e504d8283b02cc454809e9d1c7eaaf562",
+        "marker": "r4-compound2-front-v1",
+        "pid_hint": 1282150,
+        "port": 18810,
+        "service": "ourolabs-market-r4-compound2-front.service",
+        "state_dir": "runtime/front-compound2-edge"
+      }
+    ],
+    "schema": "outseop-r4.front-release.v1",
+    "semantic_instruction": "최종 도구. 공개 문의의 준비 정보가 부족할 때 이번 한 번의 판단으로 상품군과 유사 검색어를 고른다. args는 groups 한 필드이고 원문에서 구분되는 긍정 상품군 1~2개를 순서대로 넣는다. 각 그룹은 product_phrase와 queries만 쓴다. product_phrase는 현재 원문에 등장한 긍정 상품 명사구를48자 이내로 그대로 복사하며 두 그룹의 원문 위치는 겹치지 않는다. queries는 해당 상품의 긍정 유사 검색어1~2개를 우선순위로 넣는다. 같은 긍정 상품명이 반복되면 하나의 상품군으로 묶는다. 서로 다른 품목은 한 그룹의 검색어로 섞지 않는다. 가격·수량·등급·기한·제외·결제·개인정보를 상품구절에 섞지 않는다. 원문조건은 도구가 다시 검증한다. 실제 발급·구매·환불에 쓰지 않는다. 후보는 관련 참고안이며 정확 일치나 전체 요청 충족을 보장하지 않는다. 도구가 검증한 비구속 응답으로 종료한다. 추가 모델 판단은 없다. 예시 args: {\"groups\":[{\"product_phrase\":\"침대\",\"queries\":[\"침대\"]},{\"product_phrase\":\"침구\",\"queries\":[\"침구\",\"이불\"]}]}",
+    "service": "ourolabs-market-r4-engine.service",
+    "state_dir": "runtime/persistent-engine",
+    "worker": {
+      "pid_hint": 1192976,
+      "service": "ourolabs-market-r4-worker.service"
+    }
+  },
+  "front_sources": {
+    "README.md": {
+      "sha256": "be4abd6130fc1b57cc2f4d243ab74fb32d050bea0be9b9a9686ed7b975e3606b",
+      "source": "src/r4_operator_host/front/README.md"
+    },
+    "admission_gate.py": {
+      "sha256": "9140c775e70e9b7f3d35016b9c3568ad2a228753bd852cdd5f430eea896fff0b",
+      "source": "src/r4_operator_host/front/admission_gate.py"
+    },
+    "config.py": {
+      "sha256": "1a9af8b4958ab7c50fa166d7f43edac409c42602ba201ef2a722b2070049d03b",
+      "source": "src/r4_operator_host/front/config.py"
+    },
+    "durable_public_continuity.py": {
+      "sha256": "9a8eee202627ac9cc6a5553dace3e4cee70e7feb40a821a4097b0be59455265a",
+      "source": "src/r4_operator_host/durable_public_continuity.py"
+    },
+    "flat_router.py": {
+      "sha256": "39f9e7bad6e1be0be17aa591a5a9ceab4c43355996ce31acb9de7fad7995a022",
+      "source": "src/r4_operator_host/front/flat_router.py"
+    },
+    "flat_transition.py": {
+      "sha256": "e3ea7774ef534256bf9b4a030b7a6191ab7cd674e20f09a4ae6a57b8a7df8151",
+      "source": "src/r4_operator_host/front/flat_transition.py"
+    },
+    "front_edge_app.py": {
+      "sha256": "dd3c199688b4b81aaed49446ba39dc52eeb4a7c7d99d1975313e2ea5c918a4bb",
+      "source": "src/r4_operator_host/front/front_edge_app.py"
+    },
+    "run_flat_router.py": {
+      "sha256": "7ed6f0d75a8386ae7fc1f5f3f317c9f7671591257d4d6fcfb6c8654ee927a026",
+      "source": "src/r4_operator_host/front/run_flat_router.py"
+    },
+    "run_front_edge.py": {
+      "sha256": "064a6bfcd868922d3c864d7abf64a67172439b10c0176cca471b62f28cdc5036",
+      "source": "src/r4_operator_host/front/run_front_edge.py"
+    },
+    "task_state.py": {
+      "sha256": "68e6c90088722cd8e63ca836643b5c3de8d0d466dee7fcbd2dbb730902d75071",
+      "source": "src/r4_operator_host/task_state.py"
+    },
+    "transition_guard.py": {
+      "sha256": "eace8638c4cba7d5f9c4bd931c2a080166aec17c19750c99d5b637b9a7da0cfb",
+      "source": "src/r4_operator_host/front/transition_guard.py"
+    }
+  },
+  "native_semantic": {
+    "files": {
+      "forge.json": {
+        "sha256": "c3d1309cc8da72a4489eeaf00a6003df5c30ef21183af44b2a7ecb839104d574",
+        "source": "deploy/semantic_candidates_native_v9/tools/semantic_candidates/forge.json"
+      },
+      "logic.py": {
+        "sha256": "043d941c1943dbeee6ef957963e7d389e8d840b248eb52fb5b211ac089adb802",
+        "source": "deploy/semantic_candidates_native_v9/tools/semantic_candidates/logic.py"
+      },
+      "permission.yml": {
+        "sha256": "eabd2f69c3df1ebaeed4c6222a96f649268120264e40058b140f73c94aab7ab3",
+        "source": "deploy/semantic_candidates_native_v9/tools/semantic_candidates/permission.yml"
+      },
+      "test.py": {
+        "sha256": "d1d36200deea47b8a524b0214a7ac0b75df4873210f149db37c82ba76c710599",
+        "source": "deploy/semantic_candidates_native_v9/tools/semantic_candidates/test.py"
+      }
+    },
+    "tool": "semantic_candidates",
+    "version": 9
+  },
+  "runtime_base": {
+    "manifest_sha256": "b5eb4f55bcfc656405cb9eadb63ae6f746b005bcafa6ee5abdbff3c73c89793c",
+    "source": "deploy/public_catalogue_runtime_compound_v1"
+  },
+  "runtime_overrides": {
+    "broker_public_catalogue_host_candidate.py": {
+      "sha256": "a853652e0ec705efad78ca3446d185c2ec5a86c5179ce74463dc9040f2329fd3",
+      "source": "src/r4_operator_host/catalogue_broker.py"
+    },
+    "public_catalogue_protocol.py": {
+      "sha256": "0b651be589ce0de695d49679147e698ec4f482a43ce1be4544cb675bc468195a",
+      "source": "src/r4_operator_host/catalogue_protocol.py"
+    }
+  },
+  "schema": "r4-host-release.v1"
+}

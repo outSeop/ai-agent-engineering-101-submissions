@@ -90,6 +90,7 @@ def assemble(official,op,bundle,pin,ctx,model,*,trace=None,old_request=None,opti
   state_path=Path(getattr(host_state_db,'path',host_state_db))
   allowed=root if isolated_root is not None else op/'runtime'
   if not state_path.is_absolute() or not state_path.is_relative_to(allowed):raise ValueError('HOST state outside isolated fixture or operator runtime')
+  if persistent_engine and isolated_root is None and state_path!=op/'runtime/a2a-host/state.sqlite3':raise ValueError('live persistent engine must share the router HOST database')
   support=Path(__file__).resolve().parent
   if not (support/'task_state.py').is_file():support=support.parent
   state_module=load('verified_front_task_state',support/'task_state.py')
@@ -115,6 +116,7 @@ def main():
  if sha256(own).hexdigest()!=args.edge_manifest_sha:raise ValueError('own manifest changed')
  op=args.operator
  if not op.is_absolute() or op.resolve(strict=True)!=op:raise ValueError('canonical operator path required')
+ if args.persistent_engine and args.host_state_db!=op/'runtime/a2a-host/state.sqlite3':raise ValueError('live engine requires exact shared router HOST database')
  config_module=load('verified_front_config',folder/'config.py');config=config_module.load_pinned(folder,json.loads(own),operator=op)
  bundle=config.runtime_path.resolve(strict=True);pin=config.runtime_manifest_sha256;verify(op,bundle,pin,config)
  if args.sources_only:

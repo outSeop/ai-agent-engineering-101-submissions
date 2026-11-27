@@ -33,6 +33,11 @@ def router_pid(op):
 
 def preserve(op,folder,pin,engine_pid,expected_router):
     legacy.preserve_processes(engine_pid)
+    engine_command=(Path('/proc')/str(engine_pid)/'cmdline').read_bytes().split(b'\0')
+    if b'--persistent-engine' not in engine_command or engine_command.count(b'--host-state-db')!=1:
+        raise ValueError('engine is not using the reviewed persistent store')
+    if engine_command[engine_command.index(b'--host-state-db')+1]!=str(op/'runtime/a2a-host/state.sqlite3').encode():
+        raise ValueError('engine/router HOST database binding differs')
     if router_pid(op)!=expected_router or not legacy.pid_alive(expected_router):raise ValueError('stable router process changed')
     command=(Path('/proc')/str(expected_router)/'cmdline').read_bytes().split(b'\0')
     if str(folder/'run_flat_router.py').encode() not in command or b'--edge-manifest-sha' not in command or command[command.index(b'--edge-manifest-sha')+1]!=pin.encode():

@@ -22,7 +22,7 @@ materializer는 공통 소스와 원본 forge 자산을 `runtime/releases/<명�
 
 모르는 legacy task는 각 고정 peer의 **자체 ListTasks**에서 소유자를 확인한다. proxy GetTask 성공으로 추정하지 않는다. lock 대기를 포함한8초 한도, 분당12회 discovery, 짧은 부정 cache를 사용한다. 네트워크 장애는 TaskNotFound로 바꾸지 않는다. SendMessage를 새 작업으로 다시 보내지 않는다. 중간 peer가 죽어도 다른 peer의 자체 소유권 증거가 있으면 그 원래 소유자에게 직접 연결한다.
 
-HOST DB는 금융 DB와 분리된 `runtime/a2a-host/state.sqlite3`다. 디렉터리0700·파일0600·별도 application_id로 보호한다. task 원문과 snapshot은 private runtime에만 둔다. snapshot은 보관용이며 죽은 legacy 프로세스를 대신해 송금·주문을 재실행하거나 다른 사용자에게 돌려주는 근거가 아니다.
+HOST DB는 금융 DB와 분리된 `runtime/a2a-host/state.sqlite3`다. 운영 engine의 CLI와 전환 검사는 router와 정확히 같은 DB 경로를 쓰는지도 확인한다. 디렉터리0700·파일0600·별도 application_id로 보호한다. task 원문과 snapshot은 private runtime에만 둔다. snapshot은 보관용이며 죽은 legacy 프로세스를 대신해 송금·주문을 재실행하거나 다른 사용자에게 돌려주는 근거가 아니다.
 
 공개상품 힌트는 원 PublicContinuity validator로 검사한 최대3개 SKU·등급·가격만300초 저장한다. 복구 후에도 현재 재고·가격·지갑·결제권을 새로 검증한다. SDK Task protobuf의 history는 영속화하지만 원 SDK agent_app의 별도 대화 closure 전체를 복구한다고 주장하지 않는다. public 관리 경로의 명시적 상품 힌트만 별도로 복구한다.
 
@@ -36,7 +36,7 @@ maintenance는 현재 engine의 Send/stream/Cancel을 막고 Get/List와 기존 
 "$PYTHON" -B "$FRONT/run_front_edge.py" --operator "$OPERATOR" \
   --edge-manifest-sha "$FRONT_SHA" --sources-only
 "$PYTHON" -B "$FRONT/run_flat_router.py" --operator "$OPERATOR" \
-  --edge-manifest-sha "$FRONT_SHA"
+  --edge-manifest-sha "$FRONT_SHA" --sources-only
 ```
 
 실제 engine은 `--serve --persistent-engine --host-state-db "$OPERATOR/runtime/a2a-host/state.sqlite3"`를 명시한다. 라우터는 `--serve`로18811만 연다. 새 listener는 join·Mind.loop·매입·홍보 루프를 시작하지 않는다. 기존 worker가 해당 운영을 이어 한다.
