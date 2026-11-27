@@ -61,6 +61,22 @@ class FlatRoutingTests(unittest.IsolatedAsyncioTestCase):
         self.client.down.add(18806)
         result=await self.call(rpc('GetTask',t.id));self.assertEqual(result.status,200)
         self.assertEqual(self.db.get_route(t.id),18805);self.assertEqual(self.client.calls[-1],(18805,'GetTask'))
+    async def test_trace_failure_does_not_lose_a_completed_task_response(self):
+        t=task('legacy-log-outage');self.db.save_legacy_snapshot(t.id,t.SerializeToString(),18805);self.client.tasks[18805,t.id]=t
+        self.router.trace=Path(self.tmp.name) # directory is deliberately not a log file
+        obj=rpc('GetTask',t.id);messages=[]
+        async def receive():return {'type':'http.request','body':json.dumps(obj).encode(),'more_body':False}
+        async def send(message):messages.append(message)
+        await self.router(scope(),receive,send)
+        self.assertEqual(messages[0]['status'],200);self.assertTrue(self.router.trace_unavailable)
+    async def test_unknown_method_is_not_copied_into_metadata_trace(self):
+        path=Path(self.tmp.name)/'trace.jsonl';self.router.trace=path
+        obj={'jsonrpc':'2.0','id':'fixture','method':'UNTRUSTED_PRIVATE_LOOKING_TEXT','params':{'id':'unknown'}};messages=[]
+        async def receive():return {'type':'http.request','body':json.dumps(obj).encode(),'more_body':False}
+        async def send(message):messages.append(message)
+        await self.router(scope(),receive,send)
+        text=path.read_text();self.assertNotIn(obj['method'],text)
+        self.assertEqual(json.loads(text.splitlines()[-1])['method'],'unknown_rpc')
     async def test_maintenance_blocks_current_writes_but_not_reads_or_legacy(self):
         self.assertTrue(self.db.maintenance_enabled());result=await self.call(rpc('SendMessage'));self.assertEqual(result.status,503);self.assertEqual(self.client.calls,[])
         t=task('current-read');await SQLiteTaskStore(self.db).save(t,ServerCallContext());result=await self.call(rpc('GetTask',t.id));self.assertEqual(result.status,200)

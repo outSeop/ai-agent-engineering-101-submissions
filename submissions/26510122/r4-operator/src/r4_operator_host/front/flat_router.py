@@ -98,6 +98,9 @@ class FlatRouter:
         self.resolve_lock=asyncio.Lock();self.misses=OrderedDict();self.discovery=deque()
         self.active_current=0;self.started_at=time.time();self.write_status()
     def record(self,event,**details):
+        try:self._record(event,**details)
+        except (OSError,ValueError):self.trace_unavailable=True
+    def _record(self,event,**details):
         if self.trace is None:return
         path=Path(self.trace);fd=os.open(path,os.O_WRONLY|os.O_APPEND|os.O_CREAT|os.O_NOFOLLOW,0o600)
         with os.fdopen(fd,'w') as stream:
@@ -118,6 +121,9 @@ class FlatRouter:
             os.chmod(name,0o600);os.replace(name,path)
         finally:
             if os.path.exists(name):os.unlink(name)
+    def publish_status(self):
+        try:self.write_status()
+        except (OSError,ValueError):self.status_unavailable=True
     @staticmethod
     def error(code,message,rpc_id=None,status=503):
         return Reply(status,[(b'content-type',b'application/json')],json.dumps({'jsonrpc':'2.0','id':rpc_id,'error':{'code':code,'message':message}}).encode())
@@ -200,7 +206,7 @@ class FlatRouter:
         if owner=='current' and method in WRITE and await asyncio.to_thread(self.db.maintenance_enabled):
             return self.error(-32000,'Shop request engine is briefly in maintenance; existing tasks are retained.',rpc_id)
         port=self.worker if owner=='current' else owner
-        if owner=='current':self.active_current+=1;self.write_status()
+        if owner=='current':self.active_current+=1;self.publish_status()
         try:
             response=await self.client.request(port,scope,body)
             if response.status==200 and scope['method']=='POST':
@@ -215,7 +221,7 @@ class FlatRouter:
                         await asyncio.to_thread(self.db.save_legacy_snapshot,task_result.id,task_result.SerializeToString(),port,'',None,'known_owner_response')
             return response
         finally:
-            if owner=='current':self.active_current-=1;self.write_status()
+            if owner=='current':self.active_current-=1;self.publish_status()
     async def __call__(self,scope,receive,send):
         if scope['type']=='lifespan':
             while True:
@@ -248,4 +254,6 @@ class FlatRouter:
         await send({'type':'http.response.body','body':response.body})
         try:has_task=task_reference(payload) is not None if isinstance(payload,dict) else False
         except InvalidRequest:has_task=False
-        self.record('request_finished',status=response.status,method=payload.get('method') if isinstance(payload,dict) else scope['method'],has_task=has_task,seconds=round(self.clock()-started,4))
+        method=payload.get('method') if isinstance(payload,dict) else None
+        label=method if isinstance(method,str) and method in WRITE|GET|{'ListTasks','tasks/list'} else 'unknown_rpc'
+        self.record('request_finished',status=response.status,method=label,has_task=has_task,seconds=round(self.clock()-started,4))
