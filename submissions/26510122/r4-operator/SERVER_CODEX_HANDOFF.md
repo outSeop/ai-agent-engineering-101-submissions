@@ -1,3 +1,17 @@
+## 2026-11-27 — 수요·수익 기반 매입/요청 기록 개발 중 (아직 운영 반영 전)
+
+사용자는 실제 팔리는 품목 중 남는 상품을 공격적으로 매입하고 실제 요청을 기록해 다음 매입에 반영하도록 승인했다. 현재 운영 stock_procurement는 여전히 genuine8(source675bdaa2942f7bdf3d119d10c6e1176f790ae0bacbb22a32cf77ae82de0628c6), 원5서비스/DB/두지갑/미정산1건 유지다. **아래13:45 운영 조회 개선과 이번 미배포 조달 변경을 혼동하지 않는다.**
+
+request recorder genuine4는 독립6/6·18 ordinarySDK 통과, deploy/request_feedback_native_v4(ownmanifest c64c8dcc8420942e70ef262b69f4965f5b1dbfcf228fd5ab6c19aca013482174, forge17efbe8ee7e91a02b021937c4ee24924c2ec51de2bfbc71dbe19eb11220a5bf0)에 고정했지만 production tools에는 아직 없다. 原문/개인정보 대신 canonicalSKU 또는 약한 공개term+해시+시각만 SQLite에 저장한다. state/r4-demand 빈0700디렉터리는호스트가준비하고 DB는genuine이생성한다. recorder1/2/3실패·stock9/10/12불완전과공식모델/forge기록은보존한다.
+
+새 상시observer 서비스설치는자동승인검토가 추가자율루프제약/미승인live활성화로거절해 실행0이다. 추가서비스/무한루프없이 기존60초customer-context.service에 --once 단발호스트를 ExecStartPost로연결하는 HOSTv3를 별도 준비한다. v1(durability부족)/v2(20합성통과·actualcatalog5629→genuine4임시기록성공)는미배포이력이다. HOSTv2 manifestd930a73e...로live --run을재시도하지않는다.
+
+조달genuine12는실제원SDK·원publicparent8·실금융없는mockquote/pay/동시성경로를검증했으나4결합문제(weakterm/새normal정책marginal/fullD감사/foodwaste)로미배포. 현재originalMind+requestedSol로genuine13수정중이다. 미래48h보관비예비금만6h로줄이는유한6h소액campaign/85%postpay노출/신규위험≤100k·5%equity·해제가능예비비·freshcash/한창5SKU각1개를검증한다. 原미납보관비약614k는정확quote로별도지급하고신규위험한도와전체현금흐름/P&L을구분한다. 原hardrefund·loyalty·파산buffer·pending/unknown/CAS/원1m paylimit은유지한다. 아직정책활성화/신규매입/지급0이다.
+
+비공개전체source전달도한차례거절됐다. 공개GitHub原stock8 HTTP200 byteshash일치를증명해PUBLICparent만새검토승인을받았다. privatecode/고객trace/JWT/키는모델에새로전달하거나Git에출력하지않는다. before-private baseline은 runtime/profitable-procurement-20261127-root 에있고 raw로그는변경하지않는다. 업무미완료이므로공식SDKselftest통과만으로실매입완료라하지않는다.
+
+아래는 현재실운영중인조회기능의이전인계다.
+
 ## 2026-11-27 13:45:59 KST — 공개 조회의 결제 표현 오차단 수정·실운영 확인
 
 현재 신규 task는 genuine semantic_candidates4 + 원 public_catalogue8 exact4, runtime **public_catalogue_runtime_semantic_v4** manifest b7a4e344bbfcaa989444bad93f7166fd404ee36e52018128511d542331e7f5ed다. listener **front_semantic3_edge_runtime_v1** manifest25d099830f88215ffebc37c41fd9cef8c3a28d0206f411ab9488c646a62980d9 / service ourolabs-market-r4-semantic3-front.service PID1240765/NRestarts0가18808에 추가됐다. 기존 main1192914·worker1192976·18806/1213796·18807/1218994 모두 그대로다. 새fallback은18807→18806→18805이고 ownrule18805→18808, 공개 URL/지갑/등록/미정산1건 모두동일하다.

@@ -1,0 +1,13 @@
+name: stock_procurement
+description: V12 procurement. Actions context {line_cap?}, plan {plan,decision}, execute, reconcile. Uses the pinned original ledger and executor, a fresh market shortlist, and a bounded campaign policy. Context returns the public model view.
+permission:
+  network: [market.ourolabs.ai, rpc-testnet.maroo.io]
+  write: [state/r4-benefits]
+  identity: [shop]
+  wallet: [pay]
+  pay_limit: 1000000
+  timeout: 155
+logic: logic.py
+test: test.py
+version: 12
+replaces: stock_procurement@11
