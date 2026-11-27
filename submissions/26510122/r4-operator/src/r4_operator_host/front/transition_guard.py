@@ -1,14 +1,18 @@
 """Root-only fixed old-edge to semantic-edge transition. Default inspect; never starts/stops services."""
-import argparse,hashlib,json,os,shlex,sqlite3,subprocess,time
+import argparse,hashlib,json,os,pwd,shlex,sqlite3,subprocess,time
 from pathlib import Path
 import httpx
-OP=Path('/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator')
+from config import OP
+OWNER_UID=OP.stat().st_uid
+OWNER_NAME=pwd.getpwuid(OWNER_UID).pw_name
 COMMENT='codex-r4-front-edge-v1'
-BASE=['-s','127.0.0.1/32','-d','127.0.0.1/32','-p','tcp','-m','tcp','--dport','18805','-m','owner','--uid-owner','1000','-m','comment','--comment',COMMENT,'-j','REDIRECT','--to-ports']
+BASE=['-s','127.0.0.1/32','-d','127.0.0.1/32','-p','tcp','-m','tcp','--dport','18805','-m','owner','--uid-owner',str(OWNER_UID),'-m','comment','--comment',COMMENT,'-j','REDIRECT','--to-ports']
 CFG=None
 OWN_MANIFEST_SHA=None
 def configure(config,manifest_sha):
- global CFG,OWN_MANIFEST_SHA,OLD_PORT,NEW_PORT,OLD_MARKER,NEW_MARKER
+ global CFG,OWN_MANIFEST_SHA,OLD_PORT,NEW_PORT,OLD_MARKER,NEW_MARKER,OP,OWNER_UID,OWNER_NAME
+ OP=config.operator_root or OP;OWNER_UID=OP.stat().st_uid;OWNER_NAME=pwd.getpwuid(OWNER_UID).pw_name
+ BASE[BASE.index('--uid-owner')+1]=str(OWNER_UID)
  CFG=config;OWN_MANIFEST_SHA=manifest_sha;OLD_PORT=str(config.old_proxy_port);NEW_PORT=str(config.new_port);OLD_MARKER=config.old_marker;NEW_MARKER=config.marker
 IPTABLES='/usr/sbin/iptables'
 def run(args,**kw):return subprocess.run(args,capture_output=True,text=True,**kw)
@@ -41,11 +45,11 @@ def replace(expected,target):
  if chain()!=target:raise ValueError('post replacement chain differs; inspect without broad rollback')
 def pid_alive(pid):
  p=Path('/proc')/str(pid)
- return p.exists() and p.stat().st_uid==1000
+ return p.exists() and p.stat().st_uid==OWNER_UID
 
 def service_pid(unit):
  if CFG is None or unit not in CFG.services:raise ValueError('unexpected preserved unit')
- r=run(['/usr/sbin/runuser','-u','seop','--','env','XDG_RUNTIME_DIR=/run/user/1000','DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus','systemctl','--user','show',unit,'-p','MainPID','--value'])
+ r=run(['/usr/sbin/runuser','-u',OWNER_NAME,'--','env','XDG_RUNTIME_DIR=/run/user/'+str(OWNER_UID),'DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/'+str(OWNER_UID)+'/bus','systemctl','--user','show',unit,'-p','MainPID','--value'])
  if r.returncode or not r.stdout.strip().isdigit():raise ValueError('original user service PID unavailable')
  return int(r.stdout.strip())
 def preserve_processes(new_edge_pid):
@@ -163,7 +167,7 @@ def main(argv=None):
   if a.apply or a.rollback:raise ValueError('sources-only forbids operations')
   print(json.dumps({'status':'sources_verified_only','service_rule_gate_wallet_actions':0}));return
  if meta.get('sources_only'):raise ValueError('preliminary package cannot activate')
- if os.geteuid()!=0 or OP.stat().st_uid!=1000 or type(a.expected_new_edge_pid) is not int or a.expected_new_edge_pid<=0 or not a.expected_public_url or not a.expected_public_url.startswith('https://'):raise ValueError('fixed root/owner/new PID/HTTPS required')
+ if os.geteuid()!=0 or OP.stat().st_uid!=OWNER_UID or type(a.expected_new_edge_pid) is not int or a.expected_new_edge_pid<=0 or not a.expected_public_url or not a.expected_public_url.startswith('https://'):raise ValueError('fixed root/owner/new PID/HTTPS required')
  preserve=lambda:preserve_processes(a.expected_new_edge_pid)
  preserve();port=chain();gate=admission()
  if a.rollback:

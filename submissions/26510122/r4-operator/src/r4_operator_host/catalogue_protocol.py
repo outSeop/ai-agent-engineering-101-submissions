@@ -5,11 +5,17 @@ classroom-forged tool. This layer transports the complete original text unchange
 """
 from pathlib import Path
 from hashlib import sha256
-import importlib.util
+import importlib.util,json
 from card_source_read_lane import raw_file
 
-BASE=Path('/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/deploy/public_catalogue_runtime_compound_v1/public_catalogue_protocol.py')
-BASE_SHA="b9a2b94499bbd02f8bb8e59e729c869d14ecd59de02712a91abf77952134ebde"
+context=json.loads(raw_file(Path(__file__).resolve().with_name('HOST-CONTEXT.json')))
+if set(context)!={'schema','operator_root','base_protocol','base_protocol_sha256'} or context['schema']!='r4-host-context.v1':
+    raise ValueError('unreviewed HOST context')
+root=Path(context['operator_root']);relative=Path(context['base_protocol'])
+if not root.is_absolute() or root.resolve(strict=True)!=root or relative.is_absolute() or '..' in relative.parts or relative.parts[0]!='deploy':
+    raise ValueError('base protocol outside operator deploy')
+BASE=root/relative
+BASE_SHA=context['base_protocol_sha256']
 raw=raw_file(BASE)
 if sha256(raw).hexdigest()!=BASE_SHA:
     raise ValueError('catalogue base protocol changed')

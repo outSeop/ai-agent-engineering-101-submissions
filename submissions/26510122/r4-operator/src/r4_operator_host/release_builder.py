@@ -113,6 +113,11 @@ def build(operator,descriptor,expected_spec_sha):
             or forge.get("sha256")!={n:digest(assets[n]) for n in assets if n!="forge.json"}):
         raise ValueError("semantic forge record mismatch")
     runtime_files.update({"semantic/"+name:raw for name,raw in assets.items()})
+    # Only the generated private binding contains this machine's absolute root.
+    # Git specifications and maintained sources remain relative and portable.
+    runtime_files["HOST-CONTEXT.json"]=encode({"schema":"r4-host-context.v1",
+        "operator_root":str(operator),"base_protocol":str(base_rel/"public_catalogue_protocol.py"),
+        "base_protocol_sha256":base_meta["file_sha256"]["public_catalogue_protocol.py"]})
     if not isinstance(spec["front_sources"],dict) or not spec["front_sources"]:
         raise ValueError("empty front source set")
     front_files={str(relative(name)):pinned_source(operator,record) for name,record in spec["front_sources"].items()}
