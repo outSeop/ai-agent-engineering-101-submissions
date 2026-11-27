@@ -1,0 +1,16 @@
+{
+  "model_provider": "market-class",
+  "official_forge_attempts": 0,
+  "model_response_sha256": [
+    "279be296686ce56bb518b3591f7007f6e70497a343af79738f95942fedd51baf",
+    "84cbe251736d4e786e718c26a40e7486879c4620de624a5d3d2dc6394c6f1f68"
+  ],
+  "pinned_strict_synthetic_passed": 28,
+  "pinned_strict_synthetic_total": 28,
+  "actual_unchanged_partial": false,
+  "known_errors": [
+    "public shelf-life query blocked and product noun not projected",
+    "nonexistent SDK regex helpers assumed"
+  ],
+  "production_modified": false
+}
