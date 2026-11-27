@@ -1,0 +1,13 @@
+{
+  "model_provider": "market-class",
+  "latest_model_response_sha256": "0904d1f236cfb78d6546956c2ad971d8fd991099dacaef1a0eca7a66669a9ea2",
+  "draft_parser_sha256": "2cbae05e3921ddc007f8dd4a6aa00c000b911adde7dbe85ac865217bc7c24c9b",
+  "synthetic_sdk_pass": 28,
+  "synthetic_sdk_total": 28,
+  "actual_unchanged_partial": false,
+  "official_forge_attempts": 0,
+  "live_modified": false,
+  "scope": "Official SDK explicit draft execution, predetermined tool inputs; not fresh runtime Model decision validation",
+  "production_native_version": 9,
+  "actual_customer_case_fixed": false
+}

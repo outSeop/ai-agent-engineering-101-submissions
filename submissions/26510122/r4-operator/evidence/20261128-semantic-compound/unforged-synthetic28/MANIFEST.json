@@ -1,0 +1,9 @@
+{
+  "files": {
+    "QA-SAFE.json": "4eea96826f36482402376d4b4de56fff13ae5217b038b328df61ad9e5758919f",
+    "README.md": "b1b92a3298e96c32ad696f3067cb841939e314b3a079e0eed60e66cf827bf268",
+    "fact_parser_draft.py": "2cbae05e3921ddc007f8dd4a6aa00c000b911adde7dbe85ac865217bc7c24c9b"
+  },
+  "forged": false,
+  "deployed": false
+}
