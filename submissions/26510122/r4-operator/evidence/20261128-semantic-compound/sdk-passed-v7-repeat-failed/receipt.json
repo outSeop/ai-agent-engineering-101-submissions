@@ -1,0 +1,24 @@
+{
+  "version": 7,
+  "official_sdk_passed": true,
+  "release_eligible": false,
+  "ordinary_sdk_passed": 18,
+  "ordinary_sdk_total": 19,
+  "file_sha256": {
+    "logic.py": "35eb17e11b20109bbd5ea261020dd686b7e5bda201a68059d3cc4ac100d878c7",
+    "test.py": "d1d36200deea47b8a524b0214a7ac0b75df4873210f149db37c82ba76c710599",
+    "permission.yml": "0c5ac74077f84234276dcbefa62aadc4c9355432f56fba5daba61bfaa4c96255",
+    "forge.json": "de9d6b4aefe263355ae9948e2b6689122df9da666732382852fef18fcec6bd93"
+  },
+  "original_forge_response": {
+    "provider": "market-class",
+    "response_sha256": "b65fb3ab5abadd1a7db2c9a0a3344624335b2b818860217c9e9f95d1b48ea68b"
+  },
+  "observed_model_timeouts_before_success": 7,
+  "synthetic_positive_failed": true,
+  "cause": [
+    "requires previous punctuation immediately before duplicate noun despite literal sentence whitespace",
+    "checks suffix for any payment word before original neutral sentence validation"
+  ],
+  "real_customer_text_copied": false
+}
