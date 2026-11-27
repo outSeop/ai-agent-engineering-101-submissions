@@ -1,0 +1,14 @@
+{
+  "at": "2026-11-27T21:22:05+09:00",
+  "source_sha256": "0a203ddbf1b365760eb12ea6fe995afff4e3c2b03cf709fe16629562e30c1d56",
+  "scope": "direct genuine helper on original DB mode=ro and synthetic offer; not SDK invocation, not publication",
+  "actual_owned_policy_active": true,
+  "actual_shop_identity_matches_current_Kit_identity": true,
+  "actual_canonical_award_schema_budget_readable": true,
+  "preview_has_extra5": true,
+  "preview_has_max5000": true,
+  "preview_has_policy_end": true,
+  "known_alternate_grant_schema_not_supported": true,
+  "actual_DB_write_API_Model_POST_payment_or_tool_install": 0,
+  "raw_DB_or_preview_text_exported": false
+}

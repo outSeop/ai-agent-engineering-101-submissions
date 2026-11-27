@@ -1,0 +1,47 @@
+{
+  "version": 7,
+  "installed_production": false,
+  "sdk_selftest_passed": true,
+  "safe_source_scan_passed": true,
+  "independent_final_qa_pending": true,
+  "file_sha256": {
+    "logic.py": "0a203ddbf1b365760eb12ea6fe995afff4e3c2b03cf709fe16629562e30c1d56",
+    "test.py": "58c16261035d7a43caa9921158bef474e9e7c5917f9ed8c30060bcfca1f987f6",
+    "forge.json": "c8d229e253cac176617b3ee99c8d05bf9996bb0a25ff3029c811d16a71598feb",
+    "permission.yml": "e5a2cbb5cd0fb50fe8cdf781548d4a2802a27d3846f9f8c38faee9af6735c283"
+  },
+  "original_model": {
+    "provider": "codex-cli-gpt-6.2-sol",
+    "response_sha256": "aa7752ca38640138315fa74941307b069c79a3567c4279dc1ee3e7e46795d54b"
+  },
+  "raw_logs_exported": false,
+  "original_parent_repo_relative": "round-4/codex-r4/forum.py",
+  "original_parent_sha256": "c15424eacded61da86e9f27303b16a705287cecf81c5254a2da5360db3ee9b48",
+  "official_sdk_attempts": [
+    {
+      "ts": 1795780543,
+      "version": 6,
+      "passed": false
+    },
+    {
+      "ts": 1795780728,
+      "version": 6,
+      "passed": true
+    },
+    {
+      "ts": 1795781379,
+      "version": 7,
+      "passed": false
+    },
+    {
+      "ts": 1795781936,
+      "version": 7,
+      "passed": true
+    }
+  ],
+  "candidate_known_limitations": [
+    "cached production model slate remains legacy until separately installed host at restart",
+    "strict request grammar only; unknown conditions may exclude a valid buyer request",
+    "nonstandard first_purchase_bonus_grant alias is not included by award-name wildcard; confirm canonical schema before live"
+  ]
+}
