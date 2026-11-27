@@ -1,0 +1,13 @@
+{
+  "sdk_old_cases_all_passed": true,
+  "ordinary_total_passed": 25,
+  "ordinary_total": 28,
+  "actual_partial": "failed_runtime",
+  "known_issues": [
+    "precision guard uses rr before assignment",
+    "double-escaped whitespace in the new guard",
+    "unvalidated leftover words",
+    "visit whitelist still rejects buying-purpose narrative"
+  ],
+  "production_modified": false
+}
