@@ -101,6 +101,8 @@ def invoke_suite(root,native,dependency):
         ('private','침대와 침구 private-ref-1 재고와 가격을 알려주세요'),
         ('explicit','침대와 침구 G00000001 재고와 가격을 알려주세요')):
         observations[label]=call(question,{'groups':groups}).get('status')=='unavailable'
+    warranty=call(compound+'. 보증도 궁금해요.',{'groups':groups})
+    output['warranty_observation']={'status':warranty.get('status'),'reason':warranty.get('reason')}
     crowded=fixture(int(time.time()))
     base=crowded['units'][0]
     for number,name in enumerate(('침대 프레임','침대 매트리스','침대 헤드보드'),start=11):
@@ -111,7 +113,7 @@ def invoke_suite(root,native,dependency):
         and any(f'G{n:08X}' in rich_text for n in (1,11,12,13)))
     long=fixture(int(time.time()))
     for row in long['units']:
-        row['name'] = row['name'] + ' 상품 세부 규격 '*7
+        row['name'] = (row['name'] + ' 상품 세부 규격 '*7).strip()
     length=call(compound,{'groups':groups},snapshot=long)
     length_text=length.get('reply','')
     observations['long_title_complete']=(length.get('status')=='rendered' and len(length_text)<=450

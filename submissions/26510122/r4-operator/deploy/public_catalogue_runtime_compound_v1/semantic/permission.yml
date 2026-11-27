@@ -1,0 +1,9 @@
+name: semantic_candidates
+description: v4 호환 단일/복수 상품 의미 후보 조회. 기존 단일 인자 경로는 고정 부모 로직을 그대로 사용하고, compound 경로는 두 그룹에서 각각 검증된 고유 후보를 우선 선택해 완전한 한국어 응답을 반환한다.
+permission:
+  pay_limit: 0
+  timeout: 30
+logic: logic.py
+test: test.py
+version: 6
+replaces: semantic_candidates@5

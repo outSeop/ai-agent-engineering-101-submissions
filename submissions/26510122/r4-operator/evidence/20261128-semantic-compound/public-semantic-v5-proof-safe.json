@@ -1,0 +1,14 @@
+{
+  "logic.py": {
+    "url": "https://raw.githubusercontent.com/outSeop/ai-agent-engineering-101-submissions/0581eb24c8fa2fc21ccaf2fe7c3a95f5bb01d744/submissions/26510122/r4-operator/evidence/20261128-semantic-compound/sdk-passed-v5/logic.py",
+    "http_status": 200,
+    "sha256": "c749ecc26f913de363ec7e82724631a8b8b74333dd778a43f9d697a0f322677e",
+    "matches_local": true
+  },
+  "test.py": {
+    "url": "https://raw.githubusercontent.com/outSeop/ai-agent-engineering-101-submissions/0581eb24c8fa2fc21ccaf2fe7c3a95f5bb01d744/submissions/26510122/r4-operator/evidence/20261128-semantic-compound/sdk-passed-v5/test.py",
+    "http_status": 200,
+    "sha256": "38458ffac6521d7c0acc4251edfb186366911b682ee1189ace1dad050dacbd7a",
+    "matches_local": true
+  }
+}

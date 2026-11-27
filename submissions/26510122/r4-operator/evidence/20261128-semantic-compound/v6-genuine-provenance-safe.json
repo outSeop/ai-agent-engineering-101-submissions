@@ -1,0 +1,21 @@
+{
+  "native_version": 6,
+  "genuine_sdk_test_passed": true,
+  "original_forge_response": {
+    "provider": "market-class",
+    "response_sha256": "25685511dc1b22f76cbe2b587d43020e47dc21c644e82996edcdd4412e6e982b"
+  },
+  "file_sha256": {
+    "logic.py": "c90255c45f599f1ec7c024ac9559cf94a85f92c0905f2693b82e9e284516e46a",
+    "test.py": "c308497dc4a9dc51393cbf84bdc3ea71aec35743b71344fdf86ee5547fe75a7d",
+    "permission.yml": "be382880ccaf090848ba117c399dcb73b94a9ed5f09a39f285a5fe4dba09b55f",
+    "forge.json": "57f803a88d1b0ae6511e49af847169525386eca77e5e4ff65aea3af06332d177"
+  },
+  "candidate_bundle_manifest_sha256": "b5eb4f55bcfc656405cb9eadb63ae6f746b005bcafa6ee5abdbff3c73c89793c",
+  "independent_ordinary_sdk_cases_passed": 12,
+  "actual_class_customer_calls": 1,
+  "synthetic_fixture_only": true,
+  "host_only_source_handling": "existing v4 copied as SHA-verified dependency",
+  "old_native4_logic_sha256": "01e59f9b5e06b0402a669bfbd9c78e350c9cb32e9c65bfd111fdf5ac1a74b39c",
+  "payment_wallet_identity_write_and_network_tool_permissions": []
+}
