@@ -1,0 +1,12 @@
+{
+  "genuine_version": 13,
+  "official_SDK_phase_and_real_projection_passed": true,
+  "deployed": false,
+  "known_admission_gaps": [
+    "canonical public ledger kind settle not recognized (synthetic sale alias passed)",
+    "campaign policy path differs from fixed host_inputs contract",
+    "fresh time-scoped price evidence must be rechecked at sending boundary"
+  ],
+  "recorder4_SDK_coupling_positive": true,
+  "next": "minimal genuine14 exact baseline repair"
+}
