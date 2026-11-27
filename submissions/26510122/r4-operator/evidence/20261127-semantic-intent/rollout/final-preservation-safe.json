@@ -1,0 +1,98 @@
+{
+  "at": 1795754759.443711,
+  "original_DB_device_inode_same": true,
+  "DB_quick_check_ok": true,
+  "both_original_wallet_bytes_inodes_same": true,
+  "original_policy_same": true,
+  "original_shared_financial_sources_same": true,
+  "original_four_services_same": true,
+  "services": {
+    "ourolabs-market-r4.service": "ActiveState=active\nMainPID=1192914\nNRestarts=0",
+    "ourolabs-market-r4-worker.service": "ActiveState=active\nMainPID=1192976\nNRestarts=1",
+    "ourolabs-market-r4-front-edge.service": "ActiveState=active\nMainPID=1213796\nNRestarts=0",
+    "ourolabs-market-r4-semantic-front.service": "ActiveState=active\nMainPID=1218994\nNRestarts=0"
+  },
+  "pending_rows_all_fields_same": true,
+  "sale_counts": [
+    [
+      "issued",
+      1
+    ],
+    [
+      "settled",
+      2
+    ]
+  ],
+  "benefit_counts": {
+    "lot": 2,
+    "welcome_award": 2,
+    "allocation": 0,
+    "refund": 0
+  },
+  "duplicate_active_unit_count": 0,
+  "SDK7_same": true,
+  "all_preservation_checks_pass": true,
+  "all_old_and_new_frozen_packages_valid": {
+    "public_catalogue_runtime_semantic_v2": true,
+    "front_semantic_edge_runtime_v2": true,
+    "front_edge_runtime_v3": true,
+    "public_catalogue_runtime_v8a": true,
+    "price_context_runtime_v8a": true,
+    "public_catalogue_runtime_semantic_v4": true,
+    "front_semantic3_edge_runtime_v1": true,
+    "semantic3_transition_guard_v2": true
+  },
+  "new_service": "ActiveState=active\nMainPID=1240765\nNRestarts=0",
+  "existing_timers_active": {
+    "ourolabs-market-r4-card-keeper.timer": true,
+    "ourolabs-market-r4-customer-context.timer": true
+  },
+  "one_shop_one_agent": true,
+  "same_registered_URL": true,
+  "same_wallet_registry_card": true,
+  "public_card_name_marker_correct": true,
+  "public_url": "https://stable-leu-below-the.trycloudflare.com",
+  "cache": {
+    "representative_rows": 146,
+    "age_seconds": 61.4,
+    "remaining_TTL_seconds": 88.6
+  },
+  "public_semantic_probe": {
+    "at": 1795754707.0706778,
+    "http": 200,
+    "semantic_marker": true,
+    "seconds": 10.9978,
+    "Model_call_counts": [
+      1
+    ],
+    "single_edge_request_finish": true,
+    "actual_model_queries": [
+      "두유",
+      "콩음료"
+    ],
+    "request_specific_Model_events": 1,
+    "verified_semantic_tool_events": 1,
+    "candidate_rows": 3,
+    "all_SKU_name_grade_price_match_snapshot": true,
+    "candidate_label_present": true,
+    "not_full_match_claim": true,
+    "SKU_followup_advice": true,
+    "signed_financial_data_present": false,
+    "operator_registered": true,
+    "financial_actions": 0,
+    "jsonrpc_error_present": false
+  },
+  "old_task_preserved": {
+    "http": 200,
+    "semantic_marker": true,
+    "old_task_body_SHA_same": true,
+    "old_task_read_error_present": false,
+    "Model_calls": 0,
+    "financial_actions": 0
+  },
+  "operator_probe_source": "runtime/semantic3-fix-20261127-root/public-probe-1795754706942343494",
+  "new_wallet_market_joins_quote_sign_pay_in_task": 0,
+  "class_NoWallet_tests_used_isolated_roots": true,
+  "past_customer_raw_replay_performed": false,
+  "scheduled_automations": "r4/r4-2/r4-3 PAUSED checked in current task"
+}

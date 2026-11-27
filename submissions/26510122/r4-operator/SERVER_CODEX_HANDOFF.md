@@ -1,3 +1,15 @@
+## 2026-11-27 13:45:59 KST — 공개 조회의 결제 표현 오차단 수정·실운영 확인
+
+현재 신규 task는 genuine semantic_candidates4 + 원 public_catalogue8 exact4, runtime **public_catalogue_runtime_semantic_v4** manifest b7a4e344bbfcaa989444bad93f7166fd404ee36e52018128511d542331e7f5ed다. listener **front_semantic3_edge_runtime_v1** manifest25d099830f88215ffebc37c41fd9cef8c3a28d0206f411ab9488c646a62980d9 / service ourolabs-market-r4-semantic3-front.service PID1240765/NRestarts0가18808에 추가됐다. 기존 main1192914·worker1192976·18806/1213796·18807/1218994 모두 그대로다. 새fallback은18807→18806→18805이고 ownrule18805→18808, 공개 URL/지갑/등록/미정산1건 모두동일하다.
+
+모델이 원문 product_phrase+검색어를 한 번 고르고 도구가 원문 조건을 검증한다. 결제 유보/절차 문구는 좁게 허용하고 발급/구매/환불/증빙/권리는 원경로 유지한다. 실제 공개 합성문의 ‘소이밀크…결제는나중’은 모델두유·콩음료/1회+native1/10.9978초/실제후보3/SKU·가격등급일치/금융0, 기존 task SHA불변을 확인했다. operator등록했으며 실제 고객/정산 효과로 세지 않는다. 실제 class10.3223초/343자genuine일치, SDK25/25·host12/12·독립9/9·59호출이다. 누적정산2/issued1/lot2/welcome2/할당0/환불0이며 신규정산증가는없다.
+
+**현재 전환·원복은 deploy/semantic3_transition_guard_v2/transition_guard.py**, own manifest3221558aba91145edc9e13f5e6421520dc6eef1ba89fe9f5814e0b3964147f8f를 사용한다. 아래 예전 guard를 현재 상태에 바로 적용하지 않는다. v1 최초전환은 자동rollback됐고 새request0을확인했다. pre-idle description 재사용 소스 버그를 별도helper로고쳤고 최종strict postcheck성공이다. 처음실패의구체필드는미기록이라 실제원인은가설로남긴다. sameCLI의 --expected-legacy-edge-pid도필요하다. 원프로세스/CF/지갑/원장/옛JWT를재시작·초기화·수정하지않는다. active18808task의역방향원복보존은자동이아니다.
+
+DB/두지갑/원정책·가격하한·SDK7·원사업금융source·매입보존, cache/card두timeractive, 예약3개PAUSED. generation3품질반려/4첫selftest반려/첫운영전환반려는각각커밋으로보존했다. 원문4 fixture복제는privacy자동검토거절로취소하고우회/과거재현없이합성·현재public자료로검증했다. [상세보고](R4_SEMANTIC_INTENT_20261127.md), evidence/20261127-semantic-intent/rollout/final-preservation-safe.json을 먼저읽는다.
+
+아래는 이전 상태다.
+
 ## 2026-11-27 01:48:57 KST — 결정 모델의 유사어 계획 + genuine semantic2 적용
 
 현재 신규 task는 **public_catalogue_runtime_semantic_v2** manifest `e9e67778916da50d67978d6ecd3670e51faf7b7069f52fbbc1b5ac358d493c0f`와 **front_semantic_edge_runtime_v2** manifest `a7879bd7d9eeb1ecd0fc1e97c0d8652a88e542ee1b3f7dae9309e52bed1ab18e`를 쓴다. 실제 business 도구는 기존 public_catalogue8 exact4 + 별도 semantic_candidates2이며, public_catalogue9는 생성 시간초과/forge0으로 폐기됐다. 수업 market 운영, 개발용CLI 프록시 종료. 예약3개 PAUSED·기존DB/두지갑/매입/가격/혜택/환불/원SDK7/원금융 및 미정산1건 불변.

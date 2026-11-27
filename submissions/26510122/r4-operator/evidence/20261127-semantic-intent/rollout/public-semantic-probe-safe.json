@@ -1,0 +1,25 @@
+{
+  "at": 1795754707.0706778,
+  "http": 200,
+  "semantic_marker": true,
+  "seconds": 10.9978,
+  "Model_call_counts": [
+    1
+  ],
+  "single_edge_request_finish": true,
+  "actual_model_queries": [
+    "두유",
+    "콩음료"
+  ],
+  "request_specific_Model_events": 1,
+  "verified_semantic_tool_events": 1,
+  "candidate_rows": 3,
+  "all_SKU_name_grade_price_match_snapshot": true,
+  "candidate_label_present": true,
+  "not_full_match_claim": true,
+  "SKU_followup_advice": true,
+  "signed_financial_data_present": false,
+  "operator_registered": true,
+  "financial_actions": 0,
+  "jsonrpc_error_present": false
+}

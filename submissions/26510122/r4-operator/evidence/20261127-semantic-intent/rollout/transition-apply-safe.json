@@ -1,0 +1,16 @@
+{
+  "at": 1795754698.260051,
+  "public_url": "https://stable-leu-below-the.trycloudflare.com",
+  "status": "replaced_exact_rule_public_marker_verified",
+  "guard_manifest_sha256": "3221558aba91145edc9e13f5e6421520dc6eef1ba89fe9f5814e0b3964147f8f",
+  "idle_samples": 21,
+  "postcheck": {
+    "attempts": 1,
+    "description_refreshes": 0,
+    "old_marker_waits": 0,
+    "current_description_matches": true,
+    "strict_identity_URL_pending_match": true
+  },
+  "original_comment_UID_selectors_preserved": true,
+  "original_process_DB_wallet_changes": 0
+}

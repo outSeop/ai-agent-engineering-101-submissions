@@ -1,3 +1,5 @@
+> 최신 적용은 [R4_SEMANTIC_INTENT_20261127.md](R4_SEMANTIC_INTENT_20261127.md)를 먼저 확인한다. 아래는 semantic2 당시 기록이다.
+
 # 모델이 유사 검색어를 판단하는 R4 경로
 
 검증 시각: 2026-11-27 01:48:57 KST. 신규 task 경로에 프롬프트와 유사어 도구를 적용했다. 기존 카탈로그8 exact4는 그대로이고, 공식 Mind/forge_tool가 만든 별도 semantic_candidates2가 공개 조회만 담당한다. 운영 모델은 수업 market, 개발용 6.2 Sol 프록시는 종료했다.
