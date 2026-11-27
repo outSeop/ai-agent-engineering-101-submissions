@@ -1,0 +1,22 @@
+{
+  "class_model_original_sdk_forge": true,
+  "production_enabled": false,
+  "sdk_selftest_passed": true,
+  "ordinary_sdk_regression_passed": 10,
+  "ordinary_sdk_regression_total": 12,
+  "release_eligible": false,
+  "reason": [
+    "response can omit the second requested group after first group rows fill its cap",
+    "character slicing can cut an otherwise verified row or instructions"
+  ],
+  "file_sha256": {
+    "logic.py": "c749ecc26f913de363ec7e82724631a8b8b74333dd778a43f9d697a0f322677e",
+    "test.py": "38458ffac6521d7c0acc4251edfb186366911b682ee1189ace1dad050dacbd7a",
+    "permission.yml": "1f115a3a137f079677bc673a9a3c72f7c7e55a8ec3e5bb7baf2091d3f42482fd",
+    "forge.json": "74c9ce2e104d594923edcb88b1699470555ddb9f84f6ba2725cb974cfa36f447"
+  },
+  "original_forge_response": {
+    "provider": "market-class",
+    "response_sha256": "c4c44416028b54e01c98a57b1982f4443d1e04ba496522cec673d53fb8d4d864"
+  }
+}

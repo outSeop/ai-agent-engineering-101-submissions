@@ -1,0 +1,9 @@
+name: semantic_candidates
+description: v4 semantic_candidates와 호환되며, 새 형식 {op,text,groups:[{product_phrase,queries}]}의 1~2개 공개 후보 그룹을 격리 조회한다.
+permission:
+  pay_limit: 0
+  timeout: 30
+logic: logic.py
+test: test.py
+version: 5
+replaces: semantic_candidates@4

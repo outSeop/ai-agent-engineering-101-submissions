@@ -1,0 +1,11 @@
+{
+ "tool": "semantic_candidates",
+ "version": 5,
+ "forged_at": 1795802708,
+ "kit": "v5.1",
+ "sha256": {
+  "permission.yml": "1f115a3a137f079677bc673a9a3c72f7c7e55a8ec3e5bb7baf2091d3f42482fd",
+  "logic.py": "c749ecc26f913de363ec7e82724631a8b8b74333dd778a43f9d697a0f322677e",
+  "test.py": "38458ffac6521d7c0acc4251edfb186366911b682ee1189ace1dad050dacbd7a"
+ }
+}
