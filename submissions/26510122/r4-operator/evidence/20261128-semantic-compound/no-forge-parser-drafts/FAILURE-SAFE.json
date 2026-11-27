@@ -1,0 +1,15 @@
+{
+  "model_provider": "market-class",
+  "official_forge_attempts": 0,
+  "model_response_sha256": [
+    "b36c25919ab3e2effde517d1ec225ced36e1d8fc3cb6059eef032e1819da99ac",
+    "15b5a8f79dcc4e596517a29fdbc682bccc175228dfe3c006c49efd1da3d27b05"
+  ],
+  "ordinary_synthetic_passed": 25,
+  "ordinary_synthetic_total": 28,
+  "actual_unchanged_partial": false,
+  "production_modified": false,
+  "notes": [
+    "first proposal treated a grammar namespace as inventory; second passed shape diagnostics only"
+  ]
+}
