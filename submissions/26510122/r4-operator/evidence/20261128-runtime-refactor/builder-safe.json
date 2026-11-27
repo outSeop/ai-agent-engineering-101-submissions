@@ -1,0 +1,13 @@
+{
+  "component": "release-builder",
+  "tests_passed": 3,
+  "tests_total": 3,
+  "cases": [
+    "deterministic immutable build and exact native assets",
+    "source/existing-release tamper rejection",
+    "path escape/native business override rejection"
+  ],
+  "production_services_DB_wallet_Model_network_actions": 0,
+  "source_tree": "src/r4_operator_host",
+  "historical_frozen_releases_preserved": true
+}
