@@ -12,6 +12,9 @@
   "public_payload": "Source-only booleans and source-code hashes; no credentials, customer text, ledger rows or raw logs.",
   "pattern_scan_matches": 0,
   "files": {
-    "v8b-source-only-safe-result.json": "7cf98aac3784f54d9875bcc8cd387e8fbdca2ff4dbf95bd9ecb2aca7cd4b9f2b"
-  }
+    "v8b-source-only-safe-result.json": "7cf98aac3784f54d9875bcc8cd387e8fbdca2ff4dbf95bd9ecb2aca7cd4b9f2b",
+    "reproduce_source_only_qa.py": "3c4080c3bdeb9c6e078ed6fdad9378c60a307af9533dbe3eec188fe52a0c11a0"
+  },
+  "previous_manifest_sha256": "516ed1b0745797f3ae69b6033e786d6944f46239fa1a1d1b8020fe3638ecd639",
+  "reproduction_script": "Executed stdin procedure preserved with fresh-output argument and safe error handling only; script was syntax-checked, not rerun."
 }

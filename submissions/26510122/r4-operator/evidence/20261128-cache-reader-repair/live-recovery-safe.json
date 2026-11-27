@@ -1,0 +1,104 @@
+{
+  "at": "2026-11-28T02:26:12.125044+09:00",
+  "activation_at": 1795800045.057671,
+  "main_and_front_services_preserved": true,
+  "services": {
+    "ourolabs-market-r4.service": "ActiveState=active\nMainPID=1192914\nNRestarts=0\n",
+    "ourolabs-market-r4-worker.service": "ActiveState=active\nMainPID=1192976\nNRestarts=1\n",
+    "ourolabs-market-r4-front-edge.service": "ActiveState=active\nMainPID=1213796\nNRestarts=0\n",
+    "ourolabs-market-r4-semantic-front.service": "ActiveState=active\nMainPID=1218994\nNRestarts=0\n",
+    "ourolabs-market-r4-semantic3-front.service": "ActiveState=active\nMainPID=1240765\nNRestarts=0\n"
+  },
+  "preserved_files": {
+    "shop_wallet.key": true,
+    "buyer_wallet.key": true,
+    "codex-r4/launch-price-policy.json": true,
+    "tools/forum_marketing/logic.py": true,
+    "tools/forum_marketing/forge.json": true,
+    "tools/stock_procurement/logic.py": true
+  },
+  "database_inode_preserved": true,
+  "DB_quick_check": "ok",
+  "sale_counts": {
+    "missing": 1,
+    "settled": 2
+  },
+  "welcome_award_count": 2,
+  "non_operator_A2A_requests_since_repair": 0,
+  "operator_A2A_probes": 0,
+  "cache": {
+    "rows": 145,
+    "sidecar_rows": 145,
+    "age_seconds": 32.13,
+    "ttl": 150,
+    "observed_at": 1795800340,
+    "sidecar_binding_valid": true,
+    "multiple_advancing_fresh_snapshots": true,
+    "snapshot_sha256": "48b8cc97754bb962ee011008a8df800b2372f38c4aa744fe8fde5c38fce08fee"
+  },
+  "jobs": {
+    "ourolabs-market-r4-customer-context.service": {
+      "service": "Result=success\nExecMainStatus=0\n",
+      "events": [
+        {
+          "status": "cached",
+          "representative_count": 145,
+          "elapsed_seconds": 3.703
+        },
+        {
+          "status": "cached",
+          "representative_count": 145,
+          "elapsed_seconds": 3.788
+        },
+        {
+          "status": "cached",
+          "representative_count": 145,
+          "elapsed_seconds": 3.778
+        },
+        {
+          "status": "cached",
+          "representative_count": 145,
+          "elapsed_seconds": 3.682
+        },
+        {
+          "status": "cached",
+          "representative_count": 145,
+          "elapsed_seconds": 3.868
+        }
+      ],
+      "old_manifest_error_after_activation": false
+    },
+    "ourolabs-market-r4-card-keeper.service": {
+      "service": "Result=success\nExecMainStatus=0\n",
+      "events": [
+        {
+          "status": "reselection_unavailable",
+          "class_selection_invoked": true
+        },
+        {
+          "status": "selection_cooldown",
+          "class_selection_invoked": false
+        },
+        {
+          "status": "selection_cooldown",
+          "class_selection_invoked": false
+        },
+        {
+          "status": "selection_cooldown",
+          "class_selection_invoked": false
+        }
+      ],
+      "old_manifest_error_after_activation": false
+    }
+  },
+  "public_card": {
+    "http": 200,
+    "name": "outseop-r4",
+    "wallet_matches_ledger": true,
+    "edge": "r4-semantic3-front-v1"
+  },
+  "direct_live_diagnostics": false,
+  "staged_broad_forum_matching_activated": false,
+  "new_procurement15_activated": false,
+  "note": "Card source dependency restored; original class selection timed out and remains on original600s cooldown. No claim of completed card refresh or new settlement."
+}

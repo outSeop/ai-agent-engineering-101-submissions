@@ -1,0 +1,12 @@
+{
+  "at": 1795800045.057671,
+  "changed_existing_overrides": [
+    "ourolabs-market-r4-customer-context.service",
+    "ourolabs-market-r4-card-keeper.service"
+  ],
+  "new_service_or_timer": false,
+  "manual_job_start": false,
+  "main_restart": false,
+  "package_manifest_sha256": "c55ada0a0df0e56963f0fdea40472cf4320e6ecef5d4b620bbb47da637e99957",
+  "method": "existing timers next normal tick"
+}

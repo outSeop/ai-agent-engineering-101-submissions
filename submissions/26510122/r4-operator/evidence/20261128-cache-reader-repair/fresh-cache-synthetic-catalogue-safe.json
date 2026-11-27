@@ -1,0 +1,71 @@
+{
+  "at": 1795800146.0939672,
+  "original_sdk_bounded_tool": true,
+  "production_financial_DB_or_token_read": false,
+  "Model_network_payment_or_customer_A2A_calls": 0,
+  "results": [
+    {
+      "synthetic_public_query": "침대 재고와 등급, 가격을 알려주세요.",
+      "status": "ready",
+      "candidate_count": 0,
+      "matched_count": 0,
+      "source_count": 145,
+      "elapsed_seconds": 0.723,
+      "snapshot_sha_match": true,
+      "hints": {
+        "literal_skus": [],
+        "literal_skus_partial": false,
+        "focus_skus": [],
+        "root_hint_count": 0,
+        "usage": "검색 참고값이며 선택이나 구매 의사를 뜻하지 않습니다.",
+        "preparation": {
+          "fits": [],
+          "requested_sku_missing": false,
+          "constraints_unverified": true
+        }
+      }
+    },
+    {
+      "synthetic_public_query": "침구 재고와 등급, 가격을 알려주세요.",
+      "status": "ready",
+      "candidate_count": 0,
+      "matched_count": 0,
+      "source_count": 145,
+      "elapsed_seconds": 0.712,
+      "snapshot_sha_match": true,
+      "hints": {
+        "literal_skus": [],
+        "literal_skus_partial": false,
+        "focus_skus": [],
+        "root_hint_count": 0,
+        "usage": "검색 참고값이며 선택이나 구매 의사를 뜻하지 않습니다.",
+        "preparation": {
+          "fits": [],
+          "requested_sku_missing": false,
+          "constraints_unverified": true
+        }
+      }
+    },
+    {
+      "synthetic_public_query": "침대와 침구 재고와 등급, 가격을 알려주세요.",
+      "status": "ready",
+      "candidate_count": 0,
+      "matched_count": 0,
+      "source_count": 145,
+      "elapsed_seconds": 0.686,
+      "snapshot_sha_match": true,
+      "hints": {
+        "literal_skus": [],
+        "literal_skus_partial": false,
+        "focus_skus": [],
+        "root_hint_count": 0,
+        "usage": "검색 참고값이며 선택이나 구매 의사를 뜻하지 않습니다.",
+        "preparation": {
+          "fits": [],
+          "requested_sku_missing": false,
+          "constraints_unverified": true
+        }
+      }
+    }
+  ]
+}

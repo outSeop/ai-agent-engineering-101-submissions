@@ -1,0 +1,52 @@
+[
+  {
+    "args": {
+      "op": "prepare",
+      "text": "침대 재고와 가격을 알려주세요."
+    },
+    "status": "ready",
+    "returned": 0,
+    "matched": 0,
+    "unverified": true
+  },
+  {
+    "args": {
+      "op": "search",
+      "q": "침대"
+    },
+    "status": "ready",
+    "returned": 7,
+    "matched": 7,
+    "unverified": null
+  },
+  {
+    "args": {
+      "op": "search",
+      "q": "이불"
+    },
+    "status": "ready",
+    "returned": 8,
+    "matched": 11,
+    "unverified": null
+  },
+  {
+    "args": {
+      "op": "search",
+      "q": "침구"
+    },
+    "status": "ready",
+    "returned": 8,
+    "matched": 20,
+    "unverified": null
+  },
+  {
+    "args": {
+      "op": "prepare",
+      "text": "가구 재고와 가격을 알려주세요."
+    },
+    "status": "ready",
+    "returned": 0,
+    "matched": 0,
+    "unverified": true
+  }
+]

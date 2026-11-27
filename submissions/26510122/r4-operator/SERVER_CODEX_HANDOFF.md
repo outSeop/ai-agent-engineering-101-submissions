@@ -1,3 +1,19 @@
+## 최신 인계 — 2026-11-28 02:26 KST 캐시 장애 복구
+
+**홍보 v9 교체가 공용 경로의 v5 의존성을 깨뜨려 재고 캐시가 약4시간 stale였다.**
+원인을 확인하고 `price_context_runtime_v8b`의 archived5 filesystem binding으로 기존 cache/card
+job만 복구했다. 기존 timer5회 성공·fresh145행·sidecar SHA/TTL 일치. main/front5개·지갑·DB inode·
+매입8·가격 하한·publisher9 유지, 메인 재시작/새timer/새조달활성화 없음.
+
+단일 상품 유사어 도구는 fresh cache로 후보·가격을 반환하지만 복합 `침대와 침구`는
+`unsupported_request`. 카드도 dependency는 복구됐으나 원 수업 모델이35초 예산에서
+`ModelBudgetExceeded`여서 갱신 완료 아님. 원600초 cooldown을 우회하지 않았다.
+복구후 문의·신규정산0, 누적정산2/missing1. 이 상태를 정상 영업/카드갱신 완료로 보고하지 않는다.
+상세와 증거: [R4_CACHE_REPAIR_20261128.md](R4_CACHE_REPAIR_20261128.md).
+새 broad-forum matching/coldstart 및 매입15는 여전히 STAGED. 메인 재시작은 별도 승인 없이 하지 않는다.
+
+---
+
 ## 2026-11-27 — 포럼 혜택 게시9 적용, 새 수요 매칭은 재시작 승인 대기
 
 현재 **publisher9만 live**, 기존main/cachedselector는이전그대로다. source b2edc8dba8c214a22074eb1f3db35ce5eb8234f444cf22710f025078b64e48e9 / forge70df2b9711580cb5ed74d4e3a8d31f18b4bf33ed5975f37739dc76633f9117d3. 22:03:31에원자교체, 실패8은cadence회귀로원5rollback한뒤12th회귀검증후9적용, 원5는.deprecated보존. 원5서비스·CF·URL·DB·두지갑·기존stock8·원정책보존. source9은12/12 독립원SDK/ForumFixture, wallet/pay권한0. 기존 셀러가 직접 게시한 글 **20572**에서 추가5%·최대5000·지갑당1회·7일·다음거래·정책종료시각을 확인했다. 공개 본문과 원장 일치: True. 좋아요 0.
