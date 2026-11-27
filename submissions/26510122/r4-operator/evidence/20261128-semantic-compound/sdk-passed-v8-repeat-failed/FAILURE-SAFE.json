@@ -1,0 +1,25 @@
+{
+  "origin": {
+    "base_sha256": "35eb17e11b20109bbd5ea261020dd686b7e5bda201a68059d3cc4ac100d878c7",
+    "logic_sha256": "12734420574590c064691a6e64372d1cd6df1374c2e740bb4cddd4d8951f7879",
+    "test_sha256": "d1d36200deea47b8a524b0214a7ac0b75df4873210f149db37c82ba76c710599",
+    "requested_edit_sha256": "45d1493e169b3ff632676f7a873fb5af6ec1d958928a72409910f2c2bf0b2645"
+  },
+  "actual_classroom_literal_edit": true,
+  "official_sdk_selftest_passed": true,
+  "ordinary_sdk_passed": 18,
+  "ordinary_sdk_total": 19,
+  "reason": "Repeated affirmative query still rejects an existing neutral payment deferral in the unchanged suffix keyword guard.",
+  "earlier_compact_run": {
+    "model_provider": "market-class",
+    "official_mind": true,
+    "source_injected": false,
+    "model_timeout_count": 3,
+    "sdk_forge_attempt_count": 0,
+    "prior_genuine_version_retained": 7,
+    "terminal_action": "sleep",
+    "production_changed": false
+  },
+  "actual_customer_replay": false,
+  "production_modified": false
+}
