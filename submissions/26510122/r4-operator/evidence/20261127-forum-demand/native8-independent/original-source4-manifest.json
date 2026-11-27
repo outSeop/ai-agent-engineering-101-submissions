@@ -1,0 +1,22 @@
+{
+  "source4_sha256": {
+    "logic.py": "acb2d6469b87a97cd0342f19a0359648945928f665578e15a1a964159802b1d7",
+    "test.py": "26271e52167ae787ff220a4786471566e9e4d552fc51912da91e5e1a80f1a1fe",
+    "permission.yml": "d2e80a74e557cc597fbebbc44b97acb4863706665aed6d4a507fa0aed5885e00",
+    "forge.json": "5ba7be99286b883dc37c634ce3adf3d32f0703df06b987ac083d5003151a3855"
+  },
+  "official_forge_manifest_matches": true,
+  "source_logic_unchanged": true,
+  "original_parent_sha256": "c15424eacded61da86e9f27303b16a705287cecf81c5254a2da5360db3ee9b48",
+  "original_source_path": "runtime/class-rebuild-forum-marketing-20261127/tools/forum_marketing",
+  "permission": {
+    "network": "market",
+    "write": [
+      "state/r4-benefits"
+    ],
+    "identity": "shop",
+    "timeout_seconds": 40,
+    "pay": false
+  },
+  "production_activation": "Root performed source4 atomic exchange separately; independent QA made no production changes."
+}

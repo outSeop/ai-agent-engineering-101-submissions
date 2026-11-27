@@ -1,0 +1,11 @@
+# Genuine forum_marketing v8 independent QA
+
+The unchanged candidate passed 11/11 groups through the official SDK and the full original ForumFixture. All HTTP including POST used the original synthetic fixture; no Model, real API, real POST, wallet, finance, or production changes occurred in this QA.
+
+The SDK supplies test mode. The external test adapter adds only owned fixture/result write paths and independent test.py via the supported Toolbox.run(test, d=...) API. Genuine source4, forge record and index were unchanged. The parent forum SHA is recorded separately. The only transport extension handles public pagination limit=1; synthetic clock injection and ephemeral fixture identity are test-only. The helpers use the original full dispatcher schema and actual pinned bonus-core schema, with no production DB rows.
+
+The files are byte-identical to the validated private QA originals. Their absolute OP/CODE/QA paths document that original host setup. To reproduce there, place these three Python files in `OP/runtime/marketing-request-20261127-qa` and invoke the runner with `unshare -Urn OP/.venv/bin/python -B OP/runtime/marketing-request-20261127-qa/run_forum_v8_independent.py` using a fresh output directory. The runner requires the exact candidate source4 and tracked original codex-r4/SDK sources; it refuses non-loopback networking. No raw private logs or prior failure artifacts are included here.
+
+Known limits: cached old coordinator context/slate remains legacy under a publisher-only source swap, so the new context/matcher/slate behavior is staging-only. The new conservative matcher rejects original-parent won-budget syntax, a safe false negative rather than universal language support. The prior 7 result and the external budget-word assertion correction are preserved privately and in the separately published historical evidence; this leaf contains only final 8 safety evidence.
+
+Final checks cover partial/latest evidence, buried 6h pages, owned policy, core award schemas including the alternate table, matching constraints, grade-base/global-budget copy, read-only slate/history shape, concurrent atomic publication, unknown own-shop reconciliation with no repost, final thread/stock revalidation, and unchanged-copy/duplicate protection. Genuine source4 provenance is distinct from this external host QA.

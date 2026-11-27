@@ -1,0 +1,30 @@
+[
+  {
+    "name": "logic.py",
+    "url": "https://raw.githubusercontent.com/outSeop/ai-agent-engineering-101-submissions/round-4-26510122/submissions/26510122/r4-operator/deploy/forum_native_slate_runtime_v2_host3_20261126/tools/prioritize_forum_candidates/logic.py",
+    "HTTP": 200,
+    "sha256": "b9df9e1fef685f82ec1a74b2300b661861c7529c00fe4388f17d20b913636006",
+    "matches_local_bytes": true
+  },
+  {
+    "name": "test.py",
+    "url": "https://raw.githubusercontent.com/outSeop/ai-agent-engineering-101-submissions/round-4-26510122/submissions/26510122/r4-operator/deploy/forum_native_slate_runtime_v2_host3_20261126/tools/prioritize_forum_candidates/test.py",
+    "HTTP": 200,
+    "sha256": "4b9581516c8e16e795dad9272a5a959bf6eb3eb360bffa30c43b40fb38b019f1",
+    "matches_local_bytes": true
+  },
+  {
+    "name": "permission.yml",
+    "url": "https://raw.githubusercontent.com/outSeop/ai-agent-engineering-101-submissions/round-4-26510122/submissions/26510122/r4-operator/deploy/forum_native_slate_runtime_v2_host3_20261126/tools/prioritize_forum_candidates/permission.yml",
+    "HTTP": 200,
+    "sha256": "3fc88b91d8f2032f048118e2db784af470c9a46e28932e4f3260fcdde4cab2ae",
+    "matches_local_bytes": true
+  },
+  {
+    "name": "forge.json",
+    "url": "https://raw.githubusercontent.com/outSeop/ai-agent-engineering-101-submissions/round-4-26510122/submissions/26510122/r4-operator/deploy/forum_native_slate_runtime_v2_host3_20261126/tools/prioritize_forum_candidates/forge.json",
+    "HTTP": 200,
+    "sha256": "98bda2fa783f9642c4c161674e7f09778aed3dd62b39346f0d95c0c67075ec56",
+    "matches_local_bytes": true
+  }
+]

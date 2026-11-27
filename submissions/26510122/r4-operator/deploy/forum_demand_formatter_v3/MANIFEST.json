@@ -1,0 +1,12 @@
+{
+  "authorship": "actual original Mind/forge SDK readonly formatter3",
+  "live_cached_selector_changed": false,
+  "upstream_producer_and_final_publisher_own_business_constraints": true,
+  "files": {
+    "release-manifest.json": "8e1c44116e9f9c7904f115b973706cbfdf462106be11c044c8253a0f2abda7e0",
+    "tools/prioritize_forum_candidates/test.py": "45b27d68309eb852220851988bf1314596c4a4e93749215bc4bf500055b482ea",
+    "tools/prioritize_forum_candidates/forge.json": "31b65409af5d35ae152d7d6db352b9900d24dc9990d6c1f0b830ba58394eb39b",
+    "tools/prioritize_forum_candidates/logic.py": "836bda781fcc11292b390872a720e2311589f6e94f4586462008e7a07d2514ce",
+    "tools/prioritize_forum_candidates/permission.yml": "9e7b6d7c63beccaceb6e8811a7b33801e7b2aa7b1e57c113b4e4754d8719cb0c"
+  }
+}

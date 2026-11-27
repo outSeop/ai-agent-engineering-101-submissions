@@ -1,0 +1,12 @@
+{
+  "independent_QA_pass": true,
+  "source_sha256": "acb2d6469b87a97cd0342f19a0359648945928f665578e15a1a964159802b1d7",
+  "independent_cases_passed": 11,
+  "independent_cases_total": 11,
+  "same_original_fixture_harness": true,
+  "no_real_post_or_financial_action_in_tests": true,
+  "actual_current_canonical_bonus_helper_readonly_probe_source7": true,
+  "source8_delta_from7": "exact one alternate-ledger sqlite_master predicate; only selftest counterexamples added",
+  "hot_apply_effect": "publisher and benefit text only; running cached selector not reloaded",
+  "formatter_and_actual_class_coupling": "pending staged formatter3; no claim of full live targeting"
+}

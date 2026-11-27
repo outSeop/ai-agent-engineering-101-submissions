@@ -1,0 +1,136 @@
+{
+  "passed": 11,
+  "total": 11,
+  "cases": [
+    {
+      "case": "latest-partial-retains-verified-row",
+      "passed": true
+    },
+    {
+      "case": "6h-forward-buried-row",
+      "passed": true
+    },
+    {
+      "case": "owned-policy-security",
+      "passed": true
+    },
+    {
+      "case": "exact-award-schema-including-known-alternate",
+      "passed": true
+    },
+    {
+      "case": "matcher-hard-boundaries",
+      "passed": true
+    },
+    {
+      "case": "real-base-global-budget-copy",
+      "passed": true
+    },
+    {
+      "case": "slate-history-readonly-shape",
+      "passed": true
+    },
+    {
+      "case": "atomic-concurrent-publication",
+      "passed": true
+    },
+    {
+      "case": "unknown-reconcile-own-shop-visible",
+      "passed": true
+    },
+    {
+      "case": "final-thread-and-stock-revalidation",
+      "passed": true
+    },
+    {
+      "case": "duplicate-and-no-model-copy",
+      "passed": true
+    }
+  ],
+  "facts": {
+    "dense_all_recent": {
+      "verified_latest_buyer_retained": true,
+      "GET_calls": 8,
+      "old_hold_direction_revised_by_parent": true
+    },
+    "buried_6h": {
+      "buyer_found": true,
+      "GET_calls": 12
+    },
+    "policy_mismatch": {
+      "world_writable_policy_native_accepts": false,
+      "core4_accepts": false,
+      "fake_POST_count": 1,
+      "extra5_claimed": false
+    },
+    "schema_mismatch": {
+      "native_spend_zero": false,
+      "core4_schema_incompatible": true,
+      "fake_POST_count": 1,
+      "extra5_claimed": false
+    },
+    "known_alternate_schema": {
+      "core4_incompatible": true,
+      "candidate_spend_zero": false,
+      "extra5_claimed": false,
+      "synthetic_only_no_actual_alternate_table_asserted": true
+    },
+    "matcher": {
+      "positive_count": 3,
+      "negative_count": 14,
+      "won_legacy_budget_supported": false,
+      "won_limitation": "Conservative new matcher does not accept original parent won-budget syntax; no false matching or POST claimed."
+    },
+    "bonus_basis": {
+      "real_grade_base_used": true,
+      "old_global_grants_counted": true,
+      "text_semantics_checked": true,
+      "identity_from_ephemeral_fixture": true
+    },
+    "slate": {
+      "REAL_created_history_retained": true,
+      "native2_exact_history_keys": true,
+      "read_only_DB_bytes_unchanged": true,
+      "private_fields_projected_out": true
+    },
+    "atomic": {
+      "simultaneous_calls": 2,
+      "fake_POST_count": 1,
+      "posted_count": 1
+    },
+    "unknown": {
+      "repost_count": 0,
+      "imposter_rejected": true,
+      "own_shop_GET_visible_after_buyer_window_override": true,
+      "exact_reconcile_restored": true
+    },
+    "fresh": {
+      "selected_thread_changed_before_send_rejected": true,
+      "current_grade_change_rejected": true,
+      "fake_POST_count": 0
+    },
+    "duplicate": {
+      "unchanged_offer_not_reposted": true,
+      "model_supplied_copy_rejected": true,
+      "original_global_gap_and_ledger_used": true
+    }
+  },
+  "source_logic_sha256": "acb2d6469b87a97cd0342f19a0359648945928f665578e15a1a964159802b1d7",
+  "official_SDK_test_mode": true,
+  "testing_flag_not_assigned": true,
+  "source_business_unchanged": true,
+  "full_original_ForumFixture": true,
+  "mock_transport_only_limit1_added": true,
+  "all_POSTs_are_original_fake_ForumFixture": true,
+  "actual_Model_API_public_POST_finance_or_production_changes": 0,
+  "coverage_requirement_context": "Parent corrected incomplete-window instruction: verified latest individual rows allowed; no complete6h claim.",
+  "runtime_scope": "New context/matcher/slate staging-only in proposed publisher hot-swap; cached old coordinator context remains legacy.",
+  "source4_sha256": {
+    "logic.py": "acb2d6469b87a97cd0342f19a0359648945928f665578e15a1a964159802b1d7",
+    "test.py": "26271e52167ae787ff220a4786471566e9e4d552fc51912da91e5e1a80f1a1fe",
+    "permission.yml": "d2e80a74e557cc597fbebbc44b97acb4863706665aed6d4a507fa0aed5885e00",
+    "forge.json": "5ba7be99286b883dc37c634ce3adf3d32f0703df06b987ac083d5003151a3855"
+  },
+  "SDK_test_ok": true,
+  "external_adapter_scope": "Test-only fixture/result write paths; unchanged genuine4/forge/index, no actual signer cap; offline namespace."
+}

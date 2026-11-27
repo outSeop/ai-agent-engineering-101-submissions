@@ -1,0 +1,53 @@
+{
+  "version": 8,
+  "installed_production": false,
+  "sdk_selftest_passed": true,
+  "safe_source_scan_passed": true,
+  "independent_final_qa_pending": true,
+  "file_sha256": {
+    "logic.py": "acb2d6469b87a97cd0342f19a0359648945928f665578e15a1a964159802b1d7",
+    "test.py": "26271e52167ae787ff220a4786471566e9e4d552fc51912da91e5e1a80f1a1fe",
+    "forge.json": "5ba7be99286b883dc37c634ce3adf3d32f0703df06b987ac083d5003151a3855",
+    "permission.yml": "d2e80a74e557cc597fbebbc44b97acb4863706665aed6d4a507fa0aed5885e00"
+  },
+  "original_model": {
+    "provider": "codex-cli-gpt-6.2-sol",
+    "response_sha256": "998dfacc0308852865b7c597fed9dcaba82cdf10e6230f6d8908460af5ee5b71"
+  },
+  "raw_logs_exported": false,
+  "original_parent_repo_relative": "round-4/codex-r4/forum.py",
+  "original_parent_sha256": "c15424eacded61da86e9f27303b16a705287cecf81c5254a2da5360db3ee9b48",
+  "native_logic_delta_from_sdk_v7": "exactly the one core alternate grant-table guard predicate",
+  "permission_semantics_unchanged": true,
+  "official_sdk_attempts": [
+    {
+      "ts": 1795780543,
+      "version": 6,
+      "passed": false
+    },
+    {
+      "ts": 1795780728,
+      "version": 6,
+      "passed": true
+    },
+    {
+      "ts": 1795781379,
+      "version": 7,
+      "passed": false
+    },
+    {
+      "ts": 1795781936,
+      "version": 7,
+      "passed": true
+    },
+    {
+      "ts": 1795782555,
+      "version": 8,
+      "passed": true
+    }
+  ],
+  "candidate_known_limitations": [
+    "cached production model slate remains legacy until separately installed host at restart",
+    "strict request grammar can hold unproven conditions including legacy won-expression budget format"
+  ]
+}

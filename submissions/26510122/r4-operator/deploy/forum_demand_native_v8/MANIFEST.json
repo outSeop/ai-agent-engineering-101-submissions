@@ -1,0 +1,16 @@
+{
+  "authorship": "original Mind→forge_tool→SDK; HOST packaging and independent tests separately labelled",
+  "tool": "forum_marketing",
+  "version": 8,
+  "live_install": false,
+  "files": {
+    "FINAL-VERIFICATION-SAFE.json": "37e30efb5db68a58e0938a76d6100fbd6b510effccee0cff5e9a8fa06d8565b7",
+    "README.md": "f3d77400bdea2e253da94c77a18f5c5817689995f9ec12a82f3ce9de2bab418d",
+    "release-manifest.json": "a31d2bb4f2a3f789169b8146082401e8a19ee7e81df7e7fb920f7ee6686dcd49",
+    "validation/independent-safe-result.json": "93234880ca6828a76600d3f22cb93ed88c246ff6e536b10fab0dc2fbfc61d57a",
+    "tools/forum_marketing/test.py": "26271e52167ae787ff220a4786471566e9e4d552fc51912da91e5e1a80f1a1fe",
+    "tools/forum_marketing/forge.json": "5ba7be99286b883dc37c634ce3adf3d32f0703df06b987ac083d5003151a3855",
+    "tools/forum_marketing/logic.py": "acb2d6469b87a97cd0342f19a0359648945928f665578e15a1a964159802b1d7",
+    "tools/forum_marketing/permission.yml": "d2e80a74e557cc597fbebbc44b97acb4863706665aed6d4a507fa0aed5885e00"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "verified": true,
+  "live": true,
+  "original_services_wallets_DB_stock_price_policy_preserved": true,
+  "Model_HTTP_payment_or_post_calls": 0,
+  "cached_candidate_scope_reloaded": false,
+  "hot_swap_effect": "new final publisher/render only; expanded request context remains staged until separately reviewed process transition",
+  "new_tool_version": 8,
+  "at": 1795782704.4542398,
+  "tool_source_sha256": "acb2d6469b87a97cd0342f19a0359648945928f665578e15a1a964159802b1d7",
+  "main_restarts": 0,
+  "source_scope": "final publisher only"
+}

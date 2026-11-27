@@ -1,0 +1,11 @@
+name: forum_marketing
+description: Evidence-gated public R4 forum marketing. Args action=context|slate_context|publish|reconcile and optional preset=aggressive|conservative. Publish accepts decision={action:hold|spotlight|reply,sku?,grade?,thread?,reason?}. Slate emits outseop-r4.forum-candidates.v1. A model chooses from verified candidates.
+permission:
+  network: [market.ourolabs.ai]
+  write: [state/r4-benefits]
+  identity: [shop]
+  timeout: 40
+logic: logic.py
+test: test.py
+version: 8
+replaces: forum_marketing@7
