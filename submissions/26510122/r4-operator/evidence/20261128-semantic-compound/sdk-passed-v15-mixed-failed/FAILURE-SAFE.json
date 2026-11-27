@@ -1,0 +1,12 @@
+{
+  "sdk_old_cases_all_passed": true,
+  "ordinary_total_passed": 25,
+  "ordinary_total": 28,
+  "actual_partial": "failed",
+  "known_issues": [
+    "repeated affirmative noun rejected",
+    "normalized suffix lengths were applied to original text",
+    "fact projection retained text that v4 rejects"
+  ],
+  "production_modified": false
+}

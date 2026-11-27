@@ -1,0 +1,9 @@
+name: semantic_candidates
+description: Verified public product facts and explicit unissued payment document status.
+permission:
+  pay_limit: 0
+  timeout: 30
+logic: logic.py
+test: test.py
+version: 15
+replaces: semantic_candidates@14
