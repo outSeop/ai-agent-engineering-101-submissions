@@ -1,0 +1,16 @@
+{
+  "bundle": "card_one_decision_runtime_v1",
+  "file_sha256": {
+    "README.md": "7a98e223f90d4a5a97fc12bd5265360d8dc6bd466df0437bb7b79413dcb8264b",
+    "bootstrap.py": "e198b38f8577d6186c22b3756ca0bdfa7afa43d34098c743d7cd637e9f435c1f",
+    "card_class_reselection_host.py": "c837172fb7a0acc83cd4045e3e455d4999f7ccc3aaac791a3092ecb7c25c1778",
+    "card_maintenance.py": "3a80117b27fe1bd1d782994eadf6f53c5c82d85b96e17f61b019e4c0f7d16846",
+    "native/apply_staged_card/forge.json": "e3e82ad56459719f2ff47cb78cf294b2ead6a5fd9d2c62d5e8a281f24e45240c",
+    "native/apply_staged_card/logic.py": "6a0279d8de102fee972dddb4016b67d443731486cb0e5e569c2f681c677df5be",
+    "native/apply_staged_card/permission.yml": "8b6d5e24b12546a845518c01be811a630b88e075abdaecf3ea01320367f673db",
+    "native/apply_staged_card/test.py": "971ad2db7816f98cb11b34fe81dd47a26f24e7099b48151240802f1c50a54a76"
+  },
+  "host_only": true,
+  "native_business_sources_unchanged": true,
+  "parent": "native_card_reselection_v1"
+}

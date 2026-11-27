@@ -1,0 +1,33 @@
+{
+  "schema": "card-one-decision-independent-qa.v1",
+  "bundle_manifest_sha256": "d10504d03f8139b274e69ecff3d0f8d07316448db537093069084e2b69e9ce9d",
+  "mock_passed": 7,
+  "mock_total": 7,
+  "official_Mind_run_once_original": true,
+  "ordinary_genuine_stage1_and_real_StageOrigin_capture": true,
+  "source_protected_regions_equal": 13,
+  "actualclass_executed_by_QA": false,
+  "actual_Model_API_DB_POST_pay_service_or_production_card_changes": 0,
+  "scope": "Minimum host orchestration test. No new end-to-end fresh/apply execution: those protected source regions remain exact byte segments. Opt-in actual-class path prepared only; root owns any invocation.",
+  "pattern_scan_matches": 0,
+  "files": {
+    "one_decision_independent_qa.py": "68d068e6ef1990107053b8ede7579cfd00e22be0ec426e96f3d2bb090288bc73",
+    "mock-safe-result.json": "dbfaa0d8bc013ac7e75f51e23173d7e20c4740d5c319d7d93d739bbf00bd9987",
+    "unchanged-protected-source-sha256.json": "14f743e85000e80eb58f40dca72888526a6bfec6c6b03eb8fee79ed1d1486640",
+    "one_decision_independent_qa_v2.py": "69c004d4ad4675fedde0a44729c6ac98ddde2173f9b948b1e3ef28a1fe6d8bf3",
+    "candidate145-prepare-only-safe-result.json": "c72b37223dce69509b326641677caa6780c65125b397fed6ea0fd956855bd9a1",
+    "root-actual145-read-confirmation-safe.json": "d72fd778f41f93e86dac0d930a2ff44619a561d351de33b1894eaa72818d8aff"
+  },
+  "previous_manifest_sha256": "eacba5865717726a8d9ae587fb9fd5bf6e6eab7320939fffc994b278cbb8bb20",
+  "candidate145_option": {
+    "base16_mock7_result_unchanged": true,
+    "new_complete_mock7_rerun": false,
+    "synthetic_source_rows": 145,
+    "genuine_comparison_rows": 145,
+    "comparison_utf8_bytes": 47860,
+    "Model_calls": 0,
+    "stage_calls": 0,
+    "actualclass_by_QA": false
+  },
+  "root_actual145_read_confirmation": "One root actual completion/real StageOrigin/card unchanged;13.412s tool+host filesystem interval, not Model-only. No extra call by independent QA."
+}

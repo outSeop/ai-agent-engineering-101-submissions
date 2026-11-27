@@ -1,0 +1,14 @@
+{
+  "operation": "candidate-count-option-effect-only;not a repeat of7checks",
+  "synthetic_source_rows": 145,
+  "genuine_comparison_candidates": 145,
+  "comparison_utf8_bytes": 47860,
+  "under_original64KiB_guard": true,
+  "candidate_count_default": 16,
+  "original16_result_preserved": true,
+  "Model_calls": 0,
+  "stage_calls": 0,
+  "genuine_compare_calls": 1,
+  "production_card_DB_API_service_calls": 0,
+  "stage_source_and_business_tools_unchanged": true
+}

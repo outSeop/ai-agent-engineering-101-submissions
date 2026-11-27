@@ -1,0 +1,16 @@
+{
+  "scope": "Read-only confirmation of root-executed actual class safe receipt; independent QA made no additional calls",
+  "root_safe_receipt_sha256": "3d3638ea3c6005549dcfbc9afd92018572a056917dc1d746c6995c431fe02ad2",
+  "actual_class_executed_by": "root",
+  "candidate_count": 145,
+  "comparison_utf8_bytes": 47860,
+  "model_calls": 1,
+  "StageOrigin_created": true,
+  "card_unchanged": true,
+  "tools_tokens_empty": true,
+  "NoWallet": true,
+  "total_filesystem_interval_seconds": 13.412,
+  "timing_is_filesystem_interval_not_Model_only": true,
+  "single_observation_no_general_latency_claim": true,
+  "independent_additional_Model_API_service_DB_POST_pay_calls": 0
+}

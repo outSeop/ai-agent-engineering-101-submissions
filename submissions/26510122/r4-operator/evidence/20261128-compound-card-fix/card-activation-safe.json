@@ -1,0 +1,10 @@
+{
+  "at": 1795802877.6710076,
+  "existing_card_timer_override_updated": true,
+  "manual_live_Model_or_job_start": false,
+  "main_restart": false,
+  "customer_cache_service_changed": false,
+  "method": "next original scheduled tick",
+  "single_class_completion_cap": 1,
+  "original_failure_cooldown_seconds": 600
+}

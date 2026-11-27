@@ -1,0 +1,99 @@
+{
+  "bundle_manifest_sha256": "d10504d03f8139b274e69ecff3d0f8d07316448db537093069084e2b69e9ce9d",
+  "passed": 7,
+  "total": 7,
+  "checks": [
+    {
+      "case": "official-Mind-one-completion-genuine-stage-origin",
+      "passed": true
+    },
+    {
+      "case": "first-compare-does-not-stage-or-call-Model-twice",
+      "passed": true
+    },
+    {
+      "case": "first-sleep-does-not-stage-or-call-Model-twice",
+      "passed": true
+    },
+    {
+      "case": "malformed-does-not-stage-or-call-Model-twice",
+      "passed": true
+    },
+    {
+      "case": "invalid-selection-does-not-stage-or-call-Model-twice",
+      "passed": true
+    },
+    {
+      "case": "unrelated-exception-propagates",
+      "passed": true
+    },
+    {
+      "case": "unchanged-authority-fresh-CAS-apply-guards",
+      "passed": true
+    }
+  ],
+  "facts": {
+    "positive": {
+      "real_genuine_stage1": true,
+      "actual_StageOrigin_capture": true,
+      "model_completions": 1,
+      "full_original_comparison_in_first_context": true,
+      "candidate_count": 16,
+      "max_tokens": 800,
+      "timeout_at_most35s": true,
+      "card_unchanged": true,
+      "no_authority_or_apply": true
+    },
+    "first-compare": {
+      "model_completions": 1,
+      "origin_absent": true,
+      "card_unchanged": true,
+      "no_authority_or_apply": true,
+      "ModelBudgetExceeded": true
+    },
+    "first-sleep": {
+      "model_completions": 1,
+      "origin_absent": true,
+      "card_unchanged": true,
+      "no_authority_or_apply": true,
+      "ModelBudgetExceeded": false
+    },
+    "malformed": {
+      "model_completions": 1,
+      "origin_absent": true,
+      "card_unchanged": true,
+      "no_authority_or_apply": true,
+      "ModelBudgetExceeded": true
+    },
+    "invalid-selection": {
+      "model_completions": 1,
+      "origin_absent": true,
+      "card_unchanged": true,
+      "no_authority_or_apply": true,
+      "ModelBudgetExceeded": true
+    },
+    "unchanged_contracts": {
+      "checked": true,
+      "load_base": true,
+      "verify_sdk": true,
+      "verify_apply": true,
+      "toolbox": true,
+      "copy_shadow": true,
+      "bind": true,
+      "apply_bound": true,
+      "run": true,
+      "NoWallet": true,
+      "BoundedModel": true,
+      "SelectionGate.__init__": true,
+      "SelectionGate.call": true
+    }
+  },
+  "official_Mind_run_once_unchanged": true,
+  "ordinary_genuine_stage_Toolbox_call": true,
+  "manual_kit_testing_assignment": false,
+  "mock_Model_only": true,
+  "actual_class_executed": false,
+  "actual_market_catalogue_DB_service_POST_payment_calls": 0,
+  "production_card_changes": 0,
+  "no_full_pipeline_apply_claim": "This minimum QA executes genuine stage+StageOrigin only; fresh/CAS/authority/apply functions are byte-identical AST contracts, not rerun here."
+}

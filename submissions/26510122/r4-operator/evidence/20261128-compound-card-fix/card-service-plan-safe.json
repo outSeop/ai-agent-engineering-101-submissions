@@ -1,0 +1,7 @@
+{
+  "path": "/home/seop/.config/systemd/user/ourolabs-market-r4-card-keeper.service.d/95-class-reselection.conf",
+  "before_sha256": "f27cdf826ca21e92880190019eefa071bd54cbd94835f56bf2e4471d1cfb0b19",
+  "new_content": "[Service]\nExecStart=\nExecStart=/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/.venv/bin/python -I -B /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/deploy/card_one_decision_runtime_v1/bootstrap.py --manifest-sha d10504d03f8139b274e69ecff3d0f8d07316448db537093069084e2b69e9ce9d -- --operator /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator --allow-maintenance --failure-cooldown 600\n",
+  "existing_timer_only": true,
+  "new_timer_or_main_restart": false
+}

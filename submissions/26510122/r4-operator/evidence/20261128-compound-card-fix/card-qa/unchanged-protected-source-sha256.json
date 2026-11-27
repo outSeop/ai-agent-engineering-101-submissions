@@ -1,0 +1,73 @@
+{
+  "scope": "Static exact source-segment comparison; no new execution",
+  "unchanged_protected_regions": {
+    "checked": {
+      "old": "f6f2c3b2f147cefc7b9ba67904faf991090aafa806cdde986212dc422fbcb128",
+      "new": "f6f2c3b2f147cefc7b9ba67904faf991090aafa806cdde986212dc422fbcb128",
+      "exact_source_segment_equal": true
+    },
+    "load_base": {
+      "old": "45f88839d98dd1fc1bef5f0c872e8f653b2e78d139c8c7950b8aa98498391df5",
+      "new": "45f88839d98dd1fc1bef5f0c872e8f653b2e78d139c8c7950b8aa98498391df5",
+      "exact_source_segment_equal": true
+    },
+    "verify_sdk": {
+      "old": "a92f25a5e7f95c12e480f437aa1d1f3dd2d95cc775a4ea3a0251bd9cbedebdc3",
+      "new": "a92f25a5e7f95c12e480f437aa1d1f3dd2d95cc775a4ea3a0251bd9cbedebdc3",
+      "exact_source_segment_equal": true
+    },
+    "verify_apply": {
+      "old": "548039f577b00435bf3eb6310ed3b9e3b1ff96a9eea492f7e5dea806555b92a6",
+      "new": "548039f577b00435bf3eb6310ed3b9e3b1ff96a9eea492f7e5dea806555b92a6",
+      "exact_source_segment_equal": true
+    },
+    "NoWallet": {
+      "old": "743f4455f3be1a9194d4a9541559ea8bf05d3ebb854b6f948c331f2fafbf3438",
+      "new": "743f4455f3be1a9194d4a9541559ea8bf05d3ebb854b6f948c331f2fafbf3438",
+      "exact_source_segment_equal": true
+    },
+    "toolbox": {
+      "old": "bd92e30ef82b151687eeb5db7e0c078a9a8e5b895924ae766f28388d124f2b82",
+      "new": "bd92e30ef82b151687eeb5db7e0c078a9a8e5b895924ae766f28388d124f2b82",
+      "exact_source_segment_equal": true
+    },
+    "copy_shadow": {
+      "old": "9399da1aa51bdb0c2214aa05790186857b8545153cfbdf54edb8546716dbaac8",
+      "new": "9399da1aa51bdb0c2214aa05790186857b8545153cfbdf54edb8546716dbaac8",
+      "exact_source_segment_equal": true
+    },
+    "SelectionGate.__init__": {
+      "old": "dc3ca667b8b968de6f2dee24f7d0eaf1607d46435ab751e1944c1d5ed6f78b25",
+      "new": "dc3ca667b8b968de6f2dee24f7d0eaf1607d46435ab751e1944c1d5ed6f78b25",
+      "exact_source_segment_equal": true
+    },
+    "SelectionGate.call": {
+      "old": "7812033b0309bf0a6cfd6b4c060c6860e8ab5c06064c87402f3ae96e4ace4ba4",
+      "new": "7812033b0309bf0a6cfd6b4c060c6860e8ab5c06064c87402f3ae96e4ace4ba4",
+      "exact_source_segment_equal": true
+    },
+    "BoundedModel": {
+      "old": "b020a56b6e4d96ae38b60a0fedda8a80438a66b77c50895c27a242b96ec48c85",
+      "new": "b020a56b6e4d96ae38b60a0fedda8a80438a66b77c50895c27a242b96ec48c85",
+      "exact_source_segment_equal": true
+    },
+    "bind": {
+      "old": "cd0278eac17cb95800709fad2fa0af1cc8215549b6cac4c94aec1b106e33062c",
+      "new": "cd0278eac17cb95800709fad2fa0af1cc8215549b6cac4c94aec1b106e33062c",
+      "exact_source_segment_equal": true
+    },
+    "apply_bound": {
+      "old": "23aec590bdd9ba1c8cc4b2ea301fb6b2a8996cbb4831849f0441e1b4035424a7",
+      "new": "23aec590bdd9ba1c8cc4b2ea301fb6b2a8996cbb4831849f0441e1b4035424a7",
+      "exact_source_segment_equal": true
+    },
+    "run": {
+      "old": "bbca1fd2217932042a6dd7503ea78708baa98bcae95f3ce2bde99ef4c593ce0c",
+      "new": "bbca1fd2217932042a6dd7503ea78708baa98bcae95f3ce2bde99ef4c593ce0c",
+      "exact_source_segment_equal": true
+    }
+  },
+  "original7SDK_verified_by_test": true,
+  "only_host_selection_orchestration_changed": true,
+  "actualclass_not_executed_by_independent_QA": true
+}
