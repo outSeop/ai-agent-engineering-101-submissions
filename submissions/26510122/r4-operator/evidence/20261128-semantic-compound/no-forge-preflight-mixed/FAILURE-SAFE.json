@@ -1,0 +1,18 @@
+{
+  "version_issued": false,
+  "official_forge_attempts": 0,
+  "mode": "ordinary SDK preflight, no forge",
+  "earlier_draft_result": {
+    "synthetic_passed": 25,
+    "synthetic_total": 28,
+    "actual_partial": false
+  },
+  "last_rejection": "model preview did not call the pinned SDK verifier",
+  "model_response_sha256": [
+    "498dfd6e3f2c10ffaa4de29fea4c556e9ec804f62c6c29dece1b743b0acf9529",
+    "9961506eaee4066461d5ed6383e1d8191f94316c26e5938fea5d9d898fe13f8b",
+    "0ec25f50f6d68b4a95fef7411400a4b27498c048407dde057bc981f2091b5931"
+  ],
+  "no_customer_raw": true,
+  "production_modified": false
+}
