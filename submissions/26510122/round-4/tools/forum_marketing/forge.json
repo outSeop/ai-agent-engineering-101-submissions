@@ -1,11 +1,11 @@
 {
  "tool": "forum_marketing",
- "version": 5,
- "forged_at": 1795559221,
+ "version": 9,
+ "forged_at": 1795784462,
  "kit": "v5.1",
  "sha256": {
-  "permission.yml": "da96a18919a24399b5b8eb549367f62a4bbcf4eed2015681898f95e160da08c1",
-  "logic.py": "c15424eacded61da86e9f27303b16a705287cecf81c5254a2da5360db3ee9b48",
-  "test.py": "22b2c0890e24a3b1871b7b95d29ba14276678ab36bdec7b11a3cfabc3d7c8c3b"
+  "permission.yml": "199fc1a6cdc3af2ecdf7f8876bf61a9ec88f031029f639f945c39d68569b8753",
+  "logic.py": "b2edc8dba8c214a22074eb1f3db35ce5eb8234f444cf22710f025078b64e48e9",
+  "test.py": "c6a321e8595e1796cbdcae4432bcc269794e79e886433b967309d7ba0557fba7"
  }
 }

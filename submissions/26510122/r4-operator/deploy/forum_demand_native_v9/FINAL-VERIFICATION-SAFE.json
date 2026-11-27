@@ -1,0 +1,12 @@
+{
+  "independent_QA_pass": true,
+  "source_sha256": "b2edc8dba8c214a22074eb1f3db35ce5eb8234f444cf22710f025078b64e48e9",
+  "cases_passed": 12,
+  "cases_total": 12,
+  "original_global330_spotlight600_perSKU3600_retained": true,
+  "actual_601_1800_differentSKU_allowed_599_held_sameSKU3600_protected": true,
+  "source9_diff_from8": "one cadence predicate restored from max(3600,rates[0]) to rates[0]",
+  "actual_class_canary": "one actual original class call on producer8+formatter3; no repeat for isolated cadence-only change",
+  "new_context_cached_coordinator_reloaded": false,
+  "tests_real_Model_POST_or_financial_actions": 0
+}

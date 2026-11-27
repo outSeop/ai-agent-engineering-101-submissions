@@ -1,0 +1,10 @@
+{
+  "tests": 9,
+  "failures": 0,
+  "errors": 0,
+  "install_lifecycle": "Mock original install; real frozen glue hash admission only",
+  "original_cmd_run_or_join_called": false,
+  "actual_Model_or_POST_calls": 0,
+  "newloop_or_service_or_taskstore_mutations": 0,
+  "migration_or_URL_preservation_proven": false
+}

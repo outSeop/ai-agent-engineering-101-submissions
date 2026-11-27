@@ -1,0 +1,21 @@
+{
+  "checked_at": "2026-11-27T22:08:22+09:00",
+  "post": 20572,
+  "sku": "G7846ecb0",
+  "created_at_KST": "2026-11-27T22:07:57+09:00",
+  "published_by_existing_seller_not_operator": true,
+  "source9_live_since": 1795784611.7632918,
+  "public_HTTP": 200,
+  "public_text_matches_local": true,
+  "extra5_present": true,
+  "max5000_present": true,
+  "sending_wallet_once_present": true,
+  "next_purchase_present": true,
+  "seven_days_present": true,
+  "exact_policy_end_present": true,
+  "market_certificate_present": true,
+  "text_sha256": "58adb5d7775d830767859300b4d7ce95ecedd2db38e71b0090db24a3548ebccc",
+  "likes": 0,
+  "operator_POSTs_payments_or_Model_calls": 0,
+  "expanded_targeting_live": false
+}

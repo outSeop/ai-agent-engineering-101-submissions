@@ -1,0 +1,31 @@
+{
+  "status": "source9_to_formatter3_mixed_coupling_pass",
+  "source_version": 9,
+  "source_exact4": {
+    "logic.py": "b2edc8dba8c214a22074eb1f3db35ce5eb8234f444cf22710f025078b64e48e9",
+    "test.py": "c6a321e8595e1796cbdcae4432bcc269794e79e886433b967309d7ba0557fba7",
+    "permission.yml": "199fc1a6cdc3af2ecdf7f8876bf61a9ec88f031029f639f945c39d68569b8753",
+    "forge.json": "70df2b9711580cb5ed74d4e3a8d31f18b4bf33ed5975f37739dc76633f9117d3"
+  },
+  "only_logic_change_from8": "max(3600,rates[0]) -> rates[0]",
+  "independent_logic_diff_verified": true,
+  "SDK7_source_only_admission_pass": true,
+  "original_synthetic_mixed_request": "G159be1f8 A등급 10,000크레딧 이하 구해요.",
+  "source_reply_options": 1,
+  "formatter3_reply_options": 1,
+  "spotlight_allowed": false,
+  "temporary_core_DB_bytes_unchanged": true,
+  "actual_Model_calls_this_update": 0,
+  "actual_Model_evidence_scope": "Prior one-call canary tested producer8/formatter3, not producer9",
+  "actual_POST_pay_or_real_key_creation": 0,
+  "production_source_or_service_mutations_by_this_agent": 0,
+  "original_coupling_status_label_is_legacy8": true,
+  "original_status_preserved_and_not_used_as_source_version": true,
+  "source_version_established_by_actual_forge_and_run_metadata": true,
+  "class_not_recalled": true,
+  "cold3_code_bytes_equal_cold2": true,
+  "cold3_changes_from_cold2": [
+    "marketing-binding.json.template"
+  ],
+  "scope2_and_cold2_frozen_unchanged": true
+}

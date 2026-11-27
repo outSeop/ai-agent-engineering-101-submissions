@@ -1,0 +1,25 @@
+{
+  "files": {
+    "cold_start_marketing_wrapper.py": "8fbca54c760fe6fdd30d0978f3fd5629cdc5bf7b464803dc56dd7d97efe2fd3d",
+    "test_cold_start_marketing_wrapper.py": "f224b8ee9574dedb1002b827d93fd3ede9e6e1a94e968fdc8932f81074a8c369",
+    "SAFE-QA.json": "72e29ab4b631449cfdac29db08f97e228fb6ccfbc07728819b983714c31fcb59",
+    "marketing-binding.json.template": "1ff8da443bce0e4cc83cf7df62f5291c7cf99d8771ba7810cd3f803634c66b74",
+    "existing-main-ExecStart.conf.template": "ba2a202b41879dca318a72aa2844c114d463076aa94214e9c241a69a5903aaa8",
+    "README.md": "02036a39e13bf1aa684c28d632fd8428175a77d6cca1a6084abcd180e1a1a465",
+    "PREPARATION-SAFE.json": "9040f469b1f61e15ab3b71cbd2546e870dcae2580799daf7175d8fecbf2ffad4",
+    "PRESERVATION-SAFE.json": "390c639ee4e57e3600d8f0bc7ec62e54a3edcab9c19f887273de289cc51a0edf"
+  },
+  "kind": "external cold-start HOST wrapper only",
+  "scope2_manifest_sha256": "dde805dbc592e7323a22e5790c1553282bdacc3741c6202c891431cf0095eb21",
+  "not_installed": true,
+  "source8_and_formatter3_exact4_filled": true,
+  "formatter_deploy_path": "OP/deploy/forum_demand_formatter_v3/tools/prioritize_forum_candidates",
+  "original_service_identity": "ourolabs-market-r4.service",
+  "original_main_loop_tunnel_stock_customer_code_reused": true,
+  "new_unit_timer_loop_created": false,
+  "actual_main_run_registration_Model_or_POST_calls": 0,
+  "task_or_URL_migration_guaranteed": false,
+  "requires_explicit_user_main_restart_approval": true,
+  "inherited_service_Environment_and_PATH_unchanged": true,
+  "actual4_credential_and_pattern_scan_matches": 0
+}

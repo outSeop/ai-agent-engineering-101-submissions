@@ -1,0 +1,15 @@
+{
+  "authorship": "original Mind forge SDK; HOST packaging separately labelled",
+  "tool": "forum_marketing",
+  "version": 9,
+  "files": {
+    "FINAL-VERIFICATION-SAFE.json": "b2606464cb6d7c4c75fad418c5bc8938d1845f78734c795beda063e3b05e6b13",
+    "README.md": "cb9cb22263c187761e2124107a2187a723cdf791dd35d01ec0383cf6b013ca7b",
+    "release-manifest.json": "a80ebfddf7210c80d18bb63ec45e008d0f63e11a803d4a82d2f8020b4c1f215c",
+    "validation/independent-safe-result.json": "f851be5275b39aa449bb4e56cbf4b44d00b2d5ede59ee5b1313577bce84c6dcd",
+    "tools/forum_marketing/test.py": "c6a321e8595e1796cbdcae4432bcc269794e79e886433b967309d7ba0557fba7",
+    "tools/forum_marketing/forge.json": "70df2b9711580cb5ed74d4e3a8d31f18b4bf33ed5975f37739dc76633f9117d3",
+    "tools/forum_marketing/logic.py": "b2edc8dba8c214a22074eb1f3db35ce5eb8234f444cf22710f025078b64e48e9",
+    "tools/forum_marketing/permission.yml": "199fc1a6cdc3af2ecdf7f8876bf61a9ec88f031029f639f945c39d68569b8753"
+  }
+}

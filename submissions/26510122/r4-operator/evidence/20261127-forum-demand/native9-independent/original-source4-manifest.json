@@ -1,0 +1,22 @@
+{
+  "source4_sha256": {
+    "logic.py": "b2edc8dba8c214a22074eb1f3db35ce5eb8234f444cf22710f025078b64e48e9",
+    "test.py": "c6a321e8595e1796cbdcae4432bcc269794e79e886433b967309d7ba0557fba7",
+    "permission.yml": "199fc1a6cdc3af2ecdf7f8876bf61a9ec88f031029f639f945c39d68569b8753",
+    "forge.json": "70df2b9711580cb5ed74d4e3a8d31f18b4bf33ed5975f37739dc76633f9117d3"
+  },
+  "official_forge_manifest_matches": true,
+  "source_logic_unchanged": true,
+  "original_parent_sha256": "c15424eacded61da86e9f27303b16a705287cecf81c5254a2da5360db3ee9b48",
+  "original_source_path": "runtime/class-rebuild-forum-marketing-20261127/tools/forum_marketing",
+  "permission": {
+    "network": "market",
+    "write": [
+      "state/r4-benefits"
+    ],
+    "identity": "shop",
+    "timeout_seconds": 40,
+    "pay": false
+  },
+  "activation_distinction": "Root separately applied source9; this independent QA did not change production."
+}

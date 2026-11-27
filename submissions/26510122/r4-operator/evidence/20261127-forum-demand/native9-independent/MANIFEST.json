@@ -1,0 +1,35 @@
+{
+  "schema": "forum-demand-native9-independent-public.v1",
+  "passed": 12,
+  "total": 12,
+  "SDK_test_ok": true,
+  "source4_sha256": {
+    "logic.py": "b2edc8dba8c214a22074eb1f3db35ce5eb8234f444cf22710f025078b64e48e9",
+    "test.py": "c6a321e8595e1796cbdcae4432bcc269794e79e886433b967309d7ba0557fba7",
+    "permission.yml": "199fc1a6cdc3af2ecdf7f8876bf61a9ec88f031029f639f945c39d68569b8753",
+    "forge.json": "70df2b9711580cb5ed74d4e3a8d31f18b4bf33ed5975f37739dc76633f9117d3"
+  },
+  "official_forge_manifest_matches": true,
+  "external_adapter_only": true,
+  "copied_original_byte_identity": {
+    "forum_v9_external_test.py": "e9eb9b4b41a2799222b8f3769ebe2d290c1c702208479626454a29af2bf63ef9",
+    "run_forum_v9_independent.py": "79049a8ed350f4d31daffba88399a2889f6065b332c4f4a4bc2fb5600ef8946c",
+    "forum_external_contract.py": "d415de03080dc8d8966218d6cba51a3e0791890823920b595edcb37ebe46564f"
+  },
+  "secret_scan": {
+    "exact_local_credentials_checked": 4,
+    "exact_matches": 0,
+    "pattern_matches": 0,
+    "exceptions": 0,
+    "credential_values_printed_copied_or_hashed": false
+  },
+  "actual_Model_API_POST_finance_production_changes_by_QA": 0,
+  "files": {
+    "forum_v9_external_test.py": "e9eb9b4b41a2799222b8f3769ebe2d290c1c702208479626454a29af2bf63ef9",
+    "run_forum_v9_independent.py": "79049a8ed350f4d31daffba88399a2889f6065b332c4f4a4bc2fb5600ef8946c",
+    "forum_external_contract.py": "d415de03080dc8d8966218d6cba51a3e0791890823920b595edcb37ebe46564f",
+    "safe-result.json": "f851be5275b39aa449bb4e56cbf4b44d00b2d5ede59ee5b1313577bce84c6dcd",
+    "original-source4-manifest.json": "5119f8f1137a663210d4727b4d07f83b8163245c150540530a881c2e221fa677",
+    "README.md": "6a0c6b2a412509163675ef931e4f3f0038856b12082547df685da89ea288a820"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "version": 9,
+  "installed_production": false,
+  "sdk_selftest_passed": true,
+  "safe_source_scan_passed": true,
+  "independent_final_qa_pending": true,
+  "file_sha256": {
+    "logic.py": "b2edc8dba8c214a22074eb1f3db35ce5eb8234f444cf22710f025078b64e48e9",
+    "test.py": "c6a321e8595e1796cbdcae4432bcc269794e79e886433b967309d7ba0557fba7",
+    "forge.json": "70df2b9711580cb5ed74d4e3a8d31f18b4bf33ed5975f37739dc76633f9117d3",
+    "permission.yml": "199fc1a6cdc3af2ecdf7f8876bf61a9ec88f031029f639f945c39d68569b8753"
+  },
+  "original_model": {
+    "provider": "codex-cli-gpt-6.2-sol",
+    "response_sha256": "ffb062a09c031291a3a909e0c09689d9db352bdbcdb02cf6cb54edf6bcf68c50"
+  },
+  "raw_logs_exported": false,
+  "original_parent_repo_relative": "round-4/codex-r4/forum.py",
+  "original_parent_sha256": "c15424eacded61da86e9f27303b16a705287cecf81c5254a2da5360db3ee9b48",
+  "native_logic_delta_from_sdk_v8": "restore configured spotlight minimum; no change to same-SKU throttle or other source",
+  "permission_semantics_unchanged": true,
+  "official_sdk_attempts": [
+    {
+      "ts": 1795780543,
+      "version": 6,
+      "passed": false
+    },
+    {
+      "ts": 1795780728,
+      "version": 6,
+      "passed": true
+    },
+    {
+      "ts": 1795781379,
+      "version": 7,
+      "passed": false
+    },
+    {
+      "ts": 1795781936,
+      "version": 7,
+      "passed": true
+    },
+    {
+      "ts": 1795782555,
+      "version": 8,
+      "passed": true
+    },
+    {
+      "ts": 1795784462,
+      "version": 9,
+      "passed": true
+    }
+  ]
+}

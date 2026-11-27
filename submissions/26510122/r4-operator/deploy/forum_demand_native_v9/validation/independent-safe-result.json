@@ -1,0 +1,150 @@
+{
+  "passed": 12,
+  "total": 12,
+  "cases": [
+    {
+      "case": "latest-partial-retains-verified-row",
+      "passed": true
+    },
+    {
+      "case": "6h-forward-buried-row",
+      "passed": true
+    },
+    {
+      "case": "owned-policy-security",
+      "passed": true
+    },
+    {
+      "case": "exact-award-schema-including-known-alternate",
+      "passed": true
+    },
+    {
+      "case": "matcher-hard-boundaries",
+      "passed": true
+    },
+    {
+      "case": "real-base-global-budget-copy",
+      "passed": true
+    },
+    {
+      "case": "slate-history-readonly-shape",
+      "passed": true
+    },
+    {
+      "case": "atomic-concurrent-publication",
+      "passed": true
+    },
+    {
+      "case": "unknown-reconcile-own-shop-visible",
+      "passed": true
+    },
+    {
+      "case": "final-thread-and-stock-revalidation",
+      "passed": true
+    },
+    {
+      "case": "duplicate-and-no-model-copy",
+      "passed": true
+    },
+    {
+      "case": "original-spotlight600-and-perSKU3600-boundaries",
+      "passed": true
+    }
+  ],
+  "facts": {
+    "dense_all_recent": {
+      "verified_latest_buyer_retained": true,
+      "GET_calls": 8,
+      "old_hold_direction_revised_by_parent": true
+    },
+    "buried_6h": {
+      "buyer_found": true,
+      "GET_calls": 12
+    },
+    "policy_mismatch": {
+      "world_writable_policy_native_accepts": false,
+      "core4_accepts": false,
+      "fake_POST_count": 1,
+      "extra5_claimed": false
+    },
+    "schema_mismatch": {
+      "native_spend_zero": false,
+      "core4_schema_incompatible": true,
+      "fake_POST_count": 1,
+      "extra5_claimed": false
+    },
+    "known_alternate_schema": {
+      "core4_incompatible": true,
+      "candidate_spend_zero": false,
+      "extra5_claimed": false,
+      "synthetic_only_no_actual_alternate_table_asserted": true
+    },
+    "matcher": {
+      "positive_count": 3,
+      "negative_count": 14,
+      "won_legacy_budget_supported": false,
+      "won_limitation": "Conservative new matcher does not accept original parent won-budget syntax; no false matching or POST claimed."
+    },
+    "bonus_basis": {
+      "real_grade_base_used": true,
+      "old_global_grants_counted": true,
+      "text_semantics_checked": true,
+      "identity_from_ephemeral_fixture": true
+    },
+    "slate": {
+      "REAL_created_history_retained": true,
+      "native2_exact_history_keys": true,
+      "read_only_DB_bytes_unchanged": true,
+      "private_fields_projected_out": true
+    },
+    "atomic": {
+      "simultaneous_calls": 2,
+      "fake_POST_count": 1,
+      "posted_count": 1
+    },
+    "unknown": {
+      "repost_count": 0,
+      "imposter_rejected": true,
+      "own_shop_GET_visible_after_buyer_window_override": true,
+      "exact_reconcile_restored": true
+    },
+    "fresh": {
+      "selected_thread_changed_before_send_rejected": true,
+      "current_grade_change_rejected": true,
+      "fake_POST_count": 0
+    },
+    "duplicate": {
+      "unchanged_offer_not_reposted": true,
+      "model_supplied_copy_rejected": true,
+      "original_global_gap_and_ledger_used": true
+    },
+    "spotlight_601": {
+      "different_SKU_posted": true,
+      "same_SKU_under3600_blocked": true,
+      "fake_POST_total": 2,
+      "original_600_seconds_interval": true
+    },
+    "spotlight_599": {
+      "different_SKU_held": true,
+      "fake_POST_total": 1
+    }
+  },
+  "source_logic_sha256": "b2edc8dba8c214a22074eb1f3db35ce5eb8234f444cf22710f025078b64e48e9",
+  "official_SDK_test_mode": true,
+  "testing_flag_not_assigned": true,
+  "source_business_unchanged": true,
+  "full_original_ForumFixture": true,
+  "mock_transport_only_limit1_added": true,
+  "all_POSTs_are_original_fake_ForumFixture": true,
+  "actual_Model_API_public_POST_finance_or_production_changes": 0,
+  "coverage_requirement_context": "Parent corrected incomplete-window instruction: verified latest individual rows allowed; no complete6h claim.",
+  "runtime_scope": "New context/matcher/slate staging-only in proposed publisher hot-swap; cached old coordinator context remains legacy.",
+  "source4_sha256": {
+    "logic.py": "b2edc8dba8c214a22074eb1f3db35ce5eb8234f444cf22710f025078b64e48e9",
+    "test.py": "c6a321e8595e1796cbdcae4432bcc269794e79e886433b967309d7ba0557fba7",
+    "permission.yml": "199fc1a6cdc3af2ecdf7f8876bf61a9ec88f031029f639f945c39d68569b8753",
+    "forge.json": "70df2b9711580cb5ed74d4e3a8d31f18b4bf33ed5975f37739dc76633f9117d3"
+  },
+  "SDK_test_ok": true,
+  "external_adapter_scope": "Test-only fixture/result write paths; unchanged genuine4/forge/index, no actual signer cap; offline namespace."
+}

@@ -1,0 +1,9 @@
+{
+  "files": {
+    "README.md": "98473dbd95bc071f41c1f6cffa979ab7fb5bd5202549294f15c29c39ecd84ea3",
+    "DERIVED-SOURCE9-SAFE.json": "0fa671017fb42157bd97c891e8057782b394ba61f4231e24e73a2175050332c0",
+    "original-coupling-safe.json": "23270a103d85ebef7eab9e3ab4dbe851b6a33a00ce4cc642d40cbe3bde255d26"
+  },
+  "actual_Model_or_POST_calls_this_update": 0,
+  "actual4_scan_matches": 0
+}

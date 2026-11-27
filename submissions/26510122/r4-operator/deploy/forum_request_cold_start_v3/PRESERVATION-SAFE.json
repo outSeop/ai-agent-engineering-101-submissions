@@ -1,0 +1,12 @@
+{
+  "at": 1795783474.7161815,
+  "same_original_mainPID": true,
+  "main_active": true,
+  "NRestarts": 0,
+  "same_original_CF_PID_present": true,
+  "parent_hot_swapped_only_publisher8_already": "separate parent action, not cold2 activation",
+  "cold2_service_or_network_or_URL_or_taskstore_changes": 0,
+  "new_loop_or_daemon_created": false,
+  "service_Environment_and_PATH_reset": false,
+  "environment_values_exported": false
+}

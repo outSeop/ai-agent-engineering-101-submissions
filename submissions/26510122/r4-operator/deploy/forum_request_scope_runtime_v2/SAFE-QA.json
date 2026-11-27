@@ -1,0 +1,19 @@
+{
+  "scope_contract": "genuine8 producer → genuine3 readonly layout → original validate_scope/ScopedExecutor → original BackgroundTick/Mind",
+  "mixed_synthetic_original": "G159be1f8 A등급 10,000크레딧 이하 구해요.",
+  "source_verified_reply_options": 1,
+  "formatter3_reply_options": 1,
+  "spotlight_allowed": false,
+  "mixed_coupling_result": "forum8-formatter3-admission/run-1795783008221327372/safe-result.json",
+  "actual_class_result": "runtime/forum-class-canary-1795783158000607817/safe-result.json",
+  "actual_class_market_calls": 1,
+  "actual_class_seconds": 19.811327499104664,
+  "synthetic_scheduler_terminal_calls": 1,
+  "reply_selected": true,
+  "actual_POST_pay_or_real_key_creation": 0,
+  "canary_marker_in_PROD_logs": 0,
+  "native_source_originals_modified": false,
+  "connected_to_running_main": false,
+  "prior_source2_mixed_failure_retained": true,
+  "old_20_tests_not_repeated_or_relabelled_as_new3_QA": true
+}

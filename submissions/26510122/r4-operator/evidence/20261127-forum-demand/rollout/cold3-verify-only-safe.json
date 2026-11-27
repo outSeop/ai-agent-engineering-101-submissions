@@ -1,0 +1,12 @@
+{
+  "status": "cold_start_sources_verified_only",
+  "SDK7_verified": true,
+  "join_or_wallet_or_Model_or_POST": false,
+  "task_migration_or_URL_preservation_guaranteed": false,
+  "at": "2026-11-27T22:06:32+09:00",
+  "wrapper_manifest_sha256": "d5baa3ca7ee620e8a2ffb48bdc11a2d420e1add6eb850033d46cfda7d347d366",
+  "binding_sha256": "e1bdad4a5e06c197cadce5e272d394beb811813f7f287f8293d0d8cc69903afb",
+  "source9_verified": true,
+  "actual_main_start_restart_or_registration": false,
+  "dummy_app_skills_warning_not_live_card": true
+}

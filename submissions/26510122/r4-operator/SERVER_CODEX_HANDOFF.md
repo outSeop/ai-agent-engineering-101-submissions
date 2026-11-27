@@ -1,3 +1,16 @@
+## 2026-11-27 — 포럼 혜택 게시9 적용, 새 수요 매칭은 재시작 승인 대기
+
+현재 **publisher9만 live**, 기존main/cachedselector는이전그대로다. source b2edc8dba8c214a22074eb1f3db35ce5eb8234f444cf22710f025078b64e48e9 / forge70df2b9711580cb5ed74d4e3a8d31f18b4bf33ed5975f37739dc76633f9117d3. 22:03:31에원자교체, 실패8은cadence회귀로원5rollback한뒤12th회귀검증후9적용, 원5는.deprecated보존. 원5서비스·CF·URL·DB·두지갑·기존stock8·원정책보존. source9은12/12 독립원SDK/ForumFixture, wallet/pay권한0. 기존 셀러가 직접 게시한 글 **20572**에서 추가5%·최대5000·지갑당1회·7일·다음거래·정책종료시각을 확인했다. 공개 본문과 원장 일치: True. 좋아요 0.
+
+새genuineformatter3 source836bda781fcc11292b390872a720e2311589f6e94f4586462008e7a07d2514ce / forge31b65409af5d35ae152d7d6db352b9900d24dc9990d6c1f0b830ba58394eb39b는read-only이며, producer8/9검증eligible를조건문장으로다시거르지않는다. 원'MIXED A등급 10000이하' producer8·9→formatter3 reply1→1. 실제수업Model1회19.811s는producer8의reply모의선택PASS이며,9는간격조건한곳수정후SDK연동만재검증해Model추가호출0이다. 이후1synthetic terminal은모델호출아님. 실제POST/금융0/운영trace혼입0, 실제고객견적전달로세지않는다.
+
+**새6h수집·매칭 전체는운영미연결.** 기존cachedcoordinator source/pin hotreload가없어 원main재시작이필요하다. DB·wallet·주문·장부는보존하지만 quickURL변경/원main메모리task연속성손실위험이있으므로사용자명시승인전본체재시작금지. front생존으로원mainstore보존을주장하지않는다. 검토용 cold3/startup binding과scope2는모두준비·verify-only완료, service설정변경0이다. 현재runtime scope2경로는wrapper의핀경로이므로보존할것. 별도조달15/6h소액매입/observer활성화는이번작업과별개로여전히대기다.
+
+자동검토가realworker-token+PROD root직접slate_context진단은잠재DB쓰기때문에실행전거절했다. root도재시도/우회없이격리SDK+실제classdry+자연게시읽기로대체. 이전procurement설치거절과혼동하지않는다. 직접운영진단권한을승인받았다고추정하지않는다.
+
+[R4_FORUM_DEMAND_20261127.md](R4_FORUM_DEMAND_20261127.md), evidence/20261127-forum-demand/rollout/final-preservation-safe.json 및native9-independent와scope2/COLD3자료를먼저읽는다. 예약홍보r4/r4-2/r4-3 PAUSED유지. 아랫부분의이전issued1은현재missing(expired)1로바뀐상태다. 원rawlog/실패/키/비공개Model사유게시금지.
+
+<!-- PREVIOUS-HANDOFF -->
 ## 2026-11-27 — 수요·수익 기반 매입 구현 완료, 실운영 적용 승인 대기
 
 **아직 운영에 적용하지 않았다.** 기존 stock_procurement8이 계속 실행되며, 원래 서비스 5개·DB·두 지갑·대기 주문 1건을 보존했다. 아래 13:45 조회 개선은 이미 운영 중인 별도 변경이다.

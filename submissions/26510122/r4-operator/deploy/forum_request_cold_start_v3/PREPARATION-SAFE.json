@@ -1,0 +1,10 @@
+{
+  "status": "cold-wrapper2-final-pins-prepared-not-installed",
+  "prior_frozen_scope1_and_cold1_unchanged": true,
+  "formatter3_exact4_populated": true,
+  "producer8_exact4_populated": true,
+  "formatter_deploy_target": "OP/deploy/forum_demand_formatter_v3/tools/prioritize_forum_candidates",
+  "actual_main_or_Model_or_POST_calls_by_wrapper": 0,
+  "new_loop_or_service_created": false,
+  "task_or_URL_migration_proven": false
+}

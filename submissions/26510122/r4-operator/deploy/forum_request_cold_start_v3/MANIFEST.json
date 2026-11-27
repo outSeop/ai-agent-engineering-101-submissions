@@ -1,0 +1,33 @@
+{
+  "files": {
+    "cold_start_marketing_wrapper.py": "8fbca54c760fe6fdd30d0978f3fd5629cdc5bf7b464803dc56dd7d97efe2fd3d",
+    "test_cold_start_marketing_wrapper.py": "f224b8ee9574dedb1002b827d93fd3ede9e6e1a94e968fdc8932f81074a8c369",
+    "SAFE-QA.json": "72e29ab4b631449cfdac29db08f97e228fb6ccfbc07728819b983714c31fcb59",
+    "marketing-binding.json.template": "e1bdad4a5e06c197cadce5e272d394beb811813f7f287f8293d0d8cc69903afb",
+    "existing-main-ExecStart.conf.template": "ba2a202b41879dca318a72aa2844c114d463076aa94214e9c241a69a5903aaa8",
+    "README.md": "02036a39e13bf1aa684c28d632fd8428175a77d6cca1a6084abcd180e1a1a465",
+    "PREPARATION-SAFE.json": "9040f469b1f61e15ab3b71cbd2546e870dcae2580799daf7175d8fecbf2ffad4",
+    "PRESERVATION-SAFE.json": "390c639ee4e57e3600d8f0bc7ec62e54a3edcab9c19f887273de289cc51a0edf"
+  },
+  "baseline_cold2_manifest_sha256": "b477d7e0c409719df82b76a7d77508853041418d16126fde6bb44a9568699a7f",
+  "code_bytes_unchanged_from_cold2": true,
+  "only_changed_baseline_file": "marketing-binding.json.template",
+  "source_version": 9,
+  "source_exact4": {
+    "logic.py": "b2edc8dba8c214a22074eb1f3db35ce5eb8234f444cf22710f025078b64e48e9",
+    "test.py": "c6a321e8595e1796cbdcae4432bcc269794e79e886433b967309d7ba0557fba7",
+    "permission.yml": "199fc1a6cdc3af2ecdf7f8876bf61a9ec88f031029f639f945c39d68569b8753",
+    "forge.json": "70df2b9711580cb5ed74d4e3a8d31f18b4bf33ed5975f37739dc76633f9117d3"
+  },
+  "formatter3_exact4_unchanged": true,
+  "scope2_manifest_sha256": "dde805dbc592e7323a22e5790c1553282bdacc3741c6202c891431cf0095eb21",
+  "prior_class_canary_tested_source8_only": true,
+  "no_actual_class_rerun": true,
+  "inherited_README_QA_preservation_files_are_historical_baseline8": true,
+  "current_source9_evidence": "../source9-final-admission/DERIVED-SOURCE9-SAFE.json",
+  "not_installed": true,
+  "new_loop_unit_or_service_CREATED": false,
+  "requires_explicit_main_restart_approval": true,
+  "URL_or_old_main_task_continuity_guaranteed": false,
+  "actual4credential_and_pattern_scan_matches": 0
+}

@@ -1,0 +1,7 @@
+{
+  "tests": 4,
+  "failures": 0,
+  "errors": 0,
+  "actual_Model_or_business_calls": 0,
+  "change_after_class_canary": "Added fixed exact3 pin constant/guard only; same actual business+formatter4 and input code unchanged; no extra class call"
+}
