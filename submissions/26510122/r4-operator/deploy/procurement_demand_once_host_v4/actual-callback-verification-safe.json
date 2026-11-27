@@ -1,0 +1,17 @@
+{
+  "source_version": 3,
+  "genuine_exact4": {
+    "logic.py": "4cba0221079a08381e85cd302371e822e27a523176812359c770502cdd0e9eea",
+    "permission.yml": "9bee8f975d148878e00ff05b10cf9901672357121796cda6d556aec4c5542ebe",
+    "test.py": "2fea07902bb9350fc4221d848b83e0aa2989e83e7d83967e8e814cd8eff5f832",
+    "forge.json": "33869f2d37cecf9e0c45caecbc88cdd80f6841161fae3447620a60f4b4e10b54"
+  },
+  "SDK7_real_verification": true,
+  "actual_narrow_file_permission_accepted": true,
+  "callback_constructed": true,
+  "recorder_invocations": 0,
+  "wallet_or_Signer_created": false,
+  "native_DB_created": false,
+  "temporary_root_only": true,
+  "production_trace_writes": 0
+}

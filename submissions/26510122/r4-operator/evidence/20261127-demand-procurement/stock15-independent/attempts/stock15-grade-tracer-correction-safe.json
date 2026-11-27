@@ -1,0 +1,6 @@
+{
+  "first_failure": "Tracer matched all SKU P10=6000, including unrelated gradeB reference37500, before positive candidate setup. Native target4300 was correctly rejected already.",
+  "correction": "Limit observation to actual OTHER target SKU via genuine caller locals; assert same price and grade_reference in candidates/quote/charge. No source or financial expectation changed.",
+  "original_validator_sha256": "2be2c29764bfd545841ad0b7f3195da7e8ef59534ded8e57f15c3be5a58a361b",
+  "corrected_validator_sha256": "0dfdfd5d783b9454e036a6e6e4a8cf3420b0cc2e147a8cec9a40809ea09428da"
+}

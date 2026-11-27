@@ -1,0 +1,38 @@
+{
+  "status": "class_basket_validated",
+  "Model_calls": 1,
+  "model_seconds": 13.255131242098287,
+  "actual_operating_Model_base": "market",
+  "development_proxy_env_removed": true,
+  "genuine_version": 15,
+  "public_choice_count": 1,
+  "original_public_projection_used": true,
+  "fully_synthetic_private_finance_fixture": true,
+  "raw_finance_customer_identity_in_Model_input": false,
+  "native_plan_state": "ready",
+  "decision_action": "buy",
+  "actual_execute_or_pay": 0,
+  "wallet_Signer_created": false,
+  "production_DB_trace_service_changes": 0,
+  "SDK_fixture_mode_not_live_financial_flow": true,
+  "native_exact4": {
+    "logic.py": "e479504a2d639ac020d84d32a78ecf960bab182d3c8a5a4362950b83d6542d7c",
+    "permission.yml": "c50258fb27134646deb28fa9b0af75de228f114906f28a996f28fce93224b21a",
+    "test.py": "06c5f1109f1b53493002a40361bdee3c173ede332b0fa9e35f6e1c80aca22422",
+    "forge.json": "a031d81c045b2de39d48c82fdce7fd5eface083b0d9c35ba72f92ae54f604dcf"
+  },
+  "release_manifest_sha256": "46c7128c893309a9e58fd3955956931d4291af1f86149e0ca32179991cb72d80",
+  "actual_loop": "Unmodified StockCoordinator.tick + original SDK Model.complete with original WORLD prefix; not Mind.run_once",
+  "native_call_mode": "Official SDK Kit testing context with genuine source World fixture; no live procurement invocation",
+  "driver_sha256": "4e5b1c851d92fe1a0df27a14ecd0ebff46b0b780a0bddc60b7fe71613dd94fda",
+  "prior_argument_failure": {
+    "stage": "session_name_prefix_before_source_or_Model",
+    "Model_calls": 0,
+    "files_created": 0
+  },
+  "selected_lines_count": 1,
+  "all_selected_quantities_one": true,
+  "selected_SKUs_offered_by_native": true,
+  "original_prompts_responses_reasoning_exported": false,
+  "actual_live_procurement_proven": false
+}

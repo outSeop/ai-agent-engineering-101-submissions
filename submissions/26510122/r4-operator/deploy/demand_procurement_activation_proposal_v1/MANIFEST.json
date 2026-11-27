@@ -1,0 +1,9 @@
+{
+  "type": "HOST activation proposal, not business tool",
+  "status": "awaiting explicit user approval",
+  "files": {
+    "install_request_existing_timer.py": "ec49d9c21d7ab5e24b334c25a85615fd516aa05107e4b56add507fe8579d3a19",
+    "install_profitable_stock15.py": "97f7deb776cf80be4ec4dd0e92aa1912f69d2f20b989cd77c34114766044752f",
+    "README.md": "ae7d0ebcc0c860faa5f563733e6d3ce8d60e055db2135bcda83f24e439f4cfb8"
+  }
+}

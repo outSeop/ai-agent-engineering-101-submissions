@@ -1,0 +1,13 @@
+name: stock_procurement
+description: V15 procurement. Actions: context {line_cap?}, plan {plan,decision}, execute, reconcile. Uses the pinned public parent, public settlement comparables, optional recorder priority, and an owned campaign policy at host_inputs/stock-campaign-policy.json. Draft responses contain the public model projection.
+permission:
+  network: [market.ourolabs.ai, rpc-testnet.maroo.io]
+  write: [state/r4-benefits]
+  identity: [shop]
+  wallet: [pay]
+  pay_limit: 1000000
+  timeout: 155
+logic: logic.py
+test: test.py
+version: 15
+replaces: stock_procurement@14

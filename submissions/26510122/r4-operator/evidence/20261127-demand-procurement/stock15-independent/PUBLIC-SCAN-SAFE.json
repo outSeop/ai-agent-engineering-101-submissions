@@ -1,0 +1,13 @@
+{
+  "scan_passed": true,
+  "actual_credential_needles_checked": 4,
+  "actual_credential_values_or_hashes_output_or_copied": false,
+  "exact_credential_file_hits": 0,
+  "pattern_file_hits": {
+    "PEM_private_header": 0,
+    "long_API_PAT": 0,
+    "JWT3": 0
+  },
+  "exceptions": [],
+  "scope": "Selected source/test/safe metadata bytes only; no raw Model/customer/DB/private console selected."
+}

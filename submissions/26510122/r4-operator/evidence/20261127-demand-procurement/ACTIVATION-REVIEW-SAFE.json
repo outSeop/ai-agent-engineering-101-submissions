@@ -1,0 +1,23 @@
+{
+  "status": "not_activated",
+  "rejections": [
+    {
+      "action": "new standalone request observer service",
+      "result": "rejected before dispatch",
+      "production_changes": 0
+    },
+    {
+      "action": "existing cache timer one-shot posthook APPLY",
+      "result": "rejected before dispatch: explicit live APPLY approval required",
+      "production_changes": 0
+    },
+    {
+      "action": "stock15 installer without APPLY flag",
+      "result": "rejected before dispatch because installer also contains live tool replacement and financial campaign activation",
+      "production_changes": 0
+    }
+  ],
+  "further_installer_execution_attempts": 0,
+  "remaining_step": "explicit user approval before any live activation",
+  "unaffected_work_completed": "native tools, source tests, independent QA, actual classroom one-call temp-plan canary, deploy packages, static syntax checks and preservation snapshot"
+}

@@ -1,0 +1,28 @@
+{
+  "sha256": {
+    "tools/stock_procurement/logic.py": "e479504a2d639ac020d84d32a78ecf960bab182d3c8a5a4362950b83d6542d7c",
+    "tools/stock_procurement/test.py": "06c5f1109f1b53493002a40361bdee3c173ede332b0fa9e35f6e1c80aca22422",
+    "tools/stock_procurement/permission.yml": "c50258fb27134646deb28fa9b0af75de228f114906f28a996f28fce93224b21a",
+    "tools/stock_procurement/forge.json": "a031d81c045b2de39d48c82fdce7fd5eface083b0d9c35ba72f92ae54f604dcf",
+    "host_inputs/legacy-stock8.py": "675bdaa2942f7bdf3d119d10c6e1176f790ae0bacbb22a32cf77ae82de0628c6",
+    "codex-r4/dispatcher.py": "84e0eca3a0211e80772ed78f2ba3c166902ba0125577e7153b06cc5bb13de0cd",
+    "codex-r4/price_policy.py": "6e101702c38d47b3f2c68c860dc0198fd1d7557e311c2753dc4a71fed127118f"
+  },
+  "validation_files": {
+    "stock15-grade-basis-fixed-safe.log": "91dad35a35919d0ce389af14fa2efee61544a33c12355c67cf55ea1379639f87",
+    "stock15-raw-feed-safe.json": "4bab65e39334a75837ba3a8b21c0fe155c95df05b51e8a6edb9aff32c946c6db",
+    "recorder4-stock15-coupling-safe.log": "c2e2d0e8b70f96afe6339cee2940eaae107bea86491dacf5daf69e839914c20f",
+    "stock15-final-projection-safe.json": "149a5a621ec25f755750aab7e1b437f3f6c96e9bc67440a2d6809122794cc7db",
+    "safe-forge-receipts.json": "04847d4c7b1f721245d81bf82080baa02851beec355cdf504fcd003afd37b9be"
+  },
+  "operation_enabled": false,
+  "independent_finance_qa_pending": true,
+  "policy_path": "host_inputs/stock-campaign-policy.json",
+  "source_admission": "exact files passed four credential and pattern scans",
+  "official_selftest_passed": true,
+  "independent_projection_passed": true,
+  "raw_feed_fixture_passed": true,
+  "genuine_recorder4_coupling_passed": true,
+  "grade_reference_regression_passed": true,
+  "original_parent_authorship": "earlier external stock8; exact pinned dependency"
+}

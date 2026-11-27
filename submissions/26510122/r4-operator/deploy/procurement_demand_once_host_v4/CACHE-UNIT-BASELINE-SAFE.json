@@ -1,0 +1,14 @@
+{
+  "unit": "ourolabs-market-r4-customer-context.service",
+  "type": "oneshot",
+  "triggered_by": "ourolabs-market-r4-customer-context.timer",
+  "original_ExecStart_sha256": "56dac26b2001a9994d6c98b1fb326885c69391a57febbd658080c2e64bae179e",
+  "original_ExecStartPost_present": false,
+  "original_TimeoutStartSec": 30,
+  "proposed_aggregate_TimeoutStartSec": 55,
+  "post_wall_limit_seconds": 20,
+  "post_kill_grace_seconds": 1,
+  "existing_ExecStart_cleared_or_replaced": false,
+  "new_unit_or_timer": false,
+  "active_unit_changed_by_auditor": false
+}

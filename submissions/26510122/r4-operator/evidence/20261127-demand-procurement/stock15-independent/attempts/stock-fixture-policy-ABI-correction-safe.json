@@ -1,0 +1,6 @@
+{
+  "root_cause": "S14 moved policy input to host_inputs; independent harness retained S13 state path. Fixture.add_unit omits real API kind/category, causing missing carrying reserve release.",
+  "correction": "Use exact native POLICY path and real goods-kind/category fields in synthetic existing-owned API unit. Actual parent quality and full Fixture remain, no native algorithm override.",
+  "first_scope_failure_preserved": true,
+  "new_test_sha256": "066bd4187b9b4cfe1ff479061a56ad41fc01dc93ba86aaa3113c2f63486a8cb6"
+}

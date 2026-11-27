@@ -1,0 +1,10 @@
+name: record_stock_request
+description: Record a positive stock or price inquiry or nonfinancial product interest from a completed external event. Accepts op='record', text, event_ref, observed_at, source='external_completed', and optional product_phrase, queries, explicit_sku. Returns only status and count.
+permission:
+  write: [state/r4-demand/requests.sqlite3]
+  pay_limit: 0
+  timeout: 20
+logic: logic.py
+test: test.py
+version: 4
+replaces: record_stock_request@3

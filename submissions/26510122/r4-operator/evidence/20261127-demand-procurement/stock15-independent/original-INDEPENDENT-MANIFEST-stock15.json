@@ -1,0 +1,34 @@
+{
+  "schema": "outseop-r4.independent-qa-files.v1",
+  "status": "stock15-staged-independent9of9",
+  "source4_sha256": {
+    "stock_procurement": {
+      "logic.py": "e479504a2d639ac020d84d32a78ecf960bab182d3c8a5a4362950b83d6542d7c",
+      "test.py": "06c5f1109f1b53493002a40361bdee3c173ede332b0fa9e35f6e1c80aca22422",
+      "permission.yml": "c50258fb27134646deb28fa9b0af75de228f114906f28a996f28fce93224b21a",
+      "forge.json": "a031d81c045b2de39d48c82fdce7fd5eface083b0d9c35ba72f92ae54f604dcf"
+    },
+    "record_stock_request": {
+      "logic.py": "5f5190fcfd46064b48876fe211bb44c34b700aa84f9991507f605ff8ec46c64b",
+      "test.py": "4675a1089c2d666baaaae5d3f47ae9b78001cf54cc4f563ce0788442760a994e",
+      "permission.yml": "05d99965c03a322502b397cb75daa8d2657cc9522af5ddb17d5f8b4004e5a306",
+      "forge.json": "17efbe8ee7e91a02b021937c4ee24924c2ec51de2bfbc71dbe19eb11220a5bf0"
+    }
+  },
+  "file_sha256": {
+    "run_stock_campaign_independent.py": "551de87a49745b3a459581fc5de8c6f4d3463492f167e4dbe90c59bfcd5a7df0",
+    "stock13_external_sdk_test.py": "0dfdfd5d783b9454e036a6e6e4a8cf3420b0cc2e147a8cec9a40809ea09428da",
+    "stock12_external_contract.py": "5508f747bf05286e72634ce9638fba7ad0c1c568644fa6112f911ce30eb33f37",
+    "stock14_external_sdk_test_baseline8.py": "066bd4187b9b4cfe1ff479061a56ad41fc01dc93ba86aaa3113c2f63486a8cb6",
+    "stock15_external_sdk_test_first_grade_tracer.py": "2be2c29764bfd545841ad0b7f3195da7e8ef59534ded8e57f15c3be5a58a361b",
+    "stock15-grade-tracer-correction-safe.json": "968ea4c25924d660bbf4cb360ab669ed68994ae0a060c1ce89f512ef7798e06e",
+    "stock-fixture-policy-ABI-correction-safe.json": "6682a8f7c58fab076f4b6cbb6fb8306feaf94a1a687e845817c3d74066048546",
+    "stock-sdk-test-write-adapter-correction-safe.json": "0824d59bfc268eecda76545ba0497d86196ed3a52009d14d857cc2290ba62019",
+    "stock15-independent-final-clear/safe-result.json": "901148cdc010db25ba40438e1862d521117c249a87651d621e4276775cf31f60",
+    "stock15-final-safe-assessment.json": "44b5f0ad600ff8ecb7f314cafb2e3acce60075fc3b02385214d754aecc41f387",
+    "INDEPENDENT-MANIFEST-recorder4.json": "4336626cf21ee8abac773aac9c1fe09b098b5a13bb8ae7a79982d83302f928b8"
+  },
+  "actual_copied_adapter_test_sha256": "0dfdfd5d783b9454e036a6e6e4a8cf3420b0cc2e147a8cec9a40809ea09428da",
+  "actual_copied_adapter_permission_sha256": "fdd80e99624ca30f3b18897996a5b693d1b240beb7296de4674da13cbc5e354c",
+  "private_only_no_public_export_or_commit_by_QA": true
+}

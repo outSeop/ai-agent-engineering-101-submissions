@@ -1,0 +1,18 @@
+{
+  "files": {
+    "stock15-class-safe.json": "656febe474860052645bd0534d3374c85e2b0ca97fd7a19d1c0ca67fb47e8ed6",
+    "host4/source-MANIFEST.json": "5f6682139d791d4b475e85891460b5ff0a9285cd0b75a520ab7b62cb6ed95774",
+    "host4/SAFE-QA.json": "4592b795ce42b4857fc0593f2efaa7d6facfe1b680709bfcaa4585a15570ce88",
+    "host4/actual-callback-verification-safe.json": "5fe32874d22e3f3dc05f4a508b79c7338a4512c3e052732edf7be77f0504c08e",
+    "host4/actual-once-native4-safe.json": "551f548409f573d09fffdfe8ab5d589c35dbb588b13eaa5cf4d1d3fb7a710267",
+    "host4/actual-native4-ignored-safe.json": "29fbf51e2a7aa430420b27daf594479e1027003d3be1138cd0fdbf77b49a68ea",
+    "host4/CACHE-UNIT-BASELINE-SAFE.json": "dd4a7e195c9f7da46cdc96677eff9a46e263c830b59805dc27a851772e2cf5e0",
+    "README.md": "f3881da0cd3078f5d72a9d0d5eb9c3d6a86f7c09a6508bd2af19dd7e5881f6f6"
+  },
+  "actual_credential_files_checked": 4,
+  "before_after_actual_matches": 0,
+  "before_after_pattern_matches": 0,
+  "source_originals_modified": false,
+  "production_actions": 0,
+  "private_model_or_customer_material_exported": false
+}

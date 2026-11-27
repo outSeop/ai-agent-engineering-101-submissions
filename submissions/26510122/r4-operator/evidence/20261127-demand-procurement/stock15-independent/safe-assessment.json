@@ -1,0 +1,75 @@
+{
+  "schema": "outseop-r4.independent-stock15-assessment.v1",
+  "status": "independent-staged-QA-clear-not-production-approval",
+  "passed": 9,
+  "total": 9,
+  "stock15_source4_sha256": {
+    "logic.py": "e479504a2d639ac020d84d32a78ecf960bab182d3c8a5a4362950b83d6542d7c",
+    "test.py": "06c5f1109f1b53493002a40361bdee3c173ede332b0fa9e35f6e1c80aca22422",
+    "permission.yml": "c50258fb27134646deb28fa9b0af75de228f114906f28a996f28fce93224b21a",
+    "forge.json": "a031d81c045b2de39d48c82fdce7fd5eface083b0d9c35ba72f92ae54f604dcf"
+  },
+  "recorder4_source4_sha256": {
+    "logic.py": "5f5190fcfd46064b48876fe211bb44c34b700aa84f9991507f605ff8ec46c64b",
+    "test.py": "4675a1089c2d666baaaae5d3f47ae9b78001cf54cc4f563ce0788442760a994e",
+    "permission.yml": "05d99965c03a322502b397cb75daa8d2657cc9522af5ddb17d5f8b4004e5a306",
+    "forge.json": "17efbe8ee7e91a02b021937c4ee24924c2ec51de2bfbc71dbe19eb11220a5bf0"
+  },
+  "source_forge_linkage_verified": true,
+  "source4_unchanged_after_test": true,
+  "method": {
+    "official_SDK_test_mode": true,
+    "SDK_supplied_testing_flag_no_manual_assignment": true,
+    "external_test_adapter_separate_from_genuine_source4": true,
+    "external_test_only_write_extension": [
+      "independent-fixtures",
+      "independent-stock13-safe-result.json"
+    ],
+    "original_tool_permissions_and_forge_and_index_unchanged": true,
+    "original_full_StockFixture_and_exact_parent8": true,
+    "parent_quality_and_Market_used_no_TEST_WORLD_bypass": true,
+    "actual_Recorder4_ordinary_SDK_writes_same_synthetic_SQLite": true,
+    "real_recorder_calls": 3,
+    "no_confidence_enums_manually_seeded": true,
+    "offline_network_namespace_and_NoWallet_cap_none": true,
+    "all_financial_values_in_tests_synthetic_not_production": true
+  },
+  "critical_verified": {
+    "legacy_public_model_view_nonempty": true,
+    "actual_exact_and_weak_request_priority": true,
+    "actual_DB_hash_exclusions_no_rehash_and_newdraft_influence_removed": true,
+    "priority_is_soft_snapshot_not_financial_authority": true,
+    "existing_approved_priority_not_retroactively_rewritten": true,
+    "full_quote_old_debt_separate_from_new_risk_cap": true,
+    "cash_and_85percent_pass80percent_fail": true,
+    "risk_audit_durable_before_original_fake_wallet_call": true,
+    "legacy_approved8_financial_delegate_unchanged": true,
+    "grade_marker_food_life_and_stale_source_deny": true,
+    "policy_revoked_after_quote_before_send_deny": true,
+    "cumulative_risk_cap_durable": true,
+    "unknown_payment_same_quote_tx_recovery_no_repay": true,
+    "two_concurrent_executions_one_original_fake_pay": true,
+    "regular_welcome_wait7_refund5_food5_boundaries": true,
+    "grade_base12k_p10_6k_cost4300_deny3800_positive": true,
+    "candidate_quote_presend_charge_all_use_actual_grade_reference": true,
+    "prior_genuine14_overoptimistic_approval_rejected_at15_quote": true
+  },
+  "grade_basis_detail": {
+    "actual_grade_base": 12000,
+    "public_p10": 6000,
+    "cost4300_rejected": true,
+    "cost3800_actual_parent_fakepay_once": true,
+    "candidate_quote_charge_each_reference_actual_grade_base": true,
+    "genuine14_old_ceiling_4300_allowed_but_S15_quote_rejects": true
+  },
+  "preserved_attempts": [
+    "stock14-independent-baseline: external test result write scope setup error",
+    "stock14-independent-adapter2: test policy ABI/owned mock kind mismatch",
+    "stock14-scope-diagnostic: exact path/time localization",
+    "stock14-independent-correct-ABI: 8/8 baseline with known benefit-base issue still blocked",
+    "stock15-independent-final: 8/9 before target-SKU tracer correction"
+  ],
+  "test_only_corrections": "Owned test write paths, actual policy input path and API goods kind/category, and target-SKU-only tracer; original failures/source/test bytes retained, no native business patch.",
+  "actual_Model_API_wallet_transactions_customer_contacts_forum_or_production_changes": 0,
+  "scope": "Synthetic native financial/recorder coupling QA only. Parent actual-class test and explicit user production authorization are separate; no deployment or real purchase performed."
+}

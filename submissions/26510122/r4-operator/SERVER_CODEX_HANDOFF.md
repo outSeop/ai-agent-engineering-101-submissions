@@ -1,16 +1,36 @@
-## 2026-11-27 — 수요·수익 기반 매입/요청 기록 개발 중 (아직 운영 반영 전)
+## 2026-11-27 — 수요·수익 기반 매입 구현 완료, 실운영 적용 승인 대기
 
-사용자는 실제 팔리는 품목 중 남는 상품을 공격적으로 매입하고 실제 요청을 기록해 다음 매입에 반영하도록 승인했다. 현재 운영 stock_procurement는 여전히 genuine8(source675bdaa2942f7bdf3d119d10c6e1176f790ae0bacbb22a32cf77ae82de0628c6), 원5서비스/DB/두지갑/미정산1건 유지다. **아래13:45 운영 조회 개선과 이번 미배포 조달 변경을 혼동하지 않는다.**
+**아직 운영에 적용하지 않았다.** 기존 stock_procurement8이 계속 실행되며, 원래 서비스 5개·DB·두 지갑·대기 주문 1건을 보존했다. 아래 13:45 조회 개선은 이미 운영 중인 별도 변경이다.
 
-request recorder genuine4는 독립6/6·18 ordinarySDK 통과, deploy/request_feedback_native_v4(ownmanifest c64c8dcc8420942e70ef262b69f4965f5b1dbfcf228fd5ab6c19aca013482174, forge17efbe8ee7e91a02b021937c4ee24924c2ec51de2bfbc71dbe19eb11220a5bf0)에 고정했지만 production tools에는 아직 없다. 原문/개인정보 대신 canonicalSKU 또는 약한 공개term+해시+시각만 SQLite에 저장한다. state/r4-demand 빈0700디렉터리는호스트가준비하고 DB는genuine이생성한다. recorder1/2/3실패·stock9/10/12불완전과공식모델/forge기록은보존한다.
+완료한 변경:
+- genuine record_stock_request4: 독립 검증 6/6, 일반 SDK 18회. 원문과 고객 식별자 대신 SKU/약한 공개 검색어·해시·시각만 기록한다.
+- HOST4: 기존 캐시 타이머에 연결할 단발 처리기. 24/24 및 실제 SDK 콜백·SQLite·중복·ignored 처리를 검증했다. 추가 서비스·타이머·무한 루프는 없다.
+- genuine stock_procurement15: 독립 금융 검증 9/9. 최근 실제 정산·고객 요청을 후보 선정에 반영하고, 실제 등급 기준가의 최대 7% 혜택까지 비용에 넣는다.
+- 실제 수업 market 모델 1회/13.255초: 원 StockCoordinator/public_model_view → 후보 1개 선택 → genuine15 임시 ready 계획(qty1). 합성 금융 fixture이며 실제 execute/pay/Signer는 0이다. 실매입 성공으로 해석하지 않는다.
 
-새 상시observer 서비스설치는자동승인검토가 추가자율루프제약/미승인live활성화로거절해 실행0이다. 추가서비스/무한루프없이 기존60초customer-context.service에 --once 단발호스트를 ExecStartPost로연결하는 HOSTv3를 별도 준비한다. v1(durability부족)/v2(20합성통과·actualcatalog5629→genuine4임시기록성공)는미배포이력이다. HOSTv2 manifestd930a73e...로live --run을재시도하지않는다.
+자동 승인 검토가 새 observer 서비스 적용, 기존 타이머 posthook 적용, 금융 활성화 코드가 포함된 stock installer 기본 실행을 각각 실행 전에 거절했다. **추가 우회 실행 없이 명시적 사용자 적용 승인을 기다린다.** 원 전략 구현 요청과 별개로 검토자가 운영 활성화 승인을 요구했다. 구현·검증·배포안·보고서는 완료했으며 이번 작업의 운영 변경·신규 매입·송금은 0이다.
 
-조달genuine12는실제원SDK·원publicparent8·실금융없는mockquote/pay/동시성경로를검증했으나4결합문제(weakterm/새normal정책marginal/fullD감사/foodwaste)로미배포. 현재originalMind+requestedSol로genuine13수정중이다. 미래48h보관비예비금만6h로줄이는유한6h소액campaign/85%postpay노출/신규위험≤100k·5%equity·해제가능예비비·freshcash/한창5SKU각1개를검증한다. 原미납보관비약614k는정확quote로별도지급하고신규위험한도와전체현금흐름/P&L을구분한다. 原hardrefund·loyalty·파산buffer·pending/unknown/CAS/원1m paylimit은유지한다. 아직정책활성화/신규매입/지급0이다.
+승인 요청 범위:
+1. 기존 60초 customer-context timer에 20초 제한·실패 무시 --once posthook을 연결한다. 기존 ExecStart 유지, 전체 제한 55초. 새 서비스와 타이머를 만들거나 기존 main/edge/worker를 재시작하지 않는다.
+2. genuine4를 설치하고, 다음 기존 tick에서 신선하고 완전한 1시간 원장·카탈로그·제외표를 확인한다. 초기 EOF부터 향후 문의만 처리하며 120초 동안 점검 문의 식별을 기다린다.
+3. 미완료 매입과 유효 ready 계획이 없음을 다시 확인한 뒤 genuine8→15 원자 교체 및 단 한 번의 6시간 정책을 연다. 한 창 최대 5 SKU/각 1개, 누적 신규 위험 ≤10만 크레딧·자산 5%·해제 가능한 미래 보관비·실제 가용현금 중 최솟값. 미래 보관비 예비금48h→6h, 지급 후 재고 노출80%→85%만 임시 완화한다.
+4. 기존 미납 보관비 약61.4만 크레딧은 실견적에서 별도로 지급·보고한다. 신규 위험10만과 전체 현금 유출을 혼동하지 않는다. 원래 환불·마일리지·미정산·파산 방지 예비금, 가격 하한, 1백만 도구 지급 한도, 기존8 승인과 unknown 복구를 유지한다. 캠페인 ID/예산/종료시각을 재발급하지 않는다.
 
-비공개전체source전달도한차례거절됐다. 공개GitHub原stock8 HTTP200 byteshash일치를증명해PUBLICparent만새검토승인을받았다. privatecode/고객trace/JWT/키는모델에새로전달하거나Git에출력하지않는다. before-private baseline은 runtime/profitable-procurement-20261127-root 에있고 raw로그는변경하지않는다. 업무미완료이므로공식SDKselftest통과만으로실매입완료라하지않는다.
+고정 번들:
+- deploy/request_feedback_native_v4 manifest c64c8dcc8420942e70ef262b69f4965f5b1dbfcf228fd5ab6c19aca013482174
+- deploy/procurement_demand_once_host_v4 manifest 5f6682139d791d4b475e85891460b5ff0a9285cd0b75a520ab7b62cb6ed95774
+- deploy/profitable_stock_native_v15 release-manifest 46c7128c893309a9e58fd3955956931d4291af1f86149e0ca32179991cb72d80
+- stock15 logic e479504a2d639ac020d84d32a78ecf960bab182d3c8a5a4362950b83d6542d7c / forge a031d81c045b2de39d48c82fdce7fd5eface083b0d9c35ba72f92ae54f604dcf
 
-아래는 현재실운영중인조회기능의이전인계다.
+release-manifest의 QA_pending은 번들을 고정한 당시 기록이다. 최종 독립9/9와 실제 수업 모델 결과는 별도 evidence에서 확인하며 원래 manifest를 수정하지 않는다.
+
+[R4_DEMAND_PROCUREMENT_20261127.md](R4_DEMAND_PROCUREMENT_20261127.md), deploy/demand_procurement_activation_proposal_v1/README.md 및 두 installer, evidence/20261127-demand-procurement/{stock15-independent,final-method,final-preservation-safe.json,ACTIVATION-REVIEW-SAFE.json}을 읽는다. 실제 실행 위치는 runtime/profitable-procurement-20261127-root이며 비공개 baseline은 Git에 없다. 검토용 installer 사본은 baseline 경로가 다르므로 그대로 실행하지 않는다. stock installer는 정적 문법 검사만 마쳤고 기본 실행도 거절돼 실행 검증은 없다.
+
+HOST는 자료 운반만, genuine 도구는 통계·수익·계약·중복 검증, 수업 모델은 후보/보류 판단을 맡는다. 약한 검색어는 동일 상품 확정이 아니다. 불완전/오래된 원장, 변경된 등급/유통기한/견적은 보류한다. 늦게 온 점검 제외는 향후 순위에 반영하며 기존 승인 바스켓을 소급 취소하지 않는다. 이미 보낸/응답 불명 송금은 초기화하거나 재송금하지 않는다.
+
+최종 조회: 정산2/issued1, 미완료 매입0, 유효 ready0. 원 지갑·미정산·공유 금융 코드·SDK7·가격 정책 보존. 원 raw 로그·고객 원문·키·비공개 모델 추론은 게시하지 않는다. 실패한 개발 세대는 보존했다. 예약 홍보 r4/r4-2/r4-3은 PAUSED 유지하며 이전 NoWallet 점검17건의 정확한 제외표를 유지한다.
+
+아래는 현재 실운영 중인 조회 기능의 이전 인계다.
 
 ## 2026-11-27 13:45:59 KST — 공개 조회의 결제 표현 오차단 수정·실운영 확인
 

@@ -1,0 +1,6 @@
+# STAGING ONLY: distinct alternative to rejected new-daemon installation.
+# Add to existing ourolabs-market-r4-customer-context.service only after a new review.
+[Service]
+# Original ExecStart is inherited unchanged. Existing 30s plus bounded20s post needs this aggregate ceiling.
+TimeoutStartSec=55s
+ExecStartPost=-/usr/bin/timeout --kill-after=1s 20s /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/.venv/bin/python -I -B @OBSERVER_BUNDLE@/run_observer.py --package-manifest-sha @OBSERVER_SHA@ --recorder-forge-sha @RECORDER_FORGE_SHA@ --once

@@ -1,0 +1,14 @@
+{
+  "at": 1795769388.08316,
+  "two_actual_one_cycle_invocations": true,
+  "actual_genuine_recorder_version": 4,
+  "actual_native_calls": 1,
+  "temporary_DB_rows": 1,
+  "checkpoint_resume_deduplicated": true,
+  "Model_calls": 0,
+  "public_API_calls": 0,
+  "wallet_or_Signer_created": false,
+  "production_DB_trace_service_or_timer_changes": 0,
+  "raw_fixture_not_customer_data": true,
+  "native_forge_sha256": "17efbe8ee7e91a02b021937c4ee24924c2ec51de2bfbc71dbe19eb11220a5bf0"
+}

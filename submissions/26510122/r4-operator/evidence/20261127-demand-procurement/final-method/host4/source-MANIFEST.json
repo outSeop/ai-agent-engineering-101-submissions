@@ -1,0 +1,21 @@
+{
+  "schema": "outseop-r4.demand-once-host.v4",
+  "files": {
+    "ABI.json": "4103a13bbf5303e060a17bdd71251304d663f2dcc768baa222c2a730d3f5c259",
+    "CACHE-UNIT-BASELINE-SAFE.json": "dd4a7e195c9f7da46cdc96677eff9a46e263c830b59805dc27a851772e2cf5e0",
+    "README.md": "179e7bfb7cd50793f427b1680554b68d09a737af48635c74403add5d9ae6f5db",
+    "SAFE-QA.json": "4592b795ce42b4857fc0593f2efaa7d6facfe1b680709bfcaa4585a15570ce88",
+    "actual-callback-verification-safe.json": "5fe32874d22e3f3dc05f4a508b79c7338a4512c3e052732edf7be77f0504c08e",
+    "actual-native4-ignored-safe.json": "29fbf51e2a7aa430420b27daf594479e1027003d3be1138cd0fdbf77b49a68ea",
+    "actual-once-native4-safe.json": "551f548409f573d09fffdfe8ab5d589c35dbb588b13eaa5cf4d1d3fb7a710267",
+    "cache-observer-once.conf.template": "6c2dc0fa8e61a8352ec4082c5499cfc964b54ae186d25ca44d57ff302ae7aaa5",
+    "demand_observer_host.py": "28dccc6ffcfa57c605c7c1a730ef1726dfb6e493f46a68c562ac067055cf1f62",
+    "run_observer.py": "61f1a1517ff847176cd69a9e4dd738da4636b56ca8d36f190115de1b3036f79a",
+    "test_demand_observer_host.py": "b121afcb768c9cb165390a5bdcdc86db53cf79f20084d3cb91c80f9eaf0f8fd5"
+  },
+  "authorship": "external host transport only",
+  "genuine_native_dependency_independently_pinned": true,
+  "production_installed_or_started": false,
+  "no_new_service_timer_or_loop": true,
+  "parent_manifest_sha256": "43c817ad847e87a10b15719a6145fc0e1549a2669f59ccdcdd059e8b9e2efdda"
+}

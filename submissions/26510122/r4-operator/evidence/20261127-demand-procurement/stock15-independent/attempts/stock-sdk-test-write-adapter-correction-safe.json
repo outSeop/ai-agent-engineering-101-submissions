@@ -1,0 +1,5 @@
+{
+  "first_setup_failure": "Official SDK rejected test result path outside original native write scope. Original envelope, source4 and first runner preserved.",
+  "correction": "External d= SDK test adapter only extends write to two owned ROOT fixture/result paths. Genuine source4 and permissions unchanged; no signer cap; offline namespace.",
+  "new_runner_sha256": "b75f883f2eacf82dbdcc13e7e6a8b3b36ffe5bfa17790290efeec983a63524c9"
+}

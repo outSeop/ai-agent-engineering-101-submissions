@@ -1,0 +1,11 @@
+# Final method validation — staged only
+
+S15: the unchanged original StockCoordinator and original SDK market Model made one classroom decision in 13.255 seconds, chose one native-offered synthetic SKU with quantity 1, and the genuine version-15 tool saved a ready plan in a synthetic SQLite. Actual execute/pay were prohibited; no Signer, real balances, customers, production trace or service changes were involved. This validates decision-to-plan wiring, not live procurement or realized profit. The native invocation is the official SDK Kit testing context with the genuine World fixture; independent ordinary-SDK financial boundary QA is separate. No private prompts/responses/reasoning are copied.
+
+HOST4: 24/24 synthetic tests pass. Two actual one-cycle fixture invocations call genuine recorder4 once, create one temporary request row and resume without duplicate. A separate actual ordinary-SDK negative fixture returns ignored once, with zero pending/retry/DB creation. Callback-verification proof is the earlier exact recorder3 permission admission (zero invocations); recorder4 is established by the two explicit version-4 execution proofs. SDK7 source validation remains enabled.
+
+Scope correction for inherited SAFE-QA metadata: unchanged_v2_AST_components describes the prior v3 baseline comparison. HOST4 intentionally changes both terminal-status whitelists to include ignored, so recorder_callback is not byte/AST-identical to v2 in final HOST4. The original safe file is preserved unchanged; final 24-count, ignored no-retry fixture and source manifest identify the actual final version. Post-failure isolation was a static systemd-template assertion, not a real installation or failure experiment.
+
+No installation, systemd reload, new observer loop, procurement or payment was performed. Both previous automatic-approval rejections remain respected. Live activation requires the final explicit user apply approval handled by the parent agent.
+
+Source artifact paths: deploy/procurement_demand_once_host_v4 (manifest 5f6682139d791d4b475e85891460b5ff0a9285cd0b75a520ab7b62cb6ed95774); runtime/demand-procurement-20261127-development/release_stock15 (manifest 46c7128c893309a9e58fd3955956931d4291af1f86149e0ca32179991cb72d80). Original private class session: runtime/stock-class-canary-15-final-actual.

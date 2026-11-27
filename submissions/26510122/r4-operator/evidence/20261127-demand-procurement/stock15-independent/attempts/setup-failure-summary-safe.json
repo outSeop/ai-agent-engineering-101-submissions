@@ -1,0 +1,26 @@
+{
+  "no_raw_failure_logs_exported": true,
+  "original_private_attempts_preserved": true,
+  "sequence": [
+    {
+      "attempt": "stock14-independent-baseline",
+      "result": "External SDK test-only result write path was outside native write scope. No successful financial test claimed."
+    },
+    {
+      "attempt": "stock14-independent-adapter2 and stock14-scope-diagnostic",
+      "result": "4/8 while test harness retained S13 policy location and omitted real goods kind/category from an existing-owned fixture unit. Input-path/API-shape adapter corrected; native quality/business untouched."
+    },
+    {
+      "attempt": "stock14-independent-correct-ABI",
+      "result": "8/8 baseline; still not final-ready due independently known grade-base benefit underreserve. Actual genuine14 approval permitting cost4300 is used in final regression."
+    },
+    {
+      "attempt": "stock15-independent-final",
+      "result": "8/9; new tracer incorrectly asserted target grade-reference for unrelated SKU with same P10. Original test/result retained."
+    },
+    {
+      "attempt": "stock15-independent-final-clear",
+      "result": "9/9 official SDK test-mode. Target-SKU trace corrected; business/source/financial expectations unchanged."
+    }
+  ]
+}

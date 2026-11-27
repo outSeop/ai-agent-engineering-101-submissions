@@ -1,0 +1,2 @@
+18:13:46 [forge] loaded 1 tools: record_stock_request
+{"recorder_rows": [["G159be1f8", null, "exact_sku"], ["G159be1f8", null, "exact_name"], [null, "두유", "public_term"]], "priority": {"G159be1f8": 3, "G11111111": 1}, "term_excluded_priority": {"G159be1f8": 2}, "missing_snapshot_priority": {}, "ordinary_recorder_sdk": true, "synthetic_only": true}

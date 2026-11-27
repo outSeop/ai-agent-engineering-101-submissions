@@ -1,0 +1,19 @@
+{
+  "at": 1795769626.0764003,
+  "actual_recorder_version": 4,
+  "recorder_forge_sha256": "17efbe8ee7e91a02b021937c4ee24924c2ec51de2bfbc71dbe19eb11220a5bf0",
+  "actual_native_result_statuses": [
+    "ignored"
+  ],
+  "actual_native_calls": 1,
+  "first_cycle_pending": 0,
+  "second_cycle_pending": 0,
+  "completed_record_metadata": 0,
+  "native_ignored_counter": 1,
+  "native_call_failed_counter": 0,
+  "retry_or_second_native_call": false,
+  "native_DB_created": false,
+  "synthetic_local_only": true,
+  "Model_API_wallet_financial_actions": 0,
+  "production_DB_trace_service_timer_changes": 0
+}

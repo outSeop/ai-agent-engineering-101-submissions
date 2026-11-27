@@ -1,0 +1,55 @@
+{
+  "genuine_original_bytes": {
+    "stock_procurement@15": {
+      "logic.py": "e479504a2d639ac020d84d32a78ecf960bab182d3c8a5a4362950b83d6542d7c",
+      "test.py": "06c5f1109f1b53493002a40361bdee3c173ede332b0fa9e35f6e1c80aca22422",
+      "permission.yml": "c50258fb27134646deb28fa9b0af75de228f114906f28a996f28fce93224b21a",
+      "forge.json": "a031d81c045b2de39d48c82fdce7fd5eface083b0d9c35ba72f92ae54f604dcf"
+    },
+    "stock_procurement@14": {
+      "logic.py": "7c8e4a5db5916ae16a3f3d0c7b0208d25e470f9e6149d60351b06cb67b73f707",
+      "test.py": "dd2c764580401c3d55e0ae0a97712aa86b89209759599b1794e0266e4e6ca1a9",
+      "permission.yml": "4c79c700fa02d7b34382722a42c6917c17bf545eb7ea8578cfc694b2829819fa",
+      "forge.json": "2d2da71dd84e2a239f69b795b87cb24927dc4ab23bc54de78dc1bc1628508f25"
+    },
+    "record_stock_request@4": {
+      "logic.py": "5f5190fcfd46064b48876fe211bb44c34b700aa84f9991507f605ff8ec46c64b",
+      "test.py": "4675a1089c2d666baaaae5d3f47ae9b78001cf54cc4f563ce0788442760a994e",
+      "permission.yml": "05d99965c03a322502b397cb75daa8d2657cc9522af5ddb17d5f8b4004e5a306",
+      "forge.json": "17efbe8ee7e91a02b021937c4ee24924c2ec51de2bfbc71dbe19eb11220a5bf0"
+    }
+  },
+  "existing_tracked_dependencies": {
+    "submissions/26510122/round-4/codex-r4/procurement.py": "675bdaa2942f7bdf3d119d10c6e1176f790ae0bacbb22a32cf77ae82de0628c6",
+    "submissions/26510122/round-4/codex-r4/dispatcher.py": "84e0eca3a0211e80772ed78f2ba3c166902ba0125577e7153b06cc5bb13de0cd",
+    "submissions/26510122/round-4/codex-r4/price_policy.py": "6e101702c38d47b3f2c68c860dc0198fd1d7557e311c2753dc4a71fed127118f",
+    "submissions/26510122/round-4/codex-r4/stock_runtime.py": "f44540cbd525ccb9cf67371a7363c45a912bfe2cfb661ca93726f5c338e44388",
+    "submissions/26510122/round-4/codex-r4/test_procurement.py": "a0e6e4c13724d2b582e4e2c4000851793190d8987c87601072b5f59434f486dc",
+    "submissions/26510122/round-4/codex-r4/fixture.py": "3583926d5154ede9bbc6330103930967b452c04546a19a6078864abfe931b012",
+    "submissions/26510122/round-4/codex-r4/refund_admin.py": "d1d5026ceef7f5f9b2e63a81c3c56f459cd708e1d0fd75c560171614520ce80d",
+    "submissions/26510122/r4-operator/kit/cli_model.py": "16de5e99404dd0513b83aa6797bf9b06b4fd5e959acde3654be281c2af4eb7a2",
+    "submissions/26510122/r4-operator/kit/miniapp.py": "7d0838a8dc647a201bb353a63658ecb0e268415d1d15ab1965c8835d0e3f6868",
+    "submissions/26510122/r4-operator/kit/forge_runner.py": "004aa4bc7ce08bc7ff940ff3e914ab8b9edb64b00ef23b309f8f4043707b99b7",
+    "submissions/26510122/r4-operator/kit/market_kit.py": "92adb4bf8c6f303f20306018c644552d8299a93fc066dad2a4f4fb3154a78f3f",
+    "submissions/26510122/r4-operator/kit/agent_kit.py": "38fb94c22187db7b40e16a56a1fd2ffadbb94e15f2e28307d5ba04eeb4144f8a",
+    "submissions/26510122/r4-operator/kit/maroo.py": "973a1065d9f5b03d247b2b152424dd6d7f2ce18758ecf4603bf7bcde45862302"
+  },
+  "portable_test_derivation": {
+    "run_stock_campaign_independent.py": {
+      "original_sha256": "551de87a49745b3a459581fc5de8c6f4d3463492f167e4dbe90c59bfcd5a7df0",
+      "public_derived_sha256": "bd877c92396e63b300f1b716ed6dcd8c82361228eed4ad18770691e161b8bf68",
+      "change": "Only discover operator path, use published exact generated dependency paths and copy test helper beside SDK adapter; same business source and same test predicates."
+    },
+    "stock13_external_sdk_test.py": {
+      "original_sha256": "0dfdfd5d783b9454e036a6e6e4a8cf3420b0cc2e147a8cec9a40809ea09428da",
+      "public_derived_sha256": "2dd1d39f2cbac110cb277de729ca4c51f8def2364128d6de74bb8fe36e257770",
+      "change": "Only discover operator path, use published exact generated dependency paths and copy test helper beside SDK adapter; same business source and same test predicates."
+    },
+    "stock12_external_contract.py": {
+      "original_sha256": "5508f747bf05286e72634ce9638fba7ad0c1c568644fa6112f911ce30eb33f37",
+      "public_derived_sha256": "7e43ff1ee41c44ad7fe5eae28660b7c18fe1eaa843deaf69a2baee72e5593c50",
+      "change": "Only discover operator path, use published exact generated dependency paths and copy test helper beside SDK adapter; same business source and same test predicates."
+    }
+  },
+  "source_authorship_scope": "Exact genuine source4/forge-source hash links only. No raw private Model/ReAct/console is published. QA did not generate, edit, or deploy business logic."
+}

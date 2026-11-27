@@ -1,0 +1,27 @@
+{
+  "at": 1795771319.697438,
+  "services_preserved": true,
+  "wallets_preserved": true,
+  "shared_source_preserved": true,
+  "price_policy_preserved": true,
+  "pending_sales_preserved": true,
+  "sales_by_status": {
+    "issued": 1,
+    "settled": 2
+  },
+  "procurement_intents_by_state": [
+    [
+      "arrived",
+      174
+    ],
+    [
+      "no_purchase",
+      50
+    ]
+  ],
+  "unexpired_ready_plans": 0,
+  "current_stock8_logic_sha256": "675bdaa2942f7bdf3d119d10c6e1176f790ae0bacbb22a32cf77ae82de0628c6",
+  "recorder4_live_present": false,
+  "new_posthook_present": false,
+  "campaign_present": false
+}

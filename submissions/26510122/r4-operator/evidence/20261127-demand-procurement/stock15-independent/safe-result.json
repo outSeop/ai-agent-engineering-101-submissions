@@ -1,0 +1,298 @@
+{
+  "passed": 9,
+  "total": 9,
+  "cases": [
+    {
+      "case": "actual-Recorder4-SQL-to-S13-priority-and-real-exclusion-newdraft",
+      "passed": true
+    },
+    {
+      "case": "real-parent8-campaign-context-plan-execute-D85-fullcash-durable-audit",
+      "passed": true
+    },
+    {
+      "case": "original-approved8-delegation-no-campaign-rewrite",
+      "passed": true
+    },
+    {
+      "case": "actual-grade-marker-foodlife-tamper-and-evidence-TTL-no-pay",
+      "passed": true
+    },
+    {
+      "case": "policy-expire-at-presend-and-durable-cumulative-risk-no-pay",
+      "passed": true
+    },
+    {
+      "case": "unknown-response-samequote-tx-reconcile-no-repay",
+      "passed": true
+    },
+    {
+      "case": "two-concurrent-original-parent-exec-one-fakepay",
+      "passed": true
+    },
+    {
+      "case": "actual-native-profit7-refund5-food5-boundary",
+      "passed": true
+    },
+    {
+      "case": "grade-base12k-P10-6k-cost4300-deny3800-pay-candidate-quote-presend",
+      "passed": true
+    }
+  ],
+  "details": {
+    "fixture_scope_diagnostics": {
+      "coupling": {
+        "fixture_now": 1795771165.0,
+        "native_now": 1795771165.0,
+        "native_policy_path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/independent-fixtures/coupling/host_inputs/stock-campaign-policy.json",
+        "policy_exists": true,
+        "scope_at_fixture_time": {
+          "campaign_id": "independent-s13",
+          "starts_at": 1795771135.0,
+          "ends_at": 1795792735.0,
+          "mode": "campaign"
+        },
+        "native_module_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/external-independent-test/logic.py",
+        "fixture_dispatcher_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/round-4/codex-r4/dispatcher.py"
+      },
+      "campaign": {
+        "fixture_now": 1795771165.0,
+        "native_now": 1795771165.0,
+        "native_policy_path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/independent-fixtures/campaign/host_inputs/stock-campaign-policy.json",
+        "policy_exists": true,
+        "scope_at_fixture_time": {
+          "campaign_id": "independent-s13",
+          "starts_at": 1795771135.0,
+          "ends_at": 1795792735.0,
+          "mode": "campaign"
+        },
+        "native_module_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/external-independent-test/logic.py",
+        "fixture_dispatcher_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/round-4/codex-r4/dispatcher.py"
+      },
+      "legacy": {
+        "fixture_now": 1795771165.0,
+        "native_now": 1795771165.0,
+        "native_policy_path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/independent-fixtures/legacy/host_inputs/stock-campaign-policy.json",
+        "policy_exists": false,
+        "scope_at_fixture_time": {
+          "mode": "normal"
+        },
+        "native_module_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/external-independent-test/logic.py",
+        "fixture_dispatcher_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/round-4/codex-r4/dispatcher.py"
+      },
+      "tamper-grade": {
+        "fixture_now": 1795771165.0,
+        "native_now": 1795771165.0,
+        "native_policy_path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/independent-fixtures/tamper-grade/host_inputs/stock-campaign-policy.json",
+        "policy_exists": true,
+        "scope_at_fixture_time": {
+          "campaign_id": "independent-s13",
+          "starts_at": 1795771135.0,
+          "ends_at": 1795792735.0,
+          "mode": "campaign"
+        },
+        "native_module_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/external-independent-test/logic.py",
+        "fixture_dispatcher_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/round-4/codex-r4/dispatcher.py"
+      },
+      "tamper-marker": {
+        "fixture_now": 1795771165.0,
+        "native_now": 1795771165.0,
+        "native_policy_path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/independent-fixtures/tamper-marker/host_inputs/stock-campaign-policy.json",
+        "policy_exists": true,
+        "scope_at_fixture_time": {
+          "campaign_id": "independent-s13",
+          "starts_at": 1795771135.0,
+          "ends_at": 1795792735.0,
+          "mode": "campaign"
+        },
+        "native_module_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/external-independent-test/logic.py",
+        "fixture_dispatcher_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/round-4/codex-r4/dispatcher.py"
+      },
+      "tamper-foodlife": {
+        "fixture_now": 1795771166.0,
+        "native_now": 1795771166.0,
+        "native_policy_path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/independent-fixtures/tamper-foodlife/host_inputs/stock-campaign-policy.json",
+        "policy_exists": true,
+        "scope_at_fixture_time": {
+          "campaign_id": "independent-s13",
+          "starts_at": 1795771136.0,
+          "ends_at": 1795792736.0,
+          "mode": "campaign"
+        },
+        "native_module_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/external-independent-test/logic.py",
+        "fixture_dispatcher_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/round-4/codex-r4/dispatcher.py"
+      },
+      "stale-evidence": {
+        "fixture_now": 1795771166.0,
+        "native_now": 1795771166.0,
+        "native_policy_path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/independent-fixtures/stale-evidence/host_inputs/stock-campaign-policy.json",
+        "policy_exists": true,
+        "scope_at_fixture_time": {
+          "campaign_id": "independent-s13",
+          "starts_at": 1795771136.0,
+          "ends_at": 1795792736.0,
+          "mode": "campaign"
+        },
+        "native_module_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/external-independent-test/logic.py",
+        "fixture_dispatcher_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/round-4/codex-r4/dispatcher.py"
+      },
+      "expire-after-quote": {
+        "fixture_now": 1795771166.0,
+        "native_now": 1795771166.0,
+        "native_policy_path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/independent-fixtures/expire-after-quote/host_inputs/stock-campaign-policy.json",
+        "policy_exists": true,
+        "scope_at_fixture_time": {
+          "campaign_id": "independent-s13",
+          "starts_at": 1795771136.0,
+          "ends_at": 1795792736.0,
+          "mode": "campaign"
+        },
+        "native_module_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/external-independent-test/logic.py",
+        "fixture_dispatcher_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/round-4/codex-r4/dispatcher.py"
+      },
+      "cumulative-risk": {
+        "fixture_now": 1795771166.0,
+        "native_now": 1795771166.0,
+        "native_policy_path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/independent-fixtures/cumulative-risk/host_inputs/stock-campaign-policy.json",
+        "policy_exists": true,
+        "scope_at_fixture_time": {
+          "campaign_id": "independent-s13",
+          "starts_at": 1795771136.0,
+          "ends_at": 1795792736.0,
+          "mode": "campaign"
+        },
+        "native_module_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/external-independent-test/logic.py",
+        "fixture_dispatcher_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/round-4/codex-r4/dispatcher.py"
+      },
+      "unknown-recovery": {
+        "fixture_now": 1795771166.0,
+        "native_now": 1795771166.0,
+        "native_policy_path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/independent-fixtures/unknown-recovery/host_inputs/stock-campaign-policy.json",
+        "policy_exists": true,
+        "scope_at_fixture_time": {
+          "campaign_id": "independent-s13",
+          "starts_at": 1795771136.0,
+          "ends_at": 1795792736.0,
+          "mode": "campaign"
+        },
+        "native_module_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/external-independent-test/logic.py",
+        "fixture_dispatcher_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/round-4/codex-r4/dispatcher.py"
+      },
+      "concurrent": {
+        "fixture_now": 1795771167.0,
+        "native_now": 1795771167.0,
+        "native_policy_path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/independent-fixtures/concurrent/host_inputs/stock-campaign-policy.json",
+        "policy_exists": true,
+        "scope_at_fixture_time": {
+          "campaign_id": "independent-s13",
+          "starts_at": 1795771137.0,
+          "ends_at": 1795792737.0,
+          "mode": "campaign"
+        },
+        "native_module_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/external-independent-test/logic.py",
+        "fixture_dispatcher_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/round-4/codex-r4/dispatcher.py"
+      },
+      "gradebase-4300-denied": {
+        "fixture_now": 1795771167.0,
+        "native_now": 1795771167.0,
+        "native_policy_path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/independent-fixtures/gradebase-4300-denied/host_inputs/stock-campaign-policy.json",
+        "policy_exists": true,
+        "scope_at_fixture_time": {
+          "campaign_id": "independent-s13",
+          "starts_at": 1795771137.0,
+          "ends_at": 1795792737.0,
+          "mode": "campaign"
+        },
+        "native_module_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/external-independent-test/logic.py",
+        "fixture_dispatcher_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/round-4/codex-r4/dispatcher.py"
+      },
+      "gradebase-3800-positive": {
+        "fixture_now": 1795771167.0,
+        "native_now": 1795771167.0,
+        "native_policy_path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/independent-fixtures/gradebase-3800-positive/host_inputs/stock-campaign-policy.json",
+        "policy_exists": true,
+        "scope_at_fixture_time": {
+          "campaign_id": "independent-s13",
+          "starts_at": 1795771137.0,
+          "ends_at": 1795792737.0,
+          "mode": "campaign"
+        },
+        "native_module_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/external-independent-test/logic.py",
+        "fixture_dispatcher_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/round-4/codex-r4/dispatcher.py"
+      },
+      "gradebase-prior14-approval-4300": {
+        "fixture_now": 1795771167.0,
+        "native_now": 1795771167.0,
+        "native_policy_path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/independent-fixtures/gradebase-prior14-approval-4300/host_inputs/stock-campaign-policy.json",
+        "policy_exists": true,
+        "scope_at_fixture_time": {
+          "campaign_id": "independent-s13",
+          "starts_at": 1795771137.0,
+          "ends_at": 1795792737.0,
+          "mode": "campaign"
+        },
+        "native_module_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/profitable-procurement-20261127-qa/stock15-independent-final-clear/isolated-sdk-root/external-independent-test/logic.py",
+        "fixture_dispatcher_file": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/round-4/codex-r4/dispatcher.py"
+      }
+    },
+    "real_recorder_sql_coupling": {
+      "actual_rows": 3,
+      "exact_and_weak_enums_native_produced": true,
+      "actual_DB_hash_exclusion_no_rehash": true,
+      "newdraft_priority_removed": true,
+      "cached_approved_soft_priority_not_retroactively_rewritten": true
+    },
+    "campaign_actual_parent_math": {
+      "fullquote_over_newriskcap": true,
+      "postpay85_pass80_fail": true,
+      "exact_old_D_paid_once": true,
+      "cash_guard_and_durable_audit_before_fakepay": true
+    },
+    "profit_policy": {
+      "regular_welcome_wait_total7_percent": true,
+      "refund5_percent": true,
+      "food_extra5_percent": true,
+      "exact_native_method_not_QA_profit_algorithm": true
+    },
+    "grade_reference_benefit_regression": {
+      "actual_grade_base": 12000,
+      "public_p10": 6000,
+      "cost4300_rejected": true,
+      "cost3800_actual_parent_fakepay_once": true,
+      "candidate_quote_charge_each_reference_actual_grade_base": true,
+      "genuine14_old_ceiling_4300_allowed_but_S15_quote_rejects": true
+    }
+  },
+  "official_SDK_test_mode_supplies_testing_flag": true,
+  "manual_testing_flag_assignment": false,
+  "native_TEST_WORLD_bypass_used": false,
+  "full_original_StockFixture_and_parent8": true,
+  "actual_Recorder4_ordinarySDK_SQLite_consumed": true,
+  "genuine_logic_source_unchanged": true,
+  "actual_Model_API_wallet_financial_forum_or_production_changes": 0,
+  "source4_sha256": {
+    "stock_procurement": {
+      "logic.py": "e479504a2d639ac020d84d32a78ecf960bab182d3c8a5a4362950b83d6542d7c",
+      "test.py": "06c5f1109f1b53493002a40361bdee3c173ede332b0fa9e35f6e1c80aca22422",
+      "permission.yml": "c50258fb27134646deb28fa9b0af75de228f114906f28a996f28fce93224b21a",
+      "forge.json": "a031d81c045b2de39d48c82fdce7fd5eface083b0d9c35ba72f92ae54f604dcf"
+    },
+    "record_stock_request": {
+      "logic.py": "5f5190fcfd46064b48876fe211bb44c34b700aa84f9991507f605ff8ec46c64b",
+      "test.py": "4675a1089c2d666baaaae5d3f47ae9b78001cf54cc4f563ce0788442760a994e",
+      "permission.yml": "05d99965c03a322502b397cb75daa8d2657cc9522af5ddb17d5f8b4004e5a306",
+      "forge.json": "17efbe8ee7e91a02b021937c4ee24924c2ec51de2bfbc71dbe19eb11220a5bf0"
+    }
+  },
+  "source_logic_expected": "e479504a2d639ac020d84d32a78ecf960bab182d3c8a5a4362950b83d6542d7c",
+  "real_recorder4_call_count": 3,
+  "SDK_test_ok": true,
+  "external_test_adapter_disclosed": true,
+  "external_test_only_write_extension": [
+    "independent-fixtures",
+    "independent-stock13-safe-result.json"
+  ],
+  "genuine4_source_files_unchanged": true,
+  "forge_log_or_tool_index_modified": false,
+  "network_namespace_offline": true
+}

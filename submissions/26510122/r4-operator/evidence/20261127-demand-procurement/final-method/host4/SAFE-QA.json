@@ -1,0 +1,28 @@
+{
+  "at": 1795769725.3847032,
+  "tests_passed": 24,
+  "failed": 0,
+  "two_cycle_timing_and_resume_test": true,
+  "post_failure_isolation_static_template_assertion": true,
+  "actual_systemd_install_or_failure_experiment": false,
+  "actual_two_cycle_native4_fixture": "actual-once-native4-safe.json",
+  "actual_Model_or_public_API_calls_in_v3_tests": 0,
+  "finance_wallet_or_Signer_actions": 0,
+  "production_DB_trace_service_timer_changes": 0,
+  "unchanged_v2_AST_components": {
+    "Observer": true,
+    "FutureReader": true,
+    "recorder_callback": true,
+    "public_snapshot": true,
+    "publish_public": true,
+    "exclusion_snapshot": true
+  },
+  "runtime_While_nodes": 0,
+  "new_service_or_timer_template": false,
+  "prior_auto_review_rejection_respected_no_retry": true,
+  "new_review_required_before_any_install": true,
+  "ignored_terminal_no_record_no_retry": true,
+  "actual_native4_negative_fixture": "actual-native4-ignored-safe.json",
+  "native_business_sources_modified": false,
+  "prior_frozen3_preserved": true
+}
