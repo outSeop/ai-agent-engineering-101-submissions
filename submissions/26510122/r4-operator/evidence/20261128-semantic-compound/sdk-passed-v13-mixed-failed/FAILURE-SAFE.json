@@ -1,0 +1,10 @@
+{
+  "ordinary_sdk": "baseline two-group runtime failure",
+  "known_errors": [
+    "relative indent placed the new branch outside its single-group guard",
+    "original SDK caller omitted kit",
+    "read text instead of reply"
+  ],
+  "actual_partial": "failed",
+  "production_modified": false
+}
