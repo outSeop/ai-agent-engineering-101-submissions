@@ -1,0 +1,15 @@
+{
+  "forge_epoch": 1795753772,
+  "forge_history_at_capture_sha256": "984b3abcc1519d2263503fd599f8d8d6fe4fd785a17fb8ea0d4e133f34deaa64",
+  "full_private_model_records_exported": false,
+  "matched_capture_record_sha256": "8da75195743e9484f8dad1e28020dca6303b6caae218af9015c2185ba43c2062",
+  "official_sdk_passed": false,
+  "production_activity": 0,
+  "rejected_source_sha256": "12926f1c9956e0ae7e0f9de7cf18c17ed929353fed4f03ad2a44c37560b72bce",
+  "rejected_test_sha256": "f578b2e6365f778bc4efb48a6936ef0dd1ab1561af803c65e5e943be07e9b419",
+  "sdk_failed_staging_retained": false,
+  "synthetic_assertion_line": 277,
+  "synthetic_failure": "Expected unsupported_request for a noncanonical synthetic unit_ref; source row discarded, so actual was no_match.",
+  "tool": "semantic_candidates",
+  "version_attempt": 4
+}
