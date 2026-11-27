@@ -1,0 +1,15 @@
+{
+  "genuine_version": 10,
+  "official_selftest_passed": true,
+  "deployed": false,
+  "original_stock8_still_production": true,
+  "blockers": [
+    "requires six-hour source coverage instead of actual one-hour feed",
+    "requires explicit false adverse flags absent in public rows",
+    "expects numeric confidence while recorder stores enum",
+    "parent quote margin still charges old arrears and blocks all new buys",
+    "permissions overbroad/missing original required RPC",
+    "own shop URL and campaign-scope continuity incomplete"
+  ],
+  "next": "official Mind repair, no manual business source edits"
+}

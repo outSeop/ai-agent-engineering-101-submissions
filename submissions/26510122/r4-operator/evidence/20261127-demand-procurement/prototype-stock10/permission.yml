@@ -1,0 +1,13 @@
+name: stock_procurement
+description: V10 SHA-pinned stock8 overlay. Actions context {line_cap?}, plan {plan,decision}, execute, reconcile. Context returns public single-unit choices. New purchases require fresh same-SKU, actual-grade settlements. Campaign quote and cash accounting is recorded in the original shop database. Forge tests use synthetic data only.
+permission:
+  network: [market.ourolabs.ai]
+  write: [state, codex-r4]
+  identity: [shop]
+  wallet: [pay]
+  pay_limit: 1000000
+  timeout: 120
+logic: logic.py
+test: test.py
+version: 10
+replaces: stock_procurement@9
