@@ -1,0 +1,18 @@
+{
+  "tool": "semantic_candidates",
+  "version": 9,
+  "file_sha256": {
+    "tools/semantic_candidates/logic.py": "043d941c1943dbeee6ef957963e7d389e8d840b248eb52fb5b211ac089adb802",
+    "tools/semantic_candidates/test.py": "d1d36200deea47b8a524b0214a7ac0b75df4873210f149db37c82ba76c710599",
+    "tools/semantic_candidates/permission.yml": "eabd2f69c3df1ebaeed4c6222a96f649268120264e40058b140f73c94aab7ab3",
+    "tools/semantic_candidates/forge.json": "c3d1309cc8da72a4489eeaf00a6003df5c30ef21183af44b2a7ecb839104d574"
+  },
+  "parent_v8_logic_sha256": "12734420574590c064691a6e64372d1cd6df1374c2e740bb4cddd4d8951f7879",
+  "base_v4_logic_sha256": "01e59f9b5e06b0402a669bfbd9c78e350c9cb32e9c65bfd111fdf5ac1a74b39c",
+  "base_catalogue_logic_sha256": "01a4a0dc912e02679091a3f6c98df3f0450ca2581b920d1d650e2fa0fa2a4c89",
+  "forged_at": 1795805428,
+  "model_provider": "market-class",
+  "authorship": "Classroom Model supplied literal function edit; development host expanded pinned source mechanically; official SDK tested and forged the result.",
+  "ordinary_sdk_cases_passed": 19,
+  "raw_customer_text_used": false
+}

@@ -1,0 +1,11 @@
+{
+  "model_provider": "market-class",
+  "official_mind": true,
+  "baseline_native_version": 8,
+  "model_forge_actions": 2,
+  "host_preflight_rejections": 2,
+  "reason": "Both exact single-occurrence edits selected a narrower span than the pinned whole-function block required by the host adapter.",
+  "official_sdk_forge_attempts": 0,
+  "new_native_version": null,
+  "production_changed": false
+}

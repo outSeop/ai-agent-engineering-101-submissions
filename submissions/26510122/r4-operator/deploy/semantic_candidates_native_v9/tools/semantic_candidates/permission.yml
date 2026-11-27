@@ -1,0 +1,9 @@
+name: semantic_candidates
+description: Read-only semantic candidates; verify affirmative repeated fact inquiries.
+permission:
+  pay_limit: 0
+  timeout: 30
+logic: logic.py
+test: test.py
+version: 9
+replaces: semantic_candidates@8
