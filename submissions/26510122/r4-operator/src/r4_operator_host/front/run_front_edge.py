@@ -5,7 +5,6 @@ from hashlib import sha256,sha1
 import httpx
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 
-OPERATOR=Path('/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator')
 MARKET='https://market.ourolabs.ai';NAME='outseop-r4'
 SHARED={'dispatcher.py':'84e0eca3a0211e80772ed78f2ba3c166902ba0125577e7153b06cc5bb13de0cd','worker_bootstrap.py':'083e127a2e08aa17949aaa808e61b859cee988389afc2073a6aa1b39de612514','refund_admin.py':'d1d5026ceef7f5f9b2e63a81c3c56f459cd708e1d0fd75c560171614520ce80d'}
 def protected(path,maximum=4*1024*1024):
@@ -14,7 +13,7 @@ def protected(path,maximum=4*1024*1024):
  fd=os.open(path,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK)
  with os.fdopen(fd,'rb') as stream:return stream.read(maximum+1)
 def verify(op,bundle,pin,config):
- if op!=OPERATOR or bundle!=config.runtime_path or pin!=config.runtime_manifest_sha256:raise ValueError('unexpected registered operator/runtime binding')
+ if op.resolve(strict=True)!=op or op!=config.operator_root or bundle!=config.runtime_path or pin!=config.runtime_manifest_sha256:raise ValueError('unexpected canonical operator/runtime binding')
  if not (bundle.is_relative_to(op/'runtime') or bundle.is_relative_to(op/'deploy')):raise ValueError('bundle outside operator staging/deploy')
  raw=protected(bundle/'MANIFEST.json')
  if sha256(raw).hexdigest()!=pin:raise ValueError('unreviewed runtime manifest')
@@ -64,7 +63,7 @@ def current_identity(op):
 def load(name,path):
  spec=importlib.util.spec_from_file_location(name,path);module=importlib.util.module_from_spec(spec);sys.modules[name]=module;spec.loader.exec_module(module);return module
 
-def assemble(official,op,bundle,pin,ctx,model,*,trace=None,old_request=None,options_override=None,toolbox_factory=None,_front=None,admission=None,config=None,isolated_root=None):
+def assemble(official,op,bundle,pin,ctx,model,*,trace=None,old_request=None,options_override=None,toolbox_factory=None,_front=None,admission=None,config=None,isolated_root=None,host_state_db=None,persistent_engine=False):
  if _front is None or config is None:raise ValueError('reviewed edge module and configuration required before app assembly')
  meta=verify(op,bundle,pin,config);source_root=op.parent/'round-4';root=source_root
  if isolated_root is not None:
@@ -85,20 +84,39 @@ def assemble(official,op,bundle,pin,ctx,model,*,trace=None,old_request=None,opti
  if options_override is None:
   composition=load('edge_catalogue_composition',bundle/'public_catalogue_composition_candidate.py');toolpins={Path(n).name:v for n,v in meta['file_sha256'].items() if n.startswith('catalogue/')};options=composition.managed_options(op,bundle,official,toolpins)
  else:options=options_override
+ state_db=None;task_store=None
+ if persistent_engine and host_state_db is None:raise ValueError('persistent engine requires private HOST database')
+ if host_state_db is not None:
+  state_path=Path(getattr(host_state_db,'path',host_state_db))
+  allowed=root if isolated_root is not None else op/'runtime'
+  if not state_path.is_absolute() or not state_path.is_relative_to(allowed):raise ValueError('HOST state outside isolated fixture or operator runtime')
+  support=Path(__file__).resolve().parent
+  if not (support/'task_state.py').is_file():support=support.parent
+  state_module=load('verified_front_task_state',support/'task_state.py')
+  continuity_module=load('verified_front_public_continuity',support/'durable_public_continuity.py')
+  state_db=state_module.TaskStateDB(state_path);task_store=state_module.SQLiteTaskStore(state_db)
+  original_continuity=managed.PublicContinuity
+  managed.PublicContinuity=lambda:continuity_module.DurablePublicContinuity(state_db,original_continuity)
  box_class,mind_class,app_factory=managed.managed_classes(official,enable_stock=False,**options)
  box=box_class(root,ctx) if toolbox_factory is None else toolbox_factory(box_class,root,ctx)
  if isolated_root is not None and Path(box.root).resolve()!=root:raise ValueError('isolated toolbox must use the same fixture root')
  agent=json.loads(protected(root/'agent.json'));agent['llm']={'base':'market'}
  mind=mind_class(root,agent,_front.OneDecisionModel(model),box,ctx,['shop'])
- app,store=_front.capture_sdk_app(app_factory,root,NAME,mind,box,[ctx['shop_url']])
- edge=_front.FrontEdge(app,store,trace=trace,old_request=old_request,admission=admission,config=config);edge.signer=ctx.get('signer');edge.background_loops_started=0;return edge
+ capture_args=(app_factory,root,NAME,mind,box,[ctx['shop_url']])
+ app,store=_front.capture_sdk_app(*capture_args) if task_store is None else _front.capture_sdk_app(*capture_args,task_store=task_store)
+ edge_args=dict(trace=trace,old_request=old_request,admission=admission,config=config)
+ if persistent_engine:edge_args.update(persistent_engine=True,state_db=state_db)
+ edge=_front.FrontEdge(app,store,**edge_args);edge.signer=ctx.get('signer');edge.background_loops_started=0;edge.loaded_broker=broker;edge.host_state_db=state_db;return edge
 
 def main():
- p=argparse.ArgumentParser(description=__doc__);p.add_argument('--operator',type=Path,required=True);p.add_argument('--edge-manifest-sha',required=True);p.add_argument('--serve',action='store_true');p.add_argument('--sources-only',action='store_true');args=p.parse_args();os.umask(0o077)
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('--operator',type=Path,required=True);p.add_argument('--edge-manifest-sha',required=True);p.add_argument('--serve',action='store_true');p.add_argument('--sources-only',action='store_true');p.add_argument('--host-state-db',type=Path);p.add_argument('--persistent-engine',action='store_true');args=p.parse_args();os.umask(0o077)
+ if args.persistent_engine and args.host_state_db is None:p.error('--persistent-engine requires --host-state-db')
  front=reviewed_front(args.edge_manifest_sha);folder=Path(__file__).resolve().parent;own=protected(folder/'MANIFEST.json')
  if sha256(own).hexdigest()!=args.edge_manifest_sha:raise ValueError('own manifest changed')
- config_module=load('verified_front_config',folder/'config.py');config=config_module.load_pinned(folder,json.loads(own))
- op=args.operator.resolve(strict=True);bundle=config.runtime_path.resolve(strict=True);pin=config.runtime_manifest_sha256;verify(op,bundle,pin,config)
+ op=args.operator
+ if not op.is_absolute() or op.resolve(strict=True)!=op:raise ValueError('canonical operator path required')
+ config_module=load('verified_front_config',folder/'config.py');config=config_module.load_pinned(folder,json.loads(own),operator=op)
+ bundle=config.runtime_path.resolve(strict=True);pin=config.runtime_manifest_sha256;verify(op,bundle,pin,config)
  if args.sources_only:
   if args.serve:raise ValueError('sources-only forbids serving')
   print(json.dumps({'status':'sources_verified_only','keys_read':False,'listener_started':False}));return
@@ -113,12 +131,13 @@ def main():
  state=op/config.state_dir;state.mkdir(mode=0o700,parents=True,exist_ok=True)
  if state.resolve()!=state or state.stat().st_uid!=os.getuid() or state.stat().st_mode&0o077:raise ValueError('unprotected edge state')
  from admission_gate import AdmissionGate
- gate=AdmissionGate(state/'admission.json');gate.initialize_closed()
+ gate=None
+ if not args.persistent_engine:gate=AdmissionGate(state/'admission.json');gate.initialize_closed()
  official.mk.LOG_FILE=state/'agent-kit-private.log'
  ctx={'market':MARKET,'name':NAME,'shop_url':url,'tokens':{'shop':token},'addresses':{'shop':key.address},'signer':signer}
  model=official.Model({'llm':{'base':'market'}},MARKET,{'tokens':ctx['tokens']})
  try:
-  app=assemble(official,op,bundle,pin,ctx,model,trace=state/'edge-trace-private.jsonl',_front=front,admission=gate,config=config)
+  app=assemble(official,op,bundle,pin,ctx,model,trace=state/'edge-trace-private.jsonl',_front=front,admission=gate,config=config,host_state_db=args.host_state_db,persistent_engine=args.persistent_engine)
   def refresh_auth():
    if not original_card_matches(url,key.address):raise ValueError('original main URL or wallet changed')
    latest=protected(root/'.kit/worker-token',2048).decode().strip()

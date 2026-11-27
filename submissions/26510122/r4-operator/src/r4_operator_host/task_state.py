@@ -96,6 +96,12 @@ class TaskStateDB:
   with self._connection() as db:row=db.execute('SELECT destination FROM routes WHERE scope_hash=? AND task_id=?',(_scope(scope),_task_id(task_id))).fetchone()
   if row is None:return None
   return 'current' if row[0]=='current' else int(row[0])
+ def transport_route(self,task_id):
+  # Transport location only: the selected native backend still authenticates the request.
+  with self._connection() as db:rows=db.execute('SELECT DISTINCT destination FROM routes WHERE task_id=?',(_task_id(task_id),)).fetchall()
+  if len(rows)>1:raise RouteConflict('task identifier maps to conflicting scoped endpoints')
+  if not rows:return None
+  value='current' if rows[0][0]=='current' else int(rows[0][0]);self._destination(value);return value
  def bind(self,task_id,destination,scope='',provenance='own_list_tasks',topology=''):
   with self._connection(True) as db:self._bind(db,task_id,destination,scope,provenance,topology)
  def list_routes(self,scope=''):

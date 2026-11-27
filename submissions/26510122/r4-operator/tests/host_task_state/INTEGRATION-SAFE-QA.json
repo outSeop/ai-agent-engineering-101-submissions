@@ -1,0 +1,8 @@
+{
+  "tests": 4,
+  "failures": 0,
+  "errors": 0,
+  "original_public_validator_used": true,
+  "production_identity_DB_key_API_Model_listener_service_firewall_operations": 0,
+  "all_task_and_hint_state_in_synthetic_fixture": true
+}

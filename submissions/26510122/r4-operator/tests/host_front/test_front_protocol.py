@@ -4,7 +4,7 @@ from types import SimpleNamespace
 from tempfile import TemporaryDirectory
 from unittest.mock import patch,call
 import json,sys,unittest,asyncio,os
-OP=Path('/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator');SRC=OP/'src/r4_operator_host/front';sys.path.insert(0,str(SRC))
+OP=Path(__file__).resolve().parents[2];SRC=OP/'src/r4_operator_host/front';sys.path.insert(0,str(SRC))
 import config as c
 from dataclasses import replace
 import hashlib,copy
@@ -89,4 +89,4 @@ class QA(unittest.TestCase):
   with patch.object(h,'verify',return_value={}):
    with self.assertRaises(ValueError):h.assemble(None,OP,CONFIG.runtime_path,CONFIG.runtime_manifest_sha256,{**ctx,'tokens':{'shop':'SYNTHETIC_NO_REAL_AUTH'}},object(),options_override={},toolbox_factory=lambda *args:None,_front=front,config=CONFIG,isolated_root=self.root)
 if __name__=='__main__':
- r=unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromTestCase(QA));(OP/'runtime/compound-inquiry-20261128-audit/common-front-QA.json').write_text(json.dumps({'tests':r.testsRun,'failures':len(r.failures),'errors':len(r.errors),'scope':'synthetic ASGI protocol and mocked guard, not original SDK business integration','actual_Model_HTTP_wallet_DB_service_nat_calls':0,'temporary_state_only':True,'new_task_admission_counter_is_conservative_not_actual_task_count':True},indent=2));raise SystemExit(not r.wasSuccessful())
+ r=unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromTestCase(QA));(OP/'runtime/common-front-QA.json').write_text(json.dumps({'tests':r.testsRun,'failures':len(r.failures),'errors':len(r.errors),'scope':'synthetic ASGI protocol and mocked guard, not original SDK business integration','actual_Model_HTTP_wallet_DB_service_nat_calls':0,'temporary_state_only':True,'new_task_admission_counter_is_conservative_not_actual_task_count':True},indent=2));raise SystemExit(not r.wasSuccessful())

@@ -3,7 +3,15 @@ from dataclasses import dataclass
 from hashlib import sha256
 from pathlib import Path
 import json,re
-OP=Path('/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator')
+def operator_root(value=None):
+ if value is not None:
+  p=Path(value)
+  if not p.is_absolute() or p.resolve(strict=True)!=p:raise ValueError('canonical absolute operator root required')
+  return p
+ for p in Path(__file__).resolve().parents:
+  if (p/'kit/agent_kit.py').is_file() and (p/'sources/upstream.json').is_file():return p
+ raise ValueError('pass the operator root explicitly')
+OP=operator_root()
 SCHEMA='outseop-r4.front-release.v1'
 def exact(value,keys):
  if type(value) is not dict or set(value)!=set(keys):raise ValueError('unknown/missing front configuration fields')
@@ -19,10 +27,11 @@ def port(value):
 def digest(value):
  if type(value) is not str or not re.fullmatch('[0-9a-f]{64}',value):raise ValueError('exact manifest SHA256 required')
  return value
-def artifact(value,leaf=None):
- if type(value) is not str:raise ValueError('absolute operator artifact required')
- p=Path(value)
- if not p.is_absolute() or '..' in p.parts or not (p.is_relative_to(OP/'runtime') or p.is_relative_to(OP/'deploy')) or (leaf and p.name!=leaf):raise ValueError('artifact outside fixed operator roots')
+def artifact(value,leaf=None,*,operator=None):
+ if type(value) is not str:raise ValueError('operator artifact path required')
+ op=operator_root(operator);p=Path(value)
+ if not p.is_absolute():p=op/p
+ if '..' in p.parts or not (p.is_relative_to(op/'runtime') or p.is_relative_to(op/'deploy')) or (leaf and p.name!=leaf):raise ValueError('artifact outside fixed operator roots')
  return p
 def state(value):
  if type(value) is not str:raise ValueError('private relative state required')
@@ -60,6 +69,7 @@ class FrontConfig:
  cf_pid_hint:int
  edges:tuple
  semantic_instruction:object=None
+ operator_root:object=None
  @property
  def card_ports(self):return (18805,*(e.port for e in self.edges),self.new_port)
  @property
@@ -69,7 +79,8 @@ class FrontConfig:
  @property
  def services(self):return (self.main.service,self.worker.service,*(e.service for e in self.edges),self.service)
 
-def parse(data):
+def parse(data,operator=None):
+ op=operator_root(operator)
  required={'schema','new_port','old_proxy_port','marker','state_dir','service','runtime_path','runtime_manifest_sha256','main','worker','cf_pid_hint','preserved_edges'}
  if type(data) is not dict or set(data) not in (required,required|{'semantic_instruction'}) or data['schema']!=SCHEMA:raise ValueError('unreviewed front config schema')
  roles=[]
@@ -81,7 +92,7 @@ def parse(data):
  edges=[]
  for row in rows:
   exact(row,('port','service','pid_hint','launcher','manifest_path','manifest_sha256','marker','state_dir'))
-  launcher=artifact(row['launcher'],'run_front_edge.py');manifest=artifact(row['manifest_path'],'MANIFEST.json')
+  launcher=artifact(row['launcher'],'run_front_edge.py',operator=op);manifest=artifact(row['manifest_path'],'MANIFEST.json',operator=op)
   if launcher.parent!=manifest.parent:raise ValueError('edge manifest must bind its exact launcher folder')
   edges.append(Edge(port(row['port']),unit(row['service']),positive(row['pid_hint']),launcher,manifest,digest(row['manifest_sha256']),marker(row['marker']),state(row['state_dir'])))
  ports=[e.port for e in edges];new=port(data['new_port']);old=port(data['old_proxy_port'])
@@ -92,7 +103,7 @@ def parse(data):
  if any(Path(states[-1]).is_relative_to(Path(old)) or Path(old).is_relative_to(Path(states[-1])) for old in states[:-1]):raise ValueError('new state must not overlap preserved state directories')
  semantic=data.get('semantic_instruction')
  if semantic is not None and (type(semantic) is not str or not 1<=len(semantic)<=1500 or '\x00' in semantic):raise ValueError('bounded HOST semantic instruction required')
- return FrontConfig(new,old,markers[-1],states[-1],services[-1],artifact(data['runtime_path']),digest(data['runtime_manifest_sha256']),roles[0],roles[1],positive(data['cf_pid_hint']),tuple(edges),semantic)
+ return FrontConfig(new,old,markers[-1],states[-1],services[-1],artifact(data['runtime_path'],operator=op),digest(data['runtime_manifest_sha256']),roles[0],roles[1],positive(data['cf_pid_hint']),tuple(edges),semantic,op)
 
 def unique(pairs):
  result={}
@@ -100,8 +111,8 @@ def unique(pairs):
   if k in result:raise ValueError('duplicate configuration key')
   result[k]=v
  return result
-def load_pinned(folder,verified_manifest):
+def load_pinned(folder,verified_manifest,operator=None):
  """Caller must first validate whole own manifest against operator supplied expected SHA."""
  folder=Path(folder);path=folder/'RUNTIME-BINDING.json';raw=path.read_bytes()
  if path.resolve(strict=True)!=path or len(raw)>65536 or sha256(raw).hexdigest()!=verified_manifest['files'].get('RUNTIME-BINDING.json'):raise ValueError('configuration is not bound by reviewed own manifest')
- return parse(json.loads(raw,object_pairs_hook=unique))
+ return parse(json.loads(raw,object_pairs_hook=unique),operator=operator)

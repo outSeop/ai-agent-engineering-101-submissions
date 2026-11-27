@@ -26,7 +26,7 @@ Original agent_kit keeps a separate in-memory histories closure, and current Pub
 
 ## Validation
 
-Ten synthetic tests passed, including fresh-interpreter restart, original SDK list differential, trusted-scope separation, atomic conflict rollback, concurrent route CAS, legacy snapshot restart, private file/link protection and maintenance persistence. All logs/task payloads/DBs are synthetic under temporary OP/runtime directories. No original keys or raw customer data were read. Tests do not prove operational migration, live ownership inventory completeness or financial recovery.
+Eleven task-state tests passed, including fresh-interpreter restart, original SDK list differential, trusted-scope separation, atomic conflict rollback, concurrent route CAS, legacy snapshot restart, private file/link protection and maintenance persistence. All logs/task payloads/DBs are synthetic under temporary OP/runtime directories. No original keys or raw customer data were read. Tests do not prove operational migration, live ownership inventory completeness or financial recovery.
 
 ## Durable public hints added before deployment
 
@@ -35,3 +35,15 @@ Ten synthetic tests passed, including fresh-interpreter restart, original SDK li
 Run with the operator virtual environment: `python -I -B tests/host_task_state/test_task_state.py`. Only synthetic temporary databases are created under operator/runtime.
 
 `known_owner_response` is HOST-attested provenance only: a parsed Task protobuf returned by the router's fixed, already-verified native owner endpoint on SendMessage/GetTask. It is never read from incoming customer JSON. It can refresh the same owner's snapshot or bind a new task ID explicitly returned by that backend, and cannot reassign an existing task to another owner. Parent router validates response identity/call association.
+
+## Optional common HOST engine integration
+
+`front.capture_sdk_app(..., task_store=SQLiteTaskStore(db))` injects the original native TaskStore API during assembly and restores the SDK constructor immediately, even after failure. `run_front_edge.assemble(..., host_state_db=path, persistent_engine=True)` uses the shared private database for native tasks, route/current commit, and public-only continuity. In isolated mode the path must be beneath the same fixture root as agent/Mind/app/Toolbox, with empty tool credentials. `edge.loaded_broker` explicitly exposes the loaded broker to isolated QA; no sys.modules lookup is needed.
+
+Materialized immutable front folders must contain `task_state.py` and `durable_public_continuity.py` alongside the front sources and include them in the pinned manifest. Source-tree assembly resolves those two from the parent source directory. The durable wrapper calls the actual original PublicContinuity validator and sanitizer; it does not broaden valid SKU/grade/price, consent or authorization rules. Epoch wall-clock TTL is used for restart safety, with backward-clock hints unavailable.
+
+CLI `--host-state-db PATH --persistent-engine` selects stable engine mode; existing default mode is unchanged. The persistent engine never proxies unknown tasks: the flat router owns task-to-endpoint routing. Only the original card GET remains proxied. The previous admission file is unused in this mode; shared maintenance gates Send/stream/Cancel while GetTask/ListTasks remain readable. No new listener or service is started by these tests.
+
+Run `python -I -B tests/host_task_state/test_task_integration.py` for four synthetic composition checks. The first attempt had one mock lifespan failure (not a runtime business failure); its safe result is preserved under runtime/task-state-20261128-audit/INTEGRATION-FIRST-HARNESS-FAILURE.json. The fixture added a standard lifespan handshake, and final4/4 plus original front protocol5/5 passed. Full original SDK ASGI/public behavior remains a separate parent/QA check before any deployment.
+
+`transport_route(task_id)` returns the only distinct destination across trusted scopes, or raises RouteConflict on disagreement. This gives transport location only; the original native backend remains responsible for authentication. Snapshot fallback must not bypass that scope boundary.

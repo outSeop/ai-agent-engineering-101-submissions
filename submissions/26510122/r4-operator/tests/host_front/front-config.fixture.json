@@ -5,7 +5,7 @@
   "marker": "r4-compound2-front-v1",
   "state_dir": "runtime/front-compound2-edge",
   "service": "ourolabs-market-r4-compound2-front.service",
-  "runtime_path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/releases/synthetic-config-test/runtime",
+  "runtime_path": "runtime/releases/synthetic-config-test/runtime",
   "runtime_manifest_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
   "main": {
     "service": "ourolabs-market-r4.service",
@@ -21,8 +21,8 @@
       "port": 18806,
       "service": "ourolabs-market-r4-front-edge.service",
       "pid_hint": 1213796,
-      "launcher": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/deploy/front_edge_runtime_v3/run_front_edge.py",
-      "manifest_path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/deploy/front_edge_runtime_v3/MANIFEST.json",
+      "launcher": "deploy/front_edge_runtime_v3/run_front_edge.py",
+      "manifest_path": "deploy/front_edge_runtime_v3/MANIFEST.json",
       "manifest_sha256": "c2232e5e8a3ef7ced3e4475a009a519232393c309633c219d05ff3859e9385f2",
       "marker": "r4-front-v1",
       "state_dir": "runtime/front-edge"
@@ -31,8 +31,8 @@
       "port": 18807,
       "service": "ourolabs-market-r4-semantic-front.service",
       "pid_hint": 1218994,
-      "launcher": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/deploy/front_semantic_edge_runtime_v2/run_front_edge.py",
-      "manifest_path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/deploy/front_semantic_edge_runtime_v2/MANIFEST.json",
+      "launcher": "deploy/front_semantic_edge_runtime_v2/run_front_edge.py",
+      "manifest_path": "deploy/front_semantic_edge_runtime_v2/MANIFEST.json",
       "manifest_sha256": "a7879bd7d9eeb1ecd0fc1e97c0d8652a88e542ee1b3f7dae9309e52bed1ab18e",
       "marker": "r4-semantic-front-v1",
       "state_dir": "runtime/front-semantic-edge"
@@ -41,8 +41,8 @@
       "port": 18808,
       "service": "ourolabs-market-r4-semantic3-front.service",
       "pid_hint": 1240765,
-      "launcher": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/deploy/front_semantic3_edge_runtime_v1/run_front_edge.py",
-      "manifest_path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/deploy/front_semantic3_edge_runtime_v1/MANIFEST.json",
+      "launcher": "deploy/front_semantic3_edge_runtime_v1/run_front_edge.py",
+      "manifest_path": "deploy/front_semantic3_edge_runtime_v1/MANIFEST.json",
       "manifest_sha256": "25d099830f88215ffebc37c41fd9cef8c3a28d0206f411ab9488c646a62980d9",
       "marker": "r4-semantic3-front-v1",
       "state_dir": "runtime/front-semantic3-edge"
@@ -51,8 +51,8 @@
       "port": 18809,
       "service": "ourolabs-market-r4-compound-front.service",
       "pid_hint": 1277750,
-      "launcher": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/deploy/front_compound_edge_runtime_v1/run_front_edge.py",
-      "manifest_path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/deploy/front_compound_edge_runtime_v1/MANIFEST.json",
+      "launcher": "deploy/front_compound_edge_runtime_v1/run_front_edge.py",
+      "manifest_path": "deploy/front_compound_edge_runtime_v1/MANIFEST.json",
       "manifest_sha256": "860307caea9d15033f9baacd5f8768ea48a3890880bbdce2bbfc13fb58a67fbd",
       "marker": "r4-compound-front-v1",
       "state_dir": "runtime/front-compound-edge"

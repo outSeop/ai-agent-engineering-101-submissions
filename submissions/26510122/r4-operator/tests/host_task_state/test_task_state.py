@@ -102,6 +102,12 @@ class Tests(unittest.TestCase):
   with self.assertRaises(RouteConflict):self.db.save_legacy_snapshot(updated.id,updated.SerializeToString(),18809,provenance='known_owner_response')
   new=sample('synthetic-native-followup');self.db.save_legacy_snapshot(new.id,new.SerializeToString(),18808,provenance='known_owner_response')
   self.assertEqual(self.db.get_route(new.id),18808);self.assertIsNone(asyncio.run(self.store.get(new.id,self.ctx)))
+ def test_transport_route_finds_scoped_location_without_scope_authority(self):
+  task=sample('synthetic-scoped-transport');self.db._save_current(task,'trusted-fixture-user')
+  self.assertEqual(self.db.transport_route(task.id),'current');self.assertIsNone(self.db.get_route(task.id));self.assertIsNone(asyncio.run(self.store.get(task.id,self.ctx)))
+  self.db.bind(task.id,18808,scope='different-trusted-user')
+  with self.assertRaises(RouteConflict):self.db.transport_route(task.id)
+  self.assertIsNone(self.db.transport_route('synthetic-no-route'))
 if __name__=='__main__':
  r=unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromTestCase(Tests));out=OP/'runtime/task-state-20261128-audit';out.mkdir(exist_ok=True)
  (out/'SAFE-QA.json').write_text(json.dumps({'tests':r.testsRun,'failures':len(r.failures),'errors':len(r.errors),'fresh_interpreter_restart_test':True,'native_SDK_list_differential':True,'real_customer_task_or_financialDB_used':False,'production_HTTP_Model_key_service_firewall_operations':0,'wallet_creation':0,'original_SDK_files_modified':False},indent=2));raise SystemExit(not r.wasSuccessful())

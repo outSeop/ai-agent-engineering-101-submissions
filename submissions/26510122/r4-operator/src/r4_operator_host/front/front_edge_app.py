@@ -19,13 +19,14 @@ class OneDecisionModel:
         return self.original.complete(messages,**options)
 HOP={b'connection',b'keep-alive',b'proxy-authenticate',b'proxy-authorization',b'te',b'trailer',b'transfer-encoding',b'upgrade',b'content-length',b'content-encoding'}
 
-def capture_sdk_app(app_factory,*args):
+def capture_sdk_app(app_factory,*args,task_store=None):
     # Original agent_app imports its task store constructor on invocation.
     # Capture the native instance only during single-threaded assembly, then restore.
     import a2a.server.tasks as tasks
     with _CAPTURE_LOCK:
         original=tasks.InMemoryTaskStore
-        store=original()
+        if task_store is not None and not isinstance(task_store,tasks.TaskStore):raise TypeError('native TaskStore required')
+        store=original() if task_store is None else task_store
         tasks.InMemoryTaskStore=lambda:store
         try:app=app_factory(*args)
         finally:tasks.InMemoryTaskStore=original
@@ -44,10 +45,12 @@ def referenced_task(payload):
     return value if isinstance(value,str) and 0<len(value)<=256 else None
 
 class FrontEdge:
-    def __init__(self,app,store,*,trace=None,old_request=None,config=None,before_new=None,admission=None):
+    def __init__(self,app,store,*,trace=None,old_request=None,config=None,before_new=None,admission=None,persistent_engine=False,state_db=None):
         self.app,self.store,self.trace,self.old_request=app,store,trace,old_request
         if config is None:raise ValueError('reviewed front configuration required')
+        if type(persistent_engine) is not bool or (persistent_engine and state_db is None):raise ValueError('persistent engine requires private HOST state')
         self.config=config;self.marker=config.marker.encode('ascii');self.before_new=before_new;self.admission=admission
+        self.persistent_engine,self.state_db=persistent_engine,state_db
     def record(self,**row):
         if self.trace is None:return
         try:
@@ -78,13 +81,13 @@ class FrontEdge:
                 if len(body)>65536:
                     await send({'type':'http.response.start','status':413,'headers':[(b'x-r4-edge',self.marker)]});await send({'type':'http.response.body','body':b'request too large'});self.record(route='rejected_size',status=413);return
                 if not message.get('more_body'):break
-        task=None
+        task=None;payload=None
         if body:
-            try:task=referenced_task(json.loads(body))
+            try:payload=json.loads(body);task=referenced_task(payload)
             except (ValueError,TypeError):pass
         proxy_card=scope['method']=='GET' and scope['path']=='/.well-known/agent-card.json'
         from a2a.server.context import ServerCallContext
-        old_task=bool(task) and await self.store.get(task,ServerCallContext()) is None
+        old_task=(not self.persistent_engine) and bool(task) and await self.store.get(task,ServerCallContext()) is None
         route='old_card' if proxy_card else 'old_task' if old_task else 'new_sdk'
         if scope['method']=='POST' and self.before_new is not None:
             try:
@@ -100,8 +103,15 @@ class FrontEdge:
                 self.record(route=route,status=502,error_type=type(error).__name__,has_task=bool(task),seconds=round(time.monotonic()-began,4))
                 await send({'type':'http.response.start','status':502,'headers':[(b'x-r4-edge',self.marker),(b'content-type',b'application/json')]});await send({'type':'http.response.body','body':b'{"error":"original endpoint temporarily unavailable"}'});return
             headers=[(k,v) for k,v in headers if k.lower()!=b'x-r4-edge'];headers.append((b'x-r4-edge',self.marker));await send({'type':'http.response.start','status':status,'headers':headers});await send({'type':'http.response.body','body':answer});self.record(route=route,status=status,has_task=bool(task),seconds=round(time.monotonic()-began,4));return
+        if self.persistent_engine and scope['method']=='POST' and isinstance(payload,dict) and payload.get('method') in {'SendMessage','message/send','SendStreamingMessage','SendMessageStream','message/stream','message/sendStream','CancelTask','tasks/cancel'}:
+            try:maintenance=self.state_db.maintenance_enabled()
+            except Exception:maintenance=True
+            if maintenance:
+                self.record(route='engine_maintenance',Model_calls=0)
+                await send({'type':'http.response.start','status':503,'headers':[(b'x-r4-edge',self.marker),(b'content-type',b'application/json')]})
+                await send({'type':'http.response.body','body':b'{"error":"shop engine temporarily in maintenance"}'});return
         # Only a first local task admission is gated. Own continuations and all old task/card proxies stay available.
-        if scope['method']=='POST' and scope['path']=='/' and task is None:
+        if not self.persistent_engine and scope['method']=='POST' and scope['path']=='/' and task is None:
             try:allowed=self.admission is not None and self.admission.admit()
             except Exception:allowed=False
             if not allowed:
