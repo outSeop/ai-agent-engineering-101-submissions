@@ -1,0 +1,32 @@
+[
+  {
+    "target": "catalogue",
+    "returncode": 0,
+    "result": {
+      "status": "verified_only",
+      "target": "catalogue",
+      "policy_source_sha256": "6e101702c38d47b3f2c68c860dc0198fd1d7557e311c2753dc4a71fed127118f",
+      "absolute_config_path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/round-4/codex-r4/launch-price-policy.json",
+      "target_file_sha256": "ca38cc8e847d0eaeb869de13ac6f53027892cf1cbc18cf515ff7d6bb264d0167",
+      "target_executed": false,
+      "binding": "archived-v5-filesystem-root-only",
+      "reader_source_unchanged": true,
+      "helper_file_sha256": "74cd6baea70015d0950248faddd017821aa0054f93f8073da115e8aa5e629af3"
+    }
+  },
+  {
+    "target": "card",
+    "returncode": 0,
+    "result": {
+      "status": "verified_only",
+      "target": "card",
+      "policy_source_sha256": "6e101702c38d47b3f2c68c860dc0198fd1d7557e311c2753dc4a71fed127118f",
+      "absolute_config_path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/round-4/codex-r4/launch-price-policy.json",
+      "target_file_sha256": "37c7ab76184e5f31df9f387bdc26671667356f392ed4ae178df33cca4415f291",
+      "target_executed": false,
+      "binding": "archived-v5-filesystem-root-only",
+      "reader_source_unchanged": true,
+      "helper_file_sha256": "b128c9d0851996900734b8a9bdda9256ea41e2f81746658bb01446d4508d6412"
+    }
+  }
+]

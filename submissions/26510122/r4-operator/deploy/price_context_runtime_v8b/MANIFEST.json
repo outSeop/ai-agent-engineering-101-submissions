@@ -1,0 +1,14 @@
+{
+  "bundle": "price_context_runtime_v8b",
+  "change": "immutable archived reader filesystem binding only",
+  "file_sha256": {
+    "README.md": "95fa8c84644afc0901b12b20075a80dbb5ec5997ff3a75bb122abf873b45737a",
+    "legacy_root/tools/forum_marketing/forge.json": "4860cda63fe97786915d5153e1d9054f17987c877a839b685e0cbdbf1970e307",
+    "legacy_root/tools/forum_marketing/logic.py": "c15424eacded61da86e9f27303b16a705287cecf81c5254a2da5360db3ee9b48",
+    "legacy_root/tools/forum_marketing/permission.yml": "da96a18919a24399b5b8eb549367f62a4bbcf4eed2015681898f95e160da08c1",
+    "legacy_root/tools/forum_marketing/test.py": "22b2c0890e24a3b1871b7b95d29ba14276678ab36bdec7b11a3cfabc3d7c8c3b",
+    "price_context_bootstrap.py": "0bffacbe1e4d7493645ff61f498bb4f2c95f7936522aa72357acfba31572a8d4"
+  },
+  "host_only": true,
+  "original_entrypoints_unchanged": true
+}

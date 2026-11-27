@@ -1,0 +1,12 @@
+{
+  "ourolabs-market-r4-customer-context.service": {
+    "path": "/home/seop/.config/systemd/user/ourolabs-market-r4-customer-context.service.d/90-public-catalogue.conf",
+    "before_sha256": "3dc956e063c3144160f400581153819d7142001bfd23bd0f76353adeb0adf381",
+    "new_content": "[Service]\nExecStart=\nExecStart=/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/.venv/bin/python -I -B /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/deploy/price_context_runtime_v8b/price_context_bootstrap.py --package-manifest-sha c55ada0a0df0e56963f0fdea40472cf4320e6ecef5d4b620bbb47da637e99957 catalogue -- --operator /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator --manifest-sha256 ffa36c8557ecea6f53a7e9ac7271fa598565fd898f1f5d966444bc34a3f808cc --publish-cache\n"
+  },
+  "ourolabs-market-r4-card-keeper.service": {
+    "path": "/home/seop/.config/systemd/user/ourolabs-market-r4-card-keeper.service.d/95-class-reselection.conf",
+    "before_sha256": "a376d9643e8625e72ef460bc10eb212d9d1ac46b97584679c78efdb7d715bd30",
+    "new_content": "[Service]\nExecStart=\nExecStart=/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/.venv/bin/python -I -B /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/deploy/price_context_runtime_v8b/price_context_bootstrap.py --package-manifest-sha c55ada0a0df0e56963f0fdea40472cf4320e6ecef5d4b620bbb47da637e99957 card -- --operator /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator --allow-maintenance --failure-cooldown 600\n"
+  }
+}

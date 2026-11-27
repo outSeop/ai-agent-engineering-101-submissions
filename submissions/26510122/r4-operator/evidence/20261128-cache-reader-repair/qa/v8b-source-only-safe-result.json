@@ -1,0 +1,59 @@
+{
+  "schema": "cache-reader-repair-independent-qa.v1",
+  "bundle": "price_context_runtime_v8b",
+  "manifest_sha256": "c55ada0a0df0e56963f0fdea40472cf4320e6ecef5d4b620bbb47da637e99957",
+  "checks": {
+    "catalogue": {
+      "returncode": 0,
+      "status": "verified_only",
+      "target_executed": false,
+      "binding": "archived-v5-filesystem-root-only",
+      "reader_source_unchanged": true,
+      "helper_file_sha256": "74cd6baea70015d0950248faddd017821aa0054f93f8073da115e8aa5e629af3",
+      "absolute_policy_binding_preserved": true
+    },
+    "card": {
+      "returncode": 0,
+      "status": "verified_only",
+      "target_executed": false,
+      "binding": "archived-v5-filesystem-root-only",
+      "reader_source_unchanged": true,
+      "helper_file_sha256": "b128c9d0851996900734b8a9bdda9256ea41e2f81746658bb01446d4508d6412",
+      "absolute_policy_binding_preserved": true
+    }
+  },
+  "tamper": {
+    "owned_temporary_legacy_logic_rejected": true,
+    "owned_temporary_manifest_rejected": true,
+    "live_bundle_modified": false
+  },
+  "original_source4_sha256": {
+    "archived5/logic.py": "c15424eacded61da86e9f27303b16a705287cecf81c5254a2da5360db3ee9b48",
+    "archived5/test.py": "22b2c0890e24a3b1871b7b95d29ba14276678ab36bdec7b11a3cfabc3d7c8c3b",
+    "archived5/permission.yml": "da96a18919a24399b5b8eb549367f62a4bbcf4eed2015681898f95e160da08c1",
+    "archived5/forge.json": "4860cda63fe97786915d5153e1d9054f17987c877a839b685e0cbdbf1970e307",
+    "active9/logic.py": "b2edc8dba8c214a22074eb1f3db35ce5eb8234f444cf22710f025078b64e48e9",
+    "active9/test.py": "c6a321e8595e1796cbdcae4432bcc269794e79e886433b967309d7ba0557fba7",
+    "active9/permission.yml": "199fc1a6cdc3af2ecdf7f8876bf61a9ec88f031029f639f945c39d68569b8753",
+    "active9/forge.json": "70df2b9711580cb5ed74d4e3a8d31f18b4bf33ed5975f37739dc76633f9117d3"
+  },
+  "archived5_and_live9_source4_unchanged": true,
+  "static_review": {
+    "original_v8a_bootstrap_exact_pin_loaded": true,
+    "only_acquire_verify_source_root_rebound": true,
+    "catalogue_helper_exact_v8a": true,
+    "card_helper_exact_native_card_keeper_v1": true,
+    "original_business_acquire_price_reservation_SQL_unchanged": true,
+    "canonical_absolute_price_policy_binding_preserved": true,
+    "original_SQLite_mode_ro_and_query_only_preserved": true,
+    "verified_freeze_and_archive4_hash_checks_preserved": true
+  },
+  "execution_scope": {
+    "source_only_check": true,
+    "target_executed": false,
+    "actual_API_Model_POST_pay_producer_service_DB_calls": 0,
+    "network_namespace": "loopback_only",
+    "actual_timer_recovery_observed_by_independent_QA": false
+  },
+  "remaining_root_live_evidence": "Original timers need consecutive scheduled successful updates with advancing observed_at, TTL150 and cache/sidecar exact snapshotSHA/time binding. Source-only QA does not establish actual timer recovery."
+}
