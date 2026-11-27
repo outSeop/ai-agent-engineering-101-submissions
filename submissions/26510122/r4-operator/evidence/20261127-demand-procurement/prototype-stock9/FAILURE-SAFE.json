@@ -1,0 +1,12 @@
+{
+  "version": 9,
+  "selftest": "passed",
+  "deployment_eligible": false,
+  "reason": "wrong scope and feed; campaign execution always finance_unready",
+  "sha256": {
+    "logic.py": "1954e9824600ec1737785bff6c1ae23c218eea1b0a07be8ced8bc8160f1ae7d6",
+    "test.py": "65beb01cc02cd501e647ba48ee77191cc978fbcf48376ce112b0031c9e860bec",
+    "permission.yml": "7559136b9cd70245c556d28450a0aa6cae8a62527c5034be031cae2812df320c",
+    "forge.json": "de0f3e94c6dcad906e89b269e192433c4bf66f9fc0fb22ac3dc99eec625455aa"
+  }
+}

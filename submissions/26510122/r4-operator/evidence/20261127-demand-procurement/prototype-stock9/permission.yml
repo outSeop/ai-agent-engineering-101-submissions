@@ -1,0 +1,9 @@
+name: stock_procurement
+description: v9 offline wrapper for stock8 actions context, plan, execute and reconcile. Delegates outside a reviewed campaign. Scoped planning projects eligible public product fields and scoped execution holds with finance_unready. SDK-only tests exercise the candidate and finance guards.
+permission:
+  pay_limit: 0
+  timeout: 20
+logic: logic.py
+test: test.py
+version: 9
+replaces: stock_procurement@8
