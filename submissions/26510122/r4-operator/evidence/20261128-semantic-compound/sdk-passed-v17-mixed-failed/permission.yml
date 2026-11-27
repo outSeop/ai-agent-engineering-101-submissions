@@ -1,0 +1,9 @@
+name: semantic_candidates
+description: Verified read-only product facts with explicit payment-document hold.
+permission:
+  pay_limit: 0
+  timeout: 30
+logic: logic.py
+test: test.py
+version: 17
+replaces: semantic_candidates@16

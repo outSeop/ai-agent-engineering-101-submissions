@@ -1,0 +1,15 @@
+{
+  "original_model_response_sha256": [
+    "7f8a3ceff9067e845e483e17e0a302a5cd95367aaf02149219c0365a721f0814",
+    "dc6f6abace008284edd76e6b144c6d63ed63c585dec6f2146ec7b5203b4d027a",
+    "8eb78f0004ffdd08c6a3deccb5caee1d15c199c098176ecad024484bdc3ff6bd"
+  ],
+  "model_provider": "market-class",
+  "new_model_calls": 0,
+  "prior_host_rejections": true,
+  "logic_sha256": "b9f8c10e5047190c28d4b05e8b841bc21ec8d5855cffa63305288a208a9d8438",
+  "test_sha256": "d1d36200deea47b8a524b0214a7ac0b75df4873210f149db37c82ba76c710599",
+  "base_sha256": "2ebb68bd26bc0cb8a5e69a4c73d93c3f38c44c31f3f40ed65fc46b8a29fd2ab6",
+  "sdk_test": "passed",
+  "version": 17
+}

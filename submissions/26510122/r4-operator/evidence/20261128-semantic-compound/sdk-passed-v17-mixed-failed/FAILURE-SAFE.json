@@ -1,0 +1,13 @@
+{
+  "sdk_old_cases_all_passed": true,
+  "ordinary_total_passed": 25,
+  "ordinary_total": 28,
+  "actual_partial": "failed",
+  "known_issues": [
+    "flat exactness adjective guard applies to an information field",
+    "visit predicate grammar does not generalize",
+    "v4 hold status is not part of contract"
+  ],
+  "actual_guard_exit_preview_line": 105,
+  "production_modified": false
+}
