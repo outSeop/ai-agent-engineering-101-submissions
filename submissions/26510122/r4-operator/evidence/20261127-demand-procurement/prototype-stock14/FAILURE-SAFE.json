@@ -1,0 +1,19 @@
+{
+  "genuine_version": 14,
+  "official_SDK_and_legacy_projection_raw_feed_coupling_passed": true,
+  "deployed": false,
+  "financial_blocker": "7 percent benefits applied to negotiated market price instead of actual catalogue-grade base used by mileage/welcome/wait policies",
+  "actual_policy_source_refs": [
+    "dispatcher.py:468",
+    "dispatcher.py:680",
+    "dispatcher.py:839",
+    "first_purchase_bonus/logic.py:237"
+  ],
+  "synthetic_counterexample": {
+    "grade_base": 12000,
+    "market_price": 6000,
+    "stock_cost": 4300,
+    "native_wrongly_accepts": true
+  },
+  "next": "single narrow genuine15 basis correction, retain other passed gates"
+}
