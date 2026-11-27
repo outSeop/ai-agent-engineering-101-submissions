@@ -1,0 +1,65 @@
+{
+  "passed": 1,
+  "total": 4,
+  "cases": [
+    {
+      "case": "known-latest-buyer-retained-when-6h-seek-ambiguous",
+      "passed": false,
+      "error_type": "AssertionError"
+    },
+    {
+      "case": "buried-fresh-buyer-found-with-forward-pages",
+      "passed": true
+    },
+    {
+      "case": "policy-rejected-by-core-must-not-advertise5",
+      "passed": false,
+      "error_type": "AssertionError"
+    },
+    {
+      "case": "schema-rejected-by-core-must-not-advertise5",
+      "passed": false,
+      "error_type": "AssertionError"
+    }
+  ],
+  "facts": {
+    "dense_all_recent": {
+      "verified_latest_buyer_retained": false,
+      "GET_calls": 8,
+      "old_hold_direction_revised_by_parent": true
+    },
+    "buried_6h": {
+      "buyer_found": true,
+      "GET_calls": 12
+    },
+    "policy_mismatch": {
+      "world_writable_policy_native_accepts": true,
+      "core4_accepts": false,
+      "fake_POST_count": 1,
+      "extra5_claimed": true
+    },
+    "schema_mismatch": {
+      "native_spend_zero": true,
+      "core4_schema_incompatible": true,
+      "fake_POST_count": 1,
+      "extra5_claimed": true
+    }
+  },
+  "source_logic_sha256": "975c347e383d533f64efd6df33c36b82f952c01de37239436adf3c7e5924049a",
+  "official_SDK_test_mode": true,
+  "testing_flag_not_assigned": true,
+  "source_business_unchanged": true,
+  "full_original_ForumFixture": true,
+  "mock_transport_only_limit1_added": true,
+  "all_POSTs_are_original_fake_ForumFixture": true,
+  "actual_Model_API_public_POST_finance_or_production_changes": 0,
+  "coverage_requirement_context": "Parent revised original incomplete-window hold direction: verified fresh individual rows remain usable, no complete6h claim.",
+  "source4_sha256": {
+    "logic.py": "975c347e383d533f64efd6df33c36b82f952c01de37239436adf3c7e5924049a",
+    "test.py": "d167adeddea33e331f4d6bce4bc8d7e51a206c43b16e0f791dee06fee78ed474",
+    "permission.yml": "47b9bceb00bb254ac343efe53d60a1c8291f10e02622a767f74ed802a997d87c",
+    "forge.json": "e06fcfe948657990ba75a53396d7c8583f425f9ba403b087612e0aca78175c8a"
+  },
+  "SDK_test_ok": false,
+  "external_adapter_scope": "Test-only fixture/result write paths; unchanged genuine4/forge/index, no actual signer cap; offline namespace."
+}
