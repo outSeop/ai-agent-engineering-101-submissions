@@ -1,0 +1,29 @@
+{
+  "official_sdk_rejections": [
+    "NameError: product_span is not defined",
+    "TypeError: re.Pattern object is not iterable"
+  ],
+  "proposal_receipts": [
+    {
+      "base_sha256": "b2795cc94f63f704e8953bf3315d0ac6ed64f5c1ac71ceec8a89e8800749b02e",
+      "logic_sha256": "b675702eb44a45f80126ffe627e32a843bdcaedaddb32c2e867af95e9bef4cd8",
+      "test_sha256": "d1d36200deea47b8a524b0214a7ac0b75df4873210f149db37c82ba76c710599",
+      "requested_edit_sha256": "90e28e4de497b9e9c9a95f1d8d13b029658e452e63d51825160b9b18ab220a4d"
+    },
+    {
+      "model_provider": "market-class",
+      "model_response_sha256": "7ba10592698b3873eebc80d3a25bab517bc9e833e45b18244d0ab396be211625",
+      "formerly_host_rejected": true,
+      "old_span_sha256": "f8a3dcd93e2075a2b22a75be5e117ce440b0dc80ba1608c632e5707a0f47f162",
+      "base_sha256": "b2795cc94f63f704e8953bf3315d0ac6ed64f5c1ac71ceec8a89e8800749b02e",
+      "logic_sha256": "18d411e369d864feda6dcfacbcb2561e66cb47aad1a59407020600b4c2375be5",
+      "test_sha256": "d1d36200deea47b8a524b0214a7ac0b75df4873210f149db37c82ba76c710599",
+      "new_model_calls": 0,
+      "original_proposal_event_at": 1795807145.0262587,
+      "sdk_test_status": "failed",
+      "version": null
+    }
+  ],
+  "version_issued": false,
+  "production_modified": false
+}
