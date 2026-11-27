@@ -1,0 +1,11 @@
+{
+  "provider": "market-class",
+  "proposed_tool": "semantic_candidates_v5",
+  "submitted_to_sdk": false,
+  "failure": "isolated native name guard requires existing semantic_candidates",
+  "response_sha256": "0290f3d6b0fee79eb8ab63e22be555cebfe9a090df6a7da03671a115120db591",
+  "source_sha256": {
+    "logic": "fd2d02276d43ee1f680d899c807734448ab94d9e67010b3f7bc7f2541a1564ba",
+    "test": "5fed2133fcb18661411e4de4dd3e71b3a7f20700f173e220294921300bfafdde"
+  }
+}
