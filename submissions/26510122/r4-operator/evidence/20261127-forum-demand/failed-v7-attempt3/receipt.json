@@ -1,0 +1,19 @@
+{
+  "tool": "forum_marketing",
+  "target_version": 7,
+  "forged_installation": false,
+  "original_sdk_failure": "AssertionError: expected verified active bonus in test line159",
+  "failure_diagnoses": [
+    "fixture TemporaryDirectory returns absolute path; strict real policy reader correctly rejects absolute",
+    "after external relative-path fixture replay, existing REAL created history wrongly filtered to SQLite integer storage"
+  ],
+  "ts": 1795781379,
+  "model_provider": "codex-cli-gpt-6.2-sol",
+  "original_response_sha256": "373dc24048d47b6b0a3c543be02f7caa9ef00efc9db9359c98a56f9395b1632c",
+  "file_sha256": {
+    "logic.py": "0b49775816b66edefa50c85f3acd1e58e804b5a237e3fff72abb51f02c88bdad",
+    "test.py": "2721bd934677e709739df2b8e19099c1764715c1a0a5faf1acba1522c36cf33a",
+    "proposed-permission.json": "6309e8988cf56f3c40e4248100cc7d7204a120d30f8f7a543deccd297db3b3d8"
+  },
+  "raw_transcript_copied": false
+}
