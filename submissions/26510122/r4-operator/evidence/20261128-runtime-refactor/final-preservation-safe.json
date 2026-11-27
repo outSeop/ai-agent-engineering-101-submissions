@@ -1,0 +1,135 @@
+{
+  "at": "2026-11-28T04:01:01.339325+09:00",
+  "release": {
+    "schema": "r4-host-build.v1",
+    "release_id": "4602965de6150eb00d8947f3cf432a87443847bea1dbdcc44bdfdd7931ba7213",
+    "descriptor_sha256": "4602965de6150eb00d8947f3cf432a87443847bea1dbdcc44bdfdd7931ba7213",
+    "builder_sha256": "75cc02d34da5cde7b18034df2c7c42e71f44dc6c87031169f69ab47d6bb71b33",
+    "runtime_path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/releases/4602965de6150eb00d8947f3cf432a87443847bea1dbdcc44bdfdd7931ba7213/runtime",
+    "runtime_manifest_sha256": "3da162a2042b424dfbe98e7366d527169d3267ee2d5b964a1e17e2c35782d1c7",
+    "front_path": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/releases/4602965de6150eb00d8947f3cf432a87443847bea1dbdcc44bdfdd7931ba7213/front",
+    "front_manifest_sha256": "05198370b8449a132db5df758d6ada3e504d8283b02cc454809e9d1c7eaaf562",
+    "native_semantic_version": 9,
+    "native_asset_bytes_preserved": true,
+    "business_sources_modified_by_builder": false,
+    "reused": false
+  },
+  "original_five_services_preserved": true,
+  "original_services": {
+    "ourolabs-market-r4.service": "ActiveState=active\nMainPID=1192914\nNRestarts=0\n",
+    "ourolabs-market-r4-worker.service": "ActiveState=active\nMainPID=1192976\nNRestarts=1\n",
+    "ourolabs-market-r4-front-edge.service": "ActiveState=active\nMainPID=1213796\nNRestarts=0\n",
+    "ourolabs-market-r4-semantic-front.service": "ActiveState=active\nMainPID=1218994\nNRestarts=0\n",
+    "ourolabs-market-r4-semantic3-front.service": "ActiveState=active\nMainPID=1240765\nNRestarts=0\n"
+  },
+  "preserved18809": "ActiveState=active\nMainPID=1277750\nNRestarts=0\n",
+  "new_shared_front": "ActiveState=active\nMainPID=1282150\nNRestarts=0\n",
+  "original18809_preserved": true,
+  "wallet_policy_stock8_publisher9_file_checks": {
+    "shop_wallet.key": {
+      "bytes": true,
+      "inode": true,
+      "device": true
+    },
+    "buyer_wallet.key": {
+      "bytes": true,
+      "inode": true,
+      "device": true
+    },
+    "codex-r4/launch-price-policy.json": {
+      "bytes": true,
+      "inode": true,
+      "device": true
+    },
+    "tools/stock_procurement/logic.py": {
+      "bytes": true,
+      "inode": true,
+      "device": true
+    },
+    "tools/stock_procurement/forge.json": {
+      "bytes": true,
+      "inode": true,
+      "device": true
+    },
+    "tools/forum_marketing/logic.py": {
+      "bytes": true,
+      "inode": true,
+      "device": true
+    },
+    "tools/forum_marketing/forge.json": {
+      "bytes": true,
+      "inode": true,
+      "device": true
+    }
+  },
+  "shared_financial_code_preserved": {
+    "dispatcher.py": true,
+    "price_policy.py": true,
+    "worker_bootstrap.py": true,
+    "broker.py": true,
+    "refund_admin.py": true
+  },
+  "DB_inode_preserved": true,
+  "DB_quick_check": "ok",
+  "sale_counts": {
+    "missing": 1,
+    "settled": 2
+  },
+  "financial_ledger_checks": {
+    "sale": {
+      "rows": 3,
+      "rows_and_data_unchanged": true
+    },
+    "lot": {
+      "rows": 2,
+      "rows_and_data_unchanged": true
+    },
+    "allocation": {
+      "rows": 0,
+      "rows_and_data_unchanged": true
+    },
+    "refund": {
+      "rows": 0,
+      "rows_and_data_unchanged": true
+    },
+    "welcome_award": {
+      "rows": 2,
+      "rows_and_data_unchanged": true
+    },
+    "ticket": {
+      "rows": 0,
+      "rows_and_data_unchanged": true
+    },
+    "account": {
+      "rows": 3,
+      "rows_and_data_unchanged": true
+    },
+    "customer_profile": {
+      "rows": 3,
+      "rows_and_data_unchanged": true
+    }
+  },
+  "customer_cache": {
+    "fresh": true,
+    "age_seconds": 35.34,
+    "rows": 145,
+    "sidecar_rows": 145,
+    "sidecar_binding_valid": true,
+    "ttl_seconds": 150
+  },
+  "public_card": {
+    "http": 200,
+    "name": "outseop-r4",
+    "wallet_matches_ledger": true,
+    "edge": "r4-compound2-front-v1"
+  },
+  "inspection_requests": {
+    "since_baseline": 5,
+    "known_operator": 4,
+    "unclassified": 1,
+    "unique_buyer_or_ad_conversion_proven": false
+  },
+  "financial_or_new_settlement_success_not_claimed": true,
+  "known_remaining_case": "One unclassified original request still held as unsupported_request in local replay with complete unchanged conditions; do not equate supported synthetic passes with solving it.",
+  "new_procurement15_or_forum_selector_or_Codex_automation_activated": false
+}

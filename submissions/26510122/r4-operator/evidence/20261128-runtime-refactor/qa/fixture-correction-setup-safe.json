@@ -1,0 +1,7 @@
+{
+  "scope": "external harness setup only",
+  "error": "IndentationError after converting a one-line MockModel function to multiline",
+  "native_Model_API_financial_execution_before_fix": 0,
+  "failed_script_preserved": true,
+  "correction": "Indentation only; business sources unchanged"
+}

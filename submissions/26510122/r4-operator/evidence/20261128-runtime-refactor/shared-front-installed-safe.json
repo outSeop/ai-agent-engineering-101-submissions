@@ -1,0 +1,16 @@
+{
+  "at": 1795805718.8408546,
+  "service": "ourolabs-market-r4-compound2-front.service",
+  "unit_sha256": "31a98243804a3d71a32d0a9d952da40c0e5476720f458f8058ff4411a5d7ef54",
+  "state": "ActiveState=active\nMainPID=1282150\nNRestarts=0\n",
+  "new_listener_ready": true,
+  "gate": {
+    "version": 1,
+    "open": false,
+    "admissions": 0
+  },
+  "original_services_restart": false,
+  "autonomous_business_loops": 0,
+  "boot_enabled": false,
+  "release_id": "4602965de6150eb00d8947f3cf432a87443847bea1dbdcc44bdfdd7931ba7213"
+}

@@ -1,0 +1,29 @@
+{
+  "at": 1795803282.5148754,
+  "after_activation_existing_timer_events": [
+    {
+      "status": "applied",
+      "class_selection_invoked": false
+    },
+    {
+      "status": "applied",
+      "class_selection_invoked": false
+    },
+    {
+      "status": "applied",
+      "class_selection_invoked": false
+    },
+    {
+      "status": "applied",
+      "class_selection_invoked": false
+    },
+    {
+      "status": "applied",
+      "class_selection_invoked": false
+    }
+  ],
+  "card_age_seconds": 65,
+  "at_least_two_scheduled_successes": true,
+  "new_selection_required_this_interval": false,
+  "note": "Current same-choice renewals succeed. New one-completion selection is verified in isolated actual-class145 test, not forced on live inventory."
+}

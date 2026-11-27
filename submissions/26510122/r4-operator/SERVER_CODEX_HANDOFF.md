@@ -1,3 +1,35 @@
+## 최신 인계 — 2026-11-28 04:01 KST 문의·카드 수정 및 코드 공통화
+
+현재 새 문의는 **공통 HOST18810 / semantic9**다. 소스유지위치 `src/r4_operator_host/`,
+현재 명세 `deploy/release_specs/compound-cleanup-active.json`이다. 버전별전체복제대신 source+핀설정으로
+`runtime/releases/<명세SHA>/`를 만든다. 이전 immutabledeploy를 수정/이동하지 않는다.
+
+release ID4602965de6150eb00d8947f3cf432a87443847bea1dbdcc44bdfdd7931ba7213,
+runtimeSHA3da162a2042b424dfbe98e7366d527169d3267ee2d5b964a1e17e2c35782d1c7,
+frontSHA05198370b8449a132db5df758d6ada3e504d8283b02cc454809e9d1c7eaaf562.
+service ourolabs-market-r4-compound2-front.service PID1282150/NRestarts0,
+marker r4-compound2-front-v1, URI/등록ID/지갑은 그대로다.
+
+main1192914·worker1192976·18806/1213796·18807/1218994·18808/1240765·18809/1277750·CF1192922
+전부보존. GetTask원문2개일치확인. 새task를이미받았으므로역원복/새프로세스재시작은금지하고forwardfix한다.
+코드/설정은명세SHA로고정해빌드하며빌더는사업동작이없다. 부팅enable/NAT영속화는추가하지않았다.
+
+카드는 card_one_decision_runtime_v1/bootstrap.py/manifest d10504d03f8139b274e69ecff3d0f8d07316448db537093069084e2b69e9ce9d로
+기존timer만변경. 원판단3회→최대1회, 실제수업145합성후보1회/13.412초선택+stage확인,
+적용후자연timer갱신도성공. cache price_context_runtime_v8b/145행/sidecar일치로계속갱신한다.
+
+공개2상품군/단일지원반복문의는실제모델1회씩10.0057초/12.1881초·가격등급일치·금융0이다.
+semantic9독립19/19·공통front5/5·packaging3/3·strict ASGI2/2(모델stub) 구분.
+다만실제미분류문의1건의원문localSDK재생은여전히unsupported_request. 합성/공개성공으로그원문해결을주장하지않는다.
+전체반복·보증·복잡결제조건처리를완성했다고보고하지말것. 실제정산은2/missing1유지, 신규정산0.
+
+기존금융원장8테이블불변·DBquick_check ok·지갑/가격하한/매입8/publisher9보존.
+새forummatching/cold-start/매입15/관측hook는미적용. 예약홍보3개와R3재가동없음.
+개인fork round-4-26510122에만commit/push, 공용원본 PR생성없음.
+[R4_COMPOUND_CARD_FIX_20261128.md](R4_COMPOUND_CARD_FIX_20261128.md)에재현·실패·범위·남은한계를읽는다.
+
+---
+
 ## 최신 인계 — 2026-11-28 02:26 KST 캐시 장애 복구
 
 **홍보 v9 교체가 공용 경로의 v5 의존성을 깨뜨려 재고 캐시가 약4시간 stale였다.**

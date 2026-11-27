@@ -1,0 +1,13 @@
+{
+  "status": "first1of2 preserved;final2of2 after fixture scope correction",
+  "first_attempt": "compound2groups passed; combinedcompound+unsupported repeated stock-phrase failed closed asunsupported_request",
+  "cause_classification": "External fixture exceeded the approved single-group complete affirmative repeat scope; not classified as a source defect.",
+  "supported_fixture_correction": "compound:2groups withone mentioneach. repeat:1group with second complete affirmative sentence of exactly supported grammar plus approved neutral payment deferral.",
+  "old_failure_not_overwritten": true,
+  "initial_code_saved": "common_front_asgi_replay.before-repeated-fixture-correction.py",
+  "external_setup_error": "One IndentationError while converting a one-line stub method; no native/Model/API executed in that failed setup. Broken source preserved privately and safe summary exported.",
+  "business_sources_modified": false,
+  "all_repetitions_or_actual_customer_resolution_claimed": false,
+  "original_customer_replay_by_independent_QA": false,
+  "additional_actual_Model_API_DB_key_service_calls": 0
+}

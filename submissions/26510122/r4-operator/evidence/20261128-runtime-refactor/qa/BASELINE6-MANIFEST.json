@@ -1,0 +1,10 @@
+{
+  "status": "baseline6_mock_complete;final8_pending",
+  "source_only_no_actual_Model_API_DB_key_log_service_calls": true,
+  "files": {
+    "baseline6-compound-safe-result.json": "642d147c539970ba95fe4e6bc0839935534fafbd3a0824be3f68be9e5ec48d04",
+    "scope-before-after-safe.json": "1b42e6ee0aea0f03c1983a41bff40dab9083e388846fa3ab5551b140065443e9"
+  },
+  "harness_private_path": "runtime/host-refactor-20261128-qa/common_front_asgi_replay.py",
+  "harness_public_copy_deferred_until_final8_freeze": true
+}

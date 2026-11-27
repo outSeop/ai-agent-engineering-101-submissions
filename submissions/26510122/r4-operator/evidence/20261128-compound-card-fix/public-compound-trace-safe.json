@@ -1,0 +1,17 @@
+{
+  "at": 1795803604.3911426,
+  "operator_probe": true,
+  "request_ref_sha256": "678bbf57aa74e55c5f10a95faffe53405daa4ed567e539035b1a7f95519d3d9e",
+  "model_output_events": 1,
+  "native_validation": [
+    {
+      "action": "search_similar_products",
+      "validation": "verified_semantic_candidates",
+      "query_count": 3,
+      "group_count": 2
+    }
+  ],
+  "financial_actions": 0,
+  "operator_text_matches": true,
+  "edge_model_calls": 1
+}

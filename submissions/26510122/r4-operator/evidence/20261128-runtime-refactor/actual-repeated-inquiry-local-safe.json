@@ -1,0 +1,20 @@
+{
+  "at": 1795805548.8129013,
+  "source_only_check": {
+    "status": "sources_verified_only",
+    "keys_read": false,
+    "listener_started": false
+  },
+  "native_version": 9,
+  "actual_original_request_local_tool_replay": true,
+  "original_request_and_Model_arguments_unchanged": true,
+  "external_Model_calls": 0,
+  "A2A_customer_contacts": 0,
+  "production_financial_or_token_reads": 0,
+  "customer_text_emitted": false,
+  "result": {
+    "status": "held",
+    "reason": "unsupported_request"
+  },
+  "elapsed_seconds": 1.503
+}

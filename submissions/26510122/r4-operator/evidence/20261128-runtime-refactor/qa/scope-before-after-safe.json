@@ -1,0 +1,19 @@
+{
+  "scope": "Baseline6 packaging/common-front regression only; finalnative8 two positives pending root freeze",
+  "prior_driver6_limit": "Prior driver-source read the original production agent.json via old assembly and passed original root to Mind/app while isolating toolbox writes. It did not exercise the new common config/admission hookup. This source inspection does not establish which persona content reached Model; no raw historic trace replay was done.",
+  "new_baseline_scope": "New common assemble isolated_root uses owned synthetic agent/Mind/app/toolbox root, empty tools tokens/addresses, NoWallet and explicit fixture callbacks. Shared financial source andSDK are verified by source hash only; original key/DB/log/agent/persona not read.",
+  "baseline6": {
+    "compound_mock": true,
+    "repeated_positive_not_run_on6": true,
+    "Modelstub_calls": 1,
+    "actual_Model_calls": 0,
+    "source_rows": 117,
+    "legacy_fixture_rows_prepared": 30,
+    "legacy_context_calls": 0,
+    "closed_gate_503_before_Model": true,
+    "open_admissions": 1,
+    "ordinary_native_prepare_and_semantic6": true,
+    "SDK_final_equals_genuine": true
+  },
+  "no_conversion_or_live_deployment_claim": true
+}

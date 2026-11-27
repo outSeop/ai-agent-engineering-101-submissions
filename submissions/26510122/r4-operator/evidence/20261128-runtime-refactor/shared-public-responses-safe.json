@@ -1,0 +1,69 @@
+{
+  "at": 1795805884.9281578,
+  "cases": [
+    {
+      "case": "compound",
+      "at": 1795805872.737889,
+      "operator_probe": true,
+      "http": 200,
+      "edge": "r4-compound2-front-v1",
+      "elapsed_seconds": 10.0057,
+      "state": "TASK_STATE_COMPLETED",
+      "reply": "유사어로 찾은 참고 후보입니다. 정확한 상품 일치와 요청 조건 전체의 충족 여부는 확인되지 않았습니다. 표시 가격은 공개 상품가.\n요청 1 · 반디룸 양털토퍼 두툼한 침대매트 차박매트 차박토퍼 S 2color · SKU G006cebbb · C등급 · 15,297크레딧 · 유통기한 미제공\n요청 2 · 먼지없는 60수 순면 사계절 봄가을 겨울 차렵 이불 기숙사 간절기 침구 슈퍼싱글 SS (이불단품) · SKU G998b9322 · B등급 · 46,710크레딧 · 유통기한 미제공\n원하는 SKU로 구매 조건을 다시 문의해 주세요.",
+      "verified_product_rows": 2,
+      "grade_price_matches_fresh_cache": true,
+      "checkout_artifact": false,
+      "task_id_sha256": "8c2b3220894b429c08e6f604e0c87ed2dd8965ace696a7ee6c117fda4a715171",
+      "two_groups_shown": true,
+      "reply_characters": 296,
+      "extraction": "task.status.message.parts only; task input/history excluded",
+      "trace_customer_received_matches": true,
+      "Model_calls": 1,
+      "financial_actions": 0,
+      "validations": [
+        {
+          "action": "search_similar_products",
+          "validation": "verified_semantic_candidates",
+          "query_count": 3,
+          "group_count": 2
+        }
+      ]
+    },
+    {
+      "case": "repeat",
+      "at": 1795805884.9273283,
+      "operator_probe": true,
+      "http": 200,
+      "edge": "r4-compound2-front-v1",
+      "elapsed_seconds": 12.1881,
+      "state": "TASK_STATE_COMPLETED",
+      "reply": "유사어로 찾은 참고 후보입니다. 정확한 상품 일치와 요청 조건 전체의 충족 여부는 확인되지 않았습니다. 표시 가격은 공개 상품가입니다.\n먼지없는 60수 순면 사계절 봄가을 겨울 차렵 이불 기숙사 간절기 침구 슈퍼싱글 SS (이불단품) · SKU G998b9322 · B등급 · 46,710크레딧 · 유통기한 미제공\n바자르 포근한 먼지없는 극세사 양면 겨울 차렵이불 (Q) · SKU G209a230d · C등급 · 22,118크레딧 · 유통기한 미제공\n먼지없는 모달 사계절 봄 가을 겨울 여름 간절기 화창한 차렵 이불 킹사이즈 침구 슈퍼킹 라지킹 KK (이불단품) · SKU G747a9c30 · B등급 · 94,410크레딧 · 유통기한 미제공\n원하는 SKU로 구매 조건을 다시 문의해 주세요.",
+      "verified_product_rows": 3,
+      "grade_price_matches_fresh_cache": true,
+      "checkout_artifact": false,
+      "task_id_sha256": "175df9c374d59bc27306bd3a75c68357df6df22eb5ad506cdbadddfc31d8c1b0",
+      "two_groups_shown": null,
+      "reply_characters": 388,
+      "extraction": "task.status.message.parts only; task input/history excluded",
+      "trace_customer_received_matches": true,
+      "Model_calls": 1,
+      "financial_actions": 0,
+      "validations": [
+        {
+          "action": "search_similar_products",
+          "validation": "verified_semantic_candidates",
+          "query_count": 2,
+          "group_count": 1
+        }
+      ]
+    }
+  ],
+  "caller": "operator readonly checks excluded from customers/sales",
+  "payments_requested": false,
+  "new_gate": {
+    "version": 1,
+    "open": true,
+    "admissions": 2
+  },
+  "measurement_correction": "First extraction recursed over the whole Task and included the synthetic user input. Corrected status-message extraction using saved response only; no new API or Model call."
+}

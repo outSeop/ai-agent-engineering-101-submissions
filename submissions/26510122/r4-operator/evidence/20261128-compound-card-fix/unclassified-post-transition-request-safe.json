@@ -1,0 +1,55 @@
+{
+  "at": 1795803640.5783553,
+  "scope": "between transition and the explicit root compound probe",
+  "requests": [
+    {
+      "at": "2026-11-28T03:17:46.937193+09:00",
+      "unclassified_nonroot_request": true,
+      "request_ref_sha256": "6a57e9c141a072e6530a9ef87af949aab8851cf33f32b626d7ee4c4003128ba8",
+      "product_information_terms": true,
+      "warranty_terms": false,
+      "explicit_SKU": false,
+      "model_calls": 1,
+      "tool_actions": [
+        "shop_context",
+        "search_similar_products"
+      ],
+      "response_state": "completed",
+      "response_has_product_SKU": false,
+      "compound_question_same_as_operator": false
+    }
+  ],
+  "not_proven_unique_buyer_or_ad_conversion": true,
+  "customer_text_or_identity_emitted": false,
+  "safe_validation_detail": [
+    {
+      "has_explicit_price_cap": false,
+      "has_grade_constraint": false,
+      "has_protected_action_terms": true,
+      "has_negative_constraints": false
+    },
+    {
+      "action": "search_similar_products",
+      "validation": "action_rejected"
+    }
+  ],
+  "safe_argument_shape": {
+    "action": "search_similar_products",
+    "arg_keys": [
+      "groups"
+    ],
+    "has_redundant_native_op": false,
+    "groups": [
+      {
+        "keys": [
+          "product_phrase",
+          "queries"
+        ],
+        "original_exact_phrase_count": 2,
+        "phrase_length": 1,
+        "query_type": "list",
+        "query_count": 2
+      }
+    ]
+  }
+}

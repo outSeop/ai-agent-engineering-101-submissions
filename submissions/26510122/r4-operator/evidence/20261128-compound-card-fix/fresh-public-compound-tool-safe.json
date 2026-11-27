@@ -1,0 +1,17 @@
+{
+  "at": 1795803188.745134,
+  "bundle_manifest": "b5eb4f55bcfc656405cb9eadb63ae6f746b005bcafa6ee5abdbff3c73c89793c",
+  "actual_fresh_public_cache": true,
+  "initial_rows": 0,
+  "source_rows": 145,
+  "result": {
+    "status": "rendered",
+    "reply": "유사어로 찾은 참고 후보입니다. 정확한 상품 일치와 요청 조건 전체의 충족 여부는 확인되지 않았습니다. 표시 가격은 공개 상품가.\n요청 1 · 반디룸 양털토퍼 두툼한 침대매트 차박매트 차박토퍼 S 2color · SKU G006cebbb · C등급 · 15,297크레딧 · 유통기한 미제공\n요청 2 · 먼지없는 60수 순면 사계절 봄가을 겨울 차렵 이불 기숙사 간절기 침구 슈퍼싱글 SS (이불단품) · SKU G998b9322 · B등급 · 46,710크레딧 · 유통기한 미제공\n원하는 SKU로 구매 조건을 다시 문의해 주세요.",
+    "observed_at": 1795803150,
+    "valid_until": 1795803300
+  },
+  "elapsed_seconds": 1.468,
+  "Model_calls": 0,
+  "test_selected_search_terms": true,
+  "customer_A2A_payment_financial_DB_calls": 0
+}

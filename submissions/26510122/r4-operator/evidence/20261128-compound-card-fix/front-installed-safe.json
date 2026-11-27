@@ -1,0 +1,17 @@
+{
+  "at": 1795803375.546868,
+  "installed_service": "ourolabs-market-r4-compound-front.service",
+  "service_file_sha256": "f51b473df31e91fc31f6b4a20d8e14309b92d97b68ceeef51ce4e2906eb268c2",
+  "new_listener_ready": true,
+  "local_port": 18809,
+  "admission": {
+    "version": 1,
+    "open": false,
+    "admissions": 0
+  },
+  "route_changed": false,
+  "existing_services_restarted": false,
+  "new_business_loops": 0,
+  "enabled_on_boot": false,
+  "service": "ActiveState=active\nMainPID=1277750\nNRestarts=0\n"
+}

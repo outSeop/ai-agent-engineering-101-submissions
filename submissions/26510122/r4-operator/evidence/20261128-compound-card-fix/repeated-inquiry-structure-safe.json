@@ -1,0 +1,13 @@
+{
+  "sentence_count": 2,
+  "occurrences_per_sentence": [
+    1,
+    1
+  ],
+  "same_sentence_repeated": false,
+  "separate_redundant_which_question": false,
+  "has_brand_terms": false,
+  "has_pack_size_terms": false,
+  "has_neutral_payment_procedure_terms": false,
+  "has_deferred_payment_terms": false
+}

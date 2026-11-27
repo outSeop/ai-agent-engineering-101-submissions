@@ -1,0 +1,12 @@
+{
+  "at": 1795803460.1476276,
+  "kind": "operator-GetTask-read-only",
+  "http": 200,
+  "edge": "r4-compound-front-v1",
+  "legacy_task_same": true,
+  "task_id_same": true,
+  "state": "TASK_STATE_INPUT_REQUIRED",
+  "elapsed_seconds": 0.1388,
+  "new_customer_message": false,
+  "new_task_admissions": 0
+}

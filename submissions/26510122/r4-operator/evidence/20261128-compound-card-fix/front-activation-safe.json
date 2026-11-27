@@ -1,0 +1,20 @@
+{
+  "at": 1795803460.147992,
+  "status": "exact_new_rule_verified_and_first_task_gate_open",
+  "idle_samples": 49,
+  "postcheck": {
+    "attempts": 1,
+    "description_refreshes": 0,
+    "old_marker_waits": 0,
+    "current_description_matches": true,
+    "strict_identity_URL_pending_match": true
+  },
+  "existing_process_changes": 0,
+  "original_nat_selectors_preserved": true,
+  "gate": {
+    "version": 1,
+    "open": true,
+    "admissions": 0
+  },
+  "source": "successful fixed guard CLI result; independent old task GetTask rechecked"
+}

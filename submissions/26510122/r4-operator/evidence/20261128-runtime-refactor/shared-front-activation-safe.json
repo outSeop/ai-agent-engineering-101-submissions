@@ -1,0 +1,39 @@
+{
+  "recorded_at": 1795805813.6519737,
+  "guard_result": {
+    "status": "exact_new_rule_verified_and_first_task_gate_open",
+    "idle_samples": 21,
+    "postcheck": {
+      "attempts": 1,
+      "description_refreshes": 0,
+      "old_marker_waits": 0,
+      "current_description_matches": true,
+      "strict_identity_URL_pending_match": true
+    },
+    "process_changes": 0
+  },
+  "legacy_task_checks": [
+    {
+      "original_listener": 18808,
+      "task_id_sha256": "7231118decf06550542707583a2d30616f5ac38516709c67c6e5e672e0589ada",
+      "same_task_bytes_as_JSON": true,
+      "edge": "r4-compound2-front-v1",
+      "state": "TASK_STATE_INPUT_REQUIRED",
+      "elapsed_seconds": 0.143
+    },
+    {
+      "original_listener": 18809,
+      "task_id_sha256": "427931defa6af2e567c0843bd9170a4a23b8b865a48a77c4805dd808b6ce87d8",
+      "same_task_bytes_as_JSON": true,
+      "edge": "r4-compound2-front-v1",
+      "state": "TASK_STATE_COMPLETED",
+      "elapsed_seconds": 0.083
+    }
+  ],
+  "gate_after_read_checks": {
+    "version": 1,
+    "open": true,
+    "admissions": 0
+  },
+  "GetTask_reads_not_customer_messages": true
+}

@@ -1,0 +1,35 @@
+{
+  "schema": "common-host-refactor-independent-qa.v1",
+  "baseline6_compound": "1passed;repeatnotrun",
+  "final9_supported_cases": {
+    "passed": 2,
+    "total": 2,
+    "Modelstub_completions_each": 1,
+    "ordinary_genuine_tools": true,
+    "final_SDK_text_equals_genuine": true
+  },
+  "first_final9_overscoped_fixture": {
+    "passed": 1,
+    "total": 2,
+    "preserved": true,
+    "classification": "unsupported combined pattern, not source bug"
+  },
+  "build_sha256": "568dae07f9bf818e8eb9b1c12ff065c86720fdaedbd06bef0acf98346b4d8c32",
+  "runtime_manifest_sha256": "3da162a2042b424dfbe98e7366d527169d3267ee2d5b964a1e17e2c35782d1c7",
+  "front_manifest_sha256": "05198370b8449a132db5df758d6ada3e504d8283b02cc454809e9d1c7eaaf562",
+  "real_Model_API_DB_keys_production_logs_services_POST_pay_calls": 0,
+  "production_source_modified_by_QA": false,
+  "public_pattern_scan_matches": 0,
+  "files": {
+    "baseline6-compound-safe-result.json": "642d147c539970ba95fe4e6bc0839935534fafbd3a0824be3f68be9e5ec48d04",
+    "fixture-correction-history-safe.json": "48edb4bb1895b244e9a624ccaa8e6af92fe0c5673e6d4bea086a2c574d188d48",
+    "first-final9-overscoped-fixture-safe-result.json": "49ab52fa6b56163ab068fde1a504dd239cd21c1f362160f1cc540e61b1f44b4b",
+    "README.md": "200ccba42a5645c4915aa02801e61caae7e4c43e6b894c9e931791ddc69c5bcc",
+    "final9-two-positive-safe-result.json": "c548c9f2fba7d0c33b0c4f59680557fe4ea9a53d05a7cd9aabb6459de42529c4",
+    "initial-overscoped-fixture-replay.py": "d9ce950a74a9a1699bb2875ddc8dbf0e8a4758de567246e72c2a884d9c97ae28",
+    "BASELINE6-MANIFEST.json": "235ca74cf76182d0f32da263bc9e3d69da5c2598d3be4900352d663341c816a4",
+    "common_front_asgi_replay.py": "1261d091cbb1842190bed1a8a98d282c9d94d4abd5c15b6b279e809ea2bc624b",
+    "scope-before-after-safe.json": "1b42e6ee0aea0f03c1983a41bff40dab9083e388846fa3ab5551b140065443e9",
+    "fixture-correction-setup-safe.json": "f93e365b72f5055a205ed83aeb0e40c148f694432561e0afcbc058c204309667"
+  }
+}
