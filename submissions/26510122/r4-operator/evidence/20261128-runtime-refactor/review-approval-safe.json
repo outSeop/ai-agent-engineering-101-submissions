@@ -1,0 +1,23 @@
+{
+  "schema": "r4-review-approval.v1",
+  "production_cutover": {
+    "rejected_before_execution": true,
+    "reason": "Live NAT destination switch and external engine admission require explicit user approval",
+    "current_target": 18810,
+    "proposed_target": 18811,
+    "prepared_release": "83d11d4938c3e31ea6cc59e337fdf3f2c5afb11e3dbd6ef020d9873dcfacaa7d"
+  },
+  "private_grammar_inspection": {
+    "rejected_before_execution": true,
+    "reason": "Two raw customer preface words in tool output conflict with established no-raw-customer-text constraint",
+    "user_permission_requested": true,
+    "raw_customer_text_in_this_file": false
+  },
+  "router_verification_default_mode": {
+    "initial_command_rejected": true,
+    "safe_alternative": "explicit --sources-only, rejects simultaneous --serve",
+    "safe_alternative_passed": true
+  },
+  "bypass_attempted": false,
+  "original_production_service_kept": true
+}

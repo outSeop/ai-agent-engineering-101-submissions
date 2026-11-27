@@ -1,4 +1,32 @@
-## 최신 인계 — 2026-11-28 04:01 KST 문의·카드 수정 및 코드 공통화
+# R4 서버 운영 인계
+
+## 최신 인계 — 2026-11-28 06:44 KST semantic19 검증 완료, 외부 전환 승인 대기
+
+**외부는 기존18810 / semantic9이며 새 패키지는 아직 적용하지 않았다.** 새 후보는 고정 router18811 → persistent engine18812 / semantic19다. 기존 DB·두 지갑·매입8·publisher9·가격 정책과 기존7개 서비스/CF를 보존한다. 누적 정산2·missing1, 신규 정산0이다.
+
+실제 실패 문의의 원문·args를 바꾸지 않은 SDK 재생과 전체 ASGI 재생이 통과했다. 같은 재고145행 중 실제 반환1행의 SKU·상품명·등급·가격·남은 기한이 일치한다. 원문 조건 전체가 확인된 견적은 아니며 결제서 미발급·input_required를 명시한다. 최종 SDK text·artifact data와 customer_received add-event가 정확히 같았다. trace는 메모리 관측이며 이 검사로 disk persistence를 주장하지 않는다.
+
+두 원인은 반복된 한 글자 상품 구절의 엄격한 문법 검사와, 배열 원소의 slash 계층 분류가 기존 라벨 검증에서 제외된 문제였다. semantic19 관련 참고 경로에서만 각 조각/재조합 안전 검사를 유지하며 분류 구조를 정규화한다. 원 캐시·DB·가격·등급·기한은 바꾸지 않는다. 모든 질의 경로와 미지원 복합 문장을 해결했다는 뜻은 아니다.
+
+**모델 지침 정정:** 공식 과제는 에이전트가 직접 forge할 것을 요구하며 저작 모델을 classroom으로 제한하지 않는다. 사용자 지시대로 개발은 Codex6.2 Sol 요청, 운영은 market이다. 기존의 classroom-only 저작 제한은 로컬 지침이었으므로 현재 지침으로 사용하지 말 것. 원 Mind.run_once → 실제 forge_tool → 원 Toolbox.forge·selftest·로그로 semantic_candidates@19를 발급했다. CLI upstream_reported_model은 null로 기록했고 수업 모델 저작으로 소급 표시하지 않았다. 상세 provenance는 native19-sol-reference 자료에 있다.
+
+검증은 서로 구분한다. native19 독립 SDK39/39와 실제 원문 로컬 PASS; 유지 ASGI는 모델 stub 정상3+원형 xfail1; 실제 수업 모델 합성1회는 콩음료→두유 검색어를 스스로 선택해 genuine19를 사용했다. 모델10.1381초·총11.8637초·금융0. 이는 실고객 정산 증가가 아니다.
+
+최신 명세는 `deploy/release_specs/stable-router-reference-v19.json`, release ID는 `d48415b401447f26df06354b273129db719e425409e8a9c670d762f6cb5d047c`다. runtime manifest는0f0b53d000ecb9326b9ea1a448bbcd20580e40e51289c8212a48c28f0a88ccea, front manifest는5b0a9de94105b1376b1d4941ef7b936d35daf2cb3d2e4964895b23a69ac6d22c다. 원 forge assets는 바이트 그대로 묶었다. 이전83d11은 native9 구조 검증 기록이고 최신 배포 후보가 아니다.
+
+기존 task41개의 소유자와 protobuf 사본은 private HOST DB에 보존했다. 초기 loopback prototype51e577에서41/41 직접 GetTask를 확인했다. 신규 task와 current 라우트는 같은 SQLite 트랜잭션에 저장한다. SDK owner_resolver를 유지하며 metadata.from을 인증으로 쓰지 않는다. 공개 힌트는 원 validator·최대3개·300초이며 SDK의 별도 대화 closure 전체 복구를 주장하지 않는다. legacy snapshot으로 금융 동작을 재실행하지 않는다.
+
+현재 local engine/router unit은 초기51e577/native9로 닫혀 있고 HOST maintenance=true·current task0이다. 실제 NAT는18810이다. 기존 main1192914, worker1192976, fronts1213796/1218994/1240765/1277750/1282150, CF1192922를 재시작하지 않았다. 개발용19001 CLI helper는 정확한 생성 PID만 확인 후 종료했다.
+
+자동 승인 검토가18810→18811 외부 NAT 전환을 거절했으므로 명시적 사용자 승인을 기다린다. 승인 뒤 최종 d48415 unit binding부터 검사하고 기존 task41·현재 카드/지갑/URL·원장 보존을 다시 확인한다. 정확한 원 NAT 규칙만 전환하고 postcheck 후 maintenance를 연다. 새 current task가 생긴 뒤에는 legacy 대상으로 역전환하지 않고 같은 port/unit/DB를 유지해 고친다. 기존 main·worker·legacy fronts·CF는 재시작하지 않는다. R3·예약 홍보·매입15·cold-start 변경은 승인 범위가 아니다.
+
+고객 도입부2단어 출력도 자동 검토가 거절했으며 실제 출력하지 않았다. 추가 원문 열람 없이 참고 조회와 분류 정규화로 해결했으므로 그 열람 승인은 더 필요하지 않다. 원문·키·비공개 추론을 Git·공개 보고서·개발 모델에 복사하지 않는다.
+
+[검토 후속 정리](R4_REVIEW_FOLLOWUP_20261128.md)와 reference19-checks-safe.json을 먼저 읽는다. 개인 fork round-4-26510122에만 commit/push하며 공용 PR은 열지 않는다.
+
+---
+
+## 이전 인계 — 2026-11-28 04:01 KST 문의·카드 수정 및 코드 공통화
 
 현재 새 문의는 **공통 HOST18810 / semantic9**다. 소스유지위치 `src/r4_operator_host/`,
 현재 명세 `deploy/release_specs/compound-cleanup-active.json`이다. 버전별전체복제대신 source+핀설정으로
@@ -30,7 +58,7 @@ semantic9독립19/19·공통front5/5·packaging3/3·strict ASGI2/2(모델stub) �
 
 ---
 
-## 최신 인계 — 2026-11-28 02:26 KST 캐시 장애 복구
+## 이전 인계 — 2026-11-28 02:26 KST 캐시 장애 복구
 
 **홍보 v9 교체가 공용 경로의 v5 의존성을 깨뜨려 재고 캐시가 약4시간 stale였다.**
 원인을 확인하고 `price_context_runtime_v8b`의 archived5 filesystem binding으로 기존 cache/card
@@ -266,7 +294,7 @@ Codex 예약 r4/r4-2/r4-3은 PAUSED 유지. 셀러 본체가 수업 모델의 �
 - 포럼 새게시1989(두부300g C1936),2079(유정란40구 C8198),2152은public/원장확인완료. 홍보host deploy/forum_campaign_operator.py SHA65d4a1e390e2fcac0f424d459562673bd06097105eeefbfa28e8acba17a83c54, 실제수업SDK Mind.run_once 경로다. 직접 Model.complete 이전실패403 not_the_kit를보존했다. legacy forum_marketing@5는외부작성원본재사용임을정직하게기록한다.
 - 새 heartbeat r4-3는10분간격포럼홍보(회당1최대, 원330/600초+중복/unknown제한). r4-2는15분간격읽기전용상태점검이며기존r4자동개선은PAUSED다. 홍보직후19:45/46 구매문의+후속질문한대화가있었고정산0, 광고인과/고객2명으로세지않는다.
 - 아직진행중: native 첫구매혜택공지도구(검증전공개0), 상품명/원포장수량/실동작구매CTA가빠진 public_catalogue@2를같은actualMind가수정중. 현재main release는아직public_catalogue_runtime_v2다. native3에서브랜드대괄호이름제외버그와CTA부족을찾아미배포로보존하고native4생성중. 새업데이트를조회전체/결제전체정상으로과장하지말것.
-- 비공개복구원본: /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/first-bonus-cutover-1795606293. DB를rollback하지말고코드/설정만복구할것. 지급된lot/welcome_award/커서/판매JWT를삭제하지않는다.
+- 비공개복구원본: {operator}/runtime/first-bonus-cutover-1795606293. DB를rollback하지말고코드/설정만복구할것. 지급된lot/welcome_award/커서/판매JWT를삭제하지않는다.
 
 ## 2026-11-25 18:39 KST — 공개 조회를 단일 도구로 전환
 
@@ -279,7 +307,7 @@ Codex 예약 r4/r4-2/r4-3은 PAUSED 유지. 셀러 본체가 수업 모델의 �
 - 보존: 기존 DB 파일·wallet SHA/device/inode 유지, 기존 완료 매입 intent 138행은 원본값 그대로 모두 보존했다. 새 매입·관측·진행 커서 변화는 정상 운영 변화로 따로 구분했다. DB quick_check=ok, dispatcher 기존 84e0eca3…0cd 및 managed runtime 7504c9ed…4d8 유지. 원가 하한·혜택·환불 금융 경로를 바꾸지 않았다.
 - 현재 관측: 순위 30, 재고 126개/126품목, 실제 판매·정산 0. 운영자 공개 점검 4건을 따로 등록했으며 최근 30분 미분류 문의는 0이다. 입고·도구 응답 성공은 매출이 아니다. 재시작을 포함하므로 같은 시간 성과 개선을 아직 주장하지 않는다.
 - 실행 상태: R4 main/worker, 단일 customer-context timer, card-keeper timer 재개. R3는 중지 유지. 새 공개 URL은 시장 등록과 카드가 일치하지만 quick tunnel 재시작 시 바뀔 수 있어 현재 등록을 다시 조회할 것. 추가 작업 자동화/goal을 재개하지 않았다.
-- 백업·사실 원문은 비공개 `/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/public-catalogue-cutover-1795598385`에 보존. 최초 v4b 런처/DB 온라인 백업과 v1 런처·생산기 drop-in을 별도로 보존했다. DB를 롤백하지 말 것. 기존 CUTOVER_RUNBOOK은 v1 당시 기록이며, 현재 런처에는 v2 release/pin을 적용해야 한다.
+- 백업·사실 원문은 비공개 `{operator}/runtime/public-catalogue-cutover-1795598385`에 보존. 최초 v4b 런처/DB 온라인 백업과 v1 런처·생산기 drop-in을 별도로 보존했다. DB를 롤백하지 말 것. 기존 CUTOVER_RUNBOOK은 v1 당시 기록이며, 현재 런처에는 v2 release/pin을 적용해야 한다.
 - 공개 검증: `evidence/20261125-public-catalogue/` 아래 source/forge/실패 기록과 host-class-validation, host-v2-review, public-deployment-validation을 구분한다. 원문 고객·Model 추론·DB·키는 공개하지 않는다. 재현용 host 검증 코드는 `deploy/public_catalogue_validation/`에 있다.
 
 # 서버 Codex: 기존 outseop-r4 R4 가게를 운영한다

@@ -1,0 +1,15 @@
+{
+  "scope": "supplemental schema verification on already completed synthetic actual-class ASGI; no new inference",
+  "http_status": 200,
+  "native_status": "rendered",
+  "task_state": "TASK_STATE_INPUT_REQUIRED",
+  "text_part_count": 1,
+  "artifact_count": 1,
+  "data_part_count": 1,
+  "customer_received_text_equals_genuine": true,
+  "customer_received_data_equals_genuine_payment_request": true,
+  "actual_new_Model_calls": 0,
+  "actual_new_finance_or_service_calls": 0,
+  "raw_customer_data_read": false,
+  "native_safe_result_sha256": "daec106444c5dacf0b61911f330b9da5fc2ec6a7934054c19f0bb1e3c3b3498c"
+}

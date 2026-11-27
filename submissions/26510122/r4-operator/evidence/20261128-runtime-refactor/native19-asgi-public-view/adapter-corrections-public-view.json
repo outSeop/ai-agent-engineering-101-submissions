@@ -1,0 +1,34 @@
+{
+  "public_view_normalized_non_executing": true,
+  "initial_adapter_failures_preserved": 3,
+  "status_message_only_data_extraction_was_incorrect": true,
+  "SDK_artifact_data_extraction_corrected": true,
+  "generic_validator_original_MULTILINE_restored": true,
+  "business_or_source_changes_for_corrections": false,
+  "initial_failures": [
+    {
+      "completed": false,
+      "checkpoint": 4,
+      "error_type_sha256": "16b0fd395786f0b021618297cf332472a1f17c7358e1185c396e82655c08449e",
+      "private_proof_sha256": "2d50b5be0cb6faa8ba185a69ab2ee34493bc511e3026ad50772f6195c0f8cf95"
+    },
+    {
+      "completed": false,
+      "checkpoint": 4,
+      "error_type_sha256": "16b0fd395786f0b021618297cf332472a1f17c7358e1185c396e82655c08449e",
+      "private_proof_sha256": "224959cc93b82ec26d9a9bfd0255375a6882c36efb119427d7ce27cd07502837"
+    },
+    {
+      "completed": false,
+      "checkpoint": 7,
+      "error_type_sha256": "16b0fd395786f0b021618297cf332472a1f17c7358e1185c396e82655c08449e",
+      "private_proof_sha256": "c9701bbb398f87b5fd5e59ef21dc9072a97f058c07b7d4b22b7965331ed9cc3b"
+    }
+  ],
+  "initial_source_snapshots_sha256": {
+    "1": "f8d67a4d4e3cc0ec857df531566871e594884a327a00a94b1851f8e83c894b2a",
+    "2": "02ef9fc422a7060caaab64a231700018e834744131c433563bf53a1cda2ea9be",
+    "3": "75169c0160a677769d99c5ca3959b59185a58ca20fd13f995fb21d1612558329"
+  },
+  "external_LLM_calls": 0
+}

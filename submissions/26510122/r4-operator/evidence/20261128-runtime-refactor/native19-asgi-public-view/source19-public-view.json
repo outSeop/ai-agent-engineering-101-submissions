@@ -1,0 +1,17 @@
+{
+  "public_view_normalized_non_executing": true,
+  "release_id_sha256": "d48415b401447f26df06354b273129db719e425409e8a9c670d762f6cb5d047c",
+  "native_version": 19,
+  "forge_source4_hashes_match": true,
+  "logic_sha256": "f72b2754a85d1372aa381f165165db83786500f369337fc7dbe1834c81c610b2",
+  "permission_sha256": "cb39f4c401444160777e30cefaaf85a0d204a059278fe56599ce2479a3d5e3c3",
+  "test_sha256": "d1d36200deea47b8a524b0214a7ac0b75df4873210f149db37c82ba76c710599",
+  "forge_sha256": "bb0c72f43d051b6cc022d3cc97ee797c5feeb0e588a761e8cc1a176d3584dc36",
+  "private_original_BUILD_copied": false,
+  "private_adapter_sha256": "f0f1a2eab11d148b5a148535d3c6d41e74967b15e18aa7a3a9160aae35518215",
+  "maintained_support_sha256": "26f457043f9eda8456b1f26fbf396ef6eba337aa27a7f8895264a47f0d37589c",
+  "actualcached_readonly_source_clock_verified": true,
+  "fixture_tool_auth_count": 0,
+  "fixture_tool_address_count": 0,
+  "NoWallet": true
+}

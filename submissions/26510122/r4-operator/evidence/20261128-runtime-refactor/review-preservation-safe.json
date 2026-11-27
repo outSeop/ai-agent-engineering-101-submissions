@@ -1,0 +1,112 @@
+{
+  "at": 1795812451.631381,
+  "scope": "review followup, no raw customer or private model data",
+  "public_HTTP": 200,
+  "public_marker": "r4-compound2-front-v1",
+  "public_name": "outseop-r4",
+  "public_URL_same": true,
+  "wallet_same": true,
+  "DB_inode_same": true,
+  "quick_check": "ok",
+  "core_ledgers": {
+    "sale": {
+      "rows": 3,
+      "row_hash_unchanged": true
+    },
+    "lot": {
+      "rows": 2,
+      "row_hash_unchanged": true
+    },
+    "allocation": {
+      "rows": 0,
+      "row_hash_unchanged": true
+    },
+    "refund": {
+      "rows": 0,
+      "row_hash_unchanged": true
+    },
+    "welcome_award": {
+      "rows": 2,
+      "row_hash_unchanged": true
+    },
+    "ticket": {
+      "rows": 0,
+      "row_hash_unchanged": true
+    },
+    "account": {
+      "rows": 3,
+      "row_hash_unchanged": true
+    },
+    "customer_profile": {
+      "rows": 3,
+      "row_hash_unchanged": true
+    }
+  },
+  "preserved_files_equal": {
+    "shop_wallet.key": true,
+    "buyer_wallet.key": true,
+    "codex-r4/launch-price-policy.json": true,
+    "tools/stock_procurement/logic.py": true,
+    "tools/stock_procurement/forge.json": true,
+    "tools/forum_marketing/logic.py": true,
+    "tools/forum_marketing/forge.json": true
+  },
+  "original_processes": {
+    "main": {
+      "original_pid": 1192914,
+      "still_alive": true
+    },
+    "worker": {
+      "original_pid": 1192976,
+      "still_alive": true
+    },
+    "front18806": {
+      "original_pid": 1213796,
+      "still_alive": true
+    },
+    "front18807": {
+      "original_pid": 1218994,
+      "still_alive": true
+    },
+    "front18808": {
+      "original_pid": 1240765,
+      "still_alive": true
+    },
+    "front18809": {
+      "original_pid": 1277750,
+      "still_alive": true
+    },
+    "front18810": {
+      "original_pid": 1282150,
+      "still_alive": true
+    },
+    "cloudflared": {
+      "original_pid": 1192922,
+      "still_alive": true
+    }
+  },
+  "sales": {
+    "missing": 1,
+    "settled": 2
+  },
+  "new_settlements": 0,
+  "HOST_maintenance": true,
+  "HOST_stats": {
+    "total": 41,
+    "current": 0,
+    "legacy": 41,
+    "snapshots": 41,
+    "tasks": 0
+  },
+  "public_native_semantic_version": 9,
+  "prepared_release": "83d11d4938c3e31ea6cc59e337fdf3f2c5afb11e3dbd6ef020d9873dcfacaa7d",
+  "prepared_release_installed": false,
+  "loopback_prototype_release": "51e577ff8fa70a21d6126066e43ba138c035ad5dd41c33cf387fd6b47e2720c7",
+  "loopback_prototype_direct_GetTask_success": 41,
+  "external_route_changed": false,
+  "operator_financial_executions": 0,
+  "required_approvals": [
+    "read_two_grammar_words_internally",
+    "external_router_cutover"
+  ]
+}

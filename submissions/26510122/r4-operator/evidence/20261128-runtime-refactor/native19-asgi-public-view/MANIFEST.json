@@ -1,0 +1,23 @@
+{
+  "public_view_normalized_non_executing": true,
+  "cached_actual_decision_replay_completed": true,
+  "fresh_Model_inference": false,
+  "live_customer": false,
+  "actual_new_sales_or_financial_calls": 0,
+  "maintained4_normal_passes": 3,
+  "maintained4_expected_failures": 1,
+  "cached_completion_calls": 1,
+  "genuine_semantic_calls": 1,
+  "customer_received_event_payload_verified": true,
+  "customer_received_disk_persistence_claimed": false,
+  "raw_private_BUILD_paths_exported": false,
+  "raw_request_or_actual_product_values_exported": false,
+  "original_source_unchanged": true,
+  "original_failures_preserved": 3,
+  "files_sha256": {
+    "cached-actual-public-view.json": "51152cf0678ae194abdedcf214d40d5c0f5584d508eb0db4fadae2ff48a36f1a",
+    "maintained4-public-view.json": "c866555b12a88f6b0ca073bbfce12d3fb696d9d33040088c4b875bf0986dcb51",
+    "adapter-corrections-public-view.json": "09e98c8b6922eb89915587994f3de32db1ade90a51be7764d2fb58fab507b7d1",
+    "source19-public-view.json": "0a69e3e539f364ba61b121f9fbcb9b8ee4cfcc49e6f91fbaaf7b5a3a3106ed3a"
+  }
+}

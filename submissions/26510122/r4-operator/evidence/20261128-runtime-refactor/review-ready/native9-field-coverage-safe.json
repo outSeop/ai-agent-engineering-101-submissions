@@ -1,0 +1,25 @@
+{
+  "scope": "Synthetic native9 result keys only; no response text or raw logs exported",
+  "cases": {
+    "compound": {
+      "semantic_native_status": "rendered",
+      "semantic_native_reason": null,
+      "payment_request_present": false,
+      "public_facts_present": false
+    },
+    "repeated-positive": {
+      "semantic_native_status": "rendered",
+      "semantic_native_reason": null,
+      "payment_request_present": false,
+      "public_facts_present": false
+    },
+    "unsupported-compound-repeat": {
+      "semantic_native_status": "unavailable",
+      "semantic_native_reason": "unsupported_request",
+      "payment_request_present": false,
+      "public_facts_present": false
+    }
+  },
+  "typed_metadata_positive_genuine_SDK_path_tested": false,
+  "architecture_backward_compatibility_only": true
+}

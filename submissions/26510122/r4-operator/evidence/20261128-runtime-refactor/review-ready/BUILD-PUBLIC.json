@@ -1,0 +1,16 @@
+{
+  "builder_sha256": "9910ab962b48f8d61145117e1e6ce540cb71cfc84c1392ca78a773c14484dd0f",
+  "business_sources_modified_by_builder": false,
+  "descriptor_sha256": "5f8cda91e0d387ccdf0c920597cde2d7b91bd5e50ae9e175ff20547af8becefb",
+  "front_manifest_sha256": "b4644cc533fcf65adf0a975a8493e96324759938cb1e104d6cc4f0f23f42eeaf",
+  "front_path": "runtime/releases/5f8cda91e0d387ccdf0c920597cde2d7b91bd5e50ae9e175ff20547af8becefb/front",
+  "native_asset_bytes_preserved": true,
+  "native_semantic_version": 9,
+  "release_id": "5f8cda91e0d387ccdf0c920597cde2d7b91bd5e50ae9e175ff20547af8becefb",
+  "runtime_manifest_sha256": "ffea61b5546c78af36fbaf4d139e07a7c8b767320942149bf7b4c1d554e41454",
+  "runtime_path": "runtime/releases/5f8cda91e0d387ccdf0c920597cde2d7b91bd5e50ae9e175ff20547af8becefb/runtime",
+  "schema": "r4-host-build-public-view.v1",
+  "original_schema": "r4-host-build.v1",
+  "original_BUILD_sha256": "3a2c7e1967b0b607028427e85b50e6d9d361310b41764692fad9443737025f09",
+  "absolute_paths_normalized": true
+}

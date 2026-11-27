@@ -1,0 +1,11 @@
+{
+  "model": "codex-cli-gpt-6.2-sol",
+  "first_transport_timeout_seconds": 160,
+  "same_model_300_profile_returned": true,
+  "official_forge_attempts": 0,
+  "synthetic_verified": 33,
+  "actual_source": "one alias hit appears only in a category label with literal slash; native v4 canonical safety rejects the unsplit category",
+  "actual_partial_pass": false,
+  "runtime_model_changed": false,
+  "production_modified": false
+}

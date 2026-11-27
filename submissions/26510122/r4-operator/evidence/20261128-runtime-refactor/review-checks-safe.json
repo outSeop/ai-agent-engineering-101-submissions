@@ -1,0 +1,43 @@
+{
+  "asof": "2026-11-28 05:51 KST",
+  "prepared_release": "83d11d4938c3e31ea6cc59e337fdf3f2c5afb11e3dbd6ef020d9873dcfacaa7d",
+  "SDK_task_persistence_routing_guard_unit": {
+    "pass": 31,
+    "actual_Model_calls": 0,
+    "financial_executions": 0
+  },
+  "legacy_front_protocol": {
+    "pass": 5,
+    "actual_Model_calls": 0
+  },
+  "packaging": {
+    "pass": 4,
+    "distinct_operator_roots": 2
+  },
+  "typed_metadata_unit": {
+    "pass": 6,
+    "base_loader_stub": true,
+    "genuine_typed_positive": false
+  },
+  "final_maintained_ASGI": {
+    "tests": 4,
+    "pass": 3,
+    "expected_failure": 1,
+    "unexpected_success": 0,
+    "Model_stub": true
+  },
+  "entry_sources_only_checks": {
+    "engine": true,
+    "router": true,
+    "keys_read": false,
+    "listeners_started": false
+  },
+  "unforged_parser": {
+    "synthetic_sdk_pass": 28,
+    "synthetic_sdk_total": 28,
+    "actual_unchanged_pass": false,
+    "official_forge_attempts": 0,
+    "production_modified": false
+  },
+  "not_a_conversion_or_settlement_improvement_claim": true
+}

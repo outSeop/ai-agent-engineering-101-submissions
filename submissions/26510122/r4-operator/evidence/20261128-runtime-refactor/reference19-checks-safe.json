@@ -1,0 +1,55 @@
+{
+  "asof": "2026-11-28 06:44 KST",
+  "release_id": "d48415b401447f26df06354b273129db719e425409e8a9c670d762f6cb5d047c",
+  "native_version": 19,
+  "native_genuine_forge": true,
+  "development_model_requested": "gpt-6.2-sol",
+  "operating_model": "market",
+  "upstream_model_reported": null,
+  "SDK_native_independent": {
+    "passed": 39,
+    "total": 39
+  },
+  "actual_unchanged_local_SDK": {
+    "passed": true,
+    "private_raw_not_published": true
+  },
+  "actual_cached_decision_ASGI": {
+    "passed": true,
+    "original_text_args_unchanged": true,
+    "HTTP": 200,
+    "genuine_reply_equal": true,
+    "final_artifact_payment_request": "not_issued",
+    "state": "input_required",
+    "customer_received_event_equal": true,
+    "trace_disk_persistence_tested": false,
+    "source_rows": 145,
+    "rendered_rows": 1,
+    "same_source_SKU_name_grade_price_expiry": true,
+    "Model_API_calls": 0,
+    "financial_executions": 0
+  },
+  "actual_class_synthetic_ASGI": {
+    "passed": true,
+    "Model_calls": 1,
+    "Model_seconds": 10.1381,
+    "total_seconds": 11.8637,
+    "finance": 0,
+    "all17_checks": true,
+    "final_artifact_and_trace_supplement_passed": true
+  },
+  "maintained_stub_ASGI": {
+    "normal_pass": 3,
+    "original_expected_failure": 1,
+    "unexpected_success": 0
+  },
+  "HOST_task_router_guard": 31,
+  "legacy_front": 5,
+  "packaging": 4,
+  "metadata_stub_unit": 6,
+  "source_only_engine_router": true,
+  "production_changed": false,
+  "private_two_word_read_performed": false,
+  "private_word_approval_needed_now": false,
+  "external_NAT_cutover_approval_required": true
+}

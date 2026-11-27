@@ -1,0 +1,11 @@
+{
+  "schema": "r4-review-public-view.v1",
+  "private_original_manifest_sha256": "7947cebe7511b2095fa496ee08b0e3a5baddb85a7b68330ce739d32e9ca18a2f",
+  "normalization": "operator absolute paths only; original private evidence preserved",
+  "files": {
+    "BUILD-PUBLIC.json": "7a4b3f967e044479f99520f39c4c33a434753a19c3aaaf5ce2d9a1778fda6894",
+    "README.md": "765127078983e93c6f542629394945d80c006d98ff94bf1171018b5e6f2ce307",
+    "final-scope-safe.json": "7f94544a5abe3ada1b7bc429c2c36020c961875c1212e6585f7d7c9b6347b2a4",
+    "maintained-asgi-safe-result.json": "55e7b9c92a7e5487c5c963ade4153e8c92ae15ebdac207667c9e62a7e7d8061d"
+  }
+}

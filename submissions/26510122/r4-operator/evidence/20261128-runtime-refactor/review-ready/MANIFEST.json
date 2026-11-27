@@ -1,0 +1,17 @@
+{
+  "schema": "r4-review-public-view.v1",
+  "private_original_manifest_sha256": "8e355c36e3035a803562cf1ce998f75451266af168a66671a580919e6b26f9df",
+  "normalization": "operator absolute paths only; original private evidence preserved",
+  "files": {
+    "BUILD-PUBLIC.json": "fb8d4f3ff39cc7876d45855e0ac42c2dba8a53fda0b7e0e810e4a6d2c8286da7",
+    "README.md": "2867ae7e3a1d26988dd3fb681844f8780124f65623950336f18f5bd0cead672c",
+    "final83d11/BUILD-PUBLIC.json": "7a4b3f967e044479f99520f39c4c33a434753a19c3aaaf5ce2d9a1778fda6894",
+    "final83d11/MANIFEST.json": "8a9ce38bcb418a8a86f43de23802c06fd09bdadc922ea882742ca1568d9bc63a",
+    "final83d11/README.md": "765127078983e93c6f542629394945d80c006d98ff94bf1171018b5e6f2ce307",
+    "final83d11/final-scope-safe.json": "7f94544a5abe3ada1b7bc429c2c36020c961875c1212e6585f7d7c9b6347b2a4",
+    "final83d11/maintained-asgi-safe-result.json": "55e7b9c92a7e5487c5c963ade4153e8c92ae15ebdac207667c9e62a7e7d8061d",
+    "maintained-asgi-safe-result.json": "7a97410845182a94a8b9a7a18406c984faa1570a20ab21bd39ca5e4b85c203aa",
+    "metadata-source-unit-safe-result.json": "06e8578b3f8c02279eeca89e0ff7bd56962dadd73a0d4e02641b00e4046adb81",
+    "native9-field-coverage-safe.json": "1bef32225218b7b540ffd5672e6b9dc8c4ca33a9b7183ee2f1f5368af720fd25"
+  }
+}

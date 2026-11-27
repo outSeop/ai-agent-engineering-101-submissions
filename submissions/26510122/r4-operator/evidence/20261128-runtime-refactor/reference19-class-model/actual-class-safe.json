@@ -1,0 +1,149 @@
+{
+  "case": "synthetic-soy-milk-checkout-request",
+  "status": "verified_genuine_ASGI_final_reply",
+  "http_status": 200,
+  "final_reply_exact_genuine": true,
+  "reply_sha256": "0ac786be59327b816110884a43c44cb82b379ddadff222af4b840f8a94a4203b",
+  "reply_characters": 223,
+  "native_operations": [
+    "prepare",
+    "semantic_candidates"
+  ],
+  "native_semantic_version": 19,
+  "source_rows": 117,
+  "fixture_observed_at": 1795815117,
+  "fixture_food_expires_at": 1795901517,
+  "source_snapshot_sha256": "446b6ce358bcd2987de5b8087735f3c1d8ebbf8c6f72079fd64da100e8ef5695",
+  "cross_run_reply_hash_fixed": false,
+  "SDK_clock_unchanged": true,
+  "legacy_fixture_rows": 30,
+  "source_truncated": false,
+  "model_calls": 1,
+  "Model_metrics": [
+    {
+      "prompt_characters": 5636,
+      "page_rows": [
+        0
+      ],
+      "max_tokens": 800,
+      "timeout": 30
+    }
+  ],
+  "phase_metrics": [
+    {
+      "prefetch_seconds": 0.0,
+      "model_seconds": 10.1382,
+      "render_seconds": 0.0,
+      "legacy_action_seconds": 0.0,
+      "catalogue_seconds": 0.6806,
+      "search_seconds": 0.7547,
+      "fallback_seconds": 0.0,
+      "total_seconds": 11.5761,
+      "retries": 0,
+      "outcome": "semantic_candidate",
+      "reason": "none",
+      "phase_reasons": {}
+    }
+  ],
+  "maintenance_closed_503_without_Model": true,
+  "legacy_admission_used": false,
+  "legacy_admission_count": 0,
+  "durable_current_owner_indexed": true,
+  "legacy_context_calls": 0,
+  "financial_executor_attempts": 0,
+  "legacy_fixture_unchanged": true,
+  "isolated_root_for_agent_mind_app_toolbox": true,
+  "persistent_engine": true,
+  "fixture_SQLiteTaskStore": "SQLiteTaskStore",
+  "persistent_DB_isolated": true,
+  "tool_tokens": 0,
+  "tool_addresses": 0,
+  "NoWallet": true,
+  "production_identity_persona_DB_log_reads": 0,
+  "listener_started": false,
+  "total_transport_seconds": 11.6421,
+  "bound_runtime_manifest_sha256": "0f0b53d000ecb9326b9ea1a448bbcd20580e40e51289c8212a48c28f0a88ccea",
+  "bound_front_manifest_sha256": "5b0a9de94105b1376b1d4941ef7b936d35daf2cb3d2e4964895b23a69ac6d22c",
+  "semantic_native_status": "rendered",
+  "semantic_native_reason": null,
+  "synthetic_case": "콩음료를 사러 왔습니다. 지금 살 수 있는 콩음료의 정확한 상품명, 등급, 가격과 유통기한을 알려주시고 결제서 부탁드립니다.",
+  "actual_Model_called": true,
+  "actual_Model_provider": "market_classroom",
+  "actual_Model_calls": 1,
+  "actual_inference_HTTP_POSTs_requested": 1,
+  "actual_Model_metrics": [
+    {
+      "seconds": 10.1381,
+      "max_tokens": 800,
+      "timeout": 30
+    }
+  ],
+  "actual_Model_decisions": [
+    {
+      "action": "search_similar_products",
+      "groups": [
+        {
+          "product_phrase": "콩음료",
+          "queries": [
+            "콩음료",
+            "두유"
+          ]
+        }
+      ]
+    }
+  ],
+  "actual_Model_errors": [],
+  "adapter_failure": null,
+  "No_predetermined_completion": true,
+  "genuine_native_semantic_version": 19,
+  "native_semantic_invocations": 1,
+  "source_unchanged": true,
+  "actual_payment_signature_settlement_calls": 0,
+  "production_service_NAT_operations": 0,
+  "synthetic_final_reply": "관련 재고에 관한 참고 정보이며 견적이 아닙니다. 원문의 조건은 확인되지 않았습니다.\n유사어로 찾은 참고 후보입니다. 정확한 상품 일치와 요청 조건 전체의 충족 여부는 확인되지 않았습니다. 표시 가격은 공개 상품가입니다.\n두유 12팩 · SKU G00000001 · B등급 · 8,010크레딧 · 남은 시간 86387초\n원하는 SKU로 구매 조건을 다시 문의해 주세요. 결제서는 발행하지 않았습니다.",
+  "task_state": "TASK_STATE_INPUT_REQUIRED",
+  "semantic_native_result": {
+    "reply": "관련 재고에 관한 참고 정보이며 견적이 아닙니다. 원문의 조건은 확인되지 않았습니다.\n유사어로 찾은 참고 후보입니다. 정확한 상품 일치와 요청 조건 전체의 충족 여부는 확인되지 않았습니다. 표시 가격은 공개 상품가입니다.\n두유 12팩 · SKU G00000001 · B등급 · 8,010크레딧 · 남은 시간 86387초\n원하는 SKU로 구매 조건을 다시 문의해 주세요. 결제서는 발행하지 않았습니다.",
+    "status": "rendered",
+    "observed_at": 1795815117,
+    "valid_until": 1795815267,
+    "payment_request": {
+      "status": "not_issued",
+      "reason": "product_selection_required"
+    }
+  },
+  "prepared_result_statuses": [
+    "ready"
+  ],
+  "fixture_expected_SKU": "G00000001",
+  "fixture_expected_grade": "B",
+  "fixture_expected_price": 8010,
+  "runtime_manifest_sha256": "0f0b53d000ecb9326b9ea1a448bbcd20580e40e51289c8212a48c28f0a88ccea",
+  "front_manifest_sha256": "5b0a9de94105b1376b1d4941ef7b936d35daf2cb3d2e4964895b23a69ac6d22c",
+  "driver_sha256": "166e6096bbb28be3d8af2fc5ead48a0e2bbc978b9a2a3a75adb6cd275459ff69",
+  "support_source_sha256": "26f457043f9eda8456b1f26fbf396ef6eba337aa27a7f8895264a47f0d37589c",
+  "total_seconds": 11.8637,
+  "unadjusted_support_metadata_not_actual_provider_evidence": true,
+  "checks": {
+    "literal_prepare_rows_zero": true,
+    "actual_single_class_decision": true,
+    "semantic_native_invoked_once": true,
+    "model_selected_related_two_soy_queries": true,
+    "exact_fixture_SKU_in_reply": true,
+    "exact_fixture_grade_in_reply": true,
+    "exact_fixture_price_in_reply": true,
+    "exact_fixture_name_in_reply": true,
+    "lifetime_within_same_snapshot_150s_window": true,
+    "reply_exact_genuine_native": true,
+    "input_required": true,
+    "payment_request_not_issued": true,
+    "finance_executor_zero": true,
+    "native19": true,
+    "source_unchanged": true,
+    "tool_auth_empty": true,
+    "isolated_task_store": true
+  },
+  "all_requested_checks_pass": true,
+  "native_semantic_logic_sha256": "f72b2754a85d1372aa381f165165db83786500f369337fc7dbe1834c81c610b2",
+  "native_semantic_forge_sha256": "bb0c72f43d051b6cc022d3cc97ee797c5feeb0e588a761e8cc1a176d3584dc36"
+}

@@ -1,0 +1,258 @@
+{
+  "scope": "Official SDK ASGI with predetermined Model stub; Model semantics/provider/runtime inference NOT evaluated",
+  "tests_run": 4,
+  "failures": 0,
+  "errors": 0,
+  "expected_failures": 1,
+  "unexpected_successes": 0,
+  "was_successful": true,
+  "case_results": [
+    {
+      "case": "unsupported-compound-repeat",
+      "status": "not_verified",
+      "http_status": 200,
+      "final_reply_exact_genuine": false,
+      "reply_sha256": "03e030f898b4b8642a6a184724098885eebb909e571a80e8128a42f0846add41",
+      "reply_characters": 27,
+      "native_operations": [
+        "prepare",
+        "semantic_candidates"
+      ],
+      "native_semantic_version": 9,
+      "source_rows": 117,
+      "fixture_observed_at": 1795812357,
+      "fixture_food_expires_at": 1795898757,
+      "source_snapshot_sha256": "e8b5bdd40d0cc297d71278089d260f408a41367eee25128d16932a571ff14e04",
+      "cross_run_reply_hash_fixed": false,
+      "SDK_clock_unchanged": true,
+      "legacy_fixture_rows": 30,
+      "source_truncated": false,
+      "model_calls": 1,
+      "Model_metrics": [
+        {
+          "prompt_characters": 5463,
+          "page_rows": [
+            0
+          ],
+          "max_tokens": 800,
+          "timeout": 30
+        }
+      ],
+      "phase_metrics": [
+        {
+          "prefetch_seconds": 0.0,
+          "model_seconds": 0.0002,
+          "render_seconds": 0.0,
+          "legacy_action_seconds": 0.0,
+          "catalogue_seconds": 0.6791,
+          "search_seconds": 0.681,
+          "fallback_seconds": 0.0,
+          "total_seconds": 1.3631,
+          "retries": 0,
+          "outcome": "semantic_no_match",
+          "reason": "unsupported_request",
+          "phase_reasons": {
+            "search": "unsupported_request"
+          }
+        }
+      ],
+      "maintenance_closed_503_without_Model": true,
+      "legacy_admission_used": false,
+      "legacy_admission_count": 0,
+      "durable_current_owner_indexed": true,
+      "legacy_context_calls": 0,
+      "financial_executor_attempts": 0,
+      "legacy_fixture_unchanged": true,
+      "isolated_root_for_agent_mind_app_toolbox": true,
+      "persistent_engine": true,
+      "fixture_SQLiteTaskStore": "SQLiteTaskStore",
+      "persistent_DB_isolated": true,
+      "tool_tokens": 0,
+      "tool_addresses": 0,
+      "NoWallet": true,
+      "production_identity_persona_DB_log_reads": 0,
+      "actual_Model_called": false,
+      "actual_market_API_POST_pay_DB_service_calls": 0,
+      "listener_started": false,
+      "total_transport_seconds": 1.4112,
+      "bound_runtime_manifest_sha256": "ba95f2b2f132da16371a82b9ada0909077148d4bfee158b8c259d47011a7edda",
+      "bound_front_manifest_sha256": "aec11707c45b5ad612a92565d7cba83559cf21c3147006416c9c06f392ef5dd3",
+      "semantic_native_status": "unavailable",
+      "semantic_native_reason": "unsupported_request",
+      "stub_wiring": {
+        "stub_completion_count": 1,
+        "predetermined_action": "search_similar_products",
+        "actual_native_groups_equal_stub": true,
+        "complete_original_text_forwarded": true,
+        "actual_Model_semantic_interpretation_tested": false
+      }
+    },
+    {
+      "case": "compound",
+      "status": "verified_genuine_ASGI_final_reply",
+      "http_status": 200,
+      "final_reply_exact_genuine": true,
+      "reply_sha256": "044fe62a8704e33ca8246d59e694b7b55ef977def18c1448cebf0f3efeeb3060",
+      "reply_characters": 217,
+      "native_operations": [
+        "prepare",
+        "semantic_candidates"
+      ],
+      "native_semantic_version": 9,
+      "source_rows": 117,
+      "fixture_observed_at": 1795812357,
+      "fixture_food_expires_at": 1795898757,
+      "source_snapshot_sha256": "e8b5bdd40d0cc297d71278089d260f408a41367eee25128d16932a571ff14e04",
+      "cross_run_reply_hash_fixed": false,
+      "SDK_clock_unchanged": true,
+      "legacy_fixture_rows": 30,
+      "source_truncated": false,
+      "model_calls": 1,
+      "Model_metrics": [
+        {
+          "prompt_characters": 5446,
+          "page_rows": [
+            0
+          ],
+          "max_tokens": 800,
+          "timeout": 30
+        }
+      ],
+      "phase_metrics": [
+        {
+          "prefetch_seconds": 0.0,
+          "model_seconds": 0.0001,
+          "render_seconds": 0.0,
+          "legacy_action_seconds": 0.0,
+          "catalogue_seconds": 0.6905,
+          "search_seconds": 0.7218,
+          "fallback_seconds": 0.0,
+          "total_seconds": 1.4137,
+          "retries": 0,
+          "outcome": "semantic_candidate",
+          "reason": "none",
+          "phase_reasons": {}
+        }
+      ],
+      "maintenance_closed_503_without_Model": true,
+      "legacy_admission_used": false,
+      "legacy_admission_count": 0,
+      "durable_current_owner_indexed": true,
+      "legacy_context_calls": 0,
+      "financial_executor_attempts": 0,
+      "legacy_fixture_unchanged": true,
+      "isolated_root_for_agent_mind_app_toolbox": true,
+      "persistent_engine": true,
+      "fixture_SQLiteTaskStore": "SQLiteTaskStore",
+      "persistent_DB_isolated": true,
+      "tool_tokens": 0,
+      "tool_addresses": 0,
+      "NoWallet": true,
+      "production_identity_persona_DB_log_reads": 0,
+      "actual_Model_called": false,
+      "actual_market_API_POST_pay_DB_service_calls": 0,
+      "listener_started": false,
+      "total_transport_seconds": 1.4483,
+      "bound_runtime_manifest_sha256": "ba95f2b2f132da16371a82b9ada0909077148d4bfee158b8c259d47011a7edda",
+      "bound_front_manifest_sha256": "aec11707c45b5ad612a92565d7cba83559cf21c3147006416c9c06f392ef5dd3",
+      "semantic_native_status": "rendered",
+      "semantic_native_reason": null,
+      "stub_wiring": {
+        "stub_completion_count": 1,
+        "predetermined_action": "search_similar_products",
+        "actual_native_groups_equal_stub": true,
+        "complete_original_text_forwarded": true,
+        "actual_Model_semantic_interpretation_tested": false
+      }
+    },
+    {
+      "case": "repeated-positive",
+      "status": "verified_genuine_ASGI_final_reply",
+      "http_status": 200,
+      "final_reply_exact_genuine": true,
+      "reply_sha256": "e21f98a405bd6309ff2c287f4e3dab179fd10aabfd8e42d997345fc8d4ab68df",
+      "reply_characters": 158,
+      "native_operations": [
+        "prepare",
+        "semantic_candidates"
+      ],
+      "native_semantic_version": 9,
+      "source_rows": 117,
+      "fixture_observed_at": 1795812357,
+      "fixture_food_expires_at": 1795898757,
+      "source_snapshot_sha256": "e8b5bdd40d0cc297d71278089d260f408a41367eee25128d16932a571ff14e04",
+      "cross_run_reply_hash_fixed": false,
+      "SDK_clock_unchanged": true,
+      "legacy_fixture_rows": 30,
+      "source_truncated": false,
+      "model_calls": 1,
+      "Model_metrics": [
+        {
+          "prompt_characters": 5457,
+          "page_rows": [
+            0
+          ],
+          "max_tokens": 800,
+          "timeout": 30
+        }
+      ],
+      "phase_metrics": [
+        {
+          "prefetch_seconds": 0.0,
+          "model_seconds": 0.0001,
+          "render_seconds": 0.0,
+          "legacy_action_seconds": 0.0,
+          "catalogue_seconds": 0.6918,
+          "search_seconds": 0.7184,
+          "fallback_seconds": 0.0,
+          "total_seconds": 1.412,
+          "retries": 0,
+          "outcome": "semantic_candidate",
+          "reason": "none",
+          "phase_reasons": {}
+        }
+      ],
+      "maintenance_closed_503_without_Model": true,
+      "legacy_admission_used": false,
+      "legacy_admission_count": 0,
+      "durable_current_owner_indexed": true,
+      "legacy_context_calls": 0,
+      "financial_executor_attempts": 0,
+      "legacy_fixture_unchanged": true,
+      "isolated_root_for_agent_mind_app_toolbox": true,
+      "persistent_engine": true,
+      "fixture_SQLiteTaskStore": "SQLiteTaskStore",
+      "persistent_DB_isolated": true,
+      "tool_tokens": 0,
+      "tool_addresses": 0,
+      "NoWallet": true,
+      "production_identity_persona_DB_log_reads": 0,
+      "actual_Model_called": false,
+      "actual_market_API_POST_pay_DB_service_calls": 0,
+      "listener_started": false,
+      "total_transport_seconds": 1.4466,
+      "bound_runtime_manifest_sha256": "ba95f2b2f132da16371a82b9ada0909077148d4bfee158b8c259d47011a7edda",
+      "bound_front_manifest_sha256": "aec11707c45b5ad612a92565d7cba83559cf21c3147006416c9c06f392ef5dd3",
+      "semantic_native_status": "rendered",
+      "semantic_native_reason": null,
+      "stub_wiring": {
+        "stub_completion_count": 1,
+        "predetermined_action": "search_similar_products",
+        "actual_native_groups_equal_stub": true,
+        "complete_original_text_forwarded": true,
+        "actual_Model_semantic_interpretation_tested": false
+      }
+    }
+  ],
+  "fixture_observed_at": 1795812357,
+  "fixture_food_expires_at": 1795898757,
+  "SDK_wall_clock_unchanged": true,
+  "cross_run_reply_hash_fixed": false,
+  "hash_clock_explanation": "Input asof/expiry are shared within a run; unchanged native render reads real clock, so remaining seconds and reply SHA may differ across runs. Compare final text to genuine output within the same request.",
+  "build_sha256": "48ee149f3ad338d9d02997af0527aa8016a8a46f7af91bde5d2ef515330f7b9e",
+  "runtime_manifest_sha256": "ba95f2b2f132da16371a82b9ada0909077148d4bfee158b8c259d47011a7edda",
+  "front_manifest_sha256": "aec11707c45b5ad612a92565d7cba83559cf21c3147006416c9c06f392ef5dd3",
+  "fixture_workspace_relative": "runtime/host-front-test-sqv8r3r8",
+  "actual_Model_API_DB_key_production_log_service_POST_pay_calls": 0,
+  "old_evidence_modified": false
+}

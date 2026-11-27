@@ -1,0 +1,16 @@
+{
+  "public_view_normalized_non_executing": true,
+  "native_version": 19,
+  "tests_run": 4,
+  "normal_passes": 3,
+  "expected_failures": 1,
+  "unexpected_successes": 0,
+  "successful": true,
+  "synthetic_only": true,
+  "external_Model_inference_calls": 0,
+  "private_customer_input_used": false,
+  "production_or_financial_calls": 0,
+  "build_sha256": "4cc5b61e78228e6b671533875b16bcd53dfefa756cbd365d0069b65da41ee06d",
+  "runtime_manifest_sha256": "0f0b53d000ecb9326b9ea1a448bbcd20580e40e51289c8212a48c28f0a88ccea",
+  "front_manifest_sha256": "5b0a9de94105b1376b1d4941ef7b936d35daf2cb3d2e4964895b23a69ac6d22c"
+}

@@ -48,3 +48,9 @@ unshare -Urn "$OPERATOR/.venv/bin/python" -B \
 추가 router 리뷰 3건은 전체 ASGI의 잘못된 method가400으로 끝나는지, 전역 transport 위치와 backend의 사용자별 읽기 권한이 분리되는지, owner 탐색의8초 제한에 lock 대기가 포함되는지 검사한다. 모두 실제 임시 SQLite·fake peer만 쓴다. 테스트 timeout만25ms로 줄이고 소스의8초 인자를 확인하며 실제 운영 시간제한은 바꾸지 않는다.
 
 Persistent engine 검증에서 이전 admission counter는0인 채 유지되고, 각 합성 요청의 새 current route는1개다. 둘은 같은 지표가 아니다. 이 증거는 prototype/local 검사이며 새 router·engine의 운영 전환을 뜻하지 않는다. 실제 공개 경로가 바뀌었다는 주장은 별도 승인·운영 증거가 있어야 한다.
+
+## Typed metadata 전달 검사
+
+`test_metadatatransport.py`의6개 unit은 import loader의 pinned base를 **명시적 stub**으로 둔 HOST 전달 검사다. not_issued 사유·public_facts 형태, base ABI로 내려가는 필드, 최종 응답과 customer_received trace의 일치, 한 번의 기억 저장, 무관한 응답에 metadata를 붙이지 않는지, 예외 후 복원과 pin 변조 거절을 확인한다. genuine 도구·실제 SDK·실제 모델의 의미 검증으로 세지 않는다.
+
+metadata adapter를 포함한 별도 immutable smoke build에서도 native9 기존 경로 유지 suite가 정상3 + expected failure1로 통과했다. 그 native9 결과에는 새 metadata 필드가 없으므로 이것은 **기존 경로 하위호환** 검사다. 이후 semantic19의 실제 실패 결정 캐시 재생과 실제 수업 모델 합성1회에서 genuine 도구 → 최종 SDK artifact data → customer_received 이벤트 전달도 확인했다. [후속 검증](../../evidence/20261128-runtime-refactor/reference19-integration/README.md)에 범위를 구분했다. 이 양성 검증은 디스크 trace 영속성이나 실제 고객 정산, 외부 운영 전환을 뜻하지 않는다.

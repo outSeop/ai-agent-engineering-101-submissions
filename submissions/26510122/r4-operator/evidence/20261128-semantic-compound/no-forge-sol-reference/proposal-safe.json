@@ -1,0 +1,8 @@
+{
+  "offline_checks_pass": false,
+  "actual_original_model_response_sha256": "f694a02a525c366ddc425950b3dbb93b593285354131549bd42e9fc5319fdbc5",
+  "source_draft_sha256": "34b7ef42089b7fb415b11dc90bc8a835a675a6bd43611e9075027889edc6b0e2",
+  "official_forge_attempts": 0,
+  "authority": "codex-cli-gpt-6.2-sol",
+  "customer_text_exported": false
+}

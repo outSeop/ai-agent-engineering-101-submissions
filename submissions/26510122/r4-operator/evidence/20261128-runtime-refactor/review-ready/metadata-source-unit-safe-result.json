@@ -1,0 +1,13 @@
+{
+  "scope": "Current maintained metadata source unit with explicit import-loader pinned-base stub; no genuine/SDK business or Model semantics test",
+  "tests_run": 6,
+  "failures": 0,
+  "errors": 0,
+  "source_pin_consistency_and_type_checks_loaded": true,
+  "source_files_sha256": {
+    "src/r4_operator_host/catalogue_protocol.py": "0b651be589ce0de695d49679147e698ec4f482a43ce1be4544cb675bc468195a",
+    "src/r4_operator_host/catalogue_broker.py": "a853652e0ec705efad78ca3446d185c2ec5a86c5179ce74463dc9040f2329fd3",
+    "tests/host_front/test_metadatatransport.py": "f5536f378587586684c5620231a12a9107a883e04b2c20b18f029e7059dd6cc5"
+  },
+  "actual_Model_API_DB_key_log_service_POST_pay_calls": 0
+}

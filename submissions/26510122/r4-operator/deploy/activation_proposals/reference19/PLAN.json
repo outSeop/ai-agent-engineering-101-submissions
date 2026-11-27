@@ -1,0 +1,65 @@
+{
+  "schema": "r4-stable-cutover-plan.v1",
+  "approval_required": true,
+  "release_id": "d48415b401447f26df06354b273129db719e425409e8a9c670d762f6cb5d047c",
+  "front_manifest_sha256": "5b0a9de94105b1376b1d4941ef7b936d35daf2cb3d2e4964895b23a69ac6d22c",
+  "native_semantic_version": 19,
+  "operating_model": "market",
+  "engine": {
+    "unit": "ourolabs-market-r4-engine.service",
+    "port": 18812,
+    "launcher_relative": "runtime/releases/d48415b401447f26df06354b273129db719e425409e8a9c670d762f6cb5d047c/front/run_front_edge.py",
+    "flags": [
+      "--persistent-engine",
+      "--host-state-db",
+      "{operator}/runtime/a2a-host/state.sqlite3",
+      "--serve"
+    ]
+  },
+  "router": {
+    "unit": "ourolabs-market-r4-router.service",
+    "port": 18811,
+    "launcher_relative": "runtime/releases/d48415b401447f26df06354b273129db719e425409e8a9c670d762f6cb5d047c/front/run_flat_router.py",
+    "flags": [
+      "--serve"
+    ]
+  },
+  "existing_services_and_cloudflared": "keep exact running processes; no restart",
+  "financial_DB_wallet_inventory_procurement_policies": "preserve",
+  "host_DB_relative": "runtime/a2a-host/state.sqlite3",
+  "before_cutover": [
+    "maintenance true and current task0",
+    "verify frozen source/SDK pins and exact unit PID/cmdline",
+    "refresh own-store legacy task owners and check existing task GetTask",
+    "same public card name wallet URL and pending checkout URL",
+    "old services PID same and read-only financial preservation check",
+    "continuous idle window"
+  ],
+  "NAT": {
+    "chain": "nat OUTPUT",
+    "owned_comment": "codex-r4-front-edge-v1",
+    "uid": "operator owner",
+    "source": "127.0.0.1/32",
+    "destination": "127.0.0.1/32",
+    "protocol": "tcp",
+    "dport": 18805,
+    "old_target": 18810,
+    "new_target": 18811,
+    "bypass_source": "127.0.0.2",
+    "change": "replace only existing exact owned rule, no flush"
+  },
+  "after_cutover": [
+    "public strict identity/current description/router marker postcheck",
+    "old processes same",
+    "open HOST maintenance only after all checks"
+  ],
+  "rollback": "initial exact reversal only while closed and current task0; otherwise retain stable router/DB and repair same engine",
+  "outside_scope": [
+    "restart original main/worker/legacy fronts/CF",
+    "R3",
+    "scheduled promotions",
+    "procurement15",
+    "cold-start campaign",
+    "new wallet or shop registration"
+  ]
+}

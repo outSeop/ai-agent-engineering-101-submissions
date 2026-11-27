@@ -1,0 +1,119 @@
+{
+  "asof": "2026-11-28T06:46:38.579761+09:00",
+  "production_release_still_semantic9": true,
+  "public_HTTP": 200,
+  "public_name": "outseop-r4",
+  "wallet_same": true,
+  "URL_same": true,
+  "DB_inode_same": true,
+  "quick_check": "ok",
+  "core_ledgers": {
+    "sale": {
+      "rows": 3,
+      "same": true
+    },
+    "lot": {
+      "rows": 2,
+      "same": true
+    },
+    "allocation": {
+      "rows": 0,
+      "same": true
+    },
+    "refund": {
+      "rows": 0,
+      "same": true
+    },
+    "welcome_award": {
+      "rows": 2,
+      "same": true
+    },
+    "ticket": {
+      "rows": 0,
+      "same": true
+    },
+    "account": {
+      "rows": 3,
+      "same": true
+    },
+    "customer_profile": {
+      "rows": 3,
+      "same": true
+    }
+  },
+  "preserved_files": {
+    "shop_wallet.key": true,
+    "buyer_wallet.key": true,
+    "codex-r4/launch-price-policy.json": true,
+    "tools/stock_procurement/logic.py": true,
+    "tools/stock_procurement/forge.json": true,
+    "tools/forum_marketing/logic.py": true,
+    "tools/forum_marketing/forge.json": true
+  },
+  "original_services": {
+    "ourolabs-market-r4.service": {
+      "ActiveState": "active",
+      "MainPID": "1192914",
+      "NRestarts": "0",
+      "same_pid": true
+    },
+    "ourolabs-market-r4-worker.service": {
+      "ActiveState": "active",
+      "MainPID": "1192976",
+      "NRestarts": "1",
+      "same_pid": true
+    },
+    "ourolabs-market-r4-front-edge.service": {
+      "ActiveState": "active",
+      "MainPID": "1213796",
+      "NRestarts": "0",
+      "same_pid": true
+    },
+    "ourolabs-market-r4-semantic-front.service": {
+      "ActiveState": "active",
+      "MainPID": "1218994",
+      "NRestarts": "0",
+      "same_pid": true
+    },
+    "ourolabs-market-r4-semantic3-front.service": {
+      "ActiveState": "active",
+      "MainPID": "1240765",
+      "NRestarts": "0",
+      "same_pid": true
+    },
+    "ourolabs-market-r4-compound-front.service": {
+      "ActiveState": "active",
+      "MainPID": "1277750",
+      "NRestarts": "0",
+      "same_pid": true
+    },
+    "ourolabs-market-r4-compound2-front.service": {
+      "ActiveState": "active",
+      "MainPID": "1282150",
+      "NRestarts": "0",
+      "same_pid": true
+    }
+  },
+  "cloudflared_original_alive": true,
+  "sales": {
+    "missing": 1,
+    "settled": 2
+  },
+  "new_settlements": 0,
+  "HOST_maintenance": true,
+  "HOST_stats": {
+    "total": 41,
+    "current": 0,
+    "legacy": 41,
+    "snapshots": 41,
+    "tasks": 0
+  },
+  "candidate_native19_installed": false,
+  "external_cutover_performed": false,
+  "root_financial_executions": 0,
+  "pending_approval": [
+    "external_router_cutover"
+  ],
+  "private_prefix_read_performed": false,
+  "private_prefix_approval_still_needed": false
+}
