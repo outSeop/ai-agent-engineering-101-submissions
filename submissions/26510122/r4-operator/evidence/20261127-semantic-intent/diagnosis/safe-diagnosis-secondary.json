@@ -1,0 +1,233 @@
+{
+  "case_count": 4,
+  "semantic_manifest_sha256": "e9e67778916da50d67978d6ecd3670e51faf7b7069f52fbbc1b5ac358d493c0f",
+  "raw_input_output": false,
+  "historical_snapshot_current_match_count": 0,
+  "current_query_title_check_is_not_historical_replay": true,
+  "cases": [
+    {
+      "request_sha256": "b6ef6ee35c2d058dce08131188d798edc6cf19f5898d3ceaf8d88efc3b39c90a",
+      "flags": {
+        "checkout_terms": true,
+        "quote_terms": false,
+        "commerce_terms": false,
+        "transfer_or_refund_terms": false,
+        "private_or_right_terms": false,
+        "explicit_sku": false,
+        "genuine_safe_label": true,
+        "restricted": true,
+        "exact_only": false,
+        "unknown_attribute": false,
+        "negation_any": true,
+        "explicit_defer_or_no_pay": false,
+        "explicit_doc_verb": false,
+        "unparsed_exclusion": false,
+        "price_constraint": false,
+        "lifetime_constraint": false,
+        "typed_grade": false,
+        "typed_quantity": false,
+        "selector_original_pass": false,
+        "selector_without_keyword_spans_pass": false,
+        "same_snapshot_as_current_cache": false
+      },
+      "queries": [
+        {
+          "query_sha256": "39ec8b8e6c171bac445200129cf27854c91ba7c8c885615bd1eb9ee61c47e6e7",
+          "safe_literal_query": true,
+          "current_snapshot_literal_hits": 0
+        },
+        {
+          "query_sha256": "95f390d0cc6fab1c444d57e2411b1a7d9d405d6552442666bc14801f0390965e",
+          "safe_literal_query": true,
+          "current_snapshot_literal_hits": 0
+        }
+      ],
+      "selector": {
+        "exit_line": 61,
+        "subject_count": null,
+        "word_count": null,
+        "has_negation": true,
+        "has_unparsed_exclusion": false,
+        "has_unsupported": false,
+        "allowed": false
+      },
+      "selector_without_flat_word_only": {
+        "exit_line": 61,
+        "subject_count": null,
+        "word_count": null,
+        "has_negation": true,
+        "has_unparsed_exclusion": false,
+        "has_unsupported": false,
+        "allowed": false
+      }
+    },
+    {
+      "request_sha256": "daedb1ba0404f2e0560c3f6ea3c9eff1d72c629b2807277ea45a125c391d7ec4",
+      "flags": {
+        "checkout_terms": true,
+        "quote_terms": false,
+        "commerce_terms": false,
+        "transfer_or_refund_terms": false,
+        "private_or_right_terms": false,
+        "explicit_sku": false,
+        "genuine_safe_label": true,
+        "restricted": true,
+        "exact_only": false,
+        "unknown_attribute": false,
+        "negation_any": false,
+        "explicit_defer_or_no_pay": false,
+        "explicit_doc_verb": false,
+        "unparsed_exclusion": false,
+        "price_constraint": false,
+        "lifetime_constraint": false,
+        "typed_grade": true,
+        "typed_quantity": true,
+        "selector_original_pass": false,
+        "selector_without_keyword_spans_pass": false,
+        "same_snapshot_as_current_cache": false
+      },
+      "queries": [
+        {
+          "query_sha256": "474c385e459bde2f7bad6e880fc02ab9f626e455c96d34d0a499be4da4b41db1",
+          "safe_literal_query": true,
+          "current_snapshot_literal_hits": 1
+        },
+        {
+          "query_sha256": "ed831f8438521c0bb188c845146705f9f9a2adc3c545f4a245fbe3b78b64b933",
+          "safe_literal_query": true,
+          "current_snapshot_literal_hits": 0
+        }
+      ],
+      "selector": {
+        "exit_line": 73,
+        "subject_count": null,
+        "word_count": null,
+        "has_negation": false,
+        "has_unparsed_exclusion": false,
+        "has_unsupported": false,
+        "allowed": false
+      },
+      "selector_without_flat_word_only": {
+        "exit_line": 73,
+        "subject_count": null,
+        "word_count": null,
+        "has_negation": false,
+        "has_unparsed_exclusion": false,
+        "has_unsupported": false,
+        "allowed": false
+      }
+    },
+    {
+      "request_sha256": "1bfbb712a7b5f79016a60f6b13de72b59ec89778bf64546d55c26bd57555a830",
+      "flags": {
+        "checkout_terms": true,
+        "quote_terms": false,
+        "commerce_terms": false,
+        "transfer_or_refund_terms": false,
+        "private_or_right_terms": false,
+        "explicit_sku": false,
+        "genuine_safe_label": true,
+        "restricted": true,
+        "exact_only": false,
+        "unknown_attribute": true,
+        "negation_any": true,
+        "explicit_defer_or_no_pay": false,
+        "explicit_doc_verb": false,
+        "unparsed_exclusion": true,
+        "price_constraint": false,
+        "lifetime_constraint": false,
+        "typed_grade": false,
+        "typed_quantity": true,
+        "selector_original_pass": false,
+        "selector_without_keyword_spans_pass": false,
+        "same_snapshot_as_current_cache": false
+      },
+      "queries": [
+        {
+          "query_sha256": "70568c5ac01783cc3be2233bab3230cb58345a471875c0b40f8f40f4ab316c69",
+          "safe_literal_query": true,
+          "current_snapshot_literal_hits": 0
+        },
+        {
+          "query_sha256": "1df74dca4d6e80b4537892782e7bf2c8f5744b071cac362dfccc9e44f06f1a02",
+          "safe_literal_query": true,
+          "current_snapshot_literal_hits": 0
+        }
+      ],
+      "selector": {
+        "exit_line": 70,
+        "subject_count": null,
+        "word_count": null,
+        "has_negation": false,
+        "has_unparsed_exclusion": false,
+        "has_unsupported": true,
+        "allowed": false
+      },
+      "selector_without_flat_word_only": {
+        "exit_line": 70,
+        "subject_count": null,
+        "word_count": null,
+        "has_negation": false,
+        "has_unparsed_exclusion": false,
+        "has_unsupported": true,
+        "allowed": false
+      }
+    },
+    {
+      "request_sha256": "597b926394f339ae55be3306e8f5ce41e595012e97805c422ac179a896ac494e",
+      "flags": {
+        "checkout_terms": true,
+        "quote_terms": false,
+        "commerce_terms": false,
+        "transfer_or_refund_terms": false,
+        "private_or_right_terms": false,
+        "explicit_sku": false,
+        "genuine_safe_label": true,
+        "restricted": true,
+        "exact_only": false,
+        "unknown_attribute": false,
+        "negation_any": true,
+        "explicit_defer_or_no_pay": true,
+        "explicit_doc_verb": false,
+        "unparsed_exclusion": false,
+        "price_constraint": false,
+        "lifetime_constraint": false,
+        "typed_grade": false,
+        "typed_quantity": false,
+        "selector_original_pass": false,
+        "selector_without_keyword_spans_pass": false,
+        "same_snapshot_as_current_cache": false
+      },
+      "queries": [
+        {
+          "query_sha256": "8854a85b9c39faf7ec0a1987318e129d116bf2e105cb50f677a9652638f77ee0",
+          "safe_literal_query": true,
+          "current_snapshot_literal_hits": 5
+        },
+        {
+          "query_sha256": "3297e5412bf08e867745cc4aa8d495e5898da743837e25aab2ededffd35c6d71",
+          "safe_literal_query": true,
+          "current_snapshot_literal_hits": 0
+        }
+      ],
+      "selector": {
+        "exit_line": 61,
+        "subject_count": null,
+        "word_count": null,
+        "has_negation": true,
+        "has_unparsed_exclusion": false,
+        "has_unsupported": false,
+        "allowed": false
+      },
+      "selector_without_flat_word_only": {
+        "exit_line": 61,
+        "subject_count": null,
+        "word_count": null,
+        "has_negation": true,
+        "has_unparsed_exclusion": false,
+        "has_unsupported": false,
+        "allowed": false
+      }
+    }
+  ]
+}
