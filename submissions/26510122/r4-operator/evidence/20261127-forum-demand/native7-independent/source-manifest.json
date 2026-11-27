@@ -1,0 +1,22 @@
+{
+  "schema": "independent-forum-marketing-qa.v1",
+  "source_logic_sha256": "0a203ddbf1b365760eb12ea6fe995afff4e3c2b03cf709fe16629562e30c1d56",
+  "source_forge_sha256": "c8d229e253cac176617b3ee99c8d05bf9996bb0a25ff3029c811d16a71598feb",
+  "groups_passed": 10,
+  "groups_total": 11,
+  "known_failure": "Synthetic coexistence of first_purchase_bonus_grant is incompatible in actual core4 but omitted by candidate award-name predicate, allowing bonus copy.",
+  "external_assert_correction": "Initial bonus-positive assert required literal 예산; accepted wording 전체 한도 means the same policy budget. Original9/11 and test bytes preserved; corrected10/11 separately.",
+  "won_budget_limitation": "New conservative matcher rejects original-parent won-budget syntax; no false match or actual POST.",
+  "coverage_instruction_correction": "Parent revised original complete-window hold requirement: verified individual latest public buyer rows permitted with honest incomplete coverage.",
+  "production_scope": "Only publisher source would hot-swap; new context/slate/matcher not activated in cached old coordinator.",
+  "actual_Model_API_POST_finance_production_changes": 0,
+  "files": {
+    "forum_final_external_test.py": "a7615f8c8e38d6d32a948202f7b58572a07428b2e1b0facf981fd72174d2342b",
+    "forum_final_external_first_assert.py": "d4bb2320a855b2462053eff5542ea744eb5dd5bbd1284b53fc192f823fa15e87",
+    "run_forum_final_independent.py": "2450e5e135c9ac2a2d584e5f3da41ec1a8a3bcdcf624bb1927bd0e9d794be7d4",
+    "run_forum_final_first_assert.py": "3984870158e92e4932790ad379083e144e9c91ee8a9ebced1ec195322a554cbf",
+    "forum_external_contract.py": "d415de03080dc8d8966218d6cba51a3e0791890823920b595edcb37ebe46564f",
+    "accepted7-full-independent/safe-result.json": "c252b7f658dba2a6e9f5d2ee18857addcb9ef42dd20ea76cbd1ffdf30efff427",
+    "accepted7-full-corrected-budget-assert/safe-result.json": "6c55ab559d64ae5beebc5e153071adbb920c1b5b0c6293255aaff660dbe4273e"
+  }
+}

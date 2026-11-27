@@ -1,0 +1,139 @@
+{
+  "passed": 10,
+  "total": 11,
+  "cases": [
+    {
+      "case": "latest-partial-retains-verified-row",
+      "passed": true
+    },
+    {
+      "case": "6h-forward-buried-row",
+      "passed": true
+    },
+    {
+      "case": "owned-policy-security",
+      "passed": true
+    },
+    {
+      "case": "exact-award-schema-including-known-alternate",
+      "passed": false,
+      "error_type": "AssertionError",
+      "assertion": "",
+      "test_line": 156
+    },
+    {
+      "case": "matcher-hard-boundaries",
+      "passed": true
+    },
+    {
+      "case": "real-base-global-budget-copy",
+      "passed": true
+    },
+    {
+      "case": "slate-history-readonly-shape",
+      "passed": true
+    },
+    {
+      "case": "atomic-concurrent-publication",
+      "passed": true
+    },
+    {
+      "case": "unknown-reconcile-own-shop-visible",
+      "passed": true
+    },
+    {
+      "case": "final-thread-and-stock-revalidation",
+      "passed": true
+    },
+    {
+      "case": "duplicate-and-no-model-copy",
+      "passed": true
+    }
+  ],
+  "facts": {
+    "dense_all_recent": {
+      "verified_latest_buyer_retained": true,
+      "GET_calls": 8,
+      "old_hold_direction_revised_by_parent": true
+    },
+    "buried_6h": {
+      "buyer_found": true,
+      "GET_calls": 12
+    },
+    "policy_mismatch": {
+      "world_writable_policy_native_accepts": false,
+      "core4_accepts": false,
+      "fake_POST_count": 1,
+      "extra5_claimed": false
+    },
+    "schema_mismatch": {
+      "native_spend_zero": false,
+      "core4_schema_incompatible": true,
+      "fake_POST_count": 1,
+      "extra5_claimed": false
+    },
+    "known_alternate_schema": {
+      "core4_incompatible": true,
+      "candidate_spend_zero": true,
+      "extra5_claimed": true,
+      "synthetic_only_no_actual_alternate_table_asserted": true
+    },
+    "matcher": {
+      "positive_count": 3,
+      "negative_count": 14,
+      "won_legacy_budget_supported": false,
+      "won_limitation": "Conservative new matcher does not accept original parent won-budget syntax; no false matching or POST claimed."
+    },
+    "bonus_basis": {
+      "real_grade_base_used": true,
+      "old_global_grants_counted": true,
+      "text_semantics_checked": true,
+      "identity_from_ephemeral_fixture": true
+    },
+    "slate": {
+      "REAL_created_history_retained": true,
+      "native2_exact_history_keys": true,
+      "read_only_DB_bytes_unchanged": true,
+      "private_fields_projected_out": true
+    },
+    "atomic": {
+      "simultaneous_calls": 2,
+      "fake_POST_count": 1,
+      "posted_count": 1
+    },
+    "unknown": {
+      "repost_count": 0,
+      "imposter_rejected": true,
+      "own_shop_GET_visible_after_buyer_window_override": true,
+      "exact_reconcile_restored": true
+    },
+    "fresh": {
+      "selected_thread_changed_before_send_rejected": true,
+      "current_grade_change_rejected": true,
+      "fake_POST_count": 0
+    },
+    "duplicate": {
+      "unchanged_offer_not_reposted": true,
+      "model_supplied_copy_rejected": true,
+      "original_global_gap_and_ledger_used": true
+    }
+  },
+  "source_logic_sha256": "0a203ddbf1b365760eb12ea6fe995afff4e3c2b03cf709fe16629562e30c1d56",
+  "official_SDK_test_mode": true,
+  "testing_flag_not_assigned": true,
+  "source_business_unchanged": true,
+  "full_original_ForumFixture": true,
+  "mock_transport_only_limit1_added": true,
+  "all_POSTs_are_original_fake_ForumFixture": true,
+  "actual_Model_API_public_POST_finance_or_production_changes": 0,
+  "coverage_requirement_context": "Parent corrected incomplete-window instruction: verified latest individual rows allowed; no complete6h claim.",
+  "runtime_scope": "New context/matcher/slate staging-only in proposed publisher hot-swap; cached old coordinator context remains legacy.",
+  "source4_sha256": {
+    "logic.py": "0a203ddbf1b365760eb12ea6fe995afff4e3c2b03cf709fe16629562e30c1d56",
+    "test.py": "58c16261035d7a43caa9921158bef474e9e7c5917f9ed8c30060bcfca1f987f6",
+    "permission.yml": "e5a2cbb5cd0fb50fe8cdf781548d4a2802a27d3846f9f8c38faee9af6735c283",
+    "forge.json": "c8d229e253cac176617b3ee99c8d05bf9996bb0a25ff3029c811d16a71598feb"
+  },
+  "SDK_test_ok": false,
+  "external_adapter_scope": "Test-only fixture/result write paths; unchanged genuine4/forge/index, no actual signer cap; offline namespace."
+}
