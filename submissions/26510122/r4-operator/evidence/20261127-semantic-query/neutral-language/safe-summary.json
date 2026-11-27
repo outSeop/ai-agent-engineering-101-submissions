@@ -1,0 +1,37 @@
+{
+  "behavior": {
+    "metrics_file": "public-catalogue-semantic3-metrics.json",
+    "model_max_calls": 1,
+    "no_product_memory_autobind": true,
+    "strict_existing_financial_guards_unchanged": true,
+    "verified_public_SKU_display": true
+  },
+  "diagnosis": {
+    "flat_checkout_word_rejections": 4,
+    "historical_cases_safely_counted": 4,
+    "historical_customer_replay_in_verification": false,
+    "historical_exact_snapshot_reconstructed": false,
+    "secondary_gates_after_diagnostic_flat_word_mask": {
+      "negation_or_coordination": 2,
+      "unsupported_attribute": 1,
+      "unsupported_residue": 1
+    }
+  },
+  "official_development": {
+    "adapter": "development CLI in official Mind",
+    "requested_model": "gpt-6.2-sol",
+    "upstream_reported_model": null,
+    "v3_deploy_blocker": "Fixed semantic noun alias list and missed approved standalone payment deferral.",
+    "v3_official_test_passed": true,
+    "v4_first_official_forge_passed": false,
+    "v4_next_official_forge_passed": true
+  },
+  "verification": {
+    "actual_financial_actions": 0,
+    "configured_runtime_model_provider": "market",
+    "host_mock_tests": 12,
+    "operational_deployment_checked_by_report": false,
+    "ordinary_sdk_denials": 18,
+    "ordinary_sdk_positive": 7
+  }
+}

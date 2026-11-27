@@ -1,0 +1,11 @@
+{
+  "schema": "outseop-r4.semantic4-actual-class-evidence.v1",
+  "files": {
+    "PREPARED-SAFE.json": "d409f736b31ba50fbd36e4dd70e0a1252c74357407ad2849b023099cb0100452",
+    "PROVENANCE.json": "a9c33714bccc3692a6cf43ec2c2c1045a3415ab7be2f2dc099cf8cc809322c42",
+    "README.md": "cfc1feb9865ec2f72abfe10662bbd7f0a80ba9e479e89a51a135160835d6a13b",
+    "REPORT.json": "650b3728158c2164793d9294a92bf42fd509bdd3fa4122512b1dc7c25dbc9104",
+    "class_canary.py": "8967f97be436c2922db6eed45cd6cc22c66376fdffc64beb34af71c08bd3782d"
+  },
+  "separate_from_front_manifest": true
+}

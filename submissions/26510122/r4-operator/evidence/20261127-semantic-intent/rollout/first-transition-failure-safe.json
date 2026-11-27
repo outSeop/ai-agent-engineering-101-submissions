@@ -1,0 +1,41 @@
+{
+  "at": 1795754333.6194541,
+  "observations": {
+    "18805": {
+      "http": 200,
+      "marker": null,
+      "description_sha": "680b43ea9651c83e44e1126c6aebe3a59d7beb48657f6e3b0afc9bdbed8493a2"
+    },
+    "18806": {
+      "http": 200,
+      "marker": "r4-front-v1",
+      "description_sha": "680b43ea9651c83e44e1126c6aebe3a59d7beb48657f6e3b0afc9bdbed8493a2"
+    },
+    "18807": {
+      "http": 200,
+      "marker": "r4-semantic-front-v1",
+      "description_sha": "680b43ea9651c83e44e1126c6aebe3a59d7beb48657f6e3b0afc9bdbed8493a2"
+    },
+    "18808": {
+      "http": 200,
+      "marker": "r4-semantic3-front-v1",
+      "description_sha": "680b43ea9651c83e44e1126c6aebe3a59d7beb48657f6e3b0afc9bdbed8493a2"
+    },
+    "public": {
+      "http": 200,
+      "marker": "r4-semantic-front-v1",
+      "description_sha": "680b43ea9651c83e44e1126c6aebe3a59d7beb48657f6e3b0afc9bdbed8493a2",
+      "cache_headers": {
+        "cf-cache-status": "DYNAMIC"
+      }
+    },
+    "differing_fields_vs_original": {
+      "18805": [],
+      "18806": [],
+      "18807": [],
+      "18808": [],
+      "public": []
+    }
+  },
+  "failed_transition_automatically_rolled_back": true
+}

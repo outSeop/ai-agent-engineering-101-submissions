@@ -1,0 +1,51 @@
+{
+  "schema": "outseop-r4.independent-semantic4-assessment.v1",
+  "frozen_manifest_sha256": "b7a4e344bbfcaa989444bad93f7166fd404ee36e52018128511d542331e7f5ed",
+  "passed": 9,
+  "total": 9,
+  "ordinary_dual_tool_official_SDK": true,
+  "semantic_tool_calls": 59,
+  "synthetic_units": 36,
+  "base8_exact_pinned_dependency": true,
+  "semantic4_exact4": {
+    "logic.py": "01e59f9b5e06b0402a669bfbd9c78e350c9cb32e9c65bfd111fdf5ac1a74b39c",
+    "test.py": "7f09e95e5b8647273372520ac717cea08c20c242a1c60a3eb87e0a131cb8f991",
+    "permission.yml": "5b0b914282ff5915a9d24ccf5fe9a3d4a1324bd7d513eb34032a6fed2c799088",
+    "forge.json": "8683e975dadf1cc36160dce5e29a5f5240718c790e64ad769bd29383fe41f270"
+  },
+  "source_forge_linkage_verified": true,
+  "noun_contract": "Positive lexical noun can be absent from inventory and alias dictionaries; exact unique complete original span checked natively; unsupported attributes/numbers/grade/pack/negation/authority cannot be swallowed.",
+  "positive_verified": [
+    "Soy-like unknown noun with later-payment clause returns original source-bound nonexact public candidates",
+    "Arbitrary lexical noun does not require catalogue/title preexistence",
+    "Complete narrow procedure-info and no-payment-now clauses supported",
+    "Original grade A/package5kg/product-price cap/lifetime threshold all preserved together"
+  ],
+  "negative_verified": [
+    "Wrong quantity/grade/cap/lifetime produce no false qualifying row",
+    "Modifier swallowing or remaining unsupported attribute denied",
+    "Inner noun substring/repeated noun/absent noun/constraint-containing noun denied",
+    "Negated subject cannot become positive",
+    "Actual issuance/proof/refund/private/right/exactSKU cannot become semantic authority",
+    "All-in guarantee cap and malformed near-neutral clause remain blocked"
+  ],
+  "reply_contract": "Exact REPLY_KEYS; <=450; each row original public SKU/name/grade/price; lifetime independently bounded by SDK-call start/end; visible nonexact/full-fit-unverified disclaimer; neutral re-inquire-by-SKU advice.",
+  "current_public_source_check": {
+    "source_sha256": "c683f6574e7e2b409185ab3312031ba71dac3f09022f51fc6a3377e22f1d1e50",
+    "source_count": 146,
+    "observed_at": 1795754173,
+    "valid_until": 1795754323,
+    "returned_rows": 3,
+    "status": "rendered",
+    "source_original_times_unchanged": true,
+    "synthetic_wording_only": true,
+    "historical_raw4_replay": false
+  },
+  "historical_raw4_replay_performed": false,
+  "historical_replay_not_claimed": "Optional raw replay cancelled after privacy review rejection; no raw fixture, accessor, indirect replay, original customer logs, Model or POST used. Existing safe aggregates only. Current public snapshot check is not historical availability or conversion evidence.",
+  "no_actual_Model_API_DB_financial_forum_or_production_changes": true,
+  "testing_flag_manually_set": false,
+  "source_after_test_pin_recheck": true,
+  "prior_v1_v3_failures_preserved": true,
+  "scope": "Independent native dual SDK tests and current public source only. Parent actual-class/ASGI/deploy are distinct evidence."
+}

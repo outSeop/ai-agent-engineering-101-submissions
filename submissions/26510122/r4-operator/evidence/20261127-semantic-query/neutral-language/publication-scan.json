@@ -1,0 +1,17 @@
+{
+  "credential_sources_checked": 6,
+  "exact_hits": 0,
+  "file_sha256": {
+    "README.md": "3f6b0eb1f74820cc64c73134b9f3846c178f400b369498753d1e6a0f9438c4a5",
+    "final-manifest.json": "b7a4e344bbfcaa989444bad93f7166fd404ee36e52018128511d542331e7f5ed",
+    "runtime-configuration-safe.json": "62e9db49d4ff44041c526ddaaa22c7e7bccb0f20de65ed22fe657cedcf815da0",
+    "safe-semantic-v3-provenance.json": "1b27ddb65fdbc10d000a1ba0d2b7e28d89353f0081ec181f93013805c992ba62",
+    "safe-semantic-v4-provenance.json": "3df4819147dcd6ae64771a2532a0d8e0ad4b623843e605b0603d9cfe123a48b6",
+    "safe-semantic-v4-rejected-attempt1.json": "f7db90349432eab1c0b6bc3ca733737cf5c8cf8430f2ea6ef42c830affc1b848",
+    "safe-summary.json": "241f66fb4bf98717051851cf22546b0b6f348e4dfa2ccb7d10e5d3b102319758",
+    "semantic-v4-sdk-result.log": "effa5e84b737a63afc16ad125ed46201a854d2586911bd3bf54316640051a2c5",
+    "test_prepared_host.py": "1dd153f67417022de04829ffa83e2232d27ed54d63c5a3eddc76e57cdcf0fa32",
+    "test_semantic_v4_sdk.py": "846a237bea828296ead07c225eebde181182ef14a0466e7393ba9b64df0a7387"
+  },
+  "pattern_hits": 0
+}

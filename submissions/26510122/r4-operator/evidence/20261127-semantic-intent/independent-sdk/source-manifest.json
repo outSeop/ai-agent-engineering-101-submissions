@@ -1,0 +1,11 @@
+{
+  "status": "passed-narrow-final-scope",
+  "frozen_semantic4_manifest_sha256": "b7a4e344bbfcaa989444bad93f7166fd404ee36e52018128511d542331e7f5ed",
+  "file_sha256": {
+    "qa_semantic4_independent.py": "b20ba5cd21d2a302abecaaad12e0803afa991ac99fe2bb46dc484c2a72ffe9bb",
+    "semantic4-independent/safe-result.json": "77848d58c7ca0c6f3670c29c3eb35c68d18d24ecf98966bb5704457b893dda85",
+    "semantic4-final-safe-assessment.json": "78a1e1cdd9ece0ed7e7da50beabf69ffedd1e59635631dff1514374563cec353",
+    "semantic4-prepared/MANIFEST.json": "62bbe4ded1200a09304265bf37ee263bfd8b96c4b9819ab608ab13efe38a05ce"
+  },
+  "private_only": true
+}

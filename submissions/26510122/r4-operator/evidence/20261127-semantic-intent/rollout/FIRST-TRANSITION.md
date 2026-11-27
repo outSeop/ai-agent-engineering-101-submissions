@@ -1,0 +1,5 @@
+# First guarded transition, rejected safely
+
+The first 18807-to-18808 exact-rule replacement failed its generic public marker/card/pending comparison. The guard automatically restored the exact owned 18807 rule; a separate read-only preflight then confirmed target18807 and matching cards/URL/pending. Original four services, wallet files, database identity, original financial source and pending rows remained unchanged.
+
+Follow-up reads found all original/local/public card fields identical. The old guard retains its pre-idle origin card while discarding the refreshed post-idle identity result; periodic description changes can therefore reject a safe transition. This is a source-level race hypothesis; the original exception did not retain which comparison differed. A separately reviewed transition wrapper must record individual reasons and tolerate only description refreshes, preserving exact wallet/name/URL/pending/rule/PID checks. The original running front package stays immutable; no old listener is restarted.

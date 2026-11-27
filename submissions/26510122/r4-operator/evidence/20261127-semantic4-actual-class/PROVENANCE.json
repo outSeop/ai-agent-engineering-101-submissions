@@ -1,0 +1,16 @@
+{
+  "at": 1795754309.9843078,
+  "kind": "external host QA source and safe derived evidence",
+  "source_script_sha256": "8967f97be436c2922db6eed45cd6cc22c66376fdffc64beb34af71c08bd3782d",
+  "actual_invoked_driver_sha256": "8967f97be436c2922db6eed45cd6cc22c66376fdffc64beb34af71c08bd3782d",
+  "source_script_bytes_unchanged": true,
+  "new_business_logic_or_forge_records_authored": false,
+  "original_class_session_metadata_only": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/public-catalogue-class-canary-semantic4-1795754123252955227-defer",
+  "runtime_manifest_sha256": "b7a4e344bbfcaa989444bad93f7166fd404ee36e52018128511d542331e7f5ed",
+  "front_manifest_sha256": "25d099830f88215ffebc37c41fd9cef8c3a28d0206f411ab9488c646a62980d9",
+  "actual_class_model": "market via unchanged official SDK Model",
+  "actual_class_requests": 1,
+  "synthetic_case_not_real_buyer": true,
+  "raw_private_reason_or_customer_traces_exported": false,
+  "actual_financial_actions": 0
+}

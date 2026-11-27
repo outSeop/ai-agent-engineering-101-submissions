@@ -1,0 +1,14 @@
+{
+  "registered_agent_configured_model_base": "market",
+  "pinned_front_configured_model_base": "market",
+  "runtime_provider_env_overrides_removed_by_launcher": true,
+  "development_provider": "codex-cli-gpt-6.2-sol",
+  "development_proxy_verified_owned_pid_terminated": 1238702,
+  "development_port_listening_after_cleanup": false,
+  "old_listener_port_and_pid_preservation": {
+    "18805": 1192914,
+    "18806": 1213796,
+    "18807": 1218994
+  },
+  "live_serving_or_model_call_performed_for_this_record": false
+}

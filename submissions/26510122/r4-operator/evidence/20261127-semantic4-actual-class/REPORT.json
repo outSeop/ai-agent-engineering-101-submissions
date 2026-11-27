@@ -1,0 +1,208 @@
+{
+  "at": 1795754224.4490573,
+  "synthetic_question": "소이밀크 재고와 가격 보여 주세요. 결제는 나중에 할게요.",
+  "model_selected_product_phrase": "소이밀크",
+  "unique_original_product_phrase": true,
+  "actual_model_queries": [
+    "두유"
+  ],
+  "query_expansion_not_fixture_forced": true,
+  "exact_original_text_forwarded_to_native_verified_by_args_SHA": true,
+  "only_identity_mask_used_for_readonly_protocol_hash_reconstruction": "Synthetic public text contains no PII; this check is argument binding, not privacy proof.",
+  "source_snapshot_sha256": "fe9908661ad7d5657eea7555f1a85188451a62cb2c595a8f775d970c6804c0c4",
+  "source_rows": 146,
+  "prepared_baseline_rows": 0,
+  "snapshot_timestamps_rebased": false,
+  "matched_public_rows": [
+    {
+      "sku": "G53c53244",
+      "exact_name_from_snapshot": true,
+      "grade_matches": true,
+      "price_matches": true,
+      "available_source_state": true,
+      "remaining_time_within_original_TTL": true,
+      "related_term_in_public_name": true
+    },
+    {
+      "sku": "G37fada3a",
+      "exact_name_from_snapshot": true,
+      "grade_matches": true,
+      "price_matches": true,
+      "available_source_state": true,
+      "remaining_time_within_original_TTL": true,
+      "related_term_in_public_name": true
+    },
+    {
+      "sku": "G92ce1fdf",
+      "exact_name_from_snapshot": true,
+      "grade_matches": true,
+      "price_matches": true,
+      "available_source_state": true,
+      "remaining_time_within_original_TTL": true,
+      "related_term_in_public_name": true
+    }
+  ],
+  "all_lifetimes_same_render_instant": true,
+  "native_candidate_disclaimer": true,
+  "native_no_full_match_guarantee": true,
+  "native_SKU_requery_advice": true,
+  "genuine_final_reply_exact_match": true,
+  "final_reply_characters": 343,
+  "actual_model_calls": 1,
+  "actual_semantic_tool_calls": 1,
+  "financial_executor_attempts": 0,
+  "actual_financial_actions": 0,
+  "wallet_loaded": false,
+  "actual_DB_opened": false,
+  "structured_financial_authority_in_response": false,
+  "semantic_auto_memory_created": false,
+  "session_decision_refs": 1,
+  "session_transport_refs": 1,
+  "session_ref_PROD_intersections": {
+    "decision": 0,
+    "transport": 0
+  },
+  "raw_private_customer_or_Model_reason_exported": false,
+  "runtime_manifest_sha256": "b7a4e344bbfcaa989444bad93f7166fd404ee36e52018128511d542331e7f5ed",
+  "front_manifest_sha256": "25d099830f88215ffebc37c41fd9cef8c3a28d0206f411ab9488c646a62980d9",
+  "session": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/runtime/public-catalogue-class-canary-semantic4-1795754123252955227-defer",
+  "safe_result": {
+    "status": "verified_catalogue_final_reply",
+    "http_status": 200,
+    "final_reply_matches_genuine": true,
+    "final_reply_sha256": "b97ba18bc0eecb9a63ab25dddc787c8ff2d6f651b82777fbb78ad4e2a5788d5c",
+    "final_reply_characters": 343,
+    "final_genuine_operation": "semantic_candidates",
+    "source_count": 146,
+    "source_bytes": 46492,
+    "source_snapshot_sha256": "fe9908661ad7d5657eea7555f1a85188451a62cb2c595a8f775d970c6804c0c4",
+    "catalogue_calls": [
+      {
+        "op": "prepare",
+        "seconds": 0.7299,
+        "snapshot_sha256": "fe9908661ad7d5657eea7555f1a85188451a62cb2c595a8f775d970c6804c0c4",
+        "status": "ready",
+        "fixed_reason": null,
+        "page_rows": 0,
+        "page_characters": 1546,
+        "source_count": 146,
+        "offset": 0,
+        "args_sha256": "503e9d9a739189793a659c2c43725fd312e3f1e60a69ea98e507680830bced8f"
+      },
+      {
+        "op": "semantic_candidates",
+        "seconds": 0.7809,
+        "snapshot_sha256": "fe9908661ad7d5657eea7555f1a85188451a62cb2c595a8f775d970c6804c0c4",
+        "status": "rendered",
+        "fixed_reason": null,
+        "page_rows": null,
+        "page_characters": null,
+        "source_count": null,
+        "offset": null,
+        "args_sha256": "4743031cd89a5a4e6591de1ae57be79ef1b9db2d817d6c3684c604b5d0accec4"
+      }
+    ],
+    "supplier_calls": 1,
+    "legacy_context_calls": 0,
+    "financial_executor_attempts": 0,
+    "actual_financial_execution_count": 0,
+    "financial_executor_is_stub": true,
+    "scenario": "alternatives",
+    "raw_history_marker_forwarded": false,
+    "transport_turn_count": 1,
+    "per_turn_safe": [
+      {
+        "index": 0,
+        "http_status": 200,
+        "has_error": false,
+        "task_state": "TASK_STATE_COMPLETED",
+        "genuine_final_reply_match": true,
+        "genuine_reply_exact_suffix": true,
+        "model_memory_counts": [
+          0
+        ],
+        "legacy_action_selections": []
+      }
+    ],
+    "same_task_continuation_accepted": false,
+    "cross_task_id_is_different": false,
+    "legacy_fixture_unchanged": true,
+    "Model_page_bound_violations": 0,
+    "model_error_metadata": [],
+    "Model_metrics": [
+      {
+        "host_readonly_flow": [
+          {
+            "remaining_decisions_including_this_one": 1,
+            "final_decision": true,
+            "allowed_final_actions": [
+              "render_public_products",
+              "respond",
+              "search_similar_products"
+            ],
+            "max_render_items": 3,
+            "instruction": "This is the last read-only decision. Finish with a single allowed action. If search_similar_products is offered, it is terminal and gets no additional model step."
+          }
+        ],
+        "remembered_public_count": 0,
+        "remembered_public_skus": [],
+        "prompt_characters": 5272,
+        "page_count_in_history": 1,
+        "page_rows_in_history": [
+          0
+        ],
+        "page_characters_in_history": [
+          1546
+        ],
+        "timeout": 30,
+        "max_tokens": 800
+      }
+    ],
+    "phase_metrics": [
+      {
+        "prefetch_seconds": 0.0,
+        "model_seconds": 8.7882,
+        "render_seconds": 0.0,
+        "legacy_action_seconds": 0.0,
+        "catalogue_seconds": 0.7312,
+        "search_seconds": 0.7811,
+        "fallback_seconds": 0.0,
+        "total_seconds": 10.303,
+        "retries": 0,
+        "outcome": "semantic_candidate",
+        "reason": "none",
+        "phase_reasons": {}
+      }
+    ],
+    "total_transport_seconds": 10.3223,
+    "old_builder_invocations": 0,
+    "old_builder_source_present": false,
+    "dual_genuine_sources_verified": true,
+    "semantic_execution_uses_actual_dual_worker": true,
+    "semantic_native_call_count": 1,
+    "actual_frozen_front_wrapper": true,
+    "front_edge_manifest_sha256": "25d099830f88215ffebc37c41fd9cef8c3a28d0206f411ab9488c646a62980d9",
+    "toolbox_root_isolated_session": true,
+    "production_trace_writes_expected": 0,
+    "prepared_mode_enabled": true,
+    "strict_Model_decision_limit": 1,
+    "calibrated_local_Model_wait_seconds": 30,
+    "calibrated_request_budget_seconds": 40,
+    "calibration_max_tokens": 800,
+    "stock_state_source": "controlled public snapshot metadata fixture, not production reservation join",
+    "tool_tokens_count": 0,
+    "tool_addresses_count": 0,
+    "wallet_loaded": false,
+    "actual_customers_contacted": false,
+    "actual_DB_opened": false,
+    "server_listener_started": false,
+    "production_installed": false,
+    "raw_reason_reply_exported": false
+  },
+  "limitations": [
+    "One synthetic classroom request, not actual buyer conversion.",
+    "Controlled public stock-state fixture; production reservation producer and live route/task preservation require separate root verification.",
+    "Finite supported neutral clauses, not general transaction-intent understanding.",
+    "No guarantee that related search terms identify the same product or meet every request condition."
+  ]
+}

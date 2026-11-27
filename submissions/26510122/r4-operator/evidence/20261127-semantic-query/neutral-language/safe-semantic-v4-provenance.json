@@ -1,0 +1,37 @@
+{
+  "base8_exact_unchanged": true,
+  "development_provider": "codex-cli-gpt-6.2-sol",
+  "genuine_tool": "semantic_candidates",
+  "host_runtime_manifest_sha256": "b7a4e344bbfcaa989444bad93f7166fd404ee36e52018128511d542331e7f5ed",
+  "observed_current_forge_log_hash": "8e5e0759b8ee87bd47adf9aadd80ed9e7d109b3763e15850ea0a2bd9de34140c",
+  "official_mind": true,
+  "official_sdk_forge_events": [
+    {
+      "passed": true,
+      "tool": "semantic_candidates",
+      "ts": 1795753422,
+      "version": 3
+    },
+    {
+      "passed": false,
+      "tool": "semantic_candidates",
+      "ts": 1795753772,
+      "version": 4
+    },
+    {
+      "passed": true,
+      "tool": "semantic_candidates",
+      "ts": 1795754002,
+      "version": 4
+    }
+  ],
+  "origin_immutable_forge_log_at_freeze": "8e5e0759b8ee87bd47adf9aadd80ed9e7d109b3763e15850ea0a2bd9de34140c",
+  "production_actions": 0,
+  "raw_customer_or_model_text_included": false,
+  "source_matches_actual_own_model_response": {
+    "private_record_hash": "4a916f44d7ed5f1fd453c24424e08bff3c5c0af0d3903e0a4fd5c3f5a2420eb1",
+    "reply_hash": "e0e59a015563701189feb56678b4249027b5b9af045e6b15caa196719d3e288d"
+  },
+  "upstream_model_reported": null,
+  "version": 4
+}
