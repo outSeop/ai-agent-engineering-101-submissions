@@ -1,0 +1,9 @@
+{
+  "initial_sdk_rejection": "NameError: load_catalogue is not defined",
+  "corrected_same_model_sdk_test": "passed",
+  "ordinary_sdk_passed": 23,
+  "ordinary_sdk_total": 25,
+  "local_actual": "XFAIL",
+  "native_logic_not_deployed": true,
+  "customer_text_not_exported": true
+}

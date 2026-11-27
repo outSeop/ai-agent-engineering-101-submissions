@@ -1,0 +1,17 @@
+{
+  "model_provider": "market-class",
+  "model_response_sha256": [
+    "495b47d077f21e072adebd639e9d70c257a11f1c88a44f12ece0d62d879b33b3",
+    "02f7f2fe868a4bb3976170a4f4bd1e98645909596fdf3f043dcdc776e75acc9c"
+  ],
+  "base_sha256": "043d941c1943dbeee6ef957963e7d389e8d840b248eb52fb5b211ac089adb802",
+  "logic_sha256": "b2795cc94f63f704e8953bf3315d0ac6ed64f5c1ac71ceec8a89e8800749b02e",
+  "test_sha256": "d1d36200deea47b8a524b0214a7ac0b75df4873210f149db37c82ba76c710599",
+  "new_model_calls": 0,
+  "original_proposal_events": [
+    1795806867.7457929,
+    1795806920.8134718
+  ],
+  "sdk_test_status": "passed",
+  "version": 10
+}
