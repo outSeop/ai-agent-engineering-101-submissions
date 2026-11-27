@@ -1,0 +1,13 @@
+{
+  "runtime_bundle": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/deploy/public_catalogue_runtime_compound_v1",
+  "runtime_manifest_sha256": "b5eb4f55bcfc656405cb9eadb63ae6f746b005bcafa6ee5abdbff3c73c89793c",
+  "new_port": 18809,
+  "old_proxy_port": 18808,
+  "rule_origin_dport": 18805,
+  "model_budget_local_seconds": 30,
+  "one_decision_request": true,
+  "listener_background_business_loops": 0,
+  "new_task_gate_default": "closed",
+  "automatic_reverse_requires": "closed plus zero sticky admissions",
+  "service_name": "ourolabs-market-r4-compound-front.service"
+}

@@ -1,0 +1,19 @@
+{
+  "at": 1795803321.045291,
+  "front_package_manifest_sha256": "860307caea9d15033f9baacd5f8768ea48a3890880bbdce2bbfc13fb58a67fbd",
+  "deployment_artifact": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/deploy/front_compound_edge_runtime_v1",
+  "runtime_manifest_sha256": "b5eb4f55bcfc656405cb9eadb63ae6f746b005bcafa6ee5abdbff3c73c89793c",
+  "focused_synthetic_protocol_guard_tests": 5,
+  "failures": 0,
+  "original_live5_services_or_CF_mutations": 0,
+  "NAT_or_gate_live_operations": 0,
+  "actual_Model_HTTP_wallet_DB_calls": 0,
+  "admission_counter": "conservative possible-task admissions, persisted before SDK, never reset",
+  "default_closed_old_card_tasks_own_followups_preserved": true,
+  "postcheck_failure_reverse_requires_closed_zero": true,
+  "manual_reverse_after_any_admission_refused": true,
+  "new_listener_not_started_by_this_task": true,
+  "credential_files_checked": 4,
+  "before_after_export_pattern_matches": 0,
+  "runtime_actual_class_validation_owned_by_parent": true
+}

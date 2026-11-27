@@ -1,0 +1,9 @@
+{
+  "files": {
+    "FRONT-IMPLEMENTATION-SAFE.json": "0170ec15aacef6aa7d133ae6b126362c8c6ed80ff9f31571e485b7117cee076c",
+    "SAFE-QA.json": "57f14e0c724cad9bbf8c2e9e63f2aae972bc4f03fc9d6598675bb4218adf4d9a",
+    "test_compound_front_protocol.py": "901b12d785d40b99624cd0a2bd5679a52068cfc32e1f0254155545f053809041",
+    "FIRST-BUILD-FAILURE-SAFE.json": "b5b50b97c31c33d63fe74084cc5f0b08901d050a30bcea3ff23fec65d101aa17"
+  },
+  "actual4_scan_matches": 0
+}

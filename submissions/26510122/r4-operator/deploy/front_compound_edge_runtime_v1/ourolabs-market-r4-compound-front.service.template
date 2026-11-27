@@ -1,0 +1,11 @@
+# TEMPLATE ONLY: root supplies this package's frozen hash; not installed here.
+[Unit]
+Description=R4 compound inquiry request listener only
+After=ourolabs-market-r4.service ourolabs-market-r4-semantic3-front.service
+[Service]
+Type=simple
+WorkingDirectory=/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator
+UMask=0077
+ExecStart=/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/.venv/bin/python -I -B /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/deploy/front_compound_edge_runtime_v1/run_front_edge.py --operator /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator --runtime-bundle /home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/deploy/public_catalogue_runtime_compound_v1 --runtime-manifest-sha b5eb4f55bcfc656405cb9eadb63ae6f746b005bcafa6ee5abdbff3c73c89793c --edge-manifest-sha @EDGE_MANIFEST_SHA@ --port 18809 --serve
+Restart=no
+# Unsupervised restart would clear this process's InMemoryTaskStore. Gate counts are never reset.

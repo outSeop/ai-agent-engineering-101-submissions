@@ -1,0 +1,6 @@
+{
+  "attempt": "first guard clone string replacement",
+  "error": "ValueError substring not found before any file write or operation",
+  "source_changed": false,
+  "service_or_rule_operations": 0
+}

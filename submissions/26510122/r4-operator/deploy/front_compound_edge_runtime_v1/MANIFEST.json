@@ -1,0 +1,29 @@
+{
+  "files": {
+    "admission_gate.py": "9140c775e70e9b7f3d35016b9c3568ad2a228753bd852cdd5f430eea896fff0b",
+    "front_edge_app.py": "aaa5c7968f16d2f28bdf27a38770a3fc139f49092bf85f25f11bd449047ed282",
+    "run_front_edge.py": "c71baf3d2e1d5288091c1268e1f5fb0f5b0547777807414c9a0a8c6cbf1a9663",
+    "transition_guard.py": "3fd1a159f48a6ee9413e17e1b64ffea9d9033b7f9a47affa3484fa8a03498990",
+    "test_compound_front_protocol.py": "901b12d785d40b99624cd0a2bd5679a52068cfc32e1f0254155545f053809041",
+    "SAFE-QA.json": "57f14e0c724cad9bbf8c2e9e63f2aae972bc4f03fc9d6598675bb4218adf4d9a",
+    "RUNTIME-BINDING.json": "6e253188e7a40189487ca57d3ffa801c954559e57619bc223c98c86fc40e788c",
+    "README.md": "2c55c22364157317c07887dcf755e431dab0cede4ddfe01835ac002282bcd2aa",
+    "ourolabs-market-r4-compound-front.service.template": "fa7182e0a773ba7ea863f64cac6256881eff4d8d66614e320519ac0da816ccd1",
+    "FIRST-BUILD-FAILURE-SAFE.json": "b5b50b97c31c33d63fe74084cc5f0b08901d050a30bcea3ff23fec65d101aa17"
+  },
+  "sources_only": false,
+  "runtime_binding": "deploy/public_catalogue_runtime_compound_v1",
+  "runtime_manifest_sha256": "b5eb4f55bcfc656405cb9eadb63ae6f746b005bcafa6ee5abdbff3c73c89793c",
+  "kind": "externally authored request-only HOST, no business logic/agent forge claim",
+  "new_port": 18809,
+  "old_proxy_port": 18808,
+  "same_original_URL_main_CF_taskstores_required": true,
+  "first_new_task_gate_default": "closed with sticky pre-SDK admissions",
+  "manual_reverse_requires_closed_zero_admissions": true,
+  "existing_original5_CF_and_new_service_PID_checked": true,
+  "new_business_background_loops": 0,
+  "synthetic_focused_tests": 5,
+  "original_SDK_business_integration_not_executed_in_this_QA": true,
+  "actual_Model_HTTP_financial_DB_service_nat_operations_by_this_task": 0,
+  "actual4_credentials_and_patterns_prescan_matches": 0
+}

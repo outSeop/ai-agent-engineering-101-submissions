@@ -1,0 +1,9 @@
+{
+  "tests": 5,
+  "failures": 0,
+  "errors": 0,
+  "scope": "synthetic ASGI protocol and mocked guard, not original SDK business integration",
+  "actual_Model_HTTP_wallet_DB_service_nat_calls": 0,
+  "temporary_state_only": true,
+  "new_task_admission_counter_is_conservative_not_actual_task_count": true
+}
