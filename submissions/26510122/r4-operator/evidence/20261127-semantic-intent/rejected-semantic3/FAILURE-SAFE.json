@@ -1,0 +1,17 @@
+{
+  "candidate_runtime_manifest_sha256": "290db18d9e3b9363de35984c62459b238ff9220e285244f2040e36693e7e72cd",
+  "genuine_tool_version": 3,
+  "source_logic_sha256": "0ca13aba2f13e86039b6f3f4dcfa2e6c58b252a7bee4d2ac8ced1c0a531dc97a",
+  "official_selftest_passed": true,
+  "independent_exact_synthetic_query": "소이밀크 재고와 가격 보여 주세요. 결제는 나중에 할게요.",
+  "ordinary_SDK_result": "unsupported_request",
+  "rejected_for_deployment": true,
+  "blockers": [
+    "fixed three-noun allowlist prevents arbitrary model-selected original noun",
+    "only three literal neutral sentences fail the requested defer wording"
+  ],
+  "actual_class_canary_calls": 0,
+  "live_activation": false,
+  "financial_actions": 0,
+  "original_production_sources_unchanged": true
+}

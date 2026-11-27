@@ -1,0 +1,9 @@
+name: semantic_candidates
+description: 공개 상품 유사어 후보 조회. 정확히 {op:"semantic_candidates",text:원문,product_phrase:원문에 한 번 나오는 긍정 상품 명사구,queries:[서로 다른 긍정 검색어 1~2개]}를 받습니다. 상품 명사구와 검색어는 각각 48자 이하입니다. 검색어는 공개 상품명 또는 분류에서 문자 그대로 찾습니다. 원문의 확인 가능한 조건을 적용해 공개 SKU가 포함된 참고 후보를 최대 3행, 응답 전체를 450자 이내로 반환합니다.
+permission:
+  pay_limit: 0
+  timeout: 120
+logic: logic.py
+test: test.py
+version: 3
+replaces: semantic_candidates@2
