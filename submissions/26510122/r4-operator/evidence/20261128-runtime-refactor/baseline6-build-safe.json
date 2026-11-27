@@ -1,0 +1,12 @@
+{
+  "release_id": "4ab3fb1610ddac2bcd6c4745fe04d3ccbba5e1fa4438ca73461efe9c2f4563ca",
+  "source_only": {
+    "status": "sources_verified_only",
+    "keys_read": false,
+    "listener_started": false
+  },
+  "baseline_native6_runtime_artifacts_byte_identical": true,
+  "base_artifact_count": 29,
+  "candidate_only_not_installed": true,
+  "production_service_DB_wallet_Model_actions": 0
+}
