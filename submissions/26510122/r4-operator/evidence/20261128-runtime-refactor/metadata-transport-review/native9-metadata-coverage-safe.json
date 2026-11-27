@@ -1,0 +1,23 @@
+{
+  "scope": "Read-only keys from synthetic native9 result artifacts only",
+  "cases": {
+    "compound": {
+      "semantic_result_present": true,
+      "payment_request_present": false,
+      "public_facts_present": false
+    },
+    "repeated-positive": {
+      "semantic_result_present": true,
+      "payment_request_present": false,
+      "public_facts_present": false
+    },
+    "unsupported-compound-repeat": {
+      "semantic_result_present": true,
+      "payment_request_present": false,
+      "public_facts_present": false
+    }
+  },
+  "typed_metadata_positive_from_genuine_tool_tested": false,
+  "native9_backward_compatibility_only": true,
+  "actual_Model_API_DB_key_service_calls": 0
+}

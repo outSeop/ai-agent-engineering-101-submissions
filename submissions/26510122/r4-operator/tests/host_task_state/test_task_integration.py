@@ -57,6 +57,14 @@ class Tests(unittest.TestCase):
    self.assertEqual(len(called),2);self.assertEqual(len(proxied),0)
    self.db.set_maintenance(False);self.assertEqual(post('SendMessage',message).status_code,200)
    self.assertEqual(client.get('/.well-known/agent-card.json').content,b'{"old_card":true}');self.assertEqual(len(proxied),1)
+   # Durable readback must not depend on an original identity HTTP round-trip.
+   def unavailable_identity():raise RuntimeError('synthetic main identity unavailable')
+   edge.before_new=unavailable_identity
+   self.assertEqual(post('GetTask',{'id':'synthetic-unknown-task'}).status_code,200)
+   self.assertEqual(post('ListTasks',{}).status_code,200)
+   before=len(called);self.assertEqual(post('SendMessage',message).status_code,503)
+   self.assertEqual(len(called),before)
+
  def test_assemble_fixture_store_and_original_continuity_are_all_isolated(self):
   self.root.joinpath('agent.json').write_text(json.dumps({'name':'SYNTHETIC','llm':{'base':'market'}}))
   seen=[];broker=SimpleNamespace(Broker=type('BaseBroker',(),{}),SEMANTIC_INSTRUCTION='synthetic')

@@ -1,0 +1,12 @@
+{
+  "scope": "HOST typed metadata unit only with explicit pinned-base import-loader stub",
+  "tests_run": 6,
+  "failures": 0,
+  "errors": 0,
+  "genuine_tool_called": false,
+  "actual_SDK_business_execution": false,
+  "actual_Model_called": false,
+  "test_source": "tests/host_front/test_metadatatransport.py",
+  "test_source_sha256": "f689aee8748ca37ebcbfefd00e28f2532cde97c080d792521a45050f77b72d48",
+  "no_production_Model_API_DB_key_log_service_POST_pay_calls": true
+}

@@ -89,7 +89,9 @@ class FrontEdge:
         from a2a.server.context import ServerCallContext
         old_task=(not self.persistent_engine) and bool(task) and await self.store.get(task,ServerCallContext()) is None
         route='old_card' if proxy_card else 'old_task' if old_task else 'new_sdk'
-        if scope['method']=='POST' and self.before_new is not None:
+        method=payload.get('method') if isinstance(payload,dict) else None
+        write_request=isinstance(method,str) and method in {'SendMessage','message/send','SendStreamingMessage','message/stream','CancelTask','tasks/cancel'}
+        if scope['method']=='POST' and self.before_new is not None and (not self.persistent_engine or write_request):
             try:
                 checked=await asyncio.to_thread(self.before_new)
                 if hasattr(checked,'__await__'):await checked

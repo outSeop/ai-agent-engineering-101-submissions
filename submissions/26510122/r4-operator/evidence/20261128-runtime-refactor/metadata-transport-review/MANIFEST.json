@@ -1,0 +1,22 @@
+{
+  "schema": "metadata-transport-bounded-review.v1",
+  "unit_tests_passed": 6,
+  "native9_backcompat": {
+    "normal_passes": 3,
+    "expected_failures": 1
+  },
+  "typed_metadata_genuine_SDK_positive_verified": false,
+  "build_sha256": "e53e31abad14ac30c40f18ffe768c4676f09385547dd31f76ac5e7f3c0316cd5",
+  "runtime_manifest_sha256": "c5624f51f6e88f422f5d533396d60cfc916bc93cbcfb062b623bd7c24e6d8cb4",
+  "front_manifest_sha256": "47cef6f6139a43e5893b368c8a1d97091c64829c5f57e06a86ab7f869b38ef09",
+  "test_source_sha256": "f689aee8748ca37ebcbfefd00e28f2532cde97c080d792521a45050f77b72d48",
+  "public_pattern_scan_matches": 0,
+  "existing_evidence_modified": false,
+  "production_activation_claimed": false,
+  "files": {
+    "metadata-unit-safe-result.json": "e4f9afa3c3260f5ebe3850e8ff7beeab1738bd6103683d71bccc0d6020a14357",
+    "native9-backcompat-safe-result.json": "2f1a3e4c942a70aecd3bdec1cfcd1ea61087975928d2bd08086f776a4453a486",
+    "native9-metadata-coverage-safe.json": "7652ad770bbb80cdf0d9144b74d0e4c5b7f515353989a82a01f7464697d63ae7",
+    "README.md": "bf7dc1f8a7f9a8eb7a3192c9dca1f1332c38f3894e6248e009a111671a597f02"
+  }
+}
