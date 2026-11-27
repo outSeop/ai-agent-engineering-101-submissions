@@ -1,0 +1,9 @@
+{
+  "model_provider": "codex-cli-gpt-6.2-sol",
+  "base_sha256": "7723c13fd1efb7cfd8d1ec611cdcd36972f80248852015afd1ac05e13a44989d",
+  "stable_v9_logic_sha256": "043d941c1943dbeee6ef957963e7d389e8d840b248eb52fb5b211ac089adb802",
+  "logic_sha256": "f72b2754a85d1372aa381f165165db83786500f369337fc7dbe1834c81c610b2",
+  "test_sha256": "d1d36200deea47b8a524b0214a7ac0b75df4873210f149db37c82ba76c710599",
+  "model_edit_sha256": "03bafa498f17b5779171dfa28c219bc0f59b10e0ce07b5df9ec35af46eded8f4",
+  "prior_model_envelope_sha256": "5778782add9d29b6827b7f0d46c54bbceee5a69b2e6a39ee62e33b31478f156d"
+}

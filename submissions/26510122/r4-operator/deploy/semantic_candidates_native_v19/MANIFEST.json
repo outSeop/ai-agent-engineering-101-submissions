@@ -1,0 +1,23 @@
+{
+  "tool": "semantic_candidates",
+  "version": 19,
+  "forged_at": 1795814584,
+  "model_provider": "codex-cli-gpt-6.2-sol",
+  "file_sha256": {
+    "tools/semantic_candidates/logic.py": "f72b2754a85d1372aa381f165165db83786500f369337fc7dbe1834c81c610b2",
+    "tools/semantic_candidates/test.py": "d1d36200deea47b8a524b0214a7ac0b75df4873210f149db37c82ba76c710599",
+    "tools/semantic_candidates/permission.yml": "cb39f4c401444160777e30cefaaf85a0d204a059278fe56599ce2479a3d5e3c3",
+    "tools/semantic_candidates/forge.json": "bb0c72f43d051b6cc022d3cc97ee797c5feeb0e588a761e8cc1a176d3584dc36"
+  },
+  "base_v4_logic_sha256": "01e59f9b5e06b0402a669bfbd9c78e350c9cb32e9c65bfd111fdf5ac1a74b39c",
+  "base_catalogue_logic_sha256": "01a4a0dc912e02679091a3f6c98df3f0450ca2581b920d1d650e2fa0fa2a4c89",
+  "authoring": {
+    "fallback_and_category_decoder": "R4 seller agent's Codex 6.2-sol development Model",
+    "strict_and_existing_renderer": "pinned prior R4 classroom Model source",
+    "official_mind_and_forge": true,
+    "production_inference_unchanged": true
+  },
+  "sdk_regressions": 39,
+  "unchanged_original_local_verified": true,
+  "actual_customer_text_sent_to_model": false
+}

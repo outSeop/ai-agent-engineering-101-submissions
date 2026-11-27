@@ -1,0 +1,39 @@
+{
+  "provider": "actual R4 development Windows Codex CLI via official kit/cli_model.py",
+  "requested_model": "gpt-6.2-sol",
+  "upstream_reported_model": null,
+  "reasoning_effort": "high",
+  "successful_bridge_timeout_seconds": 300,
+  "initial_160s_attempt": "TimeoutExpired; no SDK forge",
+  "model_responses": [
+    {
+      "role": "reference grammar",
+      "reply_sha256": "f694a02a525c366ddc425950b3dbb93b593285354131549bd42e9fc5319fdbc5",
+      "actual_model_request_epoch": 1795813719.8716705,
+      "cli_returncode": 0,
+      "cli_tool_events": 0
+    },
+    {
+      "role": "category projection",
+      "reply_sha256": "6f9f6daadaec0080315af16546e6110153c466810031020db950a779ae82edf3",
+      "actual_model_request_epoch": 1795814497.5768228,
+      "cli_returncode": 0,
+      "cli_tool_events": 0
+    }
+  ],
+  "official_forge": {
+    "ts": 1795814584,
+    "tool": "semantic_candidates",
+    "version": 19,
+    "passed": true,
+    "error": null,
+    "permission": {
+      "pay_limit": 0,
+      "timeout": 30
+    }
+  },
+  "original_strict_and_renderer_retained": true,
+  "actual_customer_text_sent_to_model": false,
+  "runtime_model_changed": false,
+  "production_modified": false
+}
