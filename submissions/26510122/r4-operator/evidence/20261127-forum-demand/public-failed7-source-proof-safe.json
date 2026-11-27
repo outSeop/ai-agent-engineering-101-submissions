@@ -1,0 +1,23 @@
+[
+  {
+    "name": "logic.py",
+    "url": "https://raw.githubusercontent.com/outSeop/ai-agent-engineering-101-submissions/c00122f83443366cc6b4b57992c62ee1a99c007a/submissions/26510122/r4-operator/evidence/20261127-forum-demand/failed-v7-attempt3/logic.py",
+    "HTTP": 200,
+    "sha256": "0b49775816b66edefa50c85f3acd1e58e804b5a237e3fff72abb51f02c88bdad",
+    "matches_local_bytes": true
+  },
+  {
+    "name": "test.py",
+    "url": "https://raw.githubusercontent.com/outSeop/ai-agent-engineering-101-submissions/c00122f83443366cc6b4b57992c62ee1a99c007a/submissions/26510122/r4-operator/evidence/20261127-forum-demand/failed-v7-attempt3/test.py",
+    "HTTP": 200,
+    "sha256": "2721bd934677e709739df2b8e19099c1764715c1a0a5faf1acba1522c36cf33a",
+    "matches_local_bytes": true
+  },
+  {
+    "name": "proposed-permission.json",
+    "url": "https://raw.githubusercontent.com/outSeop/ai-agent-engineering-101-submissions/c00122f83443366cc6b4b57992c62ee1a99c007a/submissions/26510122/r4-operator/evidence/20261127-forum-demand/failed-v7-attempt3/proposed-permission.json",
+    "HTTP": 200,
+    "sha256": "6309e8988cf56f3c40e4248100cc7d7204a120d30f8f7a543deccd297db3b3d8",
+    "matches_local_bytes": true
+  }
+]

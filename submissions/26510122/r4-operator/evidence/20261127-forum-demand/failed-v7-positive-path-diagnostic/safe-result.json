@@ -1,0 +1,17 @@
+{
+  "insufficient_budget150_omits5": true,
+  "default_relative_policy_accepted": true,
+  "full_original_identity_and_core_schema": true,
+  "budget50000_additional5_present": true,
+  "actual_price_terms_base_positive": true,
+  "no_price_terms_business_stub": true,
+  "selftest_absolute_override_is_rejected": true,
+  "same_valid_budget_but_absolute_path_omits5": true,
+  "source_logic_sha256": "0b49775816b66edefa50c85f3acd1e58e804b5a237e3fff72abb51f02c88bdad",
+  "rejected_proposal_not_accepted_forge": true,
+  "genuine_SDK_pass_claimed": false,
+  "original_full_ForumFixture": true,
+  "core_bonus_DDL_used": true,
+  "fake_POST_count": 0,
+  "actual_Model_API_POST_finance_or_production_changes": 0
+}

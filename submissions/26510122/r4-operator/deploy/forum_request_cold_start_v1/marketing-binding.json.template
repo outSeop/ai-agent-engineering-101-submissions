@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "scope_manifest_sha256": "a4d70b23223c2751489b67e331abdbb329086190da2a9306f1a11e0d9e738fbb",
+  "original_launcher_sha256": "831fa941b826ff0bd06b373ed05a2e48732bf9238d62ce38f5996e3de093445d",
+  "native2_manifest_sha256": "f1a3296e4260ae9b452b6dacc9190e9733a6a28623774eba69baffb2256d285b",
+  "tool_source": "/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/round-4/tools/forum_marketing",
+  "tool_exact4": {
+    "logic.py": null,
+    "permission.yml": null,
+    "test.py": null,
+    "forge.json": null
+  },
+  "genuine_tool_version": 7
+}

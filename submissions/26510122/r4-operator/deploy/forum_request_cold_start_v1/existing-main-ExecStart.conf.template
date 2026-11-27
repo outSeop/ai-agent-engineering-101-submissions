@@ -1,0 +1,5 @@
+# REVIEW TEMPLATE ONLY. Not installed. Requires explicit main-restart approval.
+# This retains current --tunnel behavior: new quick URL and old-main in-memory task loss are possible.
+[Service]
+ExecStart=
+ExecStart=@PYTHON@ -I -B @COLD_WRAPPER@ --wrapper-manifest-sha @COLD_PACKAGE_SHA@ --marketing-binding @REVIEWED_BINDING_FILE@ --marketing-binding-sha @BINDING_SHA@ run --operator-dir @OPERATOR@ --agent-root @PRESERVED_AGENT_ROOT@ --owner-file @EXISTING_OWNER_FILE@ --tunnel --port 18805 --enable-procurement --procurement-lines 10

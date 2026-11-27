@@ -1,0 +1,26 @@
+{
+  "files": {
+    "cold_start_marketing_wrapper.py": "b1ed776352a95fed2fe5e36706b69176c61840761cba0270109f97b1ebee9b11",
+    "test_cold_start_marketing_wrapper.py": "73797f1656845ce26f62e7402da46b88429afe0400cdb79c16fbbf42d96cfe9d",
+    "SAFE-QA.json": "72e29ab4b631449cfdac29db08f97e228fb6ccfbc07728819b983714c31fcb59",
+    "ORIGINAL-CHECK-SAFE.json": "d024b849c6d9cc8b8bd9052e907338f7a804ebb7500b2d72632d6cab475eaa65",
+    "marketing-binding.json.template": "aceadd29b96da29c8729c1dd0db95d4432b275685a1cb96a096aaf447430bfda",
+    "existing-main-ExecStart.conf.template": "ba2a202b41879dca318a72aa2844c114d463076aa94214e9c241a69a5903aaa8",
+    "README.md": "55f0db06b65f906828593e8c3bd2c6959cb1ceeb6fab4933cc73c5f5e9f2af5f",
+    "PRESERVATION-SAFE.json": "5efa285cf2a1192a0a53374db08bd20d3138fb5fd5a34af3ecc4abf0e1a67950"
+  },
+  "kind": "externally authored cold-start host only",
+  "scope_manifest_sha256": "a4d70b23223c2751489b67e331abdbb329086190da2a9306f1a11e0d9e738fbb",
+  "original_launcher_sha256": "831fa941b826ff0bd06b373ed05a2e48732bf9238d62ce38f5996e3de093445d",
+  "native2_manifest_sha256": "f1a3296e4260ae9b452b6dacc9190e9733a6a28623774eba69baffb2256d285b",
+  "service_to_modify_only_after_explicit_approval": "ourolabs-market-r4.service ExecStart",
+  "not_installed": true,
+  "original_main_run_or_registration_invoked": false,
+  "own_runtime_While_nodes": 0,
+  "actual_Model_or_POST_or_financial_calls": 0,
+  "new_service_or_loop_created": false,
+  "task_or_URL_migration_proven": false,
+  "genuine7_admission_pending": true,
+  "credential_file_count": 4,
+  "sensitive_actual_or_pattern_matches": 0
+}

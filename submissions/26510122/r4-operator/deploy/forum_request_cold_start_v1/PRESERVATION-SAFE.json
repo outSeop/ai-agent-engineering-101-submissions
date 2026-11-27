@@ -1,0 +1,9 @@
+{
+  "at": 1795781554.3292367,
+  "original_main_PID_unchanged": true,
+  "main_active": true,
+  "NRestarts": 0,
+  "original_CF_PID_present": true,
+  "service_or_source_or_network_or_taskstore_operations": 0,
+  "new_files_only": "runtime/marketing-request-20261127-method/cold-start-host-v1"
+}
