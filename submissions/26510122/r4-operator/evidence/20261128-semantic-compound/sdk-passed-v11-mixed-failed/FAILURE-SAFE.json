@@ -1,0 +1,8 @@
+{
+  "prior_long_call_timeout_count": 2,
+  "prior_long_call_sdk_attempts": 0,
+  "official_sdk_compact_test": "passed but proposed mixed test was only nested, never executed",
+  "independent": "two-group runtime error due to local import shadowing; fixture product hardcoded",
+  "local_actual": "XFAIL",
+  "production_modified": false
+}
