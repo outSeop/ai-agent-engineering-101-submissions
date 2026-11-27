@@ -1,0 +1,39 @@
+{
+  "schema": "maintained-QA-review.v1",
+  "asgi": {
+    "normal_passes": 3,
+    "expected_failures": 1,
+    "unexpected_successes": 0,
+    "tests_run": 4,
+    "first_setup_failure_preserved": true
+  },
+  "router_review_passes": 3,
+  "default_expected_semantic_version_consistent": 9,
+  "current_source_sha256": {
+    "tests/host_front/catalogue_asgi_support.py": "26f457043f9eda8456b1f26fbf396ef6eba337aa27a7f8895264a47f0d37589c",
+    "tests/host_front/test_catalogue_asgi_replay.py": "cb156672d56d327fc007089dd718a4470a9180c388994d2e5949bb389eef0bf6",
+    "tests/host_front/README.md": "23ed68837617a5dfce587dc5ba6283113891eb4cbe7ad44352ca46850c2f21b4",
+    "tests/host_task_state/test_flat_router_review.py": "096b2a31f3eaff91bb8dd787af3f45bc683d105ba0db0fb34e5ddc3bf31a2b25"
+  },
+  "private_username_absolute_paths_in_current_QA": false,
+  "old_evidence_modified": false,
+  "source_module_lookup": "explicit reviewed edge.loaded_broker; no sys.modules business-object fallback",
+  "SDK_wall_clock_unchanged": true,
+  "actual_Model_semantics_tested": false,
+  "prototype_build_sha256": "4e32912d898c603bbbcfb73d3686f5dc6b2829125e1af90356923eca4d0c1ab5",
+  "prototype_runtime_manifest_sha256": "db0b5a7be9a765f5ecae6ee4d4422e107bee95a1d86c05e0d57f0b682ac5a584",
+  "prototype_front_manifest_sha256": "9c71857222e158d62c47e20717dd94bb6b5da59a348b51020118a0c8f022b23f",
+  "production_activation_claimed": false,
+  "actual_Model_API_keys_production_DB_logs_service_POST_pay_calls": 0,
+  "public_pattern_scan_matches": 0,
+  "files": {
+    "maintained-asgi-final-safe-result.json": "c129a54101fbd7fb6d915bfc1dca98be1f20d59c1dd48b00277cc2e0f991c6c5",
+    "router-review-safe-result.json": "cb424d948e0ce3ed24e11cd257c1024384efde9c38a3ce8e097f98e98135a216",
+    "fixture-clock-hash-cause-safe.json": "1ca073378930b8965e1f36c74333fe12400a1435c0ee732ac7315d8dfe6852ff",
+    "fixture-route-count-safe.json": "93153ef8275d9b79ca1405d353162f1c9f8fe5aa99dc737707d94a0429369ef2",
+    "first-setup-failure/safe-result.json": "5434b4831d48b4b10f9a9ebfd3dae4e0b2b31458ee4dc43c353309b5470cc488",
+    "first-setup-failure/catalogue_asgi_support.py": "fce10ca132982ee2089d83382ca5bb719e3b86f7e8e5d2f5ce38b28507a6b335",
+    "first-setup-failure/test_catalogue_asgi_replay.py": "cad0064cbd2a14b0f37fb5fd6e9fb8f89d573c1f5f59628af40e4350782a5490",
+    "README.md": "14adc95c43c18436e00ffb2486126176fc7405ab03e4cc932bf17ba311579655"
+  }
+}

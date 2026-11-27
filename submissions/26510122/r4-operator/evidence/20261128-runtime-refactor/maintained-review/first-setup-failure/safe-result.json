@@ -1,0 +1,21 @@
+{
+  "scope": "Official SDK ASGI with predetermined Model stub; Model semantics/provider/runtime inference NOT evaluated",
+  "tests_run": 4,
+  "failures": 2,
+  "errors": 0,
+  "expected_failures": 1,
+  "unexpected_successes": 0,
+  "was_successful": false,
+  "case_results": [],
+  "fixture_observed_at": 1795808873,
+  "fixture_food_expires_at": 1795895273,
+  "SDK_wall_clock_unchanged": true,
+  "cross_run_reply_hash_fixed": false,
+  "hash_clock_explanation": "Input asof/expiry are shared within a run; unchanged native render reads real clock, so remaining seconds and reply SHA may differ across runs. Compare final text to genuine output within the same request.",
+  "build_sha256": "4e32912d898c603bbbcfb73d3686f5dc6b2829125e1af90356923eca4d0c1ab5",
+  "runtime_manifest_sha256": "db0b5a7be9a765f5ecae6ee4d4422e107bee95a1d86c05e0d57f0b682ac5a584",
+  "front_manifest_sha256": "9c71857222e158d62c47e20717dd94bb6b5da59a348b51020118a0c8f022b23f",
+  "fixture_workspace_relative": "runtime/host-front-test-rp4mjimv",
+  "actual_Model_API_DB_key_production_log_service_POST_pay_calls": 0,
+  "old_evidence_modified": false
+}

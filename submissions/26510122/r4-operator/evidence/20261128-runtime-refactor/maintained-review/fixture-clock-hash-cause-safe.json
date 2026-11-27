@@ -1,0 +1,12 @@
+{
+  "scope": "Read-only comparison of prior synthetic output; no customer/private Model data",
+  "older_reply_sha256": "c22421c2a73d75dc248e21277bc1579701d85ec20f8034dc9d06bd25feefaa82",
+  "later_reply_sha256": "abe33e2a28b549b8bcccfb5d48d279a9a4f410c4fece1508cd400de2cb20abf2",
+  "only_rendered_difference": "remaining lifetime86398seconds versus86397seconds; a single final digit differed",
+  "source_observed_at_different": true,
+  "new_fixture_timestamp_shared_within_run": true,
+  "SDK_or_genuine_wall_clock_modified": false,
+  "cross_run_reply_hash_fixed": false,
+  "fixture_serialization_deterministic_for_same_clock": true,
+  "old_evidence_modified": false
+}

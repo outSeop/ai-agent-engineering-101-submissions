@@ -1,0 +1,15 @@
+{
+  "scope": "maintained router independent tests; real temporary SQLite/fake peers only",
+  "tests_run": 3,
+  "failures": 0,
+  "errors": 0,
+  "cases": [
+    "malformed method fullASGI400 before peer",
+    "scoped current task physical route stays current but other trusted principal receives native TaskNotFound",
+    "owner-discovery wait_for8 includes lock queue, shortened only in test to25ms"
+  ],
+  "router_source_sha256_at_report": "e2e7acf2576addad582a578735a0b61fa63711a8254fec0bba41e2a3ec9c5b3c",
+  "task_state_source_sha256_at_report": "68e6c90088722cd8e63ca836643b5c3de8d0d466dee7fcbd2dbb730902d75071",
+  "actual_Model_HTTP_wallet_ledger_service_calls": 0,
+  "router_source_modified_by_QA": false
+}

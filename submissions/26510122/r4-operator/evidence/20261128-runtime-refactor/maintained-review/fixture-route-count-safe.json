@@ -1,0 +1,11 @@
+{
+  "scope": "read-only counts from synthetic fixture DBs only",
+  "current_routes": {
+    "compound": 1,
+    "repeated-positive": 1,
+    "unsupported-compound-repeat": 1
+  },
+  "legacy_admission_counter_each": 0,
+  "production_DB_opened": false,
+  "extra_Model_API_service_calls": 0
+}
