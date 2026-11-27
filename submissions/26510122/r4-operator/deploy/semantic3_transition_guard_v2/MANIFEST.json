@@ -1,0 +1,14 @@
+{
+  "schema": "outseop-r4.semantic3-transition-only.v2",
+  "files": {
+    "QA-RESULTS.json": "b7d0e36d572c89756487c3865894947556dec8bf2320a6d7e99d12ad0ea49007",
+    "README.md": "55d6a7c0701f443902f72f72060a9be2db3d5bd9130b3f6017976fdad52ff4f7",
+    "SAFE-QA.json": "e0b773f9c4f3b94b566ae89fe6b4ce335253cf22fcacf35eed00c1e89a15bf73",
+    "test_card_refresh_mock.py": "ec7e0b92f4ab46632cd99b114992b95338b7282eac8bb103ae96eed20ff25377",
+    "test_transition_guard_mock.py": "d60d609d1745a542fb8bbf10a0aa361f1402e78542df33069f8fc9931c501ae4",
+    "transition_guard.py": "eb700e6ebb98fa22f60a6f8b12c57cd6463aa30acd9b4b0e9144a9a354df3397"
+  },
+  "referenced_live_front_manifest_sha256": "25d099830f88215ffebc37c41fd9cef8c3a28d0206f411ab9488c646a62980d9",
+  "external_host_only": true,
+  "live_file_mutations": false
+}

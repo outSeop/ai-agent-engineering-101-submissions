@@ -1,0 +1,41 @@
+{
+  "at": 1795754621.917503,
+  "tests": [
+    {
+      "script": "test_transition_guard_mock.py",
+      "count": 9,
+      "exit_code": 0,
+      "summary": [
+        "----------------------------------------------------------------------",
+        "Ran 9 tests in 0.003s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "script": "test_card_refresh_mock.py",
+      "count": 9,
+      "exit_code": 0,
+      "summary": [
+        "----------------------------------------------------------------------",
+        "Ran 9 tests in 0.008s",
+        "",
+        "OK"
+      ]
+    }
+  ],
+  "total_unique_checks": 18,
+  "source_bug_confirmed": true,
+  "first_actual_failure_cause_proven": false,
+  "failure_race_explanation": "hypothesis supported by source bug; original failed check did not isolate field",
+  "live_original_front_manifest_sha256": "25d099830f88215ffebc37c41fd9cef8c3a28d0206f411ab9488c646a62980d9",
+  "app_listener_runtime_financial_SDK_modified": false,
+  "Model_API_service_rule_actions": 0,
+  "postcheck_logical_deadline_seconds": 20,
+  "postcheck_attempts_max": 3,
+  "each_HTTP_timeout_clamped_to_remaining": true,
+  "late_result_never_accepted": true,
+  "old_marker_never_accepted": true,
+  "sleep_seconds_each": 6,
+  "sleep_count_max": 2
+}

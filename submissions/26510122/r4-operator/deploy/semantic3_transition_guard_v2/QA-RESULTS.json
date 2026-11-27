@@ -1,0 +1,24 @@
+[
+  {
+    "script": "test_transition_guard_mock.py",
+    "count": 9,
+    "exit_code": 0,
+    "summary": [
+      "----------------------------------------------------------------------",
+      "Ran 9 tests in 0.003s",
+      "",
+      "OK"
+    ]
+  },
+  {
+    "script": "test_card_refresh_mock.py",
+    "count": 9,
+    "exit_code": 0,
+    "summary": [
+      "----------------------------------------------------------------------",
+      "Ran 9 tests in 0.008s",
+      "",
+      "OK"
+    ]
+  }
+]
