@@ -1,0 +1,19 @@
+{
+  "tool": "forum_marketing",
+  "target_version": 6,
+  "forged_installation": false,
+  "sdk_failure": "AttributeError: synthetic mock price_policy lacked SCHEMA during original DB initialization",
+  "static_findings": [
+    "history shape and timestamp type incompatible with pinned native2",
+    "budget uses displayed price rather than verified grade base"
+  ],
+  "ts": 1795780543,
+  "model_provider": "codex-cli-gpt-6.2-sol",
+  "original_response_sha256": "85f8c9ee91de2e0fac7719f9bb793f11f1b3a2ad79018e09f708be2195440ed7",
+  "file_sha256": {
+    "logic.py": "7ce1d39968136a4f12b39c2e44c4c58c6426586469c77c0544bd460afc8e7571",
+    "test.py": "de72024c255faeddeedec9a77821f224945207eea626e06019cbc786ed0e2358",
+    "proposed-permission.json": "6309e8988cf56f3c40e4248100cc7d7204a120d30f8f7a543deccd297db3b3d8"
+  },
+  "raw_transcript_copied": false
+}

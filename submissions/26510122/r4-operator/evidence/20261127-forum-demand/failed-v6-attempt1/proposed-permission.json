@@ -1,0 +1,12 @@
+{
+  "network": [
+    "market.ourolabs.ai"
+  ],
+  "write": [
+    "state/r4-benefits"
+  ],
+  "identity": [
+    "shop"
+  ],
+  "timeout": 40
+}
