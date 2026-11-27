@@ -1,0 +1,10 @@
+name: record_stock_request
+description: V2 internal service tool. Dispatch only from the approved observer after it authenticates a completed event from an external nonoperator customer. The observer supplies provenance from the verified event envelope. Do not register public or A2A dispatch. Accepts exactly op='record', text, event_ref, observed_at (Unix seconds), source='external_completed', and optional product_phrase, queries, explicit_sku. Returns only status and count. Optional hints cannot establish evidence.
+permission:
+  write: [state/r4-demand]
+  pay_limit: 0
+  timeout: 30
+logic: logic.py
+test: test.py
+version: 2
+replaces: record_stock_request@1

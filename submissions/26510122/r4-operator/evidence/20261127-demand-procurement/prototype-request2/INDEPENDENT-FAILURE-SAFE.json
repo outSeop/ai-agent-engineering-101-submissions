@@ -1,0 +1,53 @@
+{
+  "passed": 3,
+  "total": 6,
+  "cases": [
+    {
+      "case": "required-known-SKU-price-question-recorded",
+      "passed": false,
+      "error_type": "AssertionError"
+    },
+    {
+      "case": "required-public-noun-stock-and-price-recorded",
+      "passed": false,
+      "error_type": "AssertionError"
+    },
+    {
+      "case": "required-semantic-alias-plus-payment-defer-weak-interest",
+      "passed": false,
+      "error_type": "AssertionError"
+    },
+    {
+      "case": "5629-catalog-last-item-dupe-event-time-replay-source-TTL",
+      "passed": true
+    },
+    {
+      "case": "proof-refund-health-negation-private-and-caller-hints-denied",
+      "passed": true
+    },
+    {
+      "case": "SQLite-no-raw-text-or-event-reference-persistence",
+      "passed": true
+    }
+  ],
+  "required_input_statuses": {
+    "required_sku_price": "insufficient_evidence",
+    "required_noun_price": "insufficient_evidence",
+    "required_semantic_interest": "insufficient_evidence"
+  },
+  "source4_sha256": {
+    "logic.py": "ffaddbff9e990f91a971ea191596298fa4c3f00cdf8d28ef75cf2513c650e828",
+    "test.py": "071afc3899e9bf61a7a436dc7c58669e2c67f6dfc70732d278e26a1852fcff71",
+    "permission.yml": "4c9063be3cf88645dd3925bcffff5ea0cee009619dca5de9f1145c123eed0a79",
+    "forge.json": "89cba1c0c12e94e75ada086c72ae0b2ebafb317b26a31aaff19a8148f7fa3880"
+  },
+  "official_ordinary_Toolbox_run": true,
+  "testing_flag_manually_set": false,
+  "NoWallet_empty_tokens_addresses_only_owned_write": true,
+  "catalogue_items": 5629,
+  "catalogue_bytes": 471811,
+  "SDK_calls": 18,
+  "request_rows": 1,
+  "raw_customer_or_private_Model_logs_read": false,
+  "actual_Model_API_financial_forum_or_production_changes": 0
+}

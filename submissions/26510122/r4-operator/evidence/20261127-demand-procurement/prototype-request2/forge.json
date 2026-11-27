@@ -1,0 +1,11 @@
+{
+ "tool": "record_stock_request",
+ "version": 2,
+ "forged_at": 1795767319,
+ "kit": "v5.1",
+ "sha256": {
+  "permission.yml": "4c9063be3cf88645dd3925bcffff5ea0cee009619dca5de9f1145c123eed0a79",
+  "logic.py": "ffaddbff9e990f91a971ea191596298fa4c3f00cdf8d28ef75cf2513c650e828",
+  "test.py": "071afc3899e9bf61a7a436dc7c58669e2c67f6dfc70732d278e26a1852fcff71"
+ }
+}
