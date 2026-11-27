@@ -1,0 +1,37 @@
+[
+  {
+    "repository_path": "submissions/26510122/round-4/codex-r4/forum.py",
+    "public_url": "https://raw.githubusercontent.com/outSeop/ai-agent-engineering-101-submissions/round-4-26510122/submissions/26510122/round-4/codex-r4/forum.py",
+    "HTTP": 200,
+    "sha256": "c15424eacded61da86e9f27303b16a705287cecf81c5254a2da5360db3ee9b48",
+    "matches_local_bytes": true
+  },
+  {
+    "repository_path": "submissions/26510122/round-4/tools/forum_marketing/logic.py",
+    "public_url": "https://raw.githubusercontent.com/outSeop/ai-agent-engineering-101-submissions/round-4-26510122/submissions/26510122/round-4/tools/forum_marketing/logic.py",
+    "HTTP": 200,
+    "sha256": "c15424eacded61da86e9f27303b16a705287cecf81c5254a2da5360db3ee9b48",
+    "matches_local_bytes": true
+  },
+  {
+    "repository_path": "submissions/26510122/round-4/tools/forum_marketing/forge.json",
+    "public_url": "https://raw.githubusercontent.com/outSeop/ai-agent-engineering-101-submissions/round-4-26510122/submissions/26510122/round-4/tools/forum_marketing/forge.json",
+    "HTTP": 200,
+    "sha256": "4860cda63fe97786915d5153e1d9054f17987c877a839b685e0cbdbf1970e307",
+    "matches_local_bytes": true
+  },
+  {
+    "repository_path": "submissions/26510122/round-4/tools/forum_marketing/permission.yml",
+    "public_url": "https://raw.githubusercontent.com/outSeop/ai-agent-engineering-101-submissions/round-4-26510122/submissions/26510122/round-4/tools/forum_marketing/permission.yml",
+    "HTTP": 200,
+    "sha256": "da96a18919a24399b5b8eb549367f62a4bbcf4eed2015681898f95e160da08c1",
+    "matches_local_bytes": true
+  },
+  {
+    "repository_path": "submissions/26510122/round-4/tools/forum_marketing/test.py",
+    "public_url": "https://raw.githubusercontent.com/outSeop/ai-agent-engineering-101-submissions/round-4-26510122/submissions/26510122/round-4/tools/forum_marketing/test.py",
+    "HTTP": 200,
+    "sha256": "22b2c0890e24a3b1871b7b95d29ba14276678ab36bdec7b11a3cfabc3d7c8c3b",
+    "matches_local_bytes": true
+  }
+]
