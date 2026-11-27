@@ -1,0 +1,15 @@
+[Unit]
+Description=R4 future-demand observer and public source projection (no Model or purchases)
+After=ourolabs-market-r4.service
+
+[Service]
+Type=simple
+WorkingDirectory=/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator
+ExecStart=/home/seop/.local/share/ourolabs-r4-checkout/submissions/26510122/r4-operator/.venv/bin/python -I -B @OBSERVER_BUNDLE@/run_observer.py --package-manifest-sha @OBSERVER_SHA@ --recorder-forge-sha @RECORDER_FORGE_SHA@ --run
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=20
+Environment=PYTHONDONTWRITEBYTECODE=1
+
+[Install]
+WantedBy=default.target

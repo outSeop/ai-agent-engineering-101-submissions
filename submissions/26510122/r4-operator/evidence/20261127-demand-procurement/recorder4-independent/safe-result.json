@@ -1,0 +1,50 @@
+{
+  "passed": 6,
+  "total": 6,
+  "cases": [
+    {
+      "case": "required-known-SKU-price-question-recorded",
+      "passed": true
+    },
+    {
+      "case": "required-public-noun-stock-and-price-recorded",
+      "passed": true
+    },
+    {
+      "case": "required-semantic-alias-plus-payment-defer-weak-interest",
+      "passed": true
+    },
+    {
+      "case": "5629-catalog-last-item-dupe-event-time-replay-source-TTL",
+      "passed": true
+    },
+    {
+      "case": "proof-refund-health-negation-private-and-caller-hints-denied",
+      "passed": true
+    },
+    {
+      "case": "SQLite-no-raw-text-or-event-reference-persistence",
+      "passed": true
+    }
+  ],
+  "required_input_statuses": {
+    "required_sku_price": "recorded",
+    "required_noun_price": "recorded",
+    "required_semantic_interest": "recorded"
+  },
+  "source4_sha256": {
+    "logic.py": "5f5190fcfd46064b48876fe211bb44c34b700aa84f9991507f605ff8ec46c64b",
+    "test.py": "4675a1089c2d666baaaae5d3f47ae9b78001cf54cc4f563ce0788442760a994e",
+    "permission.yml": "05d99965c03a322502b397cb75daa8d2657cc9522af5ddb17d5f8b4004e5a306",
+    "forge.json": "17efbe8ee7e91a02b021937c4ee24924c2ec51de2bfbc71dbe19eb11220a5bf0"
+  },
+  "official_ordinary_Toolbox_run": true,
+  "testing_flag_manually_set": false,
+  "NoWallet_empty_tokens_addresses_only_owned_write": true,
+  "catalogue_items": 5629,
+  "catalogue_bytes": 471809,
+  "SDK_calls": 18,
+  "request_rows": 4,
+  "raw_customer_or_private_Model_logs_read": false,
+  "actual_Model_API_financial_forum_or_production_changes": 0
+}

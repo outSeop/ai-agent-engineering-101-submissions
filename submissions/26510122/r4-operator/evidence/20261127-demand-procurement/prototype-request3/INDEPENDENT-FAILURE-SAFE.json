@@ -1,0 +1,41 @@
+{
+  "schema": "outseop-r4.independent-recorder3-assessment.v1",
+  "source4_sha256": {
+    "logic.py": "4cba0221079a08381e85cd302371e822e27a523176812359c770502cdd0e9eea",
+    "test.py": "2fea07902bb9350fc4221d848b83e0aa2989e83e7d83967e8e814cd8eff5f832",
+    "permission.yml": "9bee8f975d148878e00ff05b10cf9901672357121796cda6d556aec4c5542ebe",
+    "forge.json": "33869f2d37cecf9e0c45caecbc88cdd80f6841161fae3447620a60f4b4e10b54"
+  },
+  "ordinary_official_SDK": true,
+  "testing_flag_manually_set": false,
+  "passed": 4,
+  "total": 6,
+  "required_input_statuses": {
+    "required_sku_price": "recorded",
+    "required_noun_price": "insufficient",
+    "required_semantic_interest": "recorded"
+  },
+  "functional_remaining": "Partial public noun without exact full catalogue title or typed semantic hints is insufficient; synthetic title preserves realistic packaging. Caller hints do not establish exact customer SKU authority.",
+  "time_contract_remaining": [
+    {
+      "case": "past-24h",
+      "status": "recorded"
+    },
+    {
+      "case": "future-999s",
+      "status": "recorded"
+    },
+    {
+      "case": "boolean",
+      "status": "rejected"
+    }
+  ],
+  "duplicate_event_hash_v2_stable_and_observed_mutation_preserves_original": true,
+  "semantic_weak_term_has_null_SKU_and_nonexact_confidence": true,
+  "catalogue_5629_supported_last_item": true,
+  "privacy_and_no_raw_text_DB": true,
+  "test_adapter_change": "Only accepts native3 narrower exact owned SQLite permission; original recorder2 test source and failed results preserved.",
+  "no_manual_native_source_or_grammar_fixture_fix": true,
+  "actual_Model_API_financial_DB_or_production_changes": 0,
+  "decision_scope": "Report native behavior honestly; parent decides whether trusted host observer freshness rules supply missing bounds. No live deployment by QA."
+}

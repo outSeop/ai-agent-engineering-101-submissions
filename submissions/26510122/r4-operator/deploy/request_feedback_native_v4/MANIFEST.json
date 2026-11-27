@@ -1,0 +1,11 @@
+{
+  "authorship": "genuine record_stock_request4 via original Mind/forge_tool; external deployment manifest only",
+  "tool_version": 4,
+  "files": {
+    "receipt.json": "ded4674c9fa9699e00d8d744d1c6b1ef7c53cdb798179a605e20968b41adfbff",
+    "tools/record_stock_request/test.py": "4675a1089c2d666baaaae5d3f47ae9b78001cf54cc4f563ce0788442760a994e",
+    "tools/record_stock_request/forge.json": "17efbe8ee7e91a02b021937c4ee24924c2ec51de2bfbc71dbe19eb11220a5bf0",
+    "tools/record_stock_request/logic.py": "5f5190fcfd46064b48876fe211bb44c34b700aa84f9991507f605ff8ec46c64b",
+    "tools/record_stock_request/permission.yml": "05d99965c03a322502b397cb75daa8d2657cc9522af5ddb17d5f8b4004e5a306"
+  }
+}

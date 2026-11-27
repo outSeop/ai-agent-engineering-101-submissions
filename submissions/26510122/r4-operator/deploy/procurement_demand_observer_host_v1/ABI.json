@@ -1,0 +1,35 @@
+{
+  "authorship": "external host transport only; no business stats/selection/payment logic",
+  "public_files": {
+    "host_inputs/stock-demand-signals.json": "observed_at/valid_until<=150/round4/coverage{since,complete}/events<=2000; seq ts kind round sku grade amount shop broken sealed order_ref shop_fee buyer_fee market_fee expires_at warranty_hours; no buyer/raworder/unit/tx/claim",
+    "host_inputs/stock-public-catalog.json": "observed_at/valid_until/round4/items<=10000{sku,name,category}; whitespace only normalized; every meaningful row retained, failure otherwise",
+    "host_inputs/stock-demand-exclusions.json": "observed_at/valid_until/round4/event_refs <= stored event hashes; MUST compare directly to SQLite request.event_hash, no rehash"
+  },
+  "event_hash_domain": "SHA256(bytes.fromhex(72343a73746f636b2d726571756573743a6576656e743a763200) + input_event_ref.encode(ascii))",
+  "request_callback": {
+    "op": "record",
+    "source": "external_completed",
+    "observed_at": "original future customer event time",
+    "event_ref": "SHA256(UTF8(r4-stock-request-v1: + original internal request_ref))",
+    "text": "ephemeral original text only in local IPC; never logs/files",
+    "product_phrase": "optional successful/no_match final semantic action field",
+    "queries": "optional matching final semantic action array"
+  },
+  "recorder_source_independently_pinned": true,
+  "future_only": true,
+  "completion": "customer_received ends an answered turn; input_required included without task/financial completion inference",
+  "debounce_seconds": 120,
+  "late_exclusion": "hash-only completion metadata retained6h; fresh trusted health matches produce exclusion snapshot; native must consume before request_influence",
+  "request_only_purchase_eligibility_without_fresh_exclusion": false,
+  "native_db": "state/r4-demand/requests.sqlite3; genuine native only",
+  "never_invoked": [
+    "Model",
+    "Signer server",
+    "wallet load",
+    "pay",
+    "market join",
+    "old service restart",
+    "listener/NAT",
+    "Codex automation"
+  ]
+}

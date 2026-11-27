@@ -1,0 +1,18 @@
+{
+  "at": 1795768586.5337486,
+  "synthetic_tests": 20,
+  "passed": 20,
+  "failed": 0,
+  "added_contract": "durable first boundary and earliest unprocessed hash/offset checkpoint",
+  "no_plaintext_checkpoint": true,
+  "durable_restart_and_late_classification_tested": true,
+  "rotation_truncation_policy": "fail_closed_with_review_no_new_EOF_skip",
+  "original_raw_history_replayed": false,
+  "actual_callback_verification": "actual-callback-verification-safe.json",
+  "actual_native_record_calls": 0,
+  "actual_model_calls": 0,
+  "wallets_Signer_created": 0,
+  "DB_ledger_service_NAT_automation_changes": 0,
+  "parent_attempt_preserved": "deploy/procurement_demand_observer_host_v1",
+  "native_integration_and_current_real_catalog_admission_not_claimed": true
+}

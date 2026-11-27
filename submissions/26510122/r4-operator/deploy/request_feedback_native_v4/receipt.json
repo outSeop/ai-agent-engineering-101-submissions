@@ -1,0 +1,196 @@
+{
+  "source_admission": {
+    "credentials_match": false,
+    "pattern_match": false,
+    "copied_original_exact4": true
+  },
+  "origin": {
+    "source_pins": [
+      {
+        "name": "record_stock_request",
+        "version": 4,
+        "active": true,
+        "sha256": {
+          "logic.py": "5f5190fcfd46064b48876fe211bb44c34b700aa84f9991507f605ff8ec46c64b",
+          "test.py": "4675a1089c2d666baaaae5d3f47ae9b78001cf54cc4f563ce0788442760a994e",
+          "permission.yml": "05d99965c03a322502b397cb75daa8d2657cc9522af5ddb17d5f8b4004e5a306",
+          "forge.json": "17efbe8ee7e91a02b021937c4ee24924c2ec51de2bfbc71dbe19eb11220a5bf0"
+        },
+        "matching_model_forge_responses": [
+          {
+            "tool": "record_stock_request",
+            "at": 1795768387.766007,
+            "logic_sha256": "5f5190fcfd46064b48876fe211bb44c34b700aa84f9991507f605ff8ec46c64b",
+            "test_sha256": "4675a1089c2d666baaaae5d3f47ae9b78001cf54cc4f563ce0788442760a994e",
+            "response_sha256": "5882e44614540cf38963569313e1c003b1e76c0f4f98a276be6bd992f266607a",
+            "provider": "codex-cli-gpt-6.2-sol"
+          }
+        ],
+        "independent_operational_approval": false
+      },
+      {
+        "name": "record_stock_request",
+        "version": 1,
+        "active": false,
+        "sha256": {
+          "logic.py": "0fc0cf125742f14e707654f769d284bfe258ae4043682544d7589bf441546ade",
+          "test.py": "34f5d8be68c87178212264b103618644b8199cbe735ce92c9483dca9d0e08f44",
+          "permission.yml": "1e8653950fd8dd029087fae486d309bc249493ba7fd8adc784333063e775ca1a",
+          "forge.json": "f2f990f0b04e3acb24355f489ae8afce675922db84d81d92c625e2dff421098f"
+        },
+        "matching_model_forge_responses": [
+          {
+            "tool": "record_stock_request",
+            "at": 1795766737.4632564,
+            "logic_sha256": "0fc0cf125742f14e707654f769d284bfe258ae4043682544d7589bf441546ade",
+            "test_sha256": "34f5d8be68c87178212264b103618644b8199cbe735ce92c9483dca9d0e08f44",
+            "response_sha256": "f92e7a5259b829f0fcd49cefe52cc6af0f40d39a391e3d8503be58a6c21ec15d",
+            "provider": "codex-cli-gpt-6.2-sol"
+          }
+        ],
+        "independent_operational_approval": false
+      },
+      {
+        "name": "record_stock_request",
+        "version": 2,
+        "active": false,
+        "sha256": {
+          "logic.py": "ffaddbff9e990f91a971ea191596298fa4c3f00cdf8d28ef75cf2513c650e828",
+          "test.py": "071afc3899e9bf61a7a436dc7c58669e2c67f6dfc70732d278e26a1852fcff71",
+          "permission.yml": "4c9063be3cf88645dd3925bcffff5ea0cee009619dca5de9f1145c123eed0a79",
+          "forge.json": "89cba1c0c12e94e75ada086c72ae0b2ebafb317b26a31aaff19a8148f7fa3880"
+        },
+        "matching_model_forge_responses": [
+          {
+            "tool": "record_stock_request",
+            "at": 1795767195.9792094,
+            "logic_sha256": "ffaddbff9e990f91a971ea191596298fa4c3f00cdf8d28ef75cf2513c650e828",
+            "test_sha256": "071afc3899e9bf61a7a436dc7c58669e2c67f6dfc70732d278e26a1852fcff71",
+            "response_sha256": "525d19ee1275cb748fd26f29ea9fb1e773aaadaf801d0ab61523de98b557420f",
+            "provider": "codex-cli-gpt-6.2-sol"
+          }
+        ],
+        "independent_operational_approval": false
+      },
+      {
+        "name": "record_stock_request",
+        "version": 3,
+        "active": false,
+        "sha256": {
+          "logic.py": "4cba0221079a08381e85cd302371e822e27a523176812359c770502cdd0e9eea",
+          "test.py": "2fea07902bb9350fc4221d848b83e0aa2989e83e7d83967e8e814cd8eff5f832",
+          "permission.yml": "9bee8f975d148878e00ff05b10cf9901672357121796cda6d556aec4c5542ebe",
+          "forge.json": "33869f2d37cecf9e0c45caecbc88cdd80f6841161fae3447620a60f4b4e10b54"
+        },
+        "matching_model_forge_responses": [
+          {
+            "tool": "record_stock_request",
+            "at": 1795767759.1799843,
+            "logic_sha256": "4cba0221079a08381e85cd302371e822e27a523176812359c770502cdd0e9eea",
+            "test_sha256": "2fea07902bb9350fc4221d848b83e0aa2989e83e7d83967e8e814cd8eff5f832",
+            "response_sha256": "7c249bc28651ce8e07fbe2867974ee4763eb4c33c28d09fbd0532bf2562c473a",
+            "provider": "codex-cli-gpt-6.2-sol"
+          }
+        ],
+        "independent_operational_approval": false
+      }
+    ],
+    "official_forge_outcomes": [
+      {
+        "ts": 1795766861,
+        "tool": "record_stock_request",
+        "version": 1,
+        "passed": true
+      },
+      {
+        "ts": 1795767195,
+        "tool": "record_stock_request",
+        "version": 2,
+        "passed": false
+      },
+      {
+        "ts": 1795767319,
+        "tool": "record_stock_request",
+        "version": 2,
+        "passed": true
+      },
+      {
+        "ts": 1795767759,
+        "tool": "record_stock_request",
+        "version": 3,
+        "passed": false
+      },
+      {
+        "ts": 1795767892,
+        "tool": "record_stock_request",
+        "version": 3,
+        "passed": true
+      },
+      {
+        "ts": 1795768513,
+        "tool": "record_stock_request",
+        "version": 4,
+        "passed": true
+      }
+    ],
+    "model_forge_attempts": [
+      {
+        "tool": "record_stock_request",
+        "at": 1795766737.4632564,
+        "logic_sha256": "0fc0cf125742f14e707654f769d284bfe258ae4043682544d7589bf441546ade",
+        "test_sha256": "34f5d8be68c87178212264b103618644b8199cbe735ce92c9483dca9d0e08f44",
+        "response_sha256": "f92e7a5259b829f0fcd49cefe52cc6af0f40d39a391e3d8503be58a6c21ec15d",
+        "provider": "codex-cli-gpt-6.2-sol"
+      },
+      {
+        "tool": "record_stock_request",
+        "at": 1795767072.3610065,
+        "logic_sha256": "b89ee99f7366224a890a05226354dcc7d27c79adc31bed2b1292dd4745adb15f",
+        "test_sha256": "4261e5ee64a8e96b0cb5e77a2183f6b30970ab743c6f8a655723724875acebe0",
+        "response_sha256": "a7a3757a7d894bb55d7e2338be80ceae21ccf44f38e47b573b6fd906188217d7",
+        "provider": "codex-cli-gpt-6.2-sol"
+      },
+      {
+        "tool": "record_stock_request",
+        "at": 1795767195.9792094,
+        "logic_sha256": "ffaddbff9e990f91a971ea191596298fa4c3f00cdf8d28ef75cf2513c650e828",
+        "test_sha256": "071afc3899e9bf61a7a436dc7c58669e2c67f6dfc70732d278e26a1852fcff71",
+        "response_sha256": "525d19ee1275cb748fd26f29ea9fb1e773aaadaf801d0ab61523de98b557420f",
+        "provider": "codex-cli-gpt-6.2-sol"
+      },
+      {
+        "tool": "record_stock_request",
+        "at": 1795767577.637494,
+        "logic_sha256": "f0c353cb01ba485f69c4ef8ae644f0e7e14ac70ccf050594d4d8f611a60b1c00",
+        "test_sha256": "38ba34201f23a8d7968fc1702e1ebabc368f80bd1115078212f791baf30b59af",
+        "response_sha256": "d94e5f849c6191e49360f65b4687063ee2dac781470ff0cff5e8c20dff755fe3",
+        "provider": "codex-cli-gpt-6.2-sol"
+      },
+      {
+        "tool": "record_stock_request",
+        "at": 1795767759.1799843,
+        "logic_sha256": "4cba0221079a08381e85cd302371e822e27a523176812359c770502cdd0e9eea",
+        "test_sha256": "2fea07902bb9350fc4221d848b83e0aa2989e83e7d83967e8e814cd8eff5f832",
+        "response_sha256": "7c249bc28651ce8e07fbe2867974ee4763eb4c33c28d09fbd0532bf2562c473a",
+        "provider": "codex-cli-gpt-6.2-sol"
+      },
+      {
+        "tool": "record_stock_request",
+        "at": 1795768387.766007,
+        "logic_sha256": "5f5190fcfd46064b48876fe211bb44c34b700aa84f9991507f605ff8ec46c64b",
+        "test_sha256": "4675a1089c2d666baaaae5d3f47ae9b78001cf54cc4f563ce0788442760a994e",
+        "response_sha256": "5882e44614540cf38963569313e1c003b1e76c0f4f98a276be6bd992f266607a",
+        "provider": "codex-cli-gpt-6.2-sol"
+      }
+    ]
+  },
+  "synthetic_ordinary_call": {
+    "cases_targeted": [
+      "same evidence rules",
+      "typed weak term",
+      "actual payment denied"
+    ],
+    "financial_live": false
+  },
+  "operation_enabled": false
+}

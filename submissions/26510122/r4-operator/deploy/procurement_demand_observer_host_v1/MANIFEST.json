@@ -1,0 +1,15 @@
+{
+  "schema": "outseop-r4.demand-observer-host.v1",
+  "files": {
+    "ABI.json": "51ba65630cc198c5230e01e7d9d8e626e8aa9b565d0711ae310b6530d8914aff",
+    "README.md": "4c2ef11619179e01642e2f54398f0d39aea89b2900372d74bf99b4555057d1bd",
+    "SAFE-QA.json": "4c0354139d01dcba63302ca28222d7fae07f0edc1b747dca90f3b757320b8d0d",
+    "demand_observer_host.py": "fc7ec80fa989a425b116b6651d381a1d136148bd7a922aab91f72df09590b3bc",
+    "observer.service.template": "085df752892071cc32f4c0009d6764f075c499958624775bd193288e93417995",
+    "run_observer.py": "4655cc2917249ba47f9961bfd56c352bda44b534da7d6bdb286f2faa70f8b56b",
+    "test_demand_observer_host.py": "cb022f46817ed3378b03ca2e96ac2513c24cd12be5cfd25883e567e5f9420d08"
+  },
+  "authorship": "external host transport only",
+  "genuine_native_dependency_independently_pinned": true,
+  "production_installed_or_started": false
+}

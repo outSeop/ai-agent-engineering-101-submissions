@@ -1,0 +1,3 @@
+# Observer transport stages
+
+Host1 records only future events but loses pending turns across process restart; it was rejected for durable logging. Host2 fixes checkpoints, lost turns and late exact operator exclusion, passing20 synthetic tests and real full-public-catalog admission with genuine recorder4. Neither service template was installed. Automatic approval review rejected the proposed new standalone long-running production observer service, citing no authorization for a new autonomous loop. Host3 is being prepared as one bounded invocation attached to the already existing cache timer; no new loop or daemon. This source history preserves the attempts, not live approval.

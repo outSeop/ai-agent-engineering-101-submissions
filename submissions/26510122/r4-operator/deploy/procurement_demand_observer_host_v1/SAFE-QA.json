@@ -1,0 +1,23 @@
+{
+  "at": 1795767954.2165682,
+  "synthetic_tests": 15,
+  "passed": 15,
+  "failed": 0,
+  "test_summary": [
+    "----------------------------------------------------------------------",
+    "Ran 15 tests in 0.021s",
+    "",
+    "OK"
+  ],
+  "root_original_trace_replay": false,
+  "actual_recorder_execution": false,
+  "actual_model_calls": 0,
+  "wallets_Signer_servers_created": 0,
+  "financial_or_service_or_NAT_or_Codex_automation_changes": 0,
+  "public_API_schema_only_GETs_earlier": true,
+  "no_raw_customer_actor_Modelreason_or_finance_export": true,
+  "source_ledger_max": 2000,
+  "catalogue_max": 10000,
+  "source_TTL_max": 150,
+  "native_recorder_and_exclusion_business_behavior_not_claimed": true
+}

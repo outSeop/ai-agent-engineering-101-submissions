@@ -1,0 +1,36 @@
+{
+  "schema": "outseop-r4.independent-recorder4-assessment.v1",
+  "passed": 6,
+  "total": 6,
+  "ordinary_official_SDK_calls": 18,
+  "synthetic_catalogue_rows": 5629,
+  "source4_sha256": {
+    "logic.py": "5f5190fcfd46064b48876fe211bb44c34b700aa84f9991507f605ff8ec46c64b",
+    "test.py": "4675a1089c2d666baaaae5d3f47ae9b78001cf54cc4f563ce0788442760a994e",
+    "permission.yml": "05d99965c03a322502b397cb75daa8d2657cc9522af5ddb17d5f8b4004e5a306",
+    "forge.json": "17efbe8ee7e91a02b021937c4ee24924c2ec51de2bfbc71dbe19eb11220a5bf0"
+  },
+  "required_input_statuses": {
+    "required_sku_price": "recorded",
+    "required_noun_price": "recorded",
+    "required_semantic_interest": "recorded"
+  },
+  "weak_semantic_interest": "sku NULL and confidence public_term; not buyer count, exact fulfillment, settlement or payment authority.",
+  "verified": [
+    "Original exact SKU price question recorded",
+    "Original partial noun stock+price question recorded",
+    "Typed semantic noun/query+payment-defer recorded as weak public term",
+    "Last row beyond 2048 and full5629 catalogue accepted",
+    "Duplicate stable v2 event hash and changed observed_at preserve original row",
+    "Past>24h/future+999/bool/wrong source/stale catalogue ignored without DB changes",
+    "Proof/refund/health/negation/private and invented hint evidence cannot record",
+    "SQLite persists only eventhash/publicsku-or-term/time/confidence; no raw text or event reference"
+  ],
+  "test_only_prerequisite": "Precreate empty owned0700 state/r4-demand; no production DB copy. Exact single-file write grant retained.",
+  "first_status_adapter_failure_preserved": "First validator expected older rejected/catalog_unavailable enums; native4 ignored correctly. Original first source/results retained; only expected enum + row unchanged assertion corrected.",
+  "testing_flag_manually_set": false,
+  "native_business_source_changed_by_QA": false,
+  "raw_actual_customer_Model_or_production_logs_read": false,
+  "actual_Model_API_financial_forum_or_production_changes": 0,
+  "scope": "Recorder-only native SDK clearance. Financial stock12 remains separate, blocked until real-parent/full-ABI QA."
+}

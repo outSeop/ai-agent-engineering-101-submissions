@@ -1,0 +1,18 @@
+{
+  "status": "recorder4-passed-native-only-stock12-not-validated",
+  "file_sha256": {
+    "qa_recorder4_independent.py": "35ccc8b5d46179c6da6ce2b047684f2d3913c6d775b82e6398d789184c342ff6",
+    "qa_recorder4_first_status_adapter.py": "ffcbf38cf4b2e9bb84d4e2661644b76348e8029cfa506c97a5f779c85e2481e4",
+    "recorder4-independent/safe-result.json": "9e57c18392e8edd9cb16d8de64015ff57c3ce8007e44dc30360c6bbc9aba40f7",
+    "recorder4-independent-final/safe-result.json": "d1c93c35c94859db7450da7e58afe83d645c069c410f2c61f772ceec922e29cd",
+    "recorder4-status-adapter-correction-safe.json": "fed4fc17a7e658d50f8f362218fcc202dc5b011003b24810485177019a54b353",
+    "recorder4-final-safe-assessment.json": "3b1c29b5b142efd9f758921452d12f118fa66e5cfecde1da44e8e2e294aef4ef",
+    "stock12_external_contract.py": "5508f747bf05286e72634ce9638fba7ad0c1c568644fa6112f911ce30eb33f37"
+  },
+  "source4_sha256": {
+    "logic.py": "5f5190fcfd46064b48876fe211bb44c34b700aa84f9991507f605ff8ec46c64b",
+    "test.py": "4675a1089c2d666baaaae5d3f47ae9b78001cf54cc4f563ce0788442760a994e",
+    "permission.yml": "05d99965c03a322502b397cb75daa8d2657cc9522af5ddb17d5f8b4004e5a306",
+    "forge.json": "17efbe8ee7e91a02b021937c4ee24924c2ec51de2bfbc71dbe19eb11220a5bf0"
+  }
+}

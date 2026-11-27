@@ -1,0 +1,10 @@
+name: record_stock_request
+description: V3 internal stock inquiry recorder for the controlled observer that authenticates completed external events. Accepts op='record', text, event_ref, observed_at (Unix seconds), source='external_completed', and optional product_phrase, queries, explicit_sku. Returns only status and count. Count is one for a newly recorded event.
+permission:
+  write: [state/r4-demand/requests.sqlite3]
+  pay_limit: 0
+  timeout: 20
+logic: logic.py
+test: test.py
+version: 3
+replaces: record_stock_request@2
