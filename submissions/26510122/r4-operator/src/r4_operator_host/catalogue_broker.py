@@ -1,12 +1,11 @@
 """HOST response wiring for verified terminal public tool metadata.
 
-All business interpretation remains in the classroom-forged tool and pinned
+All business interpretation remains in the native SDK tool and pinned
 broker. This adapter transports non-issuance and public hint metadata to the
 customer, task state and the exact customer_received trace together.
 """
 from copy import deepcopy
-from public_catalogue_protocol import load_base_host
-_base=load_base_host('_verified_catalogue_base_broker','broker_public_catalogue_host_candidate.py')
+import catalogue_broker_core as _base
 SEMANTIC_INSTRUCTION=_base.SEMANTIC_INSTRUCTION
 
 def __getattr__(name):return getattr(_base,name)

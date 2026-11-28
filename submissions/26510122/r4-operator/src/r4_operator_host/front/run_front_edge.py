@@ -84,6 +84,22 @@ def assemble(official,op,bundle,pin,ctx,model,*,trace=None,old_request=None,opti
  if options_override is None:
   composition=load('edge_catalogue_composition',bundle/'public_catalogue_composition_candidate.py');toolpins={Path(n).name:v for n,v in meta['file_sha256'].items() if n.startswith('catalogue/')};options=composition.managed_options(op,bundle,official,toolpins)
  else:options=options_override
+ auxiliary=json.loads(protected(bundle/'HOST-CONTEXT.json')).get('native_tools',{}) if options_override is None else {}
+ if 'public_alternatives' in auxiliary and options_override is None:
+  alternative_module=load('verified_public_alternatives_host',bundle/'public_alternatives_host.py')
+  from card_source_read_lane import safe_directory
+  data_state=op/'runtime/native-customer-context'
+  scratch=safe_directory(safe_directory(data_state)/'scratch')
+  catalogue_pins={Path(n).name:v for n,v in meta['file_sha256'].items() if n.startswith('catalogue/')}
+  record=auxiliary['public_alternatives']
+  worker=alternative_module.BoundedAlternatives(bundle/'catalogue',catalogue_pins,bundle/record['directory'],record['files'],op/'kit',scratch)
+  worker.verify(official)
+  factory=options['catalogue_source_factory']
+  def alternatives_factory(execute):
+   scope=factory(execute)
+   scope.alternatives=alternative_module.ScopedAlternatives(scope,worker,data_state/'stock-state.json')
+   return scope
+  options={**options,'catalogue_source_factory':alternatives_factory}
  state_db=None;task_store=None
  if persistent_engine and host_state_db is None:raise ValueError('persistent engine requires private HOST database')
  if host_state_db is not None:
@@ -107,7 +123,7 @@ def assemble(official,op,bundle,pin,ctx,model,*,trace=None,old_request=None,opti
  app,store=_front.capture_sdk_app(*capture_args) if task_store is None else _front.capture_sdk_app(*capture_args,task_store=task_store)
  edge_args=dict(trace=trace,old_request=old_request,admission=admission,config=config)
  if persistent_engine:edge_args.update(persistent_engine=True,state_db=state_db)
- edge=_front.FrontEdge(app,store,**edge_args);edge.signer=ctx.get('signer');edge.background_loops_started=0;edge.loaded_broker=broker;edge.host_state_db=state_db;return edge
+ edge=_front.FrontEdge(app,store,**edge_args);edge.signer=ctx.get('signer');edge.background_loops_started=0;edge.loaded_broker=broker;edge.host_state_db=state_db;edge._runtime_components=(official,root,agent,model,box,ctx);return edge
 
 def main():
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('--operator',type=Path,required=True);p.add_argument('--edge-manifest-sha',required=True);p.add_argument('--serve',action='store_true');p.add_argument('--sources-only',action='store_true');p.add_argument('--host-state-db',type=Path);p.add_argument('--persistent-engine',action='store_true');args=p.parse_args();os.umask(0o077)
@@ -146,6 +162,9 @@ def main():
    if not 16<=len(latest)<=1024:raise ValueError('private authentication unavailable')
    ctx['tokens']['shop']=latest
   app.before_new=refresh_auth
+  if 'MARKETING-BINDING.json' in json.loads(own)['files']:
+   bridge=load('verified_seller_marketing_handoff',folder/'seller_marketing_host.py')
+   app=bridge.configured_app(app,op,bundle,folder,json.loads(own),refresh_auth)
   import uvicorn
   uvicorn.run(app,host='127.0.0.1',port=config.new_port,log_level='warning',access_log=False,timeout_keep_alive=5)
  finally:signer.http.shutdown();signer.http.server_close()

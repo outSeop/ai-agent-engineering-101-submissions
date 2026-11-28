@@ -1,0 +1,11 @@
+{
+ "tool": "public_alternatives",
+ "version": 4,
+ "forged_at": 1795861340,
+ "kit": "v5.1",
+ "sha256": {
+  "permission.yml": "f12b70061a3bded83a4cee0a1d87b03b1cfee06f7f3e0cf1018286c129e50476",
+  "logic.py": "7fd1fbf408fd037f293dfec185ab6627f3bc89850c1dbd8aa39b8e68cf9a0d2f",
+  "test.py": "e3742210e800e7c04ff25fe12d6aa11a11212c3cfdd6bff8823205d825a65b7e"
+ }
+}

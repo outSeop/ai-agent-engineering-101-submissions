@@ -1,0 +1,15 @@
+{
+  "tool": "public_alternatives",
+  "version": 3,
+  "forged_at": 1795859189,
+  "model_provider": "codex-cli-gpt-6.2-sol",
+  "file_sha256": {
+    "tools/public_alternatives/logic.py": "55a2984d9cb7a2c9288a3d4a5f3ccfbe9bf7efe0311b1963744906b6a37bb5da",
+    "tools/public_alternatives/test.py": "d7ac5ca230e500d82404b48b0850bb70e2d00c5161061f665ec658604eaf34b1",
+    "tools/public_alternatives/permission.yml": "992ed780ed202c3c142fa08e0508ecbd323d3eb851150c2bdc97d4caa6192866",
+    "tools/public_alternatives/forge.json": "f14f8641325aaa03afd54a721da28831cb30eb46e663317d369fb645d378c67e"
+  },
+  "catalogue8_logic_sha256": "01a4a0dc912e02679091a3f6c98df3f0450ca2581b920d1d650e2fa0fa2a4c89",
+  "independent_sdk_cases": 17,
+  "production_modified": false
+}

@@ -53,7 +53,8 @@ class MetadataTransportTests(unittest.TestCase):
   lane.raw_file=raw_file
   with patch.dict(sys.modules,{'card_source_read_lane':lane}):
    self.protocol=load('_metadata_protocol_test',SOURCE/'catalogue_protocol.py')
-   with patch.dict(sys.modules,{'public_catalogue_protocol':self.protocol}):self.broker=load('_metadata_broker_test',SOURCE/'catalogue_broker.py')
+   broker_core=load('_metadata_broker_core_test',base/'broker_public_catalogue_host_candidate.py')
+   with patch.dict(sys.modules,{'public_catalogue_protocol':self.protocol,'catalogue_broker_core':broker_core}):self.broker=load('_metadata_broker_test',SOURCE/'catalogue_broker.py')
  def test_typed_extras_are_removed_before_base_validation_and_copied_back(self):
   original=terminal();saved=deepcopy(original);p=self.protocol.CatalogueProtocol();out=p.result('semantic_candidates',original,1000,1100)
   self.assertTrue(out['base_checked']);plain=p.calls[0][1];self.assertNotIn('payment_request',plain);self.assertNotIn('public_facts',plain)

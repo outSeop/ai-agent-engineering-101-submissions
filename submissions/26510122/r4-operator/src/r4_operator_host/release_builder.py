@@ -80,7 +80,10 @@ def build(operator,descriptor,expected_spec_sha):
     if digest(specraw)!=expected_spec_sha:
         raise ValueError("release specification changed")
     spec=json.loads(specraw)
-    if set(spec)!={"schema","builder_sha256","runtime_base","runtime_overrides","native_semantic","front_sources","front_binding"} or spec["schema"]!="r4-host-release.v1":
+    keys={"schema","builder_sha256","runtime_base","runtime_overrides","native_semantic","front_sources","front_binding"}
+    schema=spec.get("schema")
+    if schema=="r4-host-release.v2":keys|={"runtime_extensions","native_tools"}
+    if schema not in {"r4-host-release.v1","r4-host-release.v2"} or set(spec)!=keys:
         raise ValueError("invalid release specification")
     builder_raw=protected(Path(__file__).resolve())
     if digest(builder_raw)!=spec["builder_sha256"]:
@@ -102,6 +105,14 @@ def build(operator,descriptor,expected_spec_sha):
         if "/" in name or name in {"logic.py","test.py"}:
             raise ValueError("native business source override forbidden")
         runtime_files[name]=pinned_source(operator,record)
+    if schema=="r4-host-release.v2":
+        extensions=spec["runtime_extensions"]
+        if not isinstance(extensions,dict):raise ValueError("invalid HOST extensions")
+        for name,record in extensions.items():
+            leaf=str(relative(name))
+            if "/" in leaf or not leaf.endswith(".py") or leaf in {"logic.py","test.py"} or leaf in runtime_files:
+                raise ValueError("HOST extension must be a new flat Python module")
+            runtime_files[leaf]=pinned_source(operator,record)
     native=spec["native_semantic"]
     if not isinstance(native,dict) or set(native)!={"tool","version","files"} or native["tool"]!="semantic_candidates" or type(native["version"]) is not int:
         raise ValueError("invalid semantic asset")
@@ -113,12 +124,34 @@ def build(operator,descriptor,expected_spec_sha):
             or forge.get("sha256")!={n:digest(assets[n]) for n in assets if n!="forge.json"}):
         raise ValueError("semantic forge record mismatch")
     runtime_files.update({"semantic/"+name:raw for name,raw in assets.items()})
-    # Only the generated private binding contains this machine's absolute root.
-    # Git specifications and maintained sources remain relative and portable.
-    runtime_files["HOST-CONTEXT.json"]=encode({"schema":"r4-host-context.v1",
+    native_tools={}
+    if schema=="r4-host-release.v2":
+        if not isinstance(spec["native_tools"],dict):raise ValueError("invalid native tools")
+        for name,record in spec["native_tools"].items():
+            if (not isinstance(name,str) or not name or name=="semantic_candidates"
+                    or len(name)>64 or name[0] not in "abcdefghijklmnopqrstuvwxyz"
+                    or any(c not in "abcdefghijklmnopqrstuvwxyz0123456789_" for c in name)
+                    or not isinstance(record,dict) or set(record)!={"tool","version","files"}
+                    or record["tool"]!=name or type(record["version"]) is not int or record["version"]<1
+                    or not isinstance(record["files"],dict)
+                    or set(record["files"])!={"logic.py","test.py","permission.yml","forge.json"}):
+                raise ValueError("invalid genuine native tool asset")
+            if any(leaf.startswith(name+"/") for leaf in runtime_files):raise ValueError("native directory collision")
+            original={leaf:pinned_source(operator,pin) for leaf,pin in record["files"].items()}
+            provenance=json.loads(original["forge.json"])
+            hashes={leaf:digest(raw) for leaf,raw in original.items()}
+            if (provenance.get("tool")!=name or provenance.get("version")!=record["version"]
+                    or provenance.get("sha256")!={leaf:pin for leaf,pin in hashes.items() if leaf!="forge.json"}):
+                raise ValueError("native tool forge record mismatch")
+            runtime_files.update({name+"/"+leaf:raw for leaf,raw in original.items()})
+            native_tools[name]={"tool":name,"version":record["version"],"directory":name,"files":hashes}
+    # Only generated private bindings contain this machine's absolute root.
+    host_context={"schema":"r4-host-context.v1",
         "operator_root":str(operator),"base_protocol":str(base_rel/"public_catalogue_protocol.py"),
         "base_protocol_sha256":base_meta["file_sha256"]["public_catalogue_protocol.py"],
-        "base_manifest_sha256":base["manifest_sha256"]})
+        "base_manifest_sha256":base["manifest_sha256"]}
+    if native_tools:host_context["native_tools"]=native_tools
+    runtime_files["HOST-CONTEXT.json"]=encode(host_context)
     if not isinstance(spec["front_sources"],dict) or not spec["front_sources"]:
         raise ValueError("empty front source set")
     front_files={str(relative(name)):pinned_source(operator,record) for name,record in spec["front_sources"].items()}

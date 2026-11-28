@@ -68,4 +68,31 @@ class ReleaseTests(unittest.TestCase):
         root,path,data,blobs=self.fixture();data['runtime_overrides']['public_catalogue_protocol.py']['source']='../outside.key';write(path,b.encode(data))
         with self.assertRaises(ValueError):b.build(root,path,b.digest(path.read_bytes()))
 
+    def test_v2_exact_extra_native_and_new_host_extension(self):
+        root,path,data,blobs=self.fixture()
+        data.update(schema='r4-host-release.v2',runtime_extensions={},native_tools={})
+        host=root/'src/extra_host.py';write(host,b'EXTRA_HOST = True\n')
+        data['runtime_extensions']['extra_host.py']={'source':'src/extra_host.py','sha256':b.digest(host.read_bytes())}
+        extra={k:v for k,v in blobs.items() if k!='forge.json'}
+        extra['forge.json']=b.encode({'tool':'extra_read','version':1,'sha256':{n:b.digest(v) for n,v in extra.items()}})
+        pins={}
+        for name,raw in extra.items():
+            target=root/'deploy/extra'/name;write(target,raw);pins[name]={'source':str(target.relative_to(root)),'sha256':b.digest(raw)}
+        data['native_tools']['extra_read']={'tool':'extra_read','version':1,'files':pins};write(path,b.encode(data))
+        receipt=b.build(root,path,b.digest(path.read_bytes()));runtime=Path(receipt['runtime_path'])
+        self.assertEqual((runtime/'extra_host.py').read_bytes(),host.read_bytes())
+        for name,raw in extra.items():self.assertEqual((runtime/'extra_read'/name).read_bytes(),raw)
+        for name,raw in blobs.items():self.assertEqual((runtime/'semantic'/name).read_bytes(),raw)
+        context=json.loads((runtime/'HOST-CONTEXT.json').read_bytes());self.assertEqual(context['native_tools']['extra_read']['directory'],'extra_read')
+        self.assertEqual(context['native_tools']['extra_read']['files'],{n:b.digest(v) for n,v in extra.items()})
+    def test_v2_refuses_native_collision_and_provenance_drift(self):
+        for tool,forge_tool in [('catalogue','catalogue'),('extra_read','wrong_tool')]:
+            root,path,data,blobs=self.fixture();data.update(schema='r4-host-release.v2',runtime_extensions={},native_tools={})
+            extra={k:v for k,v in blobs.items() if k!='forge.json'};extra['forge.json']=b.encode({'tool':forge_tool,'version':1,'sha256':{n:b.digest(v) for n,v in extra.items()}})
+            pins={}
+            for name,raw in extra.items():
+                target=root/'deploy/extra'/name;write(target,raw);pins[name]={'source':str(target.relative_to(root)),'sha256':b.digest(raw)}
+            data['native_tools'][tool]={'tool':tool,'version':1,'files':pins};write(path,b.encode(data))
+            with self.assertRaises(ValueError):b.build(root,path,b.digest(path.read_bytes()))
+
 if __name__=='__main__':unittest.main()

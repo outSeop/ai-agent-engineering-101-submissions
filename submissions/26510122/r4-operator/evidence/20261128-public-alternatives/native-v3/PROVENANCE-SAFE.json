@@ -1,0 +1,107 @@
+{
+  "model_provider": "codex-cli-gpt-6.2-sol",
+  "windows_bridge_response_matches": [
+    {
+      "reply_sha256": "db14b24bc3cfc4148ecd3c143a7edf67ccfbfb9c6633e32cabaf2fe312061e3e",
+      "at": 1795858299.0352201,
+      "requested_model": "gpt-6.2-sol",
+      "upstream_reported_model": null,
+      "cli_returncode": 0,
+      "tool_event_count": 0,
+      "reasoning_effort": "medium",
+      "cli_timeout_seconds": 300
+    },
+    {
+      "reply_sha256": "0a3044c482684e58efa2d3af18c6e25851952fb934cb648ea34c0c1117a13cb6",
+      "at": 1795858879.5712402,
+      "requested_model": "gpt-6.2-sol",
+      "upstream_reported_model": null,
+      "cli_returncode": 0,
+      "tool_event_count": 0,
+      "reasoning_effort": "medium",
+      "cli_timeout_seconds": 300
+    },
+    {
+      "reply_sha256": "e04d47a3ef9b2a0522089a41fa02d910a03223ebc5a015259948a2d4e84ee24e",
+      "at": 1795859072.5849118,
+      "requested_model": "gpt-6.2-sol",
+      "upstream_reported_model": null,
+      "cli_returncode": 0,
+      "tool_event_count": 0,
+      "reasoning_effort": "medium",
+      "cli_timeout_seconds": 300
+    },
+    {
+      "reply_sha256": "0ddff7ce5d5a4e82ad35b1d375337a1b665c069ea3873bba6aa713b8e99e089c",
+      "at": 1795859183.0828452,
+      "requested_model": "gpt-6.2-sol",
+      "upstream_reported_model": null,
+      "cli_returncode": 0,
+      "tool_event_count": 0,
+      "reasoning_effort": "medium",
+      "cli_timeout_seconds": 300
+    }
+  ],
+  "official_mind_run_once": true,
+  "official_forge_attempts": [
+    {
+      "ts": 1795858509,
+      "tool": "public_alternatives",
+      "version": 1,
+      "passed": false,
+      "error": "AssertionError: {'status': 'unavailable', 'reason': 'unsupported_inquiry'}",
+      "permission": {
+        "pay_limit": 0,
+        "timeout": 30
+      }
+    },
+    {
+      "ts": 1795858888,
+      "tool": "public_alternatives",
+      "version": 1,
+      "passed": true,
+      "error": null,
+      "permission": {
+        "pay_limit": 0,
+        "timeout": 30
+      }
+    },
+    {
+      "ts": 1795859085,
+      "tool": "public_alternatives",
+      "version": 2,
+      "passed": true,
+      "error": null,
+      "permission": {
+        "pay_limit": 0,
+        "timeout": 30
+      }
+    },
+    {
+      "ts": 1795859189,
+      "tool": "public_alternatives",
+      "version": 3,
+      "passed": true,
+      "error": null,
+      "permission": {
+        "pay_limit": 0,
+        "timeout": 30
+      }
+    }
+  ],
+  "source_assembled_from_exact_model_edits": true,
+  "runtime_model_changed": false,
+  "real_customer_text_sent": false,
+  "private_db_copied": false,
+  "production_modified": false,
+  "independent_sdk_checks": 17,
+  "mock_host_checks": 10,
+  "actual_public_snapshot_read_only_check": {
+    "input": "synthetic question",
+    "source_rows": 143,
+    "verified_options": 12,
+    "native_render_bound": true,
+    "Model": 0,
+    "finance": 0
+  }
+}

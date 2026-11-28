@@ -1,7 +1,7 @@
 """HOST argument binding only; share all catalogue protocol code with the pinned base.
 
 Repeated positive noun interpretation and all customer constraints belong to the
-classroom-forged tool. This layer transports the complete original text unchanged.
+native SDK tool. This layer transports the complete original text unchanged.
 """
 from pathlib import Path
 from hashlib import sha256
@@ -9,7 +9,9 @@ import importlib.util,json
 from card_source_read_lane import raw_file
 
 context=json.loads(raw_file(Path(__file__).resolve().with_name('HOST-CONTEXT.json')))
-if set(context)!={'schema','operator_root','base_protocol','base_protocol_sha256','base_manifest_sha256'} or context['schema']!='r4-host-context.v1':
+_CONTEXT_KEYS={'schema','operator_root','base_protocol','base_protocol_sha256','base_manifest_sha256'}
+if (set(context)-{'native_tools'} != _CONTEXT_KEYS or context['schema']!='r4-host-context.v1'
+        or not isinstance(context.get('native_tools',{}),dict)):
     raise ValueError('unreviewed HOST context')
 root=Path(context['operator_root']);relative=Path(context['base_protocol'])
 if not root.is_absolute() or root.resolve(strict=True)!=root or relative.is_absolute() or '..' in relative.parts or relative.parts[0]!='deploy':
@@ -35,6 +37,59 @@ sku=_base.sku
 CatalogueError=_base.CatalogueError
 
 class CatalogueProtocol(_base.CatalogueProtocol):
+    def alternatives_request(self,text,*,args=None,menu=None):
+        if not self._public_text(text,1500):
+            raise CatalogueError('action_rejected')
+        if args is None and menu is None:
+            return {'op':'context','text':text}
+        if args is None or menu is None:
+            raise CatalogueError('action_rejected')
+        selected=self.render(args)['items']
+        pairs=[(item['sku'].upper(),item['grade']) for item in selected]
+        eligible={(item['sku'].upper(),item['grade']) for item in menu['items']}
+        if len(set(pairs))!=len(pairs) or not set(pairs)<=eligible:
+            raise CatalogueError('action_rejected')
+        return {'op':'render','text':text,'snapshot':menu['snapshot'],'items':selected}
+
+    def alternatives_result(self,op,result,observed,valid,snapshot):
+        if (isinstance(result,dict) and set(result)=={'status','reason'}
+                and result['status']=='unavailable'):
+            reason=result['reason']
+            allowed={'unsupported_inquiry','unsupported_request','no_match','stale_snapshot',
+                     'snapshot_changed','selection_unavailable','selection_ambiguous',
+                     'invalid_snapshot','source_unavailable','invalid_args','relation_unverified',
+                     'unknown_relation','original_available','output_budget','original_match',
+                     'clarification_required','no_verified_options','invalid_selection','unsafe_label',
+                     'invalid_request','reply_limit'}
+            raise CatalogueError(reason if isinstance(reason,str) and reason in allowed else 'alternatives_failed')
+        if op=='render':
+            return self.result('semantic_candidates',result,observed,valid)
+        if (op!='context' or not isinstance(result,dict)
+                or set(result)!={'status','snapshot','observed_at','valid_until','items'}
+                or result['status']!='options' or result['snapshot']!=snapshot
+                or type(result['observed_at']) is not int or result['observed_at']!=observed
+                or type(result['valid_until']) is not int or result['valid_until']!=valid):
+            raise CatalogueError('alternatives_failed')
+        items=result['items']
+        if (not isinstance(items,list) or not 1<=len(items)<=12
+                or len(json.dumps(result,ensure_ascii=False,allow_nan=False))>5500):
+            raise CatalogueError('alternatives_failed')
+        keys=set()
+        for item in items:
+            if (not isinstance(item,dict) or set(item)!={'sku','name','category','grade','preferred_price','expires_at'}
+                    or not sku(item['sku']) or item['grade'] not in ('A','B','C')
+                    or not self._public_text(item['name'],1024)
+                    or item['category'] is not None and not self._public_text(item['category'],128)
+                    or type(item['preferred_price']) is not int or not 1<=item['preferred_price']<=10**12
+                    or item['expires_at'] is not None and (
+                        type(item['expires_at']) is not int or item['expires_at']<=observed)):
+                raise CatalogueError('alternatives_failed')
+            key=(item['sku'].upper(),item['grade'])
+            if key in keys:
+                raise CatalogueError('alternatives_failed')
+            keys.add(key)
+        return result
+
     def semantic(self,text,args):
         if not self._public_text(text,1500) or not isinstance(args,dict):
             raise CatalogueError('action_rejected')

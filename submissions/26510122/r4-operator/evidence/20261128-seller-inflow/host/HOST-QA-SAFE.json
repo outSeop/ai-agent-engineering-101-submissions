@@ -1,0 +1,28 @@
+{
+  "schema": "r4-seller-inflow-host-qa.v1",
+  "host_task_and_handoff_tests": 48,
+  "host_task_and_handoff_passed": 48,
+  "release_builder_tests": 6,
+  "release_builder_passed": 6,
+  "independent_host_groups": 6,
+  "independent_host_passed": 6,
+  "source_sha256": {
+    "src/r4_operator_host/seller_marketing_host.py": "518ea34664b4b91e62132b1d35bf85033b00a69f6df403a2a3ac80d43da7f5bb",
+    "tests/host_task_state/test_seller_marketing_host.py": "f3df616690e679e8553c17251ee63398707dd2d9ce5f403b88c53770f3c51fea",
+    "tests/host_task_state/test_seller_marketing_host_independent.py": "b46da0a0cc0bebc9ab7abc4f297be8d5353559fed7632fd31663d4a4a68e9d7e",
+    "src/r4_operator_host/release_builder.py": "6ef54619e38f97c8818d90ff70ddcd1846eeb5c4b4c10e8b3195c67115f02d1a",
+    "src/r4_operator_host/test_release_builder.py": "75e2733b92ac92c1d720ed0c663e6f1d5c1d45d81ab5ff688e81c340dfc0ae6c"
+  },
+  "safety_cases": [
+    "same HOST DB and ports; original legacy routes preserved",
+    "authenticated same-loop synchronous handoff; no new scheduler",
+    "durable single-flight journal and interrupted recovery",
+    "worker group hard deadline kills TERM-resistant descendants",
+    "public endpoint cannot use missing or disabled owner policy",
+    "no wallet, transfer, exec or payment authority in marketing identity",
+    "read integrity excludes atime and includes security metadata"
+  ],
+  "live_deployment_verified": false,
+  "actual_new_sales_verified": false,
+  "actual_transactions_started_by_QA": 0
+}

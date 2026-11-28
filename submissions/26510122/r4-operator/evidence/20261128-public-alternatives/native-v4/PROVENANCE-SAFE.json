@@ -1,0 +1,17 @@
+{
+  "tool": "public_alternatives",
+  "version": 4,
+  "model_provider": "codex-cli-gpt-6.2-sol",
+  "actual_Model_action": "forge_tool",
+  "model_action_response_sha256": "945fe86ac0525f4f1f8460a0ac022a7d87322399e6d0dd4616d30c12d3856092",
+  "record_sha256": "96d0bd2cffdc086f06da2bf5414d1076f3d8ee74f3b8267172baee0efa07cf24",
+  "official_forge_at": 1795861340,
+  "official_selftest": "passed",
+  "host_mechanical_replay_exact": true,
+  "native_logic_changes": "read_stock stat comparisons only",
+  "independent_sdk_tests_passed": 18,
+  "authority_changed": false,
+  "production_modified": false,
+  "logic_literal_edits": 1,
+  "test_literal_edits": 1
+}
