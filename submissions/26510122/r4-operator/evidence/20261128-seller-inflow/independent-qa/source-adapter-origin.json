@@ -1,0 +1,17 @@
+{
+  "schema": "r4-independent-source-adapter-origin.v1",
+  "source4_business_not_edited": true,
+  "public_adapter_changes": "Only OP/support paths replaced by explicit CLI-owned qa-binding.json; fixture helper algorithms/assertions unchanged.",
+  "private_original_sha256": {
+    "guard_external_test.py": "a178e42e4e0862db012809cf9cbe4f45aff0da40166d3f5103c9459fc870ac43",
+    "portable_forum_contract.py": "d415de03080dc8d8966218d6cba51a3e0791890823920b595edcb37ebe46564f"
+  },
+  "public_adapter_sha256": {
+    "guard_external_test.py": "5abd8eef40a118bbab54c97dc2f76187a35a9cb22448f0be8ba0d77f446acfac",
+    "portable_forum_contract.py": "89e24efb4d12d20ce1a18d2ae207a479f05f9b46f5253a03b545824440b63398",
+    "run_guard_sdk.py": "e0c4a96ce0c63caca68af8dd6af2932ba12174a0a23f6cea6ea2be108a3391fc",
+    "live_readonly_sdk_canary.py": "035aef5590e5d1f60cff542b7150785bdc22ef73d65bdc6cffa029ed00b533ce"
+  },
+  "original_tracked_fixture_reuse": "../round-4/codex-r4/test_forum.py::ForumFixture, fixture.py, dispatcher.py, forum.py; exact pins remain in portable_forum_contract.py",
+  "current_genuine15_asset_manifest_sha256": "1ef7909e05384509c9dc371ec309ee1f8928a9fe40dd4bb653d5f29192c8e4e0"
+}

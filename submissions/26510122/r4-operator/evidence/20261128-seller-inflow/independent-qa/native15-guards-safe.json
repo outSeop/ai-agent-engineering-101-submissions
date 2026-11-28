@@ -1,0 +1,64 @@
+{
+  "schema": "r4-native15-independent-legacy-guards.v1",
+  "passed": 5,
+  "total": 5,
+  "cases": [
+    {
+      "case": "fused_pack_three_negatives_correct_pack_control",
+      "passed": true
+    },
+    {
+      "case": "strict_reference_and_14_hard_protected_negatives",
+      "passed": true
+    },
+    {
+      "case": "actual_parent_final_strict_reference_body",
+      "passed": true
+    },
+    {
+      "case": "final_grade_change_blocks_POST",
+      "passed": true
+    },
+    {
+      "case": "urgent_C_once_per_day_and_unknown_reconcile",
+      "passed": true
+    }
+  ],
+  "facts": {
+    "fused_pack_boundary": {
+      "attached_wrong_pack_or_Latin_denied": 7,
+      "normal_correct_pack_strict": 1
+    },
+    "synthetic_predicate_checks": {
+      "strict": 1,
+      "reference": 1,
+      "negative_denied": 14
+    },
+    "fake_final_render": {
+      "strict_published": true,
+      "reference_label_and_facts": true,
+      "fake_POSTs": 2
+    },
+    "final_grade_changed_POSTs": 0,
+    "urgent_epoch_unknown": {
+      "one_normal_plus_one_urgent_fake_POSTs": 2,
+      "same_day_urgent_repeat_denied": true,
+      "unknown_original_reconcile_preserved": true
+    }
+  },
+  "original_full_ForumFixture": true,
+  "standard_SDK_test_mode": true,
+  "pool_transport_branch_exercised": false,
+  "legacy_testing_true_preserves_business_guards_only": true,
+  "testing_flag_not_assigned": true,
+  "all_POSTs_fake_only": true,
+  "actual_API_Model_POST_finance_production_calls": 0,
+  "SDK_ok": true,
+  "source4_sha256": {
+    "logic.py": "ade6803aa1e36c5d48a744cddf59637a29b44d040d1866b0a6ed1de54a56ff22",
+    "test.py": "5e41d24da474f50f571a6addb956bc70014e6f20ba77b630ec8950a316996d4b",
+    "permission.yml": "ec0900373a16fc7e1b6c2507fe8dfb9c8b5ba2d2741e8518d843b4ceee4f46cb",
+    "forge.json": "e5642c6d2b84825ac93ecd5d6a3acf5daef0ce82e94d9e4c1ad37f97245a0e36"
+  },
+  "source4_unchanged": true
+}

@@ -1,0 +1,7 @@
+{
+  "schema": "r4-safe-public-selected-file-pattern-scan.v1",
+  "selected_files_scanned": 16,
+  "pattern_hits": {},
+  "actual4credential_exact_needle_scan": "Not performed by child to preserve wallet-key-values-not-read; root final scan required before commit/publication.",
+  "raw_inputs_logs_DB_customer_text_or_Model_reasoning_selected": false
+}

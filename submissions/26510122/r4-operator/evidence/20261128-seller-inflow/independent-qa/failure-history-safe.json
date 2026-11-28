@@ -1,0 +1,34 @@
+{
+  "schema": "r4-independent-failure-history-safe.v1",
+  "native11": {
+    "SDK_timeout_seconds": 150,
+    "context_returned": false,
+    "native_CPU_regex_recompile_bottleneck": true
+  },
+  "native12": {
+    "cached_SDK_seconds": 12.054,
+    "matching_replies": 0,
+    "performance_fixed_functional_goal_not_met": true
+  },
+  "native13": {
+    "cached_frozen_replies": 6,
+    "fresh_cached_replies": 4,
+    "attached_wrong_pack_bypass_found_by_method": true,
+    "not_admitted_after_discovery": true
+  },
+  "native14": {
+    "real_GET_CPU_seconds": 17.3604,
+    "matching_replies": 0,
+    "original15s_reader_incomplete_after_GETs": 29,
+    "read_diagnostic_seconds": 15.3836,
+    "version13_14_selected_pair_equality": "18/18",
+    "not_admitted_before_real_positive": true
+  },
+  "external_test_setup": {
+    "source13_first_guard_run": "1/4; three IsADirectoryError due to __pycache__ copied as a file",
+    "correction": "copy only regular files; genuine source unchanged; corrected4/4 then14/15 guards passed",
+    "one_launcher_path_typo": "failed before native execution"
+  },
+  "original_private_failures_unchanged": true,
+  "raw_customer_or_Model_data_included": false
+}

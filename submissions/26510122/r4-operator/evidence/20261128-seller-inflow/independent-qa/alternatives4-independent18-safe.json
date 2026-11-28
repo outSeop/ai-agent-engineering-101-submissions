@@ -1,0 +1,42 @@
+{
+  "schema": "r4-public-alternatives4-independent-repeat.v1",
+  "passed": 18,
+  "total": 18,
+  "cases": {
+    "verified_bounded_context": true,
+    "only_verified_alternative_and_no_checkout": true,
+    "wrong_snapshot_denied": true,
+    "duplicate_selection_denied": true,
+    "off_menu_denied": true,
+    "do_not_substitute": true,
+    "allergy_must_not_be_guessed": true,
+    "limited_price_must_not_be_dropped": true,
+    "specific_sku_without_relation_must_not_be_forced": true,
+    "payment_must_use_original_route": true,
+    "current_original_candidate_keeps_original_path": true,
+    "new_reservation_blocks_render": true,
+    "reconciling_blocks_render": true,
+    "changed_price_blocks_render": true,
+    "changed_expiry_blocks_render": true,
+    "stale_denied": true,
+    "sidecar_hash_mismatch_denied": true,
+    "stock_atime_only_read_is_not_a_mutation": true
+  },
+  "source4_sha256": {
+    "logic.py": "7fd1fbf408fd037f293dfec185ab6627f3bc89850c1dbd8aa39b8e68cf9a0d2f",
+    "test.py": "e3742210e800e7c04ff25fe12d6aa11a11212c3cfdd6bff8823205d825a65b7e",
+    "permission.yml": "f12b70061a3bded83a4cee0a1d87b03b1cfee06f7f3e0cf1018286c129e50476",
+    "forge.json": "96d0bd2cffdc086f06da2bf5414d1076f3d8ee74f3b8267172baee0efa07cf24"
+  },
+  "source4_unchanged": true,
+  "logic_AST_changed_functions": [
+    "read_stock"
+  ],
+  "business_rule_change": false,
+  "diff_review": "Whole stat_result equality replaced with explicit dev/ino/mode/uid/gid/nlink/size/mtime/ctime+length equality. atime excluded only; security identity/content metadata retained. Original test adds forced atime advance; permission capabilities unchanged, version/replaces only.",
+  "standard_ordinary_SDK_call": true,
+  "testing_flag_not_assigned": true,
+  "NoWallet_tokens_addresses_empty": true,
+  "actual_API_Model_POST_finance_production_calls": 0,
+  "test_source_sha256": "33bc385265e0eb53785bc9002831fc49567954d456e3a7b0d21a701c2d360209"
+}

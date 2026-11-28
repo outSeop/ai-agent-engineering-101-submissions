@@ -1,0 +1,19 @@
+{
+  "development_helper_pid": 1327163,
+  "identity_checks": {
+    "pid_owned_by_current_user": true,
+    "exact_development_port": true,
+    "development_cli_module": true,
+    "expected_windows_helper": true,
+    "cwd_is_operator": true
+  },
+  "active_connection_before_stop": false,
+  "SIGTERM_sent_to_exact_owned_PID_only": true,
+  "port19003_closed": true,
+  "production_processes_signalled": 0,
+  "Model_calls": 0,
+  "market_API_calls": 0,
+  "forum_POSTs": 0,
+  "financial_actions": 0,
+  "at": 1795865849.6894376
+}

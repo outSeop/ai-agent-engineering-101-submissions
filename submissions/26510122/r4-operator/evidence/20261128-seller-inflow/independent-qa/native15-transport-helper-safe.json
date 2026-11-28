@@ -1,0 +1,23 @@
+{
+  "schema": "r4-native15-window-helper-independent.v1",
+  "passed": 3,
+  "total": 3,
+  "cases": [
+    {
+      "case": "reuse_one_client_and_restore_before_close",
+      "passed": true
+    },
+    {
+      "case": "error_still_restores_and_closes",
+      "passed": true
+    },
+    {
+      "case": "expired_deadline_allocates_no_client",
+      "passed": true
+    }
+  ],
+  "source_sha256": "ade6803aa1e36c5d48a744cddf59637a29b44d040d1866b0a6ed1de54a56ff22",
+  "Kit_testing_flag_used_or_set": false,
+  "scope": "Direct helper unit with sentinel kit identity; no source.run or fake testing flag. Actual ordinary=False production branch is tested separately with real GET.",
+  "actual_API_Model_POST_finance_calls": 0
+}

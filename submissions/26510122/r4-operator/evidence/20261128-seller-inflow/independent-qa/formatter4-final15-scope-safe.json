@@ -1,0 +1,24 @@
+{
+  "schema": "r4-native15-final-formatter4-scope.v1",
+  "SDK_ok": true,
+  "source_reply_options": 3,
+  "formatter_reply_options": 3,
+  "scoped_reply_options": 3,
+  "source_items": 9,
+  "scoped_items": 9,
+  "urgent_C_eligible": 0,
+  "urgent_C_first": false,
+  "original_scope_validate_passed": true,
+  "output_chars": 2957,
+  "source4_sha256": {
+    "logic.py": "c88c0ab66a201bb049f9f1eed9dba30b4109c37e2f29873da6699f24e62a0a80",
+    "test.py": "67b137f56a9e4aa2f866e721a68e28cdbc27a6cd10a005aadf712969c755e378",
+    "permission.yml": "392b9acac32ae3b7eb5be490d002885821679be5b30cecf2dac3ac1fa45088d8",
+    "forge.json": "870fdda00e16ad7bdf4bbb8b0699af4b1add845772355b372534e41639d09d7f"
+  },
+  "source4_unchanged": true,
+  "original_scope_source_sha256": "70a916d41c3b4e6bc84c5857286bac7af99196dbd92c591260e1ee35dfb0a39a",
+  "fixture_clock_only_frozen": true,
+  "native13_source_input_not_mutated": true,
+  "actual_API_Model_POST_finance_calls": 0
+}

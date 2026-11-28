@@ -81,9 +81,13 @@ def run_case(operator,out,case,build,runtime,frontdir,runner,edge,config,fixture
  base=deepcopy(GUEST);base['inventory']=[{'sku':row['sku'],'name':dispatcher.public_product_name(row['name']),'grade':row['grade'],'category':None,'reference_price':row['price_credits'],'min_base':row['price_credits'],'preferred_price':row['price_credits'],'stock_status':'available','available':True,'wait_eligible':False} for row in document['units'][:30]]
  original_hash=digest(encode(base));fixed(out/'agent.json',encode({'llm':{'base':'market'},'goal':'synthetic no-wallet common-front replay'}));fixed(out/'host_inputs/broker_context_base.json',encode(base))
  # Exact boundary tools, not production state or financial executors.
- for name in ['a2a_info','shop_info']:
-  origin=operator.parent/'round-4/tools'/name;record=json.loads(protected(origin/'forge.json'))
-  for leaf in ['logic.py','permission.yml','test.py','forge.json']:
+ origins={name:operator.parent/'round-4/tools'/name for name in ('a2a_info','shop_info')}
+ if callable(getattr(runner,'pinned_forum_validator',None)) and (runtime/'forum_marketing').is_dir():
+  origins['forum_marketing']=runtime/'forum_marketing'
+  origins['publish_shop_info']=operator.parent/'round-4/tools/publish_shop_info'
+ for name,origin in origins.items():
+  record=json.loads(protected(origin/'forge.json'))
+  for leaf in ('logic.py','permission.yml','test.py','forge.json'):
    data=protected(origin/leaf)
    if leaf!='forge.json':assert digest(data)==record['sha256'][leaf]
    fixed(out/'tools'/name/leaf,data)

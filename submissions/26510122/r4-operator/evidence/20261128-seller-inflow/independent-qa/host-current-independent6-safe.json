@@ -1,0 +1,11 @@
+{
+  "schema": "r4-seller-marketing-host-independent.v1",
+  "passed": 6,
+  "total": 6,
+  "failed": [],
+  "HOST_source_sha256_at_start": "518ea34664b4b91e62132b1d35bf85033b00a69f6df403a2a3ac80d43da7f5bb",
+  "HOST_source_sha256_after": "518ea34664b4b91e62132b1d35bf85033b00a69f6df403a2a3ac80d43da7f5bb",
+  "test_source_sha256": "b46da0a0cc0bebc9ab7abc4f297be8d5353559fed7632fd31663d4a4a68e9d7e",
+  "actual_Model_API_POST_finance_production_changes": 0,
+  "test_scope": "Temporary journal/policy, in-memory ASGI calls, synthetic owned child processes in offline namespace. No business source edits."
+}

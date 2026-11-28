@@ -63,6 +63,27 @@ def current_identity(op):
 def load(name,path):
  spec=importlib.util.spec_from_file_location(name,path);module=importlib.util.module_from_spec(spec);sys.modules[name]=module;spec.loader.exec_module(module);return module
 
+def pinned_forum_validator(official,root,bundle,record):
+ """Accept the exact genuinely forged owner tool without changing its permissions."""
+ root,bundle=Path(root),Path(bundle)
+ support=Path(__file__).resolve().parent
+ if not (support/'seller_marketing_host.py').is_file():support=support.parent
+ capabilities=load('verified_forum_capabilities',support/'seller_marketing_host.py')
+ candidate=root/'tools/forum_marketing'
+ current=official.forge_runner.parse_permission(protected(candidate/'permission.yml').decode()).get('permission') or {}
+ if set(current.get('network',[]))!={'market.ourolabs.ai'}:
+  capabilities.verify_native(candidate,record,official,publisher=True)
+ def validate(toolbox,metadata):
+  folder=root/'tools/forum_marketing'
+  if Path(toolbox.root)!=root or Path(metadata.get('dir',''))!=folder or folder.resolve(strict=True)!=folder:
+   raise RuntimeError('forum tool outside the configured agent root')
+  capabilities.verify_native(folder,record,official,publisher=True)
+  permission=official.forge_runner.parse_permission(protected(folder/'permission.yml').decode()).get('permission') or {}
+  if metadata.get('perm')!=permission or metadata.get('version')!=record['version']:
+   raise RuntimeError('forum toolbox metadata differs from the pinned genuine tool')
+  return True
+ return validate
+
 def assemble(official,op,bundle,pin,ctx,model,*,trace=None,old_request=None,options_override=None,toolbox_factory=None,_front=None,admission=None,config=None,isolated_root=None,host_state_db=None,persistent_engine=False):
  if _front is None or config is None:raise ValueError('reviewed edge module and configuration required before app assembly')
  meta=verify(op,bundle,pin,config);source_root=op.parent/'round-4';root=source_root
@@ -84,7 +105,7 @@ def assemble(official,op,bundle,pin,ctx,model,*,trace=None,old_request=None,opti
  if options_override is None:
   composition=load('edge_catalogue_composition',bundle/'public_catalogue_composition_candidate.py');toolpins={Path(n).name:v for n,v in meta['file_sha256'].items() if n.startswith('catalogue/')};options=composition.managed_options(op,bundle,official,toolpins)
  else:options=options_override
- auxiliary=json.loads(protected(bundle/'HOST-CONTEXT.json')).get('native_tools',{}) if options_override is None else {}
+ auxiliary=json.loads(protected(bundle/'HOST-CONTEXT.json')).get('native_tools',{}) if options_override is None or (bundle/'HOST-CONTEXT.json').is_file() else {}
  if 'public_alternatives' in auxiliary and options_override is None:
   alternative_module=load('verified_public_alternatives_host',bundle/'public_alternatives_host.py')
   from card_source_read_lane import safe_directory
@@ -114,6 +135,8 @@ def assemble(official,op,bundle,pin,ctx,model,*,trace=None,old_request=None,opti
   state_db=state_module.TaskStateDB(state_path);task_store=state_module.SQLiteTaskStore(state_db)
   original_continuity=managed.PublicContinuity
   managed.PublicContinuity=lambda:continuity_module.DurablePublicContinuity(state_db,original_continuity)
+ if 'forum_marketing' in auxiliary:
+  options={**options,'forum_validator':pinned_forum_validator(official,root,bundle,auxiliary['forum_marketing'])}
  box_class,mind_class,app_factory=managed.managed_classes(official,enable_stock=False,**options)
  box=box_class(root,ctx) if toolbox_factory is None else toolbox_factory(box_class,root,ctx)
  if isolated_root is not None and Path(box.root).resolve()!=root:raise ValueError('isolated toolbox must use the same fixture root')

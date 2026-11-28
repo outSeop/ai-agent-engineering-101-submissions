@@ -1,0 +1,27 @@
+{
+  "schema": "r4-startup-permission-compatibility.v1",
+  "initial_release": "a454edd8a098bd5983a3774d3225ecaf6754628113a8f62c667699861e3f6596",
+  "initial_failure": "Existing managed toolbox accepted market-only forum network permission and rejected the genuine owner tool which also declares authenticated localhost handoff. Real SDK assembly with active publisher15 was missing from initial fixture.",
+  "observed_engine_startup_permission_error_count": 10,
+  "financial_or_market_transactions_during_failed_startup": 0,
+  "safe_recovery": "Stop new engine restart loop; atomically restore preserved publisher9; restart same engine/port and retain shared task DB; keep owner inactive. Original seven services/router/CF unchanged.",
+  "forward_fix": "Canonical managed HOST adds explicit optional validator; exact genuine four files/provenance/capabilities checked before load and actual metadata/path checked after load. Original card publisher restriction and all original non-network checks remain.",
+  "final_release": "ec67edbb9f7e1e0f5b2140d377ea4db25964ae0131864c3923f696ec18d77a95",
+  "same_task_DB_same_ports": true,
+  "original_SDK_startup_cases_passed": 7,
+  "host_regressions_passed": 48,
+  "ASGI_passed": 3,
+  "ASGI_known_unsupported_xfail": 1,
+  "after_forward_fix_GetTask_full_result_same": {
+    "checked": 47,
+    "same": 47
+  },
+  "authorization_review": "Initial restoration was rejected due to older maintenance instruction. Latest operational user request and new read-only readiness evidence were submitted for reconsideration; same direct action was then approved. No workaround or hidden resumption.",
+  "committed_private_credential_or_raw_customer_data": false,
+  "source_sha256": {
+    "src/r4_operator_host/managed_catalogue_runtime.py": "4f48a1ae57dd9bab0ff399ec9e5ae03d81db75fcb8a1ac2703e7276ce59f2ae9",
+    "src/r4_operator_host/front/run_front_edge.py": "74895ecb40321f610c4d69ffe543b1757b2bc1a623fb996d33682682fb3ee5c2",
+    "tests/host_front/test_forum_hostcompat.py": "f1dd6533c583b81f8fb351bbdde0b1c2677e60f6419b5caf62246ca21e6813f0",
+    "tests/host_front/catalogue_asgi_support.py": "a315669069ea40a2eefc737d79e93495cbbf96cec449ab9b1d7213420112f73b"
+  }
+}

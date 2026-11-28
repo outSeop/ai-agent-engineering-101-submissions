@@ -1,0 +1,14 @@
+{
+  "schema": "r4-portable-external-adapter-validation.v1",
+  "passed": 5,
+  "total": 5,
+  "SDK_ok": true,
+  "source4_sha256": {
+    "logic.py": "ade6803aa1e36c5d48a744cddf59637a29b44d040d1866b0a6ed1de54a56ff22",
+    "test.py": "5e41d24da474f50f571a6addb956bc70014e6f20ba77b630ec8950a316996d4b",
+    "permission.yml": "ec0900373a16fc7e1b6c2507fe8dfb9c8b5ba2d2741e8518d843b4ceee4f46cb",
+    "forge.json": "e5642c6d2b84825ac93ecd5d6a3acf5daef0ce82e94d9e4c1ad37f97245a0e36"
+  },
+  "path_binding_only_changed": true,
+  "actual_API_Model_POST_finance_calls": 0
+}

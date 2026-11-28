@@ -1,0 +1,25 @@
+{
+  "schema": "r4-independent-public-evidence-manifest.v1",
+  "files_sha256": {
+    "FINAL-SAFE-SUMMARY.json": "54383dbb0b82af4741b1693fb43ca587405684ec25da52176395ee001bf38eb5",
+    "README.md": "fa403d78164b9ffce77724ccbe090fe95a3605378fc2d2a408d554e8b8a8d93c",
+    "SCAN-SAFE.json": "ee01aa2ef69586372816cfc1909eb0ab72bd8feb750041000366918da8e12d8d",
+    "alternatives4-independent18-safe.json": "501adfb1305985de1a71c9352e99bd0b4dbe5af86e0af6ef130c692341fce2bf",
+    "failure-history-safe.json": "8e80b792b026fd622da3c151cac688391dd832860054b47dd1287a4964e93eb2",
+    "formatter4-final15-scope-safe.json": "728a94af87419ab6fb09eb2cf94ed9b6837f4097811a87c4f64f2b5a2beeb7d1",
+    "guard_external_test.py": "5abd8eef40a118bbab54c97dc2f76187a35a9cb22448f0be8ba0d77f446acfac",
+    "host-current-independent6-safe.json": "e0977f0b70b726718e3c6e9b0a7b069830d0267e17f00529e1c8618b9164e568",
+    "live_readonly_sdk_canary.py": "035aef5590e5d1f60cff542b7150785bdc22ef73d65bdc6cffa029ed00b533ce",
+    "native15-guards-safe.json": "eded7a3db8ce600bbdc9843f3874599a08735bd3010a6b53a91a79b6fe55a8f5",
+    "native15-live-get-safe.json": "52d5f5131e7ec45d25abbb96eabfd594b1658b183f5830725813313a0c75a883",
+    "native15-transport-helper-safe.json": "015c6e643a7bde6ad6fd665711c2897c490e8c6096a84df75eae7d8c88752812",
+    "portable-guard-reproduction-safe.json": "93959e5800fdead1f335dbd55fd0ab4790a340258ce3eadb476ed360db20f328",
+    "portable_forum_contract.py": "89e24efb4d12d20ce1a18d2ae207a479f05f9b46f5253a03b545824440b63398",
+    "run_guard_sdk.py": "e0c4a96ce0c63caca68af8dd6af2932ba12174a0a23f6cea6ea2be108a3391fc",
+    "run_owned_canary.py": "fc3bff99032903ea0cdec042e46ff06723566615983d8999f554fd9bf4d92a95",
+    "source-adapter-origin.json": "177042c5684dd6759254ca8cc26582667e37b8f398d4dd84c89f5bb89f391a5c"
+  },
+  "raw_private_originals_preserved_not_copied": true,
+  "business_source4_not_duplicated_here": true,
+  "no_git_stage_commit_push_by_QA": true
+}
