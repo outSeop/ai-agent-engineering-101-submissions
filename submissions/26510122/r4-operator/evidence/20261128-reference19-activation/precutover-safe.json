@@ -1,0 +1,34 @@
+{
+  "at": 1795835927.4894469,
+  "legacy_counts": {
+    "18805": 17,
+    "18806": 3,
+    "18807": 10,
+    "18808": 7,
+    "18809": 2,
+    "18810": 6
+  },
+  "legacy_GetTask_checked": 45,
+  "legacy_GetTask_equal": 45,
+  "HOST": {
+    "total": 45,
+    "current": 0,
+    "legacy": 45,
+    "snapshots": 45,
+    "tasks": 0
+  },
+  "maintenance": true,
+  "checks": {
+    "DB_same": true,
+    "files_same": true,
+    "services_same": true,
+    "ledgers_same": true,
+    "CF_alive": true
+  },
+  "public_url": "https://stable-leu-below-the.trycloudflare.com",
+  "new_engine_pid": 1308994,
+  "new_router_pid": 1308995,
+  "semantic_version": 19,
+  "Model_calls": 0,
+  "financial_executions": 0
+}

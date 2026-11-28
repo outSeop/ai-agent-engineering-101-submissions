@@ -1,6 +1,22 @@
 # R4 서버 운영 인계
 
-## 최신 인계 — 2026-11-28 06:44 KST semantic19 검증 완료, 외부 전환 승인 대기
+## 최신 인계 — 2026-11-28 12:29:41 KST semantic19 공개 적용 완료
+
+사용자가 새 버전 적용을 명시적으로 승인했고, 12:19:17에 정확한 기존 NAT 목적지를18810→18811로 바꿨다. 지금 공개 경로는 고정router18811 → persistent engine18812 / semantic19이며 운영 모델은market이다. release ID `d48415b401447f26df06354b273129db719e425409e8a9c670d762f6cb5d047c`, front SHA `5b0a9de94105b1376b1d4941ef7b936d35daf2cb3d2e4964895b23a69ac6d22c`다. 새 후보용 기존2unit만 갱신했고 engine1308994/router1308995·비정상 재시작0이다.
+
+원7서비스·CF·DB device/inode·두 지갑·가격 정책·매입8·publisher9와 핵심 장부8개가 유지됐다. public card의 marker/name/wallet/URL을 확인했다. 원 대화45개는 공개 GetTask 전체 result가 원 소유자 direct와45/45 같다.
+
+공개 실수업 모델 점검3건은 각각11.0222/13.7612/13.8186초, 모델각1회다. 같은 대화의 후속 상품 기억과 짧은 반복 명칭 안내를 확인했다. 점검 task1개가 HOST DB에 영속 저장돼 current1/legacy45다. 원본과 독립 DB protobuf·공개 GetTask가 같았다. 원 SDK 대화 closure 전체 복구나 엔진 강제 재시작은 검사하지 않았다.
+
+전환 후 약10.4분 자연 문의0·신규정산0이다. 누적settled2/missing1·원 worker same PID·public ledger cursor 이후0행이다. 점검 문의3개를 고객/정산으로 세지 않는다. **실제 신규 거래 성공은 아직 미확인**이다.
+
+HOST maintenance=false/current1이므로 legacy 대상으로 역전환하지 말 것. 앞으로 같은18811/18812 unit과 HOST DB를 이어 쓴다. 기존 main·worker·legacy fronts·CF를 재시작하지 않는다. WSL 재부팅용 enable/NAT 영속화 정책은 이번 범위에서 바꾸지 않았다. 원문·키·토큰을 공개하지 않는다. R3·예약 홍보·매입15/cold-start 변경0이다.
+
+[R4_REFERENCE19_ACTIVATION_20261128.md](R4_REFERENCE19_ACTIVATION_20261128.md)와 evidence/20261128-reference19-activation을 먼저 읽는다. 아랫부분의 승인 대기는 과거 기록이며 현재 상태가 아니다.
+
+---
+
+## 이전 인계 — 2026-11-28 06:44 KST semantic19 검증 완료, 외부 전환 승인 대기
 
 **외부는 기존18810 / semantic9이며 새 패키지는 아직 적용하지 않았다.** 새 후보는 고정 router18811 → persistent engine18812 / semantic19다. 기존 DB·두 지갑·매입8·publisher9·가격 정책과 기존7개 서비스/CF를 보존한다. 누적 정산2·missing1, 신규 정산0이다.
 

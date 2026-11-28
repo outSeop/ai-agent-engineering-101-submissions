@@ -1,0 +1,12 @@
+{
+  "status": "inspected_only",
+  "rule_target": 18811,
+  "maintenance": false,
+  "stats": {
+    "total": 46,
+    "current": 1,
+    "legacy": 45,
+    "snapshots": 45,
+    "tasks": 1
+  }
+}

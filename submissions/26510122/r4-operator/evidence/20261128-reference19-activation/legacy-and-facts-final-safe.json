@@ -1,0 +1,38 @@
+{
+  "at": 1795836332.0438726,
+  "legacy_full_GetTask_result_equal": 45,
+  "legacy_total": 45,
+  "public_path": true,
+  "comparison": "direct original owner result equals public router result",
+  "probe_price_comparison": "post-probe fresh cache; not a frozen per-request snapshot",
+  "probe_fact_checks": [
+    {
+      "probe": "operator-probe-response",
+      "returned_SKUs": 2,
+      "cache_fact_matches": [
+        {
+          "candidate_in_cache": true,
+          "name_grade_price_match": false
+        },
+        {
+          "candidate_in_cache": true,
+          "name_grade_price_match": false
+        }
+      ]
+    },
+    {
+      "probe": "operator-followup",
+      "returned_SKUs": 2,
+      "cache_fact_matches": [
+        {
+          "candidate_in_cache": true,
+          "name_grade_price_match": false
+        },
+        {
+          "candidate_in_cache": true,
+          "name_grade_price_match": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "at": 1795836427.8276858,
+  "operator_probe_not_customer": true,
+  "HTTP": 200,
+  "seconds": 13.8186,
+  "same_task": true,
+  "rpc_error": null,
+  "reply_nonempty": true,
+  "SKU_present": true,
+  "rice_mentioned": true,
+  "credits_mentioned": true,
+  "action_rejected_in_reply": false,
+  "payment_token_present": false,
+  "reply_sha256": "deb8827b4c4fb55122e98d245d22fe0921fa47130667d993bad3d29cdde299cd",
+  "financial_request_authorized": false,
+  "state": "TASK_STATE_INPUT_REQUIRED"
+}

@@ -1,0 +1,18 @@
+{
+  "at": 1795836130.7227883,
+  "operator_probe_not_customer": true,
+  "HTTP": 200,
+  "seconds": 13.7612,
+  "rpc_error": null,
+  "same_task": true,
+  "same_context": true,
+  "reply_nonempty": true,
+  "SKU_present": true,
+  "rice_mentioned": true,
+  "grade_mentioned": true,
+  "has_payment_jwt": false,
+  "reply_sha256": "29a6cb3fd3a7e97032b9c0f435e08364a80ebee9fad8549cdf310adebcbf754a",
+  "independent_process_DB_task_equal_before_followup": true,
+  "financial_request_authorized": false,
+  "state": "TASK_STATE_INPUT_REQUIRED"
+}

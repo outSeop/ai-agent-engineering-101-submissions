@@ -1,0 +1,19 @@
+{
+  "schema": "r4-activation-public-evidence.v1",
+  "files": {
+    "ACTIVATION-SAFE.json": "79465334741b6dac3ff74cc3983bb1ed1127492d247a27fdd277f082ad23add6",
+    "OBSERVATIONS-SAFE.json": "f48b499027d1780207fcc536741f9123537da4c090c21939f8c1fae471cda45c",
+    "README.md": "35179d3054f72d48c4fcc43dc6ada937500f804edd040e1bca5b7d796d6abdcc",
+    "durable-final-safe.json": "57ddb6ee5340043eaa0671c4817f72bc77225bf12b307949803f6b4082b4fddd",
+    "final-route-inspect-safe.json": "ca5727cb40a612273cace69aeffdd81cdc8b543cf36a2c3f5f5f8284d0702b61",
+    "legacy-and-facts-final-safe.json": "18164755f6f48849fd47b92541799f3184c0df575dc647ee1d61c17d92e7fe7e",
+    "operator-followup-safe.json": "afabafaa705aefd1d5cc2d7380cf6d2344d3cf24dc0c96940e0cdb2e0373c9df",
+    "operator-probe-safe.json": "cd5ada70ec09eb7eb11ed893ebf37b45701205dd8da65c97a3154a197ffc3def",
+    "operator-probe-status-message-safe.json": "73c013cba9bba190a8ae8ed56506e59625a6aaae89a7ef816965303d6baef013",
+    "operator-repeat-safe.json": "47177d1c494b6f4d39f9f14532beaf247814abc5fc636c840312522c6c17acb7",
+    "postcutover-public-safe.json": "ba4276db26f6301ffc94068bf0e88995f474f482fb5115ed1b4106417870aa93",
+    "precutover-safe.json": "e723d45110e64f429a3abbe4397b9ac45847858db9afe465d5a285e27ac2c522",
+    "probe-facts-v2-safe.json": "9c660f24cb09a77c54c3d5a8c1a0266e324cb3c6bf444a4b4ef1e571f8d7da6f",
+    "settlement-ledger-read-safe.json": "021ff572367e8d27cd74a63707fb860db50add5061f134820b86c0e3c159a28b"
+  }
+}

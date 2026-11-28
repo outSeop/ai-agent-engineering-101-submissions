@@ -1,0 +1,282 @@
+[
+  {
+    "at": 1795836215.8882618,
+    "elapsed_since_cutover_seconds": 258.7,
+    "public_HTTP": 200,
+    "public_marker": "r4-flat-router-v1",
+    "public_name": "outseop-r4",
+    "DB_identity_same": true,
+    "financial_files_same": true,
+    "original_services_same": true,
+    "CF_alive": true,
+    "DB_quick_check": "ok",
+    "ledger_tables_same": {
+      "sale": true,
+      "lot": true,
+      "allocation": true,
+      "refund": true,
+      "welcome_award": true,
+      "ticket": true,
+      "account": true,
+      "customer_profile": true
+    },
+    "sales": {
+      "missing": 1,
+      "settled": 2
+    },
+    "new_settlements": 0,
+    "maintenance": false,
+    "HOST": {
+      "total": 46,
+      "current": 1,
+      "legacy": 45,
+      "snapshots": 45,
+      "tasks": 1
+    },
+    "natural_new_current_tasks": 0,
+    "router_write_requests_including_operator": 2,
+    "router_write_5xx_including_operator": 0,
+    "engine_finished_including_operator": 3,
+    "engine_model_calls_including_operator": 2,
+    "operator_SendMessage_count": 2,
+    "new_services": {
+      "engine": {
+        "ActiveState": "active",
+        "MainPID": "1308994",
+        "NRestarts": "0"
+      },
+      "router": {
+        "ActiveState": "active",
+        "MainPID": "1308995",
+        "NRestarts": "0"
+      }
+    },
+    "cache_age_seconds": 28.9,
+    "cache_valid_seconds": 121.1,
+    "cache_rows": 144
+  },
+  {
+    "at": 1795836294.8234599,
+    "elapsed_since_cutover_seconds": 337.6,
+    "public_HTTP": 200,
+    "public_marker": "r4-flat-router-v1",
+    "public_name": "outseop-r4",
+    "DB_identity_same": true,
+    "financial_files_same": true,
+    "original_services_same": true,
+    "CF_alive": true,
+    "DB_quick_check": "ok",
+    "ledger_tables_same": {
+      "sale": true,
+      "lot": true,
+      "allocation": true,
+      "refund": true,
+      "welcome_award": true,
+      "ticket": true,
+      "account": true,
+      "customer_profile": true
+    },
+    "sales": {
+      "missing": 1,
+      "settled": 2
+    },
+    "new_settlements": 0,
+    "maintenance": false,
+    "HOST": {
+      "total": 46,
+      "current": 1,
+      "legacy": 45,
+      "snapshots": 45,
+      "tasks": 1
+    },
+    "natural_new_current_tasks": 0,
+    "router_write_requests_including_operator": 2,
+    "router_write_5xx_including_operator": 0,
+    "engine_finished_including_operator": 3,
+    "engine_model_calls_including_operator": 2,
+    "operator_SendMessage_count": 2,
+    "new_services": {
+      "engine": {
+        "ActiveState": "active",
+        "MainPID": "1308994",
+        "NRestarts": "0"
+      },
+      "router": {
+        "ActiveState": "active",
+        "MainPID": "1308995",
+        "NRestarts": "0"
+      }
+    },
+    "cache_age_seconds": 42.8,
+    "cache_valid_seconds": 107.2,
+    "cache_rows": 144
+  },
+  {
+    "at": 1795836383.5667632,
+    "elapsed_since_cutover_seconds": 426.3,
+    "public_HTTP": 200,
+    "public_marker": "r4-flat-router-v1",
+    "public_name": "outseop-r4",
+    "DB_identity_same": true,
+    "financial_files_same": true,
+    "original_services_same": true,
+    "CF_alive": true,
+    "DB_quick_check": "ok",
+    "ledger_tables_same": {
+      "sale": true,
+      "lot": true,
+      "allocation": true,
+      "refund": true,
+      "welcome_award": true,
+      "ticket": true,
+      "account": true,
+      "customer_profile": true
+    },
+    "sales": {
+      "missing": 1,
+      "settled": 2
+    },
+    "new_settlements": 0,
+    "maintenance": false,
+    "HOST": {
+      "total": 46,
+      "current": 1,
+      "legacy": 45,
+      "snapshots": 45,
+      "tasks": 1
+    },
+    "natural_new_current_tasks": 0,
+    "router_write_requests_including_operator": 2,
+    "router_write_5xx_including_operator": 0,
+    "engine_finished_including_operator": 3,
+    "engine_model_calls_including_operator": 2,
+    "operator_SendMessage_count": 2,
+    "new_services": {
+      "engine": {
+        "ActiveState": "active",
+        "MainPID": "1308994",
+        "NRestarts": "0"
+      },
+      "router": {
+        "ActiveState": "active",
+        "MainPID": "1308995",
+        "NRestarts": "0"
+      }
+    },
+    "cache_age_seconds": 65.6,
+    "cache_valid_seconds": 84.4,
+    "cache_rows": 144
+  },
+  {
+    "at": 1795836454.859976,
+    "elapsed_since_cutover_seconds": 497.6,
+    "public_HTTP": 200,
+    "public_marker": "r4-flat-router-v1",
+    "public_name": "outseop-r4",
+    "DB_identity_same": true,
+    "financial_files_same": true,
+    "original_services_same": true,
+    "CF_alive": true,
+    "DB_quick_check": "ok",
+    "ledger_tables_same": {
+      "sale": true,
+      "lot": true,
+      "allocation": true,
+      "refund": true,
+      "welcome_award": true,
+      "ticket": true,
+      "account": true,
+      "customer_profile": true
+    },
+    "sales": {
+      "missing": 1,
+      "settled": 2
+    },
+    "new_settlements": 0,
+    "maintenance": false,
+    "HOST": {
+      "total": 46,
+      "current": 1,
+      "legacy": 45,
+      "snapshots": 45,
+      "tasks": 1
+    },
+    "natural_new_current_tasks": 0,
+    "router_write_requests_including_operator": 3,
+    "router_write_5xx_including_operator": 0,
+    "engine_finished_including_operator": 5,
+    "engine_model_calls_including_operator": 3,
+    "operator_SendMessage_count": 3,
+    "new_services": {
+      "engine": {
+        "ActiveState": "active",
+        "MainPID": "1308994",
+        "NRestarts": "0"
+      },
+      "router": {
+        "ActiveState": "active",
+        "MainPID": "1308995",
+        "NRestarts": "0"
+      }
+    },
+    "cache_age_seconds": 7.9,
+    "cache_valid_seconds": 142.1,
+    "cache_rows": 144
+  },
+  {
+    "at": 1795836581.6022856,
+    "elapsed_since_cutover_seconds": 624.4,
+    "public_HTTP": 200,
+    "public_marker": "r4-flat-router-v1",
+    "public_name": "outseop-r4",
+    "DB_identity_same": true,
+    "financial_files_same": true,
+    "original_services_same": true,
+    "CF_alive": true,
+    "DB_quick_check": "ok",
+    "ledger_tables_same": {
+      "sale": true,
+      "lot": true,
+      "allocation": true,
+      "refund": true,
+      "welcome_award": true,
+      "ticket": true,
+      "account": true,
+      "customer_profile": true
+    },
+    "sales": {
+      "missing": 1,
+      "settled": 2
+    },
+    "new_settlements": 0,
+    "maintenance": false,
+    "HOST": {
+      "total": 46,
+      "current": 1,
+      "legacy": 45,
+      "snapshots": 45,
+      "tasks": 1
+    },
+    "natural_new_current_tasks": 0,
+    "router_write_requests_including_operator": 3,
+    "router_write_5xx_including_operator": 0,
+    "engine_finished_including_operator": 5,
+    "engine_model_calls_including_operator": 3,
+    "operator_SendMessage_count": 3,
+    "new_services": {
+      "engine": {
+        "ActiveState": "active",
+        "MainPID": "1308994",
+        "NRestarts": "0"
+      },
+      "router": {
+        "ActiveState": "active",
+        "MainPID": "1308995",
+        "NRestarts": "0"
+      }
+    },
+    "cache_age_seconds": 3.6,
+    "cache_valid_seconds": 146.4,
+    "cache_rows": 144
+  }
+]

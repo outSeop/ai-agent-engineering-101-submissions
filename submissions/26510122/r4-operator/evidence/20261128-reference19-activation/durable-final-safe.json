@@ -1,0 +1,9 @@
+{
+  "at": 1795836454.5193703,
+  "after_three_messages_public_GetTask_exact_equal": true,
+  "independent_process_DB_protobuf_equal": true,
+  "history_messages": 5,
+  "one_current_task_for_three_operator_messages": true,
+  "engine_restart_required_for_verification": false,
+  "whole_SDK_closure_restore_claimed": false
+}

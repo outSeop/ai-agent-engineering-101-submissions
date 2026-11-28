@@ -1,0 +1,20 @@
+{
+  "at": 1795836048.4472542,
+  "operator_probe_not_customer": true,
+  "request": "쌀 재고와 가격 알려주세요.",
+  "HTTP": 200,
+  "seconds": 11.0222,
+  "rpc_error": null,
+  "task_created": true,
+  "state": "TASK_STATE_INPUT_REQUIRED",
+  "reply_nonempty": true,
+  "reply_sha256": "4e7c3c417d461e11d2269369543794d36db124d75a55bde741bce197a0a65012",
+  "SKU_present": true,
+  "rice_mentioned": true,
+  "credits_mentioned": true,
+  "data_keys": [],
+  "payment_request_states": [],
+  "GetTask_equal": true,
+  "financial_request_authorized": false,
+  "response_location": "result.task.status.message.parts"
+}

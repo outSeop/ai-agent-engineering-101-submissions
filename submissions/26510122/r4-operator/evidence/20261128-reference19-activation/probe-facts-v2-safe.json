@@ -1,0 +1,41 @@
+{
+  "at": 1795836383.0883305,
+  "comparison": "post-probe cache fields; expiry against recorded response wallclock",
+  "strict_price_separator_assumption_corrected": "renderer emits credits with no space; parse optional whitespace without changing response",
+  "old_failed_adaptor_preserved": "legacy-and-facts-final-safe.json",
+  "response_or_source_modified": false,
+  "probes": [
+    {
+      "operator_probe": "operator-probe-response",
+      "rendered_rows": 2,
+      "checks": [
+        {
+          "cache_SKU_found": true,
+          "same_line_name_grade_price_match": true,
+          "expiry_remaining_within_3_seconds": true
+        },
+        {
+          "cache_SKU_found": true,
+          "same_line_name_grade_price_match": true,
+          "expiry_remaining_within_3_seconds": true
+        }
+      ]
+    },
+    {
+      "operator_probe": "operator-followup",
+      "rendered_rows": 2,
+      "checks": [
+        {
+          "cache_SKU_found": true,
+          "same_line_name_grade_price_match": true,
+          "expiry_remaining_within_3_seconds": true
+        },
+        {
+          "cache_SKU_found": true,
+          "same_line_name_grade_price_match": true,
+          "expiry_remaining_within_3_seconds": true
+        }
+      ]
+    }
+  ]
+}
