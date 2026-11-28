@@ -1,0 +1,30 @@
+{
+  "tool": "forum_marketing",
+  "version": 14,
+  "actual_original_Mind": true,
+  "actual_original_Toolbox_forge": true,
+  "requested_development_model": "gpt-6.2-sol",
+  "upstream_reported_model": null,
+  "classroom_authored_claim": false,
+  "actual_development_forge_actions": 1,
+  "synthetic_scheduler_terminals": 1,
+  "exact4": {
+    "logic.py": "dc44c16996a818c25e04816c595e27efeafd94079d71d21ce60c31c902e48d34",
+    "test.py": "c515ba6beeb2085a0a376a2a0e788fc15455b6a6c6a102d8f324995f8d67897d",
+    "permission.yml": "9f6dbc08391a4106c518a11e0f3cdf8453a4de65d5e33c2687803ba8e8db23b8",
+    "forge.json": "f7f9ffec84525dc47bea3fdddcf9e2f7fe4252fcf8414a5892c442abed3e6ea2"
+  },
+  "records": [
+    {
+      "provider": "codex-cli-gpt-6.2-sol",
+      "response_sha256": "3605a3c0801b559bd9b601c6461aec56a662538b5793180efe7adc47fdf632fc",
+      "logic_sha256": "dc44c16996a818c25e04816c595e27efeafd94079d71d21ce60c31c902e48d34",
+      "test_sha256": "c515ba6beeb2085a0a376a2a0e788fc15455b6a6c6a102d8f324995f8d67897d",
+      "matches_final": true
+    }
+  ],
+  "SDK_selftest_passed": true,
+  "real_feed_positive_and_runtime_yet_verified": false,
+  "source_changed_after_forge": false,
+  "production_or_actual_Model_or_POST_or_finance": 0
+}

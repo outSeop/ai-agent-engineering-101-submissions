@@ -1,0 +1,19 @@
+{
+  "tool_version": 14,
+  "source_bytes_original": true,
+  "production_activated": false,
+  "credential_like_pattern_hits": 0,
+  "files": {
+    "README.md": "97295bf4e37843f9d48968bb02a0e237ef51677ce70ab1f79c40c0d3f96bb4cf",
+    "GENUINE-PROVENANCE-SAFE.json": "5dc23a26b9ce1f76a04ef34863df3eb00e980aa0c3597d97e01e2fd1f74fca5c",
+    "FORGE-ATTEMPTS-SAFE.json": "fe779172c17de1ca6851934f0239fa42acaa95a25c7463496c6de075c70b5c1a",
+    "dependencies/forum_marketing12.py": "f25bb98116593ed7ca708d48c93a1a1aca7da78fda3c083f6aa83ffad06e0f6b",
+    "dependencies/forum_marketing10.py": "bd80f8236c415ffc962b5b651f24232e8e34320a621145954abbbf0bedca073a",
+    "dependencies/forum_marketing9.py": "b2edc8dba8c214a22074eb1f3db35ce5eb8234f444cf22710f025078b64e48e9",
+    "dependencies/forum_marketing11.py": "d4297f458ea0bcbc98c18a621ded5c834d191323e25f34f3361212dd3f9942ed",
+    "tools/forum_marketing/test.py": "c515ba6beeb2085a0a376a2a0e788fc15455b6a6c6a102d8f324995f8d67897d",
+    "tools/forum_marketing/forge.json": "f7f9ffec84525dc47bea3fdddcf9e2f7fe4252fcf8414a5892c442abed3e6ea2",
+    "tools/forum_marketing/logic.py": "dc44c16996a818c25e04816c595e27efeafd94079d71d21ce60c31c902e48d34",
+    "tools/forum_marketing/permission.yml": "9f6dbc08391a4106c518a11e0f3cdf8453a4de65d5e33c2687803ba8e8db23b8"
+  }
+}

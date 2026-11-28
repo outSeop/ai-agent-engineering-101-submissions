@@ -1,0 +1,22 @@
+{
+  "generation": "650bd195cffcc44d955634bc3928364eafdb4ac1a332ae53fb35736ef98b9068",
+  "helpers": {
+    "campaign": {
+      "sha256": "65d4a1e390e2fcac0f424d459562673bd06097105eeefbfa28e8acba17a83c54",
+      "source": "deploy/forum_campaign_operator.py"
+    },
+    "dependency": {
+      "sha256": "4b773bec4dc06eb4905cbb03eb9817960ad653a9e40fb0f37afeb5af35d2c67c",
+      "source": "deploy/forum_official_mind_canary.py"
+    },
+    "privacy": {
+      "sha256": "989a0b758d9e1d0decd3a477630a38c7238cf08d029cb8afb72d0ae12425e453",
+      "source": "deploy/forum_request_scope_runtime_v2/marketing_request_glue.py"
+    },
+    "scope": {
+      "sha256": "33dd233b0cb8a6ee58fe8fa26b01c287008bcf6e1bd29a4a60458448b3e4ec14",
+      "source": "deploy/forum_native_slate_runtime_v2_host3_20261126/host/r4_forum_slate_host.py"
+    }
+  },
+  "schema": "r4-seller-marketing-host.v1"
+}

@@ -1,0 +1,36 @@
+{
+  "source_version": 13,
+  "synthetic_only": true,
+  "offer_pack": "190ml 12팩",
+  "offer_price": 8000,
+  "cases": [
+    {
+      "synthetic_text": "두유 500ml가 필요해요",
+      "classification": null
+    },
+    {
+      "synthetic_text": "두유를 찾고 있어요500ml",
+      "classification": null
+    },
+    {
+      "synthetic_text": "두유를 구할 수 있나요500ml",
+      "classification": "strict"
+    },
+    {
+      "synthetic_text": "두유를 찾고 있어요5000원",
+      "classification": null
+    }
+  ],
+  "api_calls": 0,
+  "model_calls": 0,
+  "production_changes": 0,
+  "admission": "rejected_pending_genuine14",
+  "same_cached_positive_preserved": true,
+  "failure_is_safety_not_performance": true,
+  "original_source13_unmodified": true,
+  "native14_actual_forge_pending": true,
+  "additional_root_independent_confirmed_synthetic_cases": [
+    "두유를 구할 수 있어요500ml",
+    "두유를 구매 원해요500ml"
+  ]
+}

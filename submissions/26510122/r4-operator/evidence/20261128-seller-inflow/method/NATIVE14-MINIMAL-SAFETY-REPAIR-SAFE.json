@@ -1,0 +1,116 @@
+{
+  "version": 14,
+  "asset_path": "deploy/forum_owner_native_v14",
+  "manifest_sha256": "43dd97f2c7103104e70d7afce97878f4398a13df6e7cd72dee5ff2892588f1de",
+  "exact4": {
+    "logic.py": "dc44c16996a818c25e04816c595e27efeafd94079d71d21ce60c31c902e48d34",
+    "test.py": "c515ba6beeb2085a0a376a2a0e788fc15455b6a6c6a102d8f324995f8d67897d",
+    "permission.yml": "9f6dbc08391a4106c518a11e0f3cdf8453a4de65d5e33c2687803ba8e8db23b8",
+    "forge.json": "f7f9ffec84525dc47bea3fdddcf9e2f7fe4252fcf8414a5892c442abed3e6ea2"
+  },
+  "provenance": {
+    "tool": "forum_marketing",
+    "version": 14,
+    "actual_original_Mind": true,
+    "actual_original_Toolbox_forge": true,
+    "requested_development_model": "gpt-6.2-sol",
+    "upstream_reported_model": null,
+    "classroom_authored_claim": false,
+    "actual_development_forge_actions": 1,
+    "synthetic_scheduler_terminals": 1,
+    "exact4": {
+      "logic.py": "dc44c16996a818c25e04816c595e27efeafd94079d71d21ce60c31c902e48d34",
+      "test.py": "c515ba6beeb2085a0a376a2a0e788fc15455b6a6c6a102d8f324995f8d67897d",
+      "permission.yml": "9f6dbc08391a4106c518a11e0f3cdf8453a4de65d5e33c2687803ba8e8db23b8",
+      "forge.json": "f7f9ffec84525dc47bea3fdddcf9e2f7fe4252fcf8414a5892c442abed3e6ea2"
+    },
+    "records": [
+      {
+        "provider": "codex-cli-gpt-6.2-sol",
+        "response_sha256": "3605a3c0801b559bd9b601c6461aec56a662538b5793180efe7adc47fdf632fc",
+        "logic_sha256": "dc44c16996a818c25e04816c595e27efeafd94079d71d21ce60c31c902e48d34",
+        "test_sha256": "c515ba6beeb2085a0a376a2a0e788fc15455b6a6c6a102d8f324995f8d67897d",
+        "matches_final": true
+      }
+    ],
+    "SDK_selftest_passed": true,
+    "real_feed_positive_and_runtime_yet_verified": false,
+    "source_changed_after_forge": false,
+    "production_or_actual_Model_or_POST_or_finance": 0
+  },
+  "dependency_sha256": {
+    "forum_marketing12.py": "f25bb98116593ed7ca708d48c93a1a1aca7da78fda3c083f6aa83ffad06e0f6b",
+    "forum_marketing10.py": "bd80f8236c415ffc962b5b651f24232e8e34320a621145954abbbf0bedca073a",
+    "forum_marketing9.py": "b2edc8dba8c214a22074eb1f3db35ce5eb8234f444cf22710f025078b64e48e9",
+    "forum_marketing11.py": "d4297f458ea0bcbc98c18a621ded5c834d191323e25f34f3361212dd3f9942ed"
+  },
+  "structural_change": "same13 classifier wrapper source structure; finite intent suffixes and fused numeric/Latin rejection; no extra13 dependency layer",
+  "independent_focused": {
+    "source_version": 14,
+    "logic_sha256": "dc44c16996a818c25e04816c595e27efeafd94079d71d21ce60c31c902e48d34",
+    "synthetic_only": true,
+    "cases": [
+      {
+        "synthetic_text": "두유를 구할 수 있나요500ml",
+        "classification": null,
+        "pass": true
+      },
+      {
+        "synthetic_text": "두유를 구할 수 있어요500ml",
+        "classification": null,
+        "pass": true
+      },
+      {
+        "synthetic_text": "두유를 구매 원해요500ml",
+        "classification": null,
+        "pass": true
+      },
+      {
+        "synthetic_text": "두유를 찾고 있어요500ml",
+        "classification": null,
+        "pass": true
+      },
+      {
+        "synthetic_text": "두유를 구매 가능해요5000원",
+        "classification": null,
+        "pass": true
+      },
+      {
+        "synthetic_text": "두유를 구매하고 싶어요USB",
+        "classification": null,
+        "pass": true
+      },
+      {
+        "synthetic_text": "두유 500ml가 필요해요",
+        "classification": null,
+        "pass": true
+      },
+      {
+        "synthetic_text": "두유가 필요해요. A등급 10000크레딧 이하로 가격 문의드립니다.",
+        "classification": "strict",
+        "pass": true
+      },
+      {
+        "synthetic_text": "찾는 상품은 두유예요. 아침에 간편하게 쓸 수 있는 후보가 궁금해요.",
+        "classification": "reference",
+        "pass": true
+      },
+      {
+        "synthetic_text": "두유를 구할 수 있을까요? 지금 재고와 상품가를 문의합니다.",
+        "classification": "reference",
+        "pass": true
+      }
+    ],
+    "all_pass": true,
+    "api_calls": 0,
+    "model_calls": 0,
+    "production_changes": 0,
+    "dependency13_added": false
+  },
+  "same_cached_and_fresh_real_source_QA": "pending_external_QA",
+  "live_activation": false,
+  "market_Model_calls": 0,
+  "market_posts": 0,
+  "financial_actions": 0,
+  "source13_hard_constraint_failure_preserved": true
+}
