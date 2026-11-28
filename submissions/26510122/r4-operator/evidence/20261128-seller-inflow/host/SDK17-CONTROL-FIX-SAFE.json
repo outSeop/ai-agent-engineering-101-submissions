@@ -1,0 +1,23 @@
+{
+  "schema": "r4-sdk-control-turn-fix.v1",
+  "source_sha256": "7eb6455151742d6fb4eb686988d53f0c8de1926ffecc490a0199083158907474",
+  "changed": [
+    "SDK max_steps3 caused original nudge at first iteration n>=steps-3; set max_steps6 while keeping one actual Model call limit",
+    "Synthetic terminal used wrong tool/thoughts keys; switch to original SDK thought/action=sleep schema"
+  ],
+  "initial_natural_run1": {
+    "actual_Model_calls": 1,
+    "selected_action": "sleep",
+    "publication_attempts": 0
+  },
+  "initial_natural_run2": {
+    "actual_Model_calls": 1,
+    "publications": 1,
+    "synthetic_terminal_calls": 2
+  },
+  "causal_limit": "First-turn nudge presence is proven. It is not proven to be the sole cause of first-run sleep, since the second natural run published despite the same nudge. No natural posting-rate benefit is inferred from the stub smoke.",
+  "original_SDK_stub_selection_then_publish_then_sleep_passed": true,
+  "one_actual_selection_stub_and_one_synthetic_terminal": true,
+  "genuine_tools_or_financial_code_changed": false,
+  "prior_natural_post_preserved": 30458
+}

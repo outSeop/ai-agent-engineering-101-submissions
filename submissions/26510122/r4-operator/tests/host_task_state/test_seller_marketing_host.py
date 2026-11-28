@@ -70,9 +70,9 @@ class HostTests(unittest.TestCase):
     def test_model_budget_actual_once_then_declared_synthetic_sleep(self):
         directory=tempfile.TemporaryDirectory();self.addCleanup(directory.cleanup);calls=[]
         class Model:
-            def complete(self,messages,**kwargs):calls.append(kwargs);return '{"tool":"sleep","args":{}}'
+            def complete(self,messages,**kwargs):calls.append(kwargs);return '{"action":"sleep","args":{}}'
         model=m.ForumModel(Model(),Path(directory.name),time.monotonic()+2)
-        model.complete([]);second=json.loads(model.complete([]));self.assertEqual(len(calls),1);self.assertEqual(second['tool'],'sleep');self.assertEqual(model.synthetic_terminal_calls,1)
+        model.complete([]);second=json.loads(model.complete([]));self.assertEqual(len(calls),1);self.assertEqual(second['action'],'sleep');self.assertEqual(model.synthetic_terminal_calls,1)
         self.assertLessEqual(calls[0]['timeout'],2);self.assertLessEqual(calls[0]['max_tokens'],800)
 
     def test_policy_chmod_during_read_is_rejected(self):

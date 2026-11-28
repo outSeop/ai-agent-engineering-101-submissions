@@ -1,0 +1,14 @@
+{
+  "actual_model_calls": 0,
+  "actual_posts": 0,
+  "model_stub_decisions": 1,
+  "original_sdk_actions": [
+    "forum_marketing",
+    "sleep"
+  ],
+  "premature_end_nudge": false,
+  "production_modified": false,
+  "publishing_calls_to_stub": 1,
+  "release": "155c37caaac651d20ee1fccddc94843751ee1d06841f97ee5c6652e85e155a35",
+  "synthetic_terminal_calls": 1
+}
