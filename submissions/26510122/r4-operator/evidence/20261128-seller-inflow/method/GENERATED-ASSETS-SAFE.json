@@ -1,0 +1,87 @@
+{
+  "components": [
+    {
+      "component": "publisher10",
+      "tool": "forum_marketing",
+      "version": 10,
+      "asset_operator_relative_path": "deploy/forum_owner_native_v10",
+      "asset_manifest_sha256": "85382c9d8fb156b14299344ee9ec1b832346df3a53334947f9278342e7558a02",
+      "exact4": {
+        "logic.py": "bd80f8236c415ffc962b5b651f24232e8e34320a621145954abbbf0bedca073a",
+        "test.py": "e333cfca223ab15216adce552b5d67ad96e619dc1020a12a7fd6320d31a9d52f",
+        "permission.yml": "198979f35e8a6a7d9875cc24bec55e8886850c249625fa66507c87025e73c4bd",
+        "forge.json": "c58548e59a81a3e7f566a68a7b29418c13c19b1044626c43db2d2f42cd2c5f05"
+      },
+      "self_forge_source_and_test_match_original_action": true,
+      "requested_development_model": "gpt-6.2-sol",
+      "upstream_reported_model": null,
+      "classroom_authorship_claimed": false,
+      "actual_development_forge_actions": 2,
+      "SDK_selftest_passed": true,
+      "failed_selftest_errors_preserved": [
+        "AssertionError (first original SDK test; second actual forge passed)"
+      ],
+      "source_after_forge_edited": false,
+      "public_provenance_relative_path": "provenance/publisher10.json",
+      "failed_proposals_operator_relative_paths": [
+        "deploy/forum_owner_native_v10/failed/FIRST-FAILED-PROPOSAL-NOT-ISSUED.json"
+      ]
+    },
+    {
+      "component": "formatter4",
+      "tool": "prioritize_forum_candidates",
+      "version": 4,
+      "asset_operator_relative_path": "deploy/forum_urgent_formatter_v4",
+      "asset_manifest_sha256": "ac90e5d614d61f6cce2bc2f98fc1eae00c53b52fbb77cecbb74de5927d529c85",
+      "exact4": {
+        "logic.py": "c88c0ab66a201bb049f9f1eed9dba30b4109c37e2f29873da6699f24e62a0a80",
+        "test.py": "67b137f56a9e4aa2f866e721a68e28cdbc27a6cd10a005aadf712969c755e378",
+        "permission.yml": "392b9acac32ae3b7eb5be490d002885821679be5b30cecf2dac3ac1fa45088d8",
+        "forge.json": "870fdda00e16ad7bdf4bbb8b0699af4b1add845772355b372534e41639d09d7f"
+      },
+      "self_forge_source_and_test_match_original_action": true,
+      "requested_development_model": "gpt-6.2-sol",
+      "upstream_reported_model": null,
+      "classroom_authorship_claimed": false,
+      "actual_development_forge_actions": 1,
+      "SDK_selftest_passed": true,
+      "failed_selftest_errors_preserved": [],
+      "source_after_forge_edited": false,
+      "public_provenance_relative_path": "provenance/formatter4.json",
+      "failed_proposals_operator_relative_paths": []
+    },
+    {
+      "component": "publisher11",
+      "tool": "forum_marketing",
+      "version": 11,
+      "asset_operator_relative_path": "deploy/forum_owner_native_v11",
+      "asset_manifest_sha256": "7b944183572faae7c03bcc9f23d94febd31ca306ab87551e00de342805a97140",
+      "exact4": {
+        "logic.py": "d4297f458ea0bcbc98c18a621ded5c834d191323e25f34f3361212dd3f9942ed",
+        "test.py": "c526be5bb2745924a20ddc96fa783238b2a612601d5d251f4b3de94fb532ce11",
+        "permission.yml": "cf4030542b77785ab09f494006f4f70daa391337192a3b5f1f4638e9f93b82cd",
+        "forge.json": "5e7268d416dbc1cded5a16096c579e4fcaf879e22e47bd4a1a418296e684de78"
+      },
+      "self_forge_source_and_test_match_original_action": true,
+      "requested_development_model": "gpt-6.2-sol",
+      "upstream_reported_model": null,
+      "classroom_authorship_claimed": false,
+      "actual_development_forge_actions": 4,
+      "SDK_selftest_passed": true,
+      "failed_selftest_errors_preserved": [
+        "AssertionError: ",
+        "KeyError: '_unit'",
+        "OperationalError: no such column: id"
+      ],
+      "source_after_forge_edited": false,
+      "public_provenance_relative_path": "provenance/publisher11.json",
+      "failed_proposals_operator_relative_paths": [
+        "deploy/forum_owner_native_v11/failed/proposal-1-NOT-ISSUED.json",
+        "deploy/forum_owner_native_v11/failed/proposal-2-NOT-ISSUED.json",
+        "deploy/forum_owner_native_v11/failed/proposal-3-NOT-ISSUED.json"
+      ]
+    }
+  ],
+  "meaning": "SDK selftest and source origin only; no operational or actual-customer success claim",
+  "original_asset_manifests_unchanged": true
+}

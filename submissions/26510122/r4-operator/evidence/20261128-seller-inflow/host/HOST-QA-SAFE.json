@@ -7,7 +7,7 @@
   "independent_host_groups": 6,
   "independent_host_passed": 6,
   "source_sha256": {
-    "src/r4_operator_host/seller_marketing_host.py": "518ea34664b4b91e62132b1d35bf85033b00a69f6df403a2a3ac80d43da7f5bb",
+    "src/r4_operator_host/seller_marketing_host.py": "b6b6d162131d08b8cf0a272e6b654423e3392dab734d0d5b88591fe1e95ceb70",
     "tests/host_task_state/test_seller_marketing_host.py": "f3df616690e679e8553c17251ee63398707dd2d9ce5f403b88c53770f3c51fea",
     "tests/host_task_state/test_seller_marketing_host_independent.py": "b46da0a0cc0bebc9ab7abc4f297be8d5353559fed7632fd31663d4a4a68e9d7e",
     "src/r4_operator_host/release_builder.py": "6ef54619e38f97c8818d90ff70ddcd1846eeb5c4b4c10e8b3195c67115f02d1a",

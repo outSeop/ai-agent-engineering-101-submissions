@@ -1,0 +1,242 @@
+{
+  "builder_sha256": "6ef54619e38f97c8818d90ff70ddcd1846eeb5c4b4c10e8b3195c67115f02d1a",
+  "front_binding": {
+    "cf_pid_hint": 1192922,
+    "main": {
+      "pid_hint": 1192914,
+      "service": "ourolabs-market-r4.service"
+    },
+    "marker": "r4-persistent-engine-v1",
+    "new_port": 18812,
+    "old_proxy_port": 18810,
+    "preserved_edges": [
+      {
+        "launcher": "deploy/front_edge_runtime_v3/run_front_edge.py",
+        "manifest_path": "deploy/front_edge_runtime_v3/MANIFEST.json",
+        "manifest_sha256": "c2232e5e8a3ef7ced3e4475a009a519232393c309633c219d05ff3859e9385f2",
+        "marker": "r4-front-v1",
+        "pid_hint": 1213796,
+        "port": 18806,
+        "service": "ourolabs-market-r4-front-edge.service",
+        "state_dir": "runtime/front-edge"
+      },
+      {
+        "launcher": "deploy/front_semantic_edge_runtime_v2/run_front_edge.py",
+        "manifest_path": "deploy/front_semantic_edge_runtime_v2/MANIFEST.json",
+        "manifest_sha256": "a7879bd7d9eeb1ecd0fc1e97c0d8652a88e542ee1b3f7dae9309e52bed1ab18e",
+        "marker": "r4-semantic-front-v1",
+        "pid_hint": 1218994,
+        "port": 18807,
+        "service": "ourolabs-market-r4-semantic-front.service",
+        "state_dir": "runtime/front-semantic-edge"
+      },
+      {
+        "launcher": "deploy/front_semantic3_edge_runtime_v1/run_front_edge.py",
+        "manifest_path": "deploy/front_semantic3_edge_runtime_v1/MANIFEST.json",
+        "manifest_sha256": "25d099830f88215ffebc37c41fd9cef8c3a28d0206f411ab9488c646a62980d9",
+        "marker": "r4-semantic3-front-v1",
+        "pid_hint": 1240765,
+        "port": 18808,
+        "service": "ourolabs-market-r4-semantic3-front.service",
+        "state_dir": "runtime/front-semantic3-edge"
+      },
+      {
+        "launcher": "deploy/front_compound_edge_runtime_v1/run_front_edge.py",
+        "manifest_path": "deploy/front_compound_edge_runtime_v1/MANIFEST.json",
+        "manifest_sha256": "860307caea9d15033f9baacd5f8768ea48a3890880bbdce2bbfc13fb58a67fbd",
+        "marker": "r4-compound-front-v1",
+        "pid_hint": 1277750,
+        "port": 18809,
+        "service": "ourolabs-market-r4-compound-front.service",
+        "state_dir": "runtime/front-compound-edge"
+      },
+      {
+        "launcher": "runtime/releases/4602965de6150eb00d8947f3cf432a87443847bea1dbdcc44bdfdd7931ba7213/front/run_front_edge.py",
+        "manifest_path": "runtime/releases/4602965de6150eb00d8947f3cf432a87443847bea1dbdcc44bdfdd7931ba7213/front/MANIFEST.json",
+        "manifest_sha256": "05198370b8449a132db5df758d6ada3e504d8283b02cc454809e9d1c7eaaf562",
+        "marker": "r4-compound2-front-v1",
+        "pid_hint": 1282150,
+        "port": 18810,
+        "service": "ourolabs-market-r4-compound2-front.service",
+        "state_dir": "runtime/front-compound2-edge"
+      }
+    ],
+    "schema": "outseop-r4.front-release.v1",
+    "semantic_instruction": "\ucd5c\uc885 \ub3c4\uad6c. \uacf5\uac1c \ubb38\uc758\uc758 \uc900\ube44 \uc815\ubcf4\uac00 \ubd80\uc871\ud560 \ub54c \uc774\ubc88 \ud55c \ubc88\uc758 \ud310\ub2e8\uc73c\ub85c \uc0c1\ud488\uad70\uacfc \uc720\uc0ac \uac80\uc0c9\uc5b4\ub97c \uace0\ub978\ub2e4. args\ub294 groups \ud55c \ud544\ub4dc\uc774\uace0 \uc6d0\ubb38\uc5d0\uc11c \uad6c\ubd84\ub418\ub294 \uae0d\uc815 \uc0c1\ud488\uad70 1~2\uac1c\ub97c \uc21c\uc11c\ub300\ub85c \ub123\ub294\ub2e4. \uac01 \uadf8\ub8f9\uc740 product_phrase\uc640 queries\ub9cc \uc4f4\ub2e4. product_phrase\ub294 \ud604\uc7ac \uc6d0\ubb38\uc5d0 \ub4f1\uc7a5\ud55c \uae0d\uc815 \uc0c1\ud488 \uba85\uc0ac\uad6c\ub97c48\uc790 \uc774\ub0b4\ub85c \uadf8\ub300\ub85c \ubcf5\uc0ac\ud558\uba70 \ub450 \uadf8\ub8f9\uc758 \uc6d0\ubb38 \uc704\uce58\ub294 \uacb9\uce58\uc9c0 \uc54a\ub294\ub2e4. queries\ub294 \ud574\ub2f9 \uc0c1\ud488\uc758 \uae0d\uc815 \uc720\uc0ac \uac80\uc0c9\uc5b41~2\uac1c\ub97c \uc6b0\uc120\uc21c\uc704\ub85c \ub123\ub294\ub2e4. \uac19\uc740 \uae0d\uc815 \uc0c1\ud488\uba85\uc774 \ubc18\ubcf5\ub418\uba74 \ud558\ub098\uc758 \uc0c1\ud488\uad70\uc73c\ub85c \ubb36\ub294\ub2e4. \uc11c\ub85c \ub2e4\ub978 \ud488\ubaa9\uc740 \ud55c \uadf8\ub8f9\uc758 \uac80\uc0c9\uc5b4\ub85c \uc11e\uc9c0 \uc54a\ub294\ub2e4. \uac00\uaca9\u00b7\uc218\ub7c9\u00b7\ub4f1\uae09\u00b7\uae30\ud55c\u00b7\uc81c\uc678\u00b7\uacb0\uc81c\u00b7\uac1c\uc778\uc815\ubcf4\ub97c \uc0c1\ud488\uad6c\uc808\uc5d0 \uc11e\uc9c0 \uc54a\ub294\ub2e4. \uc6d0\ubb38\uc870\uac74\uc740 \ub3c4\uad6c\uac00 \ub2e4\uc2dc \uac80\uc99d\ud55c\ub2e4. \uc2e4\uc81c \ubc1c\uae09\u00b7\uad6c\ub9e4\u00b7\ud658\ubd88\uc5d0 \uc4f0\uc9c0 \uc54a\ub294\ub2e4. \ud6c4\ubcf4\ub294 \uad00\ub828 \ucc38\uace0\uc548\uc774\uba70 \uc815\ud655 \uc77c\uce58\ub098 \uc804\uccb4 \uc694\uccad \ucda9\uc871\uc744 \ubcf4\uc7a5\ud558\uc9c0 \uc54a\ub294\ub2e4. \ub3c4\uad6c\uac00 \uac80\uc99d\ud55c \ube44\uad6c\uc18d \uc751\ub2f5\uc73c\ub85c \uc885\ub8cc\ud55c\ub2e4. \ucd94\uac00 \ubaa8\ub378 \ud310\ub2e8\uc740 \uc5c6\ub2e4. \uc608\uc2dc args: {\"groups\":[{\"product_phrase\":\"\uce68\ub300\",\"queries\":[\"\uce68\ub300\"]},{\"product_phrase\":\"\uce68\uad6c\",\"queries\":[\"\uce68\uad6c\",\"\uc774\ubd88\"]}]} \uc0c1\ud488 \uc815\ubcf4\uc640 \uacb0\uc81c \ubb38\uc11c \uc694\uccad\uc774 \uc11e\uc5ec \uc788\uace0 \uc870\uac74\uc744 \ubaa8\ub450 \uac80\uc99d\ud558\uc9c0 \ubabb\ud55c \ub54c\uc5d0\ub3c4, \uc774 \ub3c4\uad6c\uc758 \uad00\ub828 \ucc38\uace0 \uc870\ud68c\ub85c \ud655\uc778\ub41c \uc0c1\ud488 \uc0ac\uc2e4\uacfc \uacb0\uc81c \ubb38\uc11c \ubbf8\ubc1c\uae09 \uc0c1\ud0dc\ub97c \ud568\uaed8 \uc804\ub2ec\ud560 \uc218 \uc788\ub2e4. \ucc38\uace0 \ud6c4\ubcf4\ub294 \uc6d0\ubb38\uc758 \ubaa8\ub4e0 \uc870\uac74\uc744 \ucda9\uc871\ud55c \uacac\uc801\uc774 \uc544\ub2c8\ub2e4. \ub3c4\uad6c\uac00 \uba85\uc2dc\ud55c \ubbf8\ud655\uc778 \uc870\uac74\uc744 \ucda9\uc871\ud588\ub2e4\uace0 \uc124\uba85\ud558\uc9c0 \uc54a\ub294\ub2e4.",
+    "service": "ourolabs-market-r4-engine.service",
+    "state_dir": "runtime/persistent-engine",
+    "worker": {
+      "pid_hint": 1192976,
+      "service": "ourolabs-market-r4-worker.service"
+    }
+  },
+  "front_sources": {
+    "MARKETING-BINDING.json": {
+      "sha256": "804faa087dc2ccd81d404a59a0b81a7e46361266b99416973d5d947ea74f3d55",
+      "source": "deploy/release_specs/seller-inflow-final13-binding.json"
+    },
+    "README.md": {
+      "sha256": "949d7a87e5eb3bc2aec9f4659ddc628253c7b450ba730e70645aa5907a497973",
+      "source": "src/r4_operator_host/front/README.md"
+    },
+    "admission_gate.py": {
+      "sha256": "9140c775e70e9b7f3d35016b9c3568ad2a228753bd852cdd5f430eea896fff0b",
+      "source": "src/r4_operator_host/front/admission_gate.py"
+    },
+    "config.py": {
+      "sha256": "1a9af8b4958ab7c50fa166d7f43edac409c42602ba201ef2a722b2070049d03b",
+      "source": "src/r4_operator_host/front/config.py"
+    },
+    "durable_public_continuity.py": {
+      "sha256": "9a8eee202627ac9cc6a5553dace3e4cee70e7feb40a821a4097b0be59455265a",
+      "source": "src/r4_operator_host/durable_public_continuity.py"
+    },
+    "flat_router.py": {
+      "sha256": "39f9e7bad6e1be0be17aa591a5a9ceab4c43355996ce31acb9de7fad7995a022",
+      "source": "src/r4_operator_host/front/flat_router.py"
+    },
+    "flat_transition.py": {
+      "sha256": "e3ea7774ef534256bf9b4a030b7a6191ab7cd674e20f09a4ae6a57b8a7df8151",
+      "source": "src/r4_operator_host/front/flat_transition.py"
+    },
+    "front_edge_app.py": {
+      "sha256": "dd3c199688b4b81aaed49446ba39dc52eeb4a7c7d99d1975313e2ea5c918a4bb",
+      "source": "src/r4_operator_host/front/front_edge_app.py"
+    },
+    "run_flat_router.py": {
+      "sha256": "7ed6f0d75a8386ae7fc1f5f3f317c9f7671591257d4d6fcfb6c8654ee927a026",
+      "source": "src/r4_operator_host/front/run_flat_router.py"
+    },
+    "run_front_edge.py": {
+      "sha256": "2afa2b733f4bd534f739a6a41950bbc77a6f9aa54032ffb54c60d3659df5e32a",
+      "source": "src/r4_operator_host/front/run_front_edge.py"
+    },
+    "seller_marketing_host.py": {
+      "sha256": "b6b6d162131d08b8cf0a272e6b654423e3392dab734d0d5b88591fe1e95ceb70",
+      "source": "src/r4_operator_host/seller_marketing_host.py"
+    },
+    "task_state.py": {
+      "sha256": "68e6c90088722cd8e63ca836643b5c3de8d0d466dee7fcbd2dbb730902d75071",
+      "source": "src/r4_operator_host/task_state.py"
+    },
+    "transition_guard.py": {
+      "sha256": "eace8638c4cba7d5f9c4bd931c2a080166aec17c19750c99d5b637b9a7da0cfb",
+      "source": "src/r4_operator_host/front/transition_guard.py"
+    }
+  },
+  "native_semantic": {
+    "files": {
+      "forge.json": {
+        "sha256": "bb0c72f43d051b6cc022d3cc97ee797c5feeb0e588a761e8cc1a176d3584dc36",
+        "source": "deploy/semantic_candidates_native_v19/tools/semantic_candidates/forge.json"
+      },
+      "logic.py": {
+        "sha256": "f72b2754a85d1372aa381f165165db83786500f369337fc7dbe1834c81c610b2",
+        "source": "deploy/semantic_candidates_native_v19/tools/semantic_candidates/logic.py"
+      },
+      "permission.yml": {
+        "sha256": "cb39f4c401444160777e30cefaaf85a0d204a059278fe56599ce2479a3d5e3c3",
+        "source": "deploy/semantic_candidates_native_v19/tools/semantic_candidates/permission.yml"
+      },
+      "test.py": {
+        "sha256": "d1d36200deea47b8a524b0214a7ac0b75df4873210f149db37c82ba76c710599",
+        "source": "deploy/semantic_candidates_native_v19/tools/semantic_candidates/test.py"
+      }
+    },
+    "tool": "semantic_candidates",
+    "version": 19
+  },
+  "native_tools": {
+    "forum_marketing": {
+      "files": {
+        "forge.json": {
+          "sha256": "3778e3156472a9fa65716478358944f78deedf11d7a04ac7807f5a50c7e64d33",
+          "source": "deploy/forum_owner_native_v13/tools/forum_marketing/forge.json"
+        },
+        "logic.py": {
+          "sha256": "034f2885817a8a54faa576eca4da270f10ebf6eef3d58271b69218887112e514",
+          "source": "deploy/forum_owner_native_v13/tools/forum_marketing/logic.py"
+        },
+        "permission.yml": {
+          "sha256": "10731e5fa6dfb4df88ed9c6de9bc5bcc509abb25d666977503d982076d53107a",
+          "source": "deploy/forum_owner_native_v13/tools/forum_marketing/permission.yml"
+        },
+        "test.py": {
+          "sha256": "a8ff6ebe7fb84b72ad1a242b3f09aa4537e283d99e28a4ded06b8960edeb782e",
+          "source": "deploy/forum_owner_native_v13/tools/forum_marketing/test.py"
+        }
+      },
+      "tool": "forum_marketing",
+      "version": 13
+    },
+    "prioritize_forum_candidates": {
+      "files": {
+        "forge.json": {
+          "sha256": "870fdda00e16ad7bdf4bbb8b0699af4b1add845772355b372534e41639d09d7f",
+          "source": "deploy/forum_urgent_formatter_v4/tools/prioritize_forum_candidates/forge.json"
+        },
+        "logic.py": {
+          "sha256": "c88c0ab66a201bb049f9f1eed9dba30b4109c37e2f29873da6699f24e62a0a80",
+          "source": "deploy/forum_urgent_formatter_v4/tools/prioritize_forum_candidates/logic.py"
+        },
+        "permission.yml": {
+          "sha256": "392b9acac32ae3b7eb5be490d002885821679be5b30cecf2dac3ac1fa45088d8",
+          "source": "deploy/forum_urgent_formatter_v4/tools/prioritize_forum_candidates/permission.yml"
+        },
+        "test.py": {
+          "sha256": "67b137f56a9e4aa2f866e721a68e28cdbc27a6cd10a005aadf712969c755e378",
+          "source": "deploy/forum_urgent_formatter_v4/tools/prioritize_forum_candidates/test.py"
+        }
+      },
+      "tool": "prioritize_forum_candidates",
+      "version": 4
+    },
+    "public_alternatives": {
+      "files": {
+        "forge.json": {
+          "sha256": "96d0bd2cffdc086f06da2bf5414d1076f3d8ee74f3b8267172baee0efa07cf24",
+          "source": "deploy/public_alternatives_native_v4/tools/public_alternatives/forge.json"
+        },
+        "logic.py": {
+          "sha256": "7fd1fbf408fd037f293dfec185ab6627f3bc89850c1dbd8aa39b8e68cf9a0d2f",
+          "source": "deploy/public_alternatives_native_v4/tools/public_alternatives/logic.py"
+        },
+        "permission.yml": {
+          "sha256": "f12b70061a3bded83a4cee0a1d87b03b1cfee06f7f3e0cf1018286c129e50476",
+          "source": "deploy/public_alternatives_native_v4/tools/public_alternatives/permission.yml"
+        },
+        "test.py": {
+          "sha256": "e3742210e800e7c04ff25fe12d6aa11a11212c3cfdd6bff8823205d825a65b7e",
+          "source": "deploy/public_alternatives_native_v4/tools/public_alternatives/test.py"
+        }
+      },
+      "tool": "public_alternatives",
+      "version": 4
+    }
+  },
+  "runtime_base": {
+    "manifest_sha256": "b5eb4f55bcfc656405cb9eadb63ae6f746b005bcafa6ee5abdbff3c73c89793c",
+    "source": "deploy/public_catalogue_runtime_compound_v1"
+  },
+  "runtime_extensions": {
+    "catalogue_broker_core.py": {
+      "sha256": "20e9f904f5b091b3bc02c29b313e0aa13a0d3a6870877d0a02d1d3506c8723e2",
+      "source": "src/r4_operator_host/catalogue_broker_core.py"
+    },
+    "public_alternatives_host.py": {
+      "sha256": "f472b5db463b280ba5d4af05b51e16fcb8017f429295b89dd404e8840a2c7354",
+      "source": "src/r4_operator_host/public_alternatives_host.py"
+    }
+  },
+  "runtime_overrides": {
+    "broker_public_catalogue_host_candidate.py": {
+      "sha256": "35541df6aa54c50f6d51d006d7eb0d6ee20b06c31deb00a383b7947c0421708d",
+      "source": "src/r4_operator_host/catalogue_broker.py"
+    },
+    "public_catalogue_protocol.py": {
+      "sha256": "4bedd54297d652a1668eaff48fb198031a03f238e67042a341b65deb57417362",
+      "source": "src/r4_operator_host/catalogue_protocol.py"
+    }
+  },
+  "schema": "r4-host-release.v2"
+}

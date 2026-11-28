@@ -1,0 +1,22 @@
+{
+  "authorship": "actual official R4 Mind -> forge_tool -> original Toolbox.forge; requested development Codex gpt-6.2-sol, not classroom-authored",
+  "tool": "prioritize_forum_candidates",
+  "version": 4,
+  "source_bytes_unchanged": true,
+  "staging_only": true,
+  "production_install_or_POST_or_financial_calls": 0,
+  "independent_QA_admission_is_separate": true,
+  "public_export_scan": {
+    "credential_like_pattern_hits": 0,
+    "actual_wallet_key_or_owner_code_files_read": false,
+    "source_inputs_verified_exact_GitHub_public": true
+  },
+  "files": {
+    "tools/prioritize_forum_candidates/logic.py": "c88c0ab66a201bb049f9f1eed9dba30b4109c37e2f29873da6699f24e62a0a80",
+    "tools/prioritize_forum_candidates/test.py": "67b137f56a9e4aa2f866e721a68e28cdbc27a6cd10a005aadf712969c755e378",
+    "tools/prioritize_forum_candidates/permission.yml": "392b9acac32ae3b7eb5be490d002885821679be5b30cecf2dac3ac1fa45088d8",
+    "tools/prioritize_forum_candidates/forge.json": "870fdda00e16ad7bdf4bbb8b0699af4b1add845772355b372534e41639d09d7f",
+    "GENUINE-PROVENANCE-SAFE.json": "09777cc237b86c5b30f37c2718355efa39aa86b56141cf6261fdded7d32b3de6",
+    "README.md": "466bd2839ddaf3b5845393a03fb05c828cd9134d25142bc94289b9316d12d3cb"
+  }
+}

@@ -1,0 +1,222 @@
+{
+  "native11_source_sha256": "d4297f458ea0bcbc98c18a621ded5c834d191323e25f34f3361212dd3f9942ed",
+  "original_full_SDK_result": {
+    "status": "timeout",
+    "SDK_envelope_seconds": 150.5762,
+    "approx_native_CPU_seconds": 142,
+    "output_created": false,
+    "source9_same_fixture_seconds": 4.1099,
+    "operational_readiness_passed": false
+  },
+  "separate_bounded_offline_profile": {
+    "wall_seconds": 8.0009,
+    "alarm_interrupted": true,
+    "complete_context_success": false,
+    "top_cumulative_functions": [
+      {
+        "file": "logic.py",
+        "line": 342,
+        "function": "run",
+        "primitive_calls": 1,
+        "total_calls": 1,
+        "own_seconds": 0.0,
+        "cumulative_seconds": 8.0002
+      },
+      {
+        "file": "forum_marketing10.py",
+        "line": 150,
+        "function": "run",
+        "primitive_calls": 1,
+        "total_calls": 1,
+        "own_seconds": 0.0,
+        "cumulative_seconds": 8.0002
+      },
+      {
+        "file": "forum_marketing10.py",
+        "line": 124,
+        "function": "delegate",
+        "primitive_calls": 1,
+        "total_calls": 1,
+        "own_seconds": 0.0,
+        "cumulative_seconds": 7.9999
+      },
+      {
+        "file": "forum_marketing9.py",
+        "line": 617,
+        "function": "run",
+        "primitive_calls": 1,
+        "total_calls": 1,
+        "own_seconds": 0.0006,
+        "cumulative_seconds": 7.9998
+      },
+      {
+        "file": "forum_marketing9.py",
+        "line": 391,
+        "function": "slate_context",
+        "primitive_calls": 1,
+        "total_calls": 1,
+        "own_seconds": 0.0001,
+        "cumulative_seconds": 7.9987
+      },
+      {
+        "file": "logic.py",
+        "line": 264,
+        "function": "options",
+        "primitive_calls": 1,
+        "total_calls": 1,
+        "own_seconds": 0.0,
+        "cumulative_seconds": 7.9964
+      },
+      {
+        "file": "forum_marketing9.py",
+        "line": 310,
+        "function": "available_options",
+        "primitive_calls": 1,
+        "total_calls": 1,
+        "own_seconds": 0.0014,
+        "cumulative_seconds": 7.9964
+      },
+      {
+        "file": "logic.py",
+        "line": 313,
+        "function": "<lambda>",
+        "primitive_calls": 2043,
+        "total_calls": 2043,
+        "own_seconds": 0.002,
+        "cumulative_seconds": 7.9396
+      },
+      {
+        "file": "logic.py",
+        "line": 45,
+        "function": "classify",
+        "primitive_calls": 2043,
+        "total_calls": 2043,
+        "own_seconds": 0.0326,
+        "cumulative_seconds": 7.9377
+      },
+      {
+        "file": "__init__.py",
+        "line": 188,
+        "function": "subn",
+        "primitive_calls": 4224,
+        "total_calls": 4224,
+        "own_seconds": 0.0047,
+        "cumulative_seconds": 7.6663
+      },
+      {
+        "file": "__init__.py",
+        "line": 280,
+        "function": "_compile",
+        "primitive_calls": 9017,
+        "total_calls": 9017,
+        "own_seconds": 0.0452,
+        "cumulative_seconds": 7.6604
+      },
+      {
+        "file": "_compiler.py",
+        "line": 745,
+        "function": "compile",
+        "primitive_calls": 2816,
+        "total_calls": 2816,
+        "own_seconds": 0.0118,
+        "cumulative_seconds": 7.5675
+      },
+      {
+        "file": "_compiler.py",
+        "line": 578,
+        "function": "_code",
+        "primitive_calls": 2816,
+        "total_calls": 2816,
+        "own_seconds": 0.0042,
+        "cumulative_seconds": 7.0471
+      },
+      {
+        "file": "_compiler.py",
+        "line": 37,
+        "function": "_compile",
+        "primitive_calls": 2816,
+        "total_calls": 53526,
+        "own_seconds": 0.1747,
+        "cumulative_seconds": 6.9446
+      },
+      {
+        "file": "_compiler.py",
+        "line": 243,
+        "function": "_optimize_charset",
+        "primitive_calls": 5666,
+        "total_calls": 5666,
+        "own_seconds": 4.9281,
+        "cumulative_seconds": 6.6414
+      }
+    ],
+    "focus_functions": [
+      {
+        "file": "__init__.py",
+        "line": 280,
+        "function": "_compile",
+        "primitive_calls": 9017,
+        "total_calls": 9017,
+        "own_seconds": 0.0452,
+        "cumulative_seconds": 7.6604
+      },
+      {
+        "file": "_compiler.py",
+        "line": 37,
+        "function": "_compile",
+        "primitive_calls": 2816,
+        "total_calls": 53526,
+        "own_seconds": 0.1747,
+        "cumulative_seconds": 6.9446
+      },
+      {
+        "file": "_compiler.py",
+        "line": 745,
+        "function": "compile",
+        "primitive_calls": 2816,
+        "total_calls": 2816,
+        "own_seconds": 0.0118,
+        "cumulative_seconds": 7.5675
+      },
+      {
+        "file": "forum_marketing9.py",
+        "line": 214,
+        "function": "product_words",
+        "primitive_calls": 572,
+        "total_calls": 572,
+        "own_seconds": 0.0055,
+        "cumulative_seconds": 0.0197
+      },
+      {
+        "file": "forum.py",
+        "line": 89,
+        "function": "stock_offers",
+        "primitive_calls": 1,
+        "total_calls": 1,
+        "own_seconds": 0.001,
+        "cumulative_seconds": 0.0193
+      },
+      {
+        "file": "logic.py",
+        "line": 45,
+        "function": "classify",
+        "primitive_calls": 2043,
+        "total_calls": 2043,
+        "own_seconds": 0.0326,
+        "cumulative_seconds": 7.9377
+      },
+      {
+        "file": "__init__.py",
+        "line": 226,
+        "function": "compile",
+        "primitive_calls": 2372,
+        "total_calls": 2372,
+        "own_seconds": 0.0008,
+        "cumulative_seconds": 0.0107
+      }
+    ]
+  },
+  "finding": "Repeated dynamic stock-word re.subn caused actual compilation/charset optimizer churn beyond Python implicit regex cache; product_words and stock retrieval were minor in this profile.",
+  "genuine12_status_at_record": "actual agent authoring in progress; not yet issued or validated",
+  "planned_repair_scope": "same expressions and decisions, bounded per-run compiled regex reuse only; no rights/owner/freshness/verdict cache",
+  "raw_input_actor_text_or_model_reasoning_exported": false
+}

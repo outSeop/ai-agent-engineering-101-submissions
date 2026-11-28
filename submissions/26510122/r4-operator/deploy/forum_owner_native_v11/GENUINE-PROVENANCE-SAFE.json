@@ -1,0 +1,57 @@
+{
+  "actual_original_Mind": true,
+  "actual_original_Toolbox_forge": true,
+  "requested_development_model": "gpt-6.2-sol",
+  "model_provider": "codex-cli-gpt-6.2-sol",
+  "upstream_reported_model": null,
+  "classroom_authored_claim": false,
+  "actual_development_Model_forge_actions": 4,
+  "synthetic_scheduler_terminal_count": 2,
+  "tool": "forum_marketing",
+  "version": 11,
+  "exact4": {
+    "logic.py": "d4297f458ea0bcbc98c18a621ded5c834d191323e25f34f3361212dd3f9942ed",
+    "test.py": "c526be5bb2745924a20ddc96fa783238b2a612601d5d251f4b3de94fb532ce11",
+    "permission.yml": "cf4030542b77785ab09f494006f4f70daa391337192a3b5f1f4638e9f93b82cd",
+    "forge.json": "5e7268d416dbc1cded5a16096c579e4fcaf879e22e47bd4a1a418296e684de78"
+  },
+  "own_generated_parent10_preserved": true,
+  "original_public_parent9_preserved": true,
+  "source_changed_after_forge": false,
+  "actual_policy_activation_POST_or_payment_calls": 0,
+  "records": [
+    {
+      "provider": "codex-cli-gpt-6.2-sol",
+      "response_sha256": "961f9da7665907e39b82f6b721f399119452c5422dc61292720231c4f9e24fae",
+      "logic_sha256": "645d774dfa4358baef94ab1ebb31f32fd94a8b2366c8ff8455269e36a408a9fc",
+      "test_sha256": "2d38ccaacf9f4f06b33d4c4ab2c1a7e9c912c401e3e4f18c555a29d227bb2a68",
+      "matches_final": false
+    },
+    {
+      "provider": "codex-cli-gpt-6.2-sol",
+      "response_sha256": "2dba6b28c3fec2c4ccba2df93f6c84f0ba46dafc7535756877e8316190a636a7",
+      "logic_sha256": "39aa190e1cb6c185e4f71e05453143c8976a39b2629d7714760decd292dbb92d",
+      "test_sha256": "99737ae2c2de68ca221797ba385030d1b9560bf53075f84f5550ad72c8dbc705",
+      "matches_final": false
+    },
+    {
+      "provider": "codex-cli-gpt-6.2-sol",
+      "response_sha256": "59ebac23a2725bfd6f5401a35f7d57e546de3de7fa527cc41f876a93564f1cba",
+      "logic_sha256": "d4297f458ea0bcbc98c18a621ded5c834d191323e25f34f3361212dd3f9942ed",
+      "test_sha256": "fb7b04b4b8e332822e537c7f900aa47652915360dd29af6a9373288e14500d30",
+      "matches_final": false
+    },
+    {
+      "provider": "codex-cli-gpt-6.2-sol",
+      "response_sha256": "b3d4fe7b126ff922421ef2339dee0e8bddbf338e35eca7d2c68180db2c466e8d",
+      "logic_sha256": "d4297f458ea0bcbc98c18a621ded5c834d191323e25f34f3361212dd3f9942ed",
+      "test_sha256": "c526be5bb2745924a20ddc96fa783238b2a612601d5d251f4b3de94fb532ce11",
+      "matches_final": true
+    }
+  ],
+  "prior_failed_selftest_errors": [
+    "AssertionError: ",
+    "KeyError: '_unit'",
+    "OperationalError: no such column: id"
+  ]
+}

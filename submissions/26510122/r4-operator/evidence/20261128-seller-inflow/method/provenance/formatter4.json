@@ -1,0 +1,37 @@
+{
+  "tool": "prioritize_forum_candidates",
+  "version": 4,
+  "source_exact4": {
+    "logic.py": "c88c0ab66a201bb049f9f1eed9dba30b4109c37e2f29873da6699f24e62a0a80",
+    "test.py": "67b137f56a9e4aa2f866e721a68e28cdbc27a6cd10a005aadf712969c755e378",
+    "permission.yml": "392b9acac32ae3b7eb5be490d002885821679be5b30cecf2dac3ac1fa45088d8",
+    "forge.json": "870fdda00e16ad7bdf4bbb8b0699af4b1add845772355b372534e41639d09d7f"
+  },
+  "actual_official_Mind": true,
+  "actual_original_Toolbox_forge": true,
+  "actual_model_provider": "codex-cli-gpt-6.2-sol",
+  "requested_development_model": "gpt-6.2-sol",
+  "classroom_authorship_claimed": false,
+  "copied_from_original_session": "class-rebuild-forum-urgent-20261128",
+  "source_edited_after_forge": false,
+  "production_installed": false,
+  "actual_POST_pay_or_policy_activation": 0,
+  "records": [
+    {
+      "provider": "codex-cli-gpt-6.2-sol",
+      "actual_response_sha256": "6cedbb2dc3bbe1b7951eea7e368d36255298176143ec9fabdac57a6b4455f725",
+      "logic_sha256": "c88c0ab66a201bb049f9f1eed9dba30b4109c37e2f29873da6699f24e62a0a80",
+      "test_sha256": "67b137f56a9e4aa2f866e721a68e28cdbc27a6cd10a005aadf712969c755e378",
+      "matches_final_logic_test": true
+    }
+  ],
+  "selftest_final_passed": true,
+  "host_scheduler_terminal_separately_recorded": {
+    "actual_development_Model_calls": 1,
+    "synthetic_terminal_calls": 1,
+    "reason": "forge success or bounded author attempts exhausted",
+    "not_an_actual_Model_decision": true
+  },
+  "upstream_reported_model": null,
+  "source_and_test_received_from_actual_agent_action": true
+}

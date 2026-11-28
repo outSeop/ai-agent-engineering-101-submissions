@@ -1,0 +1,108 @@
+{
+  "scope": "selected fixed cached public-feed/inventory callback SDK results, not live delivery",
+  "source12": {
+    "native_status": "options",
+    "fixture_clock_unchanged": true,
+    "source9_reply_options_same_snapshot": 0,
+    "selected_row_offer_classifications": {},
+    "selected_classifications_only_no_full_replay": {},
+    "returned_buyer_rows_lower_bound": 0,
+    "unmatched_buyer_rows_not_recomputed": null,
+    "selected_request_text_unchanged": true,
+    "selected_PRIVATE_protected_rows": 0,
+    "selected_pair_actual_current_offer_equal": true,
+    "reference_labels_and_SKU_name_grade_price_equal": true,
+    "visible_items": 0,
+    "visible_urgent_C": 0,
+    "visible_urgent_C_spotlight_eligible": 0,
+    "clone_DB_byte_unchanged_by_slate_context": true,
+    "native_elapsed_seconds": 12.054,
+    "raw_customer_fields_exported": false,
+    "new_API_calls": 0,
+    "Model_calls": 0,
+    "POST_attempts": 0,
+    "financial_calls": 0,
+    "SDK_ok": true,
+    "source4_sha256": {
+      "logic.py": "f25bb98116593ed7ca708d48c93a1a1aca7da78fda3c083f6aa83ffad06e0f6b",
+      "test.py": "9758872cee87fcdef5447f11832904a525627d32694912921778ac0201f0ed57",
+      "permission.yml": "976188bfef09c7ba46c41d67684f1842ba7244156c826a5c40c33673812a9a80",
+      "forge.json": "f2fbb3b819ea509ff3607e290c0f97d27e12a44e93618ac7570edd0202773274"
+    },
+    "source4_unchanged": true,
+    "reply_options": 0
+  },
+  "source13": {
+    "native_status": "options",
+    "fixture_clock_unchanged": true,
+    "source9_reply_options_same_snapshot": 0,
+    "selected_row_offer_classifications": {
+      "reference": 28
+    },
+    "selected_classifications_only_no_full_replay": {
+      "reference": 28
+    },
+    "returned_buyer_rows_lower_bound": 6,
+    "unmatched_buyer_rows_not_recomputed": null,
+    "selected_request_text_unchanged": true,
+    "selected_PRIVATE_protected_rows": 0,
+    "selected_pair_actual_current_offer_equal": true,
+    "reference_labels_and_SKU_name_grade_price_equal": true,
+    "visible_items": 11,
+    "visible_urgent_C": 1,
+    "visible_urgent_C_spotlight_eligible": 1,
+    "clone_DB_byte_unchanged_by_slate_context": true,
+    "native_elapsed_seconds": 15.3948,
+    "raw_customer_fields_exported": false,
+    "new_API_calls": 0,
+    "Model_calls": 0,
+    "POST_attempts": 0,
+    "financial_calls": 0,
+    "SDK_ok": true,
+    "source4_sha256": {
+      "logic.py": "034f2885817a8a54faa576eca4da270f10ebf6eef3d58271b69218887112e514",
+      "test.py": "a8ff6ebe7fb84b72ad1a242b3f09aa4537e283d99e28a4ded06b8960edeb782e",
+      "permission.yml": "10731e5fa6dfb4df88ed9c6de9bc5bcc509abb25d666977503d982076d53107a",
+      "forge.json": "3778e3156472a9fa65716478358944f78deedf11d7a04ac7807f5a50c7e64d33"
+    },
+    "source4_unchanged": true,
+    "reply_options": 6
+  },
+  "rejected_cohort_diagnosis": {
+    "related_interest_nonpast_rows": 75,
+    "related_offer_sample_per_row": 1,
+    "per_offer_counts": {
+      "intent_unrecognized": 54,
+      "protected_global": 8,
+      "pack_mismatch": 5,
+      "grade_mismatch": 1,
+      "unresolved_hard_numeric_negative": 4,
+      "closed_soft_remainder": 3
+    },
+    "intent_markers_overlap_not_distinct_requests": {
+      "need": 45,
+      "need_noun_modifier": 33,
+      "need_inflected": 4,
+      "find_noun_modifier": 7,
+      "quote": 1,
+      "purchase": 1
+    },
+    "hard_mismatch_not_global_thread_blacklist": true,
+    "raw_residual_words_exported": false
+  },
+  "urgent_C_proof_completion_is_a_data_change": {
+    "source11_C_rule_bug_claimed": false,
+    "one_existing_own_post_was_missing_from_fixed6h_snapshot": true,
+    "one_public_GET_confirmed_same_original_post_before_replay": true,
+    "with_proof_original11_urgent_epoch_was_true": true,
+    "do_not_attribute_C0_to1_to13_matcher_alone": true
+  },
+  "pending": {
+    "fresh_new6h_inventory_callback": true,
+    "independent_finalpublish_hardnegative_scope_groups": true,
+    "operating_Market_Model_cycle": true,
+    "production_activation": true,
+    "actual_quote_delivery_or_settlement": true
+  },
+  "provenance_status_fields_in_asset_record_generation_time_only": true
+}

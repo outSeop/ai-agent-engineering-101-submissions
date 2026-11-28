@@ -1,0 +1,49 @@
+{
+  "actual_original_Mind": true,
+  "actual_original_Toolbox_forge": true,
+  "requested_development_model": "gpt-6.2-sol",
+  "model_provider": "codex-cli-gpt-6.2-sol",
+  "upstream_reported_model": null,
+  "classroom_authored_claim": false,
+  "tool": "forum_marketing",
+  "version": 12,
+  "exact4": {
+    "logic.py": "f25bb98116593ed7ca708d48c93a1a1aca7da78fda3c083f6aa83ffad06e0f6b",
+    "test.py": "9758872cee87fcdef5447f11832904a525627d32694912921778ac0201f0ed57",
+    "permission.yml": "976188bfef09c7ba46c41d67684f1842ba7244156c826a5c40c33673812a9a80",
+    "forge.json": "f2fbb3b819ea509ff3607e290c0f97d27e12a44e93618ac7570edd0202773274"
+  },
+  "actual_development_forge_actions": 3,
+  "records": [
+    {
+      "provider": "codex-cli-gpt-6.2-sol",
+      "response_sha256": "87135fffbe7619df92cdbc5f862f72eaf42aa5e18e4c57bdaa4e67c1c37275b5",
+      "logic_sha256": "f25bb98116593ed7ca708d48c93a1a1aca7da78fda3c083f6aa83ffad06e0f6b",
+      "test_sha256": "c0c246dd257f515d1613e382fd46d0c66baa2e95511ee4b95e5ef2970fab9ecd",
+      "matches_final": false
+    },
+    {
+      "provider": "codex-cli-gpt-6.2-sol",
+      "response_sha256": "3479cc48f02fc27977c30240a1887c3826b14827b5b798cf419d23a7d504511e",
+      "logic_sha256": "f25bb98116593ed7ca708d48c93a1a1aca7da78fda3c083f6aa83ffad06e0f6b",
+      "test_sha256": "53949eaf481fec3001558e8961591ec56f79b1f551b53e61b1c4001dfd380be4",
+      "matches_final": false
+    },
+    {
+      "provider": "codex-cli-gpt-6.2-sol",
+      "response_sha256": "7b84fffdc63ca0f73717e57e2da88897ff8691c95c5cbf23e92db9612df78735",
+      "logic_sha256": "f25bb98116593ed7ca708d48c93a1a1aca7da78fda3c083f6aa83ffad06e0f6b",
+      "test_sha256": "9758872cee87fcdef5447f11832904a525627d32694912921778ac0201f0ed57",
+      "matches_final": true
+    }
+  ],
+  "failed_selftests": [
+    "StopIteration: ",
+    "KeyError: 'category'"
+  ],
+  "source_after_forge_edited": false,
+  "real_source_SDK_within30seconds_yet_verified": false,
+  "production_install_or_POST_or_finance": 0,
+  "synthetic_scheduler_terminal_count": 2,
+  "status_recorded_at_generation_time": "SDK selftest passed; real-feed runtime/eligibility admission separate"
+}

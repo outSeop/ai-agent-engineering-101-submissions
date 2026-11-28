@@ -1,0 +1,11 @@
+# Genuine forum_marketing13: broader inquiry and nonbinding usage reference
+
+First actual original R4 Mind/forge_tool proposal passed original SDK selftest. Development requested Codex gpt-6.2-sol; this is not classroom-authored code. One explicit HOST synthetic scheduler ending is not a second model call. Exact original source4 and dependencies12/11/10/9 are preserved.
+
+This74-line wrapper patches11 classifier source before12 applies its scoped regex compiler. It broadens ordinary present/future inquiry forms and product particles, preserves strict known-constraint checks, and permits ordinary unverified usage/preferences only as explicitly uncertain reference. New negative/past/medical/technical mandatory guards narrow reference, not expand rights. The operating model chooses relevant displayed stock or holds; actual final price/grade/life/stock/thread and source11 owner/Crefresh/unknown controls remain native-authoritative.
+
+Aggregate diagnosis was75 related-interest pairs:54 intent misses,8 protected,5 per-offer pack mismatch,1 grade mismatch,4 unresolved hard,3 closed-soft residual. The actual forum text/actor was never sent to the developer model. A mismatching sample offer does not blacklist a thread if another actual offer satisfies all constraints.
+
+Source12 repaired speed (same cached SDK12.054seconds) but yielded no matching candidates. This13 asset's selftest is not actual-feed eligibility, successful quote delivery, active promotion, settlement or profit evidence. Separate fixed-feed/fresh-feed SDK, owner/final-publication/MarketModel checks are required before activation. Existing source assets and failure records remain unchanged. No service restart, policy activation, actual POST or financial operation was performed by this packaging.
+
+Runtime requires unchanged codex-r4/forum_marketing12.py,11.py,10.py,9.py from dependencies plus original forum.py/dispatcher/price. User requests' unsupported hard conditions are not claimed satisfied. Existing350-character presentation contract and conservative unsupported forms remain limitations to assess independently. No actual key, private control generation, raw customer text or model reasoning is included.

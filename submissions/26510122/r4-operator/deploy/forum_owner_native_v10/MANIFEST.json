@@ -1,0 +1,24 @@
+{
+  "authorship": "actual official R4 Mind -> forge_tool -> original Toolbox.forge; requested development Codex gpt-6.2-sol, not classroom-authored",
+  "tool": "forum_marketing",
+  "version": 10,
+  "source_bytes_unchanged": true,
+  "staging_only": true,
+  "production_install_or_POST_or_financial_calls": 0,
+  "independent_QA_admission_is_separate": true,
+  "public_export_scan": {
+    "credential_like_pattern_hits": 0,
+    "actual_wallet_key_or_owner_code_files_read": false,
+    "source_inputs_verified_exact_GitHub_public": true
+  },
+  "files": {
+    "tools/forum_marketing/logic.py": "bd80f8236c415ffc962b5b651f24232e8e34320a621145954abbbf0bedca073a",
+    "tools/forum_marketing/test.py": "e333cfca223ab15216adce552b5d67ad96e619dc1020a12a7fd6320d31a9d52f",
+    "tools/forum_marketing/permission.yml": "198979f35e8a6a7d9875cc24bec55e8886850c249625fa66507c87025e73c4bd",
+    "tools/forum_marketing/forge.json": "c58548e59a81a3e7f566a68a7b29418c13c19b1044626c43db2d2f42cd2c5f05",
+    "GENUINE-PROVENANCE-SAFE.json": "932fdf143a0883a2d293b03169d1f22b2ad86eb39c2b3fd2709199bdb9be5d05",
+    "dependencies/forum_marketing9.py": "b2edc8dba8c214a22074eb1f3db35ce5eb8234f444cf22710f025078b64e48e9",
+    "failed/FIRST-FAILED-PROPOSAL-NOT-ISSUED.json": "25e195215089261751e4b5f797d1c60aff7ad76ea1f9ca4b76b40d39016ee193",
+    "README.md": "7e4747dc1ef4c27b3e86b13abcf588449dab96e473111555340d8a21567a036e"
+  }
+}

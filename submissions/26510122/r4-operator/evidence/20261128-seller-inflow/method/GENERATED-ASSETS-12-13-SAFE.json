@@ -1,0 +1,38 @@
+{
+  "components": [
+    {
+      "component": "publisher12",
+      "tool": "forum_marketing",
+      "version": 12,
+      "asset_operator_relative_path": "deploy/forum_owner_native_v12",
+      "asset_manifest_sha256": "8a96caca5dc0afc5c2892b78ad98ba3a087bb883cf986f146eaf00603ff1bf59",
+      "exact4": {
+        "logic.py": "f25bb98116593ed7ca708d48c93a1a1aca7da78fda3c083f6aa83ffad06e0f6b",
+        "test.py": "9758872cee87fcdef5447f11832904a525627d32694912921778ac0201f0ed57",
+        "permission.yml": "976188bfef09c7ba46c41d67684f1842ba7244156c826a5c40c33673812a9a80",
+        "forge.json": "f2fbb3b819ea509ff3607e290c0f97d27e12a44e93618ac7570edd0202773274"
+      },
+      "public_provenance_relative_path": "provenance/publisher12.json",
+      "source_edited_after_forge": false,
+      "asset_status_generation_time_only": true
+    },
+    {
+      "component": "publisher13",
+      "tool": "forum_marketing",
+      "version": 13,
+      "asset_operator_relative_path": "deploy/forum_owner_native_v13",
+      "asset_manifest_sha256": "f3407914f5223a39b712f0e97a5969ddec9ee33c670b8216e2df829ae4ffaedf",
+      "exact4": {
+        "logic.py": "034f2885817a8a54faa576eca4da270f10ebf6eef3d58271b69218887112e514",
+        "test.py": "a8ff6ebe7fb84b72ad1a242b3f09aa4537e283d99e28a4ded06b8960edeb782e",
+        "permission.yml": "10731e5fa6dfb4df88ed9c6de9bc5bcc509abb25d666977503d982076d53107a",
+        "forge.json": "3778e3156472a9fa65716478358944f78deedf11d7a04ac7807f5a50c7e64d33"
+      },
+      "public_provenance_relative_path": "provenance/publisher13.json",
+      "source_edited_after_forge": false,
+      "asset_status_generation_time_only": true
+    }
+  ],
+  "original_asset_manifests_unchanged": true,
+  "actual_classroom_authorship_not_claimed": true
+}

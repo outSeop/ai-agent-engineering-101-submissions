@@ -1,0 +1,83 @@
+{
+  "scope": "historical aggregate-only separate QA diagnosis; not distinct customer demand or approval",
+  "source9_logic_sha256": "b2edc8dba8c214a22074eb1f3db35ce5eb8234f444cf22710f025078b64e48e9",
+  "buyer_root_rows": 1405,
+  "current_offer_sku_grade_pairs": 143,
+  "ASK_zero_rows": 1405,
+  "actual_downstream_predicate_reached_rows": 0,
+  "lexical_related_word_overlap_rows_only": 510,
+  "spotlight_blockers": {
+    "unchanged_fingerprint_only": 143
+  },
+  "urgent_C_blockers": {
+    "unchanged_fingerprint_only": 1
+  },
+  "text_shape_counts": {
+    "text_string": 1405,
+    "nonempty_text": 1405,
+    "rows_with_Hangul": 1405
+  },
+  "text_length": {
+    "min": 32,
+    "p50": 105,
+    "p90": 143,
+    "max": 199
+  },
+  "generic_marker_rows": {
+    "구매": 30,
+    "필요": 332,
+    "구해요": 0,
+    "구합니다": 0,
+    "견적": 26,
+    "찾는": 69,
+    "삽니다": 0,
+    "need": 0,
+    "want": 18,
+    "buy": 0,
+    "request": 0,
+    "찾고": 0,
+    "원합니다": 0,
+    "문의": 107
+  },
+  "regex_escape_suspicion_rejected": {
+    "initial_agent_suspicion_was_wrong": true,
+    "AST_and_actual_regex_controls_verified": true,
+    "actual_adjacent_double_backslash": false,
+    "ASK_literal_backslash_count": 7,
+    "synthetic_control_examples": {
+      "찾아요": {
+        "ASK_count": 1,
+        "EXCLUDE_match": false
+      },
+      "찾고 있어요": {
+        "ASK_count": 0,
+        "EXCLUDE_match": false
+      },
+      "구합니다": {
+        "ASK_count": 1,
+        "EXCLUDE_match": false
+      },
+      "필요해요": {
+        "ASK_count": 0,
+        "EXCLUDE_match": false
+      },
+      "견적 부탁드려요": {
+        "ASK_count": 1,
+        "EXCLUDE_match": false
+      },
+      "계란 구해 주세요.": {
+        "ASK_count": 1,
+        "EXCLUDE_match": false
+      },
+      "계란 구매 희망합니다.": {
+        "ASK_count": 1,
+        "EXCLUDE_match": false
+      }
+    },
+    "business_source_changed_due_to_suspicion": false
+  },
+  "not_missing_text_or_JSON_mapping": true,
+  "lexical_overlap_not_a_matched_quote": true,
+  "new_API_Model_POST_calls_for_this_summary": 0,
+  "raw_customer_actor_SKU_order_or_rights_exported": false
+}

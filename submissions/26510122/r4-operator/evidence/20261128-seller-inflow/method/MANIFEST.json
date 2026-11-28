@@ -1,0 +1,20 @@
+{
+  "scope": "method origin/failure/cached-readiness snapshot only; no activation or actual quote/purchase claim",
+  "source_assets_preserved": true,
+  "raw_customer_keys_model_reasoning_exported": false,
+  "credential_like_pattern_hits": 0,
+  "files": {
+    "NATIVE13-DEPENDENCIES-SAFE.json": "4bc0ef54d04d873d2d127aa5aa4ed05d29b0943aadcbe54fef5f50a2b08aeddc",
+    "GENERATED-ASSETS-12-13-SAFE.json": "c2c4dbb99934656835a07a6570093cc6a0ea1147545dde485cd8adce975dc5ac",
+    "NATIVE11-PERFORMANCE-FAILURE-SAFE.json": "5cbcf335e2bde0465a2dfa0d298dfed81fc35a9624ce473a9d2fa6acaef7f913",
+    "README.md": "d421d579dc747abb3c0d93dcc1dd0882685608d3e90a1a20c8090be3e9b72aa9",
+    "NATIVE12-13-CACHED-SDK-SAFE.json": "5a08064472f01395c28d76c4fce461978fe2e044a55e15c2f4cf43e1d748cdce",
+    "BASELINE-DIAGNOSIS-SAFE.json": "fa97fd34267f0757dfade58a544db14dfe889e93565de14344ebaa449007cb2f",
+    "GENERATED-ASSETS-SAFE.json": "63e4e83343d61702b4662c4380d849594659622764ed578ef8dceb1239a00c2a",
+    "provenance/publisher12.json": "d1c48b58cec8b7bcc7bacd251e85d538d752d988132c3e2d6c39535393cb0f23",
+    "provenance/publisher10.json": "932fdf143a0883a2d293b03169d1f22b2ad86eb39c2b3fd2709199bdb9be5d05",
+    "provenance/publisher11.json": "ab48db5ca8438859af8d1c0bda1ec6338b8d0b290530ca5b33b7f606ca5a90e8",
+    "provenance/formatter4.json": "09777cc237b86c5b30f37c2718355efa39aa86b56141cf6261fdded7d32b3de6",
+    "provenance/publisher13.json": "6cafeb9e2da2bdea3fb0a2df8933de76a24c12b96f12472ad3743fcae6aa243e"
+  }
+}

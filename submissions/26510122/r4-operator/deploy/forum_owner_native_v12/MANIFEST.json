@@ -1,0 +1,24 @@
+{
+  "tool": "forum_marketing",
+  "version": 12,
+  "authorship": "actual original R4 Mind/Toolbox forge, requested Codex6.2Sol development; operating model market",
+  "SDK_selftest_passed": true,
+  "source_exact4_unchanged": true,
+  "classifier_code_semantics_unchanged_from11": true,
+  "actual_development_forge_actions": 3,
+  "synthetic_scheduler_terminals": 2,
+  "actual_deployment_or_positive_matching_not_claimed": true,
+  "files": {
+    "tools/forum_marketing/logic.py": "f25bb98116593ed7ca708d48c93a1a1aca7da78fda3c083f6aa83ffad06e0f6b",
+    "tools/forum_marketing/test.py": "9758872cee87fcdef5447f11832904a525627d32694912921778ac0201f0ed57",
+    "tools/forum_marketing/permission.yml": "976188bfef09c7ba46c41d67684f1842ba7244156c826a5c40c33673812a9a80",
+    "tools/forum_marketing/forge.json": "f2fbb3b819ea509ff3607e290c0f97d27e12a44e93618ac7570edd0202773274",
+    "GENUINE-PROVENANCE-SAFE.json": "d1c48b58cec8b7bcc7bacd251e85d538d752d988132c3e2d6c39535393cb0f23",
+    "dependencies/forum_marketing9.py": "b2edc8dba8c214a22074eb1f3db35ce5eb8234f444cf22710f025078b64e48e9",
+    "dependencies/forum_marketing10.py": "bd80f8236c415ffc962b5b651f24232e8e34320a621145954abbbf0bedca073a",
+    "dependencies/forum_marketing11.py": "d4297f458ea0bcbc98c18a621ded5c834d191323e25f34f3361212dd3f9942ed",
+    "failed/proposal-1-NOT-ISSUED.json": "876e7e5b2b13cd56c1c0d8dc6887d994dc5379cbeb313d47de7f900c2139ecb8",
+    "failed/proposal-2-NOT-ISSUED.json": "a40b5e510abfb57466b4aef2263d1e542457e783b755b7e33c9ce88a813d57e2",
+    "README.md": "cadcfc5ca1ff5d21d52b515d9640ae67ca8616ea8f91f7d869b35b1087391699"
+  }
+}

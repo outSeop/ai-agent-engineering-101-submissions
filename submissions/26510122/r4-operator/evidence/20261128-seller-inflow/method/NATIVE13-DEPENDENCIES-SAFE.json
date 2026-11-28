@@ -1,0 +1,35 @@
+{
+  "scope": "frozen candidate13 bindings; not a statement of production activation",
+  "candidate_asset_operator_relative_path": "deploy/forum_owner_native_v13",
+  "candidate_manifest_sha256": "f3407914f5223a39b712f0e97a5969ddec9ee33c670b8216e2df829ae4ffaedf",
+  "native_tool_exact4": {
+    "logic.py": "034f2885817a8a54faa576eca4da270f10ebf6eef3d58271b69218887112e514",
+    "test.py": "a8ff6ebe7fb84b72ad1a242b3f09aa4537e283d99e28a4ded06b8960edeb782e",
+    "permission.yml": "10731e5fa6dfb4df88ed9c6de9bc5bcc509abb25d666977503d982076d53107a",
+    "forge.json": "3778e3156472a9fa65716478358944f78deedf11d7a04ac7807f5a50c7e64d33"
+  },
+  "runtime_dependencies": [
+    {
+      "registered_root_relative_path": "codex-r4/forum_marketing10.py",
+      "asset_relative_path": "deploy/forum_owner_native_v13/dependencies/forum_marketing10.py",
+      "sha256": "bd80f8236c415ffc962b5b651f24232e8e34320a621145954abbbf0bedca073a"
+    },
+    {
+      "registered_root_relative_path": "codex-r4/forum_marketing11.py",
+      "asset_relative_path": "deploy/forum_owner_native_v13/dependencies/forum_marketing11.py",
+      "sha256": "d4297f458ea0bcbc98c18a621ded5c834d191323e25f34f3361212dd3f9942ed"
+    },
+    {
+      "registered_root_relative_path": "codex-r4/forum_marketing12.py",
+      "asset_relative_path": "deploy/forum_owner_native_v13/dependencies/forum_marketing12.py",
+      "sha256": "f25bb98116593ed7ca708d48c93a1a1aca7da78fda3c083f6aa83ffad06e0f6b"
+    },
+    {
+      "registered_root_relative_path": "codex-r4/forum_marketing9.py",
+      "asset_relative_path": "deploy/forum_owner_native_v13/dependencies/forum_marketing9.py",
+      "sha256": "b2edc8dba8c214a22074eb1f3db35ce5eb8234f444cf22710f025078b64e48e9"
+    }
+  ],
+  "dependency_bytes_not_edited": true,
+  "production_activation_at_this_method_snapshot": false
+}

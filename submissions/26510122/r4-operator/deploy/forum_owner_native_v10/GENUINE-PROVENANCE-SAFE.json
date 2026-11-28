@@ -1,0 +1,44 @@
+{
+  "tool": "forum_marketing",
+  "version": 10,
+  "source_exact4": {
+    "logic.py": "bd80f8236c415ffc962b5b651f24232e8e34320a621145954abbbf0bedca073a",
+    "test.py": "e333cfca223ab15216adce552b5d67ad96e619dc1020a12a7fd6320d31a9d52f",
+    "permission.yml": "198979f35e8a6a7d9875cc24bec55e8886850c249625fa66507c87025e73c4bd",
+    "forge.json": "c58548e59a81a3e7f566a68a7b29418c13c19b1044626c43db2d2f42cd2c5f05"
+  },
+  "actual_official_Mind": true,
+  "actual_original_Toolbox_forge": true,
+  "actual_model_provider": "codex-cli-gpt-6.2-sol",
+  "requested_development_model": "gpt-6.2-sol",
+  "classroom_authorship_claimed": false,
+  "copied_from_original_session": "class-rebuild-forum-owner-20261128",
+  "source_edited_after_forge": false,
+  "production_installed": false,
+  "actual_POST_pay_or_policy_activation": 0,
+  "records": [
+    {
+      "provider": "codex-cli-gpt-6.2-sol",
+      "actual_response_sha256": "9665ab79028174c8d5eaf26133cf5c6e71220fa94331c85c25610011802570e8",
+      "logic_sha256": "2cb848b0914ec168fc5870ccbaa80474284b5324ebc12dfb7c6926e50ba8f361",
+      "test_sha256": "88a625c4fd10826e8d946750727039cc25283ec89d3ce9a83a533f89207b7027",
+      "matches_final_logic_test": false
+    },
+    {
+      "provider": "codex-cli-gpt-6.2-sol",
+      "actual_response_sha256": "0951209a35f510216f5b96c84507eedd277b206b6fe4a0d9f0306749b14bed83",
+      "logic_sha256": "bd80f8236c415ffc962b5b651f24232e8e34320a621145954abbbf0bedca073a",
+      "test_sha256": "e333cfca223ab15216adce552b5d67ad96e619dc1020a12a7fd6320d31a9d52f",
+      "matches_final_logic_test": true
+    }
+  ],
+  "selftest_final_passed": true,
+  "host_scheduler_terminal_separately_recorded": {
+    "actual_development_Model_calls": 2,
+    "synthetic_terminal_calls": 1,
+    "reason": "forge success or bounded author attempts exhausted",
+    "not_an_actual_Model_decision": true
+  },
+  "upstream_reported_model": null,
+  "source_and_test_received_from_actual_agent_action": true
+}
