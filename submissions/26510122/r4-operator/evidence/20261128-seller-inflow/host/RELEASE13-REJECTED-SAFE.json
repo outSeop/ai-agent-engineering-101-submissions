@@ -1,0 +1,23 @@
+{
+  "schema": "r4-release-admission.v1",
+  "candidate_release": "841c0eaf0d07af360a5393618e2029116600019a06f66f41ee242cb021eeafbd",
+  "candidate_native_version": 13,
+  "candidate_logic_sha256": "034f2885817a8a54faa576eca4da270f10ebf6eef3d58271b69218887112e514",
+  "admitted": false,
+  "reason": "Intent suffix swallowed attached numeric packaging constraint before the packaging validator",
+  "independent_reproduction": {
+    "offered_synthetic_name": "두유 190ml 1개입",
+    "rejected_as_expected": [
+      "두유를 찾고 있어요500ml",
+      "두유 500ml가 필요해요"
+    ],
+    "incorrectly_classified_strict": [
+      "두유를 구할 수 있어요500ml",
+      "두유 구매 원해요500ml"
+    ]
+  },
+  "actual_customer_data_used": false,
+  "actual_API_Model_POST_financial_calls": 0,
+  "production_deployment_performed": false,
+  "original_business_bytes_modified": false
+}
