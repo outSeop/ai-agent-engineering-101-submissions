@@ -1,0 +1,36 @@
+{
+  "schema": "r4-forum-ledger-window-types.v1",
+  "clock": "forum_publication.created; not public exposure time",
+  "windows": {
+    "pre": {
+      "start": 1795861788.3686714,
+      "end": 1795865388.3686714,
+      "posted": 1,
+      "root_posts": 1,
+      "replies": 0,
+      "post_ids": [
+        29942
+      ]
+    },
+    "initial_nonoverlap": {
+      "start": 1795866029.741211,
+      "end": 1795866861.406812,
+      "posted": 1,
+      "root_posts": 0,
+      "replies": 1,
+      "post_ids": [
+        30458
+      ]
+    },
+    "post": {
+      "start": 1795866861.406812,
+      "end": 1795870461.406812,
+      "posted": 1,
+      "root_posts": 0,
+      "replies": 1,
+      "post_ids": [
+        30573
+      ]
+    }
+  }
+}

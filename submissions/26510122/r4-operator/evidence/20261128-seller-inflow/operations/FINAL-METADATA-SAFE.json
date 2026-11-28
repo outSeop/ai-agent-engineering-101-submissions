@@ -1,0 +1,236 @@
+{
+  "schema": "r4-inflow-hour-final-metadata.v1",
+  "each_window_seconds": 3600,
+  "resources": {
+    "engine": {
+      "start_RSS_MiB": 75.367,
+      "end_RSS_MiB": 82.004,
+      "max_RSS_MiB": 82.004,
+      "last_half_min_MiB": 80.797,
+      "last_half_max_MiB": 82.004,
+      "PID_changed_in_window": false,
+      "NRestarts_end": 0
+    },
+    "router": {
+      "start_RSS_MiB": 61.801,
+      "end_RSS_MiB": 61.879,
+      "max_RSS_MiB": 61.879,
+      "last_half_min_MiB": 61.832,
+      "last_half_max_MiB": 61.879,
+      "PID_changed_in_window": false,
+      "NRestarts_end": 0
+    }
+  },
+  "router": {
+    "pre": {
+      "known_message_attempts": 0,
+      "message_HTTP_statuses": {},
+      "unclassified_HTTP200_count": 285,
+      "unclassified_note": "Can include discovery GET; not a buyer/person/view count."
+    },
+    "post": {
+      "known_message_attempts": 0,
+      "message_HTTP_statuses": {},
+      "unclassified_HTTP200_count": 287,
+      "unclassified_note": "Can include discovery GET; not a buyer/person/view count."
+    }
+  },
+  "marketing_Model": {
+    "calls_in_window": 14,
+    "action_forum_marketing": 1,
+    "action_sleep": 11,
+    "error_TimeoutError": 2
+  },
+  "jobs": [
+    {
+      "id": 3,
+      "state_at_cutoff": "finished",
+      "result_status_when_finished": "no_eligible_options",
+      "finished_after_cutoff_seconds": null,
+      "actual_model_called_in_window": false,
+      "action": null,
+      "model_error_types": []
+    },
+    {
+      "id": 4,
+      "state_at_cutoff": "finished",
+      "result_status_when_finished": "posted",
+      "finished_after_cutoff_seconds": null,
+      "actual_model_called_in_window": true,
+      "action": "forum_marketing",
+      "model_error_types": []
+    },
+    {
+      "id": 5,
+      "state_at_cutoff": "finished",
+      "result_status_when_finished": "cooldown",
+      "finished_after_cutoff_seconds": null,
+      "actual_model_called_in_window": false,
+      "action": null,
+      "model_error_types": []
+    },
+    {
+      "id": 6,
+      "state_at_cutoff": "finished",
+      "result_status_when_finished": "cooldown",
+      "finished_after_cutoff_seconds": null,
+      "actual_model_called_in_window": false,
+      "action": null,
+      "model_error_types": []
+    },
+    {
+      "id": 7,
+      "state_at_cutoff": "finished",
+      "result_status_when_finished": "no_eligible_options",
+      "finished_after_cutoff_seconds": null,
+      "actual_model_called_in_window": false,
+      "action": null,
+      "model_error_types": []
+    },
+    {
+      "id": 8,
+      "state_at_cutoff": "finished",
+      "result_status_when_finished": "no_selection",
+      "finished_after_cutoff_seconds": null,
+      "actual_model_called_in_window": true,
+      "action": "sleep",
+      "model_error_types": []
+    },
+    {
+      "id": 9,
+      "state_at_cutoff": "finished",
+      "result_status_when_finished": "no_selection",
+      "finished_after_cutoff_seconds": null,
+      "actual_model_called_in_window": true,
+      "action": "sleep",
+      "model_error_types": []
+    },
+    {
+      "id": 10,
+      "state_at_cutoff": "finished",
+      "result_status_when_finished": "no_selection",
+      "finished_after_cutoff_seconds": null,
+      "actual_model_called_in_window": true,
+      "action": "sleep",
+      "model_error_types": []
+    },
+    {
+      "id": 11,
+      "state_at_cutoff": "finished",
+      "result_status_when_finished": "no_selection",
+      "finished_after_cutoff_seconds": null,
+      "actual_model_called_in_window": true,
+      "action": "sleep",
+      "model_error_types": []
+    },
+    {
+      "id": 12,
+      "state_at_cutoff": "finished",
+      "result_status_when_finished": "no_selection",
+      "finished_after_cutoff_seconds": null,
+      "actual_model_called_in_window": true,
+      "action": null,
+      "model_error_types": [
+        "TimeoutError"
+      ]
+    },
+    {
+      "id": 13,
+      "state_at_cutoff": "finished",
+      "result_status_when_finished": "no_selection",
+      "finished_after_cutoff_seconds": null,
+      "actual_model_called_in_window": true,
+      "action": "sleep",
+      "model_error_types": []
+    },
+    {
+      "id": 14,
+      "state_at_cutoff": "finished",
+      "result_status_when_finished": "no_selection",
+      "finished_after_cutoff_seconds": null,
+      "actual_model_called_in_window": true,
+      "action": "sleep",
+      "model_error_types": []
+    },
+    {
+      "id": 15,
+      "state_at_cutoff": "finished",
+      "result_status_when_finished": "no_selection",
+      "finished_after_cutoff_seconds": null,
+      "actual_model_called_in_window": true,
+      "action": "sleep",
+      "model_error_types": []
+    },
+    {
+      "id": 16,
+      "state_at_cutoff": "finished",
+      "result_status_when_finished": "no_selection",
+      "finished_after_cutoff_seconds": null,
+      "actual_model_called_in_window": true,
+      "action": "sleep",
+      "model_error_types": []
+    },
+    {
+      "id": 17,
+      "state_at_cutoff": "finished",
+      "result_status_when_finished": "no_selection",
+      "finished_after_cutoff_seconds": null,
+      "actual_model_called_in_window": true,
+      "action": null,
+      "model_error_types": [
+        "TimeoutError"
+      ]
+    },
+    {
+      "id": 18,
+      "state_at_cutoff": "finished",
+      "result_status_when_finished": "no_selection",
+      "finished_after_cutoff_seconds": null,
+      "actual_model_called_in_window": true,
+      "action": "sleep",
+      "model_error_types": []
+    },
+    {
+      "id": 19,
+      "state_at_cutoff": "finished",
+      "result_status_when_finished": "no_selection",
+      "finished_after_cutoff_seconds": null,
+      "actual_model_called_in_window": true,
+      "action": "sleep",
+      "model_error_types": []
+    },
+    {
+      "id": 20,
+      "state_at_cutoff": "finished",
+      "result_status_when_finished": "no_selection",
+      "finished_after_cutoff_seconds": null,
+      "actual_model_called_in_window": true,
+      "action": "sleep",
+      "model_error_types": []
+    },
+    {
+      "id": 21,
+      "state_at_cutoff": "running",
+      "result_status_when_finished": "no_selection",
+      "finished_after_cutoff_seconds": 34.188,
+      "actual_model_called_in_window": false,
+      "action": "sleep",
+      "model_error_types": []
+    }
+  ],
+  "asof_cutoff_states": {
+    "running": 1,
+    "finished": 18
+  },
+  "public_card_HTTP": 200,
+  "public_card_identity_same": true,
+  "marketing_owner_active": true,
+  "maintenance": false,
+  "original_GetTask_results_checked": 47,
+  "original_GetTask_results_same": 47,
+  "operator_new_customer_probes": 0,
+  "new_promotion_automations": 0,
+  "observer_Model_market_POST_financial_calls": 0,
+  "observations": 81,
+  "raw_customer_or_Model_thought_exported": false
+}

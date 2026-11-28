@@ -1,0 +1,747 @@
+{
+  "schema": "r4-seller-inflow-completed-hour.v1",
+  "release": "155c37caaac651d20ee1fccddc94843751ee1d06841f97ee5c6652e85e155a35",
+  "front_manifest_sha256": "3cf0b00e6326d295625476f4d0bf5d8d4f6b723efb219abb55695d0242a34aef",
+  "native_versions": {
+    "forum_marketing": 15,
+    "public_alternatives": 4,
+    "prioritize_forum_candidates": 4,
+    "semantic_candidates": 19
+  },
+  "windows": {
+    "pre": {
+      "start": 1795861788.3686714,
+      "end": 1795865388.3686714,
+      "seconds": 3600
+    },
+    "post": {
+      "start": 1795866861.406812,
+      "end": 1795870461.406812,
+      "seconds": 3600
+    }
+  },
+  "pre": {
+    "start": 1795861788.3686714,
+    "end": 1795865388.3686714,
+    "seconds": 3600.0,
+    "transport_started": 0,
+    "transport_ended": 0,
+    "trace_message_count": 0,
+    "trace_request_groups": 0,
+    "registered_operator_groups": 0,
+    "non_operator_linked_request_groups": 0,
+    "verified_unique_people": null,
+    "person_count_note": "Trace groups/messages and settled wallets do not establish distinct persons.",
+    "non_operator_linked_funnel": {},
+    "explicit_SKU_message_groups": 0,
+    "followup_reference_no_explicitSKU_groups": 0,
+    "checkout_guard_outcome_counts": {},
+    "new_checkout_rows": 0,
+    "new_settlements": 0,
+    "trade_margin_after_full_new_lot_credits_exact": "0",
+    "trade_margin_receipt_evidence_complete": true,
+    "actual_fully_allocated_profit": null,
+    "profit_note": "Zero settled trades means zero recognized trade margin; cumulative settled trades are reported separately. Holding/operating/unattributed costs are not fully allocated.",
+    "earned_lot_count": 0,
+    "full_earned_lot_burden_credits": 0,
+    "spent_mileage_allocation_count": 0,
+    "spent_mileage_credits": 0,
+    "verified_alternative_replies": 0,
+    "actual_reply_p50_seconds": null,
+    "actual_pending_replies": 0,
+    "all_transport_p50_seconds_including_GetTask": null
+  },
+  "post": {
+    "start": 1795866861.406812,
+    "end": 1795870461.406812,
+    "seconds": 3600.0,
+    "transport_started": 0,
+    "transport_ended": 0,
+    "trace_message_count": 0,
+    "trace_request_groups": 0,
+    "registered_operator_groups": 0,
+    "non_operator_linked_request_groups": 0,
+    "verified_unique_people": null,
+    "person_count_note": "Trace groups/messages and settled wallets do not establish distinct persons.",
+    "non_operator_linked_funnel": {},
+    "explicit_SKU_message_groups": 0,
+    "followup_reference_no_explicitSKU_groups": 0,
+    "checkout_guard_outcome_counts": {},
+    "new_checkout_rows": 0,
+    "new_settlements": 0,
+    "trade_margin_after_full_new_lot_credits_exact": "0",
+    "trade_margin_receipt_evidence_complete": true,
+    "actual_fully_allocated_profit": null,
+    "profit_note": "Zero settled trades means zero recognized trade margin; cumulative settled trades are reported separately. Holding/operating/unattributed costs are not fully allocated.",
+    "earned_lot_count": 0,
+    "full_earned_lot_burden_credits": 0,
+    "spent_mileage_allocation_count": 0,
+    "spent_mileage_credits": 0,
+    "verified_alternative_replies": 0,
+    "actual_reply_p50_seconds": null,
+    "actual_pending_replies": 0,
+    "all_transport_p50_seconds_including_GetTask": null
+  },
+  "marketing": {
+    "pre": {
+      "posted": 1
+    },
+    "post": {
+      "posted": 1
+    },
+    "job_states": {
+      "running": 1,
+      "finished": 18
+    },
+    "job_results": [
+      {
+        "status": "no_eligible_options",
+        "job": 3,
+        "model_calls": 0,
+        "publication_attempts": 0,
+        "original_Mind_run_once": true,
+        "new_periodic_loops": 0,
+        "started_at": 1795866954.399142,
+        "source_rows": 0,
+        "visible_rows": 0,
+        "reply_options": 0,
+        "eligible_by_grade": {
+          "A": 0,
+          "B": 0,
+          "C": 0
+        },
+        "finished_at": 1795866955.451255,
+        "seconds": 1.7774
+      },
+      {
+        "status": "posted",
+        "job": 4,
+        "model_calls": 1,
+        "publication_attempts": 1,
+        "original_Mind_run_once": true,
+        "new_periodic_loops": 0,
+        "started_at": 1795867481.4816241,
+        "source_rows": 2,
+        "visible_rows": 2,
+        "reply_options": 2,
+        "eligible_by_grade": {
+          "A": 0,
+          "B": 0,
+          "C": 0
+        },
+        "post": 30573,
+        "synthetic_terminal_calls": 1,
+        "finished_at": 1795867549.5902934,
+        "seconds": 68.8605
+      },
+      {
+        "status": "cooldown",
+        "job": 5,
+        "model_calls": 0,
+        "publication_attempts": 0,
+        "original_Mind_run_once": true,
+        "new_periodic_loops": 0,
+        "started_at": 1795867611.1742578,
+        "finished_at": 1795867611.4438958,
+        "seconds": 1.038
+      },
+      {
+        "status": "cooldown",
+        "job": 6,
+        "model_calls": 0,
+        "publication_attempts": 0,
+        "original_Mind_run_once": true,
+        "new_periodic_loops": 0,
+        "started_at": 1795867744.978977,
+        "finished_at": 1795867745.2656496,
+        "seconds": 1.0539
+      },
+      {
+        "status": "no_eligible_options",
+        "job": 7,
+        "model_calls": 0,
+        "publication_attempts": 0,
+        "original_Mind_run_once": true,
+        "new_periodic_loops": 0,
+        "started_at": 1795867878.5799363,
+        "source_rows": 0,
+        "visible_rows": 0,
+        "reply_options": 0,
+        "eligible_by_grade": {
+          "A": 0,
+          "B": 0,
+          "C": 0
+        },
+        "finished_at": 1795867879.5444279,
+        "seconds": 1.6836
+      },
+      {
+        "status": "no_selection",
+        "job": 8,
+        "model_calls": 1,
+        "publication_attempts": 0,
+        "original_Mind_run_once": true,
+        "new_periodic_loops": 0,
+        "started_at": 1795868012.9275224,
+        "source_rows": 1,
+        "visible_rows": 1,
+        "reply_options": 1,
+        "eligible_by_grade": {
+          "A": 0,
+          "B": 0,
+          "C": 0
+        },
+        "synthetic_terminal_calls": 0,
+        "finished_at": 1795868050.6865058,
+        "seconds": 38.4563
+      },
+      {
+        "status": "no_selection",
+        "job": 9,
+        "model_calls": 1,
+        "publication_attempts": 0,
+        "original_Mind_run_once": true,
+        "new_periodic_loops": 0,
+        "started_at": 1795868140.709335,
+        "source_rows": 1,
+        "visible_rows": 1,
+        "reply_options": 1,
+        "eligible_by_grade": {
+          "A": 0,
+          "B": 0,
+          "C": 0
+        },
+        "synthetic_terminal_calls": 0,
+        "finished_at": 1795868177.584868,
+        "seconds": 37.6096
+      },
+      {
+        "status": "no_selection",
+        "job": 10,
+        "model_calls": 1,
+        "publication_attempts": 0,
+        "original_Mind_run_once": true,
+        "new_periodic_loops": 0,
+        "started_at": 1795868267.553165,
+        "source_rows": 1,
+        "visible_rows": 1,
+        "reply_options": 1,
+        "eligible_by_grade": {
+          "A": 0,
+          "B": 0,
+          "C": 0
+        },
+        "synthetic_terminal_calls": 0,
+        "finished_at": 1795868302.5381312,
+        "seconds": 35.6915
+      },
+      {
+        "status": "no_selection",
+        "job": 11,
+        "model_calls": 1,
+        "publication_attempts": 0,
+        "original_Mind_run_once": true,
+        "new_periodic_loops": 0,
+        "started_at": 1795868770.5320995,
+        "source_rows": 1,
+        "visible_rows": 1,
+        "reply_options": 1,
+        "eligible_by_grade": {
+          "A": 0,
+          "B": 0,
+          "C": 0
+        },
+        "synthetic_terminal_calls": 0,
+        "finished_at": 1795868806.6425233,
+        "seconds": 36.8686
+      },
+      {
+        "status": "no_selection",
+        "job": 12,
+        "model_calls": 1,
+        "publication_attempts": 0,
+        "original_Mind_run_once": true,
+        "new_periodic_loops": 0,
+        "started_at": 1795868896.4964762,
+        "source_rows": 1,
+        "visible_rows": 1,
+        "reply_options": 1,
+        "eligible_by_grade": {
+          "A": 0,
+          "B": 0,
+          "C": 0
+        },
+        "synthetic_terminal_calls": 1,
+        "finished_at": 1795868949.751513,
+        "seconds": 54.0189
+      },
+      {
+        "status": "no_selection",
+        "job": 13,
+        "model_calls": 1,
+        "publication_attempts": 0,
+        "original_Mind_run_once": true,
+        "new_periodic_loops": 0,
+        "started_at": 1795869025.1268673,
+        "source_rows": 1,
+        "visible_rows": 1,
+        "reply_options": 1,
+        "eligible_by_grade": {
+          "A": 0,
+          "B": 0,
+          "C": 0
+        },
+        "synthetic_terminal_calls": 0,
+        "finished_at": 1795869060.1739874,
+        "seconds": 35.7926
+      },
+      {
+        "status": "no_selection",
+        "job": 14,
+        "model_calls": 1,
+        "publication_attempts": 0,
+        "original_Mind_run_once": true,
+        "new_periodic_loops": 0,
+        "started_at": 1795869150.083239,
+        "source_rows": 1,
+        "visible_rows": 1,
+        "reply_options": 1,
+        "eligible_by_grade": {
+          "A": 0,
+          "B": 0,
+          "C": 0
+        },
+        "synthetic_terminal_calls": 0,
+        "finished_at": 1795869183.9291952,
+        "seconds": 34.5669
+      },
+      {
+        "status": "no_selection",
+        "job": 15,
+        "model_calls": 1,
+        "publication_attempts": 0,
+        "original_Mind_run_once": true,
+        "new_periodic_loops": 0,
+        "started_at": 1795869273.817111,
+        "source_rows": 1,
+        "visible_rows": 1,
+        "reply_options": 1,
+        "eligible_by_grade": {
+          "A": 0,
+          "B": 0,
+          "C": 0
+        },
+        "synthetic_terminal_calls": 0,
+        "finished_at": 1795869310.324352,
+        "seconds": 37.2418
+      },
+      {
+        "status": "no_selection",
+        "job": 16,
+        "model_calls": 1,
+        "publication_attempts": 0,
+        "original_Mind_run_once": true,
+        "new_periodic_loops": 0,
+        "started_at": 1795869399.8967347,
+        "source_rows": 1,
+        "visible_rows": 1,
+        "reply_options": 1,
+        "eligible_by_grade": {
+          "A": 0,
+          "B": 0,
+          "C": 0
+        },
+        "synthetic_terminal_calls": 0,
+        "finished_at": 1795869436.167494,
+        "seconds": 36.963
+      },
+      {
+        "status": "no_selection",
+        "job": 17,
+        "model_calls": 1,
+        "publication_attempts": 0,
+        "original_Mind_run_once": true,
+        "new_periodic_loops": 0,
+        "started_at": 1795869525.4547372,
+        "source_rows": 1,
+        "visible_rows": 1,
+        "reply_options": 1,
+        "eligible_by_grade": {
+          "A": 0,
+          "B": 0,
+          "C": 0
+        },
+        "synthetic_terminal_calls": 1,
+        "finished_at": 1795869580.4640832,
+        "seconds": 55.696
+      },
+      {
+        "status": "no_selection",
+        "job": 18,
+        "model_calls": 1,
+        "publication_attempts": 0,
+        "original_Mind_run_once": true,
+        "new_periodic_loops": 0,
+        "started_at": 1795870073.8684406,
+        "source_rows": 1,
+        "visible_rows": 1,
+        "reply_options": 1,
+        "eligible_by_grade": {
+          "A": 0,
+          "B": 0,
+          "C": 0
+        },
+        "synthetic_terminal_calls": 0,
+        "finished_at": 1795870114.8462603,
+        "seconds": 41.6337
+      },
+      {
+        "status": "no_selection",
+        "job": 19,
+        "model_calls": 1,
+        "publication_attempts": 0,
+        "original_Mind_run_once": true,
+        "new_periodic_loops": 0,
+        "started_at": 1795870204.24093,
+        "source_rows": 1,
+        "visible_rows": 1,
+        "reply_options": 1,
+        "eligible_by_grade": {
+          "A": 0,
+          "B": 0,
+          "C": 0
+        },
+        "synthetic_terminal_calls": 0,
+        "finished_at": 1795870239.1475613,
+        "seconds": 35.5738
+      },
+      {
+        "status": "no_selection",
+        "job": 20,
+        "model_calls": 1,
+        "publication_attempts": 0,
+        "original_Mind_run_once": true,
+        "new_periodic_loops": 0,
+        "started_at": 1795870328.1565692,
+        "source_rows": 1,
+        "visible_rows": 1,
+        "reply_options": 1,
+        "eligible_by_grade": {
+          "A": 0,
+          "B": 0,
+          "C": 0
+        },
+        "synthetic_terminal_calls": 0,
+        "finished_at": 1795870369.8707356,
+        "seconds": 42.3716
+      }
+    ]
+  },
+  "cutoff_marketing_jobs": {
+    "running": 1,
+    "finished": 18
+  },
+  "job_finished_after_cutoff": {
+    "id": 21,
+    "seconds_after_end": 34.2,
+    "outcome": "sleep/no_selection; its inference occurred outside the measured hour"
+  },
+  "model_calls_within_window": {
+    "calls_in_window": 14,
+    "action_forum_marketing": 1,
+    "action_sleep": 11,
+    "error_TimeoutError": 2
+  },
+  "initial_pre17_publications": 1,
+  "stable17_publications": 1,
+  "total_verified_publications_including_initial": 2,
+  "publications_are_not_buyer_views": true,
+  "buyer_forum_followups_latest": {
+    "at": 1795870645.5278316,
+    "coverage_since_first_post_complete": true,
+    "own_posts": 2,
+    "buyer_forum_followups_after_own_thread_post": 0,
+    "buyer_names_or_text_exported": false,
+    "Model_POST_financial_calls": 0
+  },
+  "preservation": {
+    "DB_device_inode": true,
+    "wallets_price_policy_procurement": true,
+    "original_services": true,
+    "CF_alive": true,
+    "quick_check": "ok"
+  },
+  "metadata": {
+    "schema": "r4-inflow-hour-final-metadata.v1",
+    "each_window_seconds": 3600,
+    "resources": {
+      "engine": {
+        "start_RSS_MiB": 75.367,
+        "end_RSS_MiB": 82.004,
+        "max_RSS_MiB": 82.004,
+        "last_half_min_MiB": 80.797,
+        "last_half_max_MiB": 82.004,
+        "PID_changed_in_window": false,
+        "NRestarts_end": 0
+      },
+      "router": {
+        "start_RSS_MiB": 61.801,
+        "end_RSS_MiB": 61.879,
+        "max_RSS_MiB": 61.879,
+        "last_half_min_MiB": 61.832,
+        "last_half_max_MiB": 61.879,
+        "PID_changed_in_window": false,
+        "NRestarts_end": 0
+      }
+    },
+    "router": {
+      "pre": {
+        "known_message_attempts": 0,
+        "message_HTTP_statuses": {},
+        "unclassified_HTTP200_count": 285,
+        "unclassified_note": "Can include discovery GET; not a buyer/person/view count."
+      },
+      "post": {
+        "known_message_attempts": 0,
+        "message_HTTP_statuses": {},
+        "unclassified_HTTP200_count": 287,
+        "unclassified_note": "Can include discovery GET; not a buyer/person/view count."
+      }
+    },
+    "marketing_Model": {
+      "calls_in_window": 14,
+      "action_forum_marketing": 1,
+      "action_sleep": 11,
+      "error_TimeoutError": 2
+    },
+    "jobs": [
+      {
+        "id": 3,
+        "state_at_cutoff": "finished",
+        "result_status_when_finished": "no_eligible_options",
+        "finished_after_cutoff_seconds": null,
+        "actual_model_called_in_window": false,
+        "action": null,
+        "model_error_types": []
+      },
+      {
+        "id": 4,
+        "state_at_cutoff": "finished",
+        "result_status_when_finished": "posted",
+        "finished_after_cutoff_seconds": null,
+        "actual_model_called_in_window": true,
+        "action": "forum_marketing",
+        "model_error_types": []
+      },
+      {
+        "id": 5,
+        "state_at_cutoff": "finished",
+        "result_status_when_finished": "cooldown",
+        "finished_after_cutoff_seconds": null,
+        "actual_model_called_in_window": false,
+        "action": null,
+        "model_error_types": []
+      },
+      {
+        "id": 6,
+        "state_at_cutoff": "finished",
+        "result_status_when_finished": "cooldown",
+        "finished_after_cutoff_seconds": null,
+        "actual_model_called_in_window": false,
+        "action": null,
+        "model_error_types": []
+      },
+      {
+        "id": 7,
+        "state_at_cutoff": "finished",
+        "result_status_when_finished": "no_eligible_options",
+        "finished_after_cutoff_seconds": null,
+        "actual_model_called_in_window": false,
+        "action": null,
+        "model_error_types": []
+      },
+      {
+        "id": 8,
+        "state_at_cutoff": "finished",
+        "result_status_when_finished": "no_selection",
+        "finished_after_cutoff_seconds": null,
+        "actual_model_called_in_window": true,
+        "action": "sleep",
+        "model_error_types": []
+      },
+      {
+        "id": 9,
+        "state_at_cutoff": "finished",
+        "result_status_when_finished": "no_selection",
+        "finished_after_cutoff_seconds": null,
+        "actual_model_called_in_window": true,
+        "action": "sleep",
+        "model_error_types": []
+      },
+      {
+        "id": 10,
+        "state_at_cutoff": "finished",
+        "result_status_when_finished": "no_selection",
+        "finished_after_cutoff_seconds": null,
+        "actual_model_called_in_window": true,
+        "action": "sleep",
+        "model_error_types": []
+      },
+      {
+        "id": 11,
+        "state_at_cutoff": "finished",
+        "result_status_when_finished": "no_selection",
+        "finished_after_cutoff_seconds": null,
+        "actual_model_called_in_window": true,
+        "action": "sleep",
+        "model_error_types": []
+      },
+      {
+        "id": 12,
+        "state_at_cutoff": "finished",
+        "result_status_when_finished": "no_selection",
+        "finished_after_cutoff_seconds": null,
+        "actual_model_called_in_window": true,
+        "action": null,
+        "model_error_types": [
+          "TimeoutError"
+        ]
+      },
+      {
+        "id": 13,
+        "state_at_cutoff": "finished",
+        "result_status_when_finished": "no_selection",
+        "finished_after_cutoff_seconds": null,
+        "actual_model_called_in_window": true,
+        "action": "sleep",
+        "model_error_types": []
+      },
+      {
+        "id": 14,
+        "state_at_cutoff": "finished",
+        "result_status_when_finished": "no_selection",
+        "finished_after_cutoff_seconds": null,
+        "actual_model_called_in_window": true,
+        "action": "sleep",
+        "model_error_types": []
+      },
+      {
+        "id": 15,
+        "state_at_cutoff": "finished",
+        "result_status_when_finished": "no_selection",
+        "finished_after_cutoff_seconds": null,
+        "actual_model_called_in_window": true,
+        "action": "sleep",
+        "model_error_types": []
+      },
+      {
+        "id": 16,
+        "state_at_cutoff": "finished",
+        "result_status_when_finished": "no_selection",
+        "finished_after_cutoff_seconds": null,
+        "actual_model_called_in_window": true,
+        "action": "sleep",
+        "model_error_types": []
+      },
+      {
+        "id": 17,
+        "state_at_cutoff": "finished",
+        "result_status_when_finished": "no_selection",
+        "finished_after_cutoff_seconds": null,
+        "actual_model_called_in_window": true,
+        "action": null,
+        "model_error_types": [
+          "TimeoutError"
+        ]
+      },
+      {
+        "id": 18,
+        "state_at_cutoff": "finished",
+        "result_status_when_finished": "no_selection",
+        "finished_after_cutoff_seconds": null,
+        "actual_model_called_in_window": true,
+        "action": "sleep",
+        "model_error_types": []
+      },
+      {
+        "id": 19,
+        "state_at_cutoff": "finished",
+        "result_status_when_finished": "no_selection",
+        "finished_after_cutoff_seconds": null,
+        "actual_model_called_in_window": true,
+        "action": "sleep",
+        "model_error_types": []
+      },
+      {
+        "id": 20,
+        "state_at_cutoff": "finished",
+        "result_status_when_finished": "no_selection",
+        "finished_after_cutoff_seconds": null,
+        "actual_model_called_in_window": true,
+        "action": "sleep",
+        "model_error_types": []
+      },
+      {
+        "id": 21,
+        "state_at_cutoff": "running",
+        "result_status_when_finished": "no_selection",
+        "finished_after_cutoff_seconds": 34.188,
+        "actual_model_called_in_window": false,
+        "action": "sleep",
+        "model_error_types": []
+      }
+    ],
+    "asof_cutoff_states": {
+      "running": 1,
+      "finished": 18
+    },
+    "public_card_HTTP": 200,
+    "public_card_identity_same": true,
+    "marketing_owner_active": true,
+    "maintenance": false,
+    "original_GetTask_results_checked": 47,
+    "original_GetTask_results_same": 47,
+    "operator_new_customer_probes": 0,
+    "new_promotion_automations": 0,
+    "observer_Model_market_POST_financial_calls": 0,
+    "observations": 81,
+    "raw_customer_or_Model_thought_exported": false
+  },
+  "market_accounting": {
+    "pre": {
+      "own_event_counts": {
+        "expire": 1
+      },
+      "confirmed_expired_units": 1,
+      "confirmed_expired_cost_credits": 29837,
+      "paid_procurement_storage_credits": 0,
+      "paid_procurement_fees_credits": 0,
+      "confirmed_result_after_expiry_and_paid_expenses_credits_exact": "-29837",
+      "market_settle_events": 99,
+      "market_order_events": 102
+    },
+    "post": {
+      "own_event_counts": {},
+      "confirmed_expired_units": 0,
+      "confirmed_expired_cost_credits": 0,
+      "paid_procurement_storage_credits": 0,
+      "paid_procurement_fees_credits": 0,
+      "confirmed_result_after_expiry_and_paid_expenses_credits_exact": "0",
+      "market_settle_events": 100,
+      "market_order_events": 100
+    }
+  },
+  "profit_scope": "Receipt-verified sale transfer less recorded sold cost and full issued mileage lot once; separately deduct own ledger-confirmed expiry and paid procurement storage/fees. Unpaid storage accrual, unallocated gas and unrelated operating costs are excluded; not full operating profit.",
+  "new_promotion_automations": 0,
+  "operator_customer_probes": 0,
+  "operator_Market_POST_or_wallet_sends": 0,
+  "observation_process_finished": true,
+  "limitations": [
+    "No actual buyer SendMessage or new settlement occurred; live customer checkout completion is not proven.",
+    "Alternative guidance passed actual classroom-model isolated ASGI verification, not a live customer sale.",
+    "Current urgent C eligibility was zero, so live urgent-C publication was not exercised.",
+    "Native eligibility is a broad factual reference candidate, not semantic fit; a salad/bread request with coffee mix was rightly held by the model.",
+    "Memory RSS rose during this hour; no process restart occurred. One hour does not prove absence of long-term accumulation.",
+    "Expiry differences between periods are not evidence of sales growth or causality."
+  ]
+}

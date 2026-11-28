@@ -1,5 +1,49 @@
 # R4 서버 운영 인계
 
+## 최신 인계 — 2026-11-28 안정 버전 한 시간 관찰 완료
+
+유입 수정17을 적용했고 20:54:21~21:54:21 KST의 3,600초 관찰을 완료했다. 비교 창은 같은 날 19:29:48~20:29:48 KST다. 점검 문의를 제외한 실제 문의 0→0, 신규 결제서 0→0, 정산 0→0, 적립 부담을 반영한 판매 기여액 0→0 크레딧이다. 판매 증가나 실제 고객의 결제 완주를 확인했다고 말하면 안 된다.
+
+포럼 게시 전체는 원장 생성 시각 기준 1→1건이며, 이전 것은 새 글이고 이후 것은 찾는 글에 대한 답글이다(답글 0→1건). 초기 적용 구간의 답글 1건을 별도로 더하면 이번 수정 후 실제 답글은 총 2건이다. 공개 API와 원장을 대조했다. 바이어가 읽었다는 증거는 없고, 확인한 후속 답글과 A2A 연락은 0건이다. 없는 상품의 실제 재고 대안은 격리된 실제 수업 모델 경로에서 검증했으나 실거래 문의에는 아직 관측되지 않았다. 만료 임박 C 우선 홍보는 활성화했지만, 현재 판매 가능 20분~6시간 범위의 C는 0개였다.
+
+현재 release는 `155c37caaac651d20ee1fccddc94843751ee1d06841f97ee5c6652e85e155a35`, front는 `3cf0b00e6326d295625476f4d0bf5d8d4f6b723efb219abb55695d0242a34aef`다. 고정 router18811 → engine18812, genuine native15·대안4·formatter4를 사용하며 maintenance=false, marketing owner active=true다. 기존 셀러의 자연 tick이 수업 모델을 호출해 게시를 고른다. 새 예약 작업과 수동 시장 게시를 만들지 않았다. 셀러 운영은 계속하고 한정된 읽기 전용 관측 프로세스만 끝났다. 개발 브리지 2개는 종료했다.
+
+기존 DB·두 지갑·가격 정책·매입8과 원 서비스 7개·CF를 보존했다. 기존 공개 GetTask 전체 결과 47/47이 일치하고 핵심 장부 8개가 유지됐다. R3와 중지된 예약 홍보는 그대로다. 한 시간 동안 engine/router 재시작과 PID 변경은 없었다. RSS는 각각 75.367→82.004 MiB, 61.801→61.879 MiB로 증가했으며 장기 메모리 누적 여부를 확정하지 않는다.
+
+남은 병목은 A2A 이전 유입과 수요에 맞는 대안 재고다. 샐러드·빵 요청에 커피믹스만 후보로 남은 경우 모델이 보류한 것은 올바르다. 같은 부적합 후보를 거듭 판단하는 비용과 모델 시간 초과 2건은 후속 개선 대상으로 남긴다. 매입 경로는 이번에 바꾸지 않았다.
+
+상세 결과와 회계 범위: [R4_SELLER_INFLOW_20261128.md](R4_SELLER_INFLOW_20261128.md). 고정 시간창·81개 관측·공개 게시 대조·실패 기록·독립 QA는 `evidence/20261128-seller-inflow/`에 있다. 아래의 ‘관찰 중’ 기록은 당시 상태로 보존한다. 최신 상태는 이 항목을 따른다.
+
+---
+
+## 최신 인계 — 2026-11-28 20:54:21 KST SDK 제어 수정17 적용, 안정 버전 한 시간 관찰 중
+
+현재 고정 router18811 → engine18812는 release `155c37caaac651d20ee1fccddc94843751ee1d06841f97ee5c6652e85e155a35`, front `3cf0b00e6326d295625476f4d0bf5d8d4f6b723efb219abb55695d0242a34aef`다. genuine native15/alt4/formatter4/managed compatibility·금융 코드는16b와 같고 seller HOST의 SDK 단계수와 종료 JSON만 수정했다. 원7서비스/router/CF/DB/지갑/가격/매입8을 유지하며 다시GetTask47/47·핵심장부8개 동일·DBquick_check ok를 확인했다. 현재maintenance=false/owner active=true이며 generation은e17c163d6c23df9465643f53ea13096c1d38589b7cdcd15c623f6323068043f1이다. token은공개하지 않는다.
+
+초기16b 자연job1은Model1회sleep, job2는Model1회로실제buyer root에참고재고답글1건을게시했다(공개post30458, SKU G8165655f). 공개API의author/role/round/thread/content가원ledger와같고 Model선택SKU도같다. 운영자 Market POST0·새예약홍보0이다. 이것을buyer조회나정산으로세지않는다. 초기15분 점검0/실제문의0/checkout·paid·settled0·게시1이며 마감전68.334초에는17전환이포함되어단일버전비교가아니다.
+
+Original SDK는max_steps3이면첫턴부터마감nudge를넣으므로6으로수정했고 실제Model상한1회는유지했다. 게시후합성종료도tool/thoughts가아닌원SDK thought/action=sleep으로맞췄다. job2에서잘못된합성종료2회가소비됐던기록을보존했다. 첫job의sleep원인을nudge하나로단정하지않는다. 원SDK스모크에서선택대역1→게시대역1→올바른합성sleep1·첫nudge없음이검증됐다.
+
+최종비교는전창 2026-11-28 19:29:48 KST~2026-11-28 20:29:48 KST, 후창 2026-11-28 20:54:21 KST~2026-11-28 21:54:21 KST, 각3600초로배포구간을제외한다. 초기16b게시1건은별도보존한다. 관측 pointer는runtime/a2a-host/active-inflow-observation-private.json이고 개발/증거/receipt pointer는runtime/a2a-host/active-inflow-work-private.json이다. 관측은현재대화내유한read-only프로세스며끝나면종료한다. 아직게시율·문의·정산개선을확정하지않는다.
+
+---
+
+## 최신 인계 — 2026-11-28 20:40:29 KST 유입 수정 적용, 한 시간 관찰 중
+
+고정 router18811 → engine18812를 유지하며 release `ec67edbb9f7e1e0f5b2140d377ea4db25964ae0131864c3923f696ec18d77a95`, front `ec1bb2cee8d08fb818bf8d53bfa055774471d019c56c786cd536825addad39bd`를 가동 중이다. 기존 main·worker·legacy front 7개와 CF는 재시작하지 않았다. DB device/inode·두 지갑·가격 정책·매입8·핵심 장부8개가 같고 기존 GetTask 전체47/47이 일치했다.
+
+시장 도구는 실제 Mind/forge_tool로 생성한 public_alternatives4, forum_marketing15, formatter4다. 구현 개발은 요청한6.2Sol, 운영 선택은 market 모델이다. 실제 stock142·readonly ordinary SDK realGET24.1059초, 답변 후보3/항목9, 별도 context24.316초·6h complete 및 facts 일치가 통과했다. 현재 긴급 C(20분~6시간)는0이며 테스트의 과거C1을 현재재고로 주장하지 않는다.
+
+기존 셀러 stock/idle/tick의 reconcile이 인증된 동기 localhost handoff로 원 SDK Mind 한 차례를 실행한다. 모델은 글·SKU·등급과 게시/보류를 고르고, native가 실재고·조건·중복·한도를 검사해 본문을 작성한다. 별도 예약 홍보·새 timer·운영자 수동 Market POST는0이다. R3/예약 홍보/매입15/cold-start는 바꾸지 않았다.
+
+maintenance=false·marketing owner active=true다. 과거 개발 중 서버 중지 지시는 이후의 새 버전 적용·실제 문의/정산 관찰 요청으로 전환됐다. 자동 심사는 과거 점검 지시를 근거로 복구를 한 번 거절했고, 최신 사용자 운영 지시와 read-only 보존 증거를 제출한 동일 직접 행동의 재심이 승인된 뒤 재개했다. 우회 실행이나 비밀 재개는 없다. owner token은 비공개 state/r4-benefits/marketing-owner-policy.json에만 있고 Git에 넣지 않는다.
+
+적용 중 최초a454 릴리스는 기존 managed validator가 새loopback 권한을 거절하여 엔진 시작10회가 실패했다. 새 엔진만 멈추고 원publisher9를 복원해 조회를 살린 뒤, exact native 해시/권한 callback을 추가한16b로 forward-fix했다. 실제 원SDK 조립7/7·HOST48/48·ASGI3+기존xfail1이 통과했다. oldapp/node나 금융 코드를 완화하지 않았다. 원 실패와13 pack우회/14 API범위실패는 공개 안전증거와 비공개 원형을 보존했다.
+
+비교 전창 2026-11-28 19:29:48 KST~2026-11-28 20:29:48 KST, 후창 2026-11-28 20:40:29 KST~2026-11-28 21:40:29 KST, 각3600초다. 배포 점검 시간은 제외한다. 아직 최종 개선/게시/정산 성공을 주장하지 않는다. 관측 pointer는 runtime/a2a-host/active-inflow-work-private.json, 해당work의 OBSERVATION-PLAN-private.json/OBSERVATION-LATEST-SAFE.json이다. 전용 유한 read-only 관측 프로세스는 종료 시각에 끝나며 운영 예약 작업이 아니다. 점검 고객 문의를 추가하지 않는다.
+
+---
+
 ## 최신 인계 — 2026-11-28 13:36:48 KST semantic19 한 시간 관찰 완료
 
 12:34:56~13:34:56 정확히3600초를 read-only로 관찰했다. 직전3600초의 점검3건을 제외했고 이번 점검 문의0이다. 실제 문의1→0·신규정산0→0·판매이익0→0이다. C등급1개 자연 만료 원가16837이 시장 hash ledger로 확정됐고 만료 반영 손익은0→−16837크레딧이다. 전체 영업순이익과는 구분한다.

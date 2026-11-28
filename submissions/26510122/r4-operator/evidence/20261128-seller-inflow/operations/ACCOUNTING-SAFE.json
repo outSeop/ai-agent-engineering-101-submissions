@@ -1,0 +1,32 @@
+{
+  "schema": "r4-inflow-equal-hour-accounting.v1",
+  "each_window_seconds": 3600,
+  "accounting": {
+    "pre": {
+      "own_event_counts": {
+        "expire": 1
+      },
+      "confirmed_expired_units": 1,
+      "confirmed_expired_cost_credits": 29837,
+      "paid_procurement_storage_credits": 0,
+      "paid_procurement_fees_credits": 0,
+      "confirmed_result_after_expiry_and_paid_expenses_credits_exact": "-29837",
+      "market_settle_events": 99,
+      "market_order_events": 102
+    },
+    "post": {
+      "own_event_counts": {},
+      "confirmed_expired_units": 0,
+      "confirmed_expired_cost_credits": 0,
+      "paid_procurement_storage_credits": 0,
+      "paid_procurement_fees_credits": 0,
+      "confirmed_result_after_expiry_and_paid_expenses_credits_exact": "0",
+      "market_settle_events": 100,
+      "market_order_events": 100
+    }
+  },
+  "scope": "Receipt-verified sale transfer less recorded sold cost and full issued mileage lot once; separately deduct own ledger-confirmed expiry and paid procurement storage/fees. Unpaid storage accrual, unallocated gas and unrelated operating costs are excluded; not full operating profit.",
+  "observer_transaction_sends": 0,
+  "observer_Model_calls": 0,
+  "raw_customer_data_exported": false
+}
