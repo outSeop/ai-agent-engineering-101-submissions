@@ -1,0 +1,30 @@
+{
+  "schema": "r4-first-natural-post-quality.v1",
+  "scope": "one_existing_local_case_no_additional_API_Model_or_POST",
+  "case_post_id": 30458,
+  "action_publish": true,
+  "thread_matches_public_post": true,
+  "decision_item_matches_view": true,
+  "selected_pair_eligible": true,
+  "request_is_exact_native_source_request": true,
+  "request_type": "재고·가격을 찾는 일반 커피 상품 문의; 구매확정이나 후기·추천 글로 볼 근거 없음",
+  "product_relation": "요청 상품군 커피와 실제 공개상품 원두커피가 관련됨; 다른 상품군의 무관 광고로 볼 근거 없음",
+  "public_product": {
+    "name": "세일즈카페 케냐AA 200g원두커피(SROC010FC0200A01)",
+    "grade": "B",
+    "price": 7560,
+    "currency": "credits",
+    "expiry_seconds_at_source": 1703756
+  },
+  "confirmed": "원문과 native source 문의 일치, 커피 상품군 관련성, 선택 pair의 eligible 포함, 공개 이름·B등급·7560가격·기한 자료 존재, 실제 게시의 같은 선택 SKU/B/가격 표기",
+  "not_confirmed": "구매확정·결제·정산·개별 취향 충족은 확인되지 않음. 구체 수량/등급/예산/잔여기한/증빙 요구를 이 문의에서 추출하지 못했으므로 전조건 충족이나 추천 최적성을 주장하지 않음.",
+  "published_reference_label_present": true,
+  "buyer_text_or_thought_exported": false,
+  "financial_or_customer_action_claimed": false,
+  "local_source_sha256": {
+    "model-view-private.json": "7c47f65634931def19e2b8b5a9bba572542aedfed916bf9b7e127bbef14cf3ed",
+    "model-response-private.json": "3d822d5bfae47b2a0e1e41268d6a31f60afaefdb073a6b15bf83f545c0936687",
+    "native-source-private.json": "1f0bd2590b6cb483c108ce18848d817db2b437a458af10d94db6576612a65b80",
+    "natural-first-public-post-private.json": "6fed0fc376794e89db6868f83acd79ad0350cedfad7549e990bc625809b200a0"
+  }
+}

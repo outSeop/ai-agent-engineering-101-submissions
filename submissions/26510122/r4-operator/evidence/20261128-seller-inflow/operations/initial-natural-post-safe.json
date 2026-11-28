@@ -1,0 +1,22 @@
+{
+  "schema": "r4-natural-seller-publication-proof.v1",
+  "post": 30458,
+  "at": 1795866615.564784,
+  "real_thread_reply": true,
+  "shop_author_matches": true,
+  "public_thread_matches": true,
+  "public_content_matches_native_ledger": true,
+  "reference_only_label": true,
+  "SKU": "G8165655f",
+  "source_rows": 9,
+  "source_choice_count": 1,
+  "model_action": "forum_marketing",
+  "decision_action": "reply",
+  "model_selected_SKU_matches": true,
+  "native_formatted_credits_present": true,
+  "one_actual_classroom_Model_call": true,
+  "native_publication_attempts": 1,
+  "operator_market_POSTs": 0,
+  "new_scheduled_promotion_jobs": 0,
+  "actual_buyer_view_or_settlement_proven": false
+}

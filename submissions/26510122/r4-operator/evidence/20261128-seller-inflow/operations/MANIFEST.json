@@ -1,0 +1,10 @@
+{
+  "sha256": {
+    "initial-natural-post-safe.json": "167fa2eb7f34066120cba28ce24161216fe774cfb6890f1d7529db80105bd3ea",
+    "initial15min-mixed-release-safe.json": "67900289fb31c528b7abfb9e30424a49499cff1092d57299bd55dddeea9b3de8",
+    "public-posts-checked-safe.json": "2b83d98019b21f825bd8b8daa71e53522503562322aef4e42f032b3b7ea5c652",
+    "README.md": "ad0d4f176028c1a843c01d670c0194d2953d72a720472dd193235f856690f169",
+    "first-post-quality-safe.json": "e0ed4165d09c41c0b4688410090a13436154aa97a8656289708d770c0da45d4f",
+    "unrelated-candidate-hold-safe.json": "5c7da0060c1079ac39fe1d20ea2eb267ecffd11830ef5c2c0b7d0d281e1603ea"
+  }
+}
