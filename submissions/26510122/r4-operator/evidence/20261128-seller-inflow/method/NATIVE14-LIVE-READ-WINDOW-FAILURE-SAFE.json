@@ -1,0 +1,29 @@
+{
+  "version": 14,
+  "ordinary_testing_false": true,
+  "live_context_seconds": 17.3604,
+  "status": "options",
+  "reply_options": 0,
+  "items": 0,
+  "same_fresh13_selected_pairs_equal14": 18,
+  "window_diagnostic": {
+    "original_read_budget_seconds": 15,
+    "elapsed_seconds": 15.3836,
+    "HTTP_successful_GET_count": 29,
+    "binary_seek_GET_count": 15,
+    "scan100_GET_count": 14,
+    "failure_type": "ValueError_read_budget_exhausted",
+    "fallback_latest_rows": 100,
+    "fallback_coverage_seconds": 938
+  },
+  "comparison_collector_client_reuse": {
+    "GET_count": 42,
+    "full_six_hours": true,
+    "seconds": 8.318
+  },
+  "not_a_no_demand_claim": true,
+  "market_Model_calls": 0,
+  "forum_POSTs": 0,
+  "financial_actions": 0,
+  "real_customer_text_exported": false
+}

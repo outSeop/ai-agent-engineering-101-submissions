@@ -1,0 +1,12 @@
+[
+  {
+    "version": 15,
+    "passed": false,
+    "error_type": "AssertionError"
+  },
+  {
+    "version": 15,
+    "passed": true,
+    "error_type": ""
+  }
+]

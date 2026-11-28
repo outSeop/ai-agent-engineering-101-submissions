@@ -1,0 +1,26 @@
+{
+  "asset": "deploy/forum_owner_native_v15",
+  "manifest_sha256": "1ef7909e05384509c9dc371ec309ee1f8928a9fe40dd4bb653d5f29192c8e4e0",
+  "actual_forge_actions": 2,
+  "SDK_first_attempt_failed": "AssertionError",
+  "SDK_second_attempt_passed": true,
+  "exact4": {
+    "logic.py": "ade6803aa1e36c5d48a744cddf59637a29b44d040d1866b0a6ed1de54a56ff22",
+    "test.py": "5e41d24da474f50f571a6addb956bc70014e6f20ba77b630ec8950a316996d4b",
+    "permission.yml": "ec0900373a16fc7e1b6c2507fe8dfb9c8b5ba2d2741e8518d843b4ceee4f46cb",
+    "forge.json": "e5642c6d2b84825ac93ecd5d6a3acf5daef0ce82e94d9e4c1ad37f97245a0e36"
+  },
+  "dependencies": {
+    "forum_marketing12.py": "f25bb98116593ed7ca708d48c93a1a1aca7da78fda3c083f6aa83ffad06e0f6b",
+    "forum_marketing10.py": "bd80f8236c415ffc962b5b651f24232e8e34320a621145954abbbf0bedca073a",
+    "forum_marketing9.py": "b2edc8dba8c214a22074eb1f3db35ce5eb8234f444cf22710f025078b64e48e9",
+    "forum_marketing11.py": "d4297f458ea0bcbc98c18a621ded5c834d191323e25f34f3361212dd3f9942ed"
+  },
+  "change_scope": "request-local public window Client only;14 matcher constants and classifier-patch AST unchanged; no14 dependency layer",
+  "selftest_transport_scope": "legacy testingTrue retains original mock path; explicit ordinaryFalse fakeClient checks success2runs/errors3/close/deadline/method restoration and original authenticated get/rpc preservation",
+  "external_real_GET_QA": "pending",
+  "production_activated": false,
+  "Model_market_calls": 0,
+  "actual_forum_POSTs": 0,
+  "financial_actions": 0
+}

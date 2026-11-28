@@ -1,0 +1,16 @@
+{
+  "network": [
+    "market.ourolabs.ai",
+    "127.0.0.1"
+  ],
+  "write": [
+    "state/r4-benefits"
+  ],
+  "identity": [
+    "shop"
+  ],
+  "wallet": [],
+  "pay_limit": 0,
+  "timeout": 150,
+  "handles": []
+}

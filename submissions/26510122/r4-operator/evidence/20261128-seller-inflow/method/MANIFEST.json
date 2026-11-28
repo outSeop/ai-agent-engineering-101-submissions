@@ -7,9 +7,12 @@
     "NATIVE13-DEPENDENCIES-SAFE.json": "4bc0ef54d04d873d2d127aa5aa4ed05d29b0943aadcbe54fef5f50a2b08aeddc",
     "GENERATED-ASSETS-12-13-SAFE.json": "c2c4dbb99934656835a07a6570093cc6a0ea1147545dde485cd8adce975dc5ac",
     "NATIVE14-MINIMAL-SAFETY-REPAIR-SAFE.json": "55a16d68ed50ccffa9fbc723be6bfd6d1fd4faa86e7f0b42324f50c4133a9160",
+    "NATIVE14-LIVE-READ-WINDOW-FAILURE-SAFE.json": "88a77241fd3703ba674d0b8da42510d756d47291b50565bd296f21a1bc1fa5d0",
+    "NATIVE15-MATCHER-PARITY-SAFE.json": "cda4a8c51af06c09af1bde1145ed7be4718000ba171a20e5882f52bf4ec46935",
     "NATIVE11-PERFORMANCE-FAILURE-SAFE.json": "5cbcf335e2bde0465a2dfa0d298dfed81fc35a9624ce473a9d2fa6acaef7f913",
-    "README.md": "06d2d4f1c9fe2e3e1244c25fe0e4d0accb1b6c4628eb053a6ee85e9920e4c1a7",
+    "README.md": "eeb05ab441cfe8bd4aae3c3bba8abc0c36af86f3e833ccbeeabb886f5ff1c133",
     "NATIVE13-HARD-CONSTRAINT-FAILURE-SAFE.json": "ccc066ee8b9260c82bbc44abbaf241ef3bffe7ab5d5fd0f513c2384e4fad5c4d",
+    "NATIVE15-CONNECTION-REUSE-SAFE.json": "3e63b40bf2f6b6a4537d2d4c4bdc25f686f792f6cac8e4013692adea7f2945c0",
     "NATIVE12-13-CACHED-SDK-SAFE.json": "5a08064472f01395c28d76c4fce461978fe2e044a55e15c2f4cf43e1d748cdce",
     "BASELINE-DIAGNOSIS-SAFE.json": "fa97fd34267f0757dfade58a544db14dfe889e93565de14344ebaa449007cb2f",
     "GENERATED-ASSETS-SAFE.json": "63e4e83343d61702b4662c4380d849594659622764ed578ef8dceb1239a00c2a",
@@ -18,6 +21,11 @@
     "provenance/publisher14.json": "5dc23a26b9ce1f76a04ef34863df3eb00e980aa0c3597d97e01e2fd1f74fca5c",
     "provenance/publisher11.json": "ab48db5ca8438859af8d1c0bda1ec6338b8d0b290530ca5b33b7f606ca5a90e8",
     "provenance/formatter4.json": "09777cc237b86c5b30f37c2718355efa39aa86b56141cf6261fdded7d32b3de6",
-    "provenance/publisher13.json": "6cafeb9e2da2bdea3fb0a2df8933de76a24c12b96f12472ad3743fcae6aa243e"
+    "provenance/publisher15.json": "d6b661de006c701911d41567107b3f335dc6f4412f889ceca1e69e52ab517e7a",
+    "provenance/publisher13.json": "6cafeb9e2da2bdea3fb0a2df8933de76a24c12b96f12472ad3743fcae6aa243e",
+    "failed-proposals/native15-first/test.py": "c8d88608683fdd7f49e78ebdb60ef0d561084db4c6c15485b4eb4c32e5bd2ea6",
+    "failed-proposals/native15-first/requested-permission.json": "a1bd06d0f6e0e2eb109db383d4d3996f00b55a9210a3ad92f4b0a18b3948c2eb",
+    "failed-proposals/native15-first/ORIGIN-SAFE.json": "860170d2340afaf9034c1452dcb887b858c83213be732994234d0b7803a24efc",
+    "failed-proposals/native15-first/logic.py": "723b2fbde91cb6a53fce3b1308f7fbab3dcedabf16edaa4211f5e594abe80ad6"
   }
 }

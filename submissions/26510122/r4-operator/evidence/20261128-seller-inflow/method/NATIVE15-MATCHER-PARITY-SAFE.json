@@ -1,0 +1,62 @@
+{
+  "source_version": 15,
+  "source_sha256": "ade6803aa1e36c5d48a744cddf59637a29b44d040d1866b0a6ed1de54a56ff22",
+  "matcher_constants_and_patch_AST_equal14": true,
+  "focused_cases": [
+    {
+      "synthetic_text": "두유를 구할 수 있나요500ml",
+      "classification": null,
+      "equals14": true
+    },
+    {
+      "synthetic_text": "두유를 구할 수 있어요500ml",
+      "classification": null,
+      "equals14": true
+    },
+    {
+      "synthetic_text": "두유를 구매 원해요500ml",
+      "classification": null,
+      "equals14": true
+    },
+    {
+      "synthetic_text": "두유를 찾고 있어요500ml",
+      "classification": null,
+      "equals14": true
+    },
+    {
+      "synthetic_text": "두유를 구매 가능해요5000원",
+      "classification": null,
+      "equals14": true
+    },
+    {
+      "synthetic_text": "두유를 구매하고 싶어요USB",
+      "classification": null,
+      "equals14": true
+    },
+    {
+      "synthetic_text": "두유 500ml가 필요해요",
+      "classification": null,
+      "equals14": true
+    },
+    {
+      "synthetic_text": "두유가 필요해요. A등급 10000크레딧 이하로 가격 문의드립니다.",
+      "classification": "strict",
+      "equals14": true
+    },
+    {
+      "synthetic_text": "찾는 상품은 두유예요. 아침에 간편하게 쓸 수 있는 후보가 궁금해요.",
+      "classification": "reference",
+      "equals14": true
+    },
+    {
+      "synthetic_text": "두유를 구할 수 있을까요? 지금 재고와 상품가를 문의합니다.",
+      "classification": "reference",
+      "equals14": true
+    }
+  ],
+  "all_10_equal14": true,
+  "actual_market_API_calls": 0,
+  "actual_market_Model_calls": 0,
+  "financial_actions": 0,
+  "production_changes": 0
+}
