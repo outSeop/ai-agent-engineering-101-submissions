@@ -1,0 +1,9 @@
+{
+  "previous_hour_actual_requests": 1,
+  "operator_excluded": 3,
+  "total_source_catalogue_rows": 144,
+  "visible_matching_SKUs": 0,
+  "unverified_inventory_cases_after_correction": 1,
+  "production_services_or_business_sources_changed": false,
+  "purpose": "count visible matches, not total catalogue size"
+}

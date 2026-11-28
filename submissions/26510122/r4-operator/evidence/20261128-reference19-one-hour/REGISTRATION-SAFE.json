@@ -1,0 +1,15 @@
+{
+  "at": 1795837952.8964372,
+  "HTTP": 200,
+  "market_round": 4,
+  "matching_registered_shops": 1,
+  "same_registered_URL": true,
+  "same_registered_wallet": true,
+  "public_registry_row_field_names": [
+    "name",
+    "url",
+    "pubkey",
+    "reviews",
+    "stock"
+  ]
+}

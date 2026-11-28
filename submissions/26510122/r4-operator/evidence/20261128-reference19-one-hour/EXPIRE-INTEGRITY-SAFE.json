@@ -1,0 +1,11 @@
+{
+  "events": 1,
+  "checks": [
+    {
+      "hash_matches_canonical_JSON": true,
+      "ledger_previous_hash_shape_valid": true,
+      "cost_matches_authoritative_inventory_basis": true
+    }
+  ],
+  "public_source_TLS_and_inventory_ID_linked": true
+}

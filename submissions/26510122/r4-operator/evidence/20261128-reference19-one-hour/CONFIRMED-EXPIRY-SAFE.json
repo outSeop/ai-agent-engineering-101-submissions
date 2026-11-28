@@ -1,0 +1,16 @@
+{
+  "at": 1795838613.7322037,
+  "own_confirmed_expiry_events": 1,
+  "expired_units": 1,
+  "confirmed_expired_COGS_credits": 16837,
+  "registered_units_now": 143,
+  "at_risk_SKU_no_longer_registered": true,
+  "events": [
+    {
+      "ts": 1795838590.063,
+      "cost_credits": 16837,
+      "units": 1
+    }
+  ],
+  "manual_financial_operations": 0
+}

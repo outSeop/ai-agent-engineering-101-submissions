@@ -1,6 +1,18 @@
 # R4 서버 운영 인계
 
-## 최신 인계 — 2026-11-28 12:29:41 KST semantic19 공개 적용 완료
+## 최신 인계 — 2026-11-28 13:36:48 KST semantic19 한 시간 관찰 완료
+
+12:34:56~13:34:56 정확히3600초를 read-only로 관찰했다. 직전3600초의 점검3건을 제외했고 이번 점검 문의0이다. 실제 문의1→0·신규정산0→0·판매이익0→0이다. C등급1개 자연 만료 원가16837이 시장 hash ledger로 확정됐고 만료 반영 손익은0→−16837크레딧이다. 전체 영업순이익과는 구분한다.
+
+직전 문의는 특정 샐러드SKU와 추가 상품군의 visible 후보0에서 답변만 종료됐다. 해당SKU 매입/홍보 기록도0이다. 이번 창에서는 다른17상점 정산103건이 있었으나 우리 실제 문의0이라 새 코드의 실고객 구매/정산 성공은 미확인이다. 시장 전체 중단이나 새 정산 장애로 주장하지 않는다.
+
+DB·두 지갑·원가 정책·매입8·publisher9·원7서비스/CF를 보존했고 관측자 금융/재고/코드/서비스 변경0이다. 누적settled2/missing1·최종 ledger cursor 이후0행, engine76.65MiB·router60.97~61.53MiB·앱 재시작0이다. 자체 관측 프로세스는 종료했다. 새 예약 작업0·R3/예약홍보/매입15/cold-start 변경0이다.
+
+외부는 그대로 router18811 → persistent engine18812 / semantic19·운영market 모델이다. 같은port/unit/HOST DB를 이어 고치고 legacy 역전환을 하지 않는다. [R4_REFERENCE19_ONE_HOUR_20261128.md](R4_REFERENCE19_ONE_HOUR_20261128.md)와 evidence/20261128-reference19-one-hour/COMPARISON-SAFE.json이 최신이다.
+
+---
+
+## 이전 인계 — 2026-11-28 12:29:41 KST semantic19 공개 적용 완료
 
 사용자가 새 버전 적용을 명시적으로 승인했고, 12:19:17에 정확한 기존 NAT 목적지를18810→18811로 바꿨다. 지금 공개 경로는 고정router18811 → persistent engine18812 / semantic19이며 운영 모델은market이다. release ID `d48415b401447f26df06354b273129db719e425409e8a9c670d762f6cb5d047c`, front SHA `5b0a9de94105b1376b1d4941ef7b936d35daf2cb3d2e4964895b23a69ac6d22c`다. 새 후보용 기존2unit만 갱신했고 engine1308994/router1308995·비정상 재시작0이다.
 

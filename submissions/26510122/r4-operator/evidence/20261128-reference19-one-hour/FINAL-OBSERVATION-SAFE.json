@@ -1,0 +1,137 @@
+{
+  "at": 1795840496.0517883,
+  "window_start": 1795836896.051554,
+  "window_end_target": 1795840496.051554,
+  "elapsed_seconds": 3600.0,
+  "remaining_seconds": 0,
+  "previous_hour": {
+    "customer_messages": 1,
+    "operator_excluded": 3,
+    "final_responses": 1,
+    "verified_inventory_guidance": 0,
+    "no_verified_inventory": 1,
+    "model_errors": 0,
+    "unfinished": 0,
+    "reply_seconds": [
+      12.3458
+    ],
+    "cases": [
+      {
+        "reference_hash": "1e7dbb2749d164bd3ebd37a57d656cf264dbb4d002834bcfadc52c1a1cea58dd",
+        "start": 1795833963.8018446,
+        "reply_seconds": 12.3458,
+        "actions": [
+          "shop_context",
+          "respond"
+        ],
+        "catalogue_source_counts": [
+          144
+        ],
+        "catalogue_visible_sku_counts": [
+          0
+        ],
+        "verified_inventory_guidance": false,
+        "final_state": "completed",
+        "model_error_count": 0,
+        "final_response_present": true,
+        "request_SKU_present": true,
+        "request_checkout_document": true,
+        "request_buy_intent_token": false
+      }
+    ],
+    "checkout_rights_created": 0,
+    "settlements": 0,
+    "settled_payment_received_credits": "0",
+    "settled_COGS_credits": 0,
+    "actual_mileage_lot_including_welcome_credits": 0,
+    "confirmed_refund_outflow_for_cohort_credits": "0",
+    "refund_statuses_for_cohort": {},
+    "cash_trading_margin_credits": "0",
+    "margin_after_issued_mileage_reserve_credits": "0",
+    "scope": "seller transfer credits minus recorded unit cost and actual mileage lot once; excludes unallocated holding, procurement gas, unsold inventory valuation and unrelated operating costs"
+  },
+  "current_hour": {
+    "customer_messages": 0,
+    "operator_excluded": 0,
+    "final_responses": 0,
+    "verified_inventory_guidance": 0,
+    "no_verified_inventory": 0,
+    "model_errors": 0,
+    "unfinished": 0,
+    "reply_seconds": [],
+    "cases": [],
+    "checkout_rights_created": 0,
+    "settlements": 0,
+    "settled_payment_received_credits": "0",
+    "settled_COGS_credits": 0,
+    "actual_mileage_lot_including_welcome_credits": 0,
+    "confirmed_refund_outflow_for_cohort_credits": "0",
+    "refund_statuses_for_cohort": {},
+    "cash_trading_margin_credits": "0",
+    "margin_after_issued_mileage_reserve_credits": "0",
+    "scope": "seller transfer credits minus recorded unit cost and actual mileage lot once; excludes unallocated holding, procurement gas, unsold inventory valuation and unrelated operating costs"
+  },
+  "public": {
+    "checked": true,
+    "HTTP": 200,
+    "marker": "r4-flat-router-v1",
+    "identity_wallet_URL_same": true
+  },
+  "sale_totals": {
+    "missing": 1,
+    "settled": 2
+  },
+  "ledger_rows_after_cursor": 0,
+  "procurement_intent_states": {
+    "arrived": 174,
+    "no_purchase": 50
+  },
+  "financial_events_in_window": {},
+  "router_SendMessage_requests": 0,
+  "router_SendMessage_5xx": 0,
+  "HOST_maintenance": false,
+  "HOST_tasks": 1,
+  "HOST_routes": 46,
+  "new_services": {
+    "engine": {
+      "ActiveState": "active",
+      "MainPID": "1308994",
+      "NRestarts": "0",
+      "alive": true,
+      "VmHWM": 78488,
+      "VmRSS": 78488,
+      "Threads": 4
+    },
+    "router": {
+      "ActiveState": "active",
+      "MainPID": "1308995",
+      "NRestarts": "0",
+      "alive": true,
+      "VmHWM": 63004,
+      "VmRSS": 63004,
+      "Threads": 3
+    }
+  },
+  "cache_rows": 143,
+  "cache_age_seconds": 53.05,
+  "cache_valid_seconds": 96.95,
+  "preservation": {
+    "DB_device_inode_same": true,
+    "wallet_and_financial_policy_tool_files_same": true,
+    "original_services_same": true,
+    "CF_alive": true,
+    "quick_check": "ok",
+    "core_ledger_tables_same": {
+      "sale": true,
+      "lot": true,
+      "allocation": true,
+      "refund": true,
+      "welcome_award": true,
+      "ticket": true,
+      "account": true,
+      "customer_profile": true
+    }
+  },
+  "operator_send_messages_during_observation": 0,
+  "business_code_or_service_changes_by_observer": 0
+}

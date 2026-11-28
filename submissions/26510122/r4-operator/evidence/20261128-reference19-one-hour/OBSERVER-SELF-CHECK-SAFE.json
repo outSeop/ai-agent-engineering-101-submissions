@@ -1,0 +1,9 @@
+{
+  "known_operator_rendered_responses_used_only_in_memory": 3,
+  "inventory_guidance_detected": 3,
+  "production_source_or_data_modified": false,
+  "unnecessary_owned_observer_stop": true,
+  "cause": "source escaping was suspected but inspected character counts confirmed original source was already correct",
+  "observer_source_changed": false,
+  "archived_traces_cover_stop_interval": true
+}
